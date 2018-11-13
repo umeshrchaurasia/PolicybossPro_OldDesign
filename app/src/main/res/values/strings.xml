@@ -555,4 +555,6 @@
     <string name="title_activity_contact_lead">Contact Lead</string>
     <string name="title_activity_scan_vehicle">ScanVehicleActivity</string>
     <string name="title_activity_vehicle_scan">Scan Vehicle</string>
+    <string name="title_activity_offline_quotes_list">Offline Quotes</string>
+    <string name="title_activity_add_offline_quotes">Add Offline Quotes</string>
 </resources>

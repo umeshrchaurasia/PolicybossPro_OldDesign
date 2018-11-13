@@ -870,8 +870,8 @@
         <activity
             android:name=".posp.AddPOSPUserActivity"
             android:label="@string/title_activity_add_pospuser"
-            android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -886,8 +886,8 @@
         <activity
             android:name=".generatelead.GenerateLeadActivity"
             android:label="@string/title_activity_generate_lead"
-            android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -951,6 +951,26 @@
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuotesListActivity"
+            android:label="@string/title_activity_offline_quotes_list"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.AddOfflineQuotesActivity"
+            android:label="@string/title_activity_add_offline_quotes"
+            android:parentActivityName=".offline_quotes.OfflineQuotesListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity" />
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>

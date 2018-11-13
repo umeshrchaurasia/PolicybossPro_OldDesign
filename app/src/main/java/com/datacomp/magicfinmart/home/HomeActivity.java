@@ -69,6 +69,7 @@ import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
@@ -119,7 +120,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo,txtErpID;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -307,6 +308,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         getSupportActionBar().setTitle("MAGIC FIN-MART");
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
+
                     case R.id.nav_sharedata:
                         fragment = new ShareDataFragment();
                         getSupportActionBar().setTitle("SHARE DATA");
@@ -341,7 +343,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
                     case R.id.nav_offlineQuotes:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
                         break;
                     case R.id.nav_myBusiness:
@@ -545,6 +547,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtReferalCode = (TextView) headerView.findViewById(R.id.txtReferalCode);
         txtFbaID = (TextView) headerView.findViewById(R.id.txtFbaID);
         txtPospNo = (TextView) headerView.findViewById(R.id.txtPospNo);
+        txtErpID = (TextView) headerView.findViewById(R.id.txtErpID);
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -580,7 +583,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         if (userConstantEntity != null) {
             txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
-
+            txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
             Glide.with(HomeActivity.this)
                     .load(Uri.parse(userConstantEntity.getLoansendphoto()))
                     .placeholder(R.drawable.circle_placeholder)
@@ -591,6 +594,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     .into(ivProfile);
         } else {
             txtPospNo.setText("");
+            txtErpID.setText("");
             Glide.with(HomeActivity.this)
                     .load(R.drawable.finmart_user_icon)
                     .placeholder(R.drawable.circle_placeholder)

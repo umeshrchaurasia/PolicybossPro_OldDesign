@@ -26,10 +26,10 @@ public class UpdateAppBroadCastReceiver extends BroadcastReceiver {
             //Posp info
             manager.setPospInformation(manager.getPospInformation());
 
-            DBPersistanceController db = new DBPersistanceController(context);
+            //DBPersistanceController db = new DBPersistanceController(context);
 
             //user data
-            db.storeUserData(db.getUserData());
+           // db.storeUserData(db.getUserData());
 
         } catch (Exception e) {
 

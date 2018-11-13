@@ -13,8 +13,9 @@
 
             android:id="@+id/nav_offlineQuotes"
             android:icon="@drawable/offiline_quote_ic"
+            android:orderInCategory="150"
             android:title="OFFLINE QUOTES"
-            android:visible="false" />
+            android:visible="true" />
         <item
             android:id="@+id/nav_myBusiness"
             android:icon="@drawable/business_ic"
@@ -69,19 +70,22 @@
             android:id="@+id/nav_IncomeCalculator"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="650"
-            android:title="INCOME CALCULATOR" />
+            android:title="INCOME CALCULATOR"
+            android:visible="false" />
 
 
         <item
             android:id="@+id/nav_IncomePotential"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="650"
-            android:title="INCOME POTENTIAL" />
+            android:title="INCOME POTENTIAL"
+            android:visible="false" />
         <item
             android:id="@+id/nav_transactionhistory"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="650"
-            android:title="TRANSACTION HISTORY" />
+            android:title="TRANSACTION HISTORY"
+            android:visible="false" />
         <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
@@ -143,6 +147,8 @@
             android:orderInCategory="1200"
             android:title="CONTACT LEAD"
             android:visible="false" />
+
+
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
