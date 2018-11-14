@@ -75,7 +75,6 @@ import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
-import com.datacomp.magicfinmart.scan_vehicle.ScanVehicleActivity;
 import com.datacomp.magicfinmart.scan_vehicle.VehicleScanActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
