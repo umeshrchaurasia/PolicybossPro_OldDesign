@@ -76,6 +76,7 @@ import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
+import com.datacomp.magicfinmart.scan_vehicle.VehicleScanActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
@@ -407,6 +408,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         dialogLogout(HomeActivity.this);
                         break;
 
+                    case R.id.nav_scan_vehicle:
+                        // startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
+                        startActivity(new Intent(HomeActivity.this, VehicleScanActivity.class));
+                        break;
 
                     default:
                         break;

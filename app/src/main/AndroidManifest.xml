@@ -41,6 +41,9 @@
         <meta-data
             android:name="android.support.FILE_PROVIDER_PATHS"
             android:resource="@xml/provider_paths" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="ocr" />
 
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="5822">
@@ -936,6 +939,15 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
+            android:name=".scan_vehicle.VehicleScanActivity"
+            android:label="@string/title_activity_vehicle_scan"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
             android:name=".offline_quotes.OfflineQuotesListActivity"
             android:label="@string/title_activity_offline_quotes_list"
             android:parentActivityName=".home.HomeActivity"
@@ -952,7 +964,13 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity" />
+
         </activity>
+
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
+
     </application>
 
 </manifest>
