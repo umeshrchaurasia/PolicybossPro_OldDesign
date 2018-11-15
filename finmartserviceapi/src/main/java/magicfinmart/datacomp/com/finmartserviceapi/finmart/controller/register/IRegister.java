@@ -50,5 +50,7 @@ public interface IRegister {
 
     void saveContactLead(ContactLeadRequestEntity contactLeadRequestEntity ,IResponseSubcriber iResponseSubcriber);
 
+    void uploadContact(ContactLeadRequestEntity contactLeadRequestEntity ,IResponseSubcriber iResponseSubcriber);
+
 
 }
