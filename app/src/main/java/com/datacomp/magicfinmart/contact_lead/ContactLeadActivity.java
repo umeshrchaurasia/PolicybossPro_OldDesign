@@ -28,6 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactlistEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.ContactLeadRequestEntity;
@@ -85,16 +86,21 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
 
         if (view.getId() == R.id.btnSync) {
-           // lySync.setVisibility(View.VISIBLE);
-            //syncContactNumber();
-
-            contactListDb = new DBPersistanceController(this).getContactList();
-            List<ContactlistEntity> temp= new ArrayList<>();
-            temp = contactListDb.subList(0,  2);
-            ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
-            contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
-            contactRequestEntity.setContactlist(temp);
-            new RegisterController(ContactLeadActivity.this).uploadContact(contactRequestEntity, this);
+            // lySync.setVisibility(View.VISIBLE);
+            syncContactNumber();
+            /*try {
+                contactListDb = new DBPersistanceController(this).getContactList();
+                List<ContactlistEntity> temp = new ArrayList<>();
+//                temp.add(new ContactlistEntity("80839817", "rajeev"));
+//                temp.add(new ContactlistEntity("127315276", "Ranjan"));
+                temp.addAll(contactListDb);
+                ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
+                contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                contactRequestEntity.setContactlist(temp);
+                new RegisterController(ContactLeadActivity.this).uploadContact(contactRequestEntity, this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }*/
         }
 
     }
@@ -243,7 +249,6 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
                         ContactlistEntity contactEntity = new ContactlistEntity();
                         contactEntity.setName(name);
                         contactEntity.setMobileno(mobileNumber);
-                        contactEntity.setUrl(uri);
                         contactlist.add(contactEntity);
 
                     }
@@ -263,11 +268,6 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
             if (contactlist.size() > 0) {
                 new AsyncContactMaster(ContactLeadActivity.this, contactlist).execute();
 
-
-               /* ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
-                contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
-                contactRequestEntity.setContactlist(contactlist);*/
-                //new RegisterController(ContactLeadActivity.this).saveContactLead(contactRequestEntity, ContactLeadActivity.this);
             }
 
 
@@ -276,37 +276,36 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
 
     public void contactSavedToDB() {
         cancelDialog();
-        Toast.makeText(this, contactlist.size() + " Contacts Saved to local Database !", Toast.LENGTH_SHORT).show();
-        //sendContactToServer();
+        Toast.makeText(this, contactlist.size() + " Contacts Saved to local Database !", Toast.LENGTH_LONG).show();
+        sendContactToServer();
     }
 
     public void sendContactToServer() {
 
-        contactListDb = new DBPersistanceController(this).getContactList();
+        try {
+            contactListDb = new DBPersistanceController(this).getContactList();
+            Log.d("CONTACTS_SIZE", "" + contactListDb.size());
 
+            if (contactListDb != null && contactListDb.size() > 0) {
+                List<ContactRequestEntity> temp = new ArrayList<>();
+                for (int i = 1; i <= contactListDb.size(); i++) {
 
-        if (contactListDb != null && contactListDb.size() > 0) {
-            List<ContactlistEntity> temp;
-            temp = contactListDb.subList(0,  2);
+                    temp.add(new ContactRequestEntity(contactListDb.get(i - 1).getMobileno(), contactListDb.get(i - 1).getName()));
+                    if (i % 500 == 0 || i == (contactListDb.size())) {
 
-            ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
-            contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
-            contactRequestEntity.setContactlist(temp);
-            new RegisterController(ContactLeadActivity.this).uploadContact(contactRequestEntity, ContactLeadActivity.this);
+                        Log.d("CONTACTS_SIZE", "" + temp.size());
+                        ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
+                        contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                        contactRequestEntity.setContactlist(temp);
+                        new RegisterController(ContactLeadActivity.this).uploadContact(contactRequestEntity, ContactLeadActivity.this);
+                        temp.clear();
+                        temp = new ArrayList<>();
+                    }
 
-
-
-           /* for (int i = 0; i < 100; i = i + 50) {
-
-                if ((i + 50) < contactListDb.size()) {
-                    temp = contactListDb.subList(i, i + 50);
-                } else {
-                    temp = contactListDb.subList(i, (contactListDb.size() - 1));
                 }
-
-
-            }*/
-
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
