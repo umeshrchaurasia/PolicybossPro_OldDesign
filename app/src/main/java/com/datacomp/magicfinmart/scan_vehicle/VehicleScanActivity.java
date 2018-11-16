@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.scan_vehicle;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -32,7 +31,6 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
-import com.datacomp.magicfinmart.vehicle_details.VehicleDetailFragment;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
@@ -45,8 +43,6 @@ import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.GenerateLeadRequestEntity;
@@ -120,6 +116,11 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
             @Override
             public void onClick(View view) {
                 Constants.hideKeyBoard(view, VehicleScanActivity.this);
+                if (etVehicleNo.getText().toString().length() < 4) {
+                    Toast.makeText(VehicleScanActivity.this, "Invalid Vehicle number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 showDialog();
                 new DynamicController(VehicleScanActivity.this).getVehicleByVehicleNo(etVehicleNo.getText().toString(),
                         new IResponseSubcriber() {
