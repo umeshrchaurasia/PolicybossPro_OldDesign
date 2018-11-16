@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactlistEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashBoardItemEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
@@ -588,7 +589,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Transfer existing loans at lower interest rate . And help customers to save more on existing loans.", R.drawable.balance_transfer));
-       // dashboardEntities.add(new DashboardEntity("LOANS", 13, "CASH LOAN", "Loan disbursed in just few hours!!!", R.drawable.paysense_ic));
+        // dashboardEntities.add(new DashboardEntity("LOANS", 13, "CASH LOAN", "Loan disbursed in just few hours!!!", R.drawable.paysense_ic));
         dashboardEntities.add(new DashboardEntity("LOANS", 14, "LOAN ON MESSENGER", "Enjoy chatting with your BOT friend & provide Instant loan sanction to your customer for Personal loan, Home Loan, Business Loan, Car loan, LAP, Gold loan,etc.", R.drawable.yesbank_chat_ic));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "LEAD SUBMISSION - OTHER LOANS", "Submit leads for products like Car loan, Business loan, Working Capital, Term Loan, LRD,etc.", R.drawable.quick_lead));
 
@@ -2042,6 +2043,19 @@ public class DBPersistanceController {
                 .equalTo("neworrenew", neworrenew)
                 .distinct("vehicleinsubtypeid");
 
+        return list;
+    }
+
+
+    //endregion
+
+
+    //region Insurance subtype
+
+    public List<ContactlistEntity> getContactList() {
+
+        List<ContactlistEntity> list = new ArrayList<>();
+        list = realm.where(ContactlistEntity.class).findAll();
         return list;
     }
 

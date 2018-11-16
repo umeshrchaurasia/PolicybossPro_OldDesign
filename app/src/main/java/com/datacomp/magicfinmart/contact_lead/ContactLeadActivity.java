@@ -1,20 +1,13 @@
 package com.datacomp.magicfinmart.contact_lead;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.telephony.PhoneNumberUtils;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,10 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.util.Util;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.SelectUser;
 
 import java.util.ArrayList;
@@ -37,11 +28,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactlistEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.ContactLeadRequestEntity;
 
-public class ContactLeadActivity extends BaseActivity implements View.OnClickListener ,IResponseSubcriber {
+public class ContactLeadActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
     Cursor phones;
     ArrayList<SelectUser> selectUsers;
@@ -53,9 +45,10 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
     int output = 0;
     int progress = 0;
     LoadContactTask loadContactTask = null;
-    List<ContactlistEntity> contactlist;
+    List<ContactlistEntity> contactlist, contactListDb;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
+    RecyclerView rvContactList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +64,10 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void init() {
+
+        rvContactList = findViewById(R.id.rvContactList);
+        rvContactList.setLayoutManager(new LinearLayoutManager(this));
+
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         txtOutput = (TextView) findViewById(R.id.txtOutput);
         txtCount = (TextView) findViewById(R.id.txtCount);
@@ -85,14 +82,25 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.btnSync){
-            lySync.setVisibility(View.VISIBLE);
+        if (view.getId() == R.id.btnSync) {
+            // lySync.setVisibility(View.VISIBLE);
             syncContactNumber();
-
+            /*try {
+                contactListDb = new DBPersistanceController(this).getContactList();
+                List<ContactlistEntity> temp = new ArrayList<>();
+//                temp.add(new ContactlistEntity("80839817", "rajeev"));
+//                temp.add(new ContactlistEntity("127315276", "Ranjan"));
+                temp.addAll(contactListDb);
+                ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
+                contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                contactRequestEntity.setContactlist(temp);
+                new RegisterController(ContactLeadActivity.this).uploadContact(contactRequestEntity, this);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }*/
         }
 
     }
@@ -139,11 +147,9 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
                         publishProgress(i++);
 
                     }
-                }
-                catch (InterruptedException e) {
+                } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -153,12 +159,12 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
 
         @Override
         protected void onProgressUpdate(Integer... values) {
-           // setProgress(values[0]);
-            output ++;
-          //  progress = (int)(((double)output/phones.getCount())*10000);
-          //  setProgress(progress);
-            progressBar.setProgress( values[0]);
-            txtOutput.setText("" +  values[0]);
+            // setProgress(values[0]);
+            output++;
+            //  progress = (int)(((double)output/phones.getCount())*10000);
+            //  setProgress(progress);
+            progressBar.setProgress(values[0]);
+            txtOutput.setText("" + values[0]);
         }
 
         @Override
@@ -167,8 +173,6 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
             //       cancelDialog();
             int i = selectUsers.size();
             txtOutput.setText("Done");
-
-
 
 
         }
@@ -213,7 +217,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
 
         } else {
 
-            loadContactTask.execute();
+            new LoadContactTask().execute();
 
         }
 
@@ -223,11 +227,13 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
 
         String name = "";
         String mobileNumber = "";
+        String uri = "";
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            Toast.makeText(ContactLeadActivity.this, "Start", Toast.LENGTH_SHORT).show();
+            showDialog("Syncing Contact..");
+            //Toast.makeText(ContactLeadActivity.this, "Syncing Contact..", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -237,20 +243,15 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
                 try {
                     int i = 1;
                     while (phones.moveToNext()) {
-
-                        Thread.sleep(1);
-
                         name = "" + phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                         mobileNumber = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
+                        uri = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
                         ContactlistEntity contactEntity = new ContactlistEntity();
                         contactEntity.setName(name);
                         contactEntity.setMobileno(mobileNumber);
                         contactlist.add(contactEntity);
 
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -265,15 +266,48 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
             super.onPostExecute(aVoid);
             //       cancelDialog();
             if (contactlist.size() > 0) {
-                Toast.makeText(ContactLeadActivity.this, "Done " + contactlist.size(), Toast.LENGTH_SHORT).show();
+                new AsyncContactMaster(ContactLeadActivity.this, contactlist).execute();
 
-                ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
-                contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
-                contactRequestEntity.setContactlist(contactlist);
-                new RegisterController(ContactLeadActivity.this).saveContactLead(contactRequestEntity, ContactLeadActivity.this);
             }
 
 
         }
+    }
+
+    public void contactSavedToDB() {
+        cancelDialog();
+        Toast.makeText(this, contactlist.size() + " Contacts Saved to local Database !", Toast.LENGTH_LONG).show();
+        sendContactToServer();
+    }
+
+    public void sendContactToServer() {
+
+        try {
+            contactListDb = new DBPersistanceController(this).getContactList();
+            Log.d("CONTACTS_SIZE", "" + contactListDb.size());
+
+            if (contactListDb != null && contactListDb.size() > 0) {
+                List<ContactRequestEntity> temp = new ArrayList<>();
+                for (int i = 1; i <= contactListDb.size(); i++) {
+
+                    temp.add(new ContactRequestEntity(contactListDb.get(i - 1).getMobileno(), contactListDb.get(i - 1).getName()));
+                    if (i % 500 == 0 || i == (contactListDb.size())) {
+
+                        Log.d("CONTACTS_SIZE", "" + temp.size());
+                        ContactLeadRequestEntity contactRequestEntity = new ContactLeadRequestEntity();
+                        contactRequestEntity.setFbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                        contactRequestEntity.setContactlist(temp);
+                        new RegisterController(ContactLeadActivity.this).uploadContact(contactRequestEntity, ContactLeadActivity.this);
+                        temp.clear();
+                        temp = new ArrayList<>();
+                    }
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 }

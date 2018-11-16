@@ -2,7 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactlistEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactRequestEntity;
 
 /**
  * Created by IN-RB on 17-10-2018.
@@ -17,7 +17,7 @@ public class ContactLeadRequestEntity {
      */
 
     private String fbaid;
-    private List<ContactlistEntity> contactlist;
+    private List<ContactRequestEntity> contactlist;
 
     public String getFbaid() {
         return fbaid;
@@ -27,11 +27,11 @@ public class ContactLeadRequestEntity {
         this.fbaid = fbaid;
     }
 
-    public List<ContactlistEntity> getContactlist() {
+    public List<ContactRequestEntity> getContactlist() {
         return contactlist;
     }
 
-    public void setContactlist(List<ContactlistEntity> contactlist) {
+    public void setContactlist(List<ContactRequestEntity> contactlist) {
         this.contactlist = contactlist;
     }
 

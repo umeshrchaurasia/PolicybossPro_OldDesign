@@ -1,16 +1,17 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
-public class ContactlistEntity extends RealmObject {
+public class ContactRequestEntity {
 
 
-    @PrimaryKey
     public String mobileno;
     public String name;
 
-    public ContactlistEntity() {
+    public ContactRequestEntity() {
+    }
+
+    public ContactRequestEntity(String mobileno, String name) {
+        this.mobileno = mobileno;
+        this.name = name;
     }
 
     public String getName() {

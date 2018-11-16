@@ -71,7 +71,7 @@
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="650"
             android:title="INCOME CALCULATOR"
-            android:visible="false" />
+            android:visible="true" />
 
 
         <item
@@ -79,13 +79,13 @@
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="650"
             android:title="INCOME POTENTIAL"
-            android:visible="false" />
+            android:visible="true" />
         <item
             android:id="@+id/nav_transactionhistory"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="650"
             android:title="TRANSACTION HISTORY"
-            android:visible="false" />
+            android:visible="true" />
         <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
@@ -146,7 +146,7 @@
             android:icon="@drawable/agreemnet"
             android:orderInCategory="1200"
             android:title="CONTACT LEAD"
-            android:visible="false" />
+            android:visible="true" />
 
 
         <item

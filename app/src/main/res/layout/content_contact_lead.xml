@@ -29,8 +29,8 @@
             android:id="@+id/lySync"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
 
             <ProgressBar
@@ -73,6 +73,10 @@
             </LinearLayout>
         </LinearLayout>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvContactList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
