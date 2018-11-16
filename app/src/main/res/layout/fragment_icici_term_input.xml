@@ -494,14 +494,50 @@
                             android:textSize="14sp" />
 
                         <Spinner
-                            android:entries="@array/icici_options"
                             android:id="@+id/spICICIOptions"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:dropDownWidth="200dp" />
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/icici_options" />
 
                     </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/tilPremiumPayment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Premium Payment">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="left"
+                            android:text="Premium Payment"
+                            android:textColor="@color/blue"
+                            android:textSize="14sp" />
+
+                        <Spinner
+                            android:id="@+id/spICICIPremiumPayment"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/icici_premium_payment_whole_life" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
 
                     <android.support.design.widget.TextInputLayout

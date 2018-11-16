@@ -109,9 +109,9 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     ScrollView mainScroll;
 
     //region icici form
-    Spinner spICICIOptions, spICICIPremiumTerm, spICICIPremiumFrequency;
-    ArrayAdapter<String> ICICIOptionsAdapter, ICICIPremiumTermAdapter, ICICIPremiumFrequencyAdapter;
-    List<String> optionList, premiumTermList, frequenctList;
+    Spinner spICICIOptions, spICICIPremiumTerm, spICICIPremiumFrequency, spICICIPremiumPayment;
+    ArrayAdapter<String> ICICIOptionsAdapter, ICICIPremiumTermAdapter, ICICIPremiumFrequencyAdapter, ICICIPremiumPaymentAdapter;
+    List<String> optionList, premiumTermList, frequenctList, premiumPaymentList;
     TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome, txtICICILumpSumRegular;
     EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm,
             etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc;
@@ -119,10 +119,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             minusICICIPreTerm, plusICICIPreTerm, minusICICICritical, plusICICICritical,
             minusICICIAcc, plusICICIAcc, minusICICILumpSumpPerc, plusICICILumpSumpPerc;
     LinearLayout llICICIAccidental, llICICICritical, llICICILumpSumpPerc;
-
+    TextInputLayout tilPremiumPayment;
     //endregion
 
-    boolean isEdit = false, canChangePremiumTerm = true;
+    boolean isEdit = false, canChangePremiumTerm = true, canChangePolicyTerm = true;
     int termRequestId = 0, insurerID, age = 0;
     String crn = "";
 
@@ -609,6 +609,21 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         };
         spICICIPremiumFrequency.setAdapter(ICICIPremiumFrequencyAdapter);
 
+
+        String[] listPremiumPay = getActivity().getResources().getStringArray(R.array.icici_premium_payment_whole_life);
+        premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPay));
+
+        ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
+                return view;
+            }
+        };
+        spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);
+
     }
 
     private void adapter_listener() {
@@ -653,6 +668,81 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             }
         });
         //endregion
+
+        //region Premium Term
+        spICICIPremiumPayment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (age != 0)
+                    manipulatePremiumPolicyPayment(age);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //endregion
+    }
+
+    private void manipulatePremiumPolicyPayment(int age) {
+
+        //region remove pay till 60 if age > 55
+        String[] listPremiumPayLimited = getActivity().getResources().getStringArray(R.array.icici_premium_payment_limited_pay);
+        premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
+        if (age > 55) {
+            premiumPaymentList.remove(0);
+        }
+        ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
+                return view;
+            }
+        };
+        spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);
+
+        //endregion
+
+        int policyTerm = 0;
+        int premiumTerm = 0;
+        if (spICICIPremiumTerm.getSelectedItemPosition() == 2) { // limited pay
+            policyTerm = 60 - age;
+            switch (spICICIPremiumPayment.getSelectedItem().toString()) {
+                case "PAY TILL AGE 60":
+                    premiumTerm = 60 - age;
+                    break;
+                case "10 PAY":
+                    premiumTerm = 10;
+                    break;
+                case "7 PAY":
+                    premiumTerm = 7;
+                    break;
+                case "5 PAY":
+                    premiumTerm = 5;
+                    break;
+            }
+
+        } else if (spICICIPremiumTerm.getSelectedItemPosition() == 3) { // whole life
+            policyTerm = 99 - age;
+            switch (spICICIPremiumPayment.getSelectedItemPosition()) {
+                case 0:
+                    premiumTerm = 99 - age;
+                    break;
+                case 1:
+                    premiumTerm = 60 - age;
+                    break;
+                case 2:
+                    premiumTerm = 10;
+                    break;
+            }
+        }
+        if (policyTerm != 0)
+            setPolicyTerm(policyTerm);
+        if (premiumTerm != 0)
+            etICICIPremiumTerm.setText("" + premiumTerm);
+
     }
 
     private void manipulatePremiumTerm() {
@@ -665,31 +755,50 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
         final List<String> premiumFreqList = new ArrayList<>(Arrays.asList(listPremiumFrequency));
 
+        String[] listPremiumPayWhole = getActivity().getResources().getStringArray(R.array.icici_premium_payment_whole_life);
+        String[] listPremiumPayLimited = getActivity().getResources().getStringArray(R.array.icici_premium_payment_limited_pay);
+
+
         switch (spICICIPremiumTerm.getSelectedItemPosition()) {
             case 0://regular pay
-                canChangePremiumTerm = true;
+                tilPremiumPayment.setVisibility(View.INVISIBLE);
                 termRequestEntity.setPremiumPaymentOption("Regular Pay");
                 if (etICICIPremiumTerm.getText().toString().equals("1")) {
                     etICICIPremiumTerm.setText("20");
                 }
+
+                canChangePremiumTerm = true;
+                canChangePolicyTerm = true;
                 etICICIPremiumTerm.setEnabled(true);
+                etICICIPolicyTerm.setEnabled(true);
                 calculatePremiumTerm();
                 break;
             case 1:// single pay
+                tilPremiumPayment.setVisibility(View.INVISIBLE);
                 termRequestEntity.setPremiumPaymentOption("Single Pay");
                 optionsList.remove("LIFE AND HEALTH");
                 optionsList.remove("ALL IN ONE");
 
                 premiumFreqList.remove("HALF YEARLY");
                 premiumFreqList.remove("MONTHLY");
-                canChangePremiumTerm = false;
                 etICICIPremiumTerm.setText("1");
+
+
+                canChangePremiumTerm = false;
+                canChangePolicyTerm = true;
                 etICICIPremiumTerm.setEnabled(false);
+                etICICIPolicyTerm.setEnabled(true);
                 //setPolicyTerm((75 - age));
                 break;
             case 2://limited pay
+                premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
+                if (age > 55) {
+                    premiumPaymentList.remove(0);
+                }
+                ICICIPremiumPaymentAdapter.notifyDataSetChanged();
+                tilPremiumPayment.setVisibility(View.VISIBLE);
                 termRequestEntity.setPremiumPaymentOption("Limited Pay");
-                canChangePremiumTerm = true;
+
                 //setPolicyTerm((75 - age));
                         /*if ((75 - age) > 30) {
                             optionsList.remove("LIFE AND HEALTH");
@@ -698,7 +807,26 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 if (etICICIPremiumTerm.getText().toString().equals("1")) {
                     etICICIPremiumTerm.setText("20");
                 }
+
+                canChangePremiumTerm = true;
+                canChangePolicyTerm = true;
                 etICICIPremiumTerm.setEnabled(true);
+                etICICIPolicyTerm.setEnabled(true);
+                calculatePremiumTerm();
+                break;
+
+
+            case 3://Whole Life
+                premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayWhole));
+                ICICIPremiumPaymentAdapter.notifyDataSetChanged();
+                tilPremiumPayment.setVisibility(View.VISIBLE);
+                termRequestEntity.setPremiumPaymentOption("Whole Life");
+
+                canChangePremiumTerm = false;
+                canChangePolicyTerm = false;
+                etICICIPolicyTerm.setEnabled(false);
+                etICICIPremiumTerm.setEnabled(false);
+
                 calculatePremiumTerm();
                 break;
 
@@ -717,6 +845,19 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
             spAdapterPremiumFreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
+
+
+            ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
+                @NonNull
+                @Override
+                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    View view = super.getView(position, convertView, parent);
+                    view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
+                    return view;
+                }
+            };
+            spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);
+
         } else {
             isEdit = false;
         }
@@ -912,6 +1053,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         etSumAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
         spPolicyTerm = (Spinner) view.findViewById(R.id.spPolicyTerm);
         spPremTerm = (Spinner) view.findViewById(R.id.spPremTerm);
+        spICICIPremiumTerm = view.findViewById(R.id.spICICIPremiumTerm);
 
 
         //Compare All
@@ -949,6 +1091,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         plusICICIAcc = (Button) view.findViewById(R.id.plusICICIAcc);
         minusICICILumpSumpPerc = (Button) view.findViewById(R.id.minusICICILumpSumpPerc);
         plusICICILumpSumpPerc = (Button) view.findViewById(R.id.plusICICILumpSumpPerc);
+        tilPremiumPayment = view.findViewById(R.id.tilPremiumPayment);
+        spICICIPremiumPayment = view.findViewById(R.id.spICICIPremiumPayment);
         //end region
     }
 
@@ -1171,27 +1315,30 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     private void changePolicyTerm(boolean b) {
 
-        int policyTerm = 0;
-        if (!etICICIPolicyTerm.getText().toString().equals(""))
-            policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
-        int ppt = 0;
-        if (!etICICIPremiumTerm.getText().toString().equals(""))
-            ppt = Integer.parseInt(etICICIPremiumTerm.getText().toString());
-        if (b) {
-            if (policyTerm < (75 - age))
-                policyTerm = policyTerm + 1;
-        } else {
-            if (policyTerm > 5) {
-                if (ppt >= policyTerm)
-                    ppt = policyTerm - 1;
-                policyTerm = policyTerm - 1;
+        if (canChangePolicyTerm) {
+            int policyTerm = 0;
+            if (!etICICIPolicyTerm.getText().toString().equals(""))
+                policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
+            int ppt = 0;
+            if (!etICICIPremiumTerm.getText().toString().equals(""))
+                ppt = Integer.parseInt(etICICIPremiumTerm.getText().toString());
+            if (b) {
+                if (policyTerm < (85 - age))
+                    policyTerm = policyTerm + 1;
+            } else {
+                if (policyTerm > 5) {
+                    if (ppt >= policyTerm)
+                        ppt = policyTerm - 1;
+                    policyTerm = policyTerm - 1;
+
+                }
 
             }
 
+            setPolicyTerm(policyTerm);
+            etICICIPremiumTerm.setText("" + ppt);
         }
 
-        setPolicyTerm(policyTerm);
-        etICICIPremiumTerm.setText("" + ppt);
         // remove life and health ,all in one
         //region hide
         /*String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
@@ -1220,7 +1367,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void setPolicyTerm(int policyTerm) {
         switch (spICICIPremiumTerm.getSelectedItemPosition()) {
             case 0:
-                etICICIPolicyTerm.setText("" + policyTerm);
+                if (policyTerm > (85 - age))
+                    etICICIPolicyTerm.setText("" + (85 - age));
+                else
+                    etICICIPolicyTerm.setText("" + policyTerm);
                 break;
             case 1://single pay can't be grater than 20
                 if (policyTerm > 20)
@@ -1229,11 +1379,15 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     etICICIPolicyTerm.setText("" + policyTerm);
                 break;
             case 2://limited pay can't be grater than 40
-                if (policyTerm > 40)
-                    etICICIPolicyTerm.setText("40");
+                if (policyTerm > (85 - age))
+                    etICICIPolicyTerm.setText("" + (85 - age));
                 else
                     etICICIPolicyTerm.setText("" + policyTerm);
                 break;
+            case 3:
+                etICICIPolicyTerm.setText("" + policyTerm);
+                break;
+
         }
     }
 
@@ -1580,7 +1734,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         } else {
             long lumpsump = Long.parseLong(etICICIPolicyTerm.getText().toString().replaceAll("\\,", ""));
-            if (lumpsump < 5 || lumpsump > 75) {
+            if (lumpsump < 5 || lumpsump > 100) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     etICICIPolicyTerm.requestFocus();
@@ -1610,7 +1764,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         } else {
             long lumpsump = Long.parseLong(etICICIPremiumTerm.getText().toString().replaceAll("\\,", ""));
-            if (lumpsump < 0 || lumpsump > 75) {
+            if (lumpsump < 0 || lumpsump > 100) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     etICICIPremiumTerm.requestFocus();
@@ -1884,7 +2038,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                         String currentDay = simpleDateFormat.format(calendar.getTime());
                         etDOB.setText(currentDay);
                         age = caluclateAge(calendar);
-                        //setPolicyTerm((75 - age));
+                        manipulatePremiumPolicyPayment(age);
+
                     }
                 }
             });
@@ -1892,7 +2047,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         }
     };
-    //endregion
+
+//endregion
 
     @Override
     public void onFocusChange(View view, boolean b) {
@@ -1998,3 +2154,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         }
     }
 }
+
+
+
+
+

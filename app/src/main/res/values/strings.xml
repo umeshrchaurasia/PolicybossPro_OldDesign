@@ -346,6 +346,21 @@
         <item>REGULAR PAY</item>
         <item>SINGLE PAY</item>
         <item>LIMITED PAY</item>
+        <item>WHOLE LIFE</item>
+    </string-array>
+
+
+    <string-array name="icici_premium_payment_whole_life">
+        <item>PAY TILL AGE 99</item>
+        <item>PAY TILL AGE 60</item>
+        <item>10 PAY</item>
+    </string-array>
+
+    <string-array name="icici_premium_payment_limited_pay">
+        <item>PAY TILL AGE 60</item>
+        <item>10 PAY</item>
+        <item>7 PAY</item>
+        <item>5 PAY</item>
     </string-array>
 
 
