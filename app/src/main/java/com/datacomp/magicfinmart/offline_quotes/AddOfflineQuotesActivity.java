@@ -160,6 +160,15 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         }
     }
 
+    private void setDocumentUpload(String urlPath) {
+
+       if(requiredDocEntity != null)
+       {
+           requiredDocEntity.setUploaded(true);
+           uploadDocumentsAdapter.updateList(requiredDocEntity);
+       }
+
+    }
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof OfflineInputResponse) {
@@ -190,7 +199,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 cancelDialog();
-              //  setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+                setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
             }
         }
     }
