@@ -51,6 +51,7 @@ import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
+import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -403,6 +404,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_contact:
                         startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
+                        break;
+                    case R.id.nav_crnpolicy:
+                        startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
                         break;
                     case R.id.nav_logout:
                         dialogLogout(HomeActivity.this);

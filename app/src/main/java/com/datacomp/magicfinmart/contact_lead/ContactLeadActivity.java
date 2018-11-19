@@ -38,7 +38,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
     Cursor phones;
     ArrayList<SelectUser> selectUsers;
     ProgressBar progressBar;
-    TextView txtOutput, txtCount;
+    TextView txtOutput, txtCount,txtcontain;
     Button btnSync;
     LinearLayout lySync;
 
@@ -71,6 +71,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         txtOutput = (TextView) findViewById(R.id.txtOutput);
         txtCount = (TextView) findViewById(R.id.txtCount);
+        txtcontain = (TextView) findViewById(R.id.txtcontain);
 
         btnSync = (Button) findViewById(R.id.btnSync);
         lySync = (LinearLayout) findViewById(R.id.lySync);
@@ -79,6 +80,8 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         loadContactTask = new LoadContactTask();
         lySync.setVisibility(View.GONE);
         btnSync.setOnClickListener(this);
+
+        txtcontain.setText("Permission requests protect sensitive information available from a device and should only be used when access to information is necessary for the functioning of your app. This document provides tips on ways you might be able to achieve the same (or better) functionality without requiring access to such information; it is not an exhaustive discussion of how permissions work in the Android operating system. ");
     }
 
 
@@ -276,7 +279,9 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
 
     public void contactSavedToDB() {
         cancelDialog();
-        Toast.makeText(this, contactlist.size() + " Contacts Saved to local Database !", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, " Thank you very much for syncing your contacts. We will revert with the status of your leads within 72 hours. You can see the same in your back panel after 72 hours.\n" +
+                "\n" +
+                "Thank you for using this feature. Happy Selling", Toast.LENGTH_LONG).show();
         sendContactToServer();
     }
 

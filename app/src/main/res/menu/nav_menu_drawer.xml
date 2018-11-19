@@ -148,7 +148,12 @@
             android:title="CONTACT LEAD"
             android:visible="true" />
 
-
+        <item
+            android:id="@+id/nav_crnpolicy"
+            android:icon="@drawable/agreemnet"
+            android:orderInCategory="1200"
+            android:title="CRN POLICY"
+            android:visible="true" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"

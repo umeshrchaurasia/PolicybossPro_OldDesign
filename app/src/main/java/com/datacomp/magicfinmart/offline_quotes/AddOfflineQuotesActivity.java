@@ -68,6 +68,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     UploadDocumentsAdapter uploadDocumentsAdapter;
     RecyclerView rvDocUpload;
     int reqId = 0;
+    int uplod_Type=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,7 +190,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 cancelDialog();
-                //setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+              //  setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
             }
         }
     }

@@ -155,6 +155,9 @@ public class UserConstantEntity extends RealmObject {
     private String notificationpopupurltype;
     private String notificationpopupurl;
 
+
+    private String crnmobileno;
+
     public String getNotificationpopupurltype() {
         return notificationpopupurltype;
     }
@@ -681,4 +684,13 @@ public class UserConstantEntity extends RealmObject {
     public void setERPID(String ERPID) {
         this.ERPID = ERPID;
     }
+
+    public String getCrnmobileno() {
+        return crnmobileno;
+    }
+
+    public void setCrnmobileno(String crnmobileno) {
+        this.crnmobileno = crnmobileno;
+    }
+
 }
