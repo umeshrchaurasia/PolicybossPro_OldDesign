@@ -35,7 +35,7 @@ public class crnpolicyActivity extends BaseActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setTitle("CRN POLICY");
+      //  getSupportActionBar().setTitle("CRN POLICY");
 
 
         init();

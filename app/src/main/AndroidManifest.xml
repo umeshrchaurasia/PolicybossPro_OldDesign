@@ -990,7 +990,7 @@
 
         <activity
             android:name=".crnpolicy.crnpolicyActivity"
-            android:label="CRN Policy"
+            android:label="REQUEST POLICY VIA CRN"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
