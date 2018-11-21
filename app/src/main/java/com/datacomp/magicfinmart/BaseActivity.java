@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -37,6 +38,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
+import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
@@ -831,6 +834,34 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+    public class MyJavaScriptInterface {
+        Context mContext;
+        String data;
+
+        MyJavaScriptInterface(Context ctx) {
+            this.mContext = ctx;
+        }
+
+
+        @JavascriptInterface
+        public void incomePotential() {
+            //Get the string value to process
+            //shareQuote();
+            startActivity(new Intent(BaseActivity.this, IncomePotentialActivity.class));
+        }
+        @JavascriptInterface
+        public void incomeCalculator() {
+            //Get the string value to process
+            //shareQuote();
+            startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
+        }
+        @JavascriptInterface
+        public void processComplete() {
+            //Get the string value to process
+            //shareQuote();
+        }
+    }
     private void settingWebview(WebView webView, String url) {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -875,6 +906,8 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
         webView.getSettings().setBuiltInZoomControls(true);
+
+        webView.addJavascriptInterface(new MyJavaScriptInterface(BaseActivity.this), "Android");
 
         Log.d("URL", url);
         if (url.endsWith(".pdf")) {
