@@ -108,7 +108,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = displayFormat.format(calendar.getTime());
                             etVehicleExpiryDate.setText(currentDay);
-                            btnGenerateLead.setVisibility(View.VISIBLE);
+
                         }
                     }
                 });
@@ -251,6 +251,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
 
                                     mVehicleInfo = ((VehicleInfoEntity) response).getGetRegNoDataResult().get(0);
                                     bindVehicle(mVehicleInfo);
+                                    btnGenerateLead.setVisibility(View.VISIBLE);
                                 }
                             }
 

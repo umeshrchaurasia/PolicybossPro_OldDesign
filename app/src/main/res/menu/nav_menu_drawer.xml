@@ -36,7 +36,7 @@
 
         <item
             android:id="@+id/nav_scan_vehicle"
-            android:icon="@drawable/mps"
+            android:icon="@drawable/camera_search_ic"
             android:orderInCategory="300"
             android:title="SCAN VEHICLE" />
 
@@ -148,7 +148,12 @@
             android:title="CONTACT LEAD"
             android:visible="true" />
 
-
+        <item
+            android:id="@+id/nav_crnpolicy"
+            android:icon="@drawable/agreemnet"
+            android:orderInCategory="1200"
+            android:title="REQUEST POLICY VIA CRN"
+            android:visible="true" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"

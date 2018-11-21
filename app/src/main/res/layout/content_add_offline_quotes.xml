@@ -10,7 +10,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnGetQuote"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:id="@+id/rootLayout"
@@ -92,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginTop="15dp"
-                    android:text="HOME"
+                    android:text="SUBMIT"
                     android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>

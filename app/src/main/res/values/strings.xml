@@ -563,13 +563,13 @@
         <item>Comprehensive Plan (5 Yrs)</item>
     </string-array>
 
-    <string name="title_activity_notification_sms">Notification Sms</string>
-    <string name="title_activity_generate_lead">Generate Lead</string>
-    <string name="title_activity_income_potential">Income Potential</string>
-    <string name="title_activity_nav_transactionhistory">nav_transactionhistoryActivity</string>
-    <string name="title_activity_contact_lead">Contact Lead</string>
-    <string name="title_activity_scan_vehicle">ScanVehicleActivity</string>
-    <string name="title_activity_vehicle_scan">Scan Vehicle</string>
-    <string name="title_activity_offline_quotes_list">Offline Quotes</string>
-    <string name="title_activity_add_offline_quotes">Add Offline Quotes</string>
+    <string name="title_activity_notification_sms">NOTIFICATION SMS</string>
+    <string name="title_activity_generate_lead">GENERATE LEAD</string>
+    <string name="title_activity_income_potential">INCOME POTENTIAl</string>
+    <string name="title_activity_nav_transactionhistory">TRANSACTION HISTORY</string>
+    <string name="title_activity_contact_lead">CONTACT LEAD</string>
+    <string name="title_activity_scan_vehicle">SCAN VEHICLE</string>
+    <string name="title_activity_vehicle_scan">SCAN VEHICLE</string>
+    <string name="title_activity_offline_quotes_list">OFFLINE QUOTES</string>
+    <string name="title_activity_add_offline_quotes">ADD OFFLINE QUOTES</string>
 </resources>

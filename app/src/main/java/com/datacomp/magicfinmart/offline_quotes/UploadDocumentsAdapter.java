@@ -30,6 +30,21 @@ public class UploadDocumentsAdapter extends RecyclerView.Adapter<UploadDocuments
         this.mAppList = list;
     }
 
+    public void updateList(RequiredDocEntity curEntity) {
+
+        for (int pos = 0; pos < mAppList.size(); pos++) {
+            if (mAppList.get(pos).getReqid() == (curEntity.getReqid())) {
+
+                mAppList.set(pos,curEntity);
+
+            }
+        }
+
+        notifyDataSetChanged();
+
+        //  refreshAdapter(lstSpecial);
+    }
+
     @Override
     public ApplicationItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -44,6 +59,16 @@ public class UploadDocumentsAdapter extends RecyclerView.Adapter<UploadDocuments
             final ApplicationItem item = (ApplicationItem) holder;
             final RequiredDocEntity entity = mAppList.get(position);
             item.tvDocName.setText(entity.getDocname());
+
+            if(entity.isUploaded() == false)
+            {
+                holder.ivPhoto.setImageResource(R.drawable.doc_notuploaded);
+
+
+            }else{
+                holder.ivPhoto.setImageResource(R.drawable.doc_uploaded);
+
+            }
             item.rlParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

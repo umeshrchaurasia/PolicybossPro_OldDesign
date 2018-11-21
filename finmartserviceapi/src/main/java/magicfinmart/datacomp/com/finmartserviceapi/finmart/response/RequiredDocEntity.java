@@ -11,6 +11,9 @@ public class RequiredDocEntity {
     private String docname;
     private int reqid;
 
+
+    private boolean isUploaded;
+
     public int getId() {
         return id;
     }
@@ -38,5 +41,13 @@ public class RequiredDocEntity {
     @Override
     public String toString() {
         return this.docname;
+    }
+
+    public boolean isUploaded() {
+        return isUploaded;
+    }
+
+    public void setUploaded(boolean uploaded) {
+        isUploaded = uploaded;
     }
 }
