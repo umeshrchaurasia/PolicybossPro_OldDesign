@@ -964,7 +964,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 break;
 
             case R.id.minusHDFCSAInc:
-                changeSAIncreasing(false, etHDFCSAInc, 1);
+                changeSAIncreasing(false, etHDFCSAInc, 0);
                 break;
             case R.id.plusHDFCSAInc:
                 changeSAIncreasing(true, etHDFCSAInc, 10);
