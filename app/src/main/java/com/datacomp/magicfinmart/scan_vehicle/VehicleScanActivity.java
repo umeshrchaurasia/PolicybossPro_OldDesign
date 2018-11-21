@@ -50,6 +50,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.GenerateLeadResp
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 
 public class VehicleScanActivity extends BaseActivity implements BaseActivity.PopUpListener {
 
@@ -122,7 +126,28 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
                 }
 
                 showDialog();
-                new DynamicController(VehicleScanActivity.this).getVehicleByVehicleNo(etVehicleNo.getText().toString(),
+                new FastLaneController(VehicleScanActivity.this).getVechileDetails(etVehicleNo.getText().toString(), new IResponseSubcriber() {
+
+                    @Override
+                    public void OnSuccess(APIResponse response, String message) {
+
+                        cancelDialog();
+                        if (response instanceof FastLaneDataResponse) {
+
+                            if (response.getStatusNo() == 0) {
+                                bindFastlaneVehicle(((FastLaneDataResponse) response).getMasterData());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void OnFailure(Throwable t) {
+                        cancelDialog();
+                        Toast.makeText(VehicleScanActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+              /*  new DynamicController(VehicleScanActivity.this).getVehicleByVehicleNo(etVehicleNo.getText().toString(),
                         new IResponseSubcriber() {
 
                             @Override
@@ -151,7 +176,7 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
                                 cvVehicleDetail.setVisibility(View.GONE);
                                 Toast.makeText(VehicleScanActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        });*/
             }
         });
 
@@ -255,6 +280,22 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
         }
     };
     //endregion
+
+
+    private void bindFastlaneVehicle(FastLaneDataEntity v) {
+
+
+        cvVehicleDetail.setVisibility(View.VISIBLE);
+
+        try {
+            txtRegistrationNo.setText(v.getRegistration_Number());
+            txtCarDetail.setText(v.getMake_Name() + "," + v.getModel_Name() + "," + v.getVariant_Name());
+            etVehicleExpiryDate.setText("");
+
+        } catch (Exception e) {
+
+        }
+    }
 
 
     private void bindVehicle(VehicleInfoEntity.VehicleInfo entity) {
