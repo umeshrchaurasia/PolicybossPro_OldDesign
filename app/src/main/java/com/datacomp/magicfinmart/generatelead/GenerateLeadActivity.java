@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.scan_vehicle.VehicleScanActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.vehicle_details.VehicleDetailFragment;
 
@@ -63,9 +64,11 @@ public class GenerateLeadActivity extends BaseActivity implements View.OnClickLi
                 loadFragment(fragment);
                 break;
             case R.id.llShareData:
-                fragment = new ShareDataFragment();
+
+                startActivity(new Intent(this, VehicleScanActivity.class));
+                /*fragment = new ShareDataFragment();
                 getSupportActionBar().setTitle("SHARE DATA");
-                loadFragment(fragment);
+                loadFragment(fragment);*/
                 break;
         }
     }

@@ -20,6 +20,7 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
@@ -55,7 +56,8 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         holder.txtDOB.setText("" + entity.getDOB());
         holder.txtClaimStatus.setText("" + entity.getClaimStatus());
         holder.txtEmail.setText(entity.getEmail());
-        holder.etExpiryDate.setText("" + entity.getExpiryDate());
+
+        holder.etExpiryDate.setText("" +entity.getExpiryDate());
         holder.txtInsuranceName.setText(entity.getInsuranceName());
         holder.txtMobileNo.setText("" + entity.getMobileNo());
         holder.txtName.setText("" + entity.getName());
