@@ -121,7 +121,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID,txtknwyour;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -173,6 +173,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     };
 
     //endregion
+
+    @Override
+    public void dialogExit() {
+        super.dialogExit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -550,6 +555,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
+        txtknwyour= (TextView) headerView.findViewById(R.id.txtknwyour);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
         txtReferalCode = (TextView) headerView.findViewById(R.id.txtReferalCode);
         txtFbaID = (TextView) headerView.findViewById(R.id.txtFbaID);
@@ -576,7 +582,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
-        txtEntityName.setText("v" + versionNAme);
+        txtknwyour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+
+            }
+        });
+        txtEntityName.setText("Ver." + versionNAme);
 
         if (loginResponseEntity != null) {
 
