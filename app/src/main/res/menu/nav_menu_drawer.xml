@@ -8,7 +8,7 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/home"
             android:orderInCategory="100"
-            android:title="HOME ( V.2.1.5 )" />
+            android:title="HOME" />
 
 
         <item
@@ -19,7 +19,7 @@
             <menu>
                 <item
                     android:id="@+id/nav_myaccount"
-                    android:icon="@drawable/logout"
+                    android:icon="@drawable/vector_person"
                     android:title="Profile" />
                 <item
                     android:id="@+id/nav_changepassword"
@@ -45,14 +45,14 @@
             <menu>
             <item
                 android:id="@+id/nav_transactionhistory"
-                android:icon="@drawable/vehicledetail"
+                android:icon="@drawable/vector_date"
                 android:orderInCategory="330"
                 android:title="Transaction History"
                 android:visible="true" />
 
             <item
                 android:id="@+id/nav_MessageCentre"
-                android:icon="@drawable/vehicledetail"
+                android:icon="@drawable/sms"
                 android:orderInCategory="350"
                 android:title="Message Centre"
                 android:visible="true" />
@@ -71,7 +71,7 @@
                 android:title="MPS" />
             <item
                 android:id="@+id/nav_IncomeCalculator"
-                android:icon="@drawable/vehicledetail"
+                android:icon="@drawable/ic_add_white"
                 android:orderInCategory="450"
                 android:title="Income Calculator"
                 android:visible="true" />
@@ -79,7 +79,7 @@
 
             <item
                 android:id="@+id/nav_IncomePotential"
-                android:icon="@drawable/vehicledetail"
+                android:icon="@drawable/ic_filter"
                 android:orderInCategory="480"
                 android:title="Income Potential"
                 android:visible="true" />
@@ -110,7 +110,7 @@
                 android:id="@+id/nav_sharedata"
                 android:icon="@drawable/share_data"
                 android:orderInCategory="570"
-                android:title="Loans"
+                android:title="Loans (Share Data)"
                />
 
             <item
@@ -132,13 +132,13 @@
                 android:id="@+id/nav_pospenrollment"
                 android:icon="@drawable/posp_enrollment"
                 android:orderInCategory="630"
-                android:title="POSP Enrollment" />
+                android:title="Enrol as POSP" />
 
             <item
                 android:id="@+id/nav_addposp"
                 android:icon="@drawable/posp_enrollment"
                 android:orderInCategory="650"
-                android:title="Add POSP"
+                android:title="Add Users"
                 />
 
 </menu>

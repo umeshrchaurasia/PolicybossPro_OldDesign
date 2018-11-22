@@ -572,4 +572,6 @@
     <string name="title_activity_vehicle_scan">SCAN VEHICLE</string>
     <string name="title_activity_offline_quotes_list">OFFLINE QUOTES</string>
     <string name="title_activity_add_offline_quotes">ADD OFFLINE QUOTES</string>
+    <string name="Finmart_underline"><u>Know Your Magic Finmart</u>.</string>
+
 </resources>
