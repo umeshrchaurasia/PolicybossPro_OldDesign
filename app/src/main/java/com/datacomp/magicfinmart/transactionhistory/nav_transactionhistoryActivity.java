@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -22,6 +24,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.pendingcases.PendingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TransctionHistory;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TransctionHistoryResponse;
 
@@ -29,15 +32,19 @@ public class nav_transactionhistoryActivity extends BaseActivity implements IRes
 
     DBPersistanceController databaseController;
     LoginResponseEntity loginEntity;
+    UserConstantEntity userConstantEntity;
 
     RecyclerView rvMyLead;
     Mytransactionhistorydapter mAdapter;
     List<TransctionHistory> myLeadList;
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
+    View incl_nav;
     int page = 1;
     long totalItems;
     String empCode;
+    String POSPNO="";
+    TextView txtMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +58,29 @@ public class nav_transactionhistoryActivity extends BaseActivity implements IRes
         init_widgets();
         databaseController = new DBPersistanceController(nav_transactionhistoryActivity.this);
         loginEntity = databaseController.getUserData();
-     //   empCode= ""+loginEntity.getFBAId();
-        empCode="232";
-        new PendingController(this).gettransactionhistory(empCode,"1", this);
+        userConstantEntity = databaseController.getUserConstantsData();
+        empCode= ""+loginEntity.getFBAId();
+
+        POSPNO=""+userConstantEntity.getPOSPNo();
+     //   empCode="232";
+        if(POSPNO.equals("5"))
+        {
+            txtMessage.setVisibility(View.VISIBLE);
+            incl_nav.setVisibility(View.GONE);
+            txtMessage.setText("This Utility  is only available to Registered Users");
+        }else {
+            txtMessage.setVisibility(View.GONE);
+            txtMessage.setText("");
+            incl_nav.setVisibility(View.VISIBLE);
+            new PendingController(this).gettransactionhistory(empCode, "1", this);
+        }
 
 
     }
 
     private void init_widgets() {
+        incl_nav = (View)findViewById(R.id.incl_nav);
+        txtMessage=(TextView)findViewById(R.id.txtMessage);
         rvMyLead = (RecyclerView) findViewById(R.id.rvhistory);
         rvMyLead.setHasFixedSize(true);
         myLeadList = new ArrayList<TransctionHistory>();

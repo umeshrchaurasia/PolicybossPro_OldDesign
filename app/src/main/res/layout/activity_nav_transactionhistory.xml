@@ -20,7 +20,23 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_nav_transactionhistory" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+
+        android:id="@+id/llymessage"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextStyle.TextLarge"
+            android:textColor="@color/red_button"
+            android:id="@+id/txtMessage"
+            />
+    </LinearLayout>
+    <include layout="@layout/content_nav_transactionhistory"
+        android:id="@+id/incl_nav"/>
 
 
 </android.support.design.widget.CoordinatorLayout>
