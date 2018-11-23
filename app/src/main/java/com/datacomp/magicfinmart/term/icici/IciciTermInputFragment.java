@@ -493,7 +493,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 else if ((temp + age) > 60)
                     return 0;
             }
-        }else {
+        } else {
             return 0;
         }
         return temp;
@@ -819,8 +819,9 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 termRequestEntity.setPremiumPaymentOption("Regular Pay");
                 if (etICICIPremiumTerm.getText().toString().equals("1")) {
                     etICICIPremiumTerm.setText("20");
+                    etICICIPolicyTerm.setText("20");
                 }
-
+                etICICIPolicyTerm.setText(etICICIPremiumTerm.getText().toString());
                 canChangePremiumTerm = true;
                 canChangePolicyTerm = true;
                 etICICIPremiumTerm.setEnabled(true);
