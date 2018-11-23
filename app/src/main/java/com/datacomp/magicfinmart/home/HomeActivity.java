@@ -64,6 +64,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.messagecenter.messagecenteractivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
@@ -421,6 +422,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         // startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
                         startActivity(new Intent(HomeActivity.this, VehicleScanActivity.class));
                         break;
+                    case  R.id.nav_MessageCentre:
+                        MessageCenter();
+                     //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
+                        break;
 
                     default:
                         break;
@@ -462,6 +467,46 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
+
+
+
+
+    private void MessageCenter() {
+
+   String     POSPNO=""+userConstantEntity.getPospsendid();
+   String     msgurl=""+userConstantEntity.getMessagesender();
+        //   empCode="232";
+        if(POSPNO.equals("5"))
+        {
+            startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
+
+
+        }else {
+
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+            String append = "&ip_address=" + ipaddress
+                    + "&app_version=" + Utility.getVersionName(this)
+                    + "&device_id=" + Utility.getDeviceId(this);
+            String fullmsgurl = msgurl + append;
+            startActivity(new Intent(this, CommonWebViewActivity.class)
+                    .putExtra("URL", fullmsgurl)
+                    .putExtra("NAME", "Message Center")
+                    .putExtra("TITLE", "Message Center"));
+
+            //   incl_nav.setVisibility(View.VISIBLE);
+            //  new PendingController(this).gettransactionhistory(empCode, "1", this);
+        }
+    }
+
+
+
+
 
     private void showMArketingPopup() {
 

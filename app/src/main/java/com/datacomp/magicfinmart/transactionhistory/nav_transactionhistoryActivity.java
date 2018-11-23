@@ -31,12 +31,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TransctionHi
 public class nav_transactionhistoryActivity extends BaseActivity implements IResponseSubcriber {
 
     DBPersistanceController databaseController;
-    LoginResponseEntity loginEntity;
-    UserConstantEntity userConstantEntity;
 
     RecyclerView rvMyLead;
     Mytransactionhistorydapter mAdapter;
-    List<TransctionHistory> myLeadList;
+    List<TransctionHistory> myLeadList;LoginResponseEntity loginEntity;
+    UserConstantEntity userConstantEntity;
+
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
     View incl_nav;
@@ -61,13 +61,13 @@ public class nav_transactionhistoryActivity extends BaseActivity implements IRes
         userConstantEntity = databaseController.getUserConstantsData();
         empCode= ""+loginEntity.getFBAId();
 
-        POSPNO=""+userConstantEntity.getPOSPNo();
+        POSPNO=""+userConstantEntity.getPospsendid();
      //   empCode="232";
         if(POSPNO.equals("5"))
         {
             txtMessage.setVisibility(View.VISIBLE);
             incl_nav.setVisibility(View.GONE);
-            txtMessage.setText("This Utility  is only available to Registered Users");
+            txtMessage.setText("This Utility  is only available to Registered POSP");
         }else {
             txtMessage.setVisibility(View.GONE);
             txtMessage.setText("");

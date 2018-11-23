@@ -71,7 +71,7 @@
                 android:title="MPS" />
             <item
                 android:id="@+id/nav_IncomeCalculator"
-                android:icon="@drawable/ic_add_white"
+                android:icon="@drawable/income_calculator_ic"
                 android:orderInCategory="450"
                 android:title="Income Calculator"
                 android:visible="true" />
@@ -79,7 +79,7 @@
 
             <item
                 android:id="@+id/nav_IncomePotential"
-                android:icon="@drawable/ic_filter"
+                android:icon="@drawable/income_potential_ic"
                 android:orderInCategory="480"
                 android:title="Income Potential"
                 android:visible="true" />
@@ -104,6 +104,7 @@
                 android:id="@+id/nav_scan_vehicle"
                 android:icon="@drawable/camera_search_ic"
                 android:orderInCategory="550"
+                android:visible="false"
                 android:title="Scan Vehicle" />
 
             <item
@@ -115,7 +116,7 @@
 
             <item
                 android:id="@+id/nav_contact"
-                android:icon="@drawable/agreemnet"
+                android:icon="@drawable/sync_contact_ic"
                 android:orderInCategory="590"
                 android:title="Sync Contacts"
                 android:visible="true" />
@@ -160,7 +161,7 @@
 
             <item
                 android:id="@+id/nav_crnpolicy"
-                android:icon="@drawable/agreemnet"
+                android:icon="@drawable/insurance_policy_ic"
                 android:orderInCategory="750"
                 android:title="Request Policy by CRN"
                 android:visible="true" />

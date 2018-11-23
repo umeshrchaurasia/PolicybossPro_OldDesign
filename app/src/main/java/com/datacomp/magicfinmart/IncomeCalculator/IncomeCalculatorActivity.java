@@ -43,6 +43,10 @@ public class IncomeCalculatorActivity extends BaseActivity implements View.OnCli
 
         init_widgets();
         setListener();
+
+
+
+
         edittotalloan.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -312,12 +316,13 @@ public class IncomeCalculatorActivity extends BaseActivity implements View.OnCli
     }
 
     public void SetIncomePremium(String value) {
-        double hdnCRPrivateCar = 0.17;
-        double hdnCRTwoWheeler = 0.17;
+        double hdnCRPrivateCar = 0.15;  //0.17
+        double hdnCRTwoWheeler = 0.15; //0.17
         double hdnCRHealth = 0.20;
         double hdnCRTravel = 0.20;
-        double hdnCRHome = 0.0025;
+        double hdnCRHome = 0.0030;// 0.0025;
         double hdnCRPersonal = 0.0075;
+        double hdnCRLifes = 0.30;
         double hdnCRBusiness = 0.0075;
         double hdnCRCredit = 5;
         double hdnCRLAP = 0.0040;
@@ -329,6 +334,7 @@ public class IncomeCalculatorActivity extends BaseActivity implements View.OnCli
         double hdnRPTravel = 100;
         double hdnRPHome = 2000;
         double hdnRPPersonal = 2000;
+        double hdnRPLifes = 100;
         double hdnRPBusiness = 2000;
         double hdnRPCredit = 0;
         double hdnRPLAP = 2000;
@@ -409,6 +415,16 @@ public class IncomeCalculatorActivity extends BaseActivity implements View.OnCli
 
             TotalPointsEarned = Math.round(TotalPointsEarned + PEPersonal);
         }
+//life insurance
+
+        if (!spnLife.getText().toString().equals("0")) {
+            double IELife = Math.round(Double.parseDouble(spnLife.getText().toString()) * hdnCRLifes);
+            TotalIncomeEarned = Math.round(TotalIncomeEarned + IELife);
+
+            double PELife = Math.round(Double.parseDouble(spnLife.getText().toString()) / hdnRPLifes);
+            TotalPointsEarned = Math.round(TotalPointsEarned + PELife);
+        }
+
 
         // this.TotalIncomeEarned=this.TotalIncomeEarned+
         spnIncomeEarned.setText(getRemovedDecimal(TotalIncomeEarned));

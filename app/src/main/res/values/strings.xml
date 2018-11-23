@@ -573,5 +573,37 @@
     <string name="title_activity_offline_quotes_list">OFFLINE QUOTES</string>
     <string name="title_activity_add_offline_quotes">ADD OFFLINE QUOTES</string>
     <string name="Finmart_underline"><u>Know Your Magic Finmart</u>.</string>
+    <string name="title_activity_messagecenteractivity">Message Center</string>
+    <string name="txtSyncContacts1"><b><big>Sync Contacts:</big></b></string>
+    <string name="txtSyncContacts">
+        <b><u>What is this Sync Contacts Feature:</u></b>
+        \n
+        At Magic Finmart we are committed to enabling your business. Sync contacts is a feature that enables you to generate leads by marrying your contacts with our data base. This is currently being rolled out for generation of Motor insurance leads but will be available across other products in the future.
+ \n \n<b><u>How will it help me:</u></b>
+         \n
 
+We will use the phone number and sync it with our database. Once we find a match you will be able to get access to the same, you will come to know the make, model, sub model and date of expiry of your contact’s vehicle. This is then converted into a lead for you.
+         \n  \n<b><u>How does this work:</u></b>
+         \n
+Once you give your consent the application syncs the contacts in your phone book and checks our database for any motor vehicle the customer may have. This is then converted into a lead and will reside in the lead module in your back end panel. You can see the leads for every month 6 weeks prior to their expiry date.
+         \n  \n<b><u>How will I know if my leads have been created:</u></b>
+         \n
+
+Once the contact sync is complete you will get an update with the number of matches found in our database. The same will be made available to you in your backend panel. Currently it takes upto 72 hours for the data to be synced after you have given your permission.
+         \n  \n<b><u>How do I know if my data is safe:</u></b>
+         \n
+At Magic Finmart it is our constant endeavour to enable your business and we believe by opening our databases and giving you access to the same we will be able to help your business grow. So if you are sharing your contact with us we are also sharing the data of our customers with you which has been accumulated by us over the last several years. It is a win-win for both of us.
+
+         \n  \n<b><u>How do I know you will not try to reach out to the customer directly:</u></b>
+         \n
+        The customer is already in our database and we have access to them. We do not need your contact to reach out to them. We are enabling you by giving you access to the information we have. In a competitive market scenario multiple people are trying to sell to the same customer. The customer buys from you for a variety of reasons. The sale is yours if you are able to close it.
+  \n  \n<b><u>General Terms &amp; Conditions:</u></b>
+        \n
+        <ul><li>This service is offered in good faith and subject to a fair use policy</li>\n
+            <li>We will enable this for all customers who have paid our onboarding fee</li>\n<li>
+            The system is configured to monitor the number of leads generated to the conversion done from those leads. If there are no conversions we can disable access to this feature.
+            </li>\n<li>
+We presume that this feature will be used only for contacts where the customer has a relationship and will not be used to generate data from our database. Any unfair use will also lead to disabling of the feature.
+            </li></ul>
+    </string>
 </resources>

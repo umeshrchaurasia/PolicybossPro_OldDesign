@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="VEHICLE DETAIL"
+                android:text="FIND VEHICLE DETAIL"
                 android:textColor="@color/uvv_black" />
         </LinearLayout>
 
@@ -65,17 +65,16 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="8dp"
-                android:src="@drawable/share_data" />
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                android:src="@drawable/camera_search_ic" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="bottom"
-                android:text="SCAN vehicle"
+                android:text="SCAN vehicle No"
                 android:textAllCaps="true"
                 android:textColor="@color/uvv_black" />
         </LinearLayout>

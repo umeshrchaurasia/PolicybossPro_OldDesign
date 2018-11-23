@@ -19,11 +19,14 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+    <include layout="@layout/content_nav_transactionhistory"
+        android:id="@+id/incl_nav"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+       android:layout_marginTop="?attr/actionBarSize"
 
         android:id="@+id/llymessage"
         android:orientation="horizontal">
@@ -35,8 +38,6 @@
             android:id="@+id/txtMessage"
             />
     </LinearLayout>
-    <include layout="@layout/content_nav_transactionhistory"
-        android:id="@+id/incl_nav"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

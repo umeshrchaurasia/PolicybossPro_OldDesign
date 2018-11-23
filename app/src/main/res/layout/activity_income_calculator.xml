@@ -43,7 +43,7 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_marginBottom="5dp"
+
     android:layout_weight="20">
 
     <RelativeLayout
@@ -56,6 +56,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginStart="70dp"
         android:layout_marginTop="25dp"
+        android:layout_marginBottom="-8dp"
         android:background="@drawable/blue_border"
         android:gravity="center_vertical|center_horizontal"
         android:orientation="vertical"
@@ -95,6 +96,7 @@
         android:layout_toRightOf="@+id/relativeLayout"
         android:background="@drawable/blue_border"
         android:gravity="center_vertical|center_horizontal"
+   android:layout_marginBottom="-8dp"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -504,6 +506,7 @@
         android:textColor="@color/black" />
 
     <EditText
+
         android:id="@+id/edittotalloan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
