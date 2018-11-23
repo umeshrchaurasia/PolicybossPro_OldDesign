@@ -50,6 +50,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.GenerateLeadResp
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 
 public class VehicleScanActivity extends BaseActivity implements BaseActivity.PopUpListener {
 
@@ -65,6 +69,7 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
     private static final int CAMERA_REQUEST = 1000;
     private String PHOTO_File = "ScanPhotograph";
     Button btnVehicleInfo, btnLead;
+    FastLaneDataEntity entity;
 
     File Docfile;
 
@@ -78,7 +83,6 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
 
     CardView cvVehicleDetail;
     SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
-    VehicleInfoEntity.VehicleInfo mVehicleInfo;
 
 
     TextView txtRegistrationNo, txtCarDetail;
@@ -122,7 +126,28 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
                 }
 
                 showDialog();
-                new DynamicController(VehicleScanActivity.this).getVehicleByVehicleNo(etVehicleNo.getText().toString(),
+                new FastLaneController(VehicleScanActivity.this).getVechileDetails(etVehicleNo.getText().toString().replaceAll("\\s", ""), new IResponseSubcriber() {
+
+                    @Override
+                    public void OnSuccess(APIResponse response, String message) {
+
+                        cancelDialog();
+                        if (response instanceof FastLaneDataResponse) {
+
+                            if (response.getStatusNo() == 0) {
+                                bindFastlaneVehicle(((FastLaneDataResponse) response).getMasterData());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void OnFailure(Throwable t) {
+                        cancelDialog();
+                        Toast.makeText(VehicleScanActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+              /*  new DynamicController(VehicleScanActivity.this).getVehicleByVehicleNo(etVehicleNo.getText().toString(),
                         new IResponseSubcriber() {
 
                             @Override
@@ -151,7 +176,7 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
                                 cvVehicleDetail.setVisibility(View.GONE);
                                 Toast.makeText(VehicleScanActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        });*/
             }
         });
 
@@ -160,45 +185,45 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
             @Override
             public void onClick(View v) {
                 Constants.hideKeyBoard(v, VehicleScanActivity.this);
-                GenerateLead(mVehicleInfo);
+                GenerateLead(entity);
             }
         });
         CameraPopUp();
 
     }
 
-    private void GenerateLead(VehicleInfoEntity.VehicleInfo vehicleInfo) {
+    private void GenerateLead(FastLaneDataEntity vehicleInfo) {
 
         GenerateLeadRequestEntity entity = new GenerateLeadRequestEntity();
 
         entity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
 
-        entity.setChasisNo(vehicleInfo.getChasisNo());
-        entity.setCity(vehicleInfo.getCity());
-        entity.setClaimNo(vehicleInfo.getClaimNo());
-        entity.setClaimSattlementType(vehicleInfo.getClaimSattlementType());
-        entity.setClaimStatus(vehicleInfo.getClaimStatus());
-        entity.setClientName(vehicleInfo.getClientName());
-        entity.setDOB(vehicleInfo.getDOB());
-        entity.setEngineNo(vehicleInfo.getEngineNo());
+        entity.setChasisNo(vehicleInfo.getChassis_Number());
+        entity.setCity(vehicleInfo.getVehicleCity_Id());
+        entity.setClaimNo("");
+        entity.setClaimSattlementType("");
+        entity.setClaimStatus("");
+        entity.setClientName("");
+        entity.setDOB("");
+        entity.setEngineNo(vehicleInfo.getEngin_Number());
         entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
-        entity.setFuelType(vehicleInfo.getFuelType());
-        entity.setGender(vehicleInfo.getGender());
-        entity.setHolderPincode(vehicleInfo.getHolderPincode());
-        entity.setInceptionDate(vehicleInfo.getInceptionDate());
-        entity.setIsCustomer(vehicleInfo.getIsCustomer());
-        entity.setMake(vehicleInfo.getMake());
-        entity.setMfgyear(String.valueOf(vehicleInfo.getMfgyear()));
-        entity.setNoClaimBonus(vehicleInfo.getNoClaimBonus());
-        entity.setPOSPCode(vehicleInfo.getPOSPCode());
-        entity.setPOSPName(vehicleInfo.getPOSPName());
-        entity.setRTOCity(vehicleInfo.getRTOCity());
-        entity.setRTOState(vehicleInfo.getRTOState());
-        entity.setRegistrationDate(vehicleInfo.getRegistrationDate());
-        entity.setRegistrationNo(vehicleInfo.getRegistrationNo());
-        entity.setSubModel(vehicleInfo.getSubModel());
-        entity.setHolderaddress(vehicleInfo.getHolderaddress());
-        entity.setModel(vehicleInfo.getModel());
+        entity.setFuelType(vehicleInfo.getFuel_Type());
+        entity.setGender("");
+        entity.setHolderPincode("");
+        entity.setInceptionDate("");
+        entity.setIsCustomer("");
+        entity.setMake(vehicleInfo.getMake_Name());
+        entity.setMfgyear(String.valueOf(vehicleInfo.getManufacture_Year()));
+        entity.setNoClaimBonus("");
+        entity.setPOSPCode("");
+        entity.setPOSPName("");
+        entity.setRTOCity(vehicleInfo.getRTO_Name());
+        entity.setRTOState("");
+        entity.setRegistrationDate(vehicleInfo.getRegistration_Date());
+        entity.setRegistrationNo(vehicleInfo.getRegistration_Number());
+        entity.setSubModel(vehicleInfo.getModel_Name());
+        entity.setHolderaddress("");
+        entity.setModel(vehicleInfo.getModel_Name());
 
         entity.setQT_Entry_Number("");
 
@@ -257,16 +282,15 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
     //endregion
 
 
-    private void bindVehicle(VehicleInfoEntity.VehicleInfo entity) {
+    private void bindFastlaneVehicle(FastLaneDataEntity v) {
 
-
+        entity = v;
         cvVehicleDetail.setVisibility(View.VISIBLE);
 
-        VehicleInfoEntity.VehicleInfo v = entity;
         try {
-            txtRegistrationNo.setText(v.getRegistrationNo());
-            txtCarDetail.setText(v.getMake() + "," + v.getModel() + "," + v.getSubModel());
-            etVehicleExpiryDate.setText("" + v.getExpiryDate());
+            txtRegistrationNo.setText(v.getRegistration_Number());
+            txtCarDetail.setText(v.getMake_Name() + "," + v.getModel_Name() + "," + v.getVariant_Name());
+            etVehicleExpiryDate.setText("");
 
         } catch (Exception e) {
 

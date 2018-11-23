@@ -39,6 +39,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntit
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleMobileResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +68,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
     List<VehicleMobileResponse.CustomerDetailsEntity> listCustDetails;
 
     VehicleInfoEntity.VehicleInfo mVehicleInfo;
+    FastLaneDataEntity entity;
 
     public VehicleDetailFragment() {
         // Required empty public constructor
@@ -229,7 +233,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
 
                 //1.vehicle
 
-                showDialog();
+              /*  showDialog();
                 new DynamicController(getActivity()).getVehicleByVehicleNo(etVehicleDetail.getText().toString(),
                         new IResponseSubcriber() {
 
@@ -261,7 +265,31 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                                 cvVehicleDetail.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
-                        });
+                        });*/
+
+
+                showDialog();
+                new FastLaneController(getActivity()).getVechileDetails(etVehicleDetail.getText().toString().replaceAll("\\s", ""), new IResponseSubcriber() {
+
+                    @Override
+                    public void OnSuccess(APIResponse response, String message) {
+
+                        cancelDialog();
+                        if (response instanceof FastLaneDataResponse) {
+
+                            if (response.getStatusNo() == 0) {
+                                btnGenerateLead.setVisibility(View.VISIBLE);
+                                bindFastlaneVehicle(((FastLaneDataResponse) response).getMasterData());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void OnFailure(Throwable t) {
+                        cancelDialog();
+                        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             } else {
                 //2.mobile
@@ -294,7 +322,86 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
             }
         } else if (v.getId() == R.id.btnGenerateLead) {
 
-            GenerateLead(mVehicleInfo);
+            if (!etVehicleExpiryDate.getText().toString().equalsIgnoreCase("")) {
+                if (rbCarNumber.isChecked()) {
+                    GenerateLead(entity);
+                } else if (rbMobileNumber.isChecked()) {
+                    GenerateLead(mVehicleInfo);
+                }
+            } else {
+                Toast.makeText(getActivity(), "" + "Invalid expiry date", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void GenerateLead(FastLaneDataEntity vehicleInfo) {
+
+        GenerateLeadRequestEntity entity = new GenerateLeadRequestEntity();
+
+        entity.setFBAID(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
+
+        entity.setChasisNo(vehicleInfo.getChassis_Number());
+        entity.setCity(vehicleInfo.getVehicleCity_Id());
+        entity.setClaimNo("");
+        entity.setClaimSattlementType("");
+        entity.setClaimStatus("");
+        entity.setClientName("");
+        entity.setDOB("");
+        entity.setEngineNo(vehicleInfo.getEngin_Number());
+        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
+        entity.setFuelType(vehicleInfo.getFuel_Type());
+        entity.setGender("");
+        entity.setHolderPincode("");
+        entity.setInceptionDate("");
+        entity.setIsCustomer("");
+        entity.setMake(vehicleInfo.getMake_Name());
+        entity.setMfgyear(String.valueOf(vehicleInfo.getManufacture_Year()));
+        entity.setNoClaimBonus("");
+        entity.setPOSPCode("");
+        entity.setPOSPName("");
+        entity.setRTOCity(vehicleInfo.getRTO_Name());
+        entity.setRTOState("");
+        entity.setRegistrationDate(vehicleInfo.getRegistration_Date());
+        entity.setRegistrationNo(vehicleInfo.getRegistration_Number());
+        entity.setSubModel(vehicleInfo.getModel_Name());
+        entity.setHolderaddress("");
+        entity.setModel(vehicleInfo.getModel_Name());
+
+        entity.setQT_Entry_Number("");
+
+
+        new DynamicController(getActivity()).saveGenerateLead(entity, new IResponseSubcriber() {
+            @Override
+            public void OnSuccess(APIResponse response, String message) {
+                cancelDialog();
+                if (response instanceof GenerateLeadResponse) {
+                    if (response.getStatusNo() == 0) {
+                        Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void OnFailure(Throwable t) {
+                cancelDialog();
+                Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+    private void bindFastlaneVehicle(FastLaneDataEntity v) {
+
+
+        cvVehicleDetail.setVisibility(View.VISIBLE);
+        entity = v;
+        try {
+            txtRegistrationNo.setText(v.getRegistration_Number());
+            txtCarDetail.setText(v.getMake_Name() + "," + v.getModel_Name() + "," + v.getVariant_Name());
+            etVehicleExpiryDate.setText("");
+
+        } catch (Exception e) {
+
         }
     }
 
