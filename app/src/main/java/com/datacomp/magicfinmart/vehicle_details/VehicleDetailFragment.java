@@ -269,7 +269,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
 
 
                 showDialog();
-                new FastLaneController(getActivity()).getVechileDetails(etVehicleDetail.getText().toString(), new IResponseSubcriber() {
+                new FastLaneController(getActivity()).getVechileDetails(etVehicleDetail.getText().toString().replaceAll("\\s", ""), new IResponseSubcriber() {
 
                     @Override
                     public void OnSuccess(APIResponse response, String message) {

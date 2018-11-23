@@ -126,7 +126,7 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
                 }
 
                 showDialog();
-                new FastLaneController(VehicleScanActivity.this).getVechileDetails(etVehicleNo.getText().toString(), new IResponseSubcriber() {
+                new FastLaneController(VehicleScanActivity.this).getVechileDetails(etVehicleNo.getText().toString().replaceAll("\\s", ""), new IResponseSubcriber() {
 
                     @Override
                     public void OnSuccess(APIResponse response, String message) {
