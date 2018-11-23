@@ -358,7 +358,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 } else if (termRequestEntity.getPremiumPaymentOption().equals("Limited Pay")) {
                     tilPremiumPayment.setVisibility(View.VISIBLE);
                     spICICIPremiumTerm.setSelection(2);
-                } else if (termRequestEntity.getPremiumPaymentOption().equals("Whole Life")) {
+                } else if (termRequestEntity.getPremiumPaymentOption().equals("Regular Whole Life")) {
                     tilPremiumPayment.setVisibility(View.VISIBLE);
                     spICICIPremiumTerm.setSelection(3);
                 }
@@ -493,6 +493,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 else if ((temp + age) > 60)
                     return 0;
             }
+        }else {
+            return 0;
         }
         return temp;
     }
@@ -872,7 +874,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 //premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayWhole));
                 ICICIPremiumPaymentAdapter.notifyDataSetChanged();
                 tilPremiumPayment.setVisibility(View.VISIBLE);
-                termRequestEntity.setPremiumPaymentOption("Whole Life");
+                termRequestEntity.setPremiumPaymentOption("Regular Whole Life");
 
                 canChangePremiumTerm = false;
                 canChangePolicyTerm = false;
