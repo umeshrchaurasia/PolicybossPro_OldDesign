@@ -390,8 +390,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_franchise:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                 .putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf")
-                                .putExtra("NAME", "FRANCHISE_AGREEMENT")
-                                .putExtra("TITLE", "FRANCHISE AGREEMENT"));
+                                .putExtra("NAME", "LOAN_AGREEMENT")
+                                .putExtra("TITLE", "LOAN AGREEMENT"));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
