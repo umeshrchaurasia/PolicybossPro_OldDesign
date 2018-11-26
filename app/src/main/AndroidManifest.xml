@@ -916,10 +916,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
-        <activity android:name=".IncomeCalculator.IncomePotentialDialogActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".IncomeCalculator.IncomePotentialDialogActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".IncomeCalculator.IncomePotentialdetailActivity"
             android:label="Income Potential"
@@ -930,9 +929,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
         <activity android:name=".IncomeCalculator.SimpleScannerActivity" />
-
         <activity
             android:name=".transactionhistory.nav_transactionhistoryActivity"
             android:label="Transaction History"
@@ -946,8 +943,8 @@
         <activity
             android:name=".contact_lead.ContactLeadActivity"
             android:label="@string/title_activity_contact_lead"
-            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -956,8 +953,8 @@
         <activity
             android:name=".scan_vehicle.VehicleScanActivity"
             android:label="@string/title_activity_vehicle_scan"
-            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -966,8 +963,8 @@
         <activity
             android:name=".offline_quotes.OfflineQuotesListActivity"
             android:label="@string/title_activity_offline_quotes_list"
-            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -976,8 +973,8 @@
         <activity
             android:name=".offline_quotes.AddOfflineQuotesActivity"
             android:label="@string/title_activity_add_offline_quotes"
-            android:screenOrientation="portrait"
             android:parentActivityName=".offline_quotes.OfflineQuotesListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -986,11 +983,20 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-
-
         <activity
             android:name=".crnpolicy.crnpolicyActivity"
             android:label="REQUEST POLICY VIA CRN"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+
+        <activity
+            android:name=".messagecenter.messagecenteractivity"
+            android:label="@string/title_activity_messagecenteractivity"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">

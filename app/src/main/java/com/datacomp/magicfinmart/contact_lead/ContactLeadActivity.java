@@ -80,8 +80,10 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         loadContactTask = new LoadContactTask();
         lySync.setVisibility(View.GONE);
         btnSync.setOnClickListener(this);
+        txtcontain.setText(R.string.txtSyncContacts);
 
-        txtcontain.setText("Permission requests protect sensitive information available from a device and should only be used when access to information is necessary for the functioning of your app. This document provides tips on ways you might be able to achieve the same (or better) functionality without requiring access to such information; it is not an exhaustive discussion of how permissions work in the Android operating system. ");
+
+      //  txtcontain.setText("Permission requests protect sensitive information available from a device and should only be used when access to information is necessary for the functioning of your app. This document provides tips on ways you might be able to achieve the same (or better) functionality without requiring access to such information; it is not an exhaustive discussion of how permissions work in the Android operating system. ");
     }
 
 

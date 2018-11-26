@@ -246,6 +246,56 @@
                             android:layout_column="1"
 
                             android:layout_weight="0.4"
+                            android:text="Name"
+                            android:textAllCaps="true"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:padding="8dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+
+                            android:layout_weight="0.4"
+                            android:text="Mobile No"
+                            android:textAllCaps="true"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/etMobileNo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:padding="8dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_column="1"
+
+                            android:layout_weight="0.4"
                             android:text="Expiry Date:"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
@@ -277,215 +327,7 @@
                             android:textStyle="bold" />
                     </TableRow>
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="Chasis No"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtChasisNo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="Engine No"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtEngineNo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="RTO"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtRTO"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="Fuel"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtFuel"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="Mfg Year"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtMfg"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="Claim No."
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtClaimNo"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="Claim Settlement"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtClaimSattlementType"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="8dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="1"
-
-                            android:layout_weight="0.4"
-                            android:text="Claim Status"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtClaimStatus"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_column="2"
-                            android:layout_weight="0.6"
-                            android:textAllCaps="true"
-                            android:textStyle="bold" />
-
-                    </TableRow>
                 </TableLayout>
 
             </android.support.v7.widget.CardView>

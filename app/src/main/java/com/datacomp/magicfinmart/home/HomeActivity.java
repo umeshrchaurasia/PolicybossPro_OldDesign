@@ -64,6 +64,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.messagecenter.messagecenteractivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
@@ -121,7 +122,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID,txtknwyour;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -173,6 +174,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     };
 
     //endregion
+
+    @Override
+    public void dialogExit() {
+        super.dialogExit();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -384,8 +390,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_franchise:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                 .putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf")
-                                .putExtra("NAME", "FRANCHISE_AGREEMENT")
-                                .putExtra("TITLE", "FRANCHISE AGREEMENT"));
+                                .putExtra("NAME", "LOAN_AGREEMENT")
+                                .putExtra("TITLE", "LOAN AGREEMENT"));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
@@ -415,6 +421,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_scan_vehicle:
                         // startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
                         startActivity(new Intent(HomeActivity.this, VehicleScanActivity.class));
+                        break;
+                    case  R.id.nav_MessageCentre:
+                        MessageCenter();
+                     //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
                         break;
 
                     default:
@@ -457,6 +467,46 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
+
+
+
+
+    private void MessageCenter() {
+
+   String     POSPNO=""+userConstantEntity.getPospsendid();
+   String     msgurl=""+userConstantEntity.getMessagesender();
+        //   empCode="232";
+        if(POSPNO.equals("5"))
+        {
+            startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
+
+
+        }else {
+
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+            String append = "&ip_address=" + ipaddress
+                    + "&app_version=" + Utility.getVersionName(this)
+                    + "&device_id=" + Utility.getDeviceId(this);
+            String fullmsgurl = msgurl + append;
+            startActivity(new Intent(this, CommonWebViewActivity.class)
+                    .putExtra("URL", fullmsgurl)
+                    .putExtra("NAME", "Message Center")
+                    .putExtra("TITLE", "Message Center"));
+
+            //   incl_nav.setVisibility(View.VISIBLE);
+            //  new PendingController(this).gettransactionhistory(empCode, "1", this);
+        }
+    }
+
+
+
+
 
     private void showMArketingPopup() {
 
@@ -550,6 +600,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
+        txtknwyour= (TextView) headerView.findViewById(R.id.txtknwyour);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
         txtReferalCode = (TextView) headerView.findViewById(R.id.txtReferalCode);
         txtFbaID = (TextView) headerView.findViewById(R.id.txtFbaID);
@@ -576,7 +627,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
-        txtEntityName.setText("v" + versionNAme);
+        txtknwyour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+
+            }
+        });
+        txtEntityName.setText("Ver." + versionNAme);
 
         if (loginResponseEntity != null) {
 

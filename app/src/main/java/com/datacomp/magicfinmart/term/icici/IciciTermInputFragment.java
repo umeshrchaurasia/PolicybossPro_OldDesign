@@ -325,7 +325,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             else
                 ((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
             btnGetQuote.setText("UPDATE QUOTE");
-            tilPincode.setVisibility(View.INVISIBLE);
+            tilPincode.setVisibility(View.GONE);
             layoutCompare.setVisibility(View.GONE);
             cvInputDetails.setVisibility(View.VISIBLE);
             cvQuoteDetails.setVisibility(View.VISIBLE);
@@ -350,12 +350,21 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 //spICICIOptions.setOnItemSelectedListener(null);
                 isEdit = true;
                 if (termRequestEntity.getPremiumPaymentOption().equals("Regular Pay")) {
+                    tilPremiumPayment.setVisibility(View.INVISIBLE);
                     spICICIPremiumTerm.setSelection(0);
                 } else if (termRequestEntity.getPremiumPaymentOption().equals("Single Pay")) {
+                    tilPremiumPayment.setVisibility(View.INVISIBLE);
                     spICICIPremiumTerm.setSelection(1);
                 } else if (termRequestEntity.getPremiumPaymentOption().equals("Limited Pay")) {
+                    tilPremiumPayment.setVisibility(View.VISIBLE);
                     spICICIPremiumTerm.setSelection(2);
+                } else if (termRequestEntity.getPremiumPaymentOption().equals("Regular Whole Life")) {
+                    tilPremiumPayment.setVisibility(View.VISIBLE);
+                    spICICIPremiumTerm.setSelection(3);
                 }
+                age = caluclateAge("" + termRequestEntity.getInsuredDOB());
+                bindPremiumPayment(getPremiumPaymentId(termRequestEntity.getPPT(), age));
+
                 String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
                 final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
                 ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
@@ -452,6 +461,44 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     }
 
+    private int getPremiumPaymentId(String ppt, int age) {
+        int temp = 0;
+        int type = spICICIPremiumTerm.getSelectedItemPosition();
+        if (ppt != null && !ppt.equals("")) {
+            try {
+                temp = Integer.parseInt(ppt);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        if (type == 2) { // limited pay
+            switch (temp) {
+                case 5:
+                    return 3;
+                case 7:
+                    return 2;
+                case 10:
+                    return 1;
+                default:
+                    return 0;
+            }
+
+        } else if (type == 3) { // whole life
+
+            if (temp == 10)
+                return 2;
+            else {
+                if ((temp + age) <= 60)
+                    return 1;
+                else if ((temp + age) > 60)
+                    return 0;
+            }
+        } else {
+            return 0;
+        }
+        return temp;
+    }
+
     private void bindInputFromOther(TermFinmartRequest termFinmartRequest) {
         try {
             TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
@@ -476,6 +523,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 etLastName.setText("" + splitStr[1]);
                 etMobile.setText("" + termRequestEntity.getContactMobile());
                 etDOB.setText("" + termRequestEntity.getInsuredDOB());
+                age = caluclateAge("" + termRequestEntity.getInsuredDOB());
                 etPincode.setText("" + termRequestEntity.getPincode());
 
                 if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
@@ -684,14 +732,18 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         //endregion
     }
 
-    private void manipulatePremiumPolicyPayment(int age) {
-
-        //region remove pay till 60 if age > 55
+    public void bindPremiumPayment(int selection) {
+        String[] listPremiumPayWhole = getActivity().getResources().getStringArray(R.array.icici_premium_payment_whole_life);
         String[] listPremiumPayLimited = getActivity().getResources().getStringArray(R.array.icici_premium_payment_limited_pay);
-        premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
-        if (age > 55) {
-            premiumPaymentList.remove(0);
+
+        if (spICICIPremiumTerm.getSelectedItemPosition() == 2) {
+
+            premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
+
+        } else if (spICICIPremiumTerm.getSelectedItemPosition() == 3) {
+            premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayWhole));
         }
+
         ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
             @NonNull
             @Override
@@ -702,8 +754,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             }
         };
         spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);
+        spICICIPremiumPayment.setSelection(selection);
+    }
 
-        //endregion
+    private void manipulatePremiumPolicyPayment(int age) {
 
         int policyTerm = 0;
         int premiumTerm = 0;
@@ -755,8 +809,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
         final List<String> premiumFreqList = new ArrayList<>(Arrays.asList(listPremiumFrequency));
 
-        String[] listPremiumPayWhole = getActivity().getResources().getStringArray(R.array.icici_premium_payment_whole_life);
-        String[] listPremiumPayLimited = getActivity().getResources().getStringArray(R.array.icici_premium_payment_limited_pay);
+        //String[] listPremiumPayWhole = getActivity().getResources().getStringArray(R.array.icici_premium_payment_whole_life);
+        //String[] listPremiumPayLimited = getActivity().getResources().getStringArray(R.array.icici_premium_payment_limited_pay);
 
 
         switch (spICICIPremiumTerm.getSelectedItemPosition()) {
@@ -765,8 +819,9 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 termRequestEntity.setPremiumPaymentOption("Regular Pay");
                 if (etICICIPremiumTerm.getText().toString().equals("1")) {
                     etICICIPremiumTerm.setText("20");
+                    etICICIPolicyTerm.setText("20");
                 }
-
+                etICICIPolicyTerm.setText(etICICIPremiumTerm.getText().toString());
                 canChangePremiumTerm = true;
                 canChangePolicyTerm = true;
                 etICICIPremiumTerm.setEnabled(true);
@@ -791,7 +846,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 //setPolicyTerm((75 - age));
                 break;
             case 2://limited pay
-                premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
+                //premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
                 if (age > 55) {
                     premiumPaymentList.remove(0);
                 }
@@ -808,19 +863,19 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     etICICIPremiumTerm.setText("20");
                 }
 
-                canChangePremiumTerm = true;
+                canChangePremiumTerm = false;
                 canChangePolicyTerm = true;
-                etICICIPremiumTerm.setEnabled(true);
+                etICICIPremiumTerm.setEnabled(false);
                 etICICIPolicyTerm.setEnabled(true);
                 calculatePremiumTerm();
                 break;
 
 
             case 3://Whole Life
-                premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayWhole));
+                //premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayWhole));
                 ICICIPremiumPaymentAdapter.notifyDataSetChanged();
                 tilPremiumPayment.setVisibility(View.VISIBLE);
-                termRequestEntity.setPremiumPaymentOption("Whole Life");
+                termRequestEntity.setPremiumPaymentOption("Regular Whole Life");
 
                 canChangePremiumTerm = false;
                 canChangePolicyTerm = false;
@@ -847,7 +902,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
 
 
-            ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
+           /* ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
                 @NonNull
                 @Override
                 public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -855,9 +910,9 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
                     return view;
                 }
-            };
-            spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);
-
+            };*/
+            //spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);
+            bindPremiumPayment(0);
         } else {
             isEdit = false;
         }
@@ -2038,6 +2093,27 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                         String currentDay = simpleDateFormat.format(calendar.getTime());
                         etDOB.setText(currentDay);
                         age = caluclateAge(calendar);
+
+
+                        //region remove pay till 60 if age > 55
+                        /*String[] listPremiumPayLimited = getActivity().getResources().getStringArray(R.array.icici_premium_payment_limited_pay);
+                        premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
+                        if (age > 55) {
+                            premiumPaymentList.remove(0);
+                        }
+                        ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
+                            @NonNull
+                            @Override
+                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                                View view = super.getView(position, convertView, parent);
+                                view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
+                                return view;
+                            }
+                        };
+                        spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);*/
+
+                        //endregion
+
                         manipulatePremiumPolicyPayment(age);
 
                     }

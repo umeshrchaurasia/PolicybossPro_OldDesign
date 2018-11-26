@@ -40,7 +40,7 @@
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
                style="@style/TextViewStyle.Large"
-               android:text="Please Send SMS From Your Register Mobile Number"
+               android:text="Please Send SMS From Your Registered Mobile Number"
                android:padding="5dp"/>
 
             <LinearLayout

@@ -135,6 +135,8 @@ public class UserConstantEntity extends RealmObject {
     private String marketinghometransfertype;
 
     private String healthurltemp;
+
+    private String messagesender;
     /**
      * marketinghomeimageurl :
      * marketinghomebirthdayimageurl :
@@ -692,5 +694,14 @@ public class UserConstantEntity extends RealmObject {
     public void setCrnmobileno(String crnmobileno) {
         this.crnmobileno = crnmobileno;
     }
+
+    public String getMessagesender() {
+        return messagesender;
+    }
+
+    public void setMessagesender(String messagesender) {
+        this.messagesender = messagesender;
+    }
+
 
 }

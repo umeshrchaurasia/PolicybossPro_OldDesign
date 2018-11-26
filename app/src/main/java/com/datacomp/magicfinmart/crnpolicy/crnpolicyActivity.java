@@ -66,7 +66,7 @@ public class crnpolicyActivity extends BaseActivity implements View.OnClickListe
                     mobNumber = mobNumber.replaceAll(",", "");
 
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mobNumber, null));
-                    intent.putExtra("sms_body", "CRN "+etcrn.getText().toString());
+                    intent.putExtra("sms_body", "policy "+etcrn.getText().toString());
                     startActivity(intent);
                 //    startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mobNumber, null)));
                 } catch (Exception e) {
