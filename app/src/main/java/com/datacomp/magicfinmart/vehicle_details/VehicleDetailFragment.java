@@ -56,7 +56,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
     TextView txtClientName, txtDOB, txtMfg, txtClaimNo, txtClaimSattlementType, txtClaimStatus,
             txtAddress, txtRegistrationNo, txtCarDetail, txtChasisNo, txtEngineNo, txtRTO, txtFuel;
 
-    EditText etVehicleExpiryDate;
+    EditText etVehicleExpiryDate, etName, etMobileNo;
 
     CardView cvVehicleDetail;
 
@@ -104,7 +104,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
             if (view.getId() == R.id.etVehicleExpiryDate) {
 
                 //region  regdate renew
-                DateTimePicker.policyExpDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.scanVehicleExpDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -137,6 +137,9 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         rvMobile.setAdapter(mAdapter);
 
         etVehicleExpiryDate = view.findViewById(R.id.etVehicleExpiryDate);
+        etName = view.findViewById(R.id.etName);
+        etMobileNo = view.findViewById(R.id.etMobileNo);
+
 
         txtMobileData = view.findViewById(R.id.txtMobileData);
         rbCarNumber = view.findViewById(R.id.rbCarNumber);
@@ -151,16 +154,16 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         txtAddress = view.findViewById(R.id.txtAddress);
         txtRegistrationNo = view.findViewById(R.id.txtRegistrationNo);
         txtCarDetail = view.findViewById(R.id.txtCarDetail);
-        txtChasisNo = view.findViewById(R.id.txtChasisNo);
-        txtEngineNo = view.findViewById(R.id.txtEngineNo);
-        txtRTO = view.findViewById(R.id.txtRTO);
-        txtFuel = view.findViewById(R.id.txtFuel);
-        txtMfg = view.findViewById(R.id.txtMfg);
+       // txtChasisNo = view.findViewById(R.id.txtChasisNo);
+       // txtEngineNo = view.findViewById(R.id.txtEngineNo);
+       // txtRTO = view.findViewById(R.id.txtRTO);
+       // txtFuel = view.findViewById(R.id.txtFuel);
+       // txtMfg = view.findViewById(R.id.txtMfg);
 
         btnGenerateLead = view.findViewById(R.id.btnGenerateLead);
 
-        txtClaimNo = view.findViewById(R.id.txtClaimNo);
-        txtClaimSattlementType = view.findViewById(R.id.txtClaimSattlementType);
+       // txtClaimNo = view.findViewById(R.id.txtClaimNo);
+       // txtClaimSattlementType = view.findViewById(R.id.txtClaimSattlementType);
         txtClaimStatus = view.findViewById(R.id.txtClaimStatus);
 
         btnVehicleDetails.setOnClickListener(this);
@@ -322,6 +325,10 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
             }
         } else if (v.getId() == R.id.btnGenerateLead) {
 
+            if (etName.getText().toString().equalsIgnoreCase("")) {
+                Toast.makeText(getActivity(), "" + "Enter Name", Toast.LENGTH_SHORT).show();
+                return;
+            }
             if (!etVehicleExpiryDate.getText().toString().equalsIgnoreCase("")) {
                 if (rbCarNumber.isChecked()) {
                     GenerateLead(entity);
@@ -345,10 +352,9 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         entity.setClaimNo("");
         entity.setClaimSattlementType("");
         entity.setClaimStatus("");
-        entity.setClientName("");
         entity.setDOB("");
         entity.setEngineNo(vehicleInfo.getEngin_Number());
-        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
+
         entity.setFuelType(vehicleInfo.getFuel_Type());
         entity.setGender("");
         entity.setHolderPincode("");
@@ -368,6 +374,10 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         entity.setModel(vehicleInfo.getModel_Name());
 
         entity.setQT_Entry_Number("");
+
+        entity.setClientName(etName.getText().toString());
+        entity.setMobileNo(etMobileNo.getText().toString());
+        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
 
 
         new DynamicController(getActivity()).saveGenerateLead(entity, new IResponseSubcriber() {
@@ -419,7 +429,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         entity.setClientName(vehicleInfo.getClientName());
         entity.setDOB(vehicleInfo.getDOB());
         entity.setEngineNo(vehicleInfo.getEngineNo());
-        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
+
         entity.setFuelType(vehicleInfo.getFuelType());
         entity.setGender(vehicleInfo.getGender());
         entity.setHolderPincode(vehicleInfo.getHolderPincode());
@@ -439,7 +449,8 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         entity.setModel(vehicleInfo.getModel());
 
         entity.setQT_Entry_Number("");
-
+        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
+        //entity.setMobileNo();
 
         new DynamicController(getActivity()).saveGenerateLead(entity, new IResponseSubcriber() {
             @Override

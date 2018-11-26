@@ -245,8 +245,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
                 } else {
 
-                    //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
-                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
+                    //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
 
                     String ipaddress = "0.0.0.0";
                     try {

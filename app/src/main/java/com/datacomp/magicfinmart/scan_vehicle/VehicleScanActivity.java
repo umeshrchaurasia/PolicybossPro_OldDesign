@@ -86,7 +86,7 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
 
 
     TextView txtRegistrationNo, txtCarDetail;
-    EditText etVehicleExpiryDate;
+    EditText etVehicleExpiryDate, etName, etMobileNo;
 
 
     @Override
@@ -109,6 +109,9 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
         cvVehicleDetail.setVisibility(View.GONE);
         etVehicleExpiryDate = (EditText) findViewById(R.id.etVehicleExpiryDate);
         etVehicleNo = (EditText) findViewById(R.id.etVehicleNo);
+
+        etName = (EditText) findViewById(R.id.etName);
+        etMobileNo = (EditText) findViewById(R.id.etMobileNo);
 
 
         etVehicleExpiryDate.setOnClickListener(datePickerDialog);
@@ -185,6 +188,10 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
             @Override
             public void onClick(View v) {
                 Constants.hideKeyBoard(v, VehicleScanActivity.this);
+                if (etName.getText().toString().equalsIgnoreCase("")) {
+                    Toast.makeText(VehicleScanActivity.this, "Enter Name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 GenerateLead(entity);
             }
         });
@@ -203,10 +210,8 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
         entity.setClaimNo("");
         entity.setClaimSattlementType("");
         entity.setClaimStatus("");
-        entity.setClientName("");
         entity.setDOB("");
         entity.setEngineNo(vehicleInfo.getEngin_Number());
-        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
         entity.setFuelType(vehicleInfo.getFuel_Type());
         entity.setGender("");
         entity.setHolderPincode("");
@@ -226,6 +231,10 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
         entity.setModel(vehicleInfo.getModel_Name());
 
         entity.setQT_Entry_Number("");
+
+        entity.setClientName(etName.getText().toString());
+        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
+        entity.setMobileNo(etMobileNo.getText().toString());
 
 
         new DynamicController(this).saveGenerateLead(entity, new IResponseSubcriber() {
@@ -259,7 +268,7 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
             if (view.getId() == R.id.etVehicleExpiryDate) {
 
                 //region  regdate renew
-                DateTimePicker.policyExpDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.scanVehicleExpDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
