@@ -173,7 +173,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         showDialog("Fetching Posp Details ...");
         //MObile NO display
             etMobileNo1.setText(loginResponseEntity.getMobiNumb1());
-            etAddress1.setText(loginResponseEntity.getEmailID());
+          //  etAddress1.setText(loginResponseEntity.getEmailID());
+        etEmailId.setText(loginResponseEntity.getEmailID());
 
 
         new RegisterController(this).getPospDetails(this);

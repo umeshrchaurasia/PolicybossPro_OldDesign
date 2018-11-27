@@ -188,6 +188,7 @@
                     <EditText
                         android:id="@+id/etMobileNo1"
                         style="@style/Style.edittext"
+                        android:enabled="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -222,6 +223,7 @@
                 <EditText
                     android:id="@+id/etEmailId"
                     style="@style/Style.edittext"
+                    android:enabled="false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress" />
