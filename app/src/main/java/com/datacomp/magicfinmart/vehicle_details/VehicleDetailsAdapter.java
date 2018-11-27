@@ -57,10 +57,21 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         holder.txtClaimStatus.setText("" + entity.getClaimStatus());
         holder.txtEmail.setText(entity.getEmail());
 
-        holder.etExpiryDate.setText("" +entity.getExpiryDate());
+        holder.etExpiryDate.setText("" + entity.getExpiryDate());
         holder.txtInsuranceName.setText(entity.getInsuranceName());
-        holder.txtMobileNo.setText("" + entity.getMobileNo());
-        holder.txtName.setText("" + entity.getName());
+        if (entity.getMobileNo().toLowerCase().equalsIgnoreCase("na")) {
+            holder.etMobileNo.setText("");
+        } else {
+            holder.etMobileNo.setText("" + entity.getMobileNo());
+        }
+
+        if (entity.getName().toLowerCase().equalsIgnoreCase("na")) {
+            holder.etName.setText("");
+        } else {
+            holder.etName.setText("" + entity.getName());
+        }
+
+
         holder.txtPincode.setText("" + entity.getPincode());
         holder.txtPolicyNumber.setText("" + entity.getPolicyNumber());
         holder.txtPremium.setText("" + entity.getPremium());
@@ -69,7 +80,13 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         holder.btnGenerateLead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GenerateLead(holder.etExpiryDate.getText().toString(), entity);
+
+                if (holder.etName.getText().toString().equalsIgnoreCase("")) {
+                    Toast.makeText(mContex.getActivity(), "Enter Name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                GenerateLead(holder.etExpiryDate.getText().toString(), holder.etName.getText().toString()
+                        , holder.etMobileNo.getText().toString(), entity);
             }
         });
 
@@ -77,7 +94,7 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
             @Override
             public void onClick(View v) {
                 Constants.hideKeyBoard(v, mContex.getActivity());
-                DateTimePicker.policyExpDatePicker(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.scanVehicleExpDatePicker(v.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -94,7 +111,7 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
     }
 
 
-    private void GenerateLead(String expDate, VehicleMobileResponse.CustomerDetailsEntity vehicleInfo) {
+    private void GenerateLead(String expDate, String name, String mobile, VehicleMobileResponse.CustomerDetailsEntity vehicleInfo) {
 
         GenerateLeadRequestEntity entity = new GenerateLeadRequestEntity();
 
@@ -105,8 +122,8 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         entity.setExpiryDate(expDate);
         entity.setInsuranceID(vehicleInfo.getInsuranceID());
         entity.setInsuranceName(vehicleInfo.getInsuranceName());
-        entity.setMobileNo(vehicleInfo.getMobileNo());
-        entity.setName(vehicleInfo.getName());
+        entity.setMobileNo(mobile);
+        entity.setName(name);
         entity.setPincode(vehicleInfo.getPincode());
         entity.setPolicyNumber(vehicleInfo.getPolicyNumber());
         entity.setPremium(vehicleInfo.getPremium());
@@ -173,7 +190,7 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         TextView txtCategory, txtDOB, txtClaimStatus, txtEmail, txtInsuranceName,
                 txtMobileNo, txtName, txtPincode, txtPolicyNumber, txtPremium, txtVehicleRegNumber;
 
-        EditText etExpiryDate;
+        EditText etExpiryDate, etName, etMobileNo;
 
         Button btnGenerateLead;
 
@@ -185,6 +202,8 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
             txtClaimStatus = itemView.findViewById(R.id.txtClaimStatus);
             txtEmail = itemView.findViewById(R.id.txtEmail);
             etExpiryDate = itemView.findViewById(R.id.etExpiryDate);
+            etName = itemView.findViewById(R.id.etName);
+            etMobileNo = itemView.findViewById(R.id.etMobileNo);
             txtInsuranceName = itemView.findViewById(R.id.txtInsuranceName);
             txtMobileNo = itemView.findViewById(R.id.txtMobileNo);
             txtName = itemView.findViewById(R.id.txtName);
