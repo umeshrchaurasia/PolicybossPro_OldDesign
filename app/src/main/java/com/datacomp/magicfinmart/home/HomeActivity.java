@@ -122,7 +122,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID,txtknwyour;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -422,9 +422,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         // startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
                         startActivity(new Intent(HomeActivity.this, VehicleScanActivity.class));
                         break;
-                    case  R.id.nav_MessageCentre:
+                    case R.id.nav_MessageCentre:
                         MessageCenter();
-                     //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
+                        //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
                         break;
 
                     default:
@@ -469,19 +469,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-
-
     private void MessageCenter() {
 
-   String     POSPNO=""+userConstantEntity.getPospsendid();
-   String     msgurl=""+userConstantEntity.getMessagesender();
+        String POSPNO = "" + userConstantEntity.getPospsendid();
+        String msgurl = "" + userConstantEntity.getMessagesender();
         //   empCode="232";
-        if(POSPNO.equals("5"))
-        {
+        if (POSPNO.equals("5")) {
             startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
 
 
-        }else {
+        } else {
 
             String ipaddress = "0.0.0.0";
             try {
@@ -503,9 +500,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             //  new PendingController(this).gettransactionhistory(empCode, "1", this);
         }
     }
-
-
-
 
 
     private void showMArketingPopup() {
@@ -600,7 +594,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
-        txtknwyour= (TextView) headerView.findViewById(R.id.txtknwyour);
+        txtknwyour = (TextView) headerView.findViewById(R.id.txtknwyour);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
         txtReferalCode = (TextView) headerView.findViewById(R.id.txtReferalCode);
         txtFbaID = (TextView) headerView.findViewById(R.id.txtFbaID);
@@ -650,7 +644,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
             txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
             Glide.with(HomeActivity.this)
-                    .load(Uri.parse(userConstantEntity.getLoansendphoto()))
+                    .load(userConstantEntity.getLoansendphoto())
                     .placeholder(R.drawable.circle_placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
