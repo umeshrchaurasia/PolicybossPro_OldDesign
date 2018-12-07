@@ -60,9 +60,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 
-/**
- * Created by Rohit on 12/12/15.
- */
+
 public class BaseActivity extends AppCompatActivity {
 
     public Realm realm;
@@ -850,18 +848,21 @@ public class BaseActivity extends AppCompatActivity {
             //shareQuote();
             startActivity(new Intent(BaseActivity.this, IncomePotentialActivity.class));
         }
+
         @JavascriptInterface
         public void incomeCalculator() {
             //Get the string value to process
             //shareQuote();
             startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
         }
+
         @JavascriptInterface
         public void processComplete() {
             //Get the string value to process
             //shareQuote();
         }
     }
+
     private void settingWebview(WebView webView, String url) {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);

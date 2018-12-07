@@ -428,6 +428,9 @@ public class DateTimePicker {
 
     public static void policyExpValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
+        //set one day before expiry date.
+        calendar.add(Calendar.DATE, -1);
+
         DatePickerDialog dialog;
         if (date.getMonth() <= calendar.get(Calendar.MONTH))
             dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
@@ -438,6 +441,7 @@ public class DateTimePicker {
 
         calendar.add(Calendar.MONTH, 2);
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        dialog.getDatePicker().updateDate(Calendar.YEAR, Calendar.MONTH, Calendar.DAY_OF_MONTH - 1);
 
         dialog.show();
     }
