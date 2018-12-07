@@ -68,7 +68,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     UploadDocumentsAdapter uploadDocumentsAdapter;
     RecyclerView rvDocUpload;
     int reqId = 0;
-    int uplod_Type=0;
+    int uplod_Type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,17 +162,18 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
     private void setDocumentUpload(String urlPath) {
 
-       if(requiredDocEntity != null)
-       {
-           requiredDocEntity.setUploaded(true);
-           uploadDocumentsAdapter.updateList(requiredDocEntity);
-       }
+        if (requiredDocEntity != null) {
+            requiredDocEntity.setUploaded(true);
+            uploadDocumentsAdapter.updateList(requiredDocEntity);
+        }
 
     }
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof OfflineInputResponse) {
-            cancelDialog();
+
             if (response.getStatusNo() == 0) {
                 offlineInputEntities = ((OfflineInputResponse) response).getMasterData().getQuotematerail();
                 requiredDocEntities = ((OfflineInputResponse) response).getMasterData().getQuotedoc();
@@ -180,7 +181,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
             }
         } else if (response instanceof CreateQuoteResponse) {
-            cancelDialog();
+
             if (response.getStatusNo() == 0) {
 
                 OfflineInputEntity offlineInputEntity = (OfflineInputEntity) spProdTYpe.getSelectedItem();
@@ -196,9 +197,6 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
             }
         } else if (response instanceof DocumentResponse) {
             if (response.getStatusNo() == 0) {
-
-                // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-                cancelDialog();
                 setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
             }
         }
@@ -215,6 +213,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         switch (view.getId()) {
             case R.id.btnGetQuote:
                 if (validInput()) {
+                    showDialog();
                     getQuote();
                 }
                 break;

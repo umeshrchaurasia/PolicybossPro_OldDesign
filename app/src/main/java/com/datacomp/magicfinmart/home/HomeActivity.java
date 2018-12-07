@@ -1134,17 +1134,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onResume() {
         super.onResume();
 
-        if (prefManager.getMps() == null) {
-            //new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-        }
-
-        // set first fragement selected.
-        //selectHome();
-
         // will be upadte everytyime user comes on dashboard
         if (loginResponseEntity != null) {
-            new MasterController(this).geUserConstant(1, this);
             new MasterController(this).getConstants(this);
+            new MasterController(this).geUserConstant(1, this);
+
         }
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
