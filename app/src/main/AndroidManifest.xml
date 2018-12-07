@@ -1004,6 +1004,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5798feb479107f972a6f8241c4f861c7340d95e9" />
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart;
 
 import android.support.multidex.MultiDexApplication;
 
+import com.crashlytics.android.Crashlytics;
 import com.datacomp.magicfinmart.analytics.AnalyticsTrackers;
 import com.datacomp.magicfinmart.utility.RealmMigrationClass;
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -9,6 +10,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 
+import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -23,6 +25,7 @@ public class MyApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
 
         //region Realm Initialization
         Realm.init(this);
