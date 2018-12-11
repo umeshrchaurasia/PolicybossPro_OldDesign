@@ -22,6 +22,7 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+import com.datacomp.magicfinmart.ncd.NCDActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -227,10 +228,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         switch (productID) {
             case 1:
+                mContext.startActivity(new Intent(mContext, NCDActivity.class));
                 //car
-                mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
-                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
+                //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
+                //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
+                //MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
             case 10:
                 //bike
@@ -308,13 +310,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
             case 13:
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "http://www.rupeeboss.com/gopaysense")
-                        .putExtra("NAME", "Cash Loan")
-                        .putExtra("TITLE", "Cash Loan"));
-                //mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
-                //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
-                //MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
+
+                Utility.loadWebViewUrlInBrowser(mContext,
+                        "http://www.rupeeboss.com/equifax-finmart?fbaid="
+                                + String.valueOf(mReal.getUserData().getFBAId()));
+
                 break;
 
 
@@ -341,6 +341,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
                 break;
+
             case 14:
                 Utility.loadWebViewUrlInBrowser(mContext,
                         "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");

@@ -23,9 +23,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Rohit on 17/01/16.
- */
+
 public class BaseFragment extends Fragment {
     PopUpListener popUpListener;
     ProgressDialog dialog;
