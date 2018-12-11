@@ -129,7 +129,17 @@ public class Utility {
         return body;
     }
 
+    public static HashMap<String, String> getNCDBody(Context context, String GUID, int DocTyp) {
+        HashMap<String, String> body = new HashMap<String, String>();
 
+
+        body.put("guid", String.valueOf(GUID));
+        body.put("DocType",String.valueOf(DocTyp));
+
+
+
+        return body;
+    }
     public static File createDirIfNotExists() {
         boolean ret = true;
 

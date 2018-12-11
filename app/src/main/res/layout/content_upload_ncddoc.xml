@@ -3,8 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_margin="8dp"
     android:orientation="vertical"
+
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.datacomp.magicfinmart.ncd.UploadNCDDocActivity"
     tools:showIn="@layout/activity_upload_ncddoc">
@@ -12,36 +15,40 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvName"
-            android:text="Customer Name"
-            />
-        <EditText
-            android:id="@+id/etNameOfApplicant"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Style.edittext" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="Customer Name">
+
+            <EditText
+                android:id="@+id/etCustomerName"
+                style="@style/Style.edittext" />
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvNo"
-            android:text="Reference No"
-            />
-        <EditText
-            android:id="@+id/etNo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Style.edittext" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="Reference Number">
+
+            <EditText
+                android:id="@+id/etRefNum"
+                style="@style/Style.edittext" />
+        </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -67,7 +74,7 @@
             android:id="@+id/tvDocName1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="FBA PHOTOGRAPH" />
+            android:text="Application Form" />
 
 
         <ImageView
@@ -121,7 +128,7 @@
             android:id="@+id/tvDocName2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="FBA PHOTOGRAPH" />
+            android:text="Other 1" />
 
 
         <ImageView
@@ -175,7 +182,7 @@
             android:id="@+id/tvDocName3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="FBA PHOTOGRAPH" />
+            android:text="Other 2" />
 
 
         <ImageView
@@ -229,7 +236,7 @@
             android:id="@+id/tvDocName4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="FBA PHOTOGRAPH" />
+            android:text="Other 3" />
 
 
         <ImageView
@@ -255,8 +262,10 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.8dp"
         android:layout_below="@+id/test"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:background="?attr/colorPrimary" />
     <Button
         android:id="@+id/btnSave"

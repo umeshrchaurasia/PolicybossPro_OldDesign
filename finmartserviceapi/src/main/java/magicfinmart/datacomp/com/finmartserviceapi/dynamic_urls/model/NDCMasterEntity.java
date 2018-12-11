@@ -23,9 +23,31 @@ public  class NDCMasterEntity implements Parcelable {
         private String insurancecompanyname;
         private String bannerimage;
         private String guid;
-        private List<DocumentBean> document;
+        private List<DocumentNCDEntity> document;
 
-        public int getId() {
+    protected NDCMasterEntity(Parcel in) {
+        id = in.readInt();
+        camapignname = in.readString();
+        campaigndescription = in.readString();
+        insurancecompanyname = in.readString();
+        bannerimage = in.readString();
+        guid = in.readString();
+        document = in.createTypedArrayList(DocumentNCDEntity.CREATOR);
+    }
+
+    public static final Creator<NDCMasterEntity> CREATOR = new Creator<NDCMasterEntity>() {
+        @Override
+        public NDCMasterEntity createFromParcel(Parcel in) {
+            return new NDCMasterEntity(in);
+        }
+
+        @Override
+        public NDCMasterEntity[] newArray(int size) {
+            return new NDCMasterEntity[size];
+        }
+    };
+
+    public int getId() {
             return id;
         }
 
@@ -73,69 +95,19 @@ public  class NDCMasterEntity implements Parcelable {
             this.guid = guid;
         }
 
-        public List<DocumentBean> getDocument() {
+        public List<DocumentNCDEntity> getDocument() {
             return document;
         }
 
-        public void setDocument(List<DocumentBean> document) {
+        public void setDocument(List<DocumentNCDEntity> document) {
             this.document = document;
         }
 
-        public static class DocumentBean {
-            /**
-             * id : 2
-             * ncdcampaignid : 2
-             * documentpath : http://bo.mgfm.in/ncd//2/ncdedelweissbrokragestructure.pdf
-             * documentname : Brokerage Structure
-             * documenttype : pdf
-             */
 
-            private int id;
-            private int ncdcampaignid;
-            private String documentpath;
-            private String documentname;
-            private String documenttype;
 
-            public int getId() {
-                return id;
-            }
+    public NDCMasterEntity() {
+    }
 
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public int getNcdcampaignid() {
-                return ncdcampaignid;
-            }
-
-            public void setNcdcampaignid(int ncdcampaignid) {
-                this.ncdcampaignid = ncdcampaignid;
-            }
-
-            public String getDocumentpath() {
-                return documentpath;
-            }
-
-            public void setDocumentpath(String documentpath) {
-                this.documentpath = documentpath;
-            }
-
-            public String getDocumentname() {
-                return documentname;
-            }
-
-            public void setDocumentname(String documentname) {
-                this.documentname = documentname;
-            }
-
-            public String getDocumenttype() {
-                return documenttype;
-            }
-
-            public void setDocumenttype(String documenttype) {
-                this.documenttype = documenttype;
-            }
-        }
 
     @Override
     public int describeContents() {
@@ -144,38 +116,12 @@ public  class NDCMasterEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeString(this.camapignname);
-        dest.writeString(this.campaigndescription);
-        dest.writeString(this.insurancecompanyname);
-        dest.writeString(this.bannerimage);
-        dest.writeString(this.guid);
-        dest.writeList(this.document);
+        dest.writeInt(id);
+        dest.writeString(camapignname);
+        dest.writeString(campaigndescription);
+        dest.writeString(insurancecompanyname);
+        dest.writeString(bannerimage);
+        dest.writeString(guid);
+        dest.writeTypedList(document);
     }
-
-    public NDCMasterEntity() {
-    }
-
-    protected NDCMasterEntity(Parcel in) {
-        this.id = in.readInt();
-        this.camapignname = in.readString();
-        this.campaigndescription = in.readString();
-        this.insurancecompanyname = in.readString();
-        this.bannerimage = in.readString();
-        this.guid = in.readString();
-        this.document = new ArrayList<DocumentBean>();
-        in.readList(this.document, DocumentBean.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<NDCMasterEntity> CREATOR = new Parcelable.Creator<NDCMasterEntity>() {
-        @Override
-        public NDCMasterEntity createFromParcel(Parcel source) {
-            return new NDCMasterEntity(source);
-        }
-
-        @Override
-        public NDCMasterEntity[] newArray(int size) {
-            return new NDCMasterEntity[size];
-        }
-    };
 }
