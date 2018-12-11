@@ -159,6 +159,16 @@ public class UserConstantEntity extends RealmObject {
 
 
     private String crnmobileno;
+    private String insurancerepositorylink;
+
+
+    public String getInsurancerepositorylink() {
+        return insurancerepositorylink;
+    }
+
+    public void setInsurancerepositorylink(String insurancerepositorylink) {
+        this.insurancerepositorylink = insurancerepositorylink;
+    }
 
     public String getNotificationpopupurltype() {
         return notificationpopupurltype;

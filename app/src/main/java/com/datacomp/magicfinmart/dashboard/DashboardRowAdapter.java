@@ -228,11 +228,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         switch (productID) {
             case 1:
-                mContext.startActivity(new Intent(mContext, NCDActivity.class));
+
                 //car
-                //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
-                //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
-                //MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
+                mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
             case 10:
                 //bike
