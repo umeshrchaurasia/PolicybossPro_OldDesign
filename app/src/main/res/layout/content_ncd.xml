@@ -47,11 +47,29 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/btnUploadDocument"
-        style="@style/ButtonStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:text="Upload document" />
+        android:orientation="horizontal">
+
+
+        <Button
+            android:id="@+id/btnOpenDocuments"
+            style="@style/ButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:text="open documents" />
+
+        <Button
+            android:id="@+id/btnUploadDocument"
+            style="@style/ButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Upload document" />
+    </LinearLayout>
+
 </LinearLayout>
