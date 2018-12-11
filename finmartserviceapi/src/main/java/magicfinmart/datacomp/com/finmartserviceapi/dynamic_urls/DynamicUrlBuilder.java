@@ -1,8 +1,10 @@
 package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
 
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -36,5 +38,9 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         @Headers("token:" + token)
         @POST
         Call<NCDResponse> getNCD(@Url String strUrl);
+
+        @Headers("token:" + token)
+        @POST
+        Call<UploadNCDResponse> uploadNCD(@Url String s, @Body UploadNCDRequestEntity entity);
     }
 }

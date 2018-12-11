@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
 
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 
 /**
@@ -16,5 +17,6 @@ public interface IDynamic {
     void saveGenerateLead(GenerateLeadRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
     void getNCD(IResponseSubcriber iResponseSubcriber);
-    // qa.mgfm.in/api/save-moter-lead-details
+
+    void uploadNCDDetails(UploadNCDRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 }
