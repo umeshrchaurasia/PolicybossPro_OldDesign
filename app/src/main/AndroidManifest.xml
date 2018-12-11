@@ -1011,6 +1011,7 @@
         <activity
             android:name=".ncd.NCDActivity"
             android:label="@string/title_activity_ncd"
+            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -1018,9 +1019,15 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".ncd.UploadNCDDocActivity"
             android:label="@string/title_activity_upload_ncddoc"
-            android:theme="@style/AppTheme"></activity>
+            android:parentActivityName=".ncd.NCDActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.ncd.NCDActivity" />
+        </activity>
     </application>
 
 </manifest>

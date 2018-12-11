@@ -1,5 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
 
+import java.util.HashMap;
+
 import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
@@ -44,7 +46,7 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
 
         @Headers("token:" + token)
         @POST
-        Call<NCDResponse> getNCD(@Url String strUrl);
+        Call<NCDResponse> getNCD(@Url String strUrl, @Body HashMap<String, String> body);
 
         @Headers("token:" + token)
         @POST

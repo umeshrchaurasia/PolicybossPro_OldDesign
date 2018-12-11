@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
@@ -41,7 +42,10 @@ public class DynamicController implements IDynamic {
     public void getNCD(final IResponseSubcriber iResponseSubcriber) {
         String url = BuildConfig.FINMART_URL + "/api/get-ncd-product";
 
-        genericUrlNetworkService.getNCD(url).enqueue(new Callback<NCDResponse>() {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", "" + new DBPersistanceController(mContext).getUserData().getFBAId());
+
+        genericUrlNetworkService.getNCD(url, body).enqueue(new Callback<NCDResponse>() {
             @Override
             public void onResponse(Call<NCDResponse> call, Response<NCDResponse> response) {
                 if (response.body() != null) {
