@@ -606,4 +606,5 @@ At Magic Finmart it is our constant endeavour to enable your business and we bel
 We presume that this feature will be used only for contacts where the customer has a relationship and will not be used to generate data from our database. Any unfair use will also lead to disabling of the feature.
             </li></ul>
     </string>
+    <string name="title_activity_ncd">NCD</string>
 </resources>

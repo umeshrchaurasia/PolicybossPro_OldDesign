@@ -1,4 +1,4 @@
-package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
+package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity;
 
 /**
  * Created by Nilesh Birhade on 30-10-2018.

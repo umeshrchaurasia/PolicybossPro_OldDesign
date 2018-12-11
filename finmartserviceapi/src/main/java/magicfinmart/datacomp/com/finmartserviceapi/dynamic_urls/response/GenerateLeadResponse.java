@@ -1,4 +1,4 @@
-package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
+package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 
