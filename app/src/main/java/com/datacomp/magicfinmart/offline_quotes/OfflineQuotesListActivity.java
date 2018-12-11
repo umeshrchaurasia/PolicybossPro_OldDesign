@@ -28,7 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInput
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
 
 public class OfflineQuotesListActivity extends BaseActivity implements IResponseSubcriber {
-
+    public static final String OFFLINE_FROM = "offline_from_list";
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     RecyclerView rvOffline;
@@ -78,9 +78,15 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
       //  Toast.makeText(this,""+strName,Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, CommonWebViewActivity.class)
                 .putExtra("URL", docuEntity.getDocument_path())
-                .putExtra("NAME", "" + docuEntity.getDocument_name())
+                .putExtra("NAME", "OfflineQuotes")
                 .putExtra("TITLE", "" +docuEntity.getDocument_name()));
 
+    }
+    public void redirectToEdit(OfflineQuoteEntity quoteEntity )
+    {
+        Intent intent  = new Intent(this,AddOfflineQuotesActivity.class);
+        intent.putExtra(OFFLINE_FROM,quoteEntity);
+        startActivity(intent);
     }
 
     @Override

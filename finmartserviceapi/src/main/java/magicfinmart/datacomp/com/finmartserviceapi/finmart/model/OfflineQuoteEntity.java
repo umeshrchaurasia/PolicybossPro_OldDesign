@@ -1,8 +1,11 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public  class OfflineQuoteEntity {
+public  class OfflineQuoteEntity implements Parcelable {
 
 
     /**
@@ -39,7 +42,10 @@ public  class OfflineQuoteEntity {
     private String Amount;
     private String Converted_date;
     private String Created_date;
+
+    private String editable;
     private List<DocumentsOfflineEntity> Documents;
+
 
     public String getId() {
         return id;
@@ -121,6 +127,15 @@ public  class OfflineQuoteEntity {
         this.Created_date = Created_date;
     }
 
+    public String getEditable() {
+        return editable;
+    }
+
+    public void setEditable(String editable) {
+        this.editable = editable;
+    }
+
+
     public List<DocumentsOfflineEntity> getDocuments() {
         return Documents;
     }
@@ -130,4 +145,52 @@ public  class OfflineQuoteEntity {
     }
 
 
+    public OfflineQuoteEntity() {
+    }
+
+    protected OfflineQuoteEntity(Parcel in) {
+        id = in.readString();
+        FBAID = in.readString();
+        product_name = in.readString();
+        Quote_description = in.readString();
+        Status = in.readString();
+        Quote_status = in.readString();
+        Comment = in.readString();
+        Amount = in.readString();
+        Converted_date = in.readString();
+        Created_date = in.readString();
+        editable = in.readString();
+    }
+
+    public static final Creator<OfflineQuoteEntity> CREATOR = new Creator<OfflineQuoteEntity>() {
+        @Override
+        public OfflineQuoteEntity createFromParcel(Parcel in) {
+            return new OfflineQuoteEntity(in);
+        }
+
+        @Override
+        public OfflineQuoteEntity[] newArray(int size) {
+            return new OfflineQuoteEntity[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(FBAID);
+        dest.writeString(product_name);
+        dest.writeString(Quote_description);
+        dest.writeString(Status);
+        dest.writeString(Quote_status);
+        dest.writeString(Comment);
+        dest.writeString(Amount);
+        dest.writeString(Converted_date);
+        dest.writeString(Created_date);
+        dest.writeString(editable);
+    }
 }

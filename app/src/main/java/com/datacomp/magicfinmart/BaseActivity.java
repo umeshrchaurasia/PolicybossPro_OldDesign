@@ -861,6 +861,24 @@ public class BaseActivity extends AppCompatActivity {
             //Get the string value to process
             //shareQuote();
         }
+
+        @JavascriptInterface
+        public void callPDF(String url)
+        {
+            startActivity(new Intent(BaseActivity.this, BaseActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "LIC Business")
+                    .putExtra("TITLE", "LIC Business"));
+        }
+        @JavascriptInterface
+        public void callPDFCREDIT(String url)
+        {
+            startActivity(new Intent(BaseActivity.this, BaseActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "FREE CREDIT REPORT")
+                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
+        }
+
     }
 
     private void settingWebview(WebView webView, String url) {
