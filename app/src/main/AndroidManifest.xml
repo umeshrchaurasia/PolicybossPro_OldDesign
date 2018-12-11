@@ -1017,6 +1017,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".ncd.UploadNCDDocActivity"
+            android:label="@string/title_activity_upload_ncddoc"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

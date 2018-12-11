@@ -607,4 +607,5 @@ We presume that this feature will be used only for contacts where the customer h
             </li></ul>
     </string>
     <string name="title_activity_ncd">NCD</string>
+    <string name="title_activity_upload_ncddoc">Upload Document</string>
 </resources>

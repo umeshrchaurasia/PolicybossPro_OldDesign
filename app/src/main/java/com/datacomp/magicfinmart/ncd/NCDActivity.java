@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.ncd;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -72,8 +73,9 @@ public class NCDActivity extends BaseActivity implements IResponseSubcriber, Vie
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnUploadDocument) {
-            //TODO : Redirect to next activity;
-
+            Intent intent = new Intent(this, UploadNCDDocActivity.class);
+            intent.putExtra("UPLOAD_NCD", ndcMasterEntity);
+            startActivity(intent);
         }
     }
 
@@ -133,12 +135,5 @@ public class NCDActivity extends BaseActivity implements IResponseSubcriber, Vie
 
     }
 
-
-    private Bundle getUploadBundle() {
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("UPLOAD_NCD", ndcMasterEntity);
-        return bundle;
-    }
 
 }
