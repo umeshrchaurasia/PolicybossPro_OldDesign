@@ -53,23 +53,26 @@
         android:layout_weight="10"
         android:orientation="horizontal">
 
-
-        <Button
-            android:id="@+id/btnOpenDocuments"
-            style="@style/ButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
-            android:layout_weight="1"
-            android:text="open documents" />
-
         <Button
             android:id="@+id/btnUploadDocument"
             style="@style/ButtonStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:textSize="14sp"
             android:text="Upload document" />
+
+        <Button
+            android:id="@+id/btnOpenDocuments"
+            style="@style/ButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:text="View documents" />
+
+
     </LinearLayout>
 
 </LinearLayout>
