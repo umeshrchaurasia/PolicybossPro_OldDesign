@@ -2,16 +2,23 @@ package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
 
 import java.util.HashMap;
 
+import java.util.Map;
+
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Url;
 
 /**
@@ -44,5 +51,13 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         @Headers("token:" + token)
         @POST
         Call<UploadNCDResponse> uploadNCD(@Url String s, @Body UploadNCDRequestEntity entity);
+
+
+
+        @Headers("token:" + token)
+        @Multipart
+        @POST
+        Call<DocumentResponse> uploadNCD_Document(@Url String s,@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
+
     }
 }

@@ -77,6 +77,8 @@ public class Utility {
 
     public static String USER_DASHBOARD = "user_dashboard";
 
+    public static int OFFLINE_REQUEST_CODE = 10;
+
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);
@@ -129,7 +131,17 @@ public class Utility {
         return body;
     }
 
+    public static HashMap<String, String> getNCDBody(Context context, String GUID, int DocTyp) {
+        HashMap<String, String> body = new HashMap<String, String>();
 
+
+        body.put("guid", String.valueOf(GUID));
+        body.put("DocType",String.valueOf(DocTyp));
+
+
+
+        return body;
+    }
     public static File createDirIfNotExists() {
         boolean ret = true;
 

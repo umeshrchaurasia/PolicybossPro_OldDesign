@@ -186,7 +186,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     private void setDocumentUpload(String urlPath) {
 
         if (requiredDocEntity != null) {
-            requiredDocEntity.setUploaded(true);
+            requiredDocEntity.setIsUploaded(1);
             uploadDocumentsAdapter.updateList(requiredDocEntity);
         }
 
