@@ -60,6 +60,7 @@ public class Constants {
     public static String WHATSNEW = "WHATS NEW";
     public static String LOGOUT = "LOGOUT";
     //endregion
+    public static String CAMPAIGN = "CAMPAIGN";
 
     public static String PRIVATE_CAR = "MOTOR INSURANCE";
     public static String PRIVATE_CAR_REQUEST= "MOTOR  REQUEST";

@@ -993,7 +993,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
         <activity
             android:name=".messagecenter.messagecenteractivity"
             android:label="@string/title_activity_messagecenteractivity"
@@ -1003,6 +1002,31 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="5798feb479107f972a6f8241c4f861c7340d95e9" />
+
+        <activity
+            android:name=".ncd.NCDActivity"
+            android:label="@string/title_activity_ncd"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".ncd.UploadNCDDocActivity"
+            android:label="@string/title_activity_upload_ncddoc"
+            android:parentActivityName=".ncd.NCDActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.ncd.NCDActivity" />
         </activity>
     </application>
 

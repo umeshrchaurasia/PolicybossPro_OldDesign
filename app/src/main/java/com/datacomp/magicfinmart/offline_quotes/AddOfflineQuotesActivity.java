@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -45,6 +46,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputEntity;
@@ -68,7 +70,10 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     UploadDocumentsAdapter uploadDocumentsAdapter;
     RecyclerView rvDocUpload;
     int reqId = 0;
-    int uplod_Type=0;
+    int uplod_Type = 0;
+
+    OfflineQuoteEntity quoteEntity;
+    TextView txtProdTYpe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +83,24 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init_widgets();
-
         setAdapterListener();
         hideInput(false);
+        if(getIntent().getParcelableExtra(OfflineQuotesListActivity.OFFLINE_FROM) !=null)
+        {
+            quoteEntity= getIntent().getParcelableExtra(OfflineQuotesListActivity.OFFLINE_FROM);
+            spProdTYpe.setVisibility(GONE);
+            txtProdTYpe.setVisibility(VISIBLE);
+            btnGetQuote.setText("UPDATE QUOTE");
+            etAllInput.setText(quoteEntity.getQuote_description());
+            txtProdTYpe.setText(quoteEntity.getProduct_name());
+
+
+        }else {
+            spProdTYpe.setVisibility(VISIBLE);
+            txtProdTYpe.setVisibility(GONE);
+            btnGetQuote.setText("CREATE QUOTE");
+
+        }
         showDialog();
         new OfflineQuotesController(this).getOfflineInput(this);
     }
@@ -121,6 +141,9 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         btnHome.setOnClickListener(this);
         spProdTYpe = findViewById(R.id.spProdTYpe);
         etAllInput = findViewById(R.id.etAllInput);
+
+        txtProdTYpe=findViewById(R.id.txtProdType);
+
         llDocumentUpload = findViewById(R.id.llDocumentUpload);
         llInput = findViewById(R.id.llInput);
         rvDocUpload = findViewById(R.id.rvDocUpload);
@@ -162,17 +185,18 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
     private void setDocumentUpload(String urlPath) {
 
-       if(requiredDocEntity != null)
-       {
-           requiredDocEntity.setUploaded(true);
-           uploadDocumentsAdapter.updateList(requiredDocEntity);
-       }
+        if (requiredDocEntity != null) {
+            requiredDocEntity.setUploaded(true);
+            uploadDocumentsAdapter.updateList(requiredDocEntity);
+        }
 
     }
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof OfflineInputResponse) {
-            cancelDialog();
+
             if (response.getStatusNo() == 0) {
                 offlineInputEntities = ((OfflineInputResponse) response).getMasterData().getQuotematerail();
                 requiredDocEntities = ((OfflineInputResponse) response).getMasterData().getQuotedoc();
@@ -180,7 +204,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
             }
         } else if (response instanceof CreateQuoteResponse) {
-            cancelDialog();
+
             if (response.getStatusNo() == 0) {
 
                 OfflineInputEntity offlineInputEntity = (OfflineInputEntity) spProdTYpe.getSelectedItem();
@@ -196,9 +220,6 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
             }
         } else if (response instanceof DocumentResponse) {
             if (response.getStatusNo() == 0) {
-
-                // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-                cancelDialog();
                 setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
             }
         }
@@ -215,6 +236,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         switch (view.getId()) {
             case R.id.btnGetQuote:
                 if (validInput()) {
+                    showDialog();
                     getQuote();
                 }
                 break;
@@ -260,8 +282,18 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
     private void getQuote() {
         showDialog();
-        new OfflineQuotesController(this).createQuote(spProdTYpe.getSelectedItem().toString(),
-                etAllInput.getText().toString(), this);
+        if(getIntent().getParcelableExtra(OfflineQuotesListActivity.OFFLINE_FROM) !=null)
+        {
+
+            new OfflineQuotesController(this).createQuote(quoteEntity.getProduct_name().toString(),
+                    etAllInput.getText().toString(),quoteEntity.getId(), this);
+        }else
+        {
+
+            new OfflineQuotesController(this).createQuote(spProdTYpe.getSelectedItem().toString(),
+                    etAllInput.getText().toString(),"0", this);
+        }
+
     }
 
 

@@ -73,10 +73,10 @@ public class OfflineQuotesController implements IOfflineQuote {
     }
 
     @Override
-    public void createQuote(String ProductName, String ProductDiscription, final IResponseSubcriber iResponseSubcriber) {
+    public void createQuote(String ProductName, String ProductDiscription,String id, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-
+        body.put("id",id);
         body.put("FBAID", "" + loginResponseEntity.getFBAId());
         body.put("ProductName", ProductName);
         body.put("ProductDiscription", ProductDiscription);

@@ -7,8 +7,15 @@ import com.google.gson.Gson;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import retrofit2.Call;
@@ -27,6 +34,73 @@ public class DynamicController implements IDynamic {
     public DynamicController(Context context) {
         genericUrlNetworkService = new DynamicUrlBuilder().getService();
         mContext = context;
+    }
+
+    @Override
+    public void getNCD(final IResponseSubcriber iResponseSubcriber) {
+        String url = BuildConfig.FINMART_URL + "/api/get-ncd-product";
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", "" + new DBPersistanceController(mContext).getUserData().getFBAId());
+
+        genericUrlNetworkService.getNCD(url, body).enqueue(new Callback<NCDResponse>() {
+            @Override
+            public void onResponse(Call<NCDResponse> call, Response<NCDResponse> response) {
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NCDResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void uploadNCDDetails(UploadNCDRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+        String url = BuildConfig.FINMART_URL + "/api/insert-ncd-details";
+
+        genericUrlNetworkService.uploadNCD(url, entity).enqueue(new Callback<UploadNCDResponse>() {
+            @Override
+            public void onResponse(Call<UploadNCDResponse> call, Response<UploadNCDResponse> response) {
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unable to upload"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UploadNCDResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
     }
 
     @Override

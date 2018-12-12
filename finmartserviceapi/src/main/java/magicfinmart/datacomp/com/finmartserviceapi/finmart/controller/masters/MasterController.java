@@ -320,28 +320,32 @@ public class MasterController implements IMasterFetch {
                             getCarMaster(null);
                             getBikeMaster(null);
                         }
-
-                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                    if (iResponseSubcriber != null)
+                        iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }
             }
 
             @Override
             public void onFailure(Call<ConstantsResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
                 }
             }
         });

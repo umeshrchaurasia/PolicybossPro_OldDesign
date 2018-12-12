@@ -589,8 +589,9 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Transfer existing loans at lower interest rate . And help customers to save more on existing loans.", R.drawable.balance_transfer));
-        // dashboardEntities.add(new DashboardEntity("LOANS", 13, "CASH LOAN", "Loan disbursed in just few hours!!!", R.drawable.paysense_ic));
+        dashboardEntities.add(new DashboardEntity("LOANS", 13, "FREE CREDIT REPORT", "Get your Credit report with score at no cost.", R.drawable.free_credit_report));
         dashboardEntities.add(new DashboardEntity("LOANS", 14, "LOAN ON MESSENGER", "Enjoy chatting with your BOT friend & provide Instant loan sanction to your customer for Personal loan, Home Loan, Business Loan, Car loan, LAP, Gold loan,etc.", R.drawable.yesbank_chat_ic));
+
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "LEAD SUBMISSION - OTHER LOANS", "Submit leads for products like Car loan, Business loan, Working Capital, Term Loan, LRD,etc.", R.drawable.quick_lead));
 
         if (prefManager.getMenuDashBoard() != null) {
@@ -613,6 +614,9 @@ public class DBPersistanceController {
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
+        if (new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
+            dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15, "OTHER INVESTMENT Products", " NCDs (Secured/unsecured Debentures)", R.drawable.fin_peace));
+        }
         dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
         dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
 

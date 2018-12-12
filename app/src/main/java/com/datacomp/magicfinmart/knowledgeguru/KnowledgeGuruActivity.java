@@ -12,6 +12,8 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+
 public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickListener {
 
     CardView loan, insurance, other;
@@ -42,7 +44,7 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.loan:
                 startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
                         .putExtra("URL", "http://erp.rupeeboss.com/loansrepository/Loans-repository.html")
@@ -50,10 +52,18 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
                         .putExtra("TITLE", "LOAN REPOSITORY"));
                 break;
             case R.id.insurance:
-                startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
-                        .putExtra("URL", "http://www.policyboss.com/repository/page.html")
-                        .putExtra("NAME", "INSURANCE REPOSITORY")
-                        .putExtra("TITLE", "INSURANCE REPOSITORY"));
+                if (new DBPersistanceController(this).getUserConstantsData().getInsurancerepositorylink() == null) {
+                    startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
+                            .putExtra("URL", "http://www.policyboss.com/repository/page.html")
+                            .putExtra("NAME", "INSURANCE REPOSITORY")
+                            .putExtra("TITLE", "INSURANCE REPOSITORY"));
+                } else {
+
+                    startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
+                            .putExtra("URL", new DBPersistanceController(this).getUserConstantsData().getInsurancerepositorylink())
+                            .putExtra("NAME", "INSURANCE REPOSITORY")
+                            .putExtra("TITLE", "INSURANCE REPOSITORY"));
+                }
                 break;
             case R.id.other:
                 startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)

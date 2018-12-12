@@ -13,7 +13,7 @@ public interface IOfflineQuote {
 
     void getOfflineInput(IResponseSubcriber iResponseSubcriber);
 
-    void createQuote(String ProductName, String ProductDiscription, IResponseSubcriber iResponseSubcriber);
+    void createQuote(String ProductName, String ProductDiscription,String id, IResponseSubcriber iResponseSubcriber);
 
     void uploadDocuments(MultipartBody.Part document, HashMap<String, String> body,  IResponseSubcriber iResponseSubcriber);
 

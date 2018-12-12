@@ -36,8 +36,8 @@ public class CommonWebViewActivity extends BaseActivity {
 
     WebView webView;
     String url;
-    String name;
-    String title;
+     String name;
+      String title;
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
 
@@ -56,7 +56,7 @@ public class CommonWebViewActivity extends BaseActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
-                || name.equals("FRANCHISE_AGREEMENT")) {
+                || name.equals("LOAN_AGREEMENT")) {
             // fab.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
         } else {
@@ -276,6 +276,17 @@ public class CommonWebViewActivity extends BaseActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        }
+        @JavascriptInterface
+        public void callPDFCREDIT(String u)
+        {
+
+            webView.loadUrl("http://www.google.com");
+
+//            startActivity(new Intent(CommonWebViewActivity.this, CommonWebViewActivity.class)
+//                    .putExtra("URL", url)
+//                    .putExtra("NAME", "FREE CREDIT REPORT")
+//                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
         }
     }
 
