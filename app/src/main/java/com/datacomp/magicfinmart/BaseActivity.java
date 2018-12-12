@@ -42,6 +42,7 @@ import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -865,7 +866,7 @@ public class BaseActivity extends AppCompatActivity {
         @JavascriptInterface
         public void callPDF(String url)
         {
-            startActivity(new Intent(BaseActivity.this, BaseActivity.class)
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
                     .putExtra("URL", url)
                     .putExtra("NAME", "LIC Business")
                     .putExtra("TITLE", "LIC Business"));
@@ -873,7 +874,7 @@ public class BaseActivity extends AppCompatActivity {
         @JavascriptInterface
         public void callPDFCREDIT(String url)
         {
-            startActivity(new Intent(BaseActivity.this, BaseActivity.class)
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
                     .putExtra("URL", url)
                     .putExtra("NAME", "FREE CREDIT REPORT")
                     .putExtra("TITLE", "LIC FREE CREDIT REPORT"));

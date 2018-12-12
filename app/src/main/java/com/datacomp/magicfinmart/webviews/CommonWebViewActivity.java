@@ -56,7 +56,7 @@ public class CommonWebViewActivity extends BaseActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
-                || name.equals("LOAN_AGREEMENT")) {
+                || name.equals("LOAN_AGREEMENT") || name.equals("LIC Business")) {
             // fab.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
         } else {
