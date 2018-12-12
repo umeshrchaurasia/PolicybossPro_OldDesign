@@ -23,5 +23,6 @@ public interface IDynamic {
 
     void uploadNCDDetails(UploadNCDRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
+
     void uploadNCDDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber);
 }

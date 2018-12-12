@@ -52,10 +52,12 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         @POST
         Call<UploadNCDResponse> uploadNCD(@Url String s, @Body UploadNCDRequestEntity entity);
 
+
+
         @Headers("token:" + token)
         @Multipart
         @POST
-        Call<DocumentResponse> uploadNCD_Document(@Url String s, @PartMap() Map<String, String> partMap);
+        Call<DocumentResponse> uploadNCD_Document(@Url String s,@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
 
     }
 }

@@ -46,11 +46,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.NDCMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 import okhttp3.MultipartBody;
 
 public class UploadNCDDocActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
@@ -61,6 +64,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     NDCMasterEntity mNCDEntity;
+    String GUID = "";
     EditText etRefNum  , etCustomerName ;
     int type;
     File file;
@@ -83,6 +87,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     LoginResponseEntity loginResponseEntity;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
 
+    boolean isUploaded  = false ;
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -108,7 +113,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
         if (getIntent().getParcelableExtra("UPLOAD_NCD") != null) {
             mNCDEntity = getIntent().getParcelableExtra("UPLOAD_NCD");
-
+            GUID = mNCDEntity.getGuid();
 
         }
     }
@@ -143,6 +148,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setDocumentUpload(String URL) {
+        isUploaded = true;
         if (type == 1) {
             ivPhoto1.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 2) {
@@ -153,7 +159,11 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         } else if (type == 4) {
             ivPhoto4.setImageResource(R.drawable.doc_uploaded);
         }
+
     }
+
+
+
     @Override
     public void onClick(View view) {
         Constants.hideKeyBoard(view, this);
@@ -181,6 +191,31 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
             case R.id.btnSave:
 
+                if (!isEmpty(etCustomerName)) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("Enter Customer Name");
+                    return ;
+                }
+
+               else if (!isEmpty(etRefNum)) {
+                    etRefNum.requestFocus();
+                    etRefNum.setError("Enter Referene Number");
+                    return ;
+                }else if(!isUploaded)
+                {
+                    Toast.makeText(this,"Please Upload atleast One",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                UploadNCDRequestEntity requestEntity = new UploadNCDRequestEntity();
+                requestEntity.setCustomername(etCustomerName.getText().toString());
+                requestEntity.setReferenceno(etRefNum.getText().toString());
+                requestEntity.setGuid(GUID);
+                requestEntity.setFbaid(""+loginEntity.getFBAId());
+
+                showDialog();
+                new DynamicController(this).uploadNCDDetails(requestEntity ,this);
+
                 break;
 
 
@@ -200,6 +235,16 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
 
             }
+        }else if(response instanceof UploadNCDResponse)
+        {
+            if (response.getStatusNo() == 0) {
+
+                Toast.makeText(this,((UploadNCDResponse) response).getMessage(),Toast.LENGTH_LONG).show();
+
+                this.finish();
+
+
+            }
         }
     }
 
@@ -215,24 +260,28 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
     private void galleryCamPopUp() {
 
-        if (!checkPermission()) {
+        if(! GUID.equalsIgnoreCase("")) {
+            if (!checkPermission()) {
 
-            if (checkRationalePermission()) {
-                //Show Information about why you need the permission
-                requestPermission();
+                if (checkRationalePermission()) {
+                    //Show Information about why you need the permission
+                    requestPermission();
 
+                } else {
+                    //Previously Permission Request was cancelled with 'Dont Ask Again',
+                    // Redirect to Settings after showing Information about why you need the permission
+
+                    //  permissionAlert(navigationView,"Need Call Permission","This app needs Call permission.");
+                    openPopUp(btnSave, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+
+                }
             } else {
-                //Previously Permission Request was cancelled with 'Dont Ask Again',
-                // Redirect to Settings after showing Information about why you need the permission
 
-                //  permissionAlert(navigationView,"Need Call Permission","This app needs Call permission.");
-                openPopUp(btnSave, "Need  Permission", "This app needs all permissions.", "GRANT", true);
-
-
+                showCamerGalleryPopUp();
             }
-        } else {
-
-            showCamerGalleryPopUp();
+        }else{
+            Toast.makeText(this,"Something went wrong",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -417,7 +466,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                     file = saveImageToStorage(mphoto, file1 );
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), APPLICATION);
+                    body = Utility.getNCDBody(this, GUID, APPLICATION);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
@@ -426,7 +475,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                     file = saveImageToStorage(mphoto, file2 );
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH1);
+                    body = Utility.getNCDBody(this, GUID, OTH1);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
@@ -436,7 +485,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                     file = saveImageToStorage(mphoto, file3 );
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH2);
+                    body = Utility.getNCDBody(this, GUID, OTH2);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
@@ -446,7 +495,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                     file = saveImageToStorage(mphoto, file4 );
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH3);
+                    body = Utility.getNCDBody(this, GUID, OTH3);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
@@ -468,7 +517,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                         file = saveImageToStorage(mphoto, file1 );
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), APPLICATION);
+                        body = Utility.getNCDBody(this, GUID, APPLICATION);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;
@@ -477,7 +526,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                         file = saveImageToStorage(mphoto, file2 );
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH1);
+                        body = Utility.getNCDBody(this, GUID, OTH1);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;
@@ -487,7 +536,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                         file = saveImageToStorage(mphoto, file3 );
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH2);
+                        body = Utility.getNCDBody(this,GUID, OTH2);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;
@@ -497,7 +546,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                         file = saveImageToStorage(mphoto, file4 );
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH3);
+                        body = Utility.getNCDBody(this,GUID, OTH3);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;

@@ -12,7 +12,15 @@ public class RequiredDocEntity {
     private int reqid;
 
 
-    private boolean isUploaded;
+    public int getIsUploaded() {
+        return isUploaded;
+    }
+
+    public void setIsUploaded(int isUploaded) {
+        this.isUploaded = isUploaded;
+    }
+
+    private int isUploaded;
 
     public int getId() {
         return id;
@@ -38,16 +46,7 @@ public class RequiredDocEntity {
         this.reqid = reqid;
     }
 
-    @Override
-    public String toString() {
-        return this.docname;
-    }
 
-    public boolean isUploaded() {
-        return isUploaded;
-    }
 
-    public void setUploaded(boolean uploaded) {
-        isUploaded = uploaded;
-    }
+
 }
