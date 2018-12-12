@@ -36,7 +36,7 @@ public class NCDActivity extends BaseActivity implements IResponseSubcriber, Vie
     TextView txtProduct;
     ImageView imgBanner;
     LinearLayout llListProduct;
-    Button btnUploadDocument;
+    Button btnUploadDocument, btnOpenDocuments;
     NDCMasterEntity ndcMasterEntity;
 
     @Override
@@ -68,7 +68,9 @@ public class NCDActivity extends BaseActivity implements IResponseSubcriber, Vie
         imgBanner = findViewById(R.id.imgBanner);
         llListProduct = findViewById(R.id.llListProduct);
         btnUploadDocument = findViewById(R.id.btnUploadDocument);
+        btnOpenDocuments = findViewById(R.id.btnOpenDocuments);
         btnUploadDocument.setOnClickListener(this);
+        btnOpenDocuments.setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +79,9 @@ public class NCDActivity extends BaseActivity implements IResponseSubcriber, Vie
             Intent intent = new Intent(this, UploadNCDDocActivity.class);
             intent.putExtra("UPLOAD_NCD", ndcMasterEntity);
             startActivity(intent);
+        } else if (v.getId() == R.id.btnOpenDocuments) {
+            Utility.loadWebViewUrlInBrowser(NCDActivity.this,
+                    ndcMasterEntity.getViewaddedncd());
         }
     }
 

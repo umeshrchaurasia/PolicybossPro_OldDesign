@@ -98,6 +98,8 @@ public class UserConstantEntity extends RealmObject {
     private String SuppEmail;
     private String LoginID;
     private String ManagName;
+
+
     /**
      * plbanner : http://api.magicfinmart.com/images/plbanner.gif
      * plactive : 1
@@ -137,6 +139,8 @@ public class UserConstantEntity extends RealmObject {
     private String healthurltemp;
 
     private String messagesender;
+
+    private String enablencd;
     /**
      * marketinghomeimageurl :
      * marketinghomebirthdayimageurl :
@@ -161,6 +165,14 @@ public class UserConstantEntity extends RealmObject {
     private String crnmobileno;
     private String insurancerepositorylink;
 
+
+    public String getEnablencd() {
+        return enablencd;
+    }
+
+    public void setEnablencd(String enablencd) {
+        this.enablencd = enablencd;
+    }
 
     public String getInsurancerepositorylink() {
         return insurancerepositorylink;

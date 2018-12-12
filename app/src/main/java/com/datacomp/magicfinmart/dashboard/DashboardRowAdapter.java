@@ -227,6 +227,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int productID = dashboardEntity.getProductId();
 
         switch (productID) {
+
+
             case 1:
 
                 //car
@@ -350,6 +352,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
                         .putExtra("NAME", "" + "Loan On Messenger")
                         .putExtra("TITLE", "" + "Loan On Messenger"));*/
+                break;
+
+            case 15: //ncd
+                //car
+                mContext.startActivity(new Intent(mContext, NCDActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
+                MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
+
                 break;
 
         }
