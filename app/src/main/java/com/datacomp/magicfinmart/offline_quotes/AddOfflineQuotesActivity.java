@@ -74,7 +74,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
     OfflineQuoteEntity quoteEntity;
     TextView txtProdTYpe;
-
+    List<RequiredDocEntity> li;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,11 +186,32 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     private void setDocumentUpload(String urlPath) {
 
         if (requiredDocEntity != null) {
-            requiredDocEntity.setIsUploaded(1);
+            requiredDocEntity.setUploaded(true);
             uploadDocumentsAdapter.updateList(requiredDocEntity);
         }
 
     }
+
+    private void checkDocUploade(List<CreateQuoteResponse.MasterDataBean.DocstatusBean> docstatus )
+    {
+
+        if(docstatus.size() >0)
+        {
+            for(int i =0; i < li.size() ; i++)
+            {
+                requiredDocEntity = li.get(i);
+                for(CreateQuoteResponse.MasterDataBean.DocstatusBean objDoc : docstatus)
+                {
+                      if(requiredDocEntity.getDocname().toUpperCase().trim().equalsIgnoreCase(objDoc.getDocument_name().toUpperCase().trim()))
+                      {
+                          requiredDocEntity.setUploaded(true);
+                          li.set(i,requiredDocEntity);
+                      }
+                }
+            }
+        }
+    }
+
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -208,11 +229,15 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
             if (response.getStatusNo() == 0) {
 
                 OfflineInputEntity offlineInputEntity = (OfflineInputEntity) spProdTYpe.getSelectedItem();
-                List<RequiredDocEntity> li = getRequiredDocEntities(offlineInputEntity.getId());
+                 li = getRequiredDocEntities(offlineInputEntity.getId());
+
+
+                reqId = ((CreateQuoteResponse) response).getMasterData().get(0).getReqid();
                 if (li != null && li.size() > 0) {
                     reqId = ((CreateQuoteResponse) response).getMasterData().get(0).getReqid();
                     hideInput(true);
-                    bindDocumentUpload(getRequiredDocEntities(offlineInputEntity.getId()));
+                    checkDocUploade(((CreateQuoteResponse) response).getMasterData().get(0).getDocstatus());
+                    bindDocumentUpload(li);
                 } else {
                     finish();
                 }
@@ -241,6 +266,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
                 }
                 break;
             case R.id.btnHome:
+                Toast.makeText(this,"Data Save Successfully...",Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("MarkTYPE", "FROM_HOME");
