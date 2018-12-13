@@ -70,7 +70,7 @@
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
             android:textSize="14sp"
-            android:text="View documents" />
+            android:text="My UPLOAD" />
 
 
     </LinearLayout>

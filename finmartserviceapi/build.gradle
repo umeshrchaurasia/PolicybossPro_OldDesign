@@ -13,14 +13,13 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 31
-        versionName "2.1.6"
+        versionCode 32
+        versionName "2.1.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
     buildTypes {
         release {
-            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
