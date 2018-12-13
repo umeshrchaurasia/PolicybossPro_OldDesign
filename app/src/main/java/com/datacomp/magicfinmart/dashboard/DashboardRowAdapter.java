@@ -264,10 +264,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             + "&device_id=" + Utility.getDeviceId(mContext);
                     healthUrl = healthUrl + append;
 
-                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                            .putExtra("URL", healthUrl)
-                            .putExtra("NAME", "Health Insurance")
-                            .putExtra("TITLE", "Health Insurance"));
+                    if (new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+                        Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
+                    } else {
+                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                .putExtra("URL", healthUrl)
+                                .putExtra("NAME", "Health Insurance")
+                                .putExtra("TITLE", "Health Insurance"));
+                    }
                 }
 
 

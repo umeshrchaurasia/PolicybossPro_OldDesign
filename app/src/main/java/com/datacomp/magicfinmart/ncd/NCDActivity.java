@@ -25,6 +25,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.DocumentNCDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.NDCMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -115,7 +116,7 @@ public class NCDActivity extends BaseActivity implements IResponseSubcriber, Vie
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    private void addDynamicProducts(List<NDCMasterEntity.DocumentBean> listDocuments) {
+    private void addDynamicProducts(List<DocumentNCDEntity> listDocuments) {
 
         llListProduct.removeAllViews();
         for (int i = 0; i < listDocuments.size(); i++) {
@@ -131,7 +132,7 @@ public class NCDActivity extends BaseActivity implements IResponseSubcriber, Vie
                 public void onClick(View v) {
 
                     if (v.getTag(R.id.txtspinneritem) != null)
-                        Utility.loadWebViewUrlInBrowser(NCDActivity.this, ((NDCMasterEntity.DocumentBean) v.getTag(R.id.txtspinneritem)).getDocumentpath());
+                        Utility.loadWebViewUrlInBrowser(NCDActivity.this, ((DocumentNCDEntity) v.getTag(R.id.txtspinneritem)).getDocumentpath());
                 }
             });
             llListProduct.addView(view, i);

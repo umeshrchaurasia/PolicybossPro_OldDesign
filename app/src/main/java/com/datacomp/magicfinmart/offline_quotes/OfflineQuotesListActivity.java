@@ -17,6 +17,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -56,9 +57,6 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
             }
         });
 
-        showDialog();
-        new OfflineQuotesController(this).getOfflineQuote(OfflineQuotesListActivity.this);
-
     }
 
     private void initialize() {
@@ -87,7 +85,10 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
         Intent intent  = new Intent(this,AddOfflineQuotesActivity.class);
         intent.putExtra(OFFLINE_FROM,quoteEntity);
         startActivity(intent);
+
     }
+
+
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -109,5 +110,14 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        showDialog();
+        new OfflineQuotesController(this).getOfflineQuote(OfflineQuotesListActivity.this);
+
     }
 }
