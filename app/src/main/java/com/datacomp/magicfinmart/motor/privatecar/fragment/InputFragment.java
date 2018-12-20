@@ -814,7 +814,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
 
-                if (masterData.getManufacture_Year() != null) {
+                if (masterData.getManufacture_Year() != null
+                        && !masterData.getManufacture_Year().equalsIgnoreCase("0")
+                        && !masterData.getManufacture_Year().equalsIgnoreCase("")) {
+
                     String mfDate = "";
                     int month = calendarReg.get(Calendar.MONTH) + 1;
                     if (month <= 9)
