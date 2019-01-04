@@ -332,14 +332,18 @@ public class PrefManager {
     }
 
     public boolean getContactListCount() {
-        return pref.getBoolean(CONTACT_COUNT,false );
+        return pref.getBoolean(CONTACT_COUNT, false);
     }
     //endregion
 
     // region delete Share Data
 
     public void clearAll() {
+
+        String strToken = getToken();
         editor.clear().commit();
+
+        setToken(strToken);
        /* pref.edit().remove(POSP_INFO)
                 .remove(SHARED_KEY_PUSH_NOTIFY)
                 .remove(SHARED_KEY_PUSH_WEB_URL)
@@ -428,7 +432,7 @@ public class PrefManager {
         editor.remove(POPUP_ID);
     }
 
-//Notification Enable
+    //Notification Enable
     public boolean updateNotificationsetting(String notification) {
         pref.edit().remove(NotificationTypeEnable).commit();
         return pref.edit().putString(NotificationTypeEnable, notification).commit();

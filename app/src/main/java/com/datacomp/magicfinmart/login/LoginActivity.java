@@ -20,6 +20,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
