@@ -106,13 +106,12 @@ public class DynamicController implements IDynamic {
     }
 
 
-
     @Override
     public void uploadNCDDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber) {
 
         String url = BuildConfig.FINMART_URL + "/api/ncd-fba-document-upload";
 
-        genericUrlNetworkService.uploadNCD_Document(url,document, body).enqueue(new Callback<DocumentResponse>() {
+        genericUrlNetworkService.uploadNCD_Document(url, document, body).enqueue(new Callback<DocumentResponse>() {
             @Override
             public void onResponse(Call<DocumentResponse> call, Response<DocumentResponse> response) {
                 if (response.body() != null) {
