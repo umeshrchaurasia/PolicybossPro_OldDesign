@@ -264,7 +264,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             + "&device_id=" + Utility.getDeviceId(mContext);
                     healthUrl = healthUrl + append;
 
-                    if (new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+                    if (new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser() != null &&
+                            new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
                         Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
                     } else {
                         mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)

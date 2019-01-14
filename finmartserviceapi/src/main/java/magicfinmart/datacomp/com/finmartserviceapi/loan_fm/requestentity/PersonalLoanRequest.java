@@ -77,6 +77,7 @@ public class PersonalLoanRequest implements Parcelable{
     private String email;
     private String form;
     private String product_name;
+    private String Lead_Id;
 
 
 
@@ -121,6 +122,7 @@ public class PersonalLoanRequest implements Parcelable{
         email=in.readString();
         form=in.readString();
         product_name=in.readString();
+        Lead_Id = in.readString();
 
     }
 
@@ -447,6 +449,14 @@ public class PersonalLoanRequest implements Parcelable{
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
     }
+
+    public String getLead_Id() {
+        return Lead_Id;
+    }
+
+    public void setLead_Id(String lead_Id) {
+        Lead_Id = lead_Id;
+    }
     //Extra
     public PersonalLoanRequest() {
         this.quote_id=0;
@@ -489,6 +499,7 @@ public class PersonalLoanRequest implements Parcelable{
         this.email="";
         this.form="";
         this.product_name="";
+        this.Lead_Id="";
 
     }
 
@@ -539,5 +550,6 @@ public class PersonalLoanRequest implements Parcelable{
         dest.writeString(email);
         dest.writeString(form);
         dest.writeString(product_name);
+        dest.writeString(Lead_Id);
     }
 }

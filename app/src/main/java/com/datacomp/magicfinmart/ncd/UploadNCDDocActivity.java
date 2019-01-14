@@ -53,12 +53,11 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     NDCMasterEntity mNCDEntity;
-    String GUID = "";
-    EditText etRefNum  , etCustomerName ;
+    EditText etRefNum, etCustomerName;
     int type;
     File file;
-    ImageView ivPhotoCam1,ivPhotoCam2,ivPhotoCam3,ivPhotoCam4, ivPhoto1,
-            ivPhoto2,ivPhoto3,ivPhoto4;
+    ImageView ivPhotoCam1, ivPhotoCam2, ivPhotoCam3, ivPhotoCam4, ivPhoto1,
+            ivPhoto2, ivPhoto3, ivPhoto4;
 
     Button btnSave;
 
@@ -71,12 +70,12 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
     private int APPLICATION = 1, OTH1 = 2, OTH2 = 3, OTH3 = 4, OTH4 = 5;
 
-    private String file1 = "APPLICATION_FORM", file2 = "OTHER1" , file3 = "OTHER2", file4 = "OTHER3";
+    private String file1 = "APPLICATION_FORM", file2 = "OTHER1", file3 = "OTHER2", file4 = "OTHER3";
 
     LoginResponseEntity loginResponseEntity;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
 
-    boolean isUploaded  = false ;
+    boolean isUploaded = false;
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -102,13 +101,11 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
         if (getIntent().getParcelableExtra("UPLOAD_NCD") != null) {
             mNCDEntity = getIntent().getParcelableExtra("UPLOAD_NCD");
-            GUID = mNCDEntity.getGuid();
 
         }
     }
 
-    private void initWidgets()
-    {
+    private void initWidgets() {
         ivPhotoCam1 = (ImageView) findViewById(R.id.ivPhotoCam1);
         ivPhotoCam2 = (ImageView) findViewById(R.id.ivPhotoCam2);
         ivPhotoCam3 = (ImageView) findViewById(R.id.ivPhotoCam3);
@@ -119,15 +116,14 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         ivPhoto3 = (ImageView) findViewById(R.id.ivPhoto3);
         ivPhoto4 = (ImageView) findViewById(R.id.ivPhoto4);
 
-        etRefNum  = (EditText) findViewById(R.id.etRefNum);
-        etCustomerName  = (EditText) findViewById(R.id.etCustomerName);
+        etRefNum = (EditText) findViewById(R.id.etRefNum);
+        etCustomerName = (EditText) findViewById(R.id.etCustomerName);
 
         btnSave = (Button) findViewById(R.id.btnSave);
 
     }
 
-    private void setListener()
-    {
+    private void setListener() {
         ivPhotoCam1.setOnClickListener(this);
         ivPhotoCam2.setOnClickListener(this);
         ivPhotoCam3.setOnClickListener(this);
@@ -150,7 +146,6 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         }
 
     }
-
 
 
     @Override
@@ -183,30 +178,28 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                 if (!isEmpty(etCustomerName)) {
                     etCustomerName.requestFocus();
                     etCustomerName.setError("Enter Customer Name");
-                    return ;
-                }
-
-               else if (!isEmpty(etRefNum)) {
+                    return;
+                } else if (!isEmpty(etRefNum)) {
                     etRefNum.requestFocus();
                     etRefNum.setError("Enter Referene Number");
-                    return ;
-                }else if(!isUploaded)
-                {
-                    Toast.makeText(this,"Please Upload atleast One",Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (!isUploaded) {
+                    Toast.makeText(this, "Please Upload atleast One", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 UploadNCDRequestEntity requestEntity = new UploadNCDRequestEntity();
                 requestEntity.setCustomername(etCustomerName.getText().toString());
                 requestEntity.setReferenceno(etRefNum.getText().toString());
-                requestEntity.setGuid(GUID);
-                requestEntity.setFbaid(""+loginEntity.getFBAId());
+                requestEntity.setCampaignid("" + mNCDEntity.getId());
+                requestEntity.setGuid(mNCDEntity.getGuid());
+
+                requestEntity.setFbaid("" + loginEntity.getFBAId());
 
                 showDialog();
-                new DynamicController(this).uploadNCDDetails(requestEntity ,this);
+                new DynamicController(this).uploadNCDDetails(requestEntity, this);
 
                 break;
-
 
 
         }
@@ -224,11 +217,10 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
 
             }
-        }else if(response instanceof UploadNCDResponse)
-        {
+        } else if (response instanceof UploadNCDResponse) {
             if (response.getStatusNo() == 0) {
 
-                Toast.makeText(this,((UploadNCDResponse) response).getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(this, ((UploadNCDResponse) response).getMessage(), Toast.LENGTH_LONG).show();
 
                 this.finish();
 
@@ -249,7 +241,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
     private void galleryCamPopUp() {
 
-        if(! GUID.equalsIgnoreCase("")) {
+        if (!mNCDEntity.getGuid().equalsIgnoreCase("")) {
             if (!checkPermission()) {
 
                 if (checkRationalePermission()) {
@@ -269,8 +261,8 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
                 showCamerGalleryPopUp();
             }
-        }else{
-            Toast.makeText(this,"Something went wrong",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -452,39 +444,39 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
             switch (type) {
                 case 1:
                     showDialog();
-                    file = saveImageToStorage(mphoto, file1 );
+                    file = saveImageToStorage(mphoto, file1);
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, GUID, APPLICATION);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), APPLICATION);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
                 case 2:
                     showDialog();
-                    file = saveImageToStorage(mphoto, file2 );
+                    file = saveImageToStorage(mphoto, file2);
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, GUID, OTH1);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH1);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
                 case 3:
 
                     showDialog();
-                    file = saveImageToStorage(mphoto, file3 );
+                    file = saveImageToStorage(mphoto, file3);
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, GUID, OTH2);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH2);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
 
                 case 4:
                     showDialog();
-                    file = saveImageToStorage(mphoto, file4 );
+                    file = saveImageToStorage(mphoto, file4);
 
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getNCDBody(this, GUID, OTH3);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH3);
 
                     new DynamicController(this).uploadNCDDocuments(part, body, this);
                     break;
@@ -503,39 +495,39 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                 switch (type) {
                     case 1:
                         showDialog();
-                        file = saveImageToStorage(mphoto, file1 );
+                        file = saveImageToStorage(mphoto, file1);
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, GUID, APPLICATION);
+                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), APPLICATION);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;
                     case 2:
                         showDialog();
-                        file = saveImageToStorage(mphoto, file2 );
+                        file = saveImageToStorage(mphoto, file2);
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, GUID, OTH1);
+                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH1);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;
                     case 3:
 
                         showDialog();
-                        file = saveImageToStorage(mphoto, file3 );
+                        file = saveImageToStorage(mphoto, file3);
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this,GUID, OTH2);
+                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH2);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;
 
                     case 4:
                         showDialog();
-                        file = saveImageToStorage(mphoto, file4 );
+                        file = saveImageToStorage(mphoto, file4);
 
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this,GUID, OTH3);
+                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH3);
 
                         new DynamicController(this).uploadNCDDocuments(part, body, this);
                         break;
