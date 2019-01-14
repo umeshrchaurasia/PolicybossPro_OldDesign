@@ -1,0 +1,392 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/white"
+android:orientation="vertical"
+>
+
+<ScrollView
+    android:id="@+id/mainScroll"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="90">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvInputDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="8dp"
+                app:cardElevation="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="3dp"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="85"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:orientation="horizontal"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:visibility="visible"
+                            android:weightSum="5">
+
+                            <TextView
+                                android:id="@+id/tvSum"
+                                style="@style/TextViewStyle.Small"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="left" />
+
+                            <TextView
+                                android:id="@+id/tvAge"
+                                style="@style/TextViewStyle.Small"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center" />
+
+                            <TextView
+                                android:id="@+id/tvCrn"
+                                style="@style/TextViewStyle.Small"
+                                android:layout_width="0dp"
+                                android:layout_weight="2"
+                                android:gravity="right" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:orientation="horizontal"
+                            android:paddingBottom="5dp"
+                            android:paddingTop="5dp"
+                            android:visibility="visible"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:id="@+id/tvPolicyTerm"
+                                style="@style/TextViewStyle.Small"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:gravity="left" />
+
+                            <TextView
+                                android:id="@+id/tvGender"
+                                style="@style/TextViewStyle.Small"
+                                android:layout_width="0dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="1"
+                                android:gravity="right" />
+
+                            <TextView
+                                android:id="@+id/tvSmoker"
+                                style="@style/TextViewStyle.Small"
+                                android:layout_width="0dp"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:gravity="left"
+                                android:textColor="@color/header_dark_text"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/ivEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="15"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/edit_icon" />
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvQuoteDetails"
+                style="@style/CardViewStyle"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"
+                app:cardElevation="2dp">
+            </android.support.v7.widget.CardView>
+
+            <include
+                android:id="@+id/layoutCompare"
+                layout="@layout/content_termlakshya_header"
+                android:visibility="visible" />
+
+            <!--Compare ICICI-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="POLICY TERM">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="left"
+                        android:text="POLICY TERM"
+                        android:textColor="@color/blue"
+                        android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/spPolicyTerm"
+                        style="@style/SpinnerStyle.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:dropDownWidth="200dp"
+                        android:entries="@array/lakshya_policyterm" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Premium Frequency">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="left"
+                        android:text="Premium Frequency"
+                        android:textColor="@color/blue"
+                        android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/spICICIPremiumFrequency"
+                        style="@style/SpinnerStyle.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:dropDownWidth="200dp"
+                        android:entries="@array/lakshya_premium_frequency" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="3dp"
+                android:gravity="center_horizontal"
+                android:text="LIC Jeevan Lakshya Sum Assured "
+                android:textAllCaps="true"
+                android:textSize="12dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                android:weightSum="100">
+
+
+
+                <Button
+                    android:id="@+id/minusICICISum"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="10"
+                    android:background="@drawable/life_arrow_prev_"
+                    android:gravity="center" />
+
+                <EditText
+                    android:id="@+id/etICICISumAssured"
+                    style="@style/Style.edittext"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/blue_border"
+                    android:layout_weight="40"
+                    android:gravity="center_horizontal"
+                    android:inputType="number"
+                    android:maxLength="10"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/plusICICISum"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="10"
+                    android:background="@drawable/life_arrow_next_"
+                    android:gravity="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                >
+
+
+                <LinearLayout
+                    android:id="@+id/rljk"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary">
+
+                    <TextView
+                        android:id="@+id/txtCustName"
+                        style="@style/TextStyle.TextLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginRight="8dp"
+
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:gravity="center_horizontal"
+                        android:lines="1"
+
+                        android:text="ANNUAL PREMIUM "
+                        android:textAllCaps="true"
+                        android:textColor="@color/white" />
+
+
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/llksa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/rljk"
+                    android:orientation="horizontal"
+
+                 >
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/blue_border_graybg"
+                            android:padding="10dp"
+                            android:text="LIC JEEVAN LAKSHYA"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/blue_border_graybg"
+                            android:padding="10dp"
+                            android:gravity="center"
+                            android:text="ULTRA LAKSHYA"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/blue_border"
+                        android:gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:textStyle="bold"
+                        android:text="57543"
+                        android:textColor="@color/red_descent" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:background="@drawable/blue_border"
+                        android:padding="10dp"
+                        android:text="71750"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+</ScrollView>
+
+<Button
+    android:id="@+id/btnGetQuote"
+    style="@style/ButtonStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Get quote" />
+</LinearLayout>

@@ -250,6 +250,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
 
         personalLoanRequest.setQuote_id(QuoteID);
+        personalLoanRequest.setLead_Id(Leadid);
         fmPersonalLoanRequest.setPersonalLoanRequest(personalLoanRequest);
         new MainLoanController(getActivity()).savePLQuoteData(fmPersonalLoanRequest, this);
 

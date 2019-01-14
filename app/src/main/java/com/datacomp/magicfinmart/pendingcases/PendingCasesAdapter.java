@@ -95,7 +95,11 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
                 if(entity.getQatype().equals("Q"))
                 {
-                    holder.llHistory.setVisibility(View.INVISIBLE);
+                    if(entity.getLead_Id().equals("")) {
+                        holder.llHistory.setVisibility(View.INVISIBLE);
+                    }else {
+                        holder.llHistory.setVisibility(View.VISIBLE);
+                    }
                 }else
                 {
                     holder.llHistory.setVisibility(View.VISIBLE);
