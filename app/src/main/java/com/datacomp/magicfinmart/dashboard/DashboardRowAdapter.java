@@ -23,6 +23,7 @@ import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.datacomp.magicfinmart.ncd.NCDActivity;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -365,7 +366,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
 
                 break;
-
+            case  16:
+                mContext.startActivity(new Intent(mContext, OfflineQuotesListActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
+                MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
+                break;
         }
         if (productID >= 20) {
             mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)

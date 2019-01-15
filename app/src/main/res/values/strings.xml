@@ -362,7 +362,7 @@
         <item>7 PAY</item>
         <item>5 PAY</item>
     </string-array>
-<!--Term lakshya -->
+    <!--Term lakshya -->
     <string-array name="lakshya_premium_frequency">
         <item>YEARLY</item>
         <item>HALF YEARLY</item>
