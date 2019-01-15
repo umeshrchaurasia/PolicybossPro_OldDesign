@@ -632,4 +632,5 @@ We presume that this feature will be used only for contacts where the customer h
     <string name="title_activity_ultra_lakshyadetail">UltraLakshyadetailActivity</string>
     <string name="title_activity_motor_offline">Motor Offline Quote</string>
     <string name="title_activity_offline_motor_list">Motor Offline</string>
+    <string name="title_activity_input_offline_motor">Offline Motor</string>
 </resources>
