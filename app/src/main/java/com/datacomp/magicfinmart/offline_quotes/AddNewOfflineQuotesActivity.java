@@ -11,7 +11,9 @@ import android.view.View;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Term_OfflineQuote;
+
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline;
+
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
@@ -58,7 +60,7 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
                 startActivity(new Intent(this, AddNewOfflineQuotesActivity.class));
                 break;
             case R.id.life:
-                startActivity(new Intent(this, Term_OfflineQuote.class));
+                startActivity(new Intent(this, TermQuoteApplicationActivity_offline.class));
 
                 break;
 

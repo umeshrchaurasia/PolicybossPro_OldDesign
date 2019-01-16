@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.hdfc;
+package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -35,6 +35,8 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
+import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -67,7 +69,7 @@ import static java.util.Calendar.YEAR;
  * Created by Rajeev Ranjan on 17/05/2018.
  */
 
-public class HdfcInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+public class HdfcInputFragment_offline extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
 
     //region variables
 
@@ -129,7 +131,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_hdfc_input_offline, container, false);
+        View view = inflater.inflate(R.layout.fragment_hdfc_input, container, false);
         init_view(view);
         setListener();
         setPopUpInfo();
