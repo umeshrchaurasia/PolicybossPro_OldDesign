@@ -14,8 +14,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline;
 
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Term_OfflineQuote;
+
+
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity;
 
 public class AddNewOfflineQuotesActivity extends BaseActivity implements View.OnClickListener {

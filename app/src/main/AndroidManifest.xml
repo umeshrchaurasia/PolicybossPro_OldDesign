@@ -1061,7 +1061,7 @@
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
 
-        <activity android:name=".offline_quotes.AddNewOfflineQuotesActivity" />
+
         <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" />
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
