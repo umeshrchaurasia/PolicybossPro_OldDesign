@@ -1053,6 +1053,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
         </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity"
+            android:label="@string/title_activity_offline_health_list_activity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
