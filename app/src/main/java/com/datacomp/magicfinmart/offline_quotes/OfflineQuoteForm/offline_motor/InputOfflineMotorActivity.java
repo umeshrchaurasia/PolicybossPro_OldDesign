@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -41,6 +42,7 @@ import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
+import com.datacomp.magicfinmart.offline_quotes.AddOfflineQuotesActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
@@ -59,23 +61,26 @@ import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineCommonResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
-public class InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener,
+public class InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener,
+        ILocationStateListener, RadioGroup.OnCheckedChangeListener,
         CompoundButton.OnCheckedChangeListener, View.OnClickListener,
         IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
@@ -87,7 +92,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
-    Button btnGetQuote, btnGo;
+    Button btnSaveOffline, btnGo;
     TextView tvDontKnow;
     EditText etreg1, etreg2, etreg3, etreg4;
     String regNo = "";
@@ -104,7 +109,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     TextInputLayout tilExt;
     EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
     AutoCompleteTextView acMakeModel, acRto;
-    TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
+    TextView tvProgress, tvClaimYes, tvClaimNo;
+    EditText etCarNo;
     Switch swIndividual, swClaim;
     Spinner spNcbPercent;
     //endregion
@@ -203,7 +209,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvOr = (TextView) findViewById(R.id.tvOr);
         llDontKnow = (LinearLayout) findViewById(R.id.llDontKnow);
         cvInput = (View) findViewById(R.id.cvInput);
-        btnGetQuote = (Button) findViewById(R.id.btnGetQuote);
+        btnSaveOffline = (Button) findViewById(R.id.btnSaveOffline);
         tvDontKnow = (TextView) findViewById(R.id.tvDontKnow);
         tvProgress = (TextView) findViewById(R.id.tvProgress);
         tvClaimNo = (TextView) findViewById(R.id.tvClaimNo);
@@ -235,7 +241,10 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         etMobile = (EditText) findViewById(R.id.etMobile);
         acMakeModel = (AutoCompleteTextView) findViewById(R.id.acMakeModel);
         acRto = (AutoCompleteTextView) findViewById(R.id.acRto);
-        tvCarNo = (TextView) findViewById(R.id.tvCarNo);
+        // tvCarNo = (TextView) findViewById(R.id.tvCarNo);
+        etCarNo = (EditText) findViewById(R.id.tvCarNo);
+        etCarNo.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+
         swIndividual = (Switch) findViewById(R.id.swIndividual);
         swClaim = (Switch) findViewById(R.id.switchNcb);
         spNcbPercent = (Spinner) findViewById(R.id.spNcbPercent);
@@ -267,7 +276,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         swIndividual.setOnCheckedChangeListener(this);
         tvClaimYes.setOnClickListener(this);
         tvClaimNo.setOnClickListener(this);
-        btnGetQuote.setOnClickListener(this);
+        btnSaveOffline.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
 //        etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
 //        etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
@@ -658,7 +667,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
         tvClaimNo.performClick();
-        llVerifyCarDetails.setVisibility(View.GONE);
+        llVerifyCarDetails.setVisibility(View.VISIBLE);
 
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
@@ -711,9 +720,15 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     @Override
     public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse response, String message) {
 
-        if (response instanceof FastLaneDataResponse) {
+        cancelDialog();
 
-            cancelDialog();
+        if (response instanceof OfflineCommonResponse) {
+
+            startActivity(new Intent(this, AddOfflineQuotesActivity.class));
+
+        } else if (response instanceof FastLaneDataResponse) {
+
+
 //            if (constantEntity.getLogtracking().equals("0"))
 //                new InputFragment.PolicybossTrackingFastlnaeResponse((FastLaneDataResponse) response).execute();
             if (response.getStatusNo() == 0) {
@@ -1663,10 +1678,11 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                         + etreg3.getText().toString() + etreg4.getText().toString();
                 if (!regNo.equals("")) {
                     llVerifyCarDetails.setVisibility(View.VISIBLE);
-                    tvCarNo.setText("" + regNo);
+                    etCarNo.setText("" + regNo);
+                    etCarNo.setEnabled(false); //if fastlane disable car no
                     Constants.hideKeyBoard(etreg4, this);
                     tvDontKnow.performClick();
-                    btnGetQuote.setVisibility(View.VISIBLE);
+                    btnSaveOffline.setVisibility(View.VISIBLE);
                     showDialog("Fetching car details...");
                     // insertFastlaneLog();
 
@@ -1691,7 +1707,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 tvProgress.setText("Existing NCB");
                 sbNoClaimBonus.setProgress(0);
                 break;
-            case R.id.btnGetQuote:
+            case R.id.btnSaveOffline:
 
 
                 if (isValidInfo()) {
@@ -1704,9 +1720,19 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     //if (constantEntity.getLogtracking().equals("0"))
                     //     new InputFragment.PolicybossTrackingRequest(motorRequestEntity).execute();
 
-                    MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "GET QUOTE MOTOR", "GET QUOTE MOTOR");
-                    showDialog(getResources().getString(R.string.fetching_msg));
-                    new MotorController(InputOfflineMotorActivity.this).getMotorPremiumInitiate(motorRequestEntity, this);
+                    MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "OFFLINE MOTOR", "OFFLINE MOTOR");
+
+                    //TODO: Offline motor save
+                    SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+                    entity.setMotorRequestEntity(motorRequestEntity);
+                    entity.setSRN("");
+                    entity.setFba_id("" + dbController.getUserData().getFBAId());
+                    entity.setVehicle_insurance_type("");
+                    entity.setIsActive(1);
+                    entity.setSRN("");
+
+                    showDialog("Please wait..");
+                    new OfflineQuotesController(this).saveMotorOffline(entity, this);
                 }
 
                 break;
@@ -1717,7 +1743,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 cvRegNo.setVisibility(View.GONE);
                 tvOr.setVisibility(View.GONE);
                 llDontKnow.setVisibility(View.GONE);
-                btnGetQuote.setVisibility(View.VISIBLE);
+                btnSaveOffline.setVisibility(View.VISIBLE);
                 break;
         }
 
@@ -2149,38 +2175,141 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
 
     @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (R.id.switchNewRenew == compoundButton.getId()) {
+            if (b) {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "RENEW_QUOTE", "Renew motor quote");
+                insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
+                /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                        insuranceSubtypeEntities);
+                spInsSubTYpe.setAdapter(subTypeAdapter);*/
+                setSubTypeAdapterView(insuranceSubtypeEntities);
+
+                tvRenew.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvNew.setTextColor(getResources().getColor(R.color.header_dark_text));
+                etExpDate.setEnabled(true);
+                spPrevIns.setEnabled(true);
+                cvNcb.setVisibility(View.VISIBLE);
+                llNoClaim.setVisibility(View.VISIBLE);
+
+            } else {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "NEW_QUOTE", "new motor quote");
+                insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
+                /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                        insuranceSubtypeEntities);
+                spInsSubTYpe.setAdapter(subTypeAdapter);*/
+                setSubTypeAdapterView(insuranceSubtypeEntities);
+                tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
+                tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
+                etExpDate.setEnabled(false);
+//                spPrevIns.setSelection(0);
+                spPrevIns.setEnabled(false);
+
+                // spPrevIns.setAlpha(0.5f);
+                cvNcb.setVisibility(View.GONE);
+                llNoClaim.setVisibility(View.INVISIBLE);
+                tvDontKnow.performClick();
+
+            }
+        } else if (R.id.swIndividual == compoundButton.getId()) {
+            if (!b) {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "COMPANY", " motor quote");
+                //openPop up
+                swIndividual.setChecked(true);
+                openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
+                //showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
+            } else {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "INDIVDUAL", " motor quote");
+            }
+        }
 
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
 
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        int selectedId;
+        RadioButton radioButton;
+        switch (radioGroup.getId()) {
+            case R.id.rgExpiry:
+                selectedId = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(selectedId);
+                if (radioButton.getText().toString().contains("existing"))
+                    initializeViews("existing");
+                else if (radioButton.getText().toString().equals("within"))
+                    initializeViews("within");
+                else if (radioButton.getText().toString().equals("beyond"))
+                    initializeViews("beyond");
+                break;
+            case R.id.rgNewRenew:
+                selectedId = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(selectedId);
+                if (radioButton.getText().toString().equals("NEW"))
+                    initializeViews("new");
+                else if (radioButton.getText().toString().equals("RENEW"))
+                    initializeViews("renew");
+                else if (radioButton.getText().toString().equals("EXPIRED"))
+                    initializeViews("expired");
+                break;
+        }
+    }
+
+    void initializeViews(String policyType) {
+        if (policyType.equals("new")) {
+            etExpDate.setEnabled(false);
+
+            spPrevIns.setEnabled(false);
+            cvNcb.setVisibility(View.GONE);
+            llNoClaim.setVisibility(View.INVISIBLE);
+            tvDontKnow.performClick();
+
+        } else if (policyType.equals("renew")) {
+            etExpDate.setEnabled(true);
+            spPrevIns.setEnabled(true);
+            cvNcb.setVisibility(View.VISIBLE);
+            llNoClaim.setVisibility(View.VISIBLE);
+
+
+        } else if (policyType.equals("expired")) {
+            etExpDate.setEnabled(true);
+            spPrevIns.setEnabled(true);
+            cvNcb.setVisibility(View.VISIBLE);
+            llNoClaim.setVisibility(View.VISIBLE);
+
+        }
     }
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-
+        switch (view.getId()) {
+            case R.id.swIndividual:
+                dialog.dismiss();
+                break;
+        }
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-
+        switch (view.getId()) {
+            case R.id.swIndividual:
+                dialog.dismiss();
+                break;
+        }
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-
+    public void onLocationChanged(Location loc) {
+        location = locationTracker.mLocation;
     }
 
     @Override
     public void onConnected() {
-
+        location = locationTracker.mLocation;
     }
 
     @Override
     public void onConnectionFailed() {
-
+        location = null;
     }
     //endregion
 

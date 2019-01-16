@@ -11,8 +11,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.OfflineQuoteRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineCommonResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
 import okhttp3.MultipartBody;
@@ -36,6 +38,8 @@ public class OfflineQuotesController implements IOfflineQuote {
         mContext = context;
         loginResponseEntity = new DBPersistanceController(mContext).getUserData();
     }
+
+    //region Deprecated
 
     @Override
     public void getOfflineInput(final IResponseSubcriber iResponseSubcriber) {
@@ -73,10 +77,10 @@ public class OfflineQuotesController implements IOfflineQuote {
     }
 
     @Override
-    public void createQuote(String ProductName, String ProductDiscription,String id, final IResponseSubcriber iResponseSubcriber) {
+    public void createQuote(String ProductName, String ProductDiscription, String id, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("id",id);
+        body.put("id", id);
         body.put("FBAID", "" + loginResponseEntity.getFBAId());
         body.put("ProductName", ProductName);
         body.put("ProductDiscription", ProductDiscription);
@@ -186,6 +190,48 @@ public class OfflineQuotesController implements IOfflineQuote {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
+            }
+        });
+    }
+
+    //endregion
+
+
+    @Override
+    public void saveMotorOffline(SaveMotorRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        offlineQuoteNetworkService.saveOfflineMotor(entity).enqueue(new Callback<OfflineCommonResponse>() {
+            @Override
+            public void onResponse(Call<OfflineCommonResponse> call, Response<OfflineCommonResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Error.. Please try again later"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<OfflineCommonResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
             }
         });
     }

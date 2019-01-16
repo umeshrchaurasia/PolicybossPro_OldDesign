@@ -11,9 +11,10 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_above="@+id/btnGetQuote"
         android:layout_alignParentTop="true"
+        android:layout_weight="90"
         android:scrollbars="vertical">
 
         <LinearLayout
@@ -388,12 +389,13 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btnGetQuote"
+        android:id="@+id/btnSaveOffline"
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        android:text="GET QUOTES"
+        android:layout_weight="10"
+        android:text="Offline Quotes"
         android:visibility="gone" />
 
 </LinearLayout>
