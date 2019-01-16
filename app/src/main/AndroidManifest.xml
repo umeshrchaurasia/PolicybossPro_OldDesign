@@ -1061,6 +1061,26 @@
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
 
+        <activity android:name=".offline_quotes.AddNewOfflineQuotesActivity" />
+        <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" />
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
+            android:label="@string/title_activity_offline_motor_list"
+            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.offline_motor.InputOfflineMotorActivity"
+            android:label="@string/title_activity_input_offline_motor"
+            android:parentActivityName=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
+        </activity>
     </application>
 
 </manifest>

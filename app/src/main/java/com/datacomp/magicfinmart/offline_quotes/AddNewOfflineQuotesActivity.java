@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.offline_quotes;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -16,9 +15,12 @@ import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.Te
 
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Term_OfflineQuote;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity;
 
-public class AddNewOfflineQuotesActivity extends BaseActivity implements View.OnClickListener{
-    CardView MotorPrivate, MotorGoods, MotorPassenger,Health,life;
+public class AddNewOfflineQuotesActivity extends BaseActivity implements View.OnClickListener {
+    CardView MotorPrivate, MotorGoods, MotorPassenger, Health, life;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,7 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
         init_views();
         setListener();
     }
+
     private void setListener() {
         MotorPrivate.setOnClickListener(this);
         MotorGoods.setOnClickListener(this);
@@ -44,11 +47,12 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
         Health = (CardView) findViewById(R.id.Health);
         life = (CardView) findViewById(R.id.life);
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.MotorPrivate:
-                startActivity(new Intent(this, AddNewOfflineQuotesActivity.class));
+                startActivity(new Intent(this, OfflineMotorListActivity.class));
                 break;
             case R.id.MotorGoods:
                 startActivity(new Intent(this, AddNewOfflineQuotesActivity.class));
