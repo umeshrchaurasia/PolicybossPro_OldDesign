@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtName"
+        style="@style/TextViewStyle.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nilesh birhade"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtVehicleNo"
+        style="@style/TextViewStyle.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nilesh birhade"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtRegDate"
+        style="@style/TextViewStyle.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="nilesh birhade" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/seperator" />
+
+    <LinearLayout
+        android:id="@+id/llQuoteList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+</LinearLayout>

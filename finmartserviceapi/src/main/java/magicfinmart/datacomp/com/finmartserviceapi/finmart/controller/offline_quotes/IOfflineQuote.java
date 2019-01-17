@@ -26,6 +26,8 @@ public interface IOfflineQuote {
 
     //region individual offline quote
 
+    void getOfflineMotorList(String count, IResponseSubcriber iResponseSubcriber);
+
     void saveMotorOffline(SaveMotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
     //endregion
