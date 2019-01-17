@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import java.util.List;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
@@ -27,6 +29,8 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
     RecyclerView rvOfflineMotor;
     OfflineMotorListItemAdapter mAdapter;
     boolean isHit = false;
+
+    List<OfflineMotorListEntity> listMotorListEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +48,14 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
+        fetchMoreQuotes(1);
+    }
+
+    private void fetchMoreQuotes(int count) {
         //TODO: Fetch offline quote
         showDialog("Loading offline list");
-        new OfflineQuotesController(this).getOfflineMotorList("1", this);
+        new OfflineQuotesController(this).getOfflineMotorList("" + count, this);
+
     }
 
     @Override
@@ -55,7 +64,20 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
 
         if (response instanceof OfflineMotorListResponse) {
 
-            mAdapter = new OfflineMotorListItemAdapter(this, ((OfflineMotorListResponse) response).getMasterData());
+            List<OfflineMotorListEntity> list = ((OfflineMotorListResponse) response).getMasterData();
+            if (list.size() > 0) {
+
+                isHit = false;
+
+                for (OfflineMotorListEntity entity : list) {
+
+                    if (!listMotorListEntity.contains(entity))
+                        listMotorListEntity.add(entity);
+
+                }
+            }
+
+            mAdapter = new OfflineMotorListItemAdapter(this, listMotorListEntity);
             rvOfflineMotor.setAdapter(mAdapter);
 
         }
@@ -88,13 +110,13 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
                         .findLastVisibleItemPosition();
 
 
-               /* if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                if (lastCompletelyVisibleItemPosition == listMotorListEntity.size() - 1) {
                     if (!isHit) {
                         isHit = true;
-                        fetchMoreQuotes(mQuoteList.size());
+                        fetchMoreQuotes(listMotorListEntity.size());
 
                     }
-                }*/
+                }
             }
         });
     }

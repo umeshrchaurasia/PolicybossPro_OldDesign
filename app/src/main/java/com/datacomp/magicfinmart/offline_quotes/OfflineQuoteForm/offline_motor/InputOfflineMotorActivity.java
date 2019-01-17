@@ -212,6 +212,10 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         if (vehicleID == 0) {
             vehicleID = motorRequestEntity.getVarid();
         }
+
+        etCarNo.setText(motorRequestEntity.getRegistration_no());
+        etCarNo.setEnabled(false);
+
         if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
             if (motorRequestEntity.getVehicle_insurance_type().equals("renew")) {
                 switchNewRenew.setChecked(true);
@@ -381,16 +385,6 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 spPrevIns.setEnabled(false);
             }
 
-
-            //etExpDate.setText(displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-
-
-            /*
-            etRegDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date())));
-
-            etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
-
-            etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));*/
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
                 int ncbPercent = 0;
                 if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
@@ -403,6 +397,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             } else {
                 tvClaimYes.performClick();
             }
+
+            Constants.hideKeyBoard(tvClaimNo, this);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -960,9 +956,9 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         if (response instanceof OfflineCommonResponse) {
 
-            UploadMotorEntity uploadMotorEntity =((OfflineCommonResponse) response).getMasterData();
+            UploadMotorEntity uploadMotorEntity = ((OfflineCommonResponse) response).getMasterData();
             startActivity(new Intent(this, AddOfflineQuotesActivity.class)
-                    .putExtra(Constants.OFFLINE_DOC_DATA,uploadMotorEntity));
+                    .putExtra(Constants.OFFLINE_DOC_DATA, uploadMotorEntity));
 
         } else if (response instanceof FastLaneDataResponse) {
 
