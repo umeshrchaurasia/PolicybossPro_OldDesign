@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineCommonResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import okhttp3.MultipartBody;
@@ -54,6 +57,19 @@ public class OfflineQuoteRequestBuilder extends FinmartRetroRequestBuilder {
         Call<OfflineQuoteResponse> getOfflineQuote(@Body HashMap<String, String> body);
 
 
+        //region offline quote new
+
+        @Headers("token:" + token)
+        @POST("/api/manage-vehicle-offline")
+        Call<OfflineCommonResponse> saveOfflineMotor(@Body SaveMotorRequestEntity saveMotorRequestEntity);
+
+
+        @Headers("token:" + token)
+        @POST("/api/get-vehicle-offline-quote")
+        Call<OfflineMotorListResponse> getOfflineMotorList(@Body HashMap<String, String> body);
+
+
+        //endregion
 
     }
 }
