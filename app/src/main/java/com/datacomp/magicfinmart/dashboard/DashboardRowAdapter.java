@@ -246,35 +246,39 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 3:
                 //health
-                if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
-                    mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
-                } else {
 
-                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
-                    //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+                mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
 
-                    String ipaddress = "0.0.0.0";
-                    try {
-                        ipaddress = Utility.getMacAddress(mContext);
-                    } catch (Exception io) {
-                        ipaddress = "0.0.0.0";
-                    }
-
-                    String append = "&ip_address=" + ipaddress
-                            + "&app_version=" + Utility.getVersionName(mContext)
-                            + "&device_id=" + Utility.getDeviceId(mContext);
-                    healthUrl = healthUrl + append;
-
-                    if (new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser() != null &&
-                            new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
-                        Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
-                    } else {
-                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                .putExtra("URL", healthUrl)
-                                .putExtra("NAME", "Health Insurance")
-                                .putExtra("TITLE", "Health Insurance"));
-                    }
-                }
+                 // tem comment Health By Rahul 05
+//                if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
+//                    mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+//                } else {
+//
+//                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
+//                    //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+//
+//                    String ipaddress = "0.0.0.0";
+//                    try {
+//                        ipaddress = Utility.getMacAddress(mContext);
+//                    } catch (Exception io) {
+//                        ipaddress = "0.0.0.0";
+//                    }
+//
+//                    String append = "&ip_address=" + ipaddress
+//                            + "&app_version=" + Utility.getVersionName(mContext)
+//                            + "&device_id=" + Utility.getDeviceId(mContext);
+//                    healthUrl = healthUrl + append;
+//
+//                    if (new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser() != null &&
+//                            new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+//                        Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
+//                    } else {
+//                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+//                                .putExtra("URL", healthUrl)
+//                                .putExtra("NAME", "Health Insurance")
+//                                .putExtra("TITLE", "Health Insurance"));
+//                    }
+//                }
 
 
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);

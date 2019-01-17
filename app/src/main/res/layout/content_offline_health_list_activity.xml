@@ -9,4 +9,9 @@
     tools:context="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity"
     tools:showIn="@layout/activity_offline_health_list_activity">
 
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rbOfflineHealth"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

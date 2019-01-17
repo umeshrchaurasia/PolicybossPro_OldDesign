@@ -75,6 +75,12 @@ public class BaseActivity extends AppCompatActivity {
     String[] permissionsRequired = new String[]{android.Manifest.permission.CALL_PHONE};
 
 
+    public String getDateFromAge(int age) {
+        Calendar cal = Calendar.getInstance();
+        int year = age;
+        cal.add(Calendar.YEAR, -year);
+        return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
+    }
     public int getAgeFromDate(String birthdate) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -758,6 +764,8 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+
     public void permissionAlert(final View view, String Title, String strBody) {
         try {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
@@ -938,6 +946,8 @@ public class BaseActivity extends AppCompatActivity {
             webView.loadUrl(url);
         }
     }
+
+
     //endregion
 }
 
