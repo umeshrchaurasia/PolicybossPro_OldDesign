@@ -67,6 +67,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UploadMotorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
@@ -724,7 +725,9 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         if (response instanceof OfflineCommonResponse) {
 
-            startActivity(new Intent(this, AddOfflineQuotesActivity.class));
+            UploadMotorEntity uploadMotorEntity =((OfflineCommonResponse) response).getMasterData();
+            startActivity(new Intent(this, AddOfflineQuotesActivity.class)
+                    .putExtra(Constants.OFFLINE_DOC_DATA,uploadMotorEntity));
 
         } else if (response instanceof FastLaneDataResponse) {
 

@@ -23,59 +23,13 @@
             android:orientation="vertical"
             android:padding="8dp">
 
-            <LinearLayout
-                android:id="@+id/llInput"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextInputLayoutStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:hint="Fuel">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="Select Product : "
-                        android:textAppearance="@style/TextViewStyle.Small"
-                        android:textColor="@color/colorPrimary"
-                        android:visibility="visible" />
-
-                    <!-- varient -->
-                    <Spinner
-                        android:id="@+id/spProdTYpe"
-                        style="@style/SpinnerStyle.Underlined"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:dropDownWidth="300dp" />
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-
-                        android:id="@+id/txtProdType"
-                        android:textAppearance="@style/TextViewStyle.Large"
-                        android:textColor="@color/black"
-                        android:visibility="gone" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <EditText
-                    android:id="@+id/etAllInput"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/llDocumentUpload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:orientation="vertical">
 
 
                 <TextView
@@ -111,14 +65,7 @@
     </ScrollView>
 
 
-    <Button
-        android:id="@+id/btnGetQuote"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="CREATE QUOTE"
-        android:visibility="visible" />
+
 
 
 </RelativeLayout>

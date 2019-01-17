@@ -5,11 +5,11 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/ButtonStyle"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/tab_color"
-
+        android:padding="10dp"
+        android:background="@color/header_text_color"
         android:text="Member Details"
         android:textAllCaps="true"
         android:textColor="@color/white" />

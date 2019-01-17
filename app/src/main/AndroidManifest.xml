@@ -1061,9 +1061,6 @@
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
 
-
-        <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" />
-        <activity android:name=".offline_quotes.AddNewOfflineQuotesActivity" />
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
             android:label="@string/title_activity_offline_motor_list"
@@ -1104,10 +1101,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity" />
         </activity>
-        <activity
-            android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthMemberDetailsDialogActivity"
-            android:label="@string/title_activity_offline_health_member_details_dialog"
-            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>

@@ -1588,12 +1588,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     }
 
 
-    public void popUpHealthMemberDetails() {
 
-        Intent intent = new Intent(this, HealthMemberDetailsDialogActivity.class);
-        intent.putExtra(MEMBER_LIST, healthQuote);
-        startActivityForResult(intent, REQUEST_MEMBER);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
