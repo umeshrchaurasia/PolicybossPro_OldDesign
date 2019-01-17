@@ -921,7 +921,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".IncomeCalculator.IncomePotentialdetailActivity"
-            android:label="Income Potential"
+            android:label="Income Calculator"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -1035,7 +1035,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
         <activity android:name=".offline_quotes.AddNewOfflineQuotesActivity"
-            android:label="Offline_Quotes"
+            android:label="Offline Quotes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
             <meta-data
@@ -1044,7 +1044,7 @@
         </activity>
 
         <activity android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
-            android:label="Offline_Quotes"
+            android:label="Offline Quotes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
             <meta-data
@@ -1053,7 +1053,7 @@
         </activity>
 
         <activity android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
-            android:label="Offline_Quotes"
+            android:label="Offline Quotes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" >
             <meta-data

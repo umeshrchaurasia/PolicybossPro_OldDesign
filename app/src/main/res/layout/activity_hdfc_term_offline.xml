@@ -813,7 +813,8 @@
                         android:layout_marginBottom="5dp"
                         android:layout_marginTop="5dp"
                         android:gravity="bottom"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="0dp"
@@ -1000,7 +1001,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="4dp"
-                        android:weightSum="100">
+                        android:weightSum="100"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -1050,7 +1052,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="4dp"
-                        android:weightSum="100">
+                        android:weightSum="100"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -1100,7 +1103,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="4dp"
-                        android:weightSum="100">
+                        android:weightSum="100"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -1150,7 +1154,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="4dp"
-                        android:weightSum="100">
+                        android:weightSum="100"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -1200,7 +1205,8 @@
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:padding="4dp"
-                        android:weightSum="100">
+                        android:weightSum="100"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"

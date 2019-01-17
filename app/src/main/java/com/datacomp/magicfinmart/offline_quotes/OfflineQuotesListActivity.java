@@ -53,7 +53,7 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OfflineQuotesListActivity.this, AddNewOfflineQuotesActivity.class));
+                startActivity(new Intent(OfflineQuotesListActivity.this, AddOfflineQuotesActivity.class));
             }
         });
 

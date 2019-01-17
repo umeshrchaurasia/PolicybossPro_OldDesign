@@ -344,7 +344,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_addposp:
                         fragment = new POSPListFragment();
-                        getSupportActionBar().setTitle("POSP List");
+                        getSupportActionBar().setTitle("Sub User List");
                         break;
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));

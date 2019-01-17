@@ -563,7 +563,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_add_pospuser">Add POSP</string>
+    <string name="title_activity_add_pospuser">ADD  SUB USER</string>
     <string-array name="motor_subtype_new">
         <item>T.P. Only (3 Yrs)</item>
         <item>Comprehensive (1 Yr) + T.P. (2 Yrs)</item>
@@ -586,7 +586,7 @@
 
     <string name="title_activity_notification_sms">NOTIFICATION SMS</string>
     <string name="title_activity_generate_lead">GENERATE LEAD</string>
-    <string name="title_activity_income_potential">INCOME POTENTIAl</string>
+    <string name="title_activity_income_potential">Income Calculator</string>
     <string name="title_activity_nav_transactionhistory">TRANSACTION HISTORY</string>
     <string name="title_activity_contact_lead">CONTACT LEAD</string>
     <string name="title_activity_scan_vehicle">SCAN VEHICLE</string>

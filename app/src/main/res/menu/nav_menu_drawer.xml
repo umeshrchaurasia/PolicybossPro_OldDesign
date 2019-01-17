@@ -74,14 +74,14 @@
                 android:icon="@drawable/income_calculator_ic"
                 android:orderInCategory="450"
                 android:title="Income Calculator"
-                android:visible="true" />
+                android:visible="false" />
 
 
             <item
                 android:id="@+id/nav_IncomePotential"
                 android:icon="@drawable/income_potential_ic"
                 android:orderInCategory="480"
-                android:title="Income Potential"
+                android:title="Income Calculator"
                 android:visible="true" />
 
             </menu>
@@ -139,7 +139,7 @@
                 android:id="@+id/nav_addposp"
                 android:icon="@drawable/posp_enrollment"
                 android:orderInCategory="650"
-                android:title="Add Users"
+                android:title="Add Sub User"
                 />
 
 </menu>
