@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.hdfc;
+package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -8,14 +8,21 @@ import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,15 +38,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -58,16 +68,17 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermReq
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-/**
- * Created by Rajeev Ranjan on 17/05/2018.
- */
+public class HdfcTermActivity_offline extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
 
-public class HdfcInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+    private static String INPUT_FRAGMENT = "input_term_hdfc";
+    private static String QUOTE_FRAGMENT = "quote_term_hdfc";
+
+    public static String INPUT_DATA = "input_term_data_hdfc";
+    public static String QUOTE_DATA = "quote_term_data_hdfc";
 
     //region variables
 
@@ -100,7 +111,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     private PopupWindow mPopupWindow, mPopupWindowSelection;
     View customView, customViewSelection;
     RecyclerView rvIprotectSmart;
-    HdfcIProtectAdapter adapter;
+    HdfcIProtectAdapter_offline adapter;
     Gson gson = new Gson();
     String responseJson = "";
     //endregion
@@ -124,29 +135,32 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     int age = 0;
 
     //endregion
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_hdfc_input_offline, container, false);
-        init_view(view);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_hdfc_term_offline);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        init_view();
         setListener();
         setPopUpInfo();
         // set initial values
-        dbPersistanceController = new DBPersistanceController(getActivity());
-        termRequestEntity = new TermRequestEntity(getActivity());
+        dbPersistanceController = new DBPersistanceController(HdfcTermActivity_offline.this);
+        termRequestEntity = new TermRequestEntity(HdfcTermActivity_offline.this);
         termFinmartRequest = new TermFinmartRequest();
         setDefaultValues();
         //init_adapters();
 
         //adapter_listener();
+      /*
         if (getArguments() != null) {
             if (getArguments().getParcelable(HdfcTermActivity.QUOTE_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(HdfcTermActivity.QUOTE_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
-                int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+                int fba_id = new DBPersistanceController(HdfcTermActivity_offline.this).getUserData().getFBAId();
                 termFinmartRequest.setFba_id(fba_id);
                 fetchQuotes();
             } else if (getArguments().getParcelable(HdfcTermActivity.INPUT_DATA) != null) {
@@ -167,12 +181,13 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 tvNo.performClick();
                 tvMale.performClick();
             }
+
             //bindICICI();
             if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null)
                 bindInput(termFinmartRequest);
-        }
-        return view;
+        }*/
     }
+
 
     private void bindInput(TermFinmartRequest termFinmartRequest) {
         try {
@@ -279,7 +294,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             tvSum.append("SUM  ");
             SpannableString SUM = new SpannableString(termRequestEntity.getSumAssured());
             SUM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getSumAssured().length(), 0);
-            SUM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getSumAssured().length(), 0);
+            SUM.setSpan(new ForegroundColorSpan(HdfcTermActivity_offline.this.getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getSumAssured().length(), 0);
             tvSum.append(SUM);
 
 
@@ -292,7 +307,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 String age = "" + caluclateAge(ageCalender);
                 SpannableString AGE = new SpannableString(age);
                 AGE.setSpan(new StyleSpan(Typeface.BOLD), 0, age.length(), 0);
-                AGE.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, age.length(), 0);
+                AGE.setSpan(new ForegroundColorSpan(HdfcTermActivity_offline.this.getResources().getColor(R.color.header_dark_text)), 0, age.length(), 0);
                 tvAge.append(AGE);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -303,7 +318,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             tvPolicyTerm.append("TERM  ");
             SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm() + " Years");
             TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, TERM.length(), 0);
-            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, TERM.length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(HdfcTermActivity_offline.this.getResources().getColor(R.color.header_dark_text)), 0, TERM.length(), 0);
             tvPolicyTerm.append(TERM);
 
             if (termRequestEntity.getInsuredGender().equals("M"))
@@ -321,7 +336,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             String crn = "" + termCompareResponseEntity.getCustomerReferenceID();
             SpannableString CRN = new SpannableString("" + crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
-            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
+            CRN.setSpan(new ForegroundColorSpan(HdfcTermActivity_offline.this.getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
             tvCrn.append(CRN);
             termRequestEntity.setExisting_ProductInsuranceMapping_Id("" + crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
@@ -653,7 +668,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             termFinmartRequest.setTermRequestId(termCompareQuoteResponse.getMasterData().getLifeTermRequestID());
         else
             termFinmartRequest.setTermRequestId(0);*/
-        termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+        termFinmartRequest.setFba_id(new DBPersistanceController(HdfcTermActivity_offline.this).getUserData().getFBAId());
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
@@ -669,90 +684,90 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
 
-    private void init_view(View view) {
+    private void init_view() {
 
-        cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
-        cvQuoteDetails = (CardView) view.findViewById(R.id.cvQuoteDetails);
-        layoutCompare = (LinearLayout) view.findViewById(R.id.layoutCompare);
-        mainScroll = (ScrollView) view.findViewById(R.id.mainScroll);
-        tilPincode = (TextInputLayout) view.findViewById(R.id.tilPincode);
-        tvSum = (TextView) view.findViewById(R.id.tvSum);
-        tvGender = (TextView) view.findViewById(R.id.tvGender);
-        tvSmoker = (TextView) view.findViewById(R.id.tvSmoker);
-        tvAge = (TextView) view.findViewById(R.id.tvAge);
-        tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
-        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
-        ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
-        ivInfo = (ImageView) view.findViewById(R.id.ivInfo);
+        cvInputDetails = (CardView) findViewById(R.id.cvInputDetails);
+        cvQuoteDetails = (CardView) findViewById(R.id.cvQuoteDetails);
+        layoutCompare = (LinearLayout) findViewById(R.id.layoutCompare);
+        mainScroll = (ScrollView) findViewById(R.id.mainScroll);
+        tilPincode = (TextInputLayout) findViewById(R.id.tilPincode);
+        tvSum = (TextView) findViewById(R.id.tvSum);
+        tvGender = (TextView) findViewById(R.id.tvGender);
+        tvSmoker = (TextView) findViewById(R.id.tvSmoker);
+        tvAge = (TextView) findViewById(R.id.tvAge);
+        tvPolicyTerm = (TextView) findViewById(R.id.tvPolicyTerm);
+        tvCrn = (TextView) findViewById(R.id.tvCrn);
+        ivEdit = (ImageView) findViewById(R.id.ivEdit);
+        ivInfo = (ImageView) findViewById(R.id.ivInfo);
 
-        llAddon = (LinearLayout) view.findViewById(R.id.llAddon);
-        rvAddOn = (RecyclerView) view.findViewById(R.id.rvAddOn);
-        txtAge = (TextView) view.findViewById(R.id.txtAge);
-        txtPlanNAme = (TextView) view.findViewById(R.id.txtPlanNAme);
-        txtCover = (TextView) view.findViewById(R.id.txtCover);
-        txtFinalPremium = (TextView) view.findViewById(R.id.txtFinalPremium);
-        imgInsurerLogo = (ImageView) view.findViewById(R.id.imgInsurerLogo);
-        ivBuy = (ImageView) view.findViewById(R.id.ivBuy);
-        ivPdf = (ImageView) view.findViewById(R.id.ivPdf);
-        txtPolicyTerm = (TextView) view.findViewById(R.id.txtPolicyTerm);
+        llAddon = (LinearLayout) findViewById(R.id.llAddon);
+        rvAddOn = (RecyclerView) findViewById(R.id.rvAddOn);
+        txtAge = (TextView) findViewById(R.id.txtAge);
+        txtPlanNAme = (TextView) findViewById(R.id.txtPlanNAme);
+        txtCover = (TextView) findViewById(R.id.txtCover);
+        txtFinalPremium = (TextView) findViewById(R.id.txtFinalPremium);
+        imgInsurerLogo = (ImageView) findViewById(R.id.imgInsurerLogo);
+        ivBuy = (ImageView) findViewById(R.id.ivBuy);
+        ivPdf = (ImageView) findViewById(R.id.ivPdf);
+        txtPolicyTerm = (TextView) findViewById(R.id.txtPolicyTerm);
 
-        btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
-        etPincode = (EditText) view.findViewById(R.id.etPincode);
-        etSumAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
+        btnGetQuote = (Button) findViewById(R.id.btnGetQuote);
+        etPincode = (EditText) findViewById(R.id.etPincode);
+        etSumAssured = (EditText) findViewById(R.id.etICICISumAssured);
 
         // common input
-        tvMale = (TextView) view.findViewById(R.id.tvMale);
-        tvFemale = (TextView) view.findViewById(R.id.tvFemale);
-        tvYes = (TextView) view.findViewById(R.id.tvYes);
-        tvNo = (TextView) view.findViewById(R.id.tvNo);
-        etFirstName = (EditText) view.findViewById(R.id.etFirstName);
-        etLastName = (EditText) view.findViewById(R.id.etLastName);
-        etMobile = (EditText) view.findViewById(R.id.etMobile);
-        etDOB = (EditText) view.findViewById(R.id.etDateofBirth);
-        llGender = (LinearLayout) view.findViewById(R.id.llGender);
-        llSmoker = (LinearLayout) view.findViewById(R.id.llSmoker);
+        tvMale = (TextView) findViewById(R.id.tvMale);
+        tvFemale = (TextView) findViewById(R.id.tvFemale);
+        tvYes = (TextView) findViewById(R.id.tvYes);
+        tvNo = (TextView) findViewById(R.id.tvNo);
+        etFirstName = (EditText) findViewById(R.id.etFirstName);
+        etLastName = (EditText) findViewById(R.id.etLastName);
+        etMobile = (EditText) findViewById(R.id.etMobile);
+        etDOB = (EditText) findViewById(R.id.etDateofBirth);
+        llGender = (LinearLayout) findViewById(R.id.llGender);
+        llSmoker = (LinearLayout) findViewById(R.id.llSmoker);
 
-        spHDFCOptions = (Spinner) view.findViewById(R.id.spHDFCOptions);
-        spHdfcPremFrq = (Spinner) view.findViewById(R.id.spHdfcPremFrq);
+        spHDFCOptions = (Spinner) findViewById(R.id.spHDFCOptions);
+        spHdfcPremFrq = (Spinner) findViewById(R.id.spHdfcPremFrq);
 
         //region hdfc specifc
 
-        minusICICISum = (Button) view.findViewById(R.id.minusICICISum);
-        plusICICISum = (Button) view.findViewById(R.id.plusICICISum);
-        etICICISumAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
+        minusICICISum = (Button) findViewById(R.id.minusICICISum);
+        plusICICISum = (Button) findViewById(R.id.plusICICISum);
+        etICICISumAssured = (EditText) findViewById(R.id.etICICISumAssured);
 
-        minusICICIPTerm = (Button) view.findViewById(R.id.minusICICIPTerm);
-        plusICICIPTerm = (Button) view.findViewById(R.id.plusICICIPTerm);
-        etICICIPolicyTerm = (EditText) view.findViewById(R.id.etICICIPolicyTerm);
+        minusICICIPTerm = (Button) findViewById(R.id.minusICICIPTerm);
+        plusICICIPTerm = (Button) findViewById(R.id.plusICICIPTerm);
+        etICICIPolicyTerm = (EditText) findViewById(R.id.etICICIPolicyTerm);
 
-        minusICICIPreTerm = (Button) view.findViewById(R.id.minusICICIPreTerm);
-        plusICICIPreTerm = (Button) view.findViewById(R.id.plusICICIPreTerm);
-        etICICIPremiumTerm = (EditText) view.findViewById(R.id.etICICIPremiumTerm);
+        minusICICIPreTerm = (Button) findViewById(R.id.minusICICIPreTerm);
+        plusICICIPreTerm = (Button) findViewById(R.id.plusICICIPreTerm);
+        etICICIPremiumTerm = (EditText) findViewById(R.id.etICICIPremiumTerm);
 
-        llHDFCSAInc = (LinearLayout) view.findViewById(R.id.llHDFCSAInc);
-        minusHDFCSAInc = (Button) view.findViewById(R.id.minusHDFCSAInc);
-        plusHDFCSAInc = (Button) view.findViewById(R.id.plusHDFCSAInc);
-        etHDFCSAInc = (EditText) view.findViewById(R.id.etHDFCSAInc);
+        llHDFCSAInc = (LinearLayout) findViewById(R.id.llHDFCSAInc);
+        minusHDFCSAInc = (Button) findViewById(R.id.minusHDFCSAInc);
+        plusHDFCSAInc = (Button) findViewById(R.id.plusHDFCSAInc);
+        etHDFCSAInc = (EditText) findViewById(R.id.etHDFCSAInc);
 
-        llIncDeath = (LinearLayout) view.findViewById(R.id.llIncDeath);
-        minusIncDeath = (Button) view.findViewById(R.id.minusIncDeath);
-        plusIncDeath = (Button) view.findViewById(R.id.plusIncDeath);
-        etIncDeath = (EditText) view.findViewById(R.id.etIncDeath);
+        llIncDeath = (LinearLayout) findViewById(R.id.llIncDeath);
+        minusIncDeath = (Button) findViewById(R.id.minusIncDeath);
+        plusIncDeath = (Button) findViewById(R.id.plusIncDeath);
+        etIncDeath = (EditText) findViewById(R.id.etIncDeath);
 
-        llIncPeriod = (LinearLayout) view.findViewById(R.id.llIncPeriod);
-        minusIncPeriod = (Button) view.findViewById(R.id.minusIncPeriod);
-        plusIncPeriod = (Button) view.findViewById(R.id.plusIncPeriod);
-        etIncPeriod = (EditText) view.findViewById(R.id.etIncPeriod);
+        llIncPeriod = (LinearLayout) findViewById(R.id.llIncPeriod);
+        minusIncPeriod = (Button) findViewById(R.id.minusIncPeriod);
+        plusIncPeriod = (Button) findViewById(R.id.plusIncPeriod);
+        etIncPeriod = (EditText) findViewById(R.id.etIncPeriod);
 
-        llINCREASING = (LinearLayout) view.findViewById(R.id.llINCREASING);
-        minusINCREASING = (Button) view.findViewById(R.id.minusINCREASING);
-        plusINCREASING = (Button) view.findViewById(R.id.plusINCREASING);
-        etINCREASING = (EditText) view.findViewById(R.id.etINCREASING);
+        llINCREASING = (LinearLayout) findViewById(R.id.llINCREASING);
+        minusINCREASING = (Button) findViewById(R.id.minusINCREASING);
+        plusINCREASING = (Button) findViewById(R.id.plusINCREASING);
+        etINCREASING = (EditText) findViewById(R.id.etINCREASING);
 
-        llAdb = (LinearLayout) view.findViewById(R.id.llAdb);
-        minusAdb = (Button) view.findViewById(R.id.minusAdb);
-        plusAdb = (Button) view.findViewById(R.id.plusAdb);
-        etAdb = (EditText) view.findViewById(R.id.etAdb);
+        llAdb = (LinearLayout) findViewById(R.id.llAdb);
+        minusAdb = (Button) findViewById(R.id.minusAdb);
+        plusAdb = (Button) findViewById(R.id.plusAdb);
+        etAdb = (EditText) findViewById(R.id.etAdb);
 
 
         //endregion
@@ -871,21 +886,21 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Constants.hideKeyBoard(view, getActivity());
+        Constants.hideKeyBoard(view, HdfcTermActivity_offline.this);
         switch (view.getId()) {
 
 
             case R.id.ivBuy:
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "HDFC BUY TERM INSURANCE", "HDFC BUY TERM INSURANCE");
-                new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
+                new TermInsuranceController(HdfcTermActivity_offline.this).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
                         "28",
                         "" + dbPersistanceController.getUserData().getFBAId(),
                         "" + termCompareResponseEntity.getNetPremium(), this);
-                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                startActivity(new Intent(HdfcTermActivity_offline.this, CommonWebViewActivity.class)
                         .putExtra("URL", termCompareResponseEntity.getProposerPageUrl())
                         .putExtra("NAME", "CLICK TO PROTECT 3D")
                         .putExtra("TITLE", "CLICK TO PROTECT 3D"));
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life Ins Buy"), Constants.LIFE_INS), null);
+                new TrackingController(HdfcTermActivity_offline.this).sendData(new TrackingRequestEntity(new TrackingData("Life Ins Buy"), Constants.LIFE_INS), null);
 
                 break;
             case R.id.ivPdf:
@@ -912,11 +927,12 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 break;
 
             case R.id.ivEdit:
-                if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
-                    ((CompareTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                //Edit
+               /* if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
+                    ((CompareTermActivity) this).redirectToInput(termFinmartRequest);
                 else
-                    ((HdfcTermActivity) getActivity()).redirectToInput(termFinmartRequest);
-                changeInputQuote(true);
+                    ((HdfcTermActivity) this).redirectToInput(termFinmartRequest);
+                changeInputQuote(true);*/
                 break;
 
             case R.id.ivInfo:
@@ -1008,18 +1024,18 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     public void fetchQuotes() {
         showDialog();
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
+        new TermInsuranceController(this).getTermInsurer(termFinmartRequest, this);
     }
     private void updateCrnToServer() {
         if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
-            new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
+            new TermInsuranceController(HdfcTermActivity_offline.this).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof TermCompareQuoteResponse) {
             cancelDialog();
             processResponse((TermCompareQuoteResponse) response);
-            new AsyncShareJson().execute();
+            new AsyncShareJson_off().execute();
             /*this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             mainScroll.fullScroll(ScrollView.FOCUS_UP);
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
@@ -1040,7 +1056,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(HdfcTermActivity_offline.this, t.getMessage(), Toast.LENGTH_SHORT).show();
         changeInputQuote(true);
     }
 
@@ -1062,10 +1078,10 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                     changeInputQuote(false);
                     bindQuotes();
                 } else {
-                    Toast.makeText(getActivity(), "" + termCompareResponseEntity.getQuoteStatus(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HdfcTermActivity_offline.this, "" + termCompareResponseEntity.getQuoteStatus(), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(HdfcTermActivity_offline.this, "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
         }
         mainScroll.scrollTo(0,0);
@@ -1075,7 +1091,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
         @Override
         public void onClick(final View view) {
-            Constants.hideKeyBoard(view, getActivity());
+            Constants.hideKeyBoard(view, HdfcTermActivity_offline.this);
 
             //region dob
 
@@ -1141,10 +1157,13 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             cvInputDetails.setVisibility(View.GONE);
             cvQuoteDetails.setVisibility(View.GONE);
         } else {
-            if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
-                ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
-            else
-                ((HdfcTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+//
+//            if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
+//                ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+//            else
+//                ((HdfcTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+
+
             btnGetQuote.setText("UPDATE QUOTE");
             tilPincode.setVisibility(View.INVISIBLE);
             layoutCompare.setVisibility(View.GONE);
@@ -1895,7 +1914,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     private void setPopUpInfo() {
 
         // region set Default popUp
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) HdfcTermActivity_offline.this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
         // Inflate the custom layout/view
         customView = inflater.inflate(R.layout.layout_benefit_iprotect, null);
@@ -1917,7 +1936,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         //endregion
 
         // region set Selection popUp
-        LayoutInflater inflaterSelection = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflaterSelection = (LayoutInflater) HdfcTermActivity_offline.this.getSystemService(LAYOUT_INFLATER_SERVICE);
 
         // Inflate the custom layout/view
         customViewSelection = inflaterSelection.inflate(R.layout.layout_age_popup_selected, null);
@@ -1942,10 +1961,10 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         rvIprotectSmart = (RecyclerView) customView.findViewById(R.id.rvIprotectSmart);
         rvIprotectSmart.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(HdfcTermActivity_offline.this);
         rvIprotectSmart.setLayoutManager(layoutManager);
 
-        adapter = new HdfcIProtectAdapter(getActivity(), strings);
+        adapter = new HdfcIProtectAdapter_offline(HdfcTermActivity_offline.this, strings);
         rvIprotectSmart.setAdapter(adapter);
 
         // Set a click listener for the popup window close button
@@ -1976,7 +1995,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
 
-    class AsyncShareJson extends AsyncTask<Void, Void, String> {
+    class AsyncShareJson_off extends AsyncTask<Void, Void, String> {
 
         @Override
         protected String doInBackground(Void... voids) {
@@ -1999,14 +2018,64 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     private void shareTermHdfc() {
         if (responseJson.equals("") && termCompareResponseEntity != null) {
-            new AsyncShareJson().execute();
+            new AsyncShareJson_off().execute();
         } else {
-            Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
+            Intent intent = new Intent(HdfcTermActivity_offline.this, ShareQuoteActivity.class);
             intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "TERM_HDFC_QUOTE");
             intent.putExtra("RESPONSE", responseJson);
             intent.putExtra("NAME", termRequestEntity.getContactName());
             startActivity(intent);
         }
     }
-}
 
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+      //  if (ivHdrQuote.getVisibility() == View.VISIBLE) {
+           // bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+       // } else {
+            HdfcTermActivity_offline.this.finish();
+      //  }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
+                startActivity(intent);
+
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+
+}

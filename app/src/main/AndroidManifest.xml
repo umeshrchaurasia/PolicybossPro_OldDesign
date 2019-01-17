@@ -1033,6 +1033,36 @@
             android:label="Ultra Lakshya"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+
+        <activity android:name=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:label="Offline_Quotes"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+
+        <activity android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
+            android:label="Offline_Quotes"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+        </activity>
+
+        <activity android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
+            android:label="Offline_Quotes"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
+        </activity>
+
+
+        <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" />
         <activity android:name=".offline_quotes.AddNewOfflineQuotesActivity" />
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"

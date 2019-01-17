@@ -6,12 +6,18 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
-public class OfflineMotorListActivity extends BaseActivity implements View.OnClickListener {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
+
+public class OfflineMotorListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
     FloatingActionButton fbOfflineMotor;
     RecyclerView rbOfflineMotor;
@@ -34,7 +40,24 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
     protected void onResume() {
         super.onResume();
         //TODO: Fetch offline quote
-        // showDialog("Loading offline");
+        showDialog("Loading offline list");
+        new OfflineQuotesController(this).getOfflineMotorList("1", this);
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+
+        if (response instanceof OfflineMotorListResponse) {
+
+            int a = ((OfflineMotorListResponse) response).getMasterData().size();
+            Log.d("fff", "" + a);
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
     }
 
     //region initialisation widgets

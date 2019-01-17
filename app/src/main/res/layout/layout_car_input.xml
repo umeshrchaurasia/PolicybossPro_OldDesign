@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
@@ -18,8 +18,8 @@
             style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
             android:visibility="gone">
 
             <LinearLayout
@@ -65,8 +65,8 @@
             style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:visibility="visible">
             <!--All inputs-->
             <LinearLayout
@@ -86,28 +86,32 @@
                     android:paddingRight="8dp"
                     android:visibility="visible">
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="VERIFY YOUR CAR DETAILS FOR "
                         android:textAppearance="@style/TextStyle.TextMedium" />
-
-                    <TextView
-                        android:id="@+id/tvCarNo"
-                        android:layout_width="wrap_content"
+-->
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="3dp"
-                        android:text=""
-                        android:textAppearance="@style/TextStyle.TextMedium"
-                        android:textColor="@color/tab_color"
-                        android:textStyle="bold" />
+                        android:layout_weight="1"
+                        android:hint="Vehicle No">
+
+                        <EditText
+                            android:id="@+id/tvCarNo"
+                            style="@style/Style.edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:layout_marginBottom="8dp"
                     style="@style/TextInputLayoutStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
                     android:layout_weight="1"
                     android:hint="Fuel">
 
@@ -416,8 +420,8 @@
                     android:id="@+id/cvNcb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/customeborder"
                     android:orientation="vertical"
                     android:padding="5dp">
