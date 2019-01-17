@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-public class OfflineQuoteListEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class OfflineQuoteListEntity implements Parcelable {
 
 
     /**
@@ -36,4 +39,37 @@ public class OfflineQuoteListEntity {
     public void setDocument_path(String document_path) {
         this.document_path = document_path;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.TranId);
+        dest.writeString(this.Document_name);
+        dest.writeString(this.document_path);
+    }
+
+    public OfflineQuoteListEntity() {
+    }
+
+    protected OfflineQuoteListEntity(Parcel in) {
+        this.TranId = in.readString();
+        this.Document_name = in.readString();
+        this.document_path = in.readString();
+    }
+
+    public static final Parcelable.Creator<OfflineQuoteListEntity> CREATOR = new Parcelable.Creator<OfflineQuoteListEntity>() {
+        @Override
+        public OfflineQuoteListEntity createFromParcel(Parcel source) {
+            return new OfflineQuoteListEntity(source);
+        }
+
+        @Override
+        public OfflineQuoteListEntity[] newArray(int size) {
+            return new OfflineQuoteListEntity[size];
+        }
+    };
 }

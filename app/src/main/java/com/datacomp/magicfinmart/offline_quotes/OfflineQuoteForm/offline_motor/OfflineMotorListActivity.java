@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -15,12 +16,16 @@ import com.datacomp.magicfinmart.R;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
 
 public class OfflineMotorListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
+    public final static String OFFLINE_MOTOR = "offline_motor_edit";
+
     FloatingActionButton fbOfflineMotor;
-    RecyclerView rbOfflineMotor;
+    RecyclerView rvOfflineMotor;
+    OfflineMotorListItemAdapter mAdapter;
     boolean isHit = false;
 
     @Override
@@ -50,8 +55,9 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
 
         if (response instanceof OfflineMotorListResponse) {
 
-            int a = ((OfflineMotorListResponse) response).getMasterData().size();
-            Log.d("fff", "" + a);
+            mAdapter = new OfflineMotorListItemAdapter(this, ((OfflineMotorListResponse) response).getMasterData());
+            rvOfflineMotor.setAdapter(mAdapter);
+
         }
     }
 
@@ -64,15 +70,15 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
 
     private void init_widgets() {
         fbOfflineMotor = (FloatingActionButton) findViewById(R.id.fbOfflineMotor);
-        rbOfflineMotor = (RecyclerView) findViewById(R.id.rbOfflineMotor);
-        rbOfflineMotor.setHasFixedSize(true);
-        rbOfflineMotor.setLayoutManager(new LinearLayoutManager(this));
+        rvOfflineMotor = (RecyclerView) findViewById(R.id.rbOfflineMotor);
+        rvOfflineMotor.setHasFixedSize(true);
+        rvOfflineMotor.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void setListeners() {
         fbOfflineMotor.setOnClickListener(this);
 
-        rbOfflineMotor.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        rvOfflineMotor.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -97,10 +103,16 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onClick(View v) {
-
         if (v.getId() == R.id.fbOfflineMotor) {
-
             startActivity(new Intent(this, InputOfflineMotorActivity.class));
         }
+    }
+
+    public void editOfflineMotor(OfflineMotorListEntity entity) {
+
+        Intent intent = new Intent(this, InputOfflineMotorActivity.class);
+        intent.putExtra(OFFLINE_MOTOR, entity);
+        startActivity(intent);
+        Toast.makeText(this, "" + entity.getSRN(), Toast.LENGTH_SHORT).show();
     }
 }

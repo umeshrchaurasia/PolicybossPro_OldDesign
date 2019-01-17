@@ -1,10 +1,14 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 
-public class OfflineMotorListEntity extends SaveMotorRequestEntity {
+public class OfflineMotorListEntity extends SaveMotorRequestEntity implements Parcelable {
     /**
      * SRN : SRN-H9I9THU2-AOUI-MTZY-XUAC-A8N4NDUMIDH6
      * VehicleRequestID : 4
@@ -29,4 +33,33 @@ public class OfflineMotorListEntity extends SaveMotorRequestEntity {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeList(this.quote);
+    }
+
+    public OfflineMotorListEntity() {
+    }
+
+    protected OfflineMotorListEntity(Parcel in) {
+        this.quote = new ArrayList<OfflineQuoteListEntity>();
+        in.readList(this.quote, OfflineQuoteListEntity.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<OfflineMotorListEntity> CREATOR = new Parcelable.Creator<OfflineMotorListEntity>() {
+        @Override
+        public OfflineMotorListEntity createFromParcel(Parcel source) {
+            return new OfflineMotorListEntity(source);
+        }
+
+        @Override
+        public OfflineMotorListEntity[] newArray(int size) {
+            return new OfflineMotorListEntity[size];
+        }
+    };
 }
