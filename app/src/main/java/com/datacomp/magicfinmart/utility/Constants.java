@@ -73,6 +73,7 @@ public class Constants {
     public static String TWO_WHEELER_FASTLANE_RESPONSE = "TWO WHEELER FASTLANE RESPONSE";
     public static String FASTLANE = "FASTLANE";
     public static String HEALTH_INS = "HEALTH INSURANCE";
+    public static String HEALTH_INS_OFF = "HEALTH INSURANCE_OFFLINE";
     public static String LIFE_INS = "TERM INSURANCE";
     public static String HOME_LOAN = "HOME LOAN";
     public static String PERSONA_LOAN = "PERSONAL LOAN";
@@ -116,6 +117,7 @@ public class Constants {
     public static final int REQUEST_PERMISSION_SETTING = 101;
     public static final int PERMISSION_CAMERA_STORACGE_CONSTANT = 103;
     public static final int PERMISSION_CALLBACK_SUPPORT = 104;
+    public static String OFFLINE_DOC_DATA = "offline_docData";
 
 
     public static String[] permissionsRequired ={Manifest.permission.CALL_PHONE};

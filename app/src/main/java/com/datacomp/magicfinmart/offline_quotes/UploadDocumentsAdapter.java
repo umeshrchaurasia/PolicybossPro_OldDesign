@@ -13,7 +13,7 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RequiredDocEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocumentEntity;
 
 /**
  * Created by Nilesh on 05/02/2018.
@@ -22,67 +22,20 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RequiredDocE
 public class UploadDocumentsAdapter extends RecyclerView.Adapter<UploadDocumentsAdapter.ApplicationItem> {
 
     Context mContex;
-    List<RequiredDocEntity> mAppList;
+    List<DocumentEntity> mAppList;
 
 
-    public UploadDocumentsAdapter(Context context, List<RequiredDocEntity> list) {
+    public UploadDocumentsAdapter(Context context, List<DocumentEntity> list) {
         this.mContex = context;
         this.mAppList = list;
     }
 
-    public void updateList(RequiredDocEntity curEntity) {
-
-        for (int pos = 0; pos < mAppList.size(); pos++) {
-            if (mAppList.get(pos).getReqid() == (curEntity.getReqid())) {
-
-                mAppList.set(pos,curEntity);
-
-            }
-        }
-
-        notifyDataSetChanged();
-
-        //  refreshAdapter(lstSpecial);
-    }
 
     @Override
     public ApplicationItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_document_upload, parent, false);
         return new ApplicationItem(itemView);
-    }
-
-    @Override
-    public void onBindViewHolder(ApplicationItem holder, int position) {
-
-        if (holder instanceof ApplicationItem) {
-            final ApplicationItem item = (ApplicationItem) holder;
-            final RequiredDocEntity entity = mAppList.get(position);
-            item.tvDocName.setText(entity.getDocname());
-
-            if(entity.isUploaded() == false)
-            {
-                holder.ivPhoto.setImageResource(R.drawable.doc_notuploaded);
-
-
-            }else{
-                holder.ivPhoto.setImageResource(R.drawable.doc_uploaded);
-
-            }
-            item.rlParent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ((AddOfflineQuotesActivity) mContex).galleryCamPopUp(entity);
-                }
-            });
-
-        }
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return mAppList.size();
     }
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
@@ -101,8 +54,51 @@ public class UploadDocumentsAdapter extends RecyclerView.Adapter<UploadDocuments
     }
 
     @Override
-    public long getItemId(int position) {
-        return mAppList.get(position).getId();
+    public void onBindViewHolder(ApplicationItem holder, int position) {
+
+        if (holder instanceof ApplicationItem) {
+            final ApplicationItem item = (ApplicationItem) holder;
+            final DocumentEntity entity = mAppList.get(position);
+            item.tvDocName.setText(entity.getDocname());
+
+            if (entity.getDocpath().trim() == "") {
+                holder.ivPhoto.setImageResource(R.drawable.doc_notuploaded);
+
+
+            } else {
+                holder.ivPhoto.setImageResource(R.drawable.doc_uploaded);
+
+            }
+            item.rlParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((AddOfflineQuotesActivity) mContex).galleryCamPopUp(entity);
+                }
+            });
+
+        }
+
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return mAppList.size();
+    }
+
+    public void updateList(DocumentEntity curEntity) {
+
+        for (int pos = 0; pos < mAppList.size(); pos++) {
+            if (mAppList.get(pos).getId() == (curEntity.getId())) {
+
+                mAppList.set(pos, curEntity);
+
+            }
+        }
+
+        notifyDataSetChanged();
+
+        //  refreshAdapter(lstSpecial);
     }
 
 
