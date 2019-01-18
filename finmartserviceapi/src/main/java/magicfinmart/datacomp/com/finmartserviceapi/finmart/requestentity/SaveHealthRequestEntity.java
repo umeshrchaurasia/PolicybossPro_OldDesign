@@ -24,6 +24,7 @@ public class SaveHealthRequestEntity {
     private int HealthRequestId;
     private String agent_source;
     private String crn;
+    private String comment;
     private int fba_id;
 
     public HealthRequestEntity getHealthRequest() {
@@ -64,6 +65,14 @@ public class SaveHealthRequestEntity {
 
     public void setFba_id(int fba_id) {
         this.fba_id = fba_id;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
 

@@ -31,7 +31,7 @@ public interface IOfflineQuote {
 
     void saveMotorOffline(SaveMotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
-    void getOfflineHealthList( String fba_id,String count, IResponseSubcriber iResponseSubcriber);
+    void getOfflineHealthList( String fba_id,int count, IResponseSubcriber iResponseSubcriber);
 
     void saveHealthOffline(SaveHealthRequestEntity entity, IResponseSubcriber iResponseSubcriber);
     //endregion

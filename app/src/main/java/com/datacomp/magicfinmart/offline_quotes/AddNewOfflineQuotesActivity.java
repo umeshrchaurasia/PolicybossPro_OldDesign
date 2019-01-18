@@ -11,7 +11,7 @@ import android.view.View;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity;
 
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline;
 
@@ -63,7 +63,7 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
                 startActivity(new Intent(this, AddNewOfflineQuotesActivity.class));
                 break;
             case R.id.Health:
-                startActivity(new Intent(this, OfflineHealthListActivityActivity.class));
+                startActivity(new Intent(this, OfflineHealthListActivity.class));
                 break;
             case R.id.life:
                 startActivity(new Intent(this, TermQuoteApplicationActivity_offline.class));

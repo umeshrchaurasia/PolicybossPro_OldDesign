@@ -283,11 +283,11 @@ public class OfflineQuotesController implements IOfflineQuote {
     }
 
     @Override
-    public void getOfflineHealthList(String fba_id, String count, final IResponseSubcriber iResponseSubcriber) {
+    public void getOfflineHealthList(String fba_id, int count, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("count", count);
-        body.put("fba_id",fba_id);// + loginResponseEntity.getFBAId());
+        body.put("count", String.valueOf(count));
+        body.put("fba_id",fba_id);
 
         offlineQuoteNetworkService.getOfflineHealthList(body).enqueue(new Callback<OfflineHealthResponse>() {
             @Override

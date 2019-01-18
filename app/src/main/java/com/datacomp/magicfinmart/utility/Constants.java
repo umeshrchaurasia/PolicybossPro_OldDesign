@@ -118,6 +118,7 @@ public class Constants {
     public static final int PERMISSION_CAMERA_STORACGE_CONSTANT = 103;
     public static final int PERMISSION_CALLBACK_SUPPORT = 104;
     public static String OFFLINE_DOC_DATA = "offline_docData";
+    public static String OFFLINE_HEALTH_EDIT = "offline_health_edit";
 
 
     public static String[] permissionsRequired ={Manifest.permission.CALL_PHONE};

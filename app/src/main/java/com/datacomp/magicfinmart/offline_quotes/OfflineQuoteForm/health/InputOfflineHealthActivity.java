@@ -36,6 +36,7 @@ import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsAct
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter.OfflineHealthMemberDetailsViewAdapter;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter.OfflineHealthSumAssuredViewAdapter;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.SortbyAge;
 
@@ -69,7 +70,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
     Button btnSelf, btnFamily, btnParent;
     ImageView img1, img2, img3, img4, img5, img6;
-    EditText et1, et2, et3, et4, et5, et6;
+    EditText et1, et2, et3, et4, et5, et6 ;
     RecyclerView rvSumAssured;
     AutoCompleteTextView acCity;
     ArrayAdapter<String> cityAdapter;
@@ -82,7 +83,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     int coverFor = 0;
     OfflineHealthSumAssuredViewAdapter adapter;
 
-    EditText etAmount, etPincode, etName, etMobile;
+    EditText etAmount, etPincode, etName, etMobile ,etComment;
 
     Button btnGetHealthQuote;
 
@@ -141,6 +142,19 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 //            //default self selected
 //            btnFamily.performClick();
 //        }
+
+        if (getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT) != null) {
+            healthQuote = getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT);
+            healthRequestEntity = healthQuote.getHealthRequest();
+            processMemberForAge();
+            bindInput();
+        } else {
+            healthQuote.setAgent_source("App");
+            healthQuote.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
+//            //default self selected
+            btnFamily.performClick();
+        }
+
 
     }
 
@@ -529,6 +543,12 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         etName.setText(healthRequestEntity.getContactName());
         etPincode.setText(String.valueOf(healthRequestEntity.getPincode()));
 
+        if(healthQuote.getComment() != null) {
+            etComment.setText("" + healthQuote.getComment());
+        }else{
+            etComment.setText("");
+        }
+
         //select existing sum assured amount in recycler view
 
         for (int i = 0; i < listSumAssured.size(); i++) {
@@ -745,6 +765,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         etPincode = (EditText) findViewById(R.id.etPincode);
         etName = (EditText) findViewById(R.id.etName);
         etMobile = (EditText) findViewById(R.id.etMobile);
+        etComment = (EditText) findViewById(R.id.etComment);
         btnGetHealthQuote = (Button) findViewById(R.id.btnGetHealthQuote);
 
 
@@ -1770,8 +1791,10 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
                 SaveHealthRequestEntity saveHealthRequestEntity = new SaveHealthRequestEntity();
                 saveHealthRequestEntity.setFba_id(loginEntity.getFBAId());
-                saveHealthRequestEntity.setCrn("");
-                saveHealthRequestEntity.setAgent_source("");
+                saveHealthRequestEntity.setCrn(healthQuote.getCrn());
+                saveHealthRequestEntity.setAgent_source(healthQuote.getAgent_source());
+                saveHealthRequestEntity.setHealthRequestId(healthQuote.getHealthRequestId());
+                saveHealthRequestEntity.setComment(etComment.getText().toString());
                 saveHealthRequestEntity.setHealthRequest(healthQuote.getHealthRequest());
 
                 showDialog();
@@ -1818,9 +1841,12 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         cancelDialog();
         if (response instanceof OfflineHealthSaveResponse) {
             if (response.getStatusNo() == 0) {
-
-                this.finish();
                 Toast.makeText(this,((OfflineHealthSaveResponse) response).getMessage(),Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                intent.putExtra("MESSAGE","SUCCESS");
+                setResult(2,intent);
+                finish();
+
 
 
             }

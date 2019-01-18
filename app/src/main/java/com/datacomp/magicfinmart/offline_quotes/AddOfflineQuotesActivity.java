@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.offline_quotes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,6 +34,8 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -435,8 +438,21 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         return body;
     }
 
+    @Override
+    @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // Below For Cropping The Camera Image
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            //extractTextFromImage();
+            startCropImageActivity(imageUri);
+        }
+        // Below For Cropping The Gallery Image
+        else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            startCropImageActivity(selectedImageUri);
+        }
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap mphoto = null;
             try {
@@ -479,5 +495,15 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     }
 
 
+    /**
+     //TODO: Crop image activity to crop capture image.
+     * Start crop image activity for the given image.
+     */
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .start(this);
+    }
     //endregion
 }

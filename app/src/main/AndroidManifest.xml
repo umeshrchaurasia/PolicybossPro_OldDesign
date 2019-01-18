@@ -1082,7 +1082,7 @@
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity"
+            android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
             android:label="@string/title_activity_offline_health_list_activity"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
@@ -1094,12 +1094,12 @@
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.health.InputOfflineHealthActivity"
             android:label="@string/title_activity_input_offline_health"
-            android:parentActivityName=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity"
+            android:parentActivityName=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity" />
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity" />
         </activity>
 
     </application>
