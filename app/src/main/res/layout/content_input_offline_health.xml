@@ -405,7 +405,7 @@
         style="@style/ButtonStyle"
         android:minHeight="36dp"
         android:layout_alignParentBottom="true"
-        android:text="Get quotes"
+        android:text="Continue"
         android:textStyle="normal"
         android:textColor="@color/white" />
 </RelativeLayout>

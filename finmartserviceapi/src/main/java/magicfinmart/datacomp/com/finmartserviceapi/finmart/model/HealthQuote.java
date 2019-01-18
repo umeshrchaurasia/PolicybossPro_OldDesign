@@ -3,7 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HealthQuote implements Parcelable {
+public class    HealthQuote implements Parcelable {
     /**
      * fba_id : 123
      * HealthRequestId : 13

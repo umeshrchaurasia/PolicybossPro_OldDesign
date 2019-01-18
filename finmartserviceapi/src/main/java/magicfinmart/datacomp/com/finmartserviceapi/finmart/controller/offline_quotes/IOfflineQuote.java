@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_q
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveHealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import okhttp3.MultipartBody;
 
@@ -30,6 +31,9 @@ public interface IOfflineQuote {
 
     void saveMotorOffline(SaveMotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
+    void getOfflineHealthList( String fba_id,String count, IResponseSubcriber iResponseSubcriber);
+
+    void saveHealthOffline(SaveHealthRequestEntity entity, IResponseSubcriber iResponseSubcriber);
     //endregion
 
 }

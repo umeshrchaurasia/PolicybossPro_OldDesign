@@ -44,16 +44,22 @@ import java.util.Collections;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveHealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
-public class InputOfflineHealthActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, View.OnTouchListener {
+public class InputOfflineHealthActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, View.OnTouchListener ,IResponseSubcriber {
 
     private static final String TAG = "HealthInputFragment";
     public static final int REQUEST_MEMBER = 4444;
@@ -86,7 +92,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     DBPersistanceController db;
     List<HealthSumAssured> listSumAssured;
     OfflineHealthMemberDetailsViewAdapter mAapter;
-
+    LoginResponseEntity loginEntity;
     EditText editText;
 
     private PopupWindow mPopupWindow, mPopupWindowSelection;
@@ -111,6 +117,8 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         cityBinding();
 
         db = new DBPersistanceController(this);
+
+        loginEntity = db.getUserData();
         listSumAssured = db.getSumAssured();
 
         sumAssuredBinding();
@@ -1760,6 +1768,15 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
             public void onClick(View v) {
                 alertDialog.dismiss();
 
+                SaveHealthRequestEntity saveHealthRequestEntity = new SaveHealthRequestEntity();
+                saveHealthRequestEntity.setFba_id(loginEntity.getFBAId());
+                saveHealthRequestEntity.setCrn("");
+                saveHealthRequestEntity.setAgent_source("");
+                saveHealthRequestEntity.setHealthRequest(healthQuote.getHealthRequest());
+
+                showDialog();
+                new OfflineQuotesController(InputOfflineHealthActivity.this).saveHealthOffline(saveHealthRequestEntity,InputOfflineHealthActivity.this);
+
 
 
             }
@@ -1794,5 +1811,25 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         member = entity;
         healthQuote.getHealthRequest().getMemberList().set(position, member);
 
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof OfflineHealthSaveResponse) {
+            if (response.getStatusNo() == 0) {
+
+                this.finish();
+                Toast.makeText(this,((OfflineHealthSaveResponse) response).getMessage(),Toast.LENGTH_SHORT).show();
+
+
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+        cancelDialog();
     }
 }

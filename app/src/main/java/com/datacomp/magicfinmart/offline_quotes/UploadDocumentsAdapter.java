@@ -61,7 +61,7 @@ public class UploadDocumentsAdapter extends RecyclerView.Adapter<UploadDocuments
             final DocumentEntity entity = mAppList.get(position);
             item.tvDocName.setText(entity.getDocname());
 
-            if (entity.getDocpath().trim() == "") {
+            if (entity.getDocpath().trim().equalsIgnoreCase("")) {
                 holder.ivPhoto.setImageResource(R.drawable.doc_notuploaded);
 
 

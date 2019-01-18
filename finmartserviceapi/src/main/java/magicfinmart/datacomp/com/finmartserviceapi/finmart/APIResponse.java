@@ -4,7 +4,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart;
  * Created by Rajeev Ranjan on 22/01/2018.
  */
 
-public class APIResponse {
+public class    APIResponse {
 
     /**
      * Message : success
