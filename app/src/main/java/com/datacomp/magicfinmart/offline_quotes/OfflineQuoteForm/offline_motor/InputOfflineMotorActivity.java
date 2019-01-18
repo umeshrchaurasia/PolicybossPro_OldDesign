@@ -110,7 +110,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvProgress, tvClaimYes, tvClaimNo;
     EditText etCarNo;
@@ -215,6 +215,12 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         etCarNo.setText(motorRequestEntity.getRegistration_no());
         etCarNo.setEnabled(false);
+
+        if (saveMotorRequestEntity.getComment() != null)
+            etComment.setText(saveMotorRequestEntity.getComment());
+        else
+            etComment.setText("");
+
 
         if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
             if (motorRequestEntity.getVehicle_insurance_type().equals("renew")) {
@@ -447,6 +453,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvClaimNo = (TextView) findViewById(R.id.tvClaimNo);
         tvClaimYes = (TextView) findViewById(R.id.tvClaimYes);
         etCC = (EditText) findViewById(R.id.etCC);
+        etComment = findViewById(R.id.etComment);
 
 
         etreg1 = (EditText) findViewById(R.id.etreg1);
@@ -1983,7 +1990,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
                     //TODO: Offline motor save
                     saveMotorRequestEntity.setMotorRequestEntity(motorRequestEntity);
-                    saveMotorRequestEntity.setFba_id("52933");
+                    saveMotorRequestEntity.setComment("" + etComment.getText().toString());
                     showDialog("Please wait..");
                     new OfflineQuotesController(this).saveMotorOffline(saveMotorRequestEntity, this);
                 }
