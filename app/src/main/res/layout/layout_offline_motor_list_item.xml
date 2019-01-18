@@ -1,42 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_margin="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="3dp">
 
-    <TextView
-        android:id="@+id/txtName"
-        style="@style/TextViewStyle.Large"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="nilesh birhade"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="8dp">
 
-    <TextView
-        android:id="@+id/txtVehicleNo"
-        style="@style/TextViewStyle.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="nilesh birhade"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:id="@+id/llOfflineMotor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtRegDate"
-        style="@style/TextViewStyle.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="nilesh birhade" />
+            <TextView
+                android:id="@+id/txtName"
+                style="@style/TextViewStyle.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/seperator" />
+            <TextView
+                android:id="@+id/txtVehicleNo"
+                style="@style/TextViewStyle.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/llQuoteList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
-</LinearLayout>
+            <TextView
+                android:id="@+id/txtRegDate"
+                style="@style/TextViewStyle.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llQuoteList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:background="@color/secondary_text_color"
+                android:padding="4dp"
+                android:text="Quote"
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

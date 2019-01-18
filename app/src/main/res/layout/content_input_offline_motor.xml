@@ -368,20 +368,13 @@
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
             </LinearLayout>
-            <!--<android.support.v7.widget.CardView-->
-            <!--android:id="@+id/cvInput"-->
-            <!--style="@style/CardStyle.Home"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:visibility="visible">-->
+
 
             <include
                 android:id="@+id/cvInput"
-                layout="@layout/layout_car_input"
+                layout="@layout/layout_car_input_offline_motor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <!--</android.support.v7.widget.CardView>-->
 
 
         </LinearLayout>
