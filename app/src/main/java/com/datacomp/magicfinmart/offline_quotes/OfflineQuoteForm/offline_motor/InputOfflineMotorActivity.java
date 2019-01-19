@@ -67,6 +67,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UploadMotorEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
@@ -98,6 +100,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     String regNo = "";
     Switch switchNewRenew;
 
+    OfflineMotorListEntity saveMotorRequestEntity;
     MotorRequestEntity motorRequestEntity;
     FastLaneDataEntity fastLaneResponseEntity;
     ConstantEntity constantEntity;
@@ -107,7 +110,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvProgress, tvClaimYes, tvClaimNo;
     EditText etCarNo;
@@ -166,6 +169,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         dbController = new DBPersistanceController(this);
         motorRequestEntity = new MotorRequestEntity(this);
+        saveMotorRequestEntity = new OfflineMotorListEntity();
+
 
         constantEntity = dbController.getConstantsData();
         userConstantEntity = dbController.getUserConstantsData();
@@ -182,17 +187,250 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         initialize_views();
 
 
-      /*  if (getArguments() != null) {
-            if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
-                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
-                tvDontKnow.performClick();
-                bindInputsQuotes();
-            }
-        }*/
+        if (getIntent().getParcelableExtra(OfflineMotorListActivity.OFFLINE_MOTOR) != null) {
+            saveMotorRequestEntity = getIntent().getParcelableExtra(OfflineMotorListActivity.OFFLINE_MOTOR);
+            motorRequestEntity = saveMotorRequestEntity.getMotorRequestEntity();
+            tvDontKnow.performClick();
+            bindInputsQuotes();
+        } else {
+
+            saveMotorRequestEntity.setSRN("");
+            saveMotorRequestEntity.setFba_id("" + dbController.getUserData().getFBAId());
+            saveMotorRequestEntity.setVehicle_insurance_type("");
+            saveMotorRequestEntity.setIsActive(1);
+            saveMotorRequestEntity.setSRN("");
+        }
 
         adapter_listeners();
+
     }
 
+    private void bindInputsQuotes() {
+
+
+        int vehicleID = motorRequestEntity.getVehicle_id();
+        if (vehicleID == 0) {
+            vehicleID = motorRequestEntity.getVarid();
+        }
+
+        etCarNo.setText(motorRequestEntity.getRegistration_no());
+        etCarNo.setEnabled(false);
+
+        if (saveMotorRequestEntity.getComment() != null)
+            etComment.setText(saveMotorRequestEntity.getComment());
+        else
+            etComment.setText("");
+
+
+        if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
+            if (motorRequestEntity.getVehicle_insurance_type().equals("renew")) {
+                switchNewRenew.setChecked(true);
+            } else if (motorRequestEntity.getVehicle_insurance_type().matches("new")) {
+                switchNewRenew.setChecked(false);
+            }
+        }
+
+        CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
+        if (carMasterEntity != null) {
+
+
+            makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+
+            //region make model
+
+            acMakeModel.setText(makeModel);
+
+            //TODO: Dismiss the Drop down after auto complete set text
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    acMakeModel.dismissDropDown();
+                }
+            });
+
+            //endregion
+
+            //region varient list
+
+            variantList.clear();
+            List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
+                    carMasterEntity.getModel_Name(),
+                    carMasterEntity.getFuel_Name());
+            variantList.addAll(varList);
+            varientAdapter.notifyDataSetChanged();
+
+
+            //endregion
+
+            //region fuel list
+            fuelList.clear();
+            fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
+            fuelAdapter.notifyDataSetChanged();
+
+            //endregion
+
+            //region spinner selection
+
+            int varientIndex = 0;
+            for (int i = 0; i < variantList.size(); i++) {
+
+                String variantName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
+                String vari = variantList.get(i);
+                if (variantName.equalsIgnoreCase(vari)) {
+                    varientIndex = i;
+                    break;
+                }
+            }
+            spVarient.setSelection(varientIndex);
+
+            int fuelIndex = 0;
+            if (motorRequestEntity.getExternal_bifuel_type() != null &&
+                    motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("")) {
+                for (int i = 0; i < fuelList.size(); i++) {
+                    if (fuelList.get(i).equalsIgnoreCase(carMasterEntity.getFuel_Name())) {
+                        fuelIndex = i;
+                        break;
+                    }
+                }
+            } else {
+                for (int i = 0; i < fuelList.size(); i++) {
+
+                    if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("lpg") &&
+                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_LPG)) {
+                        fuelIndex = i;
+                        break;
+                    } else if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("cng") &&
+                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_CNG)) {
+                        fuelIndex = i;
+                        break;
+                    }
+                }
+            }
+
+            spFuel.setSelection(fuelIndex);
+
+
+            if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
+                int prevInsurerIndex = 0;
+                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
+                for (int i = 0; i < prevInsurerList.size(); i++) {
+                    if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
+                        prevInsurerIndex = i;
+                        break;
+                    }
+                }
+                spPrevIns.setSelection(prevInsurerIndex);
+            }
+
+
+            //endregion
+
+            //region Rto binding
+
+            acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            acRto.performCompletion();
+            regplace = acRto.getText().toString();
+
+            //endregion
+
+            //region subtype binding
+            if (motorRequestEntity.getVehicle_insurance_subtype() != null && insuranceSubtypeEntities != null) {
+                int subtypeId = 0;
+                for (int i = 0; i < insuranceSubtypeEntities.size(); i++) {
+
+                    String code = motorRequestEntity.getVehicle_insurance_subtype();
+                    String vari = insuranceSubtypeEntities.get(i).getCode();
+                    if (code.equalsIgnoreCase(vari)) {
+                        subtypeId = i;
+                        break;
+                    }
+                }
+                spInsSubTYpe.setSelection(subtypeId);
+            }
+            //endregion
+
+            if (motorRequestEntity.getExternal_bifuel_value() != 0)
+                etExtValue.setText(String.valueOf(motorRequestEntity.getExternal_bifuel_value()));
+
+            etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
+
+            etMobile.setText(motorRequestEntity.getMobile());
+
+
+        }
+        try {
+
+
+            //commented by Nilesh 12.10.2018
+
+            /*Date ManfDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ManfDate);
+            setYearMonthAdapter(calendar);*/
+
+
+            etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
+
+            etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
+
+
+            //By Nilesh 12.10.2018
+            Date regDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(regDate);
+            setYearMonthAdapter(calendar);
+
+
+            if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
+                etExpDate.setEnabled(true);
+                etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
+                spPrevIns.setEnabled(true);
+            } else {
+                etExpDate.setEnabled(false);
+                //etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
+                spPrevIns.setEnabled(false);
+            }
+
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                int ncbPercent = 0;
+                if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
+                    ncbPercent = Integer.parseInt(motorRequestEntity.getVehicle_ncb_current());
+                    setSeekbarProgress(ncbPercent);
+                } else {
+                    setSeekbarProgress(ncbPercent);
+                }
+                //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else {
+                tvClaimYes.performClick();
+            }
+
+            Constants.hideKeyBoard(tvClaimNo, this);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+    private void setSeekbarProgress(int percent) {
+        int progress = getProgressFromPercent(percent);
+
+        tvClaimNo.performClick();
+        sbNoClaimBonus.setProgress(progress);
+        tvProgress.setText("Existing NCB (" + percent + "%)");
+
+         /*if (yearDiff >= 5) {
+            tvClaimNo.performClick();
+            sbNoClaimBonus.setProgress(5);
+            tvProgress.setText("Existing NCB (" + getPercentFromProgress(5) + "%)");
+        } else {
+            tvClaimNo.performClick();
+            sbNoClaimBonus.setProgress(yearDiff);
+            tvProgress.setText("Existing NCB (" + getPercentFromProgress(yearDiff) + "%)");
+        }*/
+    }
 
     private void init_widgets() {
         spInsSubTYpe = findViewById(R.id.spInsSubTYpe);
@@ -215,6 +453,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvClaimNo = (TextView) findViewById(R.id.tvClaimNo);
         tvClaimYes = (TextView) findViewById(R.id.tvClaimYes);
         etCC = (EditText) findViewById(R.id.etCC);
+        etComment = findViewById(R.id.etComment);
 
 
         etreg1 = (EditText) findViewById(R.id.etreg1);
@@ -724,7 +963,9 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         if (response instanceof OfflineCommonResponse) {
 
-            startActivity(new Intent(this, AddOfflineQuotesActivity.class));
+            UploadMotorEntity uploadMotorEntity = ((OfflineCommonResponse) response).getMasterData();
+            startActivity(new Intent(this, AddOfflineQuotesActivity.class)
+                    .putExtra(Constants.OFFLINE_DOC_DATA, uploadMotorEntity));
 
         } else if (response instanceof FastLaneDataResponse) {
 
@@ -1083,6 +1324,31 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         }
     };
     //endregion
+
+    public void setYearMonthAdapter(Calendar calendar) {
+
+        yearList.clear();
+        yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
+        YearAdapter.notifyDataSetChanged();
+
+        int yearIndex = 0;
+        for (int i = 0; i < yearList.size(); i++) {
+            String year = "" + calendar.get(Calendar.YEAR);
+            String vari = yearList.get(i);
+            if (year.equalsIgnoreCase(vari)) {
+                yearIndex = i;
+                break;
+            }
+        }
+        spYear.setSelection(yearIndex);
+
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
+
+        spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
+    }
+
 
     public void setYearMonthAdapter(Calendar calendar, int maxYear) {
 
@@ -1723,16 +1989,10 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "OFFLINE MOTOR", "OFFLINE MOTOR");
 
                     //TODO: Offline motor save
-                    SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
-                    entity.setMotorRequestEntity(motorRequestEntity);
-                    entity.setSRN("");
-                    entity.setFba_id("" + dbController.getUserData().getFBAId());
-                    entity.setVehicle_insurance_type("");
-                    entity.setIsActive(1);
-                    entity.setSRN("");
-
+                    saveMotorRequestEntity.setMotorRequestEntity(motorRequestEntity);
+                    saveMotorRequestEntity.setComment("" + etComment.getText().toString());
                     showDialog("Please wait..");
-                    new OfflineQuotesController(this).saveMotorOffline(entity, this);
+                    new OfflineQuotesController(this).saveMotorOffline(saveMotorRequestEntity, this);
                 }
 
                 break;

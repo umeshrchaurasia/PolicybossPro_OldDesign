@@ -247,6 +247,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 3:
                 //health
+
+               // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+
+
                 if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
                     mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
                 } else {

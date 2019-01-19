@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity">
+    tools:context="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.InputOfflineHealthActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -20,16 +20,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_offline_motor_list" />
+    <include layout="@layout/content_input_offline_health" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fbOfflineMotor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:tint="@color/white"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_add" />
+
 
 </android.support.design.widget.CoordinatorLayout>

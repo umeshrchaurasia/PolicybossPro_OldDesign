@@ -9,7 +9,7 @@ import android.os.Parcelable;
  * Created by Nilesh Birhade on 03-07-2017.
  */
 
-public class MotorRequestEntity implements Parcelable {
+public class MotorRequestEntity  implements Parcelable {
 
     private String birth_date;
     private int product_id;
@@ -78,6 +78,80 @@ public class MotorRequestEntity implements Parcelable {
     private int fba_id;
     private String srn;
     private int selectedPrevInsID;
+
+    protected MotorRequestEntity(Parcel in) {
+        birth_date = in.readString();
+        product_id = in.readInt();
+        vehicle_id = in.readInt();
+        rto_id = in.readInt();
+        vehicle_insurance_type = in.readString();
+        vehicle_manf_date = in.readString();
+        vehicle_registration_date = in.readString();
+        policy_expiry_date = in.readString();
+        prev_insurer_id = in.readInt();
+        vehicle_registration_type = in.readString();
+        vehicle_ncb_current = in.readString();
+        is_claim_exists = in.readString();
+        method_type = in.readString();
+        execution_async = in.readString();
+        electrical_accessory = in.readString();
+        non_electrical_accessory = in.readString();
+        registration_no = in.readString();
+        is_llpd = in.readString();
+        is_antitheft_fit = in.readString();
+        voluntary_deductible = in.readInt();
+        is_external_bifuel = in.readString();
+        external_bifuel_value = in.readInt();
+        pa_owner_driver_si = in.readString();
+        pa_named_passenger_si = in.readString();
+        pa_unnamed_passenger_si = in.readString();
+        pa_paid_driver_si = in.readString();
+        vehicle_expected_idv = in.readLong();
+        first_name = in.readString();
+        middle_name = in.readString();
+        last_name = in.readString();
+        mobile = in.readString();
+        email = in.readString();
+        crn = in.readString();
+        ip_address = in.readString();
+        secret_key = in.readString();
+        client_key = in.readString();
+        is_aai_member = in.readString();
+        external_bifuel_type = in.readString();
+        ss_id = in.readInt();
+        geo_lat = in.readDouble();
+        geo_long = in.readDouble();
+        agent_source = in.readString();
+        app_version = in.readString();
+        device_id = in.readString();
+        erp_source = in.readString();
+        mac_address = in.readString();
+        PBStatus = in.readString();
+        StatusPercent = in.readInt();
+        varid = in.readInt();
+        vehicle_insurance_subtype = in.readString();
+        isTwentyfour = in.readInt();
+        isActive = in.readInt();
+        created_date = in.readString();
+        type = in.readString();
+        conversiondate = in.readString();
+        VehicleRequestID = in.readInt();
+        fba_id = in.readInt();
+        srn = in.readString();
+        selectedPrevInsID = in.readInt();
+    }
+
+    public static final Creator<MotorRequestEntity> CREATOR = new Creator<MotorRequestEntity>() {
+        @Override
+        public MotorRequestEntity createFromParcel(Parcel in) {
+            return new MotorRequestEntity(in);
+        }
+
+        @Override
+        public MotorRequestEntity[] newArray(int size) {
+            return new MotorRequestEntity[size];
+        }
+    };
 
     public String getVehicle_insurance_subtype() {
         return vehicle_insurance_subtype;
@@ -624,138 +698,64 @@ public class MotorRequestEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.birth_date);
-        dest.writeInt(this.product_id);
-        dest.writeInt(this.vehicle_id);
-        dest.writeInt(this.rto_id);
-        dest.writeString(this.vehicle_insurance_type);
-        dest.writeString(this.vehicle_manf_date);
-        dest.writeString(this.vehicle_registration_date);
-        dest.writeString(this.policy_expiry_date);
-        dest.writeInt(this.prev_insurer_id);
-        dest.writeString(this.vehicle_registration_type);
-        dest.writeString(this.vehicle_ncb_current);
-        dest.writeString(this.is_claim_exists);
-        dest.writeString(this.method_type);
-        dest.writeString(this.execution_async);
-        dest.writeString(this.electrical_accessory);
-        dest.writeString(this.non_electrical_accessory);
-        dest.writeString(this.registration_no);
-        dest.writeString(this.is_llpd);
-        dest.writeString(this.is_antitheft_fit);
-        dest.writeInt(this.voluntary_deductible);
-        dest.writeString(this.is_external_bifuel);
-        dest.writeInt(this.external_bifuel_value);
-        dest.writeString(this.pa_owner_driver_si);
-        dest.writeString(this.pa_named_passenger_si);
-        dest.writeString(this.pa_unnamed_passenger_si);
-        dest.writeString(this.pa_paid_driver_si);
-        dest.writeLong(this.vehicle_expected_idv);
-        dest.writeString(this.first_name);
-        dest.writeString(this.middle_name);
-        dest.writeString(this.last_name);
-        dest.writeString(this.mobile);
-        dest.writeString(this.email);
-        dest.writeString(this.crn);
-        dest.writeString(this.ip_address);
-        dest.writeString(this.secret_key);
-        dest.writeString(this.client_key);
-        dest.writeString(this.is_aai_member);
-        dest.writeString(this.external_bifuel_type);
-        dest.writeInt(this.ss_id);
-        dest.writeDouble(this.geo_lat);
-        dest.writeDouble(this.geo_long);
-        dest.writeString(this.agent_source);
-        dest.writeString(this.app_version);
-        dest.writeString(this.device_id);
-        dest.writeString(this.erp_source);
-        dest.writeString(this.mac_address);
-        dest.writeString(this.PBStatus);
-        dest.writeInt(this.StatusPercent);
-        dest.writeInt(this.varid);
-        dest.writeString(this.vehicle_insurance_subtype);
-        dest.writeInt(this.isTwentyfour);
-        dest.writeInt(this.isActive);
-        dest.writeString(this.created_date);
-        dest.writeString(this.type);
-        dest.writeString(this.conversiondate);
-        dest.writeInt(this.VehicleRequestID);
-        dest.writeInt(this.fba_id);
-        dest.writeString(this.srn);
-        dest.writeInt(this.selectedPrevInsID);
+        dest.writeString(birth_date);
+        dest.writeInt(product_id);
+        dest.writeInt(vehicle_id);
+        dest.writeInt(rto_id);
+        dest.writeString(vehicle_insurance_type);
+        dest.writeString(vehicle_manf_date);
+        dest.writeString(vehicle_registration_date);
+        dest.writeString(policy_expiry_date);
+        dest.writeInt(prev_insurer_id);
+        dest.writeString(vehicle_registration_type);
+        dest.writeString(vehicle_ncb_current);
+        dest.writeString(is_claim_exists);
+        dest.writeString(method_type);
+        dest.writeString(execution_async);
+        dest.writeString(electrical_accessory);
+        dest.writeString(non_electrical_accessory);
+        dest.writeString(registration_no);
+        dest.writeString(is_llpd);
+        dest.writeString(is_antitheft_fit);
+        dest.writeInt(voluntary_deductible);
+        dest.writeString(is_external_bifuel);
+        dest.writeInt(external_bifuel_value);
+        dest.writeString(pa_owner_driver_si);
+        dest.writeString(pa_named_passenger_si);
+        dest.writeString(pa_unnamed_passenger_si);
+        dest.writeString(pa_paid_driver_si);
+        dest.writeLong(vehicle_expected_idv);
+        dest.writeString(first_name);
+        dest.writeString(middle_name);
+        dest.writeString(last_name);
+        dest.writeString(mobile);
+        dest.writeString(email);
+        dest.writeString(crn);
+        dest.writeString(ip_address);
+        dest.writeString(secret_key);
+        dest.writeString(client_key);
+        dest.writeString(is_aai_member);
+        dest.writeString(external_bifuel_type);
+        dest.writeInt(ss_id);
+        dest.writeDouble(geo_lat);
+        dest.writeDouble(geo_long);
+        dest.writeString(agent_source);
+        dest.writeString(app_version);
+        dest.writeString(device_id);
+        dest.writeString(erp_source);
+        dest.writeString(mac_address);
+        dest.writeString(PBStatus);
+        dest.writeInt(StatusPercent);
+        dest.writeInt(varid);
+        dest.writeString(vehicle_insurance_subtype);
+        dest.writeInt(isTwentyfour);
+        dest.writeInt(isActive);
+        dest.writeString(created_date);
+        dest.writeString(type);
+        dest.writeString(conversiondate);
+        dest.writeInt(VehicleRequestID);
+        dest.writeInt(fba_id);
+        dest.writeString(srn);
+        dest.writeInt(selectedPrevInsID);
     }
-
-    protected MotorRequestEntity(Parcel in) {
-        this.birth_date = in.readString();
-        this.product_id = in.readInt();
-        this.vehicle_id = in.readInt();
-        this.rto_id = in.readInt();
-        this.vehicle_insurance_type = in.readString();
-        this.vehicle_manf_date = in.readString();
-        this.vehicle_registration_date = in.readString();
-        this.policy_expiry_date = in.readString();
-        this.prev_insurer_id = in.readInt();
-        this.vehicle_registration_type = in.readString();
-        this.vehicle_ncb_current = in.readString();
-        this.is_claim_exists = in.readString();
-        this.method_type = in.readString();
-        this.execution_async = in.readString();
-        this.electrical_accessory = in.readString();
-        this.non_electrical_accessory = in.readString();
-        this.registration_no = in.readString();
-        this.is_llpd = in.readString();
-        this.is_antitheft_fit = in.readString();
-        this.voluntary_deductible = in.readInt();
-        this.is_external_bifuel = in.readString();
-        this.external_bifuel_value = in.readInt();
-        this.pa_owner_driver_si = in.readString();
-        this.pa_named_passenger_si = in.readString();
-        this.pa_unnamed_passenger_si = in.readString();
-        this.pa_paid_driver_si = in.readString();
-        this.vehicle_expected_idv = in.readLong();
-        this.first_name = in.readString();
-        this.middle_name = in.readString();
-        this.last_name = in.readString();
-        this.mobile = in.readString();
-        this.email = in.readString();
-        this.crn = in.readString();
-        this.ip_address = in.readString();
-        this.secret_key = in.readString();
-        this.client_key = in.readString();
-        this.is_aai_member = in.readString();
-        this.external_bifuel_type = in.readString();
-        this.ss_id = in.readInt();
-        this.geo_lat = in.readDouble();
-        this.geo_long = in.readDouble();
-        this.agent_source = in.readString();
-        this.app_version = in.readString();
-        this.device_id = in.readString();
-        this.erp_source = in.readString();
-        this.mac_address = in.readString();
-        this.PBStatus = in.readString();
-        this.StatusPercent = in.readInt();
-        this.varid = in.readInt();
-        this.vehicle_insurance_subtype = in.readString();
-        this.isTwentyfour = in.readInt();
-        this.isActive = in.readInt();
-        this.created_date = in.readString();
-        this.type = in.readString();
-        this.conversiondate = in.readString();
-        this.VehicleRequestID = in.readInt();
-        this.fba_id = in.readInt();
-        this.srn = in.readString();
-        this.selectedPrevInsID = in.readInt();
-    }
-
-    public static final Parcelable.Creator<MotorRequestEntity> CREATOR = new Parcelable.Creator<MotorRequestEntity>() {
-        @Override
-        public MotorRequestEntity createFromParcel(Parcel source) {
-            return new MotorRequestEntity(source);
-        }
-
-        @Override
-        public MotorRequestEntity[] newArray(int size) {
-            return new MotorRequestEntity[size];
-        }
-    };
 }

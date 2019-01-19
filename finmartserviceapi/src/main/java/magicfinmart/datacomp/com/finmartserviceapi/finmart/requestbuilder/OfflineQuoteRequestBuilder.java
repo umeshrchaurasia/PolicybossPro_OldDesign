@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveHealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineCommonResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
@@ -72,11 +75,20 @@ public class OfflineQuoteRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/get-vehicle-offline-quote")
         Call<OfflineMotorListResponse> getOfflineMotorList(@Body HashMap<String, String> body);
 
+        // Health
 //life
         @Headers("token:" + token)
         @POST("/api/smart-term-life-offline-quote")
         Call<Offline_TermResponse> getTermCompareQuotes_offline(@Body TermFinmartRequest body);
 
+        @Headers("token:" + token)
+        @POST("/api/manage-health-request-offline")
+        Call<OfflineHealthSaveResponse> saveOfflineHealth(@Body SaveHealthRequestEntity saveMotorRequestEntity);
+
+
+        @Headers("token:" + token)
+        @POST("/api/get-health-request-offline")
+        Call<OfflineHealthResponse> getOfflineHealthList(@Body HashMap<String, String> body);
         @Headers("token:" + token)
         @POST("/api/get-smart-term-life-offline-quote")
         Call<TermQuoteApplicationResponse> getTermQuoteApplication_offline(@Body HashMap<String, String> body);
