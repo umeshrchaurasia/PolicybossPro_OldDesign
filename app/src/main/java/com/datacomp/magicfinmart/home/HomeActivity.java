@@ -49,6 +49,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
 import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
@@ -426,7 +427,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         MessageCenter();
                         //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
                         break;
-
+                    case R.id.nav_AppointmentLetter:
+                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
+                                .putExtra("TYPE", "1"));
+                        break;
+                    case R.id.nav_Certificate:
+                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
+                                .putExtra("TYPE", "0"));
+                        break;
                     default:
                         break;
                 }

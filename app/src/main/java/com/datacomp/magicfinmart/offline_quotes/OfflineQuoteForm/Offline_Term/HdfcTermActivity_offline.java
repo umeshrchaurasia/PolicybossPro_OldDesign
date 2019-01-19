@@ -43,7 +43,7 @@ import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
-import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
+
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -59,6 +59,7 @@ import java.util.Date;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
@@ -66,6 +67,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.Offline_TermResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
 import static java.util.Calendar.DATE;
@@ -103,7 +105,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
 
     Button btnGetQuote;
     TextInputLayout tilPincode;
-    EditText etPincode, etSumAssured;
+    EditText etPincode, etSumAssured,etcomment;
     TermRequestEntity termRequestEntity;
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -154,7 +156,17 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         //init_adapters();
 
         //adapter_listener();
-      /*
+
+        if (getIntent().getParcelableExtra(Constants.TERM_INPUT_FRAGMENT) != null) {
+            termFinmartRequest = getIntent().getParcelableExtra(Constants.TERM_INPUT_FRAGMENT);
+            termRequestEntity = termFinmartRequest.getTermRequestEntity();
+            termRequestId = termFinmartRequest.getTermRequestId();
+         //   changeInputQuote(true);
+            bindInput(termFinmartRequest);
+        }
+
+
+/*
         if (getArguments() != null) {
             if (getArguments().getParcelable(HdfcTermActivity.QUOTE_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(HdfcTermActivity.QUOTE_DATA);
@@ -194,25 +206,25 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
             if (termRequestEntity != null) {
 
-                if (termRequestEntity.getPlanTaken().equals("Life")) {
-                    spHDFCOptions.setSelection(0);
-                } else if (termRequestEntity.getPlanTaken().equals("3D Life")) {
-                    spHDFCOptions.setSelection(1);
-                } else if (termRequestEntity.getPlanTaken().equals("Life Long Protection")) {
-                    spHDFCOptions.setSelection(2);
-                } else if (termRequestEntity.getPlanTaken().equals("3D Life Long Protection")) {
-                    spHDFCOptions.setSelection(3);
-                } else if (termRequestEntity.getPlanTaken().equals("Extra Life")) {
-                    spHDFCOptions.setSelection(4);
-                } else if (termRequestEntity.getPlanTaken().equals("Extra Life Income")) {
-                    spHDFCOptions.setSelection(5);
-                } else if (termRequestEntity.getPlanTaken().equals("Income Option")) {
-                    spHDFCOptions.setSelection(6);
-                } else if (termRequestEntity.getPlanTaken().equals("Income Replacement")) {
-                    spHDFCOptions.setSelection(7);
-                } else if (termRequestEntity.getPlanTaken().equals("Return of Premium")) {
-                    spHDFCOptions.setSelection(8);
-                }
+//                if (termRequestEntity.getPlanTaken().equals("Life")) {
+//                    spHDFCOptions.setSelection(0);
+//                } else if (termRequestEntity.getPlanTaken().equals("3D Life")) {
+//                    spHDFCOptions.setSelection(1);
+//                } else if (termRequestEntity.getPlanTaken().equals("Life Long Protection")) {
+//                    spHDFCOptions.setSelection(2);
+//                } else if (termRequestEntity.getPlanTaken().equals("3D Life Long Protection")) {
+//                    spHDFCOptions.setSelection(3);
+//                } else if (termRequestEntity.getPlanTaken().equals("Extra Life")) {
+//                    spHDFCOptions.setSelection(4);
+//                } else if (termRequestEntity.getPlanTaken().equals("Extra Life Income")) {
+//                    spHDFCOptions.setSelection(5);
+//                } else if (termRequestEntity.getPlanTaken().equals("Income Option")) {
+//                    spHDFCOptions.setSelection(6);
+//                } else if (termRequestEntity.getPlanTaken().equals("Income Replacement")) {
+//                    spHDFCOptions.setSelection(7);
+//                } else if (termRequestEntity.getPlanTaken().equals("Return of Premium")) {
+//                    spHDFCOptions.setSelection(8);
+//                }
 
                 if (termRequestEntity.getFrequency().equals("Yearly")) {
                     spHdfcPremFrq.setSelection(0);
@@ -278,6 +290,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
                 etICICIPolicyTerm.setText("" + termRequestEntity.getPolicyTerm());
                 etICICIPremiumTerm.setText("" + termRequestEntity.getPPT());
                 etHDFCSAInc.setText("" + termRequestEntity.getIncreaseSAPercentage());
+                etcomment.setText("" + termRequestEntity.getComment());
 
             }
 
@@ -656,7 +669,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             termRequestEntity.setLumpsumAmount("" + hfLumsumPayOutOnDeath);
         }
 
-
+        termRequestEntity.setComment(""+ etcomment.getText().toString());
         termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
         termRequestEntity.setInsurerId(28);
         //termRequestEntity.setPlanTaken("Life");// set in manipulateInputs()
@@ -724,6 +737,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         etLastName = (EditText) findViewById(R.id.etLastName);
         etMobile = (EditText) findViewById(R.id.etMobile);
         etDOB = (EditText) findViewById(R.id.etDateofBirth);
+        etcomment= (EditText) findViewById(R.id.etcomment);
         llGender = (LinearLayout) findViewById(R.id.llGender);
         llSmoker = (LinearLayout) findViewById(R.id.llSmoker);
 
@@ -1024,7 +1038,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
 
     public void fetchQuotes() {
         showDialog();
-        new TermInsuranceController(this).getTermInsurer(termFinmartRequest, this);
+        new OfflineQuotesController(this).getTermInsurer_offline(termFinmartRequest, this);
     }
     private void updateCrnToServer() {
         if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
@@ -1032,10 +1046,16 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
     }
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        if (response instanceof TermCompareQuoteResponse) {
-            cancelDialog();
-            processResponse((TermCompareQuoteResponse) response);
-            new AsyncShareJson_off().execute();
+        cancelDialog();
+        if (response instanceof Offline_TermResponse) {
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, TermQuoteApplicationActivity_offline.class);
+
+            startActivity(intent);
+
+            finish();
+       //     processResponse((TermCompareQuoteResponse) response);
+         //   new AsyncShareJson_off().execute();
             /*this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             mainScroll.fullScroll(ScrollView.FOCUS_UP);
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
@@ -1048,7 +1068,12 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             termFinmartRequest.setTermRequestId(termRequestId);
             bindHeaders();
             bindQuotes();
-            changeInputQuote(false);*/
+            changeInputQuote();*/
+
+
+        }else
+        {
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
     }

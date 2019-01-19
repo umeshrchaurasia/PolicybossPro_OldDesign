@@ -43,7 +43,7 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
 
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_term_item_quote, parent, false);
+                .inflate(R.layout.layout_term_item_quote_offline, parent, false);
         return new TermQuoteAdapter_offline.QuoteItem(itemView);
 
 
@@ -55,7 +55,7 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
         if (holder instanceof QuoteItem) {
             final TermFinmartRequest quote = mQuoteListFiltered.get(position);
             holder.txtPersonName.setText(quote.getTermRequestEntity().getContactName());
-            holder.txtCustRefNo.setText(quote.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
+            holder.txtCustRefNo.setText(quote.getTermRequestEntity().getSumAssured());
             holder.txtQuoteDate.setText(quote.getTermRequestEntity().getCreated_date());
             holder.llDetails.setTag(R.id.llDetails, quote);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, quote);
@@ -105,7 +105,7 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
         switch (view.getId()) {
             case R.id.llDetails:
                 TermFinmartRequest request = (TermFinmartRequest) view.getTag(view.getId());
-                ((TermQuoteListFragment) mFrament).callInputTerm(request.getTermRequestEntity().getInsurerId(), request);
+                ((TermQuoteListFragment_offline) mFrament).callInputTerm(request.getTermRequestEntity().getInsurerId(), request);
                 break;
             case R.id.txtOverflowMenu:
                 openPopUp(view, (TermFinmartRequest) view.getTag(view.getId()));

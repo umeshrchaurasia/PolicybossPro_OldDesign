@@ -12,16 +12,13 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
-import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
-import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
-import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
-import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActivity;
+
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 
 public class TermQuoteApplicationActivity_offline extends BaseActivity implements IResponseSubcriber {
@@ -91,7 +88,7 @@ public class TermQuoteApplicationActivity_offline extends BaseActivity implement
     private void fetchQuoteApplication(int compId) {
 
         showDialog(getResources().getString(R.string.fetching_msg));
-        new TermInsuranceController(this).getTermQuoteApplicationList(compId, 0, "0", this);
+        new OfflineQuotesController(this).getTermQuoteApplicationList_offline(compId, 0, "0", this);
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import okhttp3.MultipartBody;
 
 /**
@@ -30,6 +31,9 @@ public interface IOfflineQuote {
 
     void saveMotorOffline(SaveMotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
+    //Life
+    void getTermInsurer_offline(TermFinmartRequest termRequestEntity, IResponseSubcriber iResponseSubcriber);
+    void getTermQuoteApplicationList_offline(int insurerID, int count, String type, IResponseSubcriber iResponseSubcriber);
     //endregion
 
 }

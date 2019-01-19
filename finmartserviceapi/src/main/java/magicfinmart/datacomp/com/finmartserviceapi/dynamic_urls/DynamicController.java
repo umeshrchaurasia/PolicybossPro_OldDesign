@@ -11,8 +11,10 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
@@ -228,6 +230,47 @@ public class DynamicController implements IDynamic {
 
             @Override
             public void onFailure(Call<GenerateLeadResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+    //Appointment letter
+
+    @Override
+    public void GetPospAppointmentLetter(CertificateEntity certificateEntity, final IResponseSubcriber iResponseSubcriber) {
+
+//        HashMap<Integer, Integer> body = new HashMap<>();
+//        body.put("SS_ID",insurerID);
+//        body.put("Type", type);
+
+        // body.put("fba_id", String.valueOf(new DBPersistanceController(mContext).getUserData().getFBAId()));
+
+        genericUrlNetworkService.GetPospAppointmentLetter(certificateEntity).enqueue(new Callback<CertificateResponse>() {
+            @Override
+            public void onResponse(Call<CertificateResponse> call, Response<CertificateResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CertificateResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

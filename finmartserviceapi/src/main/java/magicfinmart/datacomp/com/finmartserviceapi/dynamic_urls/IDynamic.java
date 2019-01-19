@@ -2,6 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -25,4 +26,6 @@ public interface IDynamic {
 
 
     void uploadNCDDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber);
+
+    void GetPospAppointmentLetter(CertificateEntity certificateEntity, IResponseSubcriber iResponseSubcriber);
 }

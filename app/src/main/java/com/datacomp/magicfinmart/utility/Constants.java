@@ -116,7 +116,7 @@ public class Constants {
     public static final int REQUEST_PERMISSION_SETTING = 101;
     public static final int PERMISSION_CAMERA_STORACGE_CONSTANT = 103;
     public static final int PERMISSION_CALLBACK_SUPPORT = 104;
-
+    public static String TERM_INPUT_FRAGMENT = "input_term_fragment_bottom";
 
     public static String[] permissionsRequired ={Manifest.permission.CALL_PHONE};
 
