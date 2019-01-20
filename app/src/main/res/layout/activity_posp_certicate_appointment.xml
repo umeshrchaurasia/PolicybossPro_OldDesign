@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.datacomp.magicfinmart.certificate.POSP_certicate_appointment">
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -21,4 +22,41 @@
 
     </android.support.design.widget.AppBarLayout>
 
-</android.support.constraint.ConstraintLayout>
+   <LinearLayout
+       android:id="@+id/ltemail"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+
+       android:padding="30dp"
+     >
+
+       <Button
+           android:id="@+id/btnsendemail"
+           style="@style/ButtonStyle"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+
+           android:padding="10dp"
+
+           android:text="Send Via Email" />
+   </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ltemaidl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:padding="30dp"
+        >
+    <Button
+           android:id="@+id/btnview"
+           style="@style/ButtonStyle"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+
+           android:padding="10dp"
+           android:text="View and Download"
+          />
+   </LinearLayout>
+</LinearLayout>

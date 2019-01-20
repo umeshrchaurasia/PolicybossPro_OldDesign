@@ -1115,6 +1115,50 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+
+
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
+            android:label="@string/title_activity_offline_motor_list"
+            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_InputOfflineMotorActivity"
+            android:label="@string/title_activity_input_offline_motor"
+            android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
+            android:label="@string/title_activity_offline_motor_list"
+            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_InputOfflineMotorActivity"
+            android:label="@string/title_activity_input_offline_motor"
+            android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+        </activity>
     </application>
 
 </manifest>

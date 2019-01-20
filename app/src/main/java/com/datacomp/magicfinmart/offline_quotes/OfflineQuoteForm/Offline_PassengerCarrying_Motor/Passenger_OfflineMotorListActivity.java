@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor;
+package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +22,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_qu
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
 
-public class OfflineMotorListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
+public class Passenger_OfflineMotorListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
     public final static String OFFLINE_MOTOR = "offline_motor_edit";
 
     FloatingActionButton fbOfflineMotor;
     RecyclerView rvOfflineMotor;
-    OfflineMotorListItemAdapter mAdapter;
+    Passenger_OfflineMotorListItemAdapter mAdapter;
     boolean isHit = false;
 
     List<OfflineMotorListEntity> listMotorListEntity;
@@ -57,7 +57,7 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
         //TODO: Fetch offline quote
         showDialog("Loading offline list");
         // product_id= 1;//for motor
-        new OfflineQuotesController(this).getOfflineMotorList("" + count,"1", this);
+        new OfflineQuotesController(this).getOfflineMotorList("" + count,"3", this);
 
     }
 
@@ -80,7 +80,7 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
                 }
             }
 
-            mAdapter = new OfflineMotorListItemAdapter(this, listMotorListEntity);
+            mAdapter = new Passenger_OfflineMotorListItemAdapter(this, listMotorListEntity);
             rvOfflineMotor.setAdapter(mAdapter);
 
         }
@@ -129,13 +129,13 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fbOfflineMotor) {
-            startActivity(new Intent(this, InputOfflineMotorActivity.class));
+            startActivity(new Intent(this, Passenger_InputOfflineMotorActivity.class));
         }
     }
 
     public void editOfflineMotor(OfflineMotorListEntity entity) {
 
-        Intent intent = new Intent(this, InputOfflineMotorActivity.class);
+        Intent intent = new Intent(this, Passenger_InputOfflineMotorActivity.class);
         intent.putExtra(OFFLINE_MOTOR, entity);
         startActivity(intent);
         Toast.makeText(this, "" + entity.getSRN(), Toast.LENGTH_SHORT).show();

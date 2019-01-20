@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor;
+package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -67,10 +66,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UploadMotorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UploadMotorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineCommonResponse;
@@ -81,7 +79,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResp
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
-public class InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener,
+public class Passenger_InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener,
         ILocationStateListener, RadioGroup.OnCheckedChangeListener,
         CompoundButton.OnCheckedChangeListener, View.OnClickListener,
         IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
@@ -96,7 +94,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     View cvInput;
     Button btnSaveOffline, btnGo;
     TextView tvDontKnow;
-    EditText etreg1, etreg2, etreg3, etreg4;
+    EditText etreg1, etreg2, etreg3, etreg4,etUsage,etGross,etseatingcapacity;
     String regNo = "";
     Switch switchNewRenew;
 
@@ -108,10 +106,12 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     LoginResponseEntity loginResponseEntity;
 
     //region inputs
-    Spinner spFuel, spVarient, spPrevIns;
+    Spinner  spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment;
-    AutoCompleteTextView acMakeModel, acRto;
+
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment,acMakeModel_edit,spFuel_edit,spVarient_edit;
+
+    AutoCompleteTextView  acRto;
     TextView tvProgress, tvClaimYes, tvClaimNo;
     EditText etCarNo;
     Switch swIndividual, swClaim;
@@ -150,7 +150,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_input_offline_motor);
+        setContentView(R.layout.activity_input_offline_motor_passenger);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -187,8 +187,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         initialize_views();
 
 
-        if (getIntent().getParcelableExtra(OfflineMotorListActivity.OFFLINE_MOTOR) != null) {
-            saveMotorRequestEntity = getIntent().getParcelableExtra(OfflineMotorListActivity.OFFLINE_MOTOR);
+        if (getIntent().getParcelableExtra(Passenger_OfflineMotorListActivity.OFFLINE_MOTOR) != null) {
+            saveMotorRequestEntity = getIntent().getParcelableExtra(Passenger_OfflineMotorListActivity.OFFLINE_MOTOR);
             motorRequestEntity = saveMotorRequestEntity.getMotorRequestEntity();
             tvDontKnow.performClick();
             bindInputsQuotes();
@@ -229,6 +229,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             etComment.setText("");
 
 
+
         if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
             if (motorRequestEntity.getVehicle_insurance_type().equals("renew")) {
                 switchNewRenew.setChecked(true);
@@ -245,15 +246,16 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
             //region make model
 
-            acMakeModel.setText(makeModel);
+            //     acMakeModel.setText(makeModel);
+            acMakeModel_edit.setText(makeModel);
 
             //TODO: Dismiss the Drop down after auto complete set text
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    acMakeModel.dismissDropDown();
-                }
-            });
+//            new Handler().post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    acMakeModel.dismissDropDown();
+//                }
+//            });
 
             //endregion
 
@@ -285,10 +287,14 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 String vari = variantList.get(i);
                 if (variantName.equalsIgnoreCase(vari)) {
                     varientIndex = i;
+                    //   spVarient_edit.setText(variantName);//add
+
                     break;
                 }
             }
-            spVarient.setSelection(varientIndex);
+            //  spVarient.setSelection(varientIndex);
+            spVarient_edit.setText(varientIndex);//add
+
 
             int fuelIndex = 0;
             if (motorRequestEntity.getExternal_bifuel_type() != null &&
@@ -314,8 +320,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 }
             }
 
-            spFuel.setSelection(fuelIndex);
-
+          //  spFuel.setSelection(fuelIndex);
+            spFuel_edit.setText(fuelIndex);//add
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
@@ -362,6 +368,11 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
 
             etMobile.setText(motorRequestEntity.getMobile());
+
+
+                etUsage.setText(motorRequestEntity.getUsage());
+
+            etseatingcapacity.setText(motorRequestEntity.getSeatingcapacity());
 
 
         }
@@ -461,7 +472,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvClaimYes = (TextView) findViewById(R.id.tvClaimYes);
         etCC = (EditText) findViewById(R.id.etCC);
         etComment = findViewById(R.id.etComment);
-
+        etUsage = findViewById(R.id.etUsage);
+        etseatingcapacity = findViewById(R.id.etseatingcapacity);
 
         etreg1 = (EditText) findViewById(R.id.etreg1);
         etreg1.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(2)});
@@ -474,9 +486,13 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         switchNewRenew = (Switch) findViewById(R.id.switchNewRenew);
 
+        acMakeModel_edit = findViewById(R.id.acMakeModel_edit);
+        spFuel_edit = findViewById(R.id.spFuel_edit);
+        spVarient_edit = findViewById(R.id.spVarient_edit);
+
         //region init views
-        spFuel = (Spinner) findViewById(R.id.spFuel);
-        spVarient = (Spinner) findViewById(R.id.spVarient);
+     //   spFuel = (Spinner) findViewById(R.id.spFuel);
+     //   spVarient = (Spinner) findViewById(R.id.spVarient);
         spPrevIns = (Spinner) findViewById(R.id.spPrevIns);
         etExtValue = (EditText) findViewById(R.id.etExtValue);
         etRegDate = (EditText) findViewById(R.id.etRegDate);
@@ -485,7 +501,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         etCustomerName = (EditText) findViewById(R.id.etCustomerName);
         // etCustomerName.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         etMobile = (EditText) findViewById(R.id.etMobile);
-        acMakeModel = (AutoCompleteTextView) findViewById(R.id.acMakeModel);
+   //     acMakeModel = (AutoCompleteTextView) findViewById(R.id.acMakeModel);
         acRto = (AutoCompleteTextView) findViewById(R.id.acRto);
         // tvCarNo = (TextView) findViewById(R.id.tvCarNo);
         etCarNo = (EditText) findViewById(R.id.tvCarNo);
@@ -604,15 +620,15 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         //fetching initial data
 
         cityList = dbController.getRTOListNames();
-        makeModelList = dbController.getCarMakeModel();
+     //   makeModelList = dbController.getCarMakeModel();
         prevInsurerList = dbController.getInsurerList();
-        fuelList = dbController.getFuelTypeByModelId("0");
-        variantList = dbController.getVariantbyModelID("0");
+       // fuelList = dbController.getFuelTypeByModelId("0");
+      //  variantList = dbController.getVariantbyModelID("0");
         //region Autocomplete Make Model
-        makeModelAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, makeModelList);
-        acMakeModel.setAdapter(makeModelAdapter);
-        acMakeModel.setThreshold(2);
-        acMakeModel.setSelection(0);
+//        makeModelAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, makeModelList);
+//        acMakeModel.setAdapter(makeModelAdapter);
+//        acMakeModel.setThreshold(2);
+//        acMakeModel.setSelection(0);
 
         //endregion
 
@@ -627,7 +643,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         //region spinner Fuel
 
         //fuelList = new ArrayList<String>();
-        fuelAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, fuelList) {
+     /*   fuelAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, fuelList) {
             @Override
             public boolean isEnabled(int position) {
                 if (position == 0) {
@@ -670,14 +686,15 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 tv.setTextSize(Constants.SPINNER_FONT_SIZE);
                 return convertView;
             }
-        };
-        spFuel.setAdapter(fuelAdapter);
+        };*/
+       // spFuel.setAdapter(fuelAdapter);
 
         //endregion
 
         //region spinner Varient
 
         // variantList = new ArrayList<String>();
+     /*
         varientAdapter = new
                 ArrayAdapter(this, android.R.layout.simple_list_item_1, variantList) {
                     @Override
@@ -724,7 +741,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     }
                 };
         spVarient.setAdapter(varientAdapter);
-
+*/
         //endregion
 
         // region prev insurer adapter
@@ -984,7 +1001,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(((FastLaneDataResponse) response).getMasterData().getVariant_Id()));
                     if (carMasterEntity != null) {
                         this.fastLaneResponseEntity = ((FastLaneDataResponse) response).getMasterData();
-                        bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
+                     //   bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
                     }
                 }
             }
@@ -1021,13 +1038,13 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
                 //region make model
 
-                acMakeModel.setText(makeModel);
-                new Handler().post(new Runnable() {
-                    @Override
-                    public void run() {
-                        acMakeModel.dismissDropDown();
-                    }
-                });
+//                acMakeModel.setText(makeModel);
+//                new Handler().post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        acMakeModel.dismissDropDown();
+//                    }
+//                });
 
 
                 //endregion
@@ -1062,7 +1079,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                         break;
                     }
                 }
-                spVarient.setSelection(varientIndex);
+               // spVarient.setSelection(varientIndex);
 
                 int fuelIndex = 0;
                 for (int i = 0; i < fuelList.size(); i++) {
@@ -1071,7 +1088,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                         break;
                     }
                 }
-                spFuel.setSelection(fuelIndex);
+             //   spFuel.setSelection(fuelIndex);
 
                 //endregion
 
@@ -1172,7 +1189,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
         @Override
         public void onClick(final View view) {
-            Constants.hideKeyBoard(view, InputOfflineMotorActivity.this);
+            Constants.hideKeyBoard(view, Passenger_InputOfflineMotorActivity.this);
 
             //region regdate
             if (view.getId() == R.id.etRegDate) {
@@ -1386,37 +1403,37 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         //region make model
 
-        acMakeModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Constants.hideKeyBoard(acMakeModel, InputOfflineMotorActivity.this);
-                makeModel = makeModelAdapter.getItem(position).toString();
-
-                modelId = dbController.getModelID(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()));
-                acMakeModel.setSelection(0);
-
-                if (modelId != "") {
-                    fuelList.clear();
-                    fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
-                    fuelAdapter.notifyDataSetChanged();
-                    spFuel.setSelection(0);
-                    spVarient.setSelection(0);
-                    //etCC.setText("");
-
-//                    variantList.clear();
-//                    variantList.addAll(dbController.getVariantbyModelID(modelId));
-//                    varientAdapter.notifyDataSetChanged();
-                } else {
-                    acMakeModel.requestFocus();
-                    acMakeModel.setError("Enter Make,Model");
-                    return;
-                }
-
-            }
-        });
+//        acMakeModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Constants.hideKeyBoard(acMakeModel, Good_InputOfflineMotorActivity.this);
+//                makeModel = makeModelAdapter.getItem(position).toString();
+//
+//                modelId = dbController.getModelID(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()));
+//                acMakeModel.setSelection(0);
+//
+//                if (modelId != "") {
+//                    fuelList.clear();
+//                    fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
+//                    fuelAdapter.notifyDataSetChanged();
+//                    spFuel.setSelection(0);
+//                    spVarient.setSelection(0);
+//                    //etCC.setText("");
+//
+////                    variantList.clear();
+////                    variantList.addAll(dbController.getVariantbyModelID(modelId));
+////                    varientAdapter.notifyDataSetChanged();
+//                } else {
+//                    acMakeModel.requestFocus();
+//                    acMakeModel.setError("Enter Make,Model");
+//                    return;
+//                }
+//
+//            }
+//        });
 
 
         /*spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -1438,33 +1455,33 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         //endregion
 
         //region cubic capacity
-        spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (spVarient.getSelectedItemPosition() != 0) {
-                    //etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
-                    String strVarient = getVarient(spVarient.getSelectedItem().toString());
-                    varientId = dbController.getVariantID(strVarient, getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-
-                    if (varientId != null && !varientId.equals("")) {
-                       /* if (motorRequestEntity != null && motorRequestEntity.getVehicle_id() != 0 &&
-                                motorRequestEntity.getVehicle_id() != Integer.parseInt(varientId)) {
-                            sendOldCrn = false;
-                        }
-                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));*/
-                    }
-
-                    /*if (varientId != null && !varientId.equals(""))
-                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));*/
-
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                if (spVarient.getSelectedItemPosition() != 0) {
+//                    //etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
+//                    String strVarient = getVarient(spVarient.getSelectedItem().toString());
+//                    varientId = dbController.getVariantID(strVarient, getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+//
+//                    if (varientId != null && !varientId.equals("")) {
+//                       /* if (motorRequestEntity != null && motorRequestEntity.getVehicle_id() != 0 &&
+//                                motorRequestEntity.getVehicle_id() != Integer.parseInt(varientId)) {
+//                            sendOldCrn = false;
+//                        }
+//                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));*/
+//                    }
+//
+//                    /*if (varientId != null && !varientId.equals(""))
+//                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));*/
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
         //endregion
 
         // region city adapter
@@ -1473,7 +1490,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 regplace = cityAdapter.getItem(position).toString();
-                Constants.hideKeyBoard(acRto, InputOfflineMotorActivity.this);
+                Constants.hideKeyBoard(acRto, Passenger_InputOfflineMotorActivity.this);
                 acRto.setSelection(0);
                /* if (regplace != null && !regplace.equals("") && motorRequestEntity != null) {
                     if (motorRequestEntity.getRto_id() != getCityId(acRto.getText().toString())) {
@@ -1488,34 +1505,34 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         //region fuel adapter
 
-        spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-
-                if (fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_LPG)
-                        || fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_CNG)) {
-                    //etExtValue.setEnabled(true);
-                    //tilExt.setVisibility(View.VISIBLE);
-                } else {
-                    //tilExt.setVisibility(View.GONE);
-                    // etExtValue.setText("");
-                    // etExtValue.setEnabled(false);
-                    acMakeModel.requestFocus();
-                }
-
-                variantList.clear();
-                List<String> varList = dbController.getVariant(getMake(acMakeModel.getText().toString()),
-                        getModel(acMakeModel.getText().toString()),
-                        spFuel.getSelectedItem().toString());
-                variantList.addAll(varList);
-                varientAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+//        spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+//
+//                if (fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_LPG)
+//                        || fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_CNG)) {
+//                    //etExtValue.setEnabled(true);
+//                    //tilExt.setVisibility(View.VISIBLE);
+//                } else {
+//                    //tilExt.setVisibility(View.GONE);
+//                    // etExtValue.setText("");
+//                    // etExtValue.setEnabled(false);
+//                    acMakeModel.requestFocus();
+//                }
+//
+//                variantList.clear();
+//                List<String> varList = dbController.getVariant(getMake(acMakeModel.getText().toString()),
+//                        getModel(acMakeModel.getText().toString()),
+//                        spFuel.getSelectedItem().toString());
+//                variantList.addAll(varList);
+//                varientAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
 
         //endregion
 
@@ -1985,11 +2002,11 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
                 if (isValidInfo()) {
                     setCommonParameters();
-                    if (switchNewRenew.isChecked()) {  //renew
+                   // if (switchNewRenew.isChecked()) {  //renew
                         setInputParametersReNewCar();
-                    } else {
-                        setInputParametersNewCAR();
-                    }
+                   // } else {
+                     //   setInputParametersNewCAR();
+                   // }
                     //if (constantEntity.getLogtracking().equals("0"))
                     //     new InputFragment.PolicybossTrackingRequest(motorRequestEntity).execute();
 
@@ -2027,11 +2044,11 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         motorRequestEntity.setSecret_key(Utility.SECRET_KEY);
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
-        motorRequestEntity.setApp_version(Utility.getVersionName(InputOfflineMotorActivity.this));
-        motorRequestEntity.setDevice_id(Utility.getTokenId(InputOfflineMotorActivity.this));
+        motorRequestEntity.setApp_version(Utility.getVersionName(Passenger_InputOfflineMotorActivity.this));
+        motorRequestEntity.setDevice_id(Utility.getTokenId(Passenger_InputOfflineMotorActivity.this));
         motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
         try {
-            motorRequestEntity.setMac_address(Utility.getMacAddress(InputOfflineMotorActivity.this));
+            motorRequestEntity.setMac_address(Utility.getMacAddress(Passenger_InputOfflineMotorActivity.this));
         } catch (IOException e) {
             motorRequestEntity.setMac_address("0");
         }
@@ -2042,7 +2059,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         } else {
             motorRequestEntity.setSs_id(5);
         }
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(InputOfflineMotorActivity.this));
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(Passenger_InputOfflineMotorActivity.this));
         InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
         if (insuranceSubtypeEntity != null)
             motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
@@ -2054,8 +2071,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         // motorRequestEntity.setBirth_date("1992-01-01");
 
 
-        motorRequestEntity.setProduct_id(1);
-        varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+        motorRequestEntity.setProduct_id(3);
+   //     varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
         //motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(regplace))));
 
@@ -2103,23 +2120,25 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         }
 
 
-        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
-            motorRequestEntity.setExternal_bifuel_type("lpg");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-        } else if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
-            motorRequestEntity.setExternal_bifuel_type("cng");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+//        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
+//            motorRequestEntity.setExternal_bifuel_type("lpg");
+//            motorRequestEntity.setIs_external_bifuel("yes");
+//            if (!etExtValue.getText().toString().equals(""))
+//                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+//        } else if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
+//            motorRequestEntity.setExternal_bifuel_type("cng");
+//            motorRequestEntity.setIs_external_bifuel("yes");
+//            if (!etExtValue.getText().toString().equals(""))
+//                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+//
+//        } else {
+//            motorRequestEntity.setExternal_bifuel_type("");
+//            motorRequestEntity.setIs_external_bifuel("no");
+//            motorRequestEntity.setExternal_bifuel_value(0);
+//        }
 
-        } else {
-            motorRequestEntity.setExternal_bifuel_type("");
-            motorRequestEntity.setIs_external_bifuel("no");
-            motorRequestEntity.setExternal_bifuel_value(0);
-        }
-
+        motorRequestEntity.setUsage(etUsage.getText().toString());
+        motorRequestEntity.setSeatingcapacity(etseatingcapacity.getText().toString());
         setCustomerDetails();
     }
 
@@ -2128,7 +2147,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             try {
                 /*motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
                 motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
-                varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+              //  varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
                 motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
 
@@ -2143,8 +2162,10 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 e.printStackTrace();
             }
         } else {
-            varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-            motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+          //  varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+          //  motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+//must be asked
+            motorRequestEntity.setVehicle_id(Integer.parseInt("1"));
             motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
             //motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
             try {
@@ -2162,7 +2183,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
         // motorRequestEntity.setBirth_date("1992-01-01");
-        motorRequestEntity.setProduct_id(1);
+        motorRequestEntity.setProduct_id(3);
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("renew");
         motorRequestEntity.setVehicle_registration_type("individual");
@@ -2199,22 +2220,22 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             motorRequestEntity.setCrn("");
         }
 
-        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
-            motorRequestEntity.setExternal_bifuel_type("lpg");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-        } else if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
-            motorRequestEntity.setExternal_bifuel_type("cng");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-
-        } else {
-            motorRequestEntity.setExternal_bifuel_type("");
-            motorRequestEntity.setIs_external_bifuel("no");
-            motorRequestEntity.setExternal_bifuel_value(0);
-        }
+//        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
+//            motorRequestEntity.setExternal_bifuel_type("lpg");
+//            motorRequestEntity.setIs_external_bifuel("yes");
+//            if (!etExtValue.getText().toString().equals(""))
+//                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+//        } else if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
+//            motorRequestEntity.setExternal_bifuel_type("cng");
+//            motorRequestEntity.setIs_external_bifuel("yes");
+//            if (!etExtValue.getText().toString().equals(""))
+//                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+//
+//        } else {
+//            motorRequestEntity.setExternal_bifuel_type("");
+//            motorRequestEntity.setIs_external_bifuel("no");
+//            motorRequestEntity.setExternal_bifuel_value(0);
+//        }
 
         setCustomerDetails();
 
@@ -2295,9 +2316,10 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
 
         //region validations
-        if (makeModel == null || makeModel.equals("")) {
-            acMakeModel.requestFocus();
-            acMakeModel.setError("Enter Make,Model");
+
+        if (!isEmpty(acMakeModel_edit)) {
+            acMakeModel_edit.requestFocus();
+            acMakeModel_edit.setError("Enter Make,Model");
             return false;
         }
 
@@ -2387,25 +2409,35 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     return false;
                 }*/
 
-        if (spFuel.getSelectedItemPosition() == 0) {
-            Toast.makeText(this, "Select Fuel Type", Toast.LENGTH_SHORT).show();
-            spFuel.requestFocus();
+        if (!isEmpty(spFuel_edit)) {
+            spFuel_edit.requestFocus();
+            spFuel_edit.setError("Enter Fuel");
             return false;
         }
+        if (!isEmpty(spVarient_edit)) {
+            spVarient_edit.requestFocus();
+            spVarient_edit.setError("Enter Variant");
+            return false;
+        }
+//        if (spFuel.getSelectedItemPosition() == 0) {
+//            Toast.makeText(this, "Select Fuel Type", Toast.LENGTH_SHORT).show();
+//            spFuel.requestFocus();
+//            return false;
+//        }
+//
+//        if (spVarient.getSelectedItemPosition() == 0) {
+//            Toast.makeText(this, "Select Variant", Toast.LENGTH_SHORT).show();
+//            spVarient.requestFocus();
+//            return false;
+//        }
 
-        if (spVarient.getSelectedItemPosition() == 0) {
-            Toast.makeText(this, "Select Variant", Toast.LENGTH_SHORT).show();
-            spVarient.requestFocus();
-            return false;
-        }
-
-        if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
-                getModel(acMakeModel.getText().toString()),
-                getMake(acMakeModel.getText().toString())) == "") {
-            acMakeModel.requestFocus();
-            acMakeModel.setError("Enter Make,Model");
-            return false;
-        }
+//        if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
+//                getModel(acMakeModel.getText().toString()),
+//                getMake(acMakeModel.getText().toString())) == "") {
+//            acMakeModel.requestFocus();
+//            acMakeModel.setError("Enter Make,Model");
+//            return false;
+//        }
                 /* if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
                     acRto.requestFocus();
                     acRto.setError("Enter Rto");
@@ -2420,21 +2452,21 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         }
 
 
-        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)
-                || spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
-            if (etExtValue.getText().toString().equals("")) {
-                etExtValue.requestFocus();
-                etExtValue.setError("Enter Amount");
-                return false;
-            } else {
-                int extval = Integer.parseInt(etExtValue.getText().toString());
-                if (extval < 10000 || extval > 60000) {
-                    etExtValue.requestFocus();
-                    etExtValue.setError("Enter Amount between 10000 & 60000");
-                    return false;
-                }
-            }
-        }
+//        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)
+//                || spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
+//            if (etExtValue.getText().toString().equals("")) {
+//                etExtValue.requestFocus();
+//                etExtValue.setError("Enter Amount");
+//                return false;
+//            } else {
+//                int extval = Integer.parseInt(etExtValue.getText().toString());
+//                if (extval < 10000 || extval > 60000) {
+//                    etExtValue.requestFocus();
+//                    etExtValue.setError("Enter Amount between 10000 & 60000");
+//                    return false;
+//                }
+//            }
+//        }
 
         //endregion
         return true;

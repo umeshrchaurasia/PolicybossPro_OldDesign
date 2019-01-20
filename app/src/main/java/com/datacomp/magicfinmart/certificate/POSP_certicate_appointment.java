@@ -3,6 +3,8 @@ package com.datacomp.magicfinmart.certificate;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -17,10 +19,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
-public class POSP_certicate_appointment extends BaseActivity implements IResponseSubcriber {
+public class POSP_certicate_appointment extends BaseActivity implements View.OnClickListener, IResponseSubcriber  {
     String type;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
+    Button btnsendemail,btnview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,15 +37,15 @@ public class POSP_certicate_appointment extends BaseActivity implements IRespons
         }else {
             getSupportActionBar().setTitle("POSP Certificate");
         }
+        btnsendemail = (Button) findViewById(R.id.btnsendemail);
+        btnview = (Button) findViewById(R.id.btnview);
+
         dbPersistanceController = new DBPersistanceController(this);
         loginEntity = dbPersistanceController.getUserData();
 
-        CertificateEntity requestEntity = new CertificateEntity();
-        requestEntity.setSS_ID(Integer.valueOf(loginEntity.getPOSPNo()));
-        requestEntity.setType(Integer.valueOf(type));
 
-        showDialog("Please Wait...");
-        new DynamicController(this).GetPospAppointmentLetter(requestEntity ,POSP_certicate_appointment.this);
+        btnsendemail.setOnClickListener(this);
+        btnview.setOnClickListener(this);
 
     }
 
@@ -63,5 +66,27 @@ public class POSP_certicate_appointment extends BaseActivity implements IRespons
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
+    }
+
+    @Override
+    public void onClick(View view) {
+
+            switch (view.getId()) {
+            case R.id.btnsendemail:
+                //startActivity(new Intent(this, OfflineMotorListActivity.class));
+                break;
+            case R.id.btnview:
+
+                CertificateEntity requestEntity = new CertificateEntity();
+                requestEntity.setSS_ID(Integer.valueOf(loginEntity.getPOSPNo()));
+                //  requestEntity.setSS_ID(10325);
+                requestEntity.setType(Integer.valueOf(type));
+
+                showDialog("Please Wait...");
+                new DynamicController(this).GetPospAppointmentLetter(requestEntity ,POSP_certicate_appointment.this);
+
+                break;
+        }
+
     }
 }

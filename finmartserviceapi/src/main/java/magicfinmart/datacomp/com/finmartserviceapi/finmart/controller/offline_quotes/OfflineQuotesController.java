@@ -206,11 +206,13 @@ public class OfflineQuotesController implements IOfflineQuote {
 
 
     @Override
-    public void getOfflineMotorList(String count, final IResponseSubcriber iResponseSubcriber) {
+    public void getOfflineMotorList(String count,String product_id, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("count", count);
-        body.put("fba_id", "52933");// + loginResponseEntity.getFBAId());
+       // body.put("fba_id", "52933");// + loginResponseEntity.getFBAId());
+        body.put("fba_id", String.valueOf(new DBPersistanceController(mContext).getUserData().getFBAId()));
+        body.put("product_id", product_id);
 
         offlineQuoteNetworkService.getOfflineMotorList(body).enqueue(new Callback<OfflineMotorListResponse>() {
             @Override

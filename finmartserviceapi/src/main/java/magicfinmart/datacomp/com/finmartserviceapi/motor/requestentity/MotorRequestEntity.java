@@ -78,6 +78,9 @@ public class MotorRequestEntity  implements Parcelable {
     private int fba_id;
     private String srn;
     private int selectedPrevInsID;
+    private String usage;
+    private  String grossvehicleweight;
+    private  String seatingcapacity;
 
     protected MotorRequestEntity(Parcel in) {
         birth_date = in.readString();
@@ -139,6 +142,9 @@ public class MotorRequestEntity  implements Parcelable {
         fba_id = in.readInt();
         srn = in.readString();
         selectedPrevInsID = in.readInt();
+        usage= in.readString();;
+        grossvehicleweight= in.readString();
+        seatingcapacity= in.readString();
     }
 
     public static final Creator<MotorRequestEntity> CREATOR = new Creator<MotorRequestEntity>() {
@@ -294,6 +300,9 @@ public class MotorRequestEntity  implements Parcelable {
         else
             this.ss_id = 5;
         this.ip_address = Utility.getLocalIpAddress(context);*/
+        this.usage= "";
+        this.grossvehicleweight= "";
+        this.seatingcapacity= "";
     }
 
 
@@ -690,7 +699,29 @@ public class MotorRequestEntity  implements Parcelable {
         this.mac_address = mac_address;
     }
 
+    public String getUsage() {
+        return usage;
+    }
 
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
+
+    public String getGrossvehicleweight() {
+        return grossvehicleweight;
+    }
+
+    public void setGrossvehicleweight(String grossvehicleweight) {
+        this.grossvehicleweight = grossvehicleweight;
+    }
+
+    public String getSeatingcapacity() {
+        return seatingcapacity;
+    }
+
+    public void setSeatingcapacity(String seatingcapacity) {
+        this.seatingcapacity = seatingcapacity;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -757,5 +788,9 @@ public class MotorRequestEntity  implements Parcelable {
         dest.writeInt(fba_id);
         dest.writeString(srn);
         dest.writeInt(selectedPrevInsID);
+
+        dest.writeString(usage);
+        dest.writeString(grossvehicleweight);
+        dest.writeString(seatingcapacity);
     }
 }
