@@ -76,6 +76,9 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
 
     @Override
     public void OnFailure(Throwable t) {
+
+        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
+
         cancelDialog();
     }
 
