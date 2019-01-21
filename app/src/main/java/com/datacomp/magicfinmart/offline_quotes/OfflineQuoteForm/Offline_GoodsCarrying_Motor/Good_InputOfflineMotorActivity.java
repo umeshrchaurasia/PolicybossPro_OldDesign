@@ -197,11 +197,12 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
             bindInputsQuotes();
         } else {
 
-//            saveMotorRequestEntity.setSRN("");
-//            saveMotorRequestEntity.setFba_id("" + dbController.getUserData().getFBAId());
-//            saveMotorRequestEntity.setVehicle_insurance_type("");
-//            saveMotorRequestEntity.setIsActive(1);
-//            saveMotorRequestEntity.setSRN("");
+            saveMotorRequestEntity.setSRN("");
+            saveMotorRequestEntity.setFba_id("" + dbController.getUserData().getFBAId());
+            saveMotorRequestEntity.setVehicle_insurance_type("");
+            saveMotorRequestEntity.setIsActive(1);
+            saveMotorRequestEntity.setSRN("");
+
             cvInput.setVisibility(View.VISIBLE);
             cvNewRenew.setVisibility(View.GONE);
             cvIndividual.setVisibility(View.GONE);
@@ -218,10 +219,10 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
     private void bindInputsQuotes() {
 
 
-        int vehicleID = motorRequestEntity.getVehicle_id();
-        if (vehicleID == 0) {
-            vehicleID = motorRequestEntity.getVarid();
-        }
+//        int vehicleID = motorRequestEntity.getVehicle_id();
+//        if (vehicleID == 0) {
+//            vehicleID = motorRequestEntity.getVarid();
+//        }
 
         etCarNo.setText(motorRequestEntity.getRegistration_no());
         etCarNo.setEnabled(false);
@@ -240,17 +241,18 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                 switchNewRenew.setChecked(false);
             }
         }
+        acMakeModel_edit.setText(motorRequestEntity.getModeloffline());
 
-        CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
-        if (carMasterEntity != null) {
+       // CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
+       // if (carMasterEntity != null) {
 
 
-            makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+            //makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
 
             //region make model
 
             //     acMakeModel.setText(makeModel);
-            acMakeModel_edit.setText(makeModel);
+           // acMakeModel_edit.setText(makeModel);
 
             //TODO: Dismiss the Drop down after auto complete set text
 //            new Handler().post(new Runnable() {
@@ -264,67 +266,69 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 
             //region varient list
 
-            variantList.clear();
-            List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
-                    carMasterEntity.getModel_Name(),
-                    carMasterEntity.getFuel_Name());
-            variantList.addAll(varList);
-            varientAdapter.notifyDataSetChanged();
-
+//            variantList.clear();
+//            List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
+//                    carMasterEntity.getModel_Name(),
+//                    carMasterEntity.getFuel_Name());
+//            variantList.addAll(varList);
+//            varientAdapter.notifyDataSetChanged();
+                spVarient_edit.setText(motorRequestEntity.getVarientoffline());
 
             //endregion
 
             //region fuel list
-            fuelList.clear();
-            fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
-            fuelAdapter.notifyDataSetChanged();
+//            fuelList.clear();
+//            fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
+//            fuelAdapter.notifyDataSetChanged();
+
+            spFuel_edit.setText(motorRequestEntity.getFueloffline());
 
             //endregion
 
             //region spinner selection
 
-            int varientIndex = 0;
-            for (int i = 0; i < variantList.size(); i++) {
-
-                String variantName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
-                String vari = variantList.get(i);
-                if (variantName.equalsIgnoreCase(vari)) {
-                    varientIndex = i;
-                    //   spVarient_edit.setText(variantName);//add
-
-                    break;
-                }
-            }
+//            int varientIndex = 0;
+//            for (int i = 0; i < variantList.size(); i++) {
+//
+//                String variantName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
+//                String vari = variantList.get(i);
+//                if (variantName.equalsIgnoreCase(vari)) {
+//                    varientIndex = i;
+//                    //   spVarient_edit.setText(variantName);//add
+//
+//                    break;
+//                }
+//            }
             //  spVarient.setSelection(varientIndex);
-            spVarient_edit.setText(varientIndex);//add
+          //  spVarient_edit.setText(varientIndex);//add
 
 
-            int fuelIndex = 0;
-            if (motorRequestEntity.getExternal_bifuel_type() != null &&
-                    motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("")) {
-                for (int i = 0; i < fuelList.size(); i++) {
-                    if (fuelList.get(i).equalsIgnoreCase(carMasterEntity.getFuel_Name())) {
-                        fuelIndex = i;
-                        break;
-                    }
-                }
-            } else {
-                for (int i = 0; i < fuelList.size(); i++) {
-
-                    if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("lpg") &&
-                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_LPG)) {
-                        fuelIndex = i;
-                        break;
-                    } else if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("cng") &&
-                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_CNG)) {
-                        fuelIndex = i;
-                        break;
-                    }
-                }
-            }
+//            int fuelIndex = 0;
+//            if (motorRequestEntity.getExternal_bifuel_type() != null &&
+//                    motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("")) {
+//                for (int i = 0; i < fuelList.size(); i++) {
+//                    if (fuelList.get(i).equalsIgnoreCase(carMasterEntity.getFuel_Name())) {
+//                        fuelIndex = i;
+//                        break;
+//                    }
+//                }
+//            } else {
+//                for (int i = 0; i < fuelList.size(); i++) {
+//
+//                    if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("lpg") &&
+//                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_LPG)) {
+//                        fuelIndex = i;
+//                        break;
+//                    } else if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("cng") &&
+//                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_CNG)) {
+//                        fuelIndex = i;
+//                        break;
+//                    }
+//                }
+//            }
 
           //  spFuel.setSelection(fuelIndex);
-            spFuel_edit.setText(fuelIndex);//add
+          //  spFuel_edit.setText(fuelIndex);//add
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
@@ -377,7 +381,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 
                 etGross.setText(motorRequestEntity.getGrossvehicleweight());
 
-        }
+
         try {
 
 
@@ -2179,8 +2183,9 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                 e.printStackTrace();
             }
 
-            if (motorRequestEntity.getRegistration_no().equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo());
+//            if (motorRequestEntity.getRegistration_no().equals(""))
+//                motorRequestEntity.setRegistration_no(getRegistrationNo());
+            motorRequestEntity.setRegistration_no(etCarNo.getText().toString());
         }
 
         motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
@@ -2222,6 +2227,11 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
             motorRequestEntity.setCrn("");
         }
 
+        motorRequestEntity.setModeloffline(acMakeModel_edit.getText().toString());
+        motorRequestEntity.setFueloffline(spFuel_edit.getText().toString());
+        motorRequestEntity.setVarientoffline(spVarient_edit.getText().toString());
+        motorRequestEntity.setUsage(etUsage.getText().toString());
+        motorRequestEntity.setGrossvehicleweight(etGross.getText().toString());
 //        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
 //            motorRequestEntity.setExternal_bifuel_type("lpg");
 //            motorRequestEntity.setIs_external_bifuel("yes");
@@ -2318,6 +2328,11 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 
 
         //region validations
+        if (!isEmpty(etCarNo)) {
+            etCarNo.requestFocus();
+            etCarNo.setError("Enter Car No");
+            return false;
+        }
 
         if (!isEmpty(acMakeModel_edit)) {
             acMakeModel_edit.requestFocus();

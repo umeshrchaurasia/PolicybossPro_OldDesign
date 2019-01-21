@@ -82,6 +82,10 @@ public class MotorRequestEntity  implements Parcelable {
     private  String grossvehicleweight;
     private  String seatingcapacity;
 
+    private  String modeloffline;
+    private  String fueloffline;
+    private  String varientoffline;
+
     protected MotorRequestEntity(Parcel in) {
         birth_date = in.readString();
         product_id = in.readInt();
@@ -145,6 +149,11 @@ public class MotorRequestEntity  implements Parcelable {
         usage= in.readString();;
         grossvehicleweight= in.readString();
         seatingcapacity= in.readString();
+
+        modeloffline= in.readString();
+        fueloffline= in.readString();
+        varientoffline= in.readString();
+
     }
 
     public static final Creator<MotorRequestEntity> CREATOR = new Creator<MotorRequestEntity>() {
@@ -303,6 +312,9 @@ public class MotorRequestEntity  implements Parcelable {
         this.usage= "";
         this.grossvehicleweight= "";
         this.seatingcapacity= "";
+        this.modeloffline= "";
+        this.fueloffline= "";
+        this.varientoffline= "";
     }
 
 
@@ -722,6 +734,31 @@ public class MotorRequestEntity  implements Parcelable {
     public void setSeatingcapacity(String seatingcapacity) {
         this.seatingcapacity = seatingcapacity;
     }
+
+    public String getModeloffline() {
+        return modeloffline;
+    }
+
+    public void setModeloffline(String modeloffline) {
+        this.modeloffline = modeloffline;
+    }
+
+    public String getFueloffline() {
+        return fueloffline;
+    }
+
+    public void setFueloffline(String fueloffline) {
+        this.fueloffline = fueloffline;
+    }
+
+    public String getVarientoffline() {
+        return varientoffline;
+    }
+
+    public void setVarientoffline(String varientoffline) {
+        this.varientoffline = varientoffline;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -792,5 +829,9 @@ public class MotorRequestEntity  implements Parcelable {
         dest.writeString(usage);
         dest.writeString(grossvehicleweight);
         dest.writeString(seatingcapacity);
+
+        dest.writeString(modeloffline);
+        dest.writeString(fueloffline);
+        dest.writeString(varientoffline);
     }
 }
