@@ -98,6 +98,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
     private PopupWindow mPopupWindow, mPopupWindowSelection;
     View customView, customViewSelection;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1761,19 +1762,27 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
 
     public void ShowQuoteAlert() {
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            return;
+        }
+
         int AdultCount = AdultCounting();
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
 
         Button btnContinue;
+        ImageView ivCross;
 
         LayoutInflater inflater = this.getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.layout_offline_health_member, null);
 
         builder.setView(dialogView);
-        final AlertDialog alertDialog = builder.create();
+        alertDialog = builder.create();
         // set the custom dialog components - text, image and button
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
         btnContinue = (Button) dialogView.findViewById(R.id.btnContinue);
         RecyclerView rvMemberDetail = (RecyclerView) dialogView.findViewById(R.id.rvMemberDetail);
 
@@ -1783,6 +1792,15 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
         mAapter = new OfflineHealthMemberDetailsViewAdapter(this,healthQuote.getHealthRequest().getMemberList(), healthQuote.getHealthRequest().getPolicyFor(),AdultCount);
         rvMemberDetail.setAdapter(mAapter);
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                alertDialog.dismiss();
+                btnGetHealthQuote.setEnabled(true);
+            }
+        });
 
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
