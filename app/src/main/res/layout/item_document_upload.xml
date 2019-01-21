@@ -46,25 +46,28 @@
             android:gravity="right"
             android:padding="5dp">
 
-            <ImageView
-                android:id="@+id/ivPhotoCam"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginRight="10dp"
-                android:padding="2dp"
-                android:src="@drawable/ic_camera_alt" />
-
 
             <TextView
                 android:id="@+id/txtComment"
                 style="@style/TextViewStyle.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:gravity="right"
                 android:padding="5dp"
                 android:text="@string/view"
                 android:visibility="visible"
+                android:layout_marginRight="10dp"
                 android:textColor="@color/darkBlue" />
+            <ImageView
+                android:id="@+id/ivPhotoCam"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+
+                android:gravity="right"
+                android:padding="2dp"
+                android:src="@drawable/ic_camera_alt" />
+
+
+
         </LinearLayout>
 
     </LinearLayout>
