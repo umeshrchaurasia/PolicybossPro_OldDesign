@@ -177,6 +177,13 @@
                 android:orderInCategory="750"
                 android:title="Request Policy by CRN"
                 android:visible="true" />
+
+                <item
+                    android:id="@+id/nav_sendSmsTemplate"
+                    android:icon="@drawable/insurance_policy_ic"
+                    android:orderInCategory="750"
+                    android:title="Send Sms Tempate"
+                    android:visible="true" />
             </menu>
         </item>
 

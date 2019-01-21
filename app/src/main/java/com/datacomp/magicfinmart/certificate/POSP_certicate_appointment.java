@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -17,13 +18,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.Ce
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 
 public class POSP_certicate_appointment extends BaseActivity implements View.OnClickListener, IResponseSubcriber  {
     String type;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     Button btnsendemail,btnview;
+    String  URL;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +59,18 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
 
         if (response instanceof CertificateResponse) {
             if (response.getStatusNo() == 0) {
-              String  URL = "" + ((CertificateResponse) response).getMasterData();
+                URL = "" + ((CertificateResponse) response).getMasterData();
                 Utility.loadWebViewUrlInBrowser(this,URL);
 
             }
+        } else if (response instanceof PospAppointEmailResponse) {
+            if (response.getStatusNo() == 0) {
+
+                Toast.makeText(this,((PospAppointEmailResponse) response).getMessage(),Toast.LENGTH_SHORT).show();
+
+            }
         }
+
 
     }
 
@@ -73,7 +84,11 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
 
             switch (view.getId()) {
             case R.id.btnsendemail:
-                //startActivity(new Intent(this, OfflineMotorListActivity.class));
+
+                showDialog();
+
+                new RegisterController(this).getEmailTemplate(URL,type,POSP_certicate_appointment.this);
+
                 break;
             case R.id.btnview:
 

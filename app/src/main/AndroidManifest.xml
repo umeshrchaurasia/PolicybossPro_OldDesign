@@ -1061,7 +1061,6 @@
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
         <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" />
-
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
             android:label="@string/title_activity_offline_motor_list"
@@ -1102,9 +1101,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity" />
         </activity>
-
-
-
         <activity
             android:name=".certificate.POSP_certicate_appointment"
             android:label="POSP Certificate"
@@ -1115,8 +1111,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
-
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
             android:label="@string/title_activity_offline_motor_list"
@@ -1137,8 +1131,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity" />
         </activity>
-
-
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
             android:label="@string/title_activity_offline_motor_list"
@@ -1158,6 +1150,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+        </activity>
+        <activity
+            android:name=".sendTemplateSms.SendTemplateSmsActivity"
+            android:label="@string/title_activity_send_sms"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
     </application>
 

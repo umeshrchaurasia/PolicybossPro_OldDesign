@@ -25,11 +25,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
@@ -432,7 +434,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         HashMap<String, String> body = new HashMap<String, String>();
 
         body.put("FBAID", "" + new DBPersistanceController(context).getUserData().getFBAId());
-        body.put("DocType", "OFFLINE");
+        body.put("DocType",requiredDocEntity.getId());
         body.put("DocName", requiredDocEntity.getDocname());
         body.put("quoteid", "" + ReqId);
         return body;
@@ -506,4 +508,52 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
                 .start(this);
     }
     //endregion
+
+
+    public void viewUploadFile(String url) {
+
+        if (url.equals("")) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
+
+        // TouchImageView ivDocFile;
+        ImageView ivDocFile;
+        Button btnClose;
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView;
+
+        dialogView = inflater.inflate(R.layout.layout_view_doc, null);
+
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        btnClose = (Button) dialogView.findViewById(R.id.btnClose);
+//        ivDocFile = (TouchImageView) dialogView.findViewById(R.id.ivDocFile);
+        ivDocFile = (ImageView) dialogView.findViewById(R.id.ivDocFile);
+
+        Glide.with(this)
+                .load(url)
+
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(ivDocFile);
+
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.CustomDialogAnimation;
+        alertDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+
+    }
 }

@@ -52,5 +52,7 @@ public interface IRegister {
 
     void uploadContact(ContactLeadRequestEntity contactLeadRequestEntity ,IResponseSubcriber iResponseSubcriber);
 
+    void getSmsTemplate(IResponseSubcriber iResponseSubcriber);
 
+    void getEmailTemplate( String URL, String Type,IResponseSubcriber iResponseSubcriber);
 }
