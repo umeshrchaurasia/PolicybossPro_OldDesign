@@ -10,6 +10,11 @@
 
     <string name="RM_Calling">Do you want to call/mail to your\nManager: </string>
 
+    <string name="FM_Contact"> Do you want to save Finmart business number</string>
+
+    <string name="Finmart"> Finmart </string>
+
+
     <string name="Support_Calling">Do you want to call Support Team. </string>
 
     <string name="materail_count">new Images are available for downloading.\nContinue???</string>
