@@ -2294,6 +2294,12 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     public boolean isValidInfo() {
 
 
+        if (etCarNo.getText().toString().length() < 5) {
+            etCarNo.requestFocus();
+            etCarNo.setError("Invalid Vehicle No");
+            return false;
+        }
+
         //region validations
         if (makeModel == null || makeModel.equals("")) {
             acMakeModel.requestFocus();
