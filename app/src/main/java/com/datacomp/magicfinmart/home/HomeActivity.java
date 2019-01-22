@@ -21,6 +21,7 @@ import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -36,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,17 +50,18 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
+
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
-import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
+import com.datacomp.magicfinmart.insert_contact.InsertContactActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
@@ -131,14 +134,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     String versionNAme;
     PackageInfo pinfo;
     PrefManager prefManager;
-    int forceUpdate, checkfirstmsg_call;
+    int forceUpdate, checkfirstmsg_call, isContactFirstCall;
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
     UserConstantEntity userConstantEntity;
+
     MenuMasterResponse menuMasterResponse;
 
 
+    String[] perms = {
+            "android.permission.READ_CONTACTS",
+            "android.permission.WRITE_CONTACTS"
+
+    };
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
@@ -215,10 +224,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
+
 
         getNotificationAction();
 
@@ -238,6 +249,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             new MasterController(this).getInsuranceSubType(this);
         }
 
+        if (userConstantEntity != null) {
+            if (!checkPermission()) {
+                requestPermission();
+            } else {
+                addFinmartContact();
+
+            }
+        }
         checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
         if (checkfirstmsg_call == 0) {
 
@@ -318,6 +337,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
 
+
+                    case R.id.nav_insert_contact:
+                        startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
+
+                        break;
                     case R.id.nav_sharedata:
                         fragment = new ShareDataFragment();
                         getSupportActionBar().setTitle("SHARE DATA");
@@ -477,6 +501,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionBarDrawerToggle.syncState();
     }
 
+
+    private void addFinmartContact()
+    {
+        if (userConstantEntity.getFinmartwhatsappno() != null) {
+            isContactFirstCall = Integer.parseInt(prefManager.getContactMsgFirst());
+            if (isContactFirstCall == 0) {
+
+                ConfirmInsertContactAlert("BUSINESS SUPPORT", getResources().getString(R.string.FM_Contact) + " " , "");
+            }
+        }
+    }
 
     private void MessageCenter() {
 
@@ -916,6 +951,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
                     init_headers();
+                    if (!checkPermission()) {
+                        requestPermission();
+                    } else {
+                        addFinmartContact();
+
+                    }
                     if (prefManager.getPopUpCounter().equals("0")) {
                         showMArketingPopup();
                     }
@@ -1182,28 +1223,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-        switch (requestCode) {
-            case Constants.PERMISSION_CALLBACK_CONSTANT:
-                if (grantResults.length > 0) {
-
-                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean call_phone = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-
-                    if (call_phone) {
-
-                        if (userConstantEntity.getMangMobile() != null && userConstantEntity.getManagName() != null) {
-                            ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
-                        }
-
-                    }
-
-                }
-                break;
-        }
-    }
 
     public void hideNavigationItem() {
         Menu nav_Menu = navigationView.getMenu();
@@ -1487,6 +1506,65 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
+
+    public void ConfirmInsertContactAlert(String Title, String strBody, final String strMobile) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
+
+        Button btnAllow, btnReject;
+        TextView txtTile, txtBody, txtMob;
+        ImageView ivCross;
+
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+        txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+        txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+        btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+        btnReject = (Button) dialogView.findViewById(R.id.btnReject);
+        txtTile.setText(Title);
+        txtBody.setText(strBody);
+        txtMob.setText(strMobile);
+
+        btnAllow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Utility.WritePhoneContact(getResources().getString(R.string.Finmart), userConstantEntity.getFinmartwhatsappno(), HomeActivity.this);
+                prefManager.updateContactMsgFirst("" + 1);
+              //  Toast.makeText(HomeActivity.this,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnReject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                prefManager.updateContactMsgFirst("" + 1);
+            }
+        });
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+
+    }
+
     @Override
     public void onOkClick(Dialog dialog, View view) {
 
@@ -1496,4 +1574,62 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public void onCancelClick(Dialog dialog, View view) {
         dialog.cancel();
     }
+
+
+    //region permission
+
+    private boolean checkPermission() {
+
+        int readContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
+        int writeContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
+
+        return readContact == PackageManager.PERMISSION_GRANTED
+                && writeContact == PackageManager.PERMISSION_GRANTED;
+
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, perms, Constants.REQUEST_CODE_ASK_PERMISSIONS);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case Constants.PERMISSION_CALLBACK_CONSTANT:
+                if (grantResults.length > 0) {
+
+                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean call_phone = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (call_phone) {
+
+                        if (userConstantEntity.getMangMobile() != null && userConstantEntity.getManagName() != null) {
+                            ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        }
+
+                    }
+
+                }
+                break;
+
+            case Constants.REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults.length > 0) {
+
+                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean readContact = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeContact = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+
+                    if (readContact && writeContact) {
+
+                        addFinmartContact();
+                    }
+                }
+                break;
+
+        }
+    }
+    //endregion
 }

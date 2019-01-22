@@ -10,7 +10,11 @@
             android:orderInCategory="100"
             android:title="HOME" />
 
-
+        <item
+            android:id="@+id/nav_insert_contact"
+            android:icon="@drawable/home"
+            android:orderInCategory="100"
+            android:title="Finmart Business Contact" />
         <item
             android:id="@+id/nav_myaccount_pro"
             android:orderInCategory="200"
@@ -182,7 +186,7 @@
                     android:id="@+id/nav_sendSmsTemplate"
                     android:icon="@drawable/insurance_policy_ic"
                     android:orderInCategory="750"
-                    android:title="Send Sms Tempate"
+                    android:title="Send Sms Template"
                     android:visible="true" />
             </menu>
         </item>
