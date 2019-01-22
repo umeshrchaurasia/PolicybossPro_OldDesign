@@ -1165,7 +1165,13 @@
         <activity
             android:name=".insert_contact.InsertContactActivity"
             android:label="@string/title_activity_insert_contact"
-            android:theme="@style/AppTheme"></activity>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

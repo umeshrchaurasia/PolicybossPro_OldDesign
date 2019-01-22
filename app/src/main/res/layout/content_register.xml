@@ -377,6 +377,29 @@
                         android:dropDownWidth="200dp" />
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Field Sale"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:gravity="left"
+                        android:text="Field Sale"
+                        android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/spsales"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
