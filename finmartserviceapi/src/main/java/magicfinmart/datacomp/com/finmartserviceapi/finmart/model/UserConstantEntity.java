@@ -100,6 +100,10 @@ public class UserConstantEntity extends RealmObject {
     private String ManagName;
 
 
+
+    private String finmartwhatsappno;
+
+
     /**
      * plbanner : http://api.magicfinmart.com/images/plbanner.gif
      * plactive : 1
@@ -725,5 +729,12 @@ public class UserConstantEntity extends RealmObject {
         this.messagesender = messagesender;
     }
 
+    public String getFinmartwhatsappno() {
+        return finmartwhatsappno;
+    }
+
+    public void setFinmartwhatsappno(String finmartwhatsappno) {
+        this.finmartwhatsappno = finmartwhatsappno;
+    }
 
 }

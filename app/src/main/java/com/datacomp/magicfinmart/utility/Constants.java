@@ -117,6 +117,8 @@ public class Constants {
     public static final int REQUEST_PERMISSION_SETTING = 101;
     public static final int PERMISSION_CAMERA_STORACGE_CONSTANT = 103;
     public static final int PERMISSION_CALLBACK_SUPPORT = 104;
+    public static final int REQUEST_CODE_ASK_PERMISSIONS = 105;
+
     public static String OFFLINE_DOC_DATA = "offline_docData";
     public static String OFFLINE_HEALTH_EDIT = "offline_health_edit";
 

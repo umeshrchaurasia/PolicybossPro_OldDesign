@@ -215,6 +215,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Utility.WritePhoneContact("Finmart New Contact","9999911111",HomeActivity.this);   // temp added by Rahul
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();

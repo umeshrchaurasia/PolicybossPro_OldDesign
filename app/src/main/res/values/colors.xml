@@ -53,6 +53,7 @@
     <!--<color name="white">#FFFFFF</color>-->
     <color name="blue_descent">#4b76c2</color>
     <color name="uvv_green">#ff50b100</color>
+    <color name="green_light">#7db142</color>
     <color name="uvv_black">#ff000000</color>
 
     <color name="red_button">#E62B21</color>
