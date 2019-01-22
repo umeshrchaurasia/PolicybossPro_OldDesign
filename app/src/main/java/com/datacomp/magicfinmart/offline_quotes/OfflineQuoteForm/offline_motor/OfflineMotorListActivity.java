@@ -57,7 +57,7 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
         //TODO: Fetch offline quote
         showDialog("Loading offline list");
         // product_id= 1;//for motor
-        new OfflineQuotesController(this).getOfflineMotorList("" + count,"1", this);
+        new OfflineQuotesController(this).getOfflineMotorList("" + count, "1", this);
 
     }
 
@@ -138,6 +138,6 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
         Intent intent = new Intent(this, InputOfflineMotorActivity.class);
         intent.putExtra(OFFLINE_MOTOR, entity);
         startActivity(intent);
-        Toast.makeText(this, "" + entity.getSRN(), Toast.LENGTH_SHORT).show();
+
     }
 }
