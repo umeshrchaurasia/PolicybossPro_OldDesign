@@ -139,6 +139,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     AlertDialog mpsDialog;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
     UserConstantEntity userConstantEntity;
+
     MenuMasterResponse menuMasterResponse;
 
 
