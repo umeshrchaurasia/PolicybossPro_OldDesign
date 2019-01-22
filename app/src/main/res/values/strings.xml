@@ -647,5 +647,5 @@ We presume that this feature will be used only for contacts where the customer h
         OfflineHealthMemberDetailsDialogActivity
     </string>
     <string name="title_activity_send_sms">Send Sms Template</string>
-    <string name="title_activity_insert_contact">InsertContactActivity</string>
+    <string name="title_activity_insert_contact">Add Contact</string>
 </resources>

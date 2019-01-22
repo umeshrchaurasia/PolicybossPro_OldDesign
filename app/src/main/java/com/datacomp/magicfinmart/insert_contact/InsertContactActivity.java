@@ -48,6 +48,7 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
         setContentView(R.layout.activity_insert_contact);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
