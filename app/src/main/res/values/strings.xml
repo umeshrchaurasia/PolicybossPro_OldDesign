@@ -13,6 +13,8 @@
     <string name="Support_Calling">Do you want to call Support Team. </string>
 
     <string name="materail_count">new Images are available for downloading.\nContinue???</string>
+
+    <string name="view"><b><u>View</u></b></string>
     <string name="fetching_msg">Please Wait... fetching quotes</string>
     <string-array name="ncb_percent">
         <item>0</item>
@@ -563,7 +565,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_add_pospuser">Add POSP</string>
+    <string name="title_activity_add_pospuser">ADD  SUB USER</string>
     <string-array name="motor_subtype_new">
         <item>T.P. Only (3 Yrs)</item>
         <item>Comprehensive (1 Yr) + T.P. (2 Yrs)</item>
@@ -586,7 +588,7 @@
 
     <string name="title_activity_notification_sms">NOTIFICATION SMS</string>
     <string name="title_activity_generate_lead">GENERATE LEAD</string>
-    <string name="title_activity_income_potential">INCOME POTENTIAl</string>
+    <string name="title_activity_income_potential">Income Calculator</string>
     <string name="title_activity_nav_transactionhistory">TRANSACTION HISTORY</string>
     <string name="title_activity_contact_lead">CONTACT LEAD</string>
     <string name="title_activity_scan_vehicle">SCAN VEHICLE</string>
@@ -630,13 +632,14 @@ We presume that this feature will be used only for contacts where the customer h
     <string name="title_activity_ncd">NCD</string>
     <string name="title_activity_upload_ncddoc">Upload Document</string>
     <string name="title_activity_ultra_lakshyadetail">UltraLakshyadetailActivity</string>
-    <string name="title_activity_motor_offline">Motor Offline Quote</string>
-    <string name="title_activity_offline_motor_list">Motor Offline</string>
-    <string name="title_activity_input_offline_motor">Offline Motor</string>
+    <string name="title_activity_motor_offline"> OFFLINE MOTOR QUOTE</string>
+    <string name="title_activity_offline_motor_list">OFFLINE </string>
+    <string name="title_activity_input_offline_motor">OFFLINE MOTOR</string>
     <string name="title_activity_offline_health_list_activity">OFFLINE HEALTH
     </string>
     <string name="title_activity_input_offline_health">OFFLINE HEALTH</string>
     <string name="title_activity_offline_health_member_details_dialog">
         OfflineHealthMemberDetailsDialogActivity
     </string>
+    <string name="title_activity_send_sms">Send Sms Template</string>
 </resources>

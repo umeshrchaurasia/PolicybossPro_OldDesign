@@ -49,6 +49,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
 import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
@@ -79,6 +80,7 @@ import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.scan_vehicle.VehicleScanActivity;
+import com.datacomp.magicfinmart.sendTemplateSms.SendTemplateSmsActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
@@ -344,7 +346,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_addposp:
                         fragment = new POSPListFragment();
-                        getSupportActionBar().setTitle("POSP List");
+                        getSupportActionBar().setTitle("Sub User List");
                         break;
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
@@ -411,8 +413,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_contact:
                         startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
                         break;
-                    case R.id.nav_crnpolicy:
-                        startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+                    case R.id.nav_sendSmsTemplate:
+                        startActivity(new Intent(HomeActivity.this, SendTemplateSmsActivity.class));
                         break;
                     case R.id.nav_logout:
                         dialogLogout(HomeActivity.this);
@@ -426,7 +428,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         MessageCenter();
                         //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
                         break;
-
+                    case R.id.nav_AppointmentLetter:
+                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
+                                .putExtra("TYPE", "1"));
+                        break;
+                    case R.id.nav_Certificate:
+                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
+                                .putExtra("TYPE", "0"));
+                        break;
                     default:
                         break;
                 }

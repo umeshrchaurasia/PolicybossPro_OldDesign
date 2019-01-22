@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.offline_quotes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,15 +25,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -429,14 +434,27 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         HashMap<String, String> body = new HashMap<String, String>();
 
         body.put("FBAID", "" + new DBPersistanceController(context).getUserData().getFBAId());
-        body.put("DocType", "OFFLINE");
+        body.put("DocType",requiredDocEntity.getId());
         body.put("DocName", requiredDocEntity.getDocname());
         body.put("quoteid", "" + ReqId);
         return body;
     }
 
+    @Override
+    @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // Below For Cropping The Camera Image
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            //extractTextFromImage();
+            startCropImageActivity(imageUri);
+        }
+        // Below For Cropping The Gallery Image
+        else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            startCropImageActivity(selectedImageUri);
+        }
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap mphoto = null;
             try {
@@ -479,5 +497,63 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     }
 
 
+    /**
+     //TODO: Crop image activity to crop capture image.
+     * Start crop image activity for the given image.
+     */
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .start(this);
+    }
     //endregion
+
+
+    public void viewUploadFile(String url) {
+
+        if (url.equals("")) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
+
+        // TouchImageView ivDocFile;
+        ImageView ivDocFile;
+        Button btnClose;
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView;
+
+        dialogView = inflater.inflate(R.layout.layout_view_doc, null);
+
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        btnClose = (Button) dialogView.findViewById(R.id.btnClose);
+//        ivDocFile = (TouchImageView) dialogView.findViewById(R.id.ivDocFile);
+        ivDocFile = (ImageView) dialogView.findViewById(R.id.ivDocFile);
+
+        Glide.with(this)
+                .load(url)
+
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(ivDocFile);
+
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.CustomDialogAnimation;
+        alertDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+
+    }
 }

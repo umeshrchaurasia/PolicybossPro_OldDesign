@@ -194,11 +194,18 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             bindInputsQuotes();
         } else {
 
-            saveMotorRequestEntity.setSRN("");
-            saveMotorRequestEntity.setFba_id("" + dbController.getUserData().getFBAId());
-            saveMotorRequestEntity.setVehicle_insurance_type("");
-            saveMotorRequestEntity.setIsActive(1);
-            saveMotorRequestEntity.setSRN("");
+//            saveMotorRequestEntity.setSRN("");
+//            saveMotorRequestEntity.setFba_id("" + dbController.getUserData().getFBAId());
+//            saveMotorRequestEntity.setVehicle_insurance_type("");
+//            saveMotorRequestEntity.setIsActive(1);
+//            saveMotorRequestEntity.setSRN("");
+            cvInput.setVisibility(View.VISIBLE);
+            cvNewRenew.setVisibility(View.GONE);
+            cvIndividual.setVisibility(View.GONE);
+            cvRegNo.setVisibility(View.GONE);
+            tvOr.setVisibility(View.GONE);
+            llDontKnow.setVisibility(View.GONE);
+            btnSaveOffline.setVisibility(View.VISIBLE);
         }
 
         adapter_listeners();

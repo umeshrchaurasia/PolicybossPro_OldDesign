@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,15 +42,16 @@ public class UploadDocumentsAdapter extends RecyclerView.Adapter<UploadDocuments
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         ImageView ivPhoto, ivPhotoCam;
-        TextView tvDocName;
-        RelativeLayout rlParent;
+        TextView tvDocName,txtComment;
+        LinearLayout lyParent;
 
         public ApplicationItem(View itemView) {
             super(itemView);
             ivPhoto = itemView.findViewById(R.id.ivPhoto);
             ivPhotoCam = itemView.findViewById(R.id.ivPhotoCam);
             tvDocName = itemView.findViewById(R.id.tvDocName);
-            rlParent = itemView.findViewById(R.id.rlParent);
+            txtComment = itemView.findViewById(R.id.txtComment);
+            lyParent = itemView.findViewById(R.id.rlParent);
         }
     }
 
@@ -61,18 +63,27 @@ public class UploadDocumentsAdapter extends RecyclerView.Adapter<UploadDocuments
             final DocumentEntity entity = mAppList.get(position);
             item.tvDocName.setText(entity.getDocname());
 
-            if (entity.getDocpath().trim() == "") {
+            if (entity.getDocpath().trim().equalsIgnoreCase("")) {
                 holder.ivPhoto.setImageResource(R.drawable.doc_notuploaded);
+                holder.txtComment.setVisibility(View.GONE);
 
 
             } else {
                 holder.ivPhoto.setImageResource(R.drawable.doc_uploaded);
+                holder.txtComment.setVisibility(View.VISIBLE);
 
             }
-            item.rlParent.setOnClickListener(new View.OnClickListener() {
+            item.ivPhotoCam.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ((AddOfflineQuotesActivity) mContex).galleryCamPopUp(entity);
+                }
+            });
+
+            item.txtComment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((AddOfflineQuotesActivity) mContex).viewUploadFile(entity.getDocpath());
                 }
             });
 

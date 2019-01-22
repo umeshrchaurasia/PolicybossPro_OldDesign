@@ -4,8 +4,10 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
@@ -58,6 +60,10 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         @Multipart
         @POST
         Call<DocumentResponse> uploadNCD_Document(@Url String s,@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
+
+        @Headers("token:" + token)
+        @POST("/api/GetPospAppointmentLetter")
+        Call<CertificateResponse> GetPospAppointmentLetter(@Body CertificateEntity entity);
 
     }
 }

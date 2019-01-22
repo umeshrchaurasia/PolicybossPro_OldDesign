@@ -862,7 +862,8 @@ public class BaseActivity extends AppCompatActivity {
         public void incomeCalculator() {
             //Get the string value to process
             //shareQuote();
-            startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
+            startActivity(new Intent(BaseActivity.this, IncomePotentialActivity.class));
+           // startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
         }
 
         @JavascriptInterface

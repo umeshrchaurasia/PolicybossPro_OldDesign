@@ -921,7 +921,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".IncomeCalculator.IncomePotentialdetailActivity"
-            android:label="Income Potential"
+            android:label="Income Calculator"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -1033,34 +1033,34 @@
             android:label="Ultra Lakshya"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-
-        <activity android:name=".offline_quotes.AddNewOfflineQuotesActivity"
-            android:label="Offline_Quotes"
+        <activity
+            android:name=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:label="Offline Quotes"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
-        <activity android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
-            android:label="Offline_Quotes"
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
+            android:label="Offline Quotes"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
-
-        <activity android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
-            android:label="Offline_Quotes"
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
+            android:label="Offline Quotes"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
-
+        <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" />
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
             android:label="@string/title_activity_offline_motor_list"
@@ -1082,7 +1082,7 @@
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity"
+            android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
             android:label="@string/title_activity_offline_health_list_activity"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
@@ -1094,14 +1094,73 @@
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.health.InputOfflineHealthActivity"
             android:label="@string/title_activity_input_offline_health"
-            android:parentActivityName=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity"
+            android:parentActivityName=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivityActivity" />
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity" />
         </activity>
-
+        <activity
+            android:name=".certificate.POSP_certicate_appointment"
+            android:label="POSP Certificate"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
+            android:label="@string/title_activity_offline_motor_list"
+            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_InputOfflineMotorActivity"
+            android:label="@string/title_activity_input_offline_motor"
+            android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
+            android:label="@string/title_activity_offline_motor_list"
+            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+        </activity>
+        <activity
+            android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_InputOfflineMotorActivity"
+            android:label="@string/title_activity_input_offline_motor"
+            android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+        </activity>
+        <activity
+            android:name=".sendTemplateSms.SendTemplateSmsActivity"
+            android:label="@string/title_activity_send_sms"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

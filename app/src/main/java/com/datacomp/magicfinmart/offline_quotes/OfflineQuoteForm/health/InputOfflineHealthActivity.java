@@ -36,6 +36,7 @@ import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsAct
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter.OfflineHealthMemberDetailsViewAdapter;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter.OfflineHealthSumAssuredViewAdapter;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.SortbyAge;
 
@@ -44,16 +45,22 @@ import java.util.Collections;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveHealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
-public class InputOfflineHealthActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, View.OnTouchListener {
+public class InputOfflineHealthActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, View.OnTouchListener ,IResponseSubcriber {
 
     private static final String TAG = "HealthInputFragment";
     public static final int REQUEST_MEMBER = 4444;
@@ -63,7 +70,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
     Button btnSelf, btnFamily, btnParent;
     ImageView img1, img2, img3, img4, img5, img6;
-    EditText et1, et2, et3, et4, et5, et6;
+    EditText et1, et2, et3, et4, et5, et6 ;
     RecyclerView rvSumAssured;
     AutoCompleteTextView acCity;
     ArrayAdapter<String> cityAdapter;
@@ -76,7 +83,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     int coverFor = 0;
     OfflineHealthSumAssuredViewAdapter adapter;
 
-    EditText etAmount, etPincode, etName, etMobile;
+    EditText etAmount, etPincode, etName, etMobile ,etComment;
 
     Button btnGetHealthQuote;
 
@@ -86,11 +93,12 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     DBPersistanceController db;
     List<HealthSumAssured> listSumAssured;
     OfflineHealthMemberDetailsViewAdapter mAapter;
-
+    LoginResponseEntity loginEntity;
     EditText editText;
 
     private PopupWindow mPopupWindow, mPopupWindowSelection;
     View customView, customViewSelection;
+    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +119,8 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         cityBinding();
 
         db = new DBPersistanceController(this);
+
+        loginEntity = db.getUserData();
         listSumAssured = db.getSumAssured();
 
         sumAssuredBinding();
@@ -133,6 +143,19 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 //            //default self selected
 //            btnFamily.performClick();
 //        }
+
+        if (getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT) != null) {
+            healthQuote = getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT);
+            healthRequestEntity = healthQuote.getHealthRequest();
+            processMemberForAge();
+            bindInput();
+        } else {
+            healthQuote.setAgent_source("App");
+            healthQuote.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
+//            //default self selected
+            btnFamily.performClick();
+        }
+
 
     }
 
@@ -521,6 +544,12 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         etName.setText(healthRequestEntity.getContactName());
         etPincode.setText(String.valueOf(healthRequestEntity.getPincode()));
 
+        if(healthQuote.getComment() != null) {
+            etComment.setText("" + healthQuote.getComment());
+        }else{
+            etComment.setText("");
+        }
+
         //select existing sum assured amount in recycler view
 
         for (int i = 0; i < listSumAssured.size(); i++) {
@@ -737,6 +766,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         etPincode = (EditText) findViewById(R.id.etPincode);
         etName = (EditText) findViewById(R.id.etName);
         etMobile = (EditText) findViewById(R.id.etMobile);
+        etComment = (EditText) findViewById(R.id.etComment);
         btnGetHealthQuote = (Button) findViewById(R.id.btnGetHealthQuote);
 
 
@@ -1732,19 +1762,27 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
 
     public void ShowQuoteAlert() {
+
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            return;
+        }
+
         int AdultCount = AdultCounting();
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
 
         Button btnContinue;
+        ImageView ivCross;
 
         LayoutInflater inflater = this.getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.layout_offline_health_member, null);
 
         builder.setView(dialogView);
-        final AlertDialog alertDialog = builder.create();
+        alertDialog = builder.create();
         // set the custom dialog components - text, image and button
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
         btnContinue = (Button) dialogView.findViewById(R.id.btnContinue);
         RecyclerView rvMemberDetail = (RecyclerView) dialogView.findViewById(R.id.rvMemberDetail);
 
@@ -1755,10 +1793,30 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         mAapter = new OfflineHealthMemberDetailsViewAdapter(this,healthQuote.getHealthRequest().getMemberList(), healthQuote.getHealthRequest().getPolicyFor(),AdultCount);
         rvMemberDetail.setAdapter(mAapter);
 
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Close dialog
+                alertDialog.dismiss();
+                btnGetHealthQuote.setEnabled(true);
+            }
+        });
+
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
+
+                SaveHealthRequestEntity saveHealthRequestEntity = new SaveHealthRequestEntity();
+                saveHealthRequestEntity.setFba_id(loginEntity.getFBAId());
+                saveHealthRequestEntity.setCrn(healthQuote.getCrn());
+                saveHealthRequestEntity.setAgent_source(healthQuote.getAgent_source());
+                saveHealthRequestEntity.setHealthRequestId(healthQuote.getHealthRequestId());
+                saveHealthRequestEntity.setComment(etComment.getText().toString());
+                saveHealthRequestEntity.setHealthRequest(healthQuote.getHealthRequest());
+
+                showDialog();
+                new OfflineQuotesController(InputOfflineHealthActivity.this).saveHealthOffline(saveHealthRequestEntity,InputOfflineHealthActivity.this);
 
 
 
@@ -1794,5 +1852,28 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         member = entity;
         healthQuote.getHealthRequest().getMemberList().set(position, member);
 
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof OfflineHealthSaveResponse) {
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(this,((OfflineHealthSaveResponse) response).getMessage(),Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                intent.putExtra("MESSAGE","SUCCESS");
+                setResult(2,intent);
+                finish();
+
+
+
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+        cancelDialog();
     }
 }

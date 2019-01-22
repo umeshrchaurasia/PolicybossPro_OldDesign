@@ -16,9 +16,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import okhttp3.MultipartBody;
@@ -124,5 +126,22 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/addcontacts")
         Call<ContactLeadResponse> saveContactLead(@Body ContactLeadRequestEntity body);
+
+        ////////////////////// Posp Sms & Email ////////////////////////////////
+
+        @Headers("token:" + token)
+        @POST("/api/get-customers-sms-template")
+        Call<SmsTemplateResponse> getSmsTemplate();
+
+
+        @Headers("token:" + token)
+        @POST("/api/posp-appointment-email")
+        Call<PospAppointEmailResponse> getEmailTemplate(@Body HashMap<String, String> body);
     }
+
+
+
+
+
+
 }

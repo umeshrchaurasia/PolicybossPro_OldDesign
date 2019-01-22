@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -39,7 +40,7 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        listMotorListEntity = new ArrayList<OfflineMotorListEntity>();
         init_widgets();
         setListeners();
 
@@ -48,13 +49,15 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
     @Override
     protected void onResume() {
         super.onResume();
-        fetchMoreQuotes(1);
+        listMotorListEntity = new ArrayList<OfflineMotorListEntity>();
+        fetchMoreQuotes(0);
     }
 
     private void fetchMoreQuotes(int count) {
         //TODO: Fetch offline quote
         showDialog("Loading offline list");
-        new OfflineQuotesController(this).getOfflineMotorList("" + count, this);
+        // product_id= 1;//for motor
+        new OfflineQuotesController(this).getOfflineMotorList("" + count,"1", this);
 
     }
 

@@ -78,6 +78,13 @@ public class MotorRequestEntity  implements Parcelable {
     private int fba_id;
     private String srn;
     private int selectedPrevInsID;
+    private String usage;
+    private  String grossvehicleweight;
+    private  String seatingcapacity;
+
+    private  String modeloffline;
+    private  String fueloffline;
+    private  String varientoffline;
 
     protected MotorRequestEntity(Parcel in) {
         birth_date = in.readString();
@@ -139,6 +146,14 @@ public class MotorRequestEntity  implements Parcelable {
         fba_id = in.readInt();
         srn = in.readString();
         selectedPrevInsID = in.readInt();
+        usage= in.readString();;
+        grossvehicleweight= in.readString();
+        seatingcapacity= in.readString();
+
+        modeloffline= in.readString();
+        fueloffline= in.readString();
+        varientoffline= in.readString();
+
     }
 
     public static final Creator<MotorRequestEntity> CREATOR = new Creator<MotorRequestEntity>() {
@@ -294,6 +309,12 @@ public class MotorRequestEntity  implements Parcelable {
         else
             this.ss_id = 5;
         this.ip_address = Utility.getLocalIpAddress(context);*/
+        this.usage= "";
+        this.grossvehicleweight= "";
+        this.seatingcapacity= "";
+        this.modeloffline= "";
+        this.fueloffline= "";
+        this.varientoffline= "";
     }
 
 
@@ -690,6 +711,53 @@ public class MotorRequestEntity  implements Parcelable {
         this.mac_address = mac_address;
     }
 
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
+
+    public String getGrossvehicleweight() {
+        return grossvehicleweight;
+    }
+
+    public void setGrossvehicleweight(String grossvehicleweight) {
+        this.grossvehicleweight = grossvehicleweight;
+    }
+
+    public String getSeatingcapacity() {
+        return seatingcapacity;
+    }
+
+    public void setSeatingcapacity(String seatingcapacity) {
+        this.seatingcapacity = seatingcapacity;
+    }
+
+    public String getModeloffline() {
+        return modeloffline;
+    }
+
+    public void setModeloffline(String modeloffline) {
+        this.modeloffline = modeloffline;
+    }
+
+    public String getFueloffline() {
+        return fueloffline;
+    }
+
+    public void setFueloffline(String fueloffline) {
+        this.fueloffline = fueloffline;
+    }
+
+    public String getVarientoffline() {
+        return varientoffline;
+    }
+
+    public void setVarientoffline(String varientoffline) {
+        this.varientoffline = varientoffline;
+    }
 
     @Override
     public int describeContents() {
@@ -757,5 +825,13 @@ public class MotorRequestEntity  implements Parcelable {
         dest.writeInt(fba_id);
         dest.writeString(srn);
         dest.writeInt(selectedPrevInsID);
+
+        dest.writeString(usage);
+        dest.writeString(grossvehicleweight);
+        dest.writeString(seatingcapacity);
+
+        dest.writeString(modeloffline);
+        dest.writeString(fueloffline);
+        dest.writeString(varientoffline);
     }
 }

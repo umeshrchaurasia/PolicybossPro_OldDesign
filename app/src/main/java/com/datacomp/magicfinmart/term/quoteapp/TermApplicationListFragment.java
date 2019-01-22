@@ -23,6 +23,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
@@ -121,17 +122,9 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
     public void fetchMoreQuotes(int count) {
         //showDialog("Fetching.., Please wait.!");
 
-        if (compId == 39) {
-            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "2", this);
-        } else if (compId == 28) {
-            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(28, count, "2", this);
-        } else if (compId == 0) {
-            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(0, count, "2", this);
-        } else if (compId == 1) {
-            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(1, count, "2", this);
-        } else if (compId == 43) {
-            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(43, count, "2", this);
-        }
+
+         new OfflineQuotesController(getActivity()).getTermQuoteApplicationList_offline(28, count, "2", this);
+
         //new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "2", this);
     }
 

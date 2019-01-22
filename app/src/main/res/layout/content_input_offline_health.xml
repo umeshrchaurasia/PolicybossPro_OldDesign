@@ -387,7 +387,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Mobile"
-                        android:visibility="invisible">
+                        android:visibility="gone">
 
                         <EditText
                             style="@style/Style.edittext"
@@ -395,6 +395,34 @@
                             android:maxLength="10" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/view_spacing_small"
+                    android:layout_marginRight="@dimen/view_spacing_small"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Comment">
+
+                        <EditText
+                            android:id="@+id/etComment"
+                            style="@style/Style.edittext"
+                            android:inputType="textCapWords"
+                            android:lines="1"
+                            android:maxLines="1"
+                            android:minLines="1" />
+                        <!--android:inputType="textCapWords"-->
+                    </android.support.design.widget.TextInputLayout>
+
+
+                </LinearLayout>
+
             </LinearLayout>
             <!--</android.support.v7.widget.CardView>-->
         </LinearLayout>
@@ -405,7 +433,7 @@
         style="@style/ButtonStyle"
         android:minHeight="36dp"
         android:layout_alignParentBottom="true"
-        android:text="Get quotes"
+        android:text="Continue"
         android:textStyle="normal"
         android:textColor="@color/white" />
 </RelativeLayout>

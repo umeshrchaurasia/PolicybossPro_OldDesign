@@ -3,7 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class HealthQuote implements Parcelable {
+public class  HealthQuote implements Parcelable {
     /**
      * fba_id : 123
      * HealthRequestId : 13
@@ -16,7 +16,32 @@ public class HealthQuote implements Parcelable {
     private int HealthRequestId;
     private String agent_source;
     private String crn;
+    private String comment;
     private HealthRequestEntity HealthRequest;
+
+    protected HealthQuote(Parcel in) {
+        fba_id = in.readInt();
+        HealthRequestId = in.readInt();
+        agent_source = in.readString();
+        crn = in.readString();
+        comment = in.readString();
+        HealthRequest = in.readParcelable(HealthRequestEntity.class.getClassLoader());
+    }
+
+    public static final Creator<HealthQuote> CREATOR = new Creator<HealthQuote>() {
+        @Override
+        public HealthQuote createFromParcel(Parcel in) {
+            return new HealthQuote(in);
+        }
+
+        @Override
+        public HealthQuote[] newArray(int size) {
+            return new HealthQuote[size];
+        }
+    };
+
+    public HealthQuote() {
+    }
 
     public int getFba_id() {
         return fba_id;
@@ -53,6 +78,14 @@ public class HealthQuote implements Parcelable {
     public HealthRequestEntity getHealthRequest() {
         return HealthRequest;
     }
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
 
     public void setHealthRequest(HealthRequestEntity HealthRequest) {
         this.HealthRequest = HealthRequest;
@@ -66,33 +99,11 @@ public class HealthQuote implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.fba_id);
-        dest.writeInt(this.HealthRequestId);
-        dest.writeString(this.agent_source);
-        dest.writeString(this.crn);
-        dest.writeParcelable(this.HealthRequest, flags);
+        dest.writeInt(fba_id);
+        dest.writeInt(HealthRequestId);
+        dest.writeString(agent_source);
+        dest.writeString(crn);
+        dest.writeString(comment);
+        dest.writeParcelable(HealthRequest, flags);
     }
-
-    public HealthQuote() {
-    }
-
-    protected HealthQuote(Parcel in) {
-        this.fba_id = in.readInt();
-        this.HealthRequestId = in.readInt();
-        this.agent_source = in.readString();
-        this.crn = in.readString();
-        this.HealthRequest = in.readParcelable(HealthRequestEntity.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<HealthQuote> CREATOR = new Parcelable.Creator<HealthQuote>() {
-        @Override
-        public HealthQuote createFromParcel(Parcel source) {
-            return new HealthQuote(source);
-        }
-
-        @Override
-        public HealthQuote[] newArray(int size) {
-            return new HealthQuote[size];
-        }
-    };
 }
