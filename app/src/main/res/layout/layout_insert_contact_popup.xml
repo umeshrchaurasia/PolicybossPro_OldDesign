@@ -35,7 +35,7 @@
                     android:gravity="center"
                     android:minHeight="45dp"
                     android:padding="8dp"
-                    android:text="Save RM Contact"
+                    android:text="Save"
 
                     android:textSize="17sp"
                     android:textColor="@android:color/white"
@@ -71,6 +71,7 @@
             <TextView
                 android:id="@+id/txtOther"
                 style="@style/TextViewStyle.Large"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/fab_margin"

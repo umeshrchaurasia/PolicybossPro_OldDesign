@@ -772,16 +772,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-        <!--<activity-->
-            <!--android:name=".term.icici.HTermICICIActivity"-->
-            <!--android:label="@string/title_activity_term_icici"-->
-            <!--android:parentActivityName=".term.termselection.TermSelectionActivity"-->
-            <!--android:screenOrientation="portrait"-->
-            <!--android:windowSoftInputMode="stateAlwaysHidden|stateHidden">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".term.termselection.TermSelectionActivity" />-->
-        <!--</activity>-->
+        <!-- <activity -->
+        <!-- android:name=".term.icici.HTermICICIActivity" -->
+        <!-- android:label="@string/title_activity_term_icici" -->
+        <!-- android:parentActivityName=".term.termselection.TermSelectionActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:windowSoftInputMode="stateAlwaysHidden|stateHidden"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.PARENT_ACTIVITY" -->
+        <!-- android:value=".term.termselection.TermSelectionActivity" /> -->
+        <!-- </activity> -->
         <activity
             android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:label="EXPRESS LOAN"
@@ -1061,7 +1061,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
-        <!--<activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" />-->
+        <!-- <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" /> -->
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
             android:label="@string/title_activity_offline_motor_list"
@@ -1158,10 +1158,14 @@
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".insert_contact.InsertContactActivity"
+            android:label="@string/title_activity_insert_contact"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -443,6 +443,7 @@ public class Utility {
             ContentProviderResult[] contentProresult = null;
             contentProresult = contetx.getContentResolver().applyBatch(ContactsContract.AUTHORITY, cntProOper); //apply above data insertion into contacts list
 
+            Toast.makeText(cntx,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
 
         } catch (RemoteException exp) {
             //logs;

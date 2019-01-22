@@ -140,7 +140,7 @@
     <style name="ButtonGreen" parent="@android:style/Widget.Button">
 
         <item name="android:background">@drawable/lightgreen_background</item>
-        <item name="fontPath">fonts/oxygenlight.ttf</item>
+
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
