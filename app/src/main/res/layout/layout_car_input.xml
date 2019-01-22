@@ -86,25 +86,20 @@
                     android:paddingRight="8dp"
                     android:visibility="visible">
 
-                    <!--<TextView
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="VERIFY YOUR CAR DETAILS FOR "
                         android:textAppearance="@style/TextStyle.TextMedium" />
--->
-                    <android.support.design.widget.TextInputLayout
-                        style="@style/TextInputLayoutStyle"
+
+
+                    <TextView
+                        android:id="@+id/tvCarNo"
+                        style="@style/TextViewStyle.Medium"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Vehicle No">
+                        android:textColor="@color/blue" />
 
-                        <EditText
-                            android:id="@+id/tvCarNo"
-                            style="@style/Style.edittext"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
