@@ -56,7 +56,7 @@ public class Good_OfflineMotorListActivity extends BaseActivity implements View.
         //TODO: Fetch offline quote
         showDialog("Loading offline list");
         // product_id= 1;//for motor
-        new OfflineQuotesController(this).getOfflineMotorList("" + count,"2", this);
+        new OfflineQuotesController(this).getOfflineMotorList("" + count, "2", this);
 
     }
 
@@ -112,7 +112,7 @@ public class Good_OfflineMotorListActivity extends BaseActivity implements View.
                         .findLastVisibleItemPosition();
 
 
-                if (lastCompletelyVisibleItemPosition == listMotorListEntity.size() - 1) {
+                if (lastCompletelyVisibleItemPosition == listMotorListEntity.size() - 2 && listMotorListEntity.size() > 6) {
                     if (!isHit) {
                         isHit = true;
                         fetchMoreQuotes(listMotorListEntity.size());

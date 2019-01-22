@@ -266,8 +266,8 @@
                     style="@style/TextStyle.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:text="Cover required"
                     android:textAllCaps="true" />
@@ -283,8 +283,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/view_spacing_small"
                     android:layout_marginLeft="@dimen/view_spacing_small"
+                    android:layout_marginTop="@dimen/view_spacing_small"
                     android:layout_marginRight="@dimen/view_spacing_small"
                     android:orientation="horizontal">
 
@@ -431,9 +431,9 @@
     <Button
         android:id="@+id/btnGetHealthQuote"
         style="@style/ButtonStyle"
-        android:minHeight="36dp"
         android:layout_alignParentBottom="true"
+        android:minHeight="36dp"
         android:text="Continue"
-        android:textStyle="normal"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textStyle="normal" />
 </RelativeLayout>

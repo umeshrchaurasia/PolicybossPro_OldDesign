@@ -590,7 +590,6 @@
                     <EditText
                         android:id="@+id/etComment"
                         style="@style/Style.edittext"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:inputType="textCapWords"
                         android:lines="3" />
                 </android.support.design.widget.TextInputLayout>

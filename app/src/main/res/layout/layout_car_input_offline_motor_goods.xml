@@ -150,8 +150,7 @@
 
                         <EditText
                             android:id="@+id/acMakeModel_edit"
-                            style="@style/Style.edittext"
-                            />
+                            style="@style/Style.edittext" />
                     </android.support.design.widget.TextInputLayout>
 
 
@@ -165,8 +164,7 @@
 
                         <EditText
                             android:id="@+id/spFuel_edit"
-                            style="@style/Style.edittext"
-                            />
+                            style="@style/Style.edittext" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
@@ -210,8 +208,7 @@
 
                         <EditText
                             android:id="@+id/spVarient_edit"
-                            style="@style/Style.edittext"
-                            />
+                            style="@style/Style.edittext" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -596,31 +593,30 @@
 
                         <EditText
                             android:id="@+id/etUsage"
-                            style="@style/Style.edittext"
-                            />
+                            style="@style/Style.edittext" />
                     </android.support.design.widget.TextInputLayout>
 
 
-
                 </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_weight="1"
-                    android:hint="Gross Vehicle Weight">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/etGross"
-                        style="@style/Style.edittext"
-                        />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:hint="Gross Vehicle Weight">
+
+                        <EditText
+                            android:id="@+id/etGross"
+                            style="@style/Style.edittext" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="match_parent"
@@ -629,7 +625,6 @@
                     <EditText
                         android:id="@+id/etComment"
                         style="@style/Style.edittext"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                         android:inputType="textCapWords"
                         android:lines="3" />
                 </android.support.design.widget.TextInputLayout>

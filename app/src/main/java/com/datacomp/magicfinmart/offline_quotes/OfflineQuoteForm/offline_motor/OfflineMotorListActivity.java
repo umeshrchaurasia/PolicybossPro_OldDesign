@@ -113,7 +113,7 @@ public class OfflineMotorListActivity extends BaseActivity implements View.OnCli
                         .findLastVisibleItemPosition();
 
 
-                if (lastCompletelyVisibleItemPosition == listMotorListEntity.size() - 1) {
+                if (lastCompletelyVisibleItemPosition == listMotorListEntity.size() - 2 && listMotorListEntity.size() > 6) {
                     if (!isHit) {
                         isHit = true;
                         fetchMoreQuotes(listMotorListEntity.size());

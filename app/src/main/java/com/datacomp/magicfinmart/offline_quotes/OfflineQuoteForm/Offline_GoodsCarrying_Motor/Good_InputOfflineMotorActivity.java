@@ -97,7 +97,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
     View cvInput;
     Button btnSaveOffline, btnGo;
     TextView tvDontKnow;
-    EditText etreg1, etreg2, etreg3, etreg4,etUsage,etGross;
+    EditText etreg1, etreg2, etreg3, etreg4, etUsage, etGross;
     String regNo = "";
     Switch switchNewRenew;
 
@@ -109,12 +109,12 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
     LoginResponseEntity loginResponseEntity;
 
     //region inputs
-    Spinner  spPrevIns;
+    Spinner spPrevIns;
     TextInputLayout tilExt;
 
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment,acMakeModel_edit,spFuel_edit,spVarient_edit;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment, acMakeModel_edit, spFuel_edit, spVarient_edit;
 
-    AutoCompleteTextView  acRto;
+    AutoCompleteTextView acRto;
     TextView tvProgress, tvClaimYes, tvClaimNo;
     EditText etCarNo;
     Switch swIndividual, swClaim;
@@ -233,7 +233,6 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
             etComment.setText("");
 
 
-
         if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
             if (motorRequestEntity.getVehicle_insurance_type().equals("renew")) {
                 switchNewRenew.setChecked(true);
@@ -243,18 +242,18 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
         }
         acMakeModel_edit.setText(motorRequestEntity.getModeloffline());
 
-       // CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
-       // if (carMasterEntity != null) {
+        // CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
+        // if (carMasterEntity != null) {
 
 
-            //makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+        //makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
 
-            //region make model
+        //region make model
 
-            //     acMakeModel.setText(makeModel);
-           // acMakeModel_edit.setText(makeModel);
+        //     acMakeModel.setText(makeModel);
+        // acMakeModel_edit.setText(makeModel);
 
-            //TODO: Dismiss the Drop down after auto complete set text
+        //TODO: Dismiss the Drop down after auto complete set text
 //            new Handler().post(new Runnable() {
 //                @Override
 //                public void run() {
@@ -262,9 +261,9 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 //                }
 //            });
 
-            //endregion
+        //endregion
 
-            //region varient list
+        //region varient list
 
 //            variantList.clear();
 //            List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
@@ -272,20 +271,20 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 //                    carMasterEntity.getFuel_Name());
 //            variantList.addAll(varList);
 //            varientAdapter.notifyDataSetChanged();
-                spVarient_edit.setText(motorRequestEntity.getVarientoffline());
+        spVarient_edit.setText(motorRequestEntity.getVarientoffline());
 
-            //endregion
+        //endregion
 
-            //region fuel list
+        //region fuel list
 //            fuelList.clear();
 //            fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
 //            fuelAdapter.notifyDataSetChanged();
 
-            spFuel_edit.setText(motorRequestEntity.getFueloffline());
+        spFuel_edit.setText(motorRequestEntity.getFueloffline());
 
-            //endregion
+        //endregion
 
-            //region spinner selection
+        //region spinner selection
 
 //            int varientIndex = 0;
 //            for (int i = 0; i < variantList.size(); i++) {
@@ -299,8 +298,8 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 //                    break;
 //                }
 //            }
-            //  spVarient.setSelection(varientIndex);
-          //  spVarient_edit.setText(varientIndex);//add
+        //  spVarient.setSelection(varientIndex);
+        //  spVarient_edit.setText(varientIndex);//add
 
 
 //            int fuelIndex = 0;
@@ -327,59 +326,59 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 //                }
 //            }
 
-          //  spFuel.setSelection(fuelIndex);
-          //  spFuel_edit.setText(fuelIndex);//add
+        //  spFuel.setSelection(fuelIndex);
+        //  spFuel_edit.setText(fuelIndex);//add
 
-            if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
-                int prevInsurerIndex = 0;
-                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
-                for (int i = 0; i < prevInsurerList.size(); i++) {
-                    if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
-                        prevInsurerIndex = i;
-                        break;
-                    }
+        if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
+            int prevInsurerIndex = 0;
+            String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
+            for (int i = 0; i < prevInsurerList.size(); i++) {
+                if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
+                    prevInsurerIndex = i;
+                    break;
                 }
-                spPrevIns.setSelection(prevInsurerIndex);
             }
+            spPrevIns.setSelection(prevInsurerIndex);
+        }
 
 
-            //endregion
+        //endregion
 
-            //region Rto binding
+        //region Rto binding
 
-            acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
-            acRto.performCompletion();
-            regplace = acRto.getText().toString();
+        acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+        acRto.performCompletion();
+        regplace = acRto.getText().toString();
 
-            //endregion
+        //endregion
 
-            //region subtype binding
-            if (motorRequestEntity.getVehicle_insurance_subtype() != null && insuranceSubtypeEntities != null) {
-                int subtypeId = 0;
-                for (int i = 0; i < insuranceSubtypeEntities.size(); i++) {
+        //region subtype binding
+        if (motorRequestEntity.getVehicle_insurance_subtype() != null && insuranceSubtypeEntities != null) {
+            int subtypeId = 0;
+            for (int i = 0; i < insuranceSubtypeEntities.size(); i++) {
 
-                    String code = motorRequestEntity.getVehicle_insurance_subtype();
-                    String vari = insuranceSubtypeEntities.get(i).getCode();
-                    if (code.equalsIgnoreCase(vari)) {
-                        subtypeId = i;
-                        break;
-                    }
+                String code = motorRequestEntity.getVehicle_insurance_subtype();
+                String vari = insuranceSubtypeEntities.get(i).getCode();
+                if (code.equalsIgnoreCase(vari)) {
+                    subtypeId = i;
+                    break;
                 }
-                spInsSubTYpe.setSelection(subtypeId);
             }
-            //endregion
+            spInsSubTYpe.setSelection(subtypeId);
+        }
+        //endregion
 
-            if (motorRequestEntity.getExternal_bifuel_value() != 0)
-                etExtValue.setText(String.valueOf(motorRequestEntity.getExternal_bifuel_value()));
+        if (motorRequestEntity.getExternal_bifuel_value() != 0)
+            etExtValue.setText(String.valueOf(motorRequestEntity.getExternal_bifuel_value()));
 
-            etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
+        etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
 
-            etMobile.setText(motorRequestEntity.getMobile());
+        etMobile.setText(motorRequestEntity.getMobile());
 
 
-                etUsage.setText(motorRequestEntity.getUsage());
+        etUsage.setText(motorRequestEntity.getUsage());
 
-                etGross.setText(motorRequestEntity.getGrossvehicleweight());
+        etGross.setText(motorRequestEntity.getGrossvehicleweight());
 
 
         try {
@@ -497,8 +496,8 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
         spVarient_edit = findViewById(R.id.spVarient_edit);
 
         //region init views
-     //   spFuel = (Spinner) findViewById(R.id.spFuel);
-     //   spVarient = (Spinner) findViewById(R.id.spVarient);
+        //   spFuel = (Spinner) findViewById(R.id.spFuel);
+        //   spVarient = (Spinner) findViewById(R.id.spVarient);
         spPrevIns = (Spinner) findViewById(R.id.spPrevIns);
         etExtValue = (EditText) findViewById(R.id.etExtValue);
         etRegDate = (EditText) findViewById(R.id.etRegDate);
@@ -507,7 +506,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
         etCustomerName = (EditText) findViewById(R.id.etCustomerName);
         // etCustomerName.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         etMobile = (EditText) findViewById(R.id.etMobile);
-   //     acMakeModel = (AutoCompleteTextView) findViewById(R.id.acMakeModel);
+        //     acMakeModel = (AutoCompleteTextView) findViewById(R.id.acMakeModel);
         acRto = (AutoCompleteTextView) findViewById(R.id.acRto);
         // tvCarNo = (TextView) findViewById(R.id.tvCarNo);
         etCarNo = (EditText) findViewById(R.id.tvCarNo);
@@ -626,10 +625,10 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
         //fetching initial data
 
         cityList = dbController.getRTOListNames();
-     //   makeModelList = dbController.getCarMakeModel();
+        //   makeModelList = dbController.getCarMakeModel();
         prevInsurerList = dbController.getInsurerList();
-       // fuelList = dbController.getFuelTypeByModelId("0");
-      //  variantList = dbController.getVariantbyModelID("0");
+        // fuelList = dbController.getFuelTypeByModelId("0");
+        //  variantList = dbController.getVariantbyModelID("0");
         //region Autocomplete Make Model
 //        makeModelAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, makeModelList);
 //        acMakeModel.setAdapter(makeModelAdapter);
@@ -693,7 +692,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                 return convertView;
             }
         };*/
-       // spFuel.setAdapter(fuelAdapter);
+        // spFuel.setAdapter(fuelAdapter);
 
         //endregion
 
@@ -1007,7 +1006,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                     CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(((FastLaneDataResponse) response).getMasterData().getVariant_Id()));
                     if (carMasterEntity != null) {
                         this.fastLaneResponseEntity = ((FastLaneDataResponse) response).getMasterData();
-                     //   bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
+                        //   bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
                     }
                 }
             }
@@ -1085,7 +1084,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                         break;
                     }
                 }
-               // spVarient.setSelection(varientIndex);
+                // spVarient.setSelection(varientIndex);
 
                 int fuelIndex = 0;
                 for (int i = 0; i < fuelList.size(); i++) {
@@ -1094,7 +1093,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                         break;
                     }
                 }
-             //   spFuel.setSelection(fuelIndex);
+                //   spFuel.setSelection(fuelIndex);
 
                 //endregion
 
@@ -1299,7 +1298,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                     }
                 }
 
-                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.openDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -2008,11 +2007,11 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 
                 if (isValidInfo()) {
                     setCommonParameters();
-                   // if (switchNewRenew.isChecked()) {  //renew
-                        setInputParametersReNewCar();
-                   // } else {
-                     //   setInputParametersNewCAR();
-                   // }
+                    // if (switchNewRenew.isChecked()) {  //renew
+                    setInputParametersReNewCar();
+                    // } else {
+                    //   setInputParametersNewCAR();
+                    // }
                     //if (constantEntity.getLogtracking().equals("0"))
                     //     new InputFragment.PolicybossTrackingRequest(motorRequestEntity).execute();
 
@@ -2078,7 +2077,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
 
 
         motorRequestEntity.setProduct_id(2);
-   //     varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+        //     varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
         //motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(regplace))));
 
@@ -2153,7 +2152,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
             try {
                 /*motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
                 motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
-              //  varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+                //  varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
                 motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
 
@@ -2168,8 +2167,8 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
                 e.printStackTrace();
             }
         } else {
-          //  varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-          //  motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+            //  varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+            //  motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
 //must be asked
             motorRequestEntity.setVehicle_id(Integer.parseInt("1"));
             motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));

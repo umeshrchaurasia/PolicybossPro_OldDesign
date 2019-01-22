@@ -1276,7 +1276,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     }
                 }
 
-                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.openDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {

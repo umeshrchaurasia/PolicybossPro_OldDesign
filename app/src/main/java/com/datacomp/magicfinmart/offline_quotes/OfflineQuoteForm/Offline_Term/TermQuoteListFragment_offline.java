@@ -20,7 +20,6 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +82,7 @@ public class TermQuoteListFragment_offline extends BaseFragment implements View.
                         .findLastVisibleItemPosition();
 
 
-                if (lastCompletelyVisibleItemPosition == listQuote.size() - 1) {
+                if (lastCompletelyVisibleItemPosition == listQuote.size() - 1 && listQuote.size() > 6) {
                     if (!isHit) {
                         isHit = true;
                         fetchMoreQuotes(listQuote.size());
@@ -182,10 +181,10 @@ public class TermQuoteListFragment_offline extends BaseFragment implements View.
         intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
         startActivity(intent);*/
 
-            Intent intent = new Intent(getActivity(), HdfcTermActivity_offline.class);
-            intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
-            intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
-            startActivity(intent);
+        Intent intent = new Intent(getActivity(), HdfcTermActivity_offline.class);
+        intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
+        intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
+        startActivity(intent);
 
     }
 
@@ -200,7 +199,7 @@ public class TermQuoteListFragment_offline extends BaseFragment implements View.
     public void fetchMoreQuotes(int count) {
         //showDialog("Fetching.., Please wait.!");
 
-            new OfflineQuotesController(getActivity()).getTermQuoteApplicationList_offline(28, count, "1", this);
+        new OfflineQuotesController(getActivity()).getTermQuoteApplicationList_offline(28, count, "1", this);
 
 
     }

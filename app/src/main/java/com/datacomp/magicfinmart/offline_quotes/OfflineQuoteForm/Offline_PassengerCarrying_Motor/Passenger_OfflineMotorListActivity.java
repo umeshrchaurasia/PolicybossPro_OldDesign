@@ -57,7 +57,7 @@ public class Passenger_OfflineMotorListActivity extends BaseActivity implements 
         //TODO: Fetch offline quote
         showDialog("Loading offline list");
         // product_id= 1;//for motor
-        new OfflineQuotesController(this).getOfflineMotorList("" + count,"3", this);
+        new OfflineQuotesController(this).getOfflineMotorList("" + count, "3", this);
 
     }
 
@@ -113,7 +113,7 @@ public class Passenger_OfflineMotorListActivity extends BaseActivity implements 
                         .findLastVisibleItemPosition();
 
 
-                if (lastCompletelyVisibleItemPosition == listMotorListEntity.size() - 1) {
+                if (lastCompletelyVisibleItemPosition == listMotorListEntity.size() - 1 && listMotorListEntity.size() > 6) {
                     if (!isHit) {
                         isHit = true;
                         fetchMoreQuotes(listMotorListEntity.size());

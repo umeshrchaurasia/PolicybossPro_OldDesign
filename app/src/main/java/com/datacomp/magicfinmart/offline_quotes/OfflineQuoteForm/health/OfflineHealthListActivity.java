@@ -31,7 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorLis
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
 
-public class OfflineHealthListActivity extends BaseActivity implements View.OnClickListener ,IResponseSubcriber {
+public class OfflineHealthListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
 
     FloatingActionButton fbOfflineHealth;
@@ -41,6 +41,7 @@ public class OfflineHealthListActivity extends BaseActivity implements View.OnCl
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     OfflineHealthListItemAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +82,7 @@ public class OfflineHealthListActivity extends BaseActivity implements View.OnCl
                         .findLastVisibleItemPosition();
 
 
-               if (lastCompletelyVisibleItemPosition == offlineHealthList.size() - 1) {
+                if (lastCompletelyVisibleItemPosition == offlineHealthList.size() - 1 && offlineHealthList.size() > 6) {
                     if (!isHit) {
                         isHit = true;
                         fetchHealthQuotes(offlineHealthList.size());
@@ -95,17 +96,18 @@ public class OfflineHealthListActivity extends BaseActivity implements View.OnCl
     private void fetchHealthQuotes(int count) {
         //TODO: Fetch offline quote
         showDialog("Loading offline list");
-        new OfflineQuotesController(this).getOfflineHealthList(String.valueOf(loginEntity.getFBAId()),count,this);
+        new OfflineQuotesController(this).getOfflineHealthList(String.valueOf(loginEntity.getFBAId()), count, this);
     }
+
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.fbOfflineHealth) {
 
-          //  startActivity(new Intent(this, InputOfflineHealthActivity.class));
+            //  startActivity(new Intent(this, InputOfflineHealthActivity.class));
 
             Intent intent = new Intent(this, InputOfflineHealthActivity.class);
-            startActivityForResult(intent,2);
+            startActivityForResult(intent, 2);
         }
     }
 
@@ -150,7 +152,7 @@ public class OfflineHealthListActivity extends BaseActivity implements View.OnCl
 
         Intent intent = new Intent(this, InputOfflineHealthActivity.class);
         intent.putExtra(Constants.OFFLINE_HEALTH_EDIT, entity);
-        startActivityForResult(intent,2);
+        startActivityForResult(intent, 2);
 
 
     }
@@ -159,14 +161,13 @@ public class OfflineHealthListActivity extends BaseActivity implements View.OnCl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode==2)
-        {
+        if (requestCode == 2) {
 
-            if( data != null   ) {
-               if(data.hasExtra("MESSAGE")) {
-                   offlineHealthList = new ArrayList<HealthQuote>();
-                   fetchHealthQuotes(0);
-               }
+            if (data != null) {
+                if (data.hasExtra("MESSAGE")) {
+                    offlineHealthList = new ArrayList<HealthQuote>();
+                    fetchHealthQuotes(0);
+                }
             }
         }
     }
