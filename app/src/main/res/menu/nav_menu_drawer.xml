@@ -182,7 +182,7 @@
                     android:id="@+id/nav_sendSmsTemplate"
                     android:icon="@drawable/insurance_policy_ic"
                     android:orderInCategory="750"
-                    android:title="Send Sms Tempate"
+                    android:title="Send Sms Template"
                     android:visible="true" />
             </menu>
         </item>
