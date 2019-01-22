@@ -199,6 +199,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             saveMotorRequestEntity.setVehicle_insurance_type("");
             saveMotorRequestEntity.setIsActive(1);
             saveMotorRequestEntity.setSRN("");
+
             cvInput.setVisibility(View.VISIBLE);
             cvNewRenew.setVisibility(View.GONE);
             cvIndividual.setVisibility(View.GONE);
@@ -2156,8 +2157,11 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 e.printStackTrace();
             }
 
-            if (motorRequestEntity.getRegistration_no().equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo());
+         /*   if (motorRequestEntity.getRegistration_no().equals(""))
+                motorRequestEntity.setRegistration_no(getRegistrationNo());*/
+
+            motorRequestEntity.setRegistration_no(etCarNo.getText().toString());
+
         }
 
         motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
