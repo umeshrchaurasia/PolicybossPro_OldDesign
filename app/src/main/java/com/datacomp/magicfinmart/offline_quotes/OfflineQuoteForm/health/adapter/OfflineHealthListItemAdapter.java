@@ -69,7 +69,7 @@ public class OfflineHealthListItemAdapter extends RecyclerView.Adapter<OfflineHe
         holder.llOfflineMotor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (entity.getHealthRequest() != null)
+                if (entity.getHealthRequest() != null )
                     ((OfflineHealthListActivity) mcontext).editOfflineHealth(entity);
             }
         });

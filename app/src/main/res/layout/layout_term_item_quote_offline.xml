@@ -112,7 +112,24 @@
         android:visibility="gone"
         android:src="@drawable/dot" />
 </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llQuoteList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/secondary_text_color"
+            android:padding="4dp"
+            android:text="Quote"
+            android:textAllCaps="true"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 <View
     android:layout_width="match_parent"
     android:layout_height="1dp"

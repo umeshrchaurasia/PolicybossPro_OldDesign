@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term;
 
+import android.graphics.Paint;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,17 +22,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineQuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 
 /**
  * Created by Nilesh birhade on 05/02/2018.
  */
 
-public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdapter_offline.QuoteItem> implements View.OnClickListener, Filterable {
+public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdapter_offline.QuoteItem> implements Filterable {
     Fragment mFrament;
     List<TermFinmartRequest> mQuoteList;
     List<TermFinmartRequest> mQuoteListFiltered;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+
 
     public TermQuoteAdapter_offline(Fragment context, List<TermFinmartRequest> list) {
         this.mFrament = context;
@@ -53,20 +58,65 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
     public void onBindViewHolder(QuoteItem holder, int position) {
 
         if (holder instanceof QuoteItem) {
-            final TermFinmartRequest quote = mQuoteListFiltered.get(position);
-            holder.txtPersonName.setText(quote.getTermRequestEntity().getContactName());
-            holder.txtCustRefNo.setText(quote.getTermRequestEntity().getSumAssured());
-            holder.txtQuoteDate.setText(quote.getTermRequestEntity().getCreated_date());
-            holder.llDetails.setTag(R.id.llDetails, quote);
-            holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, quote);
+            final TermFinmartRequest entity = mQuoteListFiltered.get(position);
+            holder.txtPersonName.setText(entity.getTermRequestEntity().getContactName());
+            holder.txtCustRefNo.setText(entity.getTermRequestEntity().getSumAssured());
+            holder.txtQuoteDate.setText(entity.getTermRequestEntity().getCreated_date());
+            holder.llDetails.setTag(R.id.llDetails, entity);
+            holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
 
-            holder.llDetails.setOnClickListener(this);
-            holder.txtOverflowMenu.setOnClickListener(this);
+            //holder.llDetails.setOnClickListener(this);
+          //  holder.txtOverflowMenu.setOnClickListener(this);
 
+            holder.llDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (entity.getQuote() == null || entity.getQuote().size() == 0)
+                       // ((Good_OfflineMotorListActivity) mcontext).editOfflineMotor(entity);
+                  //  TermFinmartRequest request = (TermFinmartRequest) view.getTag(view.getId());
+
+                    ((TermQuoteListFragment_offline) mFrament).callInputTerm(entity.getTermRequestEntity().getInsurerId(), entity);
+
+                }
+            });
+
+
+            if (entity.getQuote() != null && entity.getQuote().size() > 0) {
+                holder.llQuoteList.setVisibility(View.VISIBLE);
+
+                for (int i = 0; i < entity.getQuote().size(); i++) {
+                    ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    TextView txtQuote = new TextView(mFrament.getActivity());
+                    txtQuote.setPadding(0, 4, 0, 4);
+                    txtQuote.setPaintFlags(txtQuote.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                    txtQuote.setLayoutParams(lparams);
+                    txtQuote.setTextColor(mFrament.getActivity().getResources().getColor(R.color.colorPrimary));
+                    txtQuote.setText(entity.getQuote().get(i).getDocument_name());
+                    txtQuote.setTag(R.id.llQuoteList, entity.getQuote().get(i));
+                    txtQuote.setOnClickListener(onClickListener);
+                    holder.llQuoteList.addView(txtQuote);
+                }
+
+            } else {
+                holder.llQuoteList.setVisibility(View.GONE);
+            }
         }
 
     }
 
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            try {
+                OfflineQuoteListEntity entity = (OfflineQuoteListEntity) v.getTag(R.id.llQuoteList);
+                Utility.loadWebViewUrlInBrowser(mFrament.getActivity(), entity.getDocument_path());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
     private void openPopUp(View v, final TermFinmartRequest entity) {
         final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
         final Menu menu = popupMenu.getMenu();
@@ -99,20 +149,7 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
         return mQuoteListFiltered.size();
     }
 
-    @Override
-    public void onClick(View view) {
 
-        switch (view.getId()) {
-            case R.id.llDetails:
-                TermFinmartRequest request = (TermFinmartRequest) view.getTag(view.getId());
-                ((TermQuoteListFragment_offline) mFrament).callInputTerm(request.getTermRequestEntity().getInsurerId(), request);
-                break;
-            case R.id.txtOverflowMenu:
-                openPopUp(view, (TermFinmartRequest) view.getTag(view.getId()));
-                break;
-
-        }
-    }
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
@@ -120,6 +157,7 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
         public TextView txtQuoteDate, txtCustRefNo, txtPersonName;
         LinearLayout llDetails;
         ImageView txtOverflowMenu;
+        LinearLayout llQuoteList;
 
         public QuoteItem(View itemView) {
             super(itemView);
@@ -128,6 +166,7 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             txtOverflowMenu = (ImageView) itemView.findViewById(R.id.txtOverflowMenu);
             llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
+            llQuoteList = (LinearLayout) itemView.findViewById(R.id.llQuoteList);
         }
     }
 

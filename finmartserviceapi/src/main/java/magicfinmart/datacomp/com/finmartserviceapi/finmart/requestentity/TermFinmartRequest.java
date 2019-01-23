@@ -3,6 +3,10 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineQuoteListEntity;
+
 /**
  * Created by Rajeev Ranjan on 07/04/2018.
  */
@@ -33,6 +37,18 @@ public class TermFinmartRequest implements Parcelable {
     int fba_id;
 
     TermRequestEntity termRequestEntity;
+
+    private List<OfflineQuoteListEntity> quote;
+
+
+    public List<OfflineQuoteListEntity> getQuote() {
+        return quote;
+    }
+
+    public void setQuote(List<OfflineQuoteListEntity> quote) {
+        this.quote = quote;
+    }
+
 
     public int getTermRequestId() {
         return termRequestId;
@@ -74,6 +90,7 @@ public class TermFinmartRequest implements Parcelable {
         this.NetPremium = NetPremium;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -87,6 +104,7 @@ public class TermFinmartRequest implements Parcelable {
         dest.writeString(this.NetPremium);
         dest.writeInt(this.fba_id);
         dest.writeParcelable(this.termRequestEntity, flags);
+        dest.writeTypedList(this.quote);
     }
 
     public TermFinmartRequest() {
@@ -99,6 +117,7 @@ public class TermFinmartRequest implements Parcelable {
         this.NetPremium = in.readString();
         this.fba_id = in.readInt();
         this.termRequestEntity = in.readParcelable(TermRequestEntity.class.getClassLoader());
+        this.quote = in.createTypedArrayList(OfflineQuoteListEntity.CREATOR);
     }
 
     public static final Parcelable.Creator<TermFinmartRequest> CREATOR = new Parcelable.Creator<TermFinmartRequest>() {
