@@ -92,6 +92,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     File Docfile;
     File file;
     Uri imageUri;
+    private Uri cropImageUri;
     InputStream inputStream;
     ExifInterface ei;
     private static final int CAMERA_REQUEST = 1888;
@@ -455,44 +456,39 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
             Uri selectedImageUri = data.getData();
             startCropImageActivity(selectedImageUri);
         }
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap mphoto = null;
-            try {
-                mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                mphoto = getResizedBitmap(mphoto, 800);
-                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
 
-            } catch (Exception e) {
-                e.printStackTrace();
+        // Below  handle result of CropImageActivity
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    cropImageUri = result.getUri();
+                    Bitmap mphoto = null;
+                    try {
+                        mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                        mphoto = getResizedBitmap(mphoto, 800);
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    showDialog();
+                    showDialog();
+                    file = saveImageToStorage(mphoto, documentEntity.getDocname());
+                    part = Utility.getMultipartImage(file);
+                    body = getBody(this, documentEntity,uploadMotorEntity.getTransId());
+                    new OfflineQuotesController(this).uploadDocuments(part, body, this);
+
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
             }
-
-
-            showDialog();
-            file = saveImageToStorage(mphoto, documentEntity.getDocname());
-            part = Utility.getMultipartImage(file);
-            body = getBody(this, documentEntity,uploadMotorEntity.getTransId());
-            new OfflineQuotesController(this).uploadDocuments(part, body, this);
-
-        } else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
-            Uri selectedImageUri = data.getData();
-            Bitmap mphoto = null;
-            try {
-                mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 800);
-                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
-
-
-                showDialog();
-                file = saveImageToStorage(mphoto, documentEntity.getDocname());
-                part = Utility.getMultipartImage(file);
-                body = getBody(this, documentEntity,uploadMotorEntity.getTransId());
-                new OfflineQuotesController(this).uploadDocuments(part, body, this);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
         }
     }
 
