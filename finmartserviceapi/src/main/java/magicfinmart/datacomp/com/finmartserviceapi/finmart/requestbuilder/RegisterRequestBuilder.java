@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeRespo
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
@@ -137,6 +138,10 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/posp-appointment-email")
         Call<PospAppointEmailResponse> getEmailTemplate(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-field-sales")
+        Call<RegisterSaleResponse> getfieldsales();
     }
 
 
