@@ -1,13 +1,14 @@
 package com.datacomp.magicfinmart.insert_contact;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -27,7 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 
-public class InsertContactActivity extends BaseActivity implements View.OnClickListener {
+public class InsertContactActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener {
 
     String[] perms = {
             "android.permission.READ_CONTACTS",
@@ -35,13 +36,14 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
 
     };
 
-    int  isContactFirstCall;
+    int isContactFirstCall;
     UserConstantEntity userConstantEntity;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController dbPersistanceController;
     PrefManager prefManager;
 
     Button btnSubmit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        registerPopUp(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         userConstantEntity = dbPersistanceController.getUserConstantsData();
@@ -63,11 +65,18 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.btnSubmit)
-        {
+        if (view.getId() == R.id.btnSubmit) {
             if (userConstantEntity != null) {
                 if (!checkPermission()) {
-                    requestPermission();
+                    if (checkRationalePermission()) {
+                        //Show Information about why you need the permission
+                        requestPermission();
+                    }else {
+
+                        openPopUp(btnSubmit, "Need  Permission", "Required Contact Permission", "GRANT", true);
+
+                    }
+
                 } else {
                     addFinmartContact();
 
@@ -76,19 +85,17 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
         }
     }
 
-    private void addFinmartContact()
-    {
+    private void addFinmartContact() {
         if (userConstantEntity.getFinmartwhatsappno() != null) {
             isContactFirstCall = Integer.parseInt(prefManager.getContactMsgFirst());
-           // if (isContactFirstCall == 0) {
 
                 Utility.WritePhoneContact(getResources().getString(R.string.Finmart), userConstantEntity.getFinmartwhatsappno(), InsertContactActivity.this);
 
-               // prefManager.updateContactMsgFirst("" + 1);
+                prefManager.updateContactMsgFirst("" + 1);
 
-               // ConfirmInsertContactAlert("BUSINESS SUPPORT", getResources().getString(R.string.FM_Contact) + " " , "");
-          //  }
+
         }
+
     }
 
     public void ConfirmInsertContactAlert(String Title, String strBody, final String strMobile) {
@@ -125,7 +132,7 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
                 alertDialog.dismiss();
                 Utility.WritePhoneContact(getResources().getString(R.string.Finmart), userConstantEntity.getFinmartwhatsappno(), InsertContactActivity.this);
                 prefManager.updateContactMsgFirst("" + 1);
-                Toast.makeText(InsertContactActivity.this,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
+                Toast.makeText(InsertContactActivity.this, "Contact Saved Successfully..", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -150,7 +157,6 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
     }
 
 
-
     //region permission
 
     private boolean checkPermission() {
@@ -161,6 +167,16 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
         return readContact == PackageManager.PERMISSION_GRANTED
                 && writeContact == PackageManager.PERMISSION_GRANTED;
 
+    }
+
+    private boolean checkRationalePermission() {
+
+        boolean readContact = ActivityCompat.shouldShowRequestPermissionRationale(InsertContactActivity.this, perms[0]);
+
+        boolean writeContact = ActivityCompat.shouldShowRequestPermissionRationale(InsertContactActivity.this, perms[1]);
+
+
+        return readContact || writeContact ;
     }
 
     private void requestPermission() {
@@ -190,6 +206,23 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
                 break;
 
         }
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+
+        dialog.cancel();
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+
+        dialog.cancel();
     }
     //endregion
 }
