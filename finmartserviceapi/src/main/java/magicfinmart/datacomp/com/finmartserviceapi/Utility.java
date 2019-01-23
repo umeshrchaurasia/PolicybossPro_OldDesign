@@ -2,12 +2,14 @@ package magicfinmart.datacomp.com.finmartserviceapi;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -43,6 +45,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.WIFI_SERVICE;
 
@@ -450,5 +453,73 @@ public class Utility {
         } catch (OperationApplicationException exp) {
             //logs
         }
+    }
+
+
+    public static boolean isTheNumberExistsinContacts(Context ctx, String phoneNumber) {
+
+        Cursor cur = null;
+        ContentResolver cr = null;
+
+        try {
+            cr = ctx.getContentResolver();
+
+        } catch (Exception ex) {
+            Log.d(TAG, ex.getMessage());
+        }
+
+        try {
+            cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null,
+                    null, null);
+        } catch (Exception ex) {
+            Log.i(TAG, ex.getMessage());
+        }
+
+        try {
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    String id = cur.getString(cur
+                            .getColumnIndex(ContactsContract.Contacts._ID));
+                    String name = cur
+                            .getString(cur
+                                    .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    // Log.i("Names", name);
+                    if (Integer
+                            .parseInt(cur.getString(cur
+                                    .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                        // Query phone here. Covered next
+                        Cursor phones = ctx
+                                .getContentResolver()
+                                .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                        null,
+                                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                                                + " = " + id, null, null);
+                        while (phones.moveToNext()) {
+                            String phoneNumberX = phones
+                                    .getString(phones
+                                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            // Log.i("Number", phoneNumber);
+
+                            phoneNumberX = phoneNumberX.replace(" ", "");
+                            phoneNumberX = phoneNumberX.replace("(", "");
+                            phoneNumberX = phoneNumberX.replace(")", "");
+                            if (phoneNumberX.contains(phoneNumber)) {
+                                phones.close();
+                                return true;
+
+                            }
+
+                        }
+                        phones.close();
+                    }
+
+                }
+            }
+        } catch (Exception ex) {
+            Log.i(TAG, ex.getMessage());
+
+        }
+
+        return false;
     }
 }
