@@ -136,6 +136,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         new RegisterController(this).getRegSource(this);
 
+       // showDialog();
+        new RegisterController(RegisterActivity.this).getfieldsales(RegisterActivity.this);
+
         if (prefManager.IsInsuranceMasterUpdate()) {
             new MasterController(this).getInsuranceMaster(this);
         } else {
@@ -564,7 +567,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         SourceEntity sourceEntity = (SourceEntity) spSource.getSelectedItem();
         registerRequestEntity.setAppSource("" + sourceEntity.getId());
 
-        registerRequestEntity.setField_sales_uid("" +  mapSale.get(spsales.getSelectedItem().toString()));
+        if(sourceEntity.getId() != 1) {
+
+            registerRequestEntity.setField_sales_uid("" + mapSale.get(spsales.getSelectedItem().toString()));
+        }else{
+            registerRequestEntity.setField_sales_uid("");
+        }
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -723,7 +731,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private List<String> getSaleyList( ) {
         mapSale.clear();
-        mapSale.put("SELECT", 0);
+       // mapSale.put("SELECT", 0);
         for (SalesDataEntity salesDataEntity : saleList) {
             mapSale.put(salesDataEntity.getEmployeeName().toUpperCase(), salesDataEntity.getUid());    // adding in Map
         }
