@@ -49,6 +49,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -107,7 +108,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     List<SourceEntity> sourceList;
     List<SalesDataEntity> saleList;
     boolean isSaleclick=false;
-
+    LinkedHashMap<String,Integer> mapSale = new LinkedHashMap<>();
+   ArrayList<String> tempSaleList ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +123,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         registerRequestEntity = new RegisterRequestEntity();
         sourceList = new ArrayList<>();
         saleList = new ArrayList<>();
-
+        tempSaleList = new ArrayList<>();
 
         initWidgets();
         bindSource();
@@ -562,8 +564,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         SourceEntity sourceEntity = (SourceEntity) spSource.getSelectedItem();
         registerRequestEntity.setAppSource("" + sourceEntity.getId());
 
-        SalesDataEntity saleEntity = (SalesDataEntity) spsales.getSelectedItem();
-        registerRequestEntity.setField_sales_uid("" + saleEntity.getUid());
+        registerRequestEntity.setField_sales_uid("" +  mapSale.get(spsales.getSelectedItem().toString()));
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -720,11 +721,22 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spSource.setAdapter(prevInsAdapter);
     }
 
+    private List<String> getSaleyList( ) {
+        mapSale.clear();
+        mapSale.put("SELECT", 0);
+        for (SalesDataEntity salesDataEntity : saleList) {
+            mapSale.put(salesDataEntity.getEmployeeName().toUpperCase(), salesDataEntity.getUid());    // adding in Map
+        }
+        tempSaleList.clear();
+        tempSaleList = new ArrayList<String>(mapSale.keySet());
+        return tempSaleList;
+    }
+
     private  void bindsale()
     {
         if(saleList != null && saleList.size() > 0)
         {
-            ArrayAdapter<SalesDataEntity> saleAdapter = new ArrayAdapter<SalesDataEntity>(this, android.R.layout.simple_spinner_item, saleList);
+            ArrayAdapter<String> saleAdapter = new ArrayAdapter<String >(this, android.R.layout.simple_spinner_item, getSaleyList());
 
             // Drop down layout style - list view with radio button
             saleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
