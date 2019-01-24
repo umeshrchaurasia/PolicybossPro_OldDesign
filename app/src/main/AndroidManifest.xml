@@ -1038,6 +1038,7 @@
             android:name=".offline_quotes.AddNewOfflineQuotesActivity"
             android:label="Offline Quotes"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1047,6 +1048,7 @@
             android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
             android:label="Offline Quotes"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1056,6 +1058,7 @@
             android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
             android:label="Offline Quotes"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1067,6 +1070,7 @@
             android:label="@string/title_activity_offline_motor_list"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1077,6 +1081,7 @@
             android:label="@string/title_activity_input_offline_motor"
             android:parentActivityName=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1087,6 +1092,7 @@
             android:label="@string/title_activity_offline_health_list_activity"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1097,6 +1103,7 @@
             android:label="@string/title_activity_input_offline_health"
             android:parentActivityName=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1107,6 +1114,7 @@
             android:label="POSP Certificate"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1117,6 +1125,7 @@
             android:label="@string/title_activity_offline_motor_list"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1124,9 +1133,10 @@
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_InputOfflineMotorActivity"
-            android:label="@string/title_activity_input_offline_motor"
+            android:label="OFFLINE MOTOR GCV"
             android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1137,6 +1147,7 @@
             android:label="@string/title_activity_offline_motor_list"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1144,9 +1155,10 @@
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_InputOfflineMotorActivity"
-            android:label="@string/title_activity_input_offline_motor"
+            android:label="OFFLINE MOTOR PCV"
             android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1157,6 +1169,7 @@
             android:label="@string/title_activity_send_sms"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -1167,6 +1180,7 @@
             android:label="@string/title_activity_insert_contact"
             android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

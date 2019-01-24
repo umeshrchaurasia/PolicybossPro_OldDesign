@@ -129,20 +129,8 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         setListener();
         setAgePopUp();
 
-        //default disableAll
         disableAllInputs();
 
-//        if (getArguments() != null) {
-//            healthQuote = getArguments().getParcelable(HealthQuoteBottomTabsActivity.INPUT_DATA);
-//            healthRequestEntity = healthQuote.getHealthRequest();
-//            processMemberForAge();
-//            bindInput();
-//        } else {
-//            healthQuote.setAgent_source("App");
-//            healthQuote.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
-//            //default self selected
-//            btnFamily.performClick();
-//        }
 
         if (getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT) != null) {
             healthQuote = getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT);
@@ -544,8 +532,8 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         etName.setText(healthRequestEntity.getContactName());
         etPincode.setText(String.valueOf(healthRequestEntity.getPincode()));
 
-        if(healthQuote.getComment() != null) {
-            etComment.setText("" + healthQuote.getComment());
+        if(healthRequestEntity.getComment() != null) {
+            etComment.setText("" + healthRequestEntity.getComment());
         }else{
             etComment.setText("");
         }

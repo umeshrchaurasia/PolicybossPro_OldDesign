@@ -623,7 +623,7 @@
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="match_parent"
-                    android:hint="Comment">
+                    android:hint="Remark">
 
                     <EditText
                         android:id="@+id/etComment"
