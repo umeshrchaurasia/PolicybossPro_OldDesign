@@ -50,7 +50,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
-
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
@@ -141,7 +140,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
-
+    AlertDialog finmartContacttDialog;
 
     String[] perms = {
             "android.permission.READ_CONTACTS",
@@ -502,13 +501,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    private void addFinmartContact()
-    {
+    private void addFinmartContact() {
         if (userConstantEntity.getFinmartwhatsappno() != null) {
             isContactFirstCall = Integer.parseInt(prefManager.getContactMsgFirst());
             if (isContactFirstCall == 0) {
 
-                ConfirmInsertContactAlert("BUSINESS SUPPORT", getResources().getString(R.string.FM_Contact) + " " , "");
+                ConfirmInsertContactAlert("BUSINESS SUPPORT", getResources().getString(R.string.FM_Contact) + " ", "");
             }
         }
     }
@@ -952,7 +950,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
                     init_headers();
                     if (!checkPermission()) {
-                        requestPermission();
+                        if (checkRationalePermission()) {
+                            requestPermission();
+                        } else {
+                            openPopUp(drawerLayout, "Need  Permission", "Required Contact Permission", "GRANT", true);
+                        }
                     } else {
                         addFinmartContact();
 
@@ -1093,6 +1095,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } else if (view.getId() == ivProfile.getId()) {
             redirectToActivity();
             dialog.cancel();
+        } else if (view.getId() == drawerLayout.getId()) {
+            dialog.cancel();
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getPackageName(), null);
+            intent.setData(uri);
+            startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+
         }
     }
 
@@ -1165,6 +1174,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 dialog.cancel();
             }
         } else if (view.getId() == ivProfile.getId()) {
+            dialog.cancel();
+        }else {
             dialog.cancel();
         }
 
@@ -1509,59 +1520,64 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     public void ConfirmInsertContactAlert(String Title, String strBody, final String strMobile) {
 
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
-
-
-        Button btnAllow, btnReject;
-        TextView txtTile, txtBody, txtMob;
-        ImageView ivCross;
-
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
-
-        builder.setView(dialogView);
-        final AlertDialog alertDialog = builder.create();
-        // set the custom dialog components - text, image and button
-        txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
-        txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
-        txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
-        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
-
-        btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
-        btnReject = (Button) dialogView.findViewById(R.id.btnReject);
-        txtTile.setText(Title);
-        txtBody.setText(strBody);
-        txtMob.setText(strMobile);
-
-        btnAllow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Utility.WritePhoneContact(getResources().getString(R.string.Finmart), userConstantEntity.getFinmartwhatsappno(), HomeActivity.this);
-                prefManager.updateContactMsgFirst("" + 1);
-              //  Toast.makeText(HomeActivity.this,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
+        if (finmartContacttDialog != null) {
+            if (finmartContacttDialog.isShowing()) {
+                return;
             }
-        });
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
-        btnReject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                prefManager.updateContactMsgFirst("" + 1);
-            }
-        });
 
-        ivCross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
+            Button btnAllow, btnReject;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
 
-            }
-        });
-        alertDialog.setCancelable(false);
-        alertDialog.show();
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
+
+            builder.setView(dialogView);
+            finmartContacttDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+            btnReject = (Button) dialogView.findViewById(R.id.btnReject);
+            txtTile.setText(Title);
+            txtBody.setText(strBody);
+            txtMob.setText(strMobile);
+
+            btnAllow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    Utility.WritePhoneContact(getResources().getString(R.string.Finmart), userConstantEntity.getFinmartwhatsappno(), HomeActivity.this);
+                    prefManager.updateContactMsgFirst("" + 1);
+                    //  Toast.makeText(HomeActivity.this,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            btnReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    prefManager.updateContactMsgFirst("" + 1);
+                }
+            });
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+
+                }
+            });
+            finmartContacttDialog.setCancelable(false);
+            finmartContacttDialog.show();
+        }
 
     }
 
@@ -1586,6 +1602,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         return readContact == PackageManager.PERMISSION_GRANTED
                 && writeContact == PackageManager.PERMISSION_GRANTED;
 
+    }
+
+    private boolean checkRationalePermission() {
+
+        boolean readContact = ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, perms[0]);
+
+        boolean writeContact = ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, perms[1]);
+
+
+        return readContact || writeContact;
     }
 
     private void requestPermission() {

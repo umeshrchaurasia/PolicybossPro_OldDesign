@@ -76,12 +76,43 @@ public class OfflineHealthListItemAdapter extends RecyclerView.Adapter<OfflineHe
 
 
 
+        if (entity.getQuote() != null && entity.getQuote().size() > 0) {
+            holder.llQuoteList.setVisibility(View.VISIBLE);
+
+            for (int i = 0; i < entity.getQuote().size(); i++) {
+                ViewGroup.LayoutParams lparams = new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                TextView txtQuote = new TextView(mcontext);
+                txtQuote.setPadding(0, 4, 0, 4);
+                txtQuote.setPaintFlags(txtQuote.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                txtQuote.setLayoutParams(lparams);
+                txtQuote.setTextColor(mcontext.getResources().getColor(R.color.colorPrimary));
+                txtQuote.setText(entity.getQuote().get(i).getDocument_name());
+                txtQuote.setTag(R.id.llQuoteList, entity.getQuote().get(i));
+                txtQuote.setOnClickListener(onClickListener);
+                holder.llQuoteList.addView(txtQuote);
+            }
+
+        } else {
             holder.llQuoteList.setVisibility(View.GONE);
+        }
 
     }
 
 
 
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            try {
+                OfflineQuoteListEntity entity = (OfflineQuoteListEntity) v.getTag(R.id.llQuoteList);
+                Utility.loadWebViewUrlInBrowser(mcontext, entity.getDocument_path());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
 
     @Override
     public int getItemCount() {

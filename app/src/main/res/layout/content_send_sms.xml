@@ -9,13 +9,6 @@
     tools:context="com.datacomp.magicfinmart.sendTemplateSms.SendTemplateSmsActivity"
     tools:showIn="@layout/activity_send_sms">
 
-    <Button
-        style="@style/ButtonStyle"
-        android:id="@+id/btnAddContact"
-        android:layout_margin="10dp"
-        android:text="Add Contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvSendSms"

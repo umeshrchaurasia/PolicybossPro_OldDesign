@@ -55,4 +55,6 @@ public interface IRegister {
     void getSmsTemplate(IResponseSubcriber iResponseSubcriber);
 
     void getEmailTemplate( String URL, String Type,IResponseSubcriber iResponseSubcriber);
+
+     void getfieldsales( IResponseSubcriber iResponseSubcriber);
 }

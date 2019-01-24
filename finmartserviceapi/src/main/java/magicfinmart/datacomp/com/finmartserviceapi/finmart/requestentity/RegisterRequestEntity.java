@@ -229,6 +229,9 @@ public class RegisterRequestEntity {
     private String VersionCode;
     private String AppSource;
 
+
+    private String field_sales_uid;
+
     public String getAppSource() {
         return AppSource;
     }
@@ -338,6 +341,7 @@ public class RegisterRequestEntity {
         DisplayDesignation = "";
         VersionCode = "";
         ParentId="0";
+        field_sales_uid="";
     }
 
 
@@ -1149,4 +1153,13 @@ public class RegisterRequestEntity {
     public void setParentId(String ParentId) {
         this.ParentId = ParentId;
     }
+
+    public String getField_sales_uid() {
+        return field_sales_uid;
+    }
+
+    public void setField_sales_uid(String field_sales_uid) {
+        this.field_sales_uid = field_sales_uid;
+    }
+
 }

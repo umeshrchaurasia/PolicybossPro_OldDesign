@@ -3,6 +3,8 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 public class  HealthQuote implements Parcelable {
     /**
      * fba_id : 123
@@ -19,6 +21,15 @@ public class  HealthQuote implements Parcelable {
     private String comment;
     private HealthRequestEntity HealthRequest;
 
+    private List<OfflineQuoteListEntity> quote;
+
+
+
+
+    public HealthQuote() {
+    }
+
+
     protected HealthQuote(Parcel in) {
         fba_id = in.readInt();
         HealthRequestId = in.readInt();
@@ -26,6 +37,7 @@ public class  HealthQuote implements Parcelable {
         crn = in.readString();
         comment = in.readString();
         HealthRequest = in.readParcelable(HealthRequestEntity.class.getClassLoader());
+        quote = in.createTypedArrayList(OfflineQuoteListEntity.CREATOR);
     }
 
     public static final Creator<HealthQuote> CREATOR = new Creator<HealthQuote>() {
@@ -39,9 +51,6 @@ public class  HealthQuote implements Parcelable {
             return new HealthQuote[size];
         }
     };
-
-    public HealthQuote() {
-    }
 
     public int getFba_id() {
         return fba_id;
@@ -91,6 +100,14 @@ public class  HealthQuote implements Parcelable {
         this.HealthRequest = HealthRequest;
     }
 
+    public List<OfflineQuoteListEntity> getQuote() {
+        return quote;
+    }
+
+    public void setQuote(List<OfflineQuoteListEntity> quote) {
+        this.quote = quote;
+    }
+
 
     @Override
     public int describeContents() {
@@ -105,5 +122,6 @@ public class  HealthQuote implements Parcelable {
         dest.writeString(crn);
         dest.writeString(comment);
         dest.writeParcelable(HealthRequest, flags);
+        dest.writeTypedList(quote);
     }
 }

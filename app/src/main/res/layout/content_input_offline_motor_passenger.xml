@@ -388,7 +388,7 @@
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
         android:layout_weight="10"
-        android:text="Offline Quotes"
+        android:text="REQUEST OFFLINE QUOTE"
         android:visibility="gone" />
 
 </LinearLayout>
