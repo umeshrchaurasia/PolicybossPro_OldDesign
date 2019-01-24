@@ -9,14 +9,29 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.datacomp.magicfinmart.insert_contact.InsertContactActivity"
     tools:showIn="@layout/activity_insert_contact">
-
-    <Button
-        android:layout_margin="5dp"
-        android:layout_marginTop="10dp"
-        android:id="@+id/btnSubmit"
-        style="@style/ButtonStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="ADD BUSINESS CONTACT"/>
+        android:orientation="vertical"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:text="Hello, Welcome to Finmart Whatsapp chat.you can use this to communicate with us,to allow press Add to Contact"
+            android:textAppearance="@style/TextStyle.TextMedium"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:layout_margin="5dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/btnSubmit"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ADD TO CONTACT"/>
+    </LinearLayout>
+
 
 </LinearLayout>
