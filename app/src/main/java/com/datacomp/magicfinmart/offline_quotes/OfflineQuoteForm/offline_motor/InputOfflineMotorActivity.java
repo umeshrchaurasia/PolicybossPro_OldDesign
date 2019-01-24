@@ -67,10 +67,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UploadMotorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UploadMotorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineCommonResponse;
@@ -1495,12 +1494,12 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
                 if (fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_LPG)
                         || fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_CNG)) {
-                    //etExtValue.setEnabled(true);
-                    //tilExt.setVisibility(View.VISIBLE);
+                    etExtValue.setEnabled(true);
+                    tilExt.setVisibility(View.VISIBLE);
                 } else {
-                    //tilExt.setVisibility(View.GONE);
-                    // etExtValue.setText("");
-                    // etExtValue.setEnabled(false);
+                    tilExt.setVisibility(View.GONE);
+                    etExtValue.setText("");
+                    etExtValue.setEnabled(false);
                     acMakeModel.requestFocus();
                 }
 
@@ -1526,7 +1525,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-               /* if (motorRequestEntity != null) {
+                if (motorRequestEntity != null) {
                     try {
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date()));
@@ -1536,7 +1535,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                }*/
+                }
 
                 if (position == 1) {
                     int selectedMonth = spMonth.getSelectedItemPosition();
@@ -1576,7 +1575,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         spMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-               /* if (motorRequestEntity != null) {
+                if (motorRequestEntity != null) {
                     try {
                         Calendar calendar = Calendar.getInstance();
                         calendar.setTime(policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date()));
@@ -1586,7 +1585,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                }*/
+                }
             }
 
             @Override
@@ -1602,7 +1601,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //((TextView) parent.getChildAt(0)).setTextSize(10);
                 InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
-              /*  if (switchNewRenew.isChecked()) {
+                if (switchNewRenew.isChecked()) {
                     if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
                         cvNcb.setVisibility(View.GONE);
                         llNoClaim.setVisibility(View.INVISIBLE);
@@ -1612,7 +1611,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                         llNoClaim.setVisibility(View.VISIBLE);
                         setNcb();
                     }
-                }*/
+                }
             }
 
             @Override
@@ -1622,6 +1621,22 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         //endregion
     }
 
+    private void setNcb() {
+        if (motorRequestEntity != null && motorRequestEntity.getIs_claim_exists() != null) {
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                int ncbPercent = 0;
+                if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
+                    ncbPercent = Integer.parseInt(motorRequestEntity.getVehicle_ncb_current());
+                    setSeekbarProgress(ncbPercent);
+                } else {
+                    setSeekbarProgress(ncbPercent);
+                }
+                //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else if (motorRequestEntity.getIs_claim_exists().equals("yes")) {
+                tvClaimYes.performClick();
+            }
+        }
+    }
 
     //region imp function
 
