@@ -1111,7 +1111,7 @@
         </activity>
         <activity
             android:name=".certificate.POSP_certicate_appointment"
-            android:label="POSP Certificate"
+            android:label="POSP Appointment Form"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
@@ -1122,7 +1122,7 @@
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
-            android:label="@string/title_activity_offline_motor_list"
+            android:label="OFFLINE MOTOR GCV"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
@@ -1144,7 +1144,7 @@
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
-            android:label="@string/title_activity_offline_motor_list"
+            android:label="OFFLINE MOTOR PCV"
             android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden"

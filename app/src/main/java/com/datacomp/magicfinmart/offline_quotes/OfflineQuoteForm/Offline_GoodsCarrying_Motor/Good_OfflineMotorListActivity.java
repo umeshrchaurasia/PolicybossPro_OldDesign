@@ -137,6 +137,6 @@ public class Good_OfflineMotorListActivity extends BaseActivity implements View.
         Intent intent = new Intent(this, Good_InputOfflineMotorActivity.class);
         intent.putExtra(OFFLINE_MOTOR, entity);
         startActivity(intent);
-        Toast.makeText(this, "" + entity.getSRN(), Toast.LENGTH_SHORT).show();
+
     }
 }
