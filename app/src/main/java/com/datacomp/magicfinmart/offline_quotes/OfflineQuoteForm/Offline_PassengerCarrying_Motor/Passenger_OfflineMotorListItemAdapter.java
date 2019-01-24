@@ -58,8 +58,10 @@ public class Passenger_OfflineMotorListItemAdapter extends RecyclerView.Adapter<
     public void onBindViewHolder(OfflineMotorItem holder, int position) {
 
         final OfflineMotorListEntity entity = offlineMotorList.get(position);
+        holder.txtName.setText("ID# : "+ entity.getMotorRequestEntity().getVehicleRequestID() +"\nName: " + entity.getMotorRequestEntity().getFirst_name() + " " + entity.getMotorRequestEntity().getLast_name());
 
-        holder.txtName.setText("Name : " + entity.getMotorRequestEntity().getFirst_name() + " " + entity.getMotorRequestEntity().getLast_name());
+
+       // holder.txtName.setText("Name : " + entity.getMotorRequestEntity().getFirst_name() + " " + entity.getMotorRequestEntity().getLast_name());
         holder.txtVehicleNo.setText("Vehicle No : " + entity.getMotorRequestEntity().getRegistration_no());
         holder.txtRegDate.setText("Reg. Date : " + entity.getMotorRequestEntity().getVehicle_registration_date());
         holder.llOfflineMotor.setOnClickListener(new View.OnClickListener() {
