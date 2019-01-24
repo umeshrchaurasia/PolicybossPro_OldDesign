@@ -10,7 +10,7 @@
 
     <string name="RM_Calling">Do you want to call/mail to your\nManager: </string>
 
-    <string name="FM_Contact"> Do You want to save Finmart WhatsApp Business number to your phonebook ?</string>
+    <string name="FM_Contact"> Hello, Welcome to Finmart Whatsapp chat.\nyou can use this to communicate with us,\nto allow press Add to Contact</string>
 
     <string name="Finmart"> Finmart </string>
 
@@ -646,6 +646,6 @@ We presume that this feature will be used only for contacts where the customer h
     <string name="title_activity_offline_health_member_details_dialog">
         OfflineHealthMemberDetailsDialogActivity
     </string>
-    <string name="title_activity_send_sms">Send Sms Template</string>
+    <string name="title_activity_send_sms">Sms Template</string>
     <string name="title_activity_insert_contact">Add Contact</string>
 </resources>
