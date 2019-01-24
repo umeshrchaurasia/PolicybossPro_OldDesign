@@ -476,7 +476,6 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
                     }
 
                     showDialog();
-                    showDialog();
                     file = saveImageToStorage(mphoto, documentEntity.getDocname());
                     part = Utility.getMultipartImage(file);
                     body = getBody(this, documentEntity,uploadMotorEntity.getTransId());

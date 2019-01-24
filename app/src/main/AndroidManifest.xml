@@ -1124,7 +1124,7 @@
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_InputOfflineMotorActivity"
-            android:label="@string/title_activity_input_offline_motor"
+            android:label="OFFLINE MOTOR GCV"
             android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
@@ -1144,7 +1144,7 @@
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_InputOfflineMotorActivity"
-            android:label="@string/title_activity_input_offline_motor"
+            android:label="OFFLINE MOTOR PCV"
             android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">

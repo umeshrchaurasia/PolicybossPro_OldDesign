@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-public class HealthRequestEntity implements Parcelable {
+public class HealthRequestEntity implements Parcelable  {
     /**
      * HealthRequestId : 13
      * crn : 2132132
@@ -63,6 +63,53 @@ public class HealthRequestEntity implements Parcelable {
     private int pincode;
     private String PBStatus;
     private int StatusPercent;
+
+    private String comment;
+
+    protected HealthRequestEntity(Parcel in) {
+        HealthRequestId = in.readInt();
+        crn = in.readString();
+        CityID = in.readInt();
+        ContactEmail = in.readString();
+        ContactMobile = in.readString();
+        ContactName = in.readString();
+        DeductibleAmount = in.readInt();
+        ExistingCustomerReferenceID = in.readInt();
+        HealthType = in.readString();
+        MaritalStatusID = in.readInt();
+        PolicyFor = in.readString();
+        PolicyTermYear = in.readInt();
+        ProductID = in.readInt();
+        SessionID = in.readInt();
+        SourceType = in.readString();
+        SumInsured = in.readString();
+        SupportsAgentID = in.readInt();
+        FBAID = in.readInt();
+        agent_source = in.readString();
+        Quote_Application_Status = in.readString();
+        conversion_date = in.readString();
+        created_date = in.readString();
+        updated_date = in.readString();
+        isActive = in.readInt();
+        MemberList = in.createTypedArrayList(MemberListEntity.CREATOR);
+        selectedPrevInsID = in.readInt();
+        pincode = in.readInt();
+        PBStatus = in.readString();
+        StatusPercent = in.readInt();
+        comment = in.readString();
+    }
+
+    public static final Creator<HealthRequestEntity> CREATOR = new Creator<HealthRequestEntity>() {
+        @Override
+        public HealthRequestEntity createFromParcel(Parcel in) {
+            return new HealthRequestEntity(in);
+        }
+
+        @Override
+        public HealthRequestEntity[] newArray(int size) {
+            return new HealthRequestEntity[size];
+        }
+    };
 
     public int getStatusPercent() {
         return StatusPercent;
@@ -296,7 +343,13 @@ public class HealthRequestEntity implements Parcelable {
         this.MemberList = MemberList;
     }
 
+    public String getComment() {
+        return comment;
+    }
 
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
     public HealthRequestEntity() {
 
         CityID = 0;
@@ -326,78 +379,35 @@ public class HealthRequestEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.HealthRequestId);
-        dest.writeString(this.crn);
-        dest.writeInt(this.CityID);
-        dest.writeString(this.ContactEmail);
-        dest.writeString(this.ContactMobile);
-        dest.writeString(this.ContactName);
-        dest.writeInt(this.DeductibleAmount);
-        dest.writeInt(this.ExistingCustomerReferenceID);
-        dest.writeString(this.HealthType);
-        dest.writeInt(this.MaritalStatusID);
-        dest.writeString(this.PolicyFor);
-        dest.writeInt(this.PolicyTermYear);
-        dest.writeInt(this.ProductID);
-        dest.writeInt(this.SessionID);
-        dest.writeString(this.SourceType);
-        dest.writeString(this.SumInsured);
-        dest.writeInt(this.SupportsAgentID);
-        dest.writeInt(this.FBAID);
-        dest.writeString(this.agent_source);
-        dest.writeString(this.Quote_Application_Status);
-        dest.writeString(this.conversion_date);
-        dest.writeString(this.created_date);
-        dest.writeString(this.updated_date);
-        dest.writeInt(this.isActive);
-        dest.writeTypedList(this.MemberList);
-        dest.writeInt(this.selectedPrevInsID);
-        dest.writeInt(this.pincode);
-        dest.writeString(this.PBStatus);
-        dest.writeInt(this.StatusPercent);
+        dest.writeInt(HealthRequestId);
+        dest.writeString(crn);
+        dest.writeInt(CityID);
+        dest.writeString(ContactEmail);
+        dest.writeString(ContactMobile);
+        dest.writeString(ContactName);
+        dest.writeInt(DeductibleAmount);
+        dest.writeInt(ExistingCustomerReferenceID);
+        dest.writeString(HealthType);
+        dest.writeInt(MaritalStatusID);
+        dest.writeString(PolicyFor);
+        dest.writeInt(PolicyTermYear);
+        dest.writeInt(ProductID);
+        dest.writeInt(SessionID);
+        dest.writeString(SourceType);
+        dest.writeString(SumInsured);
+        dest.writeInt(SupportsAgentID);
+        dest.writeInt(FBAID);
+        dest.writeString(agent_source);
+        dest.writeString(Quote_Application_Status);
+        dest.writeString(conversion_date);
+        dest.writeString(created_date);
+        dest.writeString(updated_date);
+        dest.writeInt(isActive);
+        dest.writeTypedList(MemberList);
+        dest.writeInt(selectedPrevInsID);
+        dest.writeInt(pincode);
+        dest.writeString(PBStatus);
+        dest.writeInt(StatusPercent);
+        dest.writeString(comment);
     }
-
-    protected HealthRequestEntity(Parcel in) {
-        this.HealthRequestId = in.readInt();
-        this.crn = in.readString();
-        this.CityID = in.readInt();
-        this.ContactEmail = in.readString();
-        this.ContactMobile = in.readString();
-        this.ContactName = in.readString();
-        this.DeductibleAmount = in.readInt();
-        this.ExistingCustomerReferenceID = in.readInt();
-        this.HealthType = in.readString();
-        this.MaritalStatusID = in.readInt();
-        this.PolicyFor = in.readString();
-        this.PolicyTermYear = in.readInt();
-        this.ProductID = in.readInt();
-        this.SessionID = in.readInt();
-        this.SourceType = in.readString();
-        this.SumInsured = in.readString();
-        this.SupportsAgentID = in.readInt();
-        this.FBAID = in.readInt();
-        this.agent_source = in.readString();
-        this.Quote_Application_Status = in.readString();
-        this.conversion_date = in.readString();
-        this.created_date = in.readString();
-        this.updated_date = in.readString();
-        this.isActive = in.readInt();
-        this.MemberList = in.createTypedArrayList(MemberListEntity.CREATOR);
-        this.selectedPrevInsID = in.readInt();
-        this.pincode = in.readInt();
-        this.PBStatus = in.readString();
-        this.StatusPercent = in.readInt();
-    }
-
-    public static final Parcelable.Creator<HealthRequestEntity> CREATOR = new Parcelable.Creator<HealthRequestEntity>() {
-        @Override
-        public HealthRequestEntity createFromParcel(Parcel source) {
-            return new HealthRequestEntity(source);
-        }
-
-        @Override
-        public HealthRequestEntity[] newArray(int size) {
-            return new HealthRequestEntity[size];
-        }
-    };
 }
