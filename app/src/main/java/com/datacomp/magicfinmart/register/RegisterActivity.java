@@ -137,7 +137,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         new RegisterController(this).getRegSource(this);
 
        // showDialog();
-        new RegisterController(RegisterActivity.this).getfieldsales(RegisterActivity.this);
+
 
         if (prefManager.IsInsuranceMasterUpdate()) {
             new MasterController(this).getInsuranceMaster(this);
@@ -567,9 +567,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         SourceEntity sourceEntity = (SourceEntity) spSource.getSelectedItem();
         registerRequestEntity.setAppSource("" + sourceEntity.getId());
 
-        if(sourceEntity.getId() != 1) {
+        if(spSource.getSelectedItemPosition() != 0) {
+            if(spsales.getSelectedItem() !=null) {
+                registerRequestEntity.setField_sales_uid("" + mapSale.get(spsales.getSelectedItem().toString()));
+            }else
+            {
+                registerRequestEntity.setField_sales_uid("");
+            }
 
-            registerRequestEntity.setField_sales_uid("" + mapSale.get(spsales.getSelectedItem().toString()));
         }else{
             registerRequestEntity.setField_sales_uid("");
         }

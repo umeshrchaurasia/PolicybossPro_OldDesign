@@ -75,7 +75,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/knowledge_loan_icon" />
+                    android:src="@drawable/private_car" />
 
                 <View
                     android:layout_width="1dp"
@@ -112,7 +112,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/knowledge_insurace_icon" />
+                    android:src="@drawable/private_car" />
 
                 <View
                     android:layout_width="1dp"
@@ -149,7 +149,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/knowledge_insurace_icon" />
+                    android:src="@drawable/private_car" />
 
                 <View
                     android:layout_width="1dp"
@@ -186,7 +186,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/knowledge_insurace_icon" />
+                    android:src="@drawable/health_insurance" />
 
                 <View
                     android:layout_width="1dp"
@@ -223,7 +223,7 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/knowledge_guru_other_product" />
+                    android:src="@drawable/life_insurance" />
 
                 <View
                     android:layout_width="1dp"
