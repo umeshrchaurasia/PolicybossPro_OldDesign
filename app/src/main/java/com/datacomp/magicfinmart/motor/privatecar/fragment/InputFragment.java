@@ -671,17 +671,16 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             calendar.setTime(ManfDate);
             setYearMonthAdapter(calendar);*/
 
-
-            etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
-
-            etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
-
-
             //By Nilesh 12.10.2018
             Date regDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(regDate);
             setYearMonthAdapter(calendar);
+
+
+            etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
+
+            etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
 
 
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
