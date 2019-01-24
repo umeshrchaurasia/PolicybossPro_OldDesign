@@ -14,7 +14,8 @@
             android:id="@+id/nav_insert_contact"
             android:icon="@drawable/home"
             android:orderInCategory="100"
-            android:title="Finmart Business Contact" />
+            android:title="Finmart Business Contact"
+            android:visible="false" />
         <item
             android:id="@+id/nav_myaccount_pro"
             android:orderInCategory="200"
@@ -157,7 +158,7 @@
                 android:icon="@drawable/offiline_quote_ic"
                 android:orderInCategory="730"
                 android:title="Offline Quotes"
-                android:visible="true" />
+                android:visible="false" />
 
             <item
                 android:id="@+id/nav_crnpolicy"

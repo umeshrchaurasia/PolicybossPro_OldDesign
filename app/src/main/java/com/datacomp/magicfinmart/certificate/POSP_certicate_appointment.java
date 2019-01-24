@@ -39,7 +39,7 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
         if(type.equals("1")) {
             getSupportActionBar().setTitle("POSP Appointment Letter");
         }else {
-            getSupportActionBar().setTitle("POSP Certificate");
+            getSupportActionBar().setTitle("POSP Application Form");
         }
         btnsendemail = (Button) findViewById(R.id.btnsendemail);
         btnview = (Button) findViewById(R.id.btnview);

@@ -375,8 +375,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
                     case R.id.nav_offlineQuotes:
-                        startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
+                     //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
+                     //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
                         break;
                     case R.id.nav_myBusiness:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));

@@ -969,7 +969,8 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+
         </activity>
         <activity
             android:name=".offline_quotes.AddOfflineQuotesActivity"
