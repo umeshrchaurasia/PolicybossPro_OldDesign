@@ -12,11 +12,12 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.helpfeedback.aboutus.AboutUsActivity;
 import com.datacomp.magicfinmart.helpfeedback.contactus.ContactUsActivity;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
+import com.datacomp.magicfinmart.insert_contact.InsertContactActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 public class HelpFeedBackActivity extends BaseActivity implements View.OnClickListener {
 
-    CardView cvContactUs, cvRaiseTicket, cvAboutUs, cvDisclosure;
+    CardView cvContactUs, cvRaiseTicket, cvAboutUs, cvDisclosure ,cvChat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class HelpFeedBackActivity extends BaseActivity implements View.OnClickLi
         cvRaiseTicket.setOnClickListener(this);
         cvAboutUs.setOnClickListener(this);
         cvDisclosure.setOnClickListener(this);
+        cvChat.setOnClickListener(this);
     }
 
     private void initWidgets() {
@@ -41,11 +43,15 @@ public class HelpFeedBackActivity extends BaseActivity implements View.OnClickLi
         cvRaiseTicket = (CardView) findViewById(R.id.cvRaiseTicket);
         cvAboutUs = (CardView) findViewById(R.id.cvAboutUs);
         cvDisclosure = (CardView) findViewById(R.id.cvDisclosure);
+        cvChat  = (CardView) findViewById(R.id.cvChat);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.cvChat:
+                startActivity(new Intent(this, InsertContactActivity.class));
+                break;
             case R.id.cvContactUs:
                 startActivity(new Intent(this, ContactUsActivity.class));
                 break;

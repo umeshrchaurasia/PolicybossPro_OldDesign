@@ -65,7 +65,7 @@ public class OfflineMotorListItemAdapter extends RecyclerView.Adapter<OfflineMot
 
       //  holder.txtName.setText("Name : " + entity.getMotorRequestEntity().getFirst_name() + " " + entity.getMotorRequestEntity().getLast_name());
         holder.txtVehicleNo.setText("Vehicle No : " + entity.getMotorRequestEntity().getRegistration_no());
-        holder.txtRegDate.setText("Reg. Date : " + entity.getMotorRequestEntity().getVehicle_registration_date());
+        holder.txtRegDate.setText("Created Date : " + entity.getMotorRequestEntity().getCreated_date());
         holder.llOfflineMotor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

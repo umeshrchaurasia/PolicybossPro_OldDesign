@@ -506,7 +506,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             isContactFirstCall = Integer.parseInt(prefManager.getContactMsgFirst());
             if (isContactFirstCall == 0) {
 
-                ConfirmInsertContactAlert("BUSINESS SUPPORT", getResources().getString(R.string.FM_Contact) + " ", "");
+                ConfirmInsertContactAlert("FINMART WHATSAPP CHAT", getResources().getString(R.string.FM_Contact) + " ", "");
             }
         }
     }

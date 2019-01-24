@@ -11,13 +11,11 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineQuoteListEntity;
 
 
@@ -63,17 +61,16 @@ public class OfflineHealthListItemAdapter extends RecyclerView.Adapter<OfflineHe
 
         final HealthQuote entity = offlineHealthList.get(position);
 
-        holder.txtName.setText("Name : " + entity.getHealthRequest().getContactName());
+        holder.txtName.setText("ID# : " + entity.getHealthRequestId() + "\nName : " + entity.getHealthRequest().getContactName());
         holder.txtVehicleNo.setText("Sum Insured : " + entity.getHealthRequest().getSumInsured());
-        holder.txtRegDate.setText("Reg. Date : " + entity.getHealthRequest().getCreated_date());
+        holder.txtRegDate.setText("Created Date : " + entity.getHealthRequest().getCreated_date());
         holder.llOfflineMotor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (entity.getHealthRequest() != null )
+                if (entity.getHealthRequest() != null)
                     ((OfflineHealthListActivity) mcontext).editOfflineHealth(entity);
             }
         });
-
 
 
         if (entity.getQuote() != null && entity.getQuote().size() > 0) {
@@ -98,7 +95,6 @@ public class OfflineHealthListItemAdapter extends RecyclerView.Adapter<OfflineHe
         }
 
     }
-
 
 
     View.OnClickListener onClickListener = new View.OnClickListener() {

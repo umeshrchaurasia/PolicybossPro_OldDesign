@@ -98,63 +98,6 @@ public class InsertContactActivity extends BaseActivity implements View.OnClickL
 
     }
 
-    public void ConfirmInsertContactAlert(String Title, String strBody, final String strMobile) {
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
-
-
-        Button btnAllow, btnReject;
-        TextView txtTile, txtBody, txtMob;
-        ImageView ivCross;
-
-        LayoutInflater inflater = this.getLayoutInflater();
-
-        final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
-
-        builder.setView(dialogView);
-        final AlertDialog alertDialog = builder.create();
-        // set the custom dialog components - text, image and button
-        txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
-        txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
-        txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
-        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
-
-        btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
-        btnReject = (Button) dialogView.findViewById(R.id.btnReject);
-        txtTile.setText(Title);
-        txtBody.setText(strBody);
-        txtMob.setText(strMobile);
-
-        btnAllow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                Utility.WritePhoneContact(getResources().getString(R.string.Finmart), userConstantEntity.getFinmartwhatsappno(), InsertContactActivity.this);
-                prefManager.updateContactMsgFirst("" + 1);
-                Toast.makeText(InsertContactActivity.this, "Contact Saved Successfully..", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        btnReject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-                prefManager.updateContactMsgFirst("" + 1);
-            }
-        });
-
-        ivCross.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-
-            }
-        });
-        alertDialog.setCancelable(false);
-        alertDialog.show();
-
-    }
 
 
     //region permission

@@ -646,6 +646,6 @@ We presume that this feature will be used only for contacts where the customer h
     <string name="title_activity_offline_health_member_details_dialog">
         OfflineHealthMemberDetailsDialogActivity
     </string>
-    <string name="title_activity_send_sms">Sms Template</string>
-    <string name="title_activity_insert_contact">Add Contact</string>
+    <string name="title_activity_send_sms">SMS TEMPLATE</string>
+    <string name="title_activity_insert_contact">FINMART WHATSAPP CHATt</string>
 </resources>

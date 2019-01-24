@@ -59,9 +59,11 @@ public class TermQuoteAdapter_offline extends RecyclerView.Adapter<TermQuoteAdap
 
         if (holder instanceof QuoteItem) {
             final TermFinmartRequest entity = mQuoteListFiltered.get(position);
-            holder.txtPersonName.setText(entity.getTermRequestEntity().getContactName());
-            holder.txtCustRefNo.setText(entity.getTermRequestEntity().getSumAssured());
-            holder.txtQuoteDate.setText(entity.getTermRequestEntity().getCreated_date());
+
+
+            holder.txtPersonName.setText("ID# : " + entity.getTermRequestId()+"\nName : " + entity.getTermRequestEntity().getContactName());
+            holder.txtCustRefNo.setText("Sum Insured : "+entity.getTermRequestEntity().getSumAssured());
+            holder.txtQuoteDate.setText("Created Date : "+entity.getTermRequestEntity().getCreated_date());
             holder.llDetails.setTag(R.id.llDetails, entity);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
 
