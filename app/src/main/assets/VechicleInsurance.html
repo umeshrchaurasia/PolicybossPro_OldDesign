@@ -260,12 +260,12 @@ ul li {margin:2px; padding:4px !important;}
                 HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 10px !important;"><img style="width:80%"   src="http://api.magicfinmart.com/InsurerImages/car_' + response.Response[i].Insurer_Id + '.png" class="" /></td>';
                 HTML = HTML + '<td style="text-align:left;">IDV</td>';
                 HTML = HTML + '<td class="red-txt">PREMIUM</td>';
-				 HTML = HTML + '<td></td>';
+
                 HTML = HTML + '</tr>';
                 HTML = HTML + '<tr>';
                 HTML = HTML + ' <td style="text-align:left;"> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                 HTML = HTML + ' <td><span class="amount">₹ ' + Math.round(response.Response [i].Premium_Breakup.final_premium) + '</span></td>';
-				HTML = HTML + ' <td><a href="https://www.policyboss.com/" class="buybtn">Buy</a></td>';
+
 
                 HTML = HTML + '</tr>';
                 HTML = HTML + '</tbody>';
@@ -283,13 +283,13 @@ ul li {margin:2px; padding:4px !important;}
                     HTML = HTML + '<tr>';
                     HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 10px !important;"><img style="width:80%"  src="http://api.magicfinmart.com/InsurerImages/car_' + response.Response[i].Insurer_Id + '.png" class="" /></td>';
                     HTML = HTML + '<td style="text-align:left;">IDV</td>';
-                    HTML = HTML + '<td class="red-txt">PREMIIUM</td>';
-					 HTML = HTML + '<td></td>';
+                    HTML = HTML + '<td class="red-txt">PREMIUM</td>';
+
                     HTML = HTML + '</tr>';
                     HTML = HTML + '<tr>';
                     HTML = HTML + ' <td style="text-align:left;"> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                     HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  Math.round( response.Response[i].final_premium_with_addon) + '</a></td>';
-					HTML = HTML + ' <td><a href="https://www.policyboss.com/" class="buybtn">Buy</a></td>';
+
                     HTML = HTML + '</tr>';
                     HTML = HTML + '</tbody>';
                     HTML = HTML + '</table>';
