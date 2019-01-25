@@ -85,7 +85,7 @@ public class QuoteListRowAdapter extends RecyclerView.Adapter<QuoteListRowAdapte
                 @Override
                 public void onClick(View v) {
                     if(quoteEntity.getEditable().equals("1") ){
-                        ((OfflineQuotesListActivity) mContext).redirectToEdit(quoteEntity);
+                       // ((OfflineQuotesListActivity) mContext).redirectToEdit(quoteEntity);
                     }
                 }
             });
@@ -93,7 +93,7 @@ public class QuoteListRowAdapter extends RecyclerView.Adapter<QuoteListRowAdapte
                 @Override
                 public void onClick(View v) {
                     if(quoteEntity.getEditable().equals("1") ){
-                        ((OfflineQuotesListActivity) mContext).redirectToEdit(quoteEntity);
+                       // ((OfflineQuotesListActivity) mContext).redirectToEdit(quoteEntity);
                     }
                 }
             });

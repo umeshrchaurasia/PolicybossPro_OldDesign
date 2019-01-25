@@ -54,6 +54,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
+import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -374,9 +375,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
+
+                    case R.id.nav_crnpolicy:
+                        startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+                        break;
                     case R.id.nav_offlineQuotes:
-                     //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
-                     //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
+                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
+                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
                         break;
                     case R.id.nav_myBusiness:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
@@ -1175,7 +1180,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         } else if (view.getId() == ivProfile.getId()) {
             dialog.cancel();
-        }else {
+        } else {
             dialog.cancel();
         }
 
