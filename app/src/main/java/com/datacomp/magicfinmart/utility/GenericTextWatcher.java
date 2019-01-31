@@ -64,7 +64,7 @@ public class GenericTextWatcher implements TextWatcher {
             case R.id.etreg3:
                 if (charSequence.length() == 0) {
                     ivehicle.cancelVehicleNumber(view);
-                } else if (((EditText) stateCode).getText().toString().toLowerCase().equalsIgnoreCase("dl")) {
+                } else if (((EditText) stateCode) != null && ((EditText) stateCode).getText().toString().toLowerCase().equalsIgnoreCase("dl")) {
                     InputFilter[] FilterArray = new InputFilter[2];
                     FilterArray[0] = new InputFilter.LengthFilter(3);
                     FilterArray[1] = new InputFilter.AllCaps();

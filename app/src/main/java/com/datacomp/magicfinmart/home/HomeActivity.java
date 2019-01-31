@@ -54,6 +54,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
+import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -95,6 +96,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,6 +117,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
@@ -147,6 +150,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             "android.permission.WRITE_CONTACTS"
 
     };
+
+
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
@@ -214,6 +219,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
+
 
 
         try {
@@ -374,9 +380,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
+
+                    case R.id.nav_crnpolicy:
+                        startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+                        break;
                     case R.id.nav_offlineQuotes:
-                        startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
+                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
+                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
                         break;
                     case R.id.nav_myBusiness:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
@@ -1175,7 +1185,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         } else if (view.getId() == ivProfile.getId()) {
             dialog.cancel();
-        }else {
+        } else {
             dialog.cancel();
         }
 

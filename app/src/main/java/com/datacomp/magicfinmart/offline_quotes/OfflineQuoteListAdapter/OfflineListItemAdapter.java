@@ -72,7 +72,7 @@ public class OfflineListItemAdapter extends RecyclerView.Adapter<OfflineListItem
             @Override
             public void onClick(View v) {
 
-                ((OfflineQuotesListActivity)mcontext).redirectToQuoteList(docuEntity);
+               // ((OfflineQuotesListActivity)mcontext).redirectToQuoteList(docuEntity);
 
             }
         });

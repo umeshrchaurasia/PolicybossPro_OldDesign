@@ -548,7 +548,7 @@ public class DBPersistanceController {
         // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANCE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANCE", 39, ""));
-      //  term.add(new TermSelectionEntity("ULTRA LAKSHYA INSURANCE", 40, ""));
+        //  term.add(new TermSelectionEntity("ULTRA LAKSHYA INSURANCE", 40, ""));
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
         return term;
@@ -565,7 +565,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes .", R.drawable.offlineportal));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
 
 
         if (prefManager.getMenuDashBoard() != null) {
@@ -1891,7 +1891,7 @@ public class DBPersistanceController {
         hashmapPremTerm.put("38 YEARS", 38);
         hashmapPremTerm.put("39 YEARS", 39);
         hashmapPremTerm.put("40 YEARS", 40);
-        hashmapPremTerm.put("MAX POLICY TERM", 41);
+        hashmapPremTerm.put("Max Policy Term", 41);
 
 
     }

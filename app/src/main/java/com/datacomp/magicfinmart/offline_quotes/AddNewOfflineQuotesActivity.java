@@ -23,7 +23,7 @@ import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.Te
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity;
 
 public class AddNewOfflineQuotesActivity extends BaseActivity implements View.OnClickListener {
-    CardView MotorPrivate, MotorGoods, MotorPassenger, Health, life;
+    CardView MotorPrivate, MotorGoods, MotorPassenger, Health, life,offlineQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,7 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
         MotorPassenger.setOnClickListener(this);
         Health.setOnClickListener(this);
         life.setOnClickListener(this);
+        offlineQuote.setOnClickListener(this);
     }
 
     private void init_views() {
@@ -50,6 +51,8 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
         MotorPassenger = (CardView) findViewById(R.id.MotorPassenger);
         Health = (CardView) findViewById(R.id.Health);
         life = (CardView) findViewById(R.id.life);
+        offlineQuote= (CardView) findViewById(R.id.offlineQuote);
+
     }
 
     @Override
@@ -69,6 +72,10 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
                 break;
             case R.id.life:
                 startActivity(new Intent(this, TermQuoteApplicationActivity_offline.class));
+
+                break;
+            case R.id.offlineQuote:
+                startActivity(new Intent(this, OfflineQuotesListActivity.class));
 
                 break;
 
