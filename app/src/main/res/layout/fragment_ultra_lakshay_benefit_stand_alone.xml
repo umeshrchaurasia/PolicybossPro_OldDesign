@@ -5,9 +5,7 @@
     android:layout_marginBottom="10dp"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefit">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -30,19 +28,11 @@
                     style="@style/TextViewStyle.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/UltraLakshyaHdr" />
-
-
-                <TextView
-                    style="@style/TextViewStyle.Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Unmatched Benefits of Ultra Lakshya solution"
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:padding="5dp"
+                    android:text="@string/UltraLakshyaAlone" />
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -382,5 +372,4 @@
         </LinearLayout>
 
     </ScrollView>
-
 </LinearLayout>

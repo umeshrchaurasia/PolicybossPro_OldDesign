@@ -12,10 +12,10 @@ import com.datacomp.magicfinmart.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayBenefitIllustration extends Fragment {
+public class UltraLakshayBenefitStandAlone extends Fragment {
 
 
-    public UltraLakshayBenefitIllustration() {
+    public UltraLakshayBenefitStandAlone() {
         // Required empty public constructor
     }
 
@@ -25,7 +25,7 @@ public class UltraLakshayBenefitIllustration extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_benefit_illustration, container, false);
+        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_benefit_stand_alone, container, false);
         return view;
     }
 
