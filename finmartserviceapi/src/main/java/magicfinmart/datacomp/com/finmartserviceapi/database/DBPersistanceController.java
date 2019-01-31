@@ -548,7 +548,7 @@ public class DBPersistanceController {
         // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANCE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANCE", 39, ""));
-        //  term.add(new TermSelectionEntity("ULTRA LAKSHYA INSURANCE", 40, ""));
+        term.add(new TermSelectionEntity("ULTRA LAKSHYA INSURANCE", 40, ""));
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
         return term;
