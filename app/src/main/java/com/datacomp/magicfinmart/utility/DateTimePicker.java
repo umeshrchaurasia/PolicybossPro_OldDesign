@@ -378,6 +378,28 @@ public class DateTimePicker {
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         dialog.show();
     }
+    public static void showDataPickerDialog_lakshya(Context mContex, Calendar cal, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        //always shows 1 day ahead in calender
+        // added 1 day in calender
+        //calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.YEAR, -18);
+    //    calendar.add(Calendar.DATE, -1);
+
+
+        // disable all before date,
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        if (cal != null) {
+            //set existing date to calender
+            dialog.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        }
+
+        dialog.show();
+    }
 
 
     public static void invoiceNewValidation(Context context, DatePickerDialog.OnDateSetListener callBack) {
