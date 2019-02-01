@@ -111,7 +111,7 @@
                         android:layout_weight="100"
                         android:background="@drawable/cell_blue_shape"
                         android:gravity="center"
-                        android:text="LIC JEEVAN LAKSHYA"
+                        android:text="ULTRA LAKSHYA"
                         android:textColor="@color/white"></TextView>
                 </TableRow>
 

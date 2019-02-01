@@ -9,7 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UltraLakhsyaEnt
  * Created by Rajeev Ranjan on 01/02/2019.
  */
 
-public class UltraLakhsya extends APIResponse {
+public class UltraLakhsyaResponse extends APIResponse {
     /**
      * MasterData : {"DeathBenefit":[{"Year":"1","JeevanPremiumPaid":"5432","JeevanBenefitsPayable":"546146","LakshyaPremiumPaid":"746","LakshyaBenefitsPayable":"58969"},{"Year":"1","JeevanPremiumPaid":"5432","JeevanBenefitsPayable":"546146","LakshyaPremiumPaid":"746","LakshyaBenefitsPayable":"58969"},{"Year":"1","JeevanPremiumPaid":"5432","JeevanBenefitsPayable":"546146","LakshyaPremiumPaid":"746","LakshyaBenefitsPayable":"58969"}]}
      */
