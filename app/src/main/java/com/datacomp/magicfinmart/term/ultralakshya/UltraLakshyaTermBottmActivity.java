@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,10 +18,12 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.input.UltraLakshyaTermInputFragment;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.UltraLakshayQuoteFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 
-public class UltraLakshyaTermActivity extends BaseActivity {
+public class UltraLakshyaTermBottmActivity extends BaseActivity {
 
 
     private static String INPUT_FRAGMENT = "input_term_ultralakshya";
@@ -101,12 +102,12 @@ public class UltraLakshyaTermActivity extends BaseActivity {
                         if (termFinmartRequest != null) {
                             quoteBundle.putParcelable(INPUT_DATA, null);
                             quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
-                            UltraLakshyaTermInputFragment quoteFragment = new UltraLakshyaTermInputFragment();
+                            UltraLakshayQuoteFragment quoteFragment = new UltraLakshayQuoteFragment();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, INPUT_FRAGMENT);
                             highlighQuote();
                         } else {
-                            Toast.makeText(UltraLakshyaTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UltraLakshyaTermBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
                     }
                     return true;
@@ -133,7 +134,7 @@ public class UltraLakshyaTermActivity extends BaseActivity {
         if (ivHdrQuote.getVisibility() == View.VISIBLE) {
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         } else {
-            UltraLakshyaTermActivity.this.finish();
+            UltraLakshyaTermBottmActivity.this.finish();
         }
     }
 
@@ -145,9 +146,10 @@ public class UltraLakshyaTermActivity extends BaseActivity {
 
     public void redirectToQuote(TermFinmartRequest termFinmartRequest) {
         this.termFinmartRequest = termFinmartRequest;
-        /*quoteBundle = new Bundle();
+        quoteBundle = new Bundle();
         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);*/
+        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
         highlighQuote();
     }
 

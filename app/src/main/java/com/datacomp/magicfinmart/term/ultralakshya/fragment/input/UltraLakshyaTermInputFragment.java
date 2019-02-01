@@ -1,20 +1,17 @@
-package com.datacomp.magicfinmart.term.ultralakshya;
+package com.datacomp.magicfinmart.term.ultralakshya.fragment.input;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +41,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
 
+import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -148,16 +146,16 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         setDefaultsIcici();
 
         if (getArguments() != null) {
-            if (getArguments().getParcelable(UltraLakshyaTermActivity.QUOTE_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermActivity.QUOTE_DATA);
+            if (getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
                 int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
                 termFinmartRequest.setFba_id(fba_id);
                 showDialog("Please Wait..");
                 fetchWithDelay();
-            } else if (getArguments().getParcelable(UltraLakshyaTermActivity.INPUT_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermActivity.INPUT_DATA);
+            } else if (getArguments().getParcelable(UltraLakshyaTermBottmActivity.INPUT_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermBottmActivity.INPUT_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
                 changeInputQuote(true);
@@ -261,6 +259,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
             else
                 ((UltraLakshyaTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+            btnGetQuote.setText("UPDATE QUOTE");
 
             cvQuoteDetails.setVisibility(View.VISIBLE);
         }
@@ -708,19 +708,20 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 }
 
             case R.id.btnGetQuote:
-                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ICICI GET QUOTE  TERM INSURANCE", "ICICI GET QUOTE TERM INSURANCE");
-                if (isValidInput()) {
-                    setTermRequest();
-
-                    fetchQuotes();
-                }
+//                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ICICI GET QUOTE  TERM INSURANCE", "ICICI GET QUOTE TERM INSURANCE");
+//                if (isValidInput()) {
+//                    setTermRequest();
+//
+//                    fetchQuotes();
+//                }
+                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 break;
 
             case R.id.ivEdit:
                 if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
                     ((CompareTermActivity) getActivity()).redirectToInput(termFinmartRequest);
                 else
-                    ((UltraLakshyaTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                    ((UltraLakshyaTermBottmActivity) getActivity()).redirectToInput(termFinmartRequest);
                 changeInputQuote(true);
                 break;
             case R.id.ivInfo:

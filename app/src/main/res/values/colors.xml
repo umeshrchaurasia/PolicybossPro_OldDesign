@@ -18,6 +18,7 @@
     <color name="secondary_text_color">#9ba0a6</color>
     <color name="tab_color">#00476e</color>
     <color name="button_color">@color/colorPrimary</color>
+
     <color name="blue">#005faf</color>
     <color name="holo_red_dark">#ffcc0000</color>
     <color name="red_text">#fe5e63</color>
@@ -67,7 +68,11 @@
     <color name="hint_color">#64ffffff</color>
     <color name="nav_blue">#287FAA</color>
     <color name="darkBlue">#1565c0</color>
+
+    <color name="light_blue">#0a77bf</color>
+    <color name="dark_blue">#0c375f</color>
     <color name="selcted_blue">#234567</color>
+    <color name="yellow">#f79f00</color>
     <!--region posp-->
     <!--<color name="application_primary_text_color">#212121</color>-->
     <!--<color name="icons">#FFFFFF</color>
