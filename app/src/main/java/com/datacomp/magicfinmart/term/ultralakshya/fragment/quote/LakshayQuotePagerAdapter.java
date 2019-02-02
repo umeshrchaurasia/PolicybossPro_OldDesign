@@ -8,7 +8,6 @@ import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraL
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathNominee;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayProductCombo;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayVsJeevan;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage1Fragment;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage2Fragment;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage3Fragment;
@@ -60,18 +59,15 @@ public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
 
             case 5:
 
-                UltraLakshayVsJeevan objFrag6 = new UltraLakshayVsJeevan();
+                UltraLakshayDeathNominee objFrag6 = new UltraLakshayDeathNominee();
                 return objFrag6;
 
             case 6:
 
-                UltraLakshayDeathNominee objFrag7 = new UltraLakshayDeathNominee();
+                UltraLakshayProductCombo objFrag7 = new UltraLakshayProductCombo();
                 return objFrag7;
 
-            case 7:
 
-                UltraLakshayProductCombo objFrag8 = new UltraLakshayProductCombo();
-                return objFrag8;
         }
         return null;
     }
