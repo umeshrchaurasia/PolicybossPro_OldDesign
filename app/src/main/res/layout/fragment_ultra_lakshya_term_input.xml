@@ -555,5 +555,5 @@ android:orientation="vertical"
     style="@style/ButtonStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Get quote" />
+    android:text="VIEW ILLUSTRATION" />
 </LinearLayout>

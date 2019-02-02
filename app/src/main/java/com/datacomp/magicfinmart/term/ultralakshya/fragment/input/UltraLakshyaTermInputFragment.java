@@ -90,7 +90,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     LinearLayout llAddon;
     RecyclerView rvAddOn;
 
-    Button btnGetQuote;
+    Button btnGetQuote,btnGetrecalculate;
     EditText etFirstName, etMobile, et_DOB;
     TextView tvMale, tvFemale, tvYes, tvNo;
     boolean isMale, isSmoker;
@@ -258,7 +258,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
             if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
                 ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
             else
-                ((UltraLakshyaTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+             //   ((UltraLakshyaTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
             btnGetQuote.setText("UPDATE QUOTE");
 
@@ -411,6 +411,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 //        filter.setOnClickListener(this);
 
         btnGetQuote.setOnClickListener(this);
+        btnGetrecalculate.setOnClickListener(this);
         et_DOB.setOnClickListener(datePickerDialog);
 
         minusICICISum.setOnClickListener(this);
@@ -623,6 +624,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
 
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
+        btnGetrecalculate= (Button) view.findViewById(R.id.btnGetrecalculate);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
 
         etMobile = (EditText) view.findViewById(R.id.etMobile);
@@ -714,6 +716,9 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 //
 //                    fetchQuotes();
 //                }
+                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                break;
+            case R.id.btnGetrecalculate:
                 ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 break;
 
