@@ -1031,7 +1031,7 @@
                 android:value="com.datacomp.magicfinmart.ncd.NCDActivity" />
         </activity>
         <activity
-            android:name=".term.ultralakshya.UltraLakshyaTermActivity"
+            android:name=".term.ultralakshya.UltraLakshyaTermBottmActivity"
             android:label="Ultra Lakshya"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />

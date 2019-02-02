@@ -16,7 +16,7 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
 import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
-import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActivity;
+import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -160,7 +160,7 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
             startActivity(new Intent(this, HdfcTermActivity.class));
         }else if (compId == 40) {
             MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ULTRA LAKSHYA INSURANCE", "ULTRA LAKSHYA INSURANCE");
-            startActivity(new Intent(this, UltraLakshyaTermActivity.class));
+            startActivity(new Intent(this, UltraLakshyaTermBottmActivity.class));
         }
     }
 
