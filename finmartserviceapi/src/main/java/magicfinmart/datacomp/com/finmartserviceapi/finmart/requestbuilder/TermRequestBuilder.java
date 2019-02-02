@@ -3,10 +3,13 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DeleteTermQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UpdateCRNResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
@@ -64,5 +67,14 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/GetCompareBenefits")
         Call<BenefitsListResponse> getBenefits(@Body HashMap<String, String> body);*/
+
+        //region ultra laksha
+
+
+        @Headers("token:" + token)
+        @POST("/api/liccombowrapper")
+        Call<UltraLakshaRecalculateResponse> recalculateUltraLaksha(@Body UltralakshaRequestEntity entity);
+
+        //endregion
     }
 }
