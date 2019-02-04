@@ -169,7 +169,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 //        if (docstatus.size() > 0) {
 //            for (int i = 0; i < li.size(); i++) {
 //                requiredDocEntity = li.get(i);
-//                for (CreateQuoteResponse.MasterDataBean.DocstatusBean objDoc : docstatus) {
+//                for (CreateQuoteResponse.UltraLakshaContainer.DocstatusBean objDoc : docstatus) {
 //                    if (requiredDocEntity.getDocname().toUpperCase().trim().equalsIgnoreCase(objDoc.getDocument_name().toUpperCase().trim())) {
 //                        requiredDocEntity.setUploaded(true);
 //                        li.set(i, requiredDocEntity);
