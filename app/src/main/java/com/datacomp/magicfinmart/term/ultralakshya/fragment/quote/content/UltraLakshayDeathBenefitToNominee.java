@@ -1,19 +1,24 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.notification.NotificationActivity;
-import com.datacomp.magicfinmart.notification.NotificationAdapter;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
 
 import java.util.ArrayList;
@@ -23,12 +28,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayDeathNominee extends BaseFragment {
+public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
 
 
     RecyclerView rvDeathBenefit;
@@ -55,7 +59,7 @@ public class UltraLakshayDeathNominee extends BaseFragment {
         initialize(view);
 
 
-        mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathNominee.this, getDeathNomineeLst());
+        mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathBenefitToNominee.this, getDeathNomineeLst());
         rvDeathBenefit.setAdapter(mAdapter);
     }
 
@@ -92,4 +96,38 @@ public class UltraLakshayDeathNominee extends BaseFragment {
     }
 
 
+    public void showDeathPayableAlert() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
+
+        AppCompatImageView ivClose;
+        TextView txtHdr ,txtMessage;
+        LinearLayout lyReceipt;
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_benefit_payable_to_nominee, null);
+
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        ivClose =  dialogView.findViewById(R.id.ivClose);
+
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+
+        alertDialog.setCancelable(true);
+
+        alertDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+
+    }
 }

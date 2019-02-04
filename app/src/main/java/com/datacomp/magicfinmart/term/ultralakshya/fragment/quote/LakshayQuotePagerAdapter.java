@@ -6,7 +6,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefit;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathNominee;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayILLustration;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayProductCombo;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage1Fragment;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage2Fragment;
@@ -33,39 +35,51 @@ public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
 
-                coverPage1Fragment objFrag1 = new coverPage1Fragment();
-                return objFrag1;
+                coverPage1Fragment objFrag = new coverPage1Fragment();
+                return objFrag;
 
             case 1:
 
-                coverPage2Fragment objFrag2 = new coverPage2Fragment();
-                return objFrag2;
+                coverPage2Fragment objFrag1 = new coverPage2Fragment();
+                return objFrag1;
 
             case 2:
 
-                coverPage3Fragment objFrag3 = new coverPage3Fragment();
-                return objFrag3;
+                coverPage3Fragment objFrag2 = new coverPage3Fragment();
+                return objFrag2;
 
             case 3:
+                UltraLakshayBenefit objFrag3 = new UltraLakshayBenefit();
+                return objFrag3;
 
-                UltraLakshayBenefit objFrag4 = new UltraLakshayBenefit();
-                return objFrag4;
 
             case 4:
 
 
-                UltraLakshayBenefitStandAlone objFrag5 = new UltraLakshayBenefitStandAlone();
-                return objFrag5;
+                UltraLakshayBenefitStandAlone objFrag4 = new UltraLakshayBenefitStandAlone();
+                return objFrag4;
 
             case 5:
 
-                UltraLakshayDeathNominee objFrag6 = new UltraLakshayDeathNominee();
-                return objFrag6;
+
+            UltraLakshayILLustration objFrag5 = new UltraLakshayILLustration();
+            return objFrag5;
+
 
             case 6:
 
-                UltraLakshayProductCombo objFrag7 = new UltraLakshayProductCombo();
+                return  new UltraLakshayLisJeevanVsLakshay();
+
+
+            case 7:
+
+                UltraLakshayDeathBenefitToNominee objFrag7 = new UltraLakshayDeathBenefitToNominee();
                 return objFrag7;
+
+            case 8:
+
+                UltraLakshayProductCombo objFrag8 = new UltraLakshayProductCombo();
+                return objFrag8;
 
 
         }

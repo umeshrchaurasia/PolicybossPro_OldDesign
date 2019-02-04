@@ -16,6 +16,7 @@ public class UltraLakhsyaResponse extends APIResponse {
 
     private UltraLakhsyaEntity MasterData;
 
+
     public UltraLakhsyaEntity getMasterData() {
         return MasterData;
     }
@@ -25,10 +26,6 @@ public class UltraLakhsyaResponse extends APIResponse {
     }
 
 
-
-    /**
-     * MasterData : {"DeathBenefit":[{"Year":"1","JeevanPremiumPaid":"5432","JeevanBenefitsPayable":"546146","LakshyaPremiumPaid":"746","LakshyaBenefitsPayable":"58969"},{"Year":"1","JeevanPremiumPaid":"5432","JeevanBenefitsPayable":"546146","LakshyaPremiumPaid":"746","LakshyaBenefitsPayable":"58969"},{"Year":"1","JeevanPremiumPaid":"5432","JeevanBenefitsPayable":"546146","LakshyaPremiumPaid":"746","LakshyaBenefitsPayable":"58969"}]}
-     */
 
 
 }

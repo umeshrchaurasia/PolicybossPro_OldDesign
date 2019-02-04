@@ -12,19 +12,16 @@ import com.datacomp.magicfinmart.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayVsJeevan extends Fragment {
+public class UltraLakshayLisJeevanVsLakshay extends Fragment {
 
 
-    public UltraLakshayVsJeevan() {
-        // Required empty public constructor
-    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_vs_jeevan, container, false);
+        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_lis_jeevan_vs_lakshay, container, false);
         return view;
     }
 

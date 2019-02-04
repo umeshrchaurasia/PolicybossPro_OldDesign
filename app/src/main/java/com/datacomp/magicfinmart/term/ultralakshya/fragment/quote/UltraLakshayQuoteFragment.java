@@ -13,9 +13,10 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefit;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathNominee;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayILLustration;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayProductCombo;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayVsJeevan;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage1Fragment;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage2Fragment;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage3Fragment;
@@ -66,8 +67,11 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
 
         adapter.addFrag(new UltraLakshayBenefit());
         adapter.addFrag(new UltraLakshayBenefitStandAlone());
-        adapter.addFrag(new UltraLakshayDeathNominee());
 
+        adapter.addFrag(new UltraLakshayILLustration());
+        adapter.addFrag(new UltraLakshayLisJeevanVsLakshay());
+
+        adapter.addFrag(new UltraLakshayDeathBenefitToNominee());
         adapter.addFrag(new UltraLakshayProductCombo());
 
         viewPager.setAdapter(adapter);

@@ -21,9 +21,12 @@
 
     <string name="view"><b><u>View</u></b></string>
     <string name="fetching_msg">Please Wait... fetching quotes</string>
-    <string name="UltraLakshyaAlone"> STAND-ALONE BENEFITS OF LIS\'s JEEVAN LAKSHYA</string>
+    <string name="UltraLakshyaAlone"> STAND-ALONE BENEFITS OF LIC\'s JEEVAN LAKSHYA</string>
     <string name="UltraLakshyaDeath"> DEATH BENEFITS PAYABLE TO NOMINEE</string>
     <string name="UltraLakshyaProdCombo"> PRODUCT COMBO INFORMATION </string>
+    <string name="UltraLakshyaBenefitIllustratoe">BENEFIT ILLUSTRATION OF LIC\'s JEEVAN LAKSHYA</string>
+    <string name="UltraLakshyaBenefitPayable">Benefits payable to nominee in case of death in year 11</string>
+    <string name="UltraLakshyaBenefitPayable_Terms">* including guaranteed and non-guaranteed benefits.</string>
 
     <string name="UltraLakshyaHdr">Presenting <b> <font color='#f79f00'>Ultra Lakshya - </font></b> a unique solution specially crafted for you by blending
      <b> <font color='#f79f00'>LIC\'s Jeevan Lakshya </font></b>  and <b> <font color='#f79f00'>HDFC Life\'s Click2Protect 3D  </font></b> product.</string>

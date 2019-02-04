@@ -47,6 +47,8 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
                 getSupportActionBar().setTitle("CLICK TO PROTECT 3D");
             }else if (compId == 40) {
                 getSupportActionBar().setTitle("ULTRA LAKSHYA");
+
+                startActivity(new Intent(this, UltraLakshyaTermBottmActivity.class));  // 05  temp code
             }
 
         }

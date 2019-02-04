@@ -2,17 +2,30 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import java.util.List;
 
-public  class UltraLakhsyaEntity {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakhsyaResponse;
 
-        private List<DeathBenefitEntity> DeathBenefitLst;
+public class UltraLakhsyaEntity {
 
-        public List<DeathBenefitEntity> getDeathBenefit() {
-            return DeathBenefitLst;
-        }
+    private List<DeathBenefitEntity> DeathBenefitLst;
+    private List<LakshyaBenefitIllustratorEntity> BenefitsLst;
 
-        public void setDeathBenefit(List<DeathBenefitEntity> DeathBenefit) {
-            this.DeathBenefitLst = DeathBenefit;
-        }
-
-
+    public List<DeathBenefitEntity> getDeathBenefit() {
+        return DeathBenefitLst;
     }
+
+    public void setDeathBenefit(List<DeathBenefitEntity> DeathBenefit) {
+        this.DeathBenefitLst = DeathBenefit;
+    }
+
+
+    public List<LakshyaBenefitIllustratorEntity> getBenefits() {
+        return BenefitsLst;
+    }
+
+    public void setBenefits(List<LakshyaBenefitIllustratorEntity> Benefits) {
+        this.BenefitsLst = Benefits;
+    }
+
+
+
+}
