@@ -97,7 +97,7 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         for(int i =1; i <20 ; i++) {
             DeathBenefitEntity obj = new DeathBenefitEntity();
             obj.setYear(""+i);
-            obj.setJeevanBenefitsPayable("" +500 +i);
+            obj.setJeevanBenefitsPayable("" +500000 +i);
             obj.setJeevanPremiumPaid(""+700 +i);
             obj.setLakshyaBenefitsPayable(""+178900 +i);
             obj.setLakshyaPremiumPaid(""+3347900 +i);
@@ -114,14 +114,24 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
 
             return;
         }
-       if( ultraLakshaFacade.getBenefitPopupList() == null)
-       {
-           return;
-       }
+//       if( ultraLakshaFacade.getBenefitPopupList() == null)
+//       {
+//           return;
+//       }
 
 
-        BenefitsPopupEntity benefitsPopupEntity = ultraLakshaFacade.getBenefitPopupList().get(0);
+    //    BenefitsPopupEntity benefitsPopupEntity = ultraLakshaFacade.getBenefitPopupList().get(0);
+
+        // region temp 05 added
+        BenefitsPopupEntity benefitsPopupEntity = new BenefitsPopupEntity();
+        benefitsPopupEntity.setTerm(""+20);
+        benefitsPopupEntity.setAnnualPayout("100000");
+        benefitsPopupEntity.setULOnDeath("50000");
+        //endregion
+
         int period = Integer.valueOf(benefitsPopupEntity.getTerm()) -  Integer.valueOf(deathBenefitEntity.getYear());
+        long JeevanMaturityDate  =    Long.valueOf(deathBenefitEntity.getJeevanBenefitsPayable()) -  (period * Long.valueOf(benefitsPopupEntity.getAnnualPayout()));
+       // long UltraMaturityDate   =    Long.valueOf(deathBenefitEntity.getLakshyaBenefitsPayable()) -  (period * Long.valueOf(benefitsPopupEntity.getAnnualPayout()));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
 
@@ -132,9 +142,9 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
                 txtJeevanMonthlyPayoutfor9,txtUltraMonthlyPayoutfor9,
                 txtJeevanMaturityDate ,txtUltraMaturityDate,
                 txtJeevanMonthlyPayoutfor5 ,txtUltraMonthlyPayoutfor5,
-                txtJeevanTotal ,txtUltraTotal;
+                txtJeevanTotal ,txtUltraTotal,
 
-
+               lblAnnualPayout, lblMonthlyPayout ;
 
 
         LayoutInflater inflater = this.getLayoutInflater();
@@ -144,8 +154,16 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         builder.setView(dialogView);
         alertDialog = builder.create();
         // set the custom dialog components - text, image and button
+
+        //region declaration
         ivClose =  dialogView.findViewById(R.id.ivClose);
         txtHdr =  dialogView.findViewById(R.id.txtHdr);
+
+        lblAnnualPayout  =  dialogView.findViewById(R.id.lblAnnualPayout);
+        lblMonthlyPayout  =  dialogView.findViewById(R.id.lblMonthlyPayout);
+
+
+
         txtJeevanImmediately  =  dialogView.findViewById(R.id.txtJeevanImmediately);
         txtUltraImmediately  =  dialogView.findViewById(R.id.txtUltraImmediately);
 
@@ -164,10 +182,16 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         txtJeevanTotal  =  dialogView.findViewById(R.id.txtJeevanTotal);
         txtUltraTotal  =  dialogView.findViewById(R.id.txtUltraTotal);
 
-        txtHdr.setText("Benefits payable to nominee in case of death in year "+ period);
-        txtUltraImmediately.setText("" + benefitsPopupEntity.getTerm());
+        //endregion
+
+        txtHdr.setText("Benefits payable to nominee in case of death in year "+ deathBenefitEntity.getYear());
+        lblAnnualPayout.setText("Annual payout for years "+ period);
+        lblMonthlyPayout.setText("Monthly payout for years "+ period);
+        txtUltraImmediately.setText("" + benefitsPopupEntity.getULOnDeath());
         txtJeevanTotal.setText(""+deathBenefitEntity.getJeevanBenefitsPayable() );
         txtUltraTotal.setText(""+ deathBenefitEntity.getLakshyaBenefitsPayable() );
+
+        txtJeevanMaturityDate.setText("" +JeevanMaturityDate);
 
 
 
