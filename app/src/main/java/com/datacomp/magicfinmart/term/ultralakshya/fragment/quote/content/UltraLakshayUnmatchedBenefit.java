@@ -9,33 +9,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
+
+import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageoneUnmatchedList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayBenefitStandAlone extends BaseFragment {
+public class UltraLakshayUnmatchedBenefit extends Fragment {
 
 
-    TextView txtAnnualPrem1yearAmnt ,txtAnnualPrem2to7Amnt, txtAnnualPrem2to7Text,
-            txtMaturityAfterYearText,txtMaturityAfterYearAmnt,
-            txtLumpsumAmnt ,txtAnnualEndOfTermAmnt,
-            txtMonthlyforYearText ,txtMonthlyforYearAmnt,
-            txtOnMaturityDateAmnt;
+     TextView txtAnnualPrem1yearAmnt ,txtAnnualPrem2to7Amnt, txtAnnualPrem2to7Text,
+     txtMaturityAfterYearText,txtMaturityAfterYearAmnt,
+     txtLumpsumAmnt ,txtAnnualEndOfTermAmnt,
+     txtMonthlyforYearText ,txtMonthlyforYearAmnt,
+      txtOnMaturityDateAmnt;
 
     UltraLakshaFacade ultraLakshaFacade;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_benefit_stand_alone, container, false);
+        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_unmatched_benefit, container, false);
         return view;
     }
 
@@ -70,25 +69,25 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
 
     private void setUnmatchedUI()
     {
-        if(ultraLakshaFacade.getPageTwoStandAloneList() != null)
+        if(ultraLakshaFacade.getPageoneUnmatchedList() != null)
         {
 
-            PageTwoStandAloneList objStandAlone = ultraLakshaFacade.getPageTwoStandAloneList().get(0);
+            PageoneUnmatchedList objUnmatched = ultraLakshaFacade.getPageoneUnmatchedList().get(0);
 
-            txtAnnualPrem1yearAmnt.setText(""+objStandAlone.getAnnualPremiumFirstYr());
-            txtAnnualPrem2to7Amnt.setText(""+objStandAlone.getAnnualPremiumOtherYrs());
-            txtAnnualPrem2to7Text.setText(""+objStandAlone.getOtherYrs());
+            txtAnnualPrem1yearAmnt.setText(""+objUnmatched.getAnnualPremiumFirstYr());
+            txtAnnualPrem2to7Amnt.setText(""+objUnmatched.getAnnualPremiumOtherYrs());
+            txtAnnualPrem2to7Text.setText(""+objUnmatched.getOtherYrs());
 
-            txtMaturityAfterYearText.setText(""+objStandAlone.getMaturityYear());
-            txtMaturityAfterYearAmnt.setText(""+objStandAlone.getMaturityDateValue());
+            txtMaturityAfterYearText.setText(""+objUnmatched.getMaturityYear());
+            txtMaturityAfterYearAmnt.setText(""+objUnmatched.getMaturityDateValue());
 
-            txtLumpsumAmnt.setText(""+objStandAlone.getLumpsumpDeath());
-            txtAnnualEndOfTermAmnt.setText(""+objStandAlone.getAnnualTillEOT());
+            txtLumpsumAmnt.setText(""+objUnmatched.getLumpsumpDeath());
+            txtAnnualEndOfTermAmnt.setText(""+objUnmatched.getAnnualTillEOT());
 
-            txtMonthlyforYearText.setText(""+objStandAlone.getMonthlyterm());
-            txtMonthlyforYearAmnt.setText(""+objStandAlone.getMonthlytermValue());
+            txtMonthlyforYearText.setText(""+objUnmatched.getMonthlyterm());
+            txtMonthlyforYearAmnt.setText(""+objUnmatched.getMonthlytermValue());
 
-            txtOnMaturityDateAmnt.setText(""+objStandAlone.getMaturityDateValue());
+            txtOnMaturityDateAmnt.setText(""+objUnmatched.getMaturityDateValue());
 
         }
     }

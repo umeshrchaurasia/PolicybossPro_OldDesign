@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefit;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayILLustration;
@@ -65,7 +65,7 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
         adapter.addFrag(new coverPage2Fragment());
         adapter.addFrag(new coverPage3Fragment());
 
-        adapter.addFrag(new UltraLakshayBenefit());
+        adapter.addFrag(new UltraLakshayUnmatchedBenefit());
         adapter.addFrag(new UltraLakshayBenefitStandAlone());
 
         adapter.addFrag(new UltraLakshayILLustration());

@@ -8,9 +8,8 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsList;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LICEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LicVrsList;
@@ -103,7 +102,7 @@ public class UltraLakshaFacade {
         return null;
     }
 
-    public List<DeathBenefitList> getDeathBenefitList() {
+    public List<DeathBenefitEntity> getDeathBenefitList() {
 
         if (getIllustration() != null) {
             if (getIllustration().getDeathBenefit() != null)
@@ -114,7 +113,7 @@ public class UltraLakshaFacade {
         return null;
     }
 
-    public List<BenefitsList> getBenefitList() {
+    public List<LakshyaBenefitIllustratorEntity> getBenefitList() {
 
         if (getIllustration() != null) {
             if (getIllustration().getBenefits() != null)

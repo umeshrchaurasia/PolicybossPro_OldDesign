@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaBenefitIllustratorAdapter;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -26,7 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEn
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayILLustration extends Fragment {
+public class UltraLakshayILLustration extends BaseFragment {
 
 
     RecyclerView rvDeathBenefit;
@@ -35,7 +37,7 @@ public class UltraLakshayILLustration extends Fragment {
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     PrefManager prefManager;
-
+    UltraLakshaFacade ultraLakshaFacade;
 
 
 
@@ -53,8 +55,19 @@ public class UltraLakshayILLustration extends Fragment {
         initialize(view);
 
 
-        mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayILLustration.this, getDeathNomineeLst());
-        rvDeathBenefit.setAdapter(mAdapter);
+
+
+        ultraLakshaFacade = new UltraLakshaFacade(getActivity());
+
+        if(ultraLakshaFacade.getBenefitList() != null) {
+            mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayILLustration.this, ultraLakshaFacade.getBenefitList());
+            rvDeathBenefit.setAdapter(mAdapter);
+        }else{
+            mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayILLustration.this, getDeathNomineeLst());
+            rvDeathBenefit.setAdapter(mAdapter);  //temp data
+
+            //  Toast.makeText(getActivity(),"No data found",Toast.LENGTH_SHORT).show();
+        }
     }
     private void initialize(View view) {
 
@@ -78,7 +91,7 @@ public class UltraLakshayILLustration extends Fragment {
         for(int i =1; i <20 ; i++) {
             LakshyaBenefitIllustratorEntity obj = new LakshyaBenefitIllustratorEntity();
             obj.setYear(""+i);
-            obj.setAge( +19 +i);
+            obj.setAge("" +19 +i);
             obj.setAnnualPremium(""+700 +i);
             obj.setCashFlow(""+178900 +i);
             obj.setLicCover(""+3347900 +i);

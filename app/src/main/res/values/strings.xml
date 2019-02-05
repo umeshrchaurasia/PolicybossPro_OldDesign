@@ -28,6 +28,8 @@
     <string name="UltraLakshyaBenefitPayable">Benefits payable to nominee in case of death in year 11</string>
     <string name="UltraLakshyaBenefitPayable_Terms">* including guaranteed and non-guaranteed benefits.</string>
 
+    <string name="UltraLakshyaJeevanVsLakshya">LIC JEEVAN LAKSHYA v/s ULTRA LAKSHYA</string>
+
     <string name="UltraLakshyaHdr">Presenting <b> <font color='#f79f00'>Ultra Lakshya - </font></b> a unique solution specially crafted for you by blending
      <b> <font color='#f79f00'>LIC\'s Jeevan Lakshya </font></b>  and <b> <font color='#f79f00'>HDFC Life\'s Click2Protect 3D  </font></b> product.</string>
     <string-array name="ncb_percent">

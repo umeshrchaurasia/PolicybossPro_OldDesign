@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+  android:background="custom"
      android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="15dp"
         android:orientation="vertical">
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
 
             android:gravity="center"
-            android:paddingTop="12dp"
+            android:paddingTop="15dp"
             android:paddingBottom="10dp"
             android:text="@string/UltraLakshyaBenefitPayable"
             android:textColor="@color/black"
@@ -37,8 +38,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+
                 android:orientation="vertical">
 
                 <TableLayout
@@ -108,6 +108,7 @@
                             android:textColor="@color/header_dark_text"></TextView>
 
                         <TextView
+                            android:id="@+id/txtJeevanImmediately"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -116,10 +117,11 @@
                             android:gravity="center"
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
-                            android:text="--"></TextView>
+                            android:text="---"></TextView>
 
 
                         <TextView
+                            android:id="@+id/txtUltraImmediately"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -141,6 +143,7 @@
 
 
                         <TextView
+                            android:id="@+id/lblAnnualPayout"
                             style="@style/TextViewStyle.Small"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -149,10 +152,11 @@
                             android:gravity="left|center_vertical"
                             android:paddingLeft="4dp"
                             android:paddingRight="2dp"
-                            android:text="Annual payout for 9 years"
+                            android:text="Annual payout for years"
                             android:textColor="@color/header_dark_text"></TextView>
 
                         <TextView
+                            android:id="@+id/txtJeevanAnnualPayoutfor9"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -161,10 +165,11 @@
                             android:gravity="center"
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
-                            android:text=""></TextView>
+                            android:text="100000"></TextView>
 
 
                         <TextView
+                            android:id="@+id/txtUltraAnnualPayoutfor9"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -173,7 +178,7 @@
                             android:gravity="center"
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
-                            android:text=""></TextView>
+                            android:text="100000"></TextView>
 
                     </TableRow>
 
@@ -183,6 +188,7 @@
 
 
                         <TextView
+                            android:id="@+id/lblMonthlyPayout"
                             style="@style/TextViewStyle.Small"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -191,10 +197,11 @@
                             android:gravity="left|center_vertical"
                             android:paddingLeft="4dp"
                             android:paddingRight="2dp"
-                            android:text="Monthly payout for 9 years"
+                            android:text="Monthly payout for years"
                             android:textColor="@color/header_dark_text"></TextView>
 
                         <TextView
+                            android:id="@+id/txtJeevanMonthlyPayoutfor9"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -203,10 +210,11 @@
                             android:gravity="center"
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
-                            android:text=""></TextView>
+                            android:text="---"></TextView>
 
 
                         <TextView
+                            android:id="@+id/txtUltraMonthlyPayoutfor9"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -215,7 +223,7 @@
                             android:gravity="center"
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
-                            android:text=""></TextView>
+                            android:text="50000"></TextView>
 
                     </TableRow>
 
@@ -236,6 +244,7 @@
                             android:textColor="@color/header_dark_text"></TextView>
 
                         <TextView
+                            android:id="@+id/txtJeevanMaturityDate"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -248,6 +257,7 @@
 
 
                         <TextView
+                            android:id="@+id/txtUltraMaturityDate"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -266,6 +276,7 @@
 
 
                         <TextView
+                            android:id="@+id/lblMonthlyPayoutAfterMaturity"
                             style="@style/TextViewStyle.Small"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -278,6 +289,7 @@
                             android:textColor="@color/header_dark_text"></TextView>
 
                         <TextView
+                            android:id="@+id/txtJeevanMonthlyPayoutfor5"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -286,10 +298,11 @@
                             android:gravity="center"
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
-                            android:text=""></TextView>
+                            android:text="---"></TextView>
 
 
                         <TextView
+                            android:id="@+id/txtUltraMonthlyPayoutfor5"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -298,7 +311,7 @@
                             android:gravity="center"
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
-                            android:text=""></TextView>
+                            android:text="50000"></TextView>
 
                     </TableRow>
 
@@ -321,6 +334,7 @@
                             android:textColor="@color/header_dark_text"></TextView>
 
                         <TextView
+                            android:id="@+id/txtJeevanTotal"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -330,10 +344,11 @@
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
                             android:textStyle="bold"
-                            android:text="78876 "></TextView>
+                            android:text=""></TextView>
 
 
                         <TextView
+                            android:id="@+id/txtUltraTotal"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -343,7 +358,7 @@
                             android:paddingLeft="2dp"
                             android:paddingRight="2dp"
                             android:textStyle="bold"
-                            android:text="3557"></TextView>
+                            android:text=""></TextView>
 
                     </TableRow>
 
@@ -373,18 +388,15 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/ivClose"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="10dp"
+
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:adjustViewBounds="true"
-        android:src="@drawable/close"
-        android:tint="@color/black"
-        android:background="@color/dashboard_bg"
-
-        android:scaleType="center" />
+        android:src="@drawable/ic_close"
+        android:scaleType="centerInside" />
 
 
 </RelativeLayout>

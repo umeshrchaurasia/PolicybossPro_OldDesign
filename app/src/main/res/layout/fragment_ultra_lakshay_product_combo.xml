@@ -134,6 +134,7 @@
                         </TextView>
 
                         <TextView
+                            android:id="@+id/txtOtherYear"
                             style="@style/TextViewStyle.VerySmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -171,6 +172,7 @@
                     android:text="LIC \n Jeevan Lakshya"></TextView>
 
                 <TextView
+                    android:id="@+id/txtLicTerm"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -182,6 +184,7 @@
                     android:text="20"></TextView>
 
                 <TextView
+                    android:id="@+id/txtLicPPT"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -194,6 +197,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtLicMode"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -206,6 +210,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtLicSum"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -223,6 +228,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/txtLicPremYearOne"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -235,6 +241,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/txtLicPremOtherYears"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -269,6 +276,7 @@
                     android:text="HDFC\nClick2Protect 3D Plus"></TextView>
 
                 <TextView
+                    android:id="@+id/txtHdfcTerm"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -280,6 +288,7 @@
                     android:text="20"></TextView>
 
                 <TextView
+                    android:id="@+id/txtHdfcPPT"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -292,6 +301,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtHdfcMode"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -304,6 +314,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtHdfcSum"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -321,6 +332,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/txtHdfcPremYearOne"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -333,6 +345,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/txtHdfcPremOtherYears"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -417,6 +430,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/txtTotalOne"
                         style="@style/TextViewStyle.Small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -430,6 +444,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/txtTotalTwo"
                         style="@style/TextViewStyle.Small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

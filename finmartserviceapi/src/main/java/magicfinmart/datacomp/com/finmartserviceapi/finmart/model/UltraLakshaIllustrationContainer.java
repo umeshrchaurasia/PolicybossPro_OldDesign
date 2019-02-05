@@ -3,26 +3,26 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import java.util.List;
 
 public class UltraLakshaIllustrationContainer {
-        private List<DeathBenefitList> DeathBenefit;
-        private List<BenefitsList> Benefits;
+        private List<DeathBenefitEntity> DeathBenefit;
+        private List<LakshyaBenefitIllustratorEntity> Benefits;
         private List<PageoneUnmatchedList> PageoneUnmatched;
         private List<PageTwoStandAloneList> PageTwoStandAlone;
         private List<ProductComboList> ProductCombo;
         private List<LicVrsList> LicVrs;
 
-        public List<DeathBenefitList> getDeathBenefit() {
+        public List<DeathBenefitEntity> getDeathBenefit() {
             return DeathBenefit;
         }
 
-        public void setDeathBenefit(List<DeathBenefitList> DeathBenefit) {
+        public void setDeathBenefit(List<DeathBenefitEntity> DeathBenefit) {
             this.DeathBenefit = DeathBenefit;
         }
 
-        public List<BenefitsList> getBenefits() {
+        public List<LakshyaBenefitIllustratorEntity> getBenefits() {
             return Benefits;
         }
 
-        public void setBenefits(List<BenefitsList> Benefits) {
+        public void setBenefits(List<LakshyaBenefitIllustratorEntity> Benefits) {
             this.Benefits = Benefits;
         }
 

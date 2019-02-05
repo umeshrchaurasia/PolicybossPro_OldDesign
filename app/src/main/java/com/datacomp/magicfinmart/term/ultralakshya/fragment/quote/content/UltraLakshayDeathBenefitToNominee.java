@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -26,6 +27,8 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
@@ -41,8 +44,8 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     PrefManager prefManager;
-
-
+    UltraLakshaFacade ultraLakshaFacade;
+    AlertDialog alertDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,10 +60,17 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initialize(view);
+        ultraLakshaFacade = new UltraLakshaFacade(getActivity());
 
+        if(ultraLakshaFacade.getDeathBenefitList() != null) {
+            mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathBenefitToNominee.this, ultraLakshaFacade.getDeathBenefitList());
+            rvDeathBenefit.setAdapter(mAdapter);
+        }else{
+            mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathBenefitToNominee.this, getDeathNomineeLst());
+            rvDeathBenefit.setAdapter(mAdapter);  //temp data
 
-        mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathBenefitToNominee.this, getDeathNomineeLst());
-        rvDeathBenefit.setAdapter(mAdapter);
+          //  Toast.makeText(getActivity(),"No data found",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initialize(View view) {
@@ -98,20 +108,48 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
 
     public void showDeathPayableAlert() {
 
+        if (alertDialog != null && alertDialog.isShowing()) {
+
+            return;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
 
         AppCompatImageView ivClose;
-        TextView txtHdr ,txtMessage;
-        LinearLayout lyReceipt;
+        TextView txtHdr ,
+                txtJeevanImmediately ,txtUltraImmediately,
+                txtJeevanAnnualPayoutfor9 ,txtUltraAnnualPayoutfor9,
+                txtJeevanMonthlyPayoutfor9,txtUltraMonthlyPayoutfor9,
+                txtJeevanMaturityDate ,txtUltraMaturityDate,
+                txtJeevanMonthlyPayoutfor5 ,txtUltraMonthlyPayoutfor5,
+                txtJeevanTotal ,txtUltraTotal;
+
 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_benefit_payable_to_nominee, null);
 
 
         builder.setView(dialogView);
-        final AlertDialog alertDialog = builder.create();
+        alertDialog = builder.create();
         // set the custom dialog components - text, image and button
         ivClose =  dialogView.findViewById(R.id.ivClose);
+        txtHdr =  dialogView.findViewById(R.id.txtHdr);
+        txtJeevanImmediately  =  dialogView.findViewById(R.id.txtJeevanImmediately);
+        txtUltraImmediately  =  dialogView.findViewById(R.id.txtUltraImmediately);
+
+        txtJeevanAnnualPayoutfor9  =  dialogView.findViewById(R.id.txtJeevanAnnualPayoutfor9);
+        txtUltraAnnualPayoutfor9  =  dialogView.findViewById(R.id.txtUltraAnnualPayoutfor9);
+
+        txtJeevanMonthlyPayoutfor9  =  dialogView.findViewById(R.id.txtJeevanMonthlyPayoutfor9);
+        txtUltraMonthlyPayoutfor9  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutfor9);
+
+        txtJeevanMaturityDate  =  dialogView.findViewById(R.id.txtJeevanMaturityDate);
+        txtUltraMaturityDate  =  dialogView.findViewById(R.id.txtUltraMaturityDate);
+
+        txtJeevanMonthlyPayoutfor5  =  dialogView.findViewById(R.id.txtJeevanMonthlyPayoutfor5);
+        txtUltraMonthlyPayoutfor5  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutfor5);
+
+        txtJeevanTotal  =  dialogView.findViewById(R.id.txtJeevanTotal);
+        txtUltraTotal  =  dialogView.findViewById(R.id.txtUltraTotal);
 
 
         ivClose.setOnClickListener(new View.OnClickListener() {
