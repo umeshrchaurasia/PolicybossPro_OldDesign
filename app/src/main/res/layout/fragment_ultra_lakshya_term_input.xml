@@ -517,6 +517,7 @@ android:orientation="vertical"
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/etCal_lic"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -528,6 +529,7 @@ android:orientation="vertical"
                         android:textColor="@color/red_descent" />
 
                     <TextView
+                        android:id="@+id/etCal_ultra"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

@@ -58,12 +58,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LICEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static java.util.Calendar.DATE;
@@ -103,6 +107,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     Spinner spPolicyTerm;
 
     TermRequestEntity termRequestEntity;
+    UltralakshaRequestEntity Requestentity;
+
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -114,7 +120,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     ArrayAdapter<String>  ICICIPremiumTermAdapter, ICICIPremiumFrequencyAdapter;
     List<String> premiumTermList, frequenctList;
 
-    EditText etSumICICIAssured;
+    EditText etSumICICIAssured,etCal_lic,etCal_ultra;
 
     Button minusICICISum, plusICICISum;
 
@@ -139,6 +145,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         dbPersistanceController = new DBPersistanceController(getActivity());
         policyYear = dbPersistanceController.getPremYearList();
         termRequestEntity = new TermRequestEntity(getActivity());
+        Requestentity= new UltralakshaRequestEntity();
+
         termFinmartRequest = new TermFinmartRequest();
         init_adapters();
 
@@ -534,7 +542,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     private void manipulateFrequency() {
         switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
             case 0:
-                termRequestEntity.setFrequency("yearly");
+                termRequestEntity.setFrequency("Yearly");
                 break;
             case 1:
                 termRequestEntity.setFrequency("Half Yearly");
@@ -636,6 +644,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         llGender = (LinearLayout) view.findViewById(R.id.llGender);
         llSmoker = (LinearLayout) view.findViewById(R.id.llSmoker);
 
+        etCal_lic = (EditText) view.findViewById(R.id.etCal_lic);
+        etCal_ultra = (EditText) view.findViewById(R.id.etCal_ultra);
 
         etSumICICIAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
         etSumICICIAssured.setEnabled(false);
@@ -719,7 +729,15 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 break;
             case R.id.btnGetrecalculate:
-                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+               // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+
+
+                if (isValidInput()) {
+                    setTermRequest();
+                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    showDialog("Please Wait..");
+                    new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
+                }
                 break;
 
             case R.id.ivEdit:
@@ -754,11 +772,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
 
         }
-    }
-
-    private void fetchQuotes() {
-        showDialog("Please Wait..");
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
 
     private void updateCrnToServer() {
@@ -861,26 +874,45 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
 
     private void setTermRequest() {
-        //termRequestEntity.setLumpsumPercentage("0");
-        //termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
+
+       // Requestentity.setPolicyTerm(1);
+
+        Requestentity.setContactName(etFirstName.getText().toString());
+        Requestentity.setContactEmail("finmarttest@gmail.com");
+        Requestentity.setContactMobile(etMobile.getText().toString());
 
         if (isMale)
-            termRequestEntity.setInsuredGender("M");
+            Requestentity.setInsuredGender("M");
         else
-            termRequestEntity.setInsuredGender("F");
+            Requestentity.setInsuredGender("F");
 
         if (isSmoker)
-            termRequestEntity.setIs_TabaccoUser("true");
+            Requestentity.setIs_TabaccoUser("True");
         else
-            termRequestEntity.setIs_TabaccoUser("false");
+            Requestentity.setIs_TabaccoUser("False");
 
 
-        termRequestEntity.setSumAssured(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
-        termRequestEntity.setInsuredDOB(et_DOB.getText().toString());
-        termRequestEntity.setPaymentModeValue("1");
-        termRequestEntity.setPolicyCommencementDate(et_DOB.getText().toString());
-        termRequestEntity.setCityName("Mumbai");
-        termRequestEntity.setState("Maharashtra");
+        Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
+        Requestentity.setInsuredDOB(et_DOB.getText().toString());
+
+        switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
+            case 0:
+                Requestentity.setFrequency("Yearly");
+                break;
+            case 1:
+                Requestentity.setFrequency("Half Yearly");
+                break;
+            case 2:
+                Requestentity.setFrequency("Quarterly");
+                break;
+            case 3:
+                Requestentity.setFrequency("Monthly");
+                break;
+        }
+        Requestentity.setPolicyTerm(spICICIPremiumFrequency.getSelectedItemPosition());
+//        Requestentity.setPolicyCommencementDate(et_DOB.getText().toString());
+//        Requestentity.setCityName("Mumbai");
+//        Requestentity.setState("Maharashtra");
         //termRequestEntity.setPlanTaken("Life");
         // termRequestEntity.setFrequency("Annual");
         //termRequestEntity.setDeathBenefitOption("Lump-Sum");
@@ -888,28 +920,27 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         //termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
 
         //termRequestEntity.setInsurerId(0);
-        termRequestEntity.setSessionID("");
-        termRequestEntity.setContactName(etFirstName.getText().toString());
-        termRequestEntity.setContactEmail("finmarttest@gmail.com");
-        termRequestEntity.setContactMobile(etMobile.getText().toString());
+       // Requestentity.setSessionID("");
+
         //termRequestEntity.setSupportsAgentID("1682");
 
 
 
         //icici specific
-        termRequestEntity.setMaritalStatus("");
+      //  Requestentity.setMaritalStatus("");
         //termRequestEntity.setPremiumPaymentOption(""); //set in optionSelected
-        termRequestEntity.setServiceTaxNotApplicable("");// not known
+     //   Requestentity.setServiceTaxNotApplicable("");// not known
 
 
         //termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
-        termRequestEntity.setInsurerId(40);
+      //  Requestentity.setInsurerId(40);
 
      //   termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
 
-        termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
-        termFinmartRequest.setTermRequestEntity(termRequestEntity);
+      //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+        //termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
+
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
@@ -922,6 +953,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     }
 
     //region date picker
+
 
     public boolean isValidInput() {
         if (etFirstName.getText().toString().isEmpty()) {
@@ -1006,9 +1038,20 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
 
-        if (response instanceof TermCompareQuoteResponse) {
-            processResponse((TermCompareQuoteResponse) response);
+        if (response instanceof UltraLakshaRecalculateResponse) {
+            //processResponse((UltraLakshaRecalculateResponse) response);
+            if (((UltraLakshaRecalculateResponse) response).getMasterData().getLIC().size() != 0) {
 
+               LICEntity  entityLIC = new LICEntity();
+                entityLIC=((UltraLakshaRecalculateResponse) response).getMasterData().getLIC().get(0);
+
+                HDFCEntity hDFCEntity = new HDFCEntity();
+                hDFCEntity=((UltraLakshaRecalculateResponse) response).getMasterData().getHDFC().get(0);
+
+                Integer ultraLakshya=  entityLIC.getNetPremium()+hDFCEntity.getNetPremium();
+                etCal_lic.setText("" + entityLIC.getNetPremium());
+                etCal_ultra.setText("" +ultraLakshya );
+            }
         }
 
     }

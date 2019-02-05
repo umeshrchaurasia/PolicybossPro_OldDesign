@@ -229,11 +229,11 @@ public class TermInsuranceController implements ITermInsurance {
                     iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
-                }
+
+    }
             }
         });
     }
-
 
     //region ultra laksha
 
