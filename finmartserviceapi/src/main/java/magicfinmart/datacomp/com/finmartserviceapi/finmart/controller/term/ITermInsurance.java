@@ -2,6 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 
 /**
  * Created by Nilesh Birhade on 05-04-2018.
@@ -17,5 +18,9 @@ public interface ITermInsurance {
 
     void convertQuoteToApp(String termRequestId, String InsurerId, String fba_id, String NetPremium, IResponseSubcriber iResponseSubcriber);
 
-    void updateCRN(int termRequestID,int crn,IResponseSubcriber iResponseSubcriber);
+    void updateCRN(int termRequestID, int crn, IResponseSubcriber iResponseSubcriber);
+
+
+    void recalculateUltraLaksha(UltralakshaRequestEntity entity, IResponseSubcriber iResponseSubcriber);
+
 }

@@ -32,133 +32,129 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="8dp">
+                android:padding="8dp"
+                android:orientation="horizontal"
+                android:weightSum="100">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:weightSum="100">
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/lightblue_chat_ui"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextViewStyle.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="2dp"
+                        android:text="Annual Premium"
+                        android:textColor="@color/white" />
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="50"
-                        android:background="@drawable/lightblue_chat_ui"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
 
                         <TextView
                             style="@style/TextViewStyle.Medium"
+                            android:id="@+id/txtAnnualPrem1yearAmnt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+
                             android:elevation="2dp"
-                            android:text="Annual Premium"
-                            android:textColor="@color/white" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/TextViewStyle.Medium"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:elevation="2dp"
-                                android:text="Rs.71,750"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                style="@style/TextViewStyle.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-
-                                android:elevation="2dp"
-                                android:text="-1st Year"
-                                android:textColor="@color/white" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:gravity="center"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                style="@style/TextViewStyle.Medium"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:elevation="2dp"
-                                android:text="Rs.70,250"
-                                android:textColor="@color/white"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                style="@style/TextViewStyle.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:elevation="2dp"
-                                android:text="-2 to 17 Years"
-                                android:textColor="@color/white" />
-
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="50"
-                        android:background="@drawable/lightblue_chat_ui_reverse"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txtAgent"
-                            style="@style/TextViewStyle.Small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:elevation="2dp"
-                            android:text="Maturity after 20 years"
-                            android:textColor="@color/white" />
-
-                        <TextView
-                            style="@style/TextViewStyle.Medium"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:elevation="2dp"
-                            android:text="Rs.70,250"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
                         <TextView
-
-                            style="@style/TextViewStyle.VerySmall"
+                            style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
+
                             android:elevation="2dp"
-                            android:text="Guaranteed + Non-guaranteed"
+                            android:text="-1st Year"
                             android:textColor="@color/white" />
 
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/txtAnnualPrem2to7Amnt"
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text=""
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:id="@+id/txtAnnualPrem2to7Text"
+                            style="@style/TextViewStyle.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elevation="2dp"
+                            android:text=""
+                            android:textColor="@color/white"
+                            />
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/lightblue_chat_ui_reverse"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtMaturityAfterYearText"
+                        style="@style/TextViewStyle.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="2dp"
+                        android:text=""
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/txtMaturityAfterYearAmnt"
+                        style="@style/TextViewStyle.Medium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:elevation="2dp"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textStyle="bold" />
+
+                    <TextView
+
+                        style="@style/TextViewStyle.VerySmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:elevation="2dp"
+                        android:text="Guaranteed + Non-guaranteed"
+                        android:textColor="@color/white" />
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -206,11 +202,12 @@
                             android:textColor="@color/white" />
 
                         <TextView
+                            android:id="@+id/txtLumpsumAmnt"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="NIL"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
@@ -221,7 +218,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:elevation="2dp"
-                            android:text=""
+                            android:text="Guaranteed"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -241,16 +238,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:elevation="2dp"
-                            android:text="Maturity after 20 years"
+                            android:text="Annual till end of Term"
                             android:textColor="@color/white" />
 
                         <TextView
+                            android:id="@+id/txtAnnualEndOfTermAmnt"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:elevation="2dp"
-                            android:text="Rs.170,250"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
@@ -287,19 +285,21 @@
 
                         <TextView
 
+                            android:id="@+id/txtMonthlyforYearText"
                             style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:elevation="2dp"
-                            android:text="Maturity after 20 years"
+                            android:text=""
                             android:textColor="@color/white" />
 
                         <TextView
+                            android:id="@+id/txtMonthlyforYearAmnt"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="NIL"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 
@@ -310,7 +310,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:elevation="2dp"
-                            android:text=""
+                            android:text="Guaranteed"
                             android:textColor="@color/white" />
 
                     </LinearLayout>
@@ -330,16 +330,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:elevation="2dp"
-                            android:text="Maturity after 20 years"
+                            android:text="On Maturity Date"
                             android:textColor="@color/white" />
 
                         <TextView
+                            android:id="@+id/txtOnMaturityDateAmnt"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:elevation="2dp"
-                            android:text="Rs.19,700"
+                            android:text=""
                             android:textColor="@color/white"
                             android:textStyle="bold" />
 

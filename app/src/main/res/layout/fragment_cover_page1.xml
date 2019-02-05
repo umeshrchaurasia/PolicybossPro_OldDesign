@@ -1,14 +1,49 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/ul_p1_body"
     tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage1Fragment">
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/info_ic" />
-</LinearLayout>
+        android:src="@drawable/ul_p1_body"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/imghdr"
+        android:layout_width="160dp"
+        android:layout_height="110dp"
+        android:scaleType="fitCenter"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ul_p1_header" />
+
+    <TextView
+        android:id="@+id/txtMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      style="@style/TextViewStyle.Small"
+        android:textColor="@color/black"
+        android:layout_below="@+id/imghdr"
+      android:gravity="center"
+        android:text="An exclusive financial cum protection solution specially crafted for"/>
+
+    <TextView
+        android:id="@+id/txtName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextViewStyle.Large"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_below="@+id/txtMessage"
+
+        android:gravity="center"
+        android:text="Nilesh Verma"
+        ></TextView>
+</RelativeLayout>

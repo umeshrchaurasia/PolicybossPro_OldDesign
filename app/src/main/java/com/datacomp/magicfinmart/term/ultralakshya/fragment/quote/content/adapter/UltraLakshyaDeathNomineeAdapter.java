@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
 
 import java.util.List;
 
@@ -74,6 +75,12 @@ public class UltraLakshyaDeathNomineeAdapter extends RecyclerView.Adapter<UltraL
         holder.txtLakhshyaBenefit.setText( "" +deathBenefitEntity.getLakshyaBenefitsPayable());
 
 
+        holder.lyParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((UltraLakshayDeathBenefitToNominee)mContext).showDeathPayableAlert();
+            }
+        });
 
 
     }

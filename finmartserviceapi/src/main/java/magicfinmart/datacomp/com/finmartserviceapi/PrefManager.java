@@ -22,7 +22,7 @@ public class PrefManager {
     int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = "magic-finmart";
+    public static final String PREF_NAME = "magic-finmart";
     private static final String MOTOR_VERSION = "motor_master_version";
     private static final String POPUP_COUNTER = "popup_counter_value";
     private static final String POPUP_ID = "popup_id";

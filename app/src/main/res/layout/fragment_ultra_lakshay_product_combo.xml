@@ -20,7 +20,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/lightblue_border"
+
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:orientation="vertical">
@@ -38,7 +38,7 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="30"
+                    android:layout_weight="25"
                     android:background="@drawable/cell_blue_shape"
                     android:gravity="center"
 
@@ -99,7 +99,7 @@
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="25"
+                    android:layout_weight="30"
                     android:weightSum="100">
 
                     <TableRow>
@@ -134,6 +134,7 @@
                         </TextView>
 
                         <TextView
+                            android:id="@+id/txtOtherYear"
                             style="@style/TextViewStyle.VerySmall"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -154,13 +155,15 @@
 
             </TableRow>
 
-            <TableRow>
+            <TableRow
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp">
 
                 <TextView
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="30"
+                    android:layout_weight="25"
                     android:background="@drawable/cell_shape"
                     android:gravity="center"
                     android:paddingLeft="2dp"
@@ -169,6 +172,7 @@
                     android:text="LIC \n Jeevan Lakshya"></TextView>
 
                 <TextView
+                    android:id="@+id/txtLicTerm"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -180,6 +184,7 @@
                     android:text="20"></TextView>
 
                 <TextView
+                    android:id="@+id/txtLicPPT"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -192,6 +197,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtLicMode"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -204,6 +210,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtLicSum"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -216,11 +223,12 @@
 
 
                 <TableRow
-                    android:layout_weight="25"
+                    android:layout_weight="30"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/txtLicPremYearOne"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -233,6 +241,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/txtLicPremOtherYears"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -250,13 +259,15 @@
 
             </TableRow>
 
-            <TableRow>
+            <TableRow
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp">
 
                 <TextView
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="30"
+                    android:layout_weight="25"
                     android:background="@drawable/cell_shape"
                     android:gravity="center"
                     android:paddingLeft="2dp"
@@ -265,6 +276,7 @@
                     android:text="HDFC\nClick2Protect 3D Plus"></TextView>
 
                 <TextView
+                    android:id="@+id/txtHdfcTerm"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -276,6 +288,7 @@
                     android:text="20"></TextView>
 
                 <TextView
+                    android:id="@+id/txtHdfcPPT"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -288,6 +301,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtHdfcMode"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -300,6 +314,7 @@
 
 
                 <TextView
+                    android:id="@+id/txtHdfcSum"
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -312,11 +327,12 @@
 
 
                 <TableRow
-                    android:layout_weight="25"
+                    android:layout_weight="30"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/txtHdfcPremYearOne"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -329,6 +345,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/txtHdfcPremOtherYears"
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
@@ -346,13 +363,14 @@
 
             </TableRow>
 
-            <TableRow>
-
+            <TableRow
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp">
                 <TextView
                     style="@style/TextViewStyle.VerySmall"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="30"
+                    android:layout_weight="25"
                     android:background="@drawable/cell_shape"
                     android:gravity="center"
                     android:paddingLeft="2dp"
@@ -407,11 +425,12 @@
 
 
                 <TableRow
-                    android:layout_weight="25"
+                    android:layout_weight="30"
                     android:layout_width="0dp"
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:id="@+id/txtTotalOne"
                         style="@style/TextViewStyle.Small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -425,6 +444,7 @@
                     </TextView>
 
                     <TextView
+                        android:id="@+id/txtTotalTwo"
                         style="@style/TextViewStyle.Small"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

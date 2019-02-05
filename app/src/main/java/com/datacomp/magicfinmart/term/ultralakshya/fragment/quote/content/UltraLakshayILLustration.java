@@ -12,8 +12,7 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.notification.NotificationActivity;
-import com.datacomp.magicfinmart.notification.NotificationAdapter;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaBenefitIllustratorAdapter;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
 
 import java.util.ArrayList;
@@ -21,22 +20,24 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayDeathNominee extends BaseFragment {
+public class UltraLakshayILLustration extends BaseFragment {
 
 
     RecyclerView rvDeathBenefit;
-    List<DeathBenefitEntity> DeathBenefitLst;
-    UltraLakshyaDeathNomineeAdapter mAdapter;
+    List<LakshyaBenefitIllustratorEntity> BenefitsIllustratorLst;
+    UltraLakshyaBenefitIllustratorAdapter mAdapter;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     PrefManager prefManager;
+    UltraLakshaFacade ultraLakshaFacade;
 
 
 
@@ -44,10 +45,9 @@ public class UltraLakshayDeathNominee extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_death_nominee, container, false);
+        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_illutrator, container, false);
         return view;
     }
-
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -55,14 +55,24 @@ public class UltraLakshayDeathNominee extends BaseFragment {
         initialize(view);
 
 
-        mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathNominee.this, getDeathNomineeLst());
-        rvDeathBenefit.setAdapter(mAdapter);
-    }
 
+
+        ultraLakshaFacade = new UltraLakshaFacade(getActivity());
+
+        if(ultraLakshaFacade.getBenefitList() != null) {
+            mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayILLustration.this, ultraLakshaFacade.getBenefitList());
+            rvDeathBenefit.setAdapter(mAdapter);
+        }else{
+            mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayILLustration.this, getDeathNomineeLst());
+            rvDeathBenefit.setAdapter(mAdapter);  //temp data
+
+            //  Toast.makeText(getActivity(),"No data found",Toast.LENGTH_SHORT).show();
+        }
+    }
     private void initialize(View view) {
 
         prefManager = new PrefManager(getActivity());
-        DeathBenefitLst = new ArrayList<DeathBenefitEntity>();
+        BenefitsIllustratorLst = new ArrayList<LakshyaBenefitIllustratorEntity>();
 
         prefManager.setNotificationCounter(0);
 
@@ -75,21 +85,21 @@ public class UltraLakshayDeathNominee extends BaseFragment {
 
     }
 
-    private  List<DeathBenefitEntity>  getDeathNomineeLst()
+    private List<LakshyaBenefitIllustratorEntity> getDeathNomineeLst()
     {
-        DeathBenefitLst.clear();
+        BenefitsIllustratorLst.clear();
         for(int i =1; i <20 ; i++) {
-            DeathBenefitEntity obj = new DeathBenefitEntity();
+            LakshyaBenefitIllustratorEntity obj = new LakshyaBenefitIllustratorEntity();
             obj.setYear(""+i);
-            obj.setJeevanBenefitsPayable("" +500 +i);
-            obj.setJeevanPremiumPaid(""+700 +i);
-            obj.setLakshyaBenefitsPayable(""+178900 +i);
-            obj.setLakshyaPremiumPaid(""+3347900 +i);
-            DeathBenefitLst.add(obj);
+            obj.setAge("" +19 +i);
+            obj.setAnnualPremium(""+700 +i);
+            obj.setCashFlow(""+178900 +i);
+            obj.setLicCover(""+3347900 +i);
+            obj.setLoanAvailable(""+6747900 +i);
+            BenefitsIllustratorLst.add(obj);
         }
 
-        return DeathBenefitLst;
+        return BenefitsIllustratorLst;
     }
-
 
 }

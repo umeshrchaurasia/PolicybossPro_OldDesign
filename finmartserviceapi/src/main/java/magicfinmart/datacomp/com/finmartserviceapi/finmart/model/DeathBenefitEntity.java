@@ -1,13 +1,12 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-
-public  class DeathBenefitEntity {
+public class DeathBenefitEntity {
             /**
-             * Year : 1
-             * JeevanPremiumPaid : 5432
-             * JeevanBenefitsPayable : 546146
-             * LakshyaPremiumPaid : 746
-             * LakshyaBenefitsPayable : 58969
+             * Year : 30
+             * JeevanPremiumPaid : 56263
+             * JeevanBenefitsPayable : 3970000
+             * LakshyaPremiumPaid : 56263
+             * LakshyaBenefitsPayable : 3970000
              */
 
             private String Year;
