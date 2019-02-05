@@ -1,8 +1,11 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter;
 
 import android.app.Activity;
+import android.graphics.Paint;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +43,7 @@ public class UltraLakshyaDeathNomineeAdapter extends RecyclerView.Adapter<UltraL
     {
         public TextView txtYear ,txtJeevanPremPaid ,txtJeevanBenefit , txtLakhshyaPremPaid ,txtLakhshyaBenefit;
         public LinearLayout lyParent;
+        public Spanned htmlLink;
         public DeathBenefitItem(View itemView) {
             super(itemView);
             txtYear = (TextView) itemView.findViewById(R.id.txtYear);
@@ -68,6 +72,7 @@ public class UltraLakshyaDeathNomineeAdapter extends RecyclerView.Adapter<UltraL
 
         final DeathBenefitEntity deathBenefitEntity = DeathBenefitLst.get(position);
         holder.txtYear.setText( "" +deathBenefitEntity.getYear());
+     //   holder.txtYear.setPaintFlags(holder.txtYear.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         holder.txtJeevanPremPaid.setText( "" +deathBenefitEntity.getJeevanPremiumPaid());
         holder.txtJeevanBenefit.setText( "" +deathBenefitEntity.getJeevanBenefitsPayable());
 
@@ -78,7 +83,7 @@ public class UltraLakshyaDeathNomineeAdapter extends RecyclerView.Adapter<UltraL
         holder.lyParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((UltraLakshayDeathBenefitToNominee)mContext).showDeathPayableAlert();
+                ((UltraLakshayDeathBenefitToNominee)mContext).showDeathPayableAlert(deathBenefitEntity);
             }
         });
 

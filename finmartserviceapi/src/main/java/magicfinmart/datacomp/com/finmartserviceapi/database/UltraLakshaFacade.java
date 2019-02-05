@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ProductComboLis
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UltraLakshaIllustrationContainer;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.model.BenefitsPopupEntity;
 
 public class UltraLakshaFacade {
 
@@ -168,6 +169,16 @@ public class UltraLakshaFacade {
         return null;
     }
 
+    public List<BenefitsPopupEntity> getBenefitPopupList() {
+
+        if (getIllustration() != null) {
+            if (getIllustration().getBenefitsPopupList() != null)
+                return getIllustration().getBenefitsPopupList();
+            else
+                return null;
+        }
+        return null;
+    }
 
     //endregion
 }
