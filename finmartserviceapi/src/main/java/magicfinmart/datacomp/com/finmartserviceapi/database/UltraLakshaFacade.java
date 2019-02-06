@@ -109,9 +109,17 @@ public class UltraLakshaFacade {
 
     private UltraLakshaIllustrationContainer getIllustration() {
 
-        if (new Gson().fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, "")
-                , UltraLakshaIllustrationContainer.class) != null) {
-            return new Gson().fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, ""), UltraLakshaIllustrationContainer.class);
+//        if (new Gson().fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, "")
+//                , UltraLakshaIllustrationContainer.class) != null) {
+//            return new Gson().fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, ""), UltraLakshaIllustrationContainer.class);
+//        }
+
+        Gson gson = new Gson();
+        UltraLakshaIllustrationContainer ultraLakshaIllustrationContainer = gson.fromJson(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, UltraLakshaIllustrationContainer.class);
+
+        if(ultraLakshaIllustrationContainer != null)
+        {
+            return ultraLakshaIllustrationContainer;
         }
         return null;
     }

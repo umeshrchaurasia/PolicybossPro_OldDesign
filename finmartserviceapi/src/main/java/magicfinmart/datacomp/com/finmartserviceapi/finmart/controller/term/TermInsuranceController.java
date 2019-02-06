@@ -11,12 +11,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.TermRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LICIllustrationRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DeleteTermQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UpdateCRNResponse;
 import retrofit2.Call;
@@ -277,6 +279,31 @@ public class TermInsuranceController implements ITermInsurance {
                         iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                     }
                 }
+
+            }
+        });
+    }
+
+    @Override
+    public void getIllustration(LICIllustrationRequestEntity entity) {
+
+        termNetworkService.getIllustration(entity).enqueue(new Callback<UltraLakshaIllustrationResponse>() {
+            @Override
+            public void onResponse(Call<UltraLakshaIllustrationResponse> call, Response<UltraLakshaIllustrationResponse> response) {
+
+                if (response.body() != null) {
+
+                    if (response.body().getStatusNo() == 0) {
+                        //save recalculate respose to facade.
+                        new UltraLakshaFacade(mContext).saveUltraLakshaIllustration(response.body());
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UltraLakshaIllustrationResponse> call, Throwable t) {
 
             }
         });

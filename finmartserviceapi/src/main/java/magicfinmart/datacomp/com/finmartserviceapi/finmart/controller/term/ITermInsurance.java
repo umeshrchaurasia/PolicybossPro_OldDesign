@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LICIllustrationRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 
@@ -23,6 +24,7 @@ public interface ITermInsurance {
 
     void recalculateUltraLaksha(UltralakshaRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
+    void getIllustration(LICIllustrationRequestEntity entity);
 
 
 }
