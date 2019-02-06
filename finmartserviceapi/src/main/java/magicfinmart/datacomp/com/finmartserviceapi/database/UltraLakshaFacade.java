@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IllustrationRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
@@ -84,6 +85,18 @@ public class UltraLakshaFacade {
 
             if (getUltraLaksha().getMasterData().getLIC() != null)
                 return getUltraLaksha().getMasterData().getLIC().get(0);
+            else
+                return null;
+        }
+        return null;
+    }
+
+    public IllustrationRequestEntity getIllustrationRequestEntity() {
+
+        if (getUltraLaksha() != null) {
+
+            if (getUltraLaksha().getMasterData().getIllustrationrequest() != null)
+                return getUltraLaksha().getMasterData().getIllustrationrequest().get(0);
             else
                 return null;
         }
