@@ -101,12 +101,16 @@ public class UltraLakshaFacade {
 //            return new Gson().fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, ""), UltraLakshaIllustrationContainer.class);
 //        }
 
-        Gson gson = new Gson();
-        UltraLakshaIllustrationContainer ultraLakshaIllustrationContainer = gson.fromJson(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, UltraLakshaIllustrationContainer.class);
+        try {
+            Gson gson = new Gson();
+            UltraLakshaIllustrationContainer ultraLakshaIllustrationContainer = gson.fromJson(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, UltraLakshaIllustrationContainer.class);
 
-        if(ultraLakshaIllustrationContainer != null)
+            if (ultraLakshaIllustrationContainer != null) {
+                return ultraLakshaIllustrationContainer;
+            }
+        }catch (Exception ex)
         {
-            return ultraLakshaIllustrationContainer;
+            return null;
         }
         return null;
     }

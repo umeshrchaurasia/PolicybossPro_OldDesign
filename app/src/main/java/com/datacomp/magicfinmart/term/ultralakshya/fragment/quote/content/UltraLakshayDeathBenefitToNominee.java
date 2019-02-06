@@ -67,11 +67,12 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         if(ultraLakshaFacade.getDeathBenefitList() != null) {
             mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathBenefitToNominee.this, ultraLakshaFacade.getDeathBenefitList());
             rvDeathBenefit.setAdapter(mAdapter);
-        }else{
-            mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathBenefitToNominee.this, getDeathNomineeLst());
-            rvDeathBenefit.setAdapter(mAdapter);  //temp data
+        }
+        else{
+//            mAdapter = new UltraLakshyaDeathNomineeAdapter(UltraLakshayDeathBenefitToNominee.this, getDeathNomineeLst());
+//            rvDeathBenefit.setAdapter(mAdapter);  //temp data
 
-          //  Toast.makeText(getActivity(),"No data found",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(),"No data found",Toast.LENGTH_SHORT).show();
         }
     }
 
