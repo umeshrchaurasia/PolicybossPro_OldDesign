@@ -1093,7 +1093,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                         LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
 
                         entity.setPlanTerm("" + reqentity.getPlanTerm());
-                        entity.setSumAssured("" +reqentity.getSumAssured() );
+                        entity.setSumAssured(reqentity.getSumAssured() );
 
                         // entity.setPaymentMode("Y");
                         //  entity.setDOB("15/Dec/1988");
@@ -1101,17 +1101,17 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                         entity.setPaymentMode(reqentity.getPaymentMode());
                         entity.setDOB(reqentity.getDOB());
 
-                        entity.setHdfcPrem("" + reqentity.getHdfcPrem());
-                        entity.setHdfcBasicPrem("" + reqentity.getHdfcBasicPrem());
-                        entity.setTotalPrem("" + reqentity.getTotalPrem());
-                        entity.setBasicPrem("" + reqentity.getBasicPrem());
-                        entity.setPremPaidUL("" + reqentity.getPremPaidUL());
+                        entity.setHdfcPrem( reqentity.getHdfcPrem());
+                        entity.setHdfcBasicPrem( reqentity.getHdfcBasicPrem());
+                        entity.setTotalPrem( reqentity.getTotalPrem());
+                        entity.setBasicPrem( reqentity.getBasicPrem());
+                        entity.setPremPaidUL( reqentity.getPremPaidUL());
 
-                        entity.setHdfcGst1("" + reqentity.getHdfcGst1());
-                        entity.setHdfcGst2("" + reqentity.getHdfcGst2());
+                        entity.setHdfcGst1( reqentity.getHdfcGst1());
+                        entity.setHdfcGst2( reqentity.getHdfcGst2());
 
-                        entity.setLicGst1("" + reqentity.getLicGst1());
-                        entity.setLicGst2("" + reqentity.getLicGst2());
+                        entity.setLicGst1( reqentity.getLicGst1());
+                        entity.setLicGst2( reqentity.getLicGst2());
 
                         new TermInsuranceController(getActivity()).getIllustration(entity);
                         ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);

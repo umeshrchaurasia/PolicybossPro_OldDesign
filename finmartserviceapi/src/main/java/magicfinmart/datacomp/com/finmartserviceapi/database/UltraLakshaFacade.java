@@ -8,11 +8,11 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IllustrationRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IllustrationRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LICEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LicVrsList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageoneUnmatchedList;
@@ -116,13 +116,15 @@ public class UltraLakshaFacade {
 
         try {
             Gson gson = new Gson();
-            UltraLakshaIllustrationContainer ultraLakshaIllustrationContainer = gson.fromJson(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, UltraLakshaIllustrationContainer.class);
 
-            if (ultraLakshaIllustrationContainer != null) {
-                return ultraLakshaIllustrationContainer;
+            String test = sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, "");
+
+            UltraLakshaIllustrationResponse r̥esponse = gson.fromJson(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, UltraLakshaIllustrationResponse.class);
+
+            if (r̥esponse != null) {
+                return r̥esponse.getMasterData();
             }
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             return null;
         }
         return null;

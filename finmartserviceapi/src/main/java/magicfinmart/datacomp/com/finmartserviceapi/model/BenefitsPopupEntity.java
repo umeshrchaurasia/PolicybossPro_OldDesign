@@ -8,6 +8,7 @@ public class BenefitsPopupEntity {
 
     private String Term;
     private String ULOnDeath;
+    private String AnnualPayout;
 
     public String getAnnualPayout() {
         return AnnualPayout;
@@ -17,7 +18,7 @@ public class BenefitsPopupEntity {
         AnnualPayout = annualPayout;
     }
 
-    private String AnnualPayout;
+
 
     public String getTerm() {
         return Term;
