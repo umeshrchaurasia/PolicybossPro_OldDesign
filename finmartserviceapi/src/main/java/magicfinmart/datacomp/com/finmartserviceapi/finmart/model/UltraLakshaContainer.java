@@ -6,6 +6,7 @@ public class UltraLakshaContainer {
 
     private List<HDFCEntity> HDFC;
     private List<LICEntity> LIC;
+    private List<IllustrationRequestEntity> illustrationrequest;
 
     public List<HDFCEntity> getHDFC() {
         return HDFC;
@@ -22,4 +23,14 @@ public class UltraLakshaContainer {
     public void setLIC(List<LICEntity> LIC) {
         this.LIC = LIC;
     }
+
+    public List<IllustrationRequestEntity> getIllustrationrequest() {
+        return illustrationrequest;
+    }
+
+    public void setIllustrationrequest(List<IllustrationRequestEntity> illustrationrequest) {
+        this.illustrationrequest = illustrationrequest;
+    }
+
+
 }
