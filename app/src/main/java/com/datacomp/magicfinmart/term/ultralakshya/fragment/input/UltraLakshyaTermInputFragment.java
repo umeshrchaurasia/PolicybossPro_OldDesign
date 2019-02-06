@@ -187,8 +187,9 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 //  txtICICILumpSum.performClick();
             }
             //bindICICI();
-            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null && getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) == null)
-                bindInput(termFinmartRequest);
+//            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null && getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) == null) {
+//                bindInput(termFinmartRequest);
+//            }
         }
         */
 
@@ -733,6 +734,22 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 is_illustration=false;
 
+//                UltralakshaRequestEntity entity = new UltralakshaRequestEntity();
+//                entity.setContactEmail("mayuri.tikale@policyboss.com");
+//                entity.setContactMobile("9930089388");
+//                entity.setContactName("Mayuri Tikale");
+//                entity.setFrequency("Yearly");
+//                entity.setInsuredDOB("01-12-1980");
+//                entity.setInsuredGender("F");
+//                entity.setIs_TabaccoUser("False");
+//                entity.setPolicyTerm(20);
+//                entity.setSumAssured(10000000);
+//
+//                showDialog();
+//
+//                new TermInsuranceController(getActivity()).recalculateUltraLaksha(entity, this);
+
+                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 if (isValidInput()) {
                     setTermRequest();
                     //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);

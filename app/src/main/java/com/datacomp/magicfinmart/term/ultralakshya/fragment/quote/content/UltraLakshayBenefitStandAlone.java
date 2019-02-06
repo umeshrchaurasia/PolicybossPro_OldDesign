@@ -91,6 +91,25 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
             txtOnMaturityDateAmnt.setText(""+objStandAlone.getMaturityDateValue());
 
         }
+
+//        else{
+//
+//            txtAnnualPrem1yearAmnt.setText("Rs. 71750");
+//            txtAnnualPrem2to7Amnt.setText("Rs. 70280");
+//            txtAnnualPrem2to7Text.setText("2 to 17 years");
+//
+//            txtMaturityAfterYearText.setText("Maturity after 20 years");
+//            txtMaturityAfterYearAmnt.setText("Rs. 1970000");
+//
+//            txtLumpsumAmnt.setText("NIL");
+//            txtAnnualEndOfTermAmnt.setText("Rs. 100000");
+//
+//            txtMonthlyforYearText.setText("Monthly for 20 years");
+//            txtMonthlyforYearAmnt.setText("NIL");
+//
+//            txtOnMaturityDateAmnt.setText("Rs. 1970000");
+//
+//        }
     }
 
 

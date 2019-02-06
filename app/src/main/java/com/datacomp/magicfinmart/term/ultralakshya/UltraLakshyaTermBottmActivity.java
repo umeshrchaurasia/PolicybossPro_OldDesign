@@ -131,11 +131,13 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        if (ivHdrQuote.getVisibility() == View.VISIBLE) {
-            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-        } else {
-            UltraLakshyaTermBottmActivity.this.finish();
-        }
+//        if (ivHdrQuote.getVisibility() == View.VISIBLE) {
+//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+//        } else {
+//            UltraLakshyaTermBottmActivity.this.finish();
+//        }
+
+        UltraLakshyaTermBottmActivity.this.finish();
     }
 
     @Override
@@ -205,5 +207,8 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         ivHdrQuote.setVisibility(View.GONE);
         ivHdrInput.setVisibility(View.GONE);
     }
+
+
+
 
 }
