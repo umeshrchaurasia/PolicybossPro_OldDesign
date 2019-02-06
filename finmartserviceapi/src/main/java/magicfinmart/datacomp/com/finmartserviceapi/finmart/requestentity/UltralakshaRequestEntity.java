@@ -25,6 +25,11 @@ public class UltralakshaRequestEntity {
     private String ContactMobile;
     private String Frequency;
 
+
+
+
+    private int FBAID;
+
     public int getPolicyTerm() {
         return PolicyTerm;
     }
@@ -95,5 +100,13 @@ public class UltralakshaRequestEntity {
 
     public void setFrequency(String Frequency) {
         this.Frequency = Frequency;
+    }
+
+    public int getFBAID() {
+        return FBAID;
+    }
+
+    public void setFBAID(int FBAID) {
+        this.FBAID = FBAID;
     }
 }

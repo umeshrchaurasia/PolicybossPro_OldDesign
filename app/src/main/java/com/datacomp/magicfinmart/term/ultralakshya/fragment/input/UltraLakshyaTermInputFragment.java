@@ -58,6 +58,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IllustrationRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LICEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LICIllustrationRequestEntity;
@@ -82,19 +85,19 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     HdfcIProtectAdapter adapter;
 
     // quote
-    TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
+  //  TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
     ImageView ivEdit;
     TermCompareResponseEntity termCompareResponseEntity;
-    CardView cvInputDetails, cvQuoteDetails;
-    View layoutCompare;
+    CardView  cvQuoteDetails;
+
 
     TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
     LinearLayout llAddon;
     RecyclerView rvAddOn;
 
-    Button btnGetQuote;
-    EditText etFirstName, etMobile, etDOB;
+    Button btnGetQuote,btnGetrecalculate;
+    EditText etFirstName, etMobile, et_DOB;
     TextView tvMale, tvFemale, tvYes, tvNo;
     boolean isMale, isSmoker;
     LinearLayout llGender, llSmoker;
@@ -105,6 +108,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     Spinner spPolicyTerm;
 
     TermRequestEntity termRequestEntity;
+    UltralakshaRequestEntity Requestentity;
+
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
@@ -117,8 +122,10 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     List<String> premiumTermList, frequenctList;
 
     EditText etSumICICIAssured;
+         TextView   etCal_lic,etCal_ultra;
 
     Button minusICICISum, plusICICISum;
+    boolean is_illustration=false;
 
 
     TextInputLayout tilPremiumPayment;
@@ -127,7 +134,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     boolean isEdit = false, canChangePremiumTerm = true, canChangePolicyTerm = true;
     int termRequestId = 0, insurerID, age = 0;
     String crn = "";
-
+    ArrayAdapter<String> spinnerArraylakshya_policyterm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -141,12 +148,15 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         dbPersistanceController = new DBPersistanceController(getActivity());
         policyYear = dbPersistanceController.getPremYearList();
         termRequestEntity = new TermRequestEntity(getActivity());
+        Requestentity= new UltralakshaRequestEntity();
+
         termFinmartRequest = new TermFinmartRequest();
         init_adapters();
 
         adapter_listener();
-        setDefaultsIcici();
+        setDefaultsultra();
 
+        /*
         if (getArguments() != null) {
             if (getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA);
@@ -166,7 +176,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
-                bindHeaders();
+               // bindHeaders();
                 bindQuotes();
                 bindInputFromOther(termFinmartRequest);
                 fromCompare();
@@ -181,7 +191,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 //                bindInput(termFinmartRequest);
 //            }
         }
-
+        */
 
         return view;
     }
@@ -197,74 +207,35 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         }, 2000);
     }
 
-    private void setDefaultsIcici() {
-        etSumICICIAssured.setText("200000");
+    private void setDefaultsultra() {
+        etSumICICIAssured.setText("1000000");
+        manipulatePremiumTerm(30);//Default Age 30
 
-        //by default Regular pay selected.
-        //spICICIPremiumTerm.setSelection(0);
+      //  et_DOB.setText("01-01-1980");
 
+        Calendar calendar = Calendar.getInstance();
+
+
+
+        calendar.add(Calendar.YEAR, -30);
+        String currentDay = simpleDateFormat.format(calendar.getTime());
+        et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(simpleDateFormat, currentDay)));
+        et_DOB.setText(currentDay);
+
+        String[] listOption = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
+
+
+        final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
+        ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
+                , android.R.layout.simple_spinner_item
+                , optionsList);
+    //        spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+               spPolicyTerm.setAdapter(spAdapterOptions);
+
+
+        spPolicyTerm.setSelection(7);
     }
 
-
-    private void bindHeaders() {
-        if (termRequestEntity != null && getActivity() != null) {
-
-            tvSum.setText("");
-            tvSum.append("SUM  ");
-            SpannableString SUM = new SpannableString(termRequestEntity.getSumAssured());
-            SUM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getSumAssured().length(), 0);
-            SUM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getSumAssured().length(), 0);
-            tvSum.append(SUM);
-
-
-            try {
-                tvAge.setText("");
-                tvAge.append("AGE  ");
-                Date ag = simpleDateFormat.parse(termRequestEntity.getInsuredDOB());
-                Calendar ageCalender = Calendar.getInstance();
-                ageCalender.setTime(ag);
-                String age = "" + caluclateAge(ageCalender);
-                SpannableString AGE = new SpannableString(age);
-                AGE.setSpan(new StyleSpan(Typeface.BOLD), 0, age.length(), 0);
-                AGE.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, age.length(), 0);
-                tvAge.append(AGE);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-
-            tvPolicyTerm.setText("");
-            tvPolicyTerm.append("TERM  ");
-            SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm() + " Years");
-            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, TERM.length(), 0);
-            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, TERM.length(), 0);
-            tvPolicyTerm.append(TERM);
-
-            if (termRequestEntity.getInsuredGender().equals("M"))
-                tvGender.setText("MALE");
-            else
-                tvGender.setText("FEMALE");
-            if (termRequestEntity.getIs_TabaccoUser().equals("true"))
-                tvSmoker.setText("SMOKER");
-            else
-                tvSmoker.setText("NON-SMOKER");
-
-
-            tvCrn.setText("");
-            tvCrn.append("CRN  ");
-            String crn = "" + termCompareResponseEntity.getCustomerReferenceID();
-            SpannableString CRN = new SpannableString(crn);
-            CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
-            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
-            tvCrn.append(CRN);
-            termRequestEntity.setExisting_ProductInsuranceMapping_Id(crn);
-            termFinmartRequest.setTermRequestEntity(termRequestEntity);
-
-            // tvAge.setText("" + termRequestEntity.getInsuredDOB());
-            //tvPolicyTerm.setText("" + termRequestEntity.getPolicyTerm() + " YEARS");
-            //tvCrn.setText("---");
-        }
-    }
 
     private void bindQuotes() {
         final TermCompareResponseEntity responseEntity = termCompareResponseEntity;
@@ -272,7 +243,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         txtCover.setText("\u20B9 " + responseEntity.getSumAssured());
         txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + " Yrs.");
         txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium());
-        int uptoAge = Integer.parseInt(termRequestEntity.getPPT()) + caluclateAge(etDOB.getText().toString());
+        int uptoAge = Integer.parseInt(termRequestEntity.getPPT()) + caluclateAge(et_DOB.getText().toString());
         txtAge.setText("" + uptoAge + " Yrs.");
         //  txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
 
@@ -303,20 +274,16 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     private void changeInputQuote(boolean isInput) {
         if (isInput) {
 
-            btnGetQuote.setText("GET QUOTE");
 
-            layoutCompare.setVisibility(View.VISIBLE);
-            cvInputDetails.setVisibility(View.GONE);
             cvQuoteDetails.setVisibility(View.GONE);
         } else {
             if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
                 ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
             else
+             //   ((UltraLakshyaTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
             btnGetQuote.setText("UPDATE QUOTE");
 
-            layoutCompare.setVisibility(View.GONE);
-            cvInputDetails.setVisibility(View.VISIBLE);
             cvQuoteDetails.setVisibility(View.VISIBLE);
         }
     }
@@ -324,8 +291,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     private void fromCompare() {
         btnGetQuote.setText("UPDATE QUOTE");
 
-        layoutCompare.setVisibility(View.GONE);
-        cvInputDetails.setVisibility(View.VISIBLE);
+     //   cvInputDetails.setVisibility(View.VISIBLE);
         cvQuoteDetails.setVisibility(View.VISIBLE);
     }
 
@@ -370,7 +336,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 etFirstName.setText("" + firstName);
 
                 etMobile.setText("" + termRequestEntity.getContactMobile());
-                etDOB.setText("" + termRequestEntity.getInsuredDOB());
+                et_DOB.setText("" + termRequestEntity.getInsuredDOB());
 
 
                 if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
@@ -419,7 +385,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 etFirstName.setText("" + splitStr[0]);
 
                 etMobile.setText("" + termRequestEntity.getContactMobile());
-                etDOB.setText("" + termRequestEntity.getInsuredDOB());
+                et_DOB.setText("" + termRequestEntity.getInsuredDOB());
                 age = caluclateAge("" + termRequestEntity.getInsuredDOB());
 
 
@@ -455,7 +421,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
     private void setListener() {
 
-        ivEdit.setOnClickListener(this);
+
 
         tvMale.setOnClickListener(this);
         tvFemale.setOnClickListener(this);
@@ -464,7 +430,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 //        filter.setOnClickListener(this);
 
         btnGetQuote.setOnClickListener(this);
-        etDOB.setOnClickListener(datePickerDialog);
+        btnGetrecalculate.setOnClickListener(this);
+        et_DOB.setOnClickListener(datePickerDialog);
 
         minusICICISum.setOnClickListener(this);
         plusICICISum.setOnClickListener(this);
@@ -580,7 +547,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     private void manipulateFrequency() {
         switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
             case 0:
-                termRequestEntity.setFrequency("yearly");
+                termRequestEntity.setFrequency("Yearly");
                 break;
             case 1:
                 termRequestEntity.setFrequency("Half Yearly");
@@ -652,26 +619,27 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
 
         //quote page
-        cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
+     //   cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
         cvQuoteDetails = (CardView) view.findViewById(R.id.cvQuoteDetails);
-        layoutCompare = (View) view.findViewById(R.id.layoutCompare);
 
-        tvSum = (TextView) view.findViewById(R.id.tvSum);
-        tvGender = (TextView) view.findViewById(R.id.tvGender);
-        tvSmoker = (TextView) view.findViewById(R.id.tvSmoker);
-        tvAge = (TextView) view.findViewById(R.id.tvAge);
-        tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
-        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
-        ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
 
-        txtAge = (TextView) view.findViewById(R.id.txtAge);
+//        tvSum = (TextView) view.findViewById(R.id.tvSum);
+//        tvGender = (TextView) view.findViewById(R.id.tvGender);
+//        tvSmoker = (TextView) view.findViewById(R.id.tvSmoker);
+//        tvAge = (TextView) view.findViewById(R.id.tvAge);
+//        tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
+//        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
+//        ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
+//
+//        txtAge = (TextView) view.findViewById(R.id.txtAge);
 
 
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
+        btnGetrecalculate= (Button) view.findViewById(R.id.btnGetrecalculate);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
 
         etMobile = (EditText) view.findViewById(R.id.etMobile);
-        etDOB = (EditText) view.findViewById(R.id.etDateofBirth);
+        et_DOB = (EditText) view.findViewById(R.id.et_DOB);
         tvMale = (TextView) view.findViewById(R.id.tvMale);
         tvFemale = (TextView) view.findViewById(R.id.tvFemale);
         tvYes = (TextView) view.findViewById(R.id.tvYes);
@@ -679,8 +647,11 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         llGender = (LinearLayout) view.findViewById(R.id.llGender);
         llSmoker = (LinearLayout) view.findViewById(R.id.llSmoker);
 
+        etCal_lic = (TextView) view.findViewById(R.id.etCal_lic);
+        etCal_ultra = (TextView) view.findViewById(R.id.etCal_ultra);
 
         etSumICICIAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
+        etSumICICIAssured.setEnabled(false);
         spPolicyTerm = (Spinner) view.findViewById(R.id.spPolicyTerm);
         spICICIPremiumFrequency = (Spinner) view.findViewById(R.id.spICICIPremiumFrequency);
 
@@ -750,10 +721,18 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 }
 
             case R.id.btnGetQuote:
-//                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ICICI GET QUOTE  TERM INSURANCE", "ICICI GET QUOTE TERM INSURANCE");
 
-
-                // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                is_illustration=true;
+                if (isValidInput()) {
+                    setTermRequest();
+                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    showDialog("Please Wait..");
+                    new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
+                }
+                break;
+            case R.id.btnGetrecalculate:
+               // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                is_illustration=false;
 
 //                UltralakshaRequestEntity entity = new UltralakshaRequestEntity();
 //                entity.setContactEmail("mayuri.tikale@policyboss.com");
@@ -771,6 +750,12 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 //                new TermInsuranceController(getActivity()).recalculateUltraLaksha(entity, this);
 
                 ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                if (isValidInput()) {
+                    setTermRequest();
+                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    showDialog("Please Wait..");
+                    new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
+                }
                 break;
 
             case R.id.ivEdit:
@@ -805,11 +790,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
 
         }
-    }
-
-    private void fetchQuotes() {
-        showDialog("Please Wait..");
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
 
     private void updateCrnToServer() {
@@ -903,26 +883,48 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
 
     private void setTermRequest() {
-        //termRequestEntity.setLumpsumPercentage("0");
-        //termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
+
+       // Requestentity.setPolicyTerm(1);
+
+        Requestentity.setContactName(etFirstName.getText().toString());
+        Requestentity.setContactEmail("finmarttest@gmail.com");
+        Requestentity.setContactMobile(etMobile.getText().toString());
 
         if (isMale)
-            termRequestEntity.setInsuredGender("M");
+            Requestentity.setInsuredGender("M");
         else
-            termRequestEntity.setInsuredGender("F");
+            Requestentity.setInsuredGender("F");
 
         if (isSmoker)
-            termRequestEntity.setIs_TabaccoUser("true");
+            Requestentity.setIs_TabaccoUser("True");
         else
-            termRequestEntity.setIs_TabaccoUser("false");
+            Requestentity.setIs_TabaccoUser("False");
 
 
-        termRequestEntity.setSumAssured(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
-        termRequestEntity.setInsuredDOB(etDOB.getText().toString());
-        termRequestEntity.setPaymentModeValue("1");
-        termRequestEntity.setPolicyCommencementDate(etDOB.getText().toString());
-        termRequestEntity.setCityName("Mumbai");
-        termRequestEntity.setState("Maharashtra");
+        Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
+        Requestentity.setInsuredDOB(et_DOB.getText().toString());
+
+        switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
+            case 0:
+                Requestentity.setFrequency("Yearly");
+                break;
+            case 1:
+                Requestentity.setFrequency("Half Yearly");
+                break;
+            case 2:
+                Requestentity.setFrequency("Quarterly");
+                break;
+            case 3:
+                Requestentity.setFrequency("Monthly");
+                break;
+        }
+        Requestentity.setPolicyTerm(Integer.parseInt(spPolicyTerm.getSelectedItem().toString()));
+        int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+        Requestentity.setFBAID(fba_id);
+
+//        Requestentity.setPolicyCommencementDate(et_DOB.getText().toString());
+//        Requestentity.setCityName("Mumbai");
+//        Requestentity.setState("Maharashtra");
         //termRequestEntity.setPlanTaken("Life");
         // termRequestEntity.setFrequency("Annual");
         //termRequestEntity.setDeathBenefitOption("Lump-Sum");
@@ -930,27 +932,29 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         //termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
 
         //termRequestEntity.setInsurerId(0);
-        termRequestEntity.setSessionID("");
-        termRequestEntity.setContactName(etFirstName.getText().toString());
-        termRequestEntity.setContactEmail("finmarttest@gmail.com");
-        termRequestEntity.setContactMobile(etMobile.getText().toString());
+       // Requestentity.setSessionID("");
+
         //termRequestEntity.setSupportsAgentID("1682");
 
 
         //icici specific
-        termRequestEntity.setMaritalStatus("");
+      //  Requestentity.setMaritalStatus("");
         //termRequestEntity.setPremiumPaymentOption(""); //set in optionSelected
-        termRequestEntity.setServiceTaxNotApplicable("");// not known
+     //   Requestentity.setServiceTaxNotApplicable("");// not known
+
+
+       // termRequestEntity.setServiceTaxNotApplicable("");// not known
 
 
         //termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
-        termRequestEntity.setInsurerId(39);
+      //  Requestentity.setInsurerId(40);
 
         //   termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
 
-        termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
-        termFinmartRequest.setTermRequestEntity(termRequestEntity);
+      //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+        //termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
+
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
@@ -963,6 +967,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     }
 
     //region date picker
+
 
     public boolean isValidInput() {
         if (etFirstName.getText().toString().isEmpty()) {
@@ -979,17 +984,30 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
             }
         }
 
-
-        if (etDOB.getText().toString().isEmpty()) {
-
+      if (!isValidePhoneNumber(etMobile)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                etDOB.requestFocus();
-                etDOB.setError("Enter Dob");
-                etDOB.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etMobile.requestFocus();
+                etMobile.setError("Enter Mobile");
+                etMobile.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                 return false;
             } else {
-                etDOB.requestFocus();
-                etDOB.setError("Enter Dob");
+                etMobile.requestFocus();
+                etMobile.setError("Enter Mobile");
+                return false;
+            }
+        }
+
+
+        if (et_DOB.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                et_DOB.requestFocus();
+                et_DOB.setError("Enter Dob");
+                et_DOB.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                et_DOB.requestFocus();
+                et_DOB.setError("Enter Dob");
                 return false;
             }
         }
@@ -1047,39 +1065,66 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
 
-        if (response instanceof TermCompareQuoteResponse) {
-            processResponse((TermCompareQuoteResponse) response);
-        } else if (response instanceof UltraLakshaRecalculateResponse) {
-//            "PlanNumber" : "833",
-//                    "PlanTerm" : 20,
-//                    "SumAssured" : 1000000,
-//                    "PaymentMode" : "Y",
-//                    "DOB" : "15/Dec/1988",
-//                    "TotalPrem" : 56263,
-//                    "BasicPrem" : 53840,
-//                    "GST1" : 2423,
-//                    "PremPaidUL" : 71750,
-//                    "HdfcPrem" : 14207
-//
+        try {
 
 
-            LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
-            entity.setPlanNumber("833");
-            entity.setPlanTerm(20);
-            entity.setSumAssured(1000000);
-            entity.setPaymentMode("Y");
-            entity.setDOB("15/Dec/1988");
-            entity.setTotalPrem(56263);
-            entity.setBasicPrem(53840);
-            entity.setGST1(2423);
-            entity.setPremPaidUL(71750);
-            entity.setHdfcPrem(14207);
+            if (response instanceof UltraLakshaRecalculateResponse) {
+                //processResponse((UltraLakshaRecalculateResponse) response);
+                if (((UltraLakshaRecalculateResponse) response).getMasterData().getLIC().size() != 0) {
 
-            new TermInsuranceController(getActivity()).getIllustration(entity);
-            ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    LICEntity entityLIC = new LICEntity();
+                    entityLIC = ((UltraLakshaRecalculateResponse) response).getMasterData().getLIC().get(0);
 
+                    HDFCEntity hDFCEntity = new HDFCEntity();
+                    hDFCEntity = ((UltraLakshaRecalculateResponse) response).getMasterData().getHDFC().get(0);
+
+                    Integer ultraLakshya = entityLIC.getNetPremium() + hDFCEntity.getNetPremium();
+
+
+                    IllustrationRequestEntity reqentity = new IllustrationRequestEntity();
+
+                    reqentity = ((UltraLakshaRecalculateResponse) response).getMasterData().getIllustrationrequest().get(0);
+
+                    etCal_lic.setText("" + reqentity.getTotalPrem());
+                    etCal_ultra.setText("" + reqentity.getPremPaidUL());
+
+                    if (is_illustration) {
+
+                        LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
+
+                        entity.setPlanTerm("" + reqentity.getPlanTerm());
+                        entity.setSumAssured("" +reqentity.getSumAssured() );
+
+                        // entity.setPaymentMode("Y");
+                        //  entity.setDOB("15/Dec/1988");
+
+                        entity.setPaymentMode(reqentity.getPaymentMode());
+                        entity.setDOB(reqentity.getDOB());
+
+                        entity.setHdfcPrem("" + reqentity.getHdfcPrem());
+                        entity.setHdfcBasicPrem("" + reqentity.getHdfcBasicPrem());
+                        entity.setTotalPrem("" + reqentity.getTotalPrem());
+                        entity.setBasicPrem("" + reqentity.getBasicPrem());
+                        entity.setPremPaidUL("" + reqentity.getPremPaidUL());
+
+                        entity.setHdfcGst1("" + reqentity.getHdfcGst1());
+                        entity.setHdfcGst2("" + reqentity.getHdfcGst2());
+
+                        entity.setLicGst1("" + reqentity.getLicGst1());
+                        entity.setLicGst2("" + reqentity.getLicGst2());
+
+                        new TermInsuranceController(getActivity()).getIllustration(entity);
+                        ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote(termFinmartRequest);
+
+                    }
+                    //processResponse((UltraLakshaRecalculateResponse) response);
+
+                }
+            }
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
         }
-
     }
 
     @Override
@@ -1102,7 +1147,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 termFinmartRequest.setTermRequestId(termRequestId);
                 updateCrnToServer();
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
-                    bindHeaders();
+                    //bindHeaders();
                     changeInputQuote(false);
                     bindQuotes();
                 } else {
@@ -1208,36 +1253,22 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
             Constants.hideKeyBoard(view, getActivity());
 
 
-            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+            DateTimePicker.showDataPickerDialog_lakshya(view.getContext(),(Calendar) view.getTag(R.id.et_DOB), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                     if (view1.isShown()) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(year, monthOfYear, dayOfMonth);
-                        String currentDay = simpleDateFormat.format(calendar.getTime());
-                        etDOB.setText(currentDay);
+
+
+                        et_DOB.setTag(R.id.et_DOB, calendar);
                         age = caluclateAge(calendar);
 
-
-                        //region remove pay till 60 if age > 55
-                        /*String[] listPremiumPayLimited = getActivity().getResources().getStringArray(R.array.icici_premium_payment_limited_pay);
-                        premiumPaymentList = new ArrayList<>(Arrays.asList(listPremiumPayLimited));
-                        if (age > 55) {
-                            premiumPaymentList.remove(0);
-                        }
-                        ICICIPremiumPaymentAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumPaymentList) {
-                            @NonNull
-                            @Override
-                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                View view = super.getView(position, convertView, parent);
-                                view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
-                                return view;
-                            }
-                        };
-                        spICICIPremiumPayment.setAdapter(ICICIPremiumPaymentAdapter);*/
-
-                        //endregion
-
+                        String currentDay = simpleDateFormat.format(calendar.getTime());
+                        et_DOB.setText(currentDay);
+                        //TODO:set tag to DOB -- nilesh
+                        et_DOB.setTag(R.id.et_DOB, calendar);
+                        manipulatePremiumTerm(age);
 
                     }
                 }
@@ -1248,7 +1279,49 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     };
 
 //endregion
+    private void manipulatePremiumTerm(int age) {
 
+     String[] listOption;
+
+
+
+    //region remove pay till 60 if age > 55
+          if(age > 50)
+          {
+               listOption=new String[]{"14","15"};
+          }
+//          else if(age > 45)
+//          {
+//             listOption=new String[]{"13","14","15"};
+//          }else if(age >30)
+//          {
+//              listOption=new String[]{"12","13","14","15"};
+//          }
+          else
+          {
+              listOption = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
+          }
+
+             final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
+             ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
+            , android.R.layout.simple_spinner_item
+            , optionsList);
+//        spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+           spPolicyTerm.setAdapter(spAdapterOptions);
+//
+//        ArrayAdapter<String> spAdapterPremiumFreq = new ArrayAdapter<String>(getActivity()
+//                , android.R.layout.simple_spinner_item
+//                , premiumFreqList);
+//
+//        spAdapterPremiumFreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
+
+
+
+       // bindPremiumPayment(0);
+
+
+}
     @Override
     public void onFocusChange(View view, boolean b) {
         switch (view.getId()) {
