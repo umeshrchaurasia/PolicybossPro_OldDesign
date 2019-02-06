@@ -10,9 +10,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 
-import org.matomo.sdk.Matomo;
-import org.matomo.sdk.TrackerBuilder;
-import org.matomo.sdk.extra.TrackHelper;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -131,7 +128,7 @@ public class MyApplication extends MultiDexApplication {
 //            mMamatoTracker = getTracker();
 //        }
 
-        TrackHelper.track().event(category, action);
+        //TrackHelper.track().event(category, action);
 
 
     }

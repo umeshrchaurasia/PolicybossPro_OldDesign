@@ -45,7 +45,7 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
         initialize(view);
         ultraLakshaFacade = new UltraLakshaFacade(getActivity());
 
-        setUnmatchedUI();
+        binData();
     }
 
     private void initialize(View view)
@@ -68,7 +68,7 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
     }
 
 
-    private void setUnmatchedUI()
+    private void binData()
     {
         if(ultraLakshaFacade.getPageTwoStandAloneList() != null)
         {
