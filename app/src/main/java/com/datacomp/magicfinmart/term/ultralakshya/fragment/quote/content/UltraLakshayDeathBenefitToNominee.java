@@ -188,6 +188,7 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         txtUltraTotal.setText(""+ deathBenefitEntity.getLakshyaBenefitsPayable() );
 
         txtJeevanMaturityDate.setText("" +JeevanMaturityDate);
+        txtUltraMaturityDate.setText("" +JeevanMaturityDate);
 
 
 
