@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
-public class UltralakshaRequestEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class UltralakshaRequestEntity implements Parcelable {
 
 
     /**
@@ -109,4 +112,51 @@ public class UltralakshaRequestEntity {
     public void setFBAID(int FBAID) {
         this.FBAID = FBAID;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.PolicyTerm);
+        dest.writeString(this.InsuredGender);
+        dest.writeString(this.Is_TabaccoUser);
+        dest.writeInt(this.SumAssured);
+        dest.writeString(this.InsuredDOB);
+        dest.writeString(this.ContactName);
+        dest.writeString(this.ContactEmail);
+        dest.writeString(this.ContactMobile);
+        dest.writeString(this.Frequency);
+        dest.writeInt(this.FBAID);
+    }
+
+    public UltralakshaRequestEntity() {
+    }
+
+    protected UltralakshaRequestEntity(Parcel in) {
+        this.PolicyTerm = in.readInt();
+        this.InsuredGender = in.readString();
+        this.Is_TabaccoUser = in.readString();
+        this.SumAssured = in.readInt();
+        this.InsuredDOB = in.readString();
+        this.ContactName = in.readString();
+        this.ContactEmail = in.readString();
+        this.ContactMobile = in.readString();
+        this.Frequency = in.readString();
+        this.FBAID = in.readInt();
+    }
+
+    public static final Parcelable.Creator<UltralakshaRequestEntity> CREATOR = new Parcelable.Creator<UltralakshaRequestEntity>() {
+        @Override
+        public UltralakshaRequestEntity createFromParcel(Parcel source) {
+            return new UltralakshaRequestEntity(source);
+        }
+
+        @Override
+        public UltralakshaRequestEntity[] newArray(int size) {
+            return new UltralakshaRequestEntity[size];
+        }
+    };
 }
