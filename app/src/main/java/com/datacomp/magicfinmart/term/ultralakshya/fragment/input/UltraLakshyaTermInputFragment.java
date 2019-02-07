@@ -120,7 +120,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     List<String> premiumTermList, frequenctList;
 
     EditText etSumICICIAssured;
-         TextView   etCal_lic,etCal_ultra;
+    TextView etCal_lic, etCal_ultra;
 
     Button minusICICISum, plusICICISum;
     boolean is_illustration = false;
@@ -252,14 +252,15 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                         , optionsList);
 
 
-                if (termFinmartRequest.getFrequency().equals("yearly")) {
+                if (termFinmartRequest.getFrequency().equals("Yearly")) {
                     spICICIPremiumFrequency.setSelection(0);
                 } else if (termFinmartRequest.getFrequency().equals("Half Yearly")) {
                     spICICIPremiumFrequency.setSelection(1);
                 } else if (termFinmartRequest.getFrequency().equals("Monthly")) {
+                    spICICIPremiumFrequency.setSelection(3);
+                } else if (termFinmartRequest.getFrequency().equals("Quarterly")) {
                     spICICIPremiumFrequency.setSelection(2);
                 }
-
 
                 String[] splitStr = termFinmartRequest.getContactName().split("\\s+");
                 String firstName = "", lastName = "";
@@ -270,7 +271,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                         firstName = firstName + " " + splitStr[i];
                     }
                 }
-                etFirstName.setText("" + firstName );
+                etFirstName.setText("" + firstName);
 
                 etMobile.setText("" + termFinmartRequest.getContactMobile());
                 et_DOB.setText("" + termFinmartRequest.getInsuredDOB());
@@ -600,26 +601,26 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         //termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
 
         //termRequestEntity.setInsurerId(0);
-       // Requestentity.setSessionID("");
+        // Requestentity.setSessionID("");
 
         //termRequestEntity.setSupportsAgentID("1682");
 
 
         //icici specific
-      //  Requestentity.setMaritalStatus("");
+        //  Requestentity.setMaritalStatus("");
         //termRequestEntity.setPremiumPaymentOption(""); //set in optionSelected
-     //   Requestentity.setServiceTaxNotApplicable("");// not known
+        //   Requestentity.setServiceTaxNotApplicable("");// not known
 
 
-       // termRequestEntity.setServiceTaxNotApplicable("");// not known
+        // termRequestEntity.setServiceTaxNotApplicable("");// not known
 
 
         //termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
-      //  Requestentity.setInsurerId(40);
+        //  Requestentity.setInsurerId(40);
 
         //   termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
 
-      //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+        //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
         //termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
