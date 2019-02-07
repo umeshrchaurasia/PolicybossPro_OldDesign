@@ -541,7 +541,7 @@ android:orientation="vertical"
                         android:gravity="center_horizontal"
                         android:padding="10dp"
                         android:textStyle="bold"
-                        android:text="57543"
+                        android:text="283106"
                         android:textColor="@color/red_descent" />
 
                     <TextView
@@ -552,7 +552,7 @@ android:orientation="vertical"
                         android:gravity="center_horizontal"
                         android:background="@drawable/blue_border"
                         android:padding="10dp"
-                        android:text="71750"
+                        android:text="287573"
                         android:textStyle="bold"
                         android:textColor="@color/colorPrimaryDark" />
 
