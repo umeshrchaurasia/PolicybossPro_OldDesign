@@ -16,6 +16,7 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ProductComboList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
@@ -32,6 +33,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
             txtTotalOne,txtTotalTwo;
 
     UltraLakshaFacade ultraLakshaFacade;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -121,10 +123,13 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
         if(view.getId() == R.id.txtBuyNowHDFC)
         {
-            startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                    .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf("") + "&usertype=FBA&vkey=b34f02e9-8f1c")
-                    .putExtra("NAME", "" + "BUY HDFC")
-                    .putExtra("TITLE", "" + "BUY HDFC"));
+           if(  ultraLakshaFacade.getUltraLakshaHDFC() !=null) {
+               HDFCEntity hdfcEntity = ultraLakshaFacade.getUltraLakshaHDFC();
+               startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                       .putExtra("URL", hdfcEntity.getProposerPageUrl())
+                       .putExtra("NAME", "" + "BUY HDFC")
+                       .putExtra("TITLE", "" + "BUY HDFC"));
+           }
 
 
         }

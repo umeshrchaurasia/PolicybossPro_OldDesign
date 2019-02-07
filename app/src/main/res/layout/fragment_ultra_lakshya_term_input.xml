@@ -435,11 +435,12 @@ android:orientation="vertical"
                     style="@style/ButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Calculation" />
+                    android:text="Re-Calculation" />
 
                 <LinearLayout
                     android:id="@+id/rljk"
                     android:gravity="center"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
