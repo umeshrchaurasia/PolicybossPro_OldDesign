@@ -120,7 +120,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     List<String> premiumTermList, frequenctList;
 
     EditText etSumICICIAssured;
-    TextView etCal_lic, etCal_ultra;
+         TextView   etCal_lic,etCal_ultra;
 
     Button minusICICISum, plusICICISum;
     boolean is_illustration = false;
@@ -334,7 +334,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         premiumTermList = new ArrayList<>(Arrays.asList(listPremiumTerm));
 
 
-        String[] listPremiumFreq = getActivity().getResources().getStringArray(R.array.icici_premium_frequency);
+        String[] listPremiumFreq = getActivity().getResources().getStringArray(R.array.lakshya_premium_frequency);
         frequenctList = new ArrayList<>(Arrays.asList(listPremiumFreq));
 
         ICICIPremiumFrequencyAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, frequenctList) {
@@ -600,26 +600,26 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         //termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
 
         //termRequestEntity.setInsurerId(0);
-        // Requestentity.setSessionID("");
+       // Requestentity.setSessionID("");
 
         //termRequestEntity.setSupportsAgentID("1682");
 
 
         //icici specific
-        //  Requestentity.setMaritalStatus("");
+      //  Requestentity.setMaritalStatus("");
         //termRequestEntity.setPremiumPaymentOption(""); //set in optionSelected
-        //   Requestentity.setServiceTaxNotApplicable("");// not known
+     //   Requestentity.setServiceTaxNotApplicable("");// not known
 
 
-        // termRequestEntity.setServiceTaxNotApplicable("");// not known
+       // termRequestEntity.setServiceTaxNotApplicable("");// not known
 
 
         //termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
-        //  Requestentity.setInsurerId(40);
+      //  Requestentity.setInsurerId(40);
 
         //   termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
 
-        //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+      //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
         //termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
