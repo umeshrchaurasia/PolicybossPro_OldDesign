@@ -316,14 +316,14 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                         , optionsList);
 
 
-                if (termRequestEntity.getFrequency().equals("yearly")) {
-                    spICICIPremiumFrequency.setSelection(0);
-                } else if (termRequestEntity.getFrequency().equals("Half Yearly")) {
-                    spICICIPremiumFrequency.setSelection(1);
-                } else if (termRequestEntity.getFrequency().equals("Monthly")) {
-                    spICICIPremiumFrequency.setSelection(2);
-                }
-
+//                if (termRequestEntity.getFrequency().equals("yearly")) {
+//                    spICICIPremiumFrequency.setSelection(0);
+//                } else if (termRequestEntity.getFrequency().equals("Half Yearly")) {
+//                    spICICIPremiumFrequency.setSelection(1);
+//                } else if (termRequestEntity.getFrequency().equals("Monthly")) {
+//                    spICICIPremiumFrequency.setSelection(2);
+//                }
+//
 
                 String[] splitStr = termRequestEntity.getContactName().split("\\s+");
                 String firstName = "", lastName = "";
@@ -448,7 +448,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         premiumTermList = new ArrayList<>(Arrays.asList(listPremiumTerm));
 
 
-        String[] listPremiumFreq = getActivity().getResources().getStringArray(R.array.icici_premium_frequency);
+        String[] listPremiumFreq = getActivity().getResources().getStringArray(R.array.lakshya_premium_frequency);
         frequenctList = new ArrayList<>(Arrays.asList(listPremiumFreq));
 
         ICICIPremiumFrequencyAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, frequenctList) {
