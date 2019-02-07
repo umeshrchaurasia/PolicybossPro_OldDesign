@@ -11,6 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQ
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UpdateCRNResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
@@ -79,7 +80,7 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
 
         @Headers("token:" + token)
         @POST("/api/licillustration")
-        Call<UltraLakshaIllustrationResponse> getIllustration(@Body LICIllustrationRequestEntity entity);
+        Call<UltraLakshaIllustrationResponseNew> getIllustration(@Body LICIllustrationRequestEntity entity);
 
         //endregion
     }

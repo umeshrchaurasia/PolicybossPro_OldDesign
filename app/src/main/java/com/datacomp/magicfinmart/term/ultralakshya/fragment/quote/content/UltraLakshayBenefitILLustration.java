@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaBenefitIllustratorAdapter;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,14 +21,13 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayILLustration extends BaseFragment {
+public class UltraLakshayBenefitILLustration extends BaseFragment {
 
 
     RecyclerView rvDeathBenefit;
@@ -55,18 +53,12 @@ public class UltraLakshayILLustration extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initialize(view);
 
-
-
-
         ultraLakshaFacade = new UltraLakshaFacade(getActivity());
 
         if(ultraLakshaFacade.getBenefitList() != null) {
-            mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayILLustration.this, ultraLakshaFacade.getBenefitList());
+            mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayBenefitILLustration.this, ultraLakshaFacade.getBenefitList());
             rvDeathBenefit.setAdapter(mAdapter);
         }else{
-//            mAdapter = new UltraLakshyaBenefitIllustratorAdapter(UltraLakshayILLustration.this, getDeathNomineeLst());
-//            rvDeathBenefit.setAdapter(mAdapter);  //temp data
-
               Toast.makeText(getActivity(),"No data found",Toast.LENGTH_SHORT).show();
         }
     }

@@ -1,27 +1,21 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter;
 
-import android.app.Activity;
-import android.graphics.Paint;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**
  * Created by IN-RB on 22-02-2018.
@@ -30,10 +24,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEnt
 public class UltraLakshyaDeathNomineeAdapter extends RecyclerView.Adapter<UltraLakshyaDeathNomineeAdapter.DeathBenefitItem> {
 
     Fragment mContext;
-    List<DeathBenefitEntity>  DeathBenefitLst;
+    List<UltraLakshaIllustrationResponseNew.MasterDataBean.DeathBenefitBean>  DeathBenefitLst;
 
 
-    public UltraLakshyaDeathNomineeAdapter(Fragment mContext,  List<DeathBenefitEntity> deathBenefitLst) {
+    public UltraLakshyaDeathNomineeAdapter(Fragment mContext,  List<UltraLakshaIllustrationResponseNew.MasterDataBean.DeathBenefitBean> deathBenefitLst) {
         this.mContext = mContext;
         this.DeathBenefitLst = deathBenefitLst;
     }
@@ -70,7 +64,7 @@ public class UltraLakshyaDeathNomineeAdapter extends RecyclerView.Adapter<UltraL
     @Override
     public void onBindViewHolder(DeathBenefitItem holder, int position) {
 
-        final DeathBenefitEntity deathBenefitEntity = DeathBenefitLst.get(position);
+        final UltraLakshaIllustrationResponseNew.MasterDataBean.DeathBenefitBean deathBenefitEntity = DeathBenefitLst.get(position);
         holder.txtYear.setText( "" +deathBenefitEntity.getYear());
      //   holder.txtYear.setPaintFlags(holder.txtYear.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         holder.txtJeevanPremPaid.setText( "" +deathBenefitEntity.getJeevanPremiumPaid());

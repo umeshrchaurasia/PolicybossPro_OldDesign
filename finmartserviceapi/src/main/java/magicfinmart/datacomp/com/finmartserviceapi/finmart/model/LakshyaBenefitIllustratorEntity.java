@@ -1,20 +1,14 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 public class LakshyaBenefitIllustratorEntity {
-    /**
-     * Year : 31-03-2019
-     * Age : 30
-     * LicCover : 3970000
-     * AnnualPremium : 56263
-     * LoanAvailable : 0
-     */
+
+
     private String Year;
     private String Age;
     private String LicCover;
     private String AnnualPremium;
     private String CashFlow;
     private String LoanAvailable;
-
 
     public String getYear() {
         return Year;
@@ -63,4 +57,5 @@ public class LakshyaBenefitIllustratorEntity {
     public void setLoanAvailable(String LoanAvailable) {
         this.LoanAvailable = LoanAvailable;
     }
+
 }

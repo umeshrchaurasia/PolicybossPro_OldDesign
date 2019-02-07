@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,21 +12,23 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ProductComboList;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayProductCombo extends BaseFragment {
+public class UltraLakshayProductCombo extends BaseFragment implements View.OnClickListener {
 
 
-    TextView txtLicTerm ,txtLicPPT ,txtLicMode ,txtLicSum ,txtOtherYear,
+    TextView txtBuyNowHDFC, txtLicTerm ,txtLicPPT ,txtLicMode ,txtLicSum ,txtOtherYear,
             txtLicPremYearOne,txtLicPremOtherYears,
-
-    txtHdfcTerm,txtHdfcPPT,txtHdfcMode,txtHdfcSum,txtHdfcPremYearOne,txtHdfcPremOtherYears,
+            txtHdfcTerm,txtHdfcPPT,txtHdfcMode,txtHdfcSum,txtHdfcPremYearOne,txtHdfcPremOtherYears,
             txtTotalOne,txtTotalTwo;
 
     UltraLakshaFacade ultraLakshaFacade;
@@ -44,10 +47,13 @@ public class UltraLakshayProductCombo extends BaseFragment {
         ultraLakshaFacade = new UltraLakshaFacade(getActivity());
 
         bindData();
+        setOnclickListener();
+
     }
 
     private void initialize(View view)
     {
+        txtBuyNowHDFC  = view.findViewById(R.id.txtBuyNowHDFC);
         txtLicTerm = view.findViewById(R.id.txtLicTerm);
         txtLicPPT = view.findViewById(R.id.txtLicPPT);
         txtLicMode = view.findViewById(R.id.txtLicMode);
@@ -73,13 +79,17 @@ public class UltraLakshayProductCombo extends BaseFragment {
 
     }
 
+    private void setOnclickListener()
+    {
+        txtBuyNowHDFC.setOnClickListener(this);
+    }
 
     private void bindData()
     {
         if(ultraLakshaFacade.getProductComboList() != null)
         {
 
-            ProductComboList objComboEntity = ultraLakshaFacade.getProductComboList().get(0);
+            UltraLakshaIllustrationResponseNew.MasterDataBean.ProductComboBean objComboEntity = ultraLakshaFacade.getProductComboList().get(0);
 
             txtLicTerm.setText(""+objComboEntity.getLicTerm());
             txtLicPPT.setText(""+objComboEntity.getLicPPT());
@@ -106,4 +116,18 @@ public class UltraLakshayProductCombo extends BaseFragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
+
+        if(view.getId() == R.id.txtBuyNowHDFC)
+        {
+            startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                    .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf("") + "&usertype=FBA&vkey=b34f02e9-8f1c")
+                    .putExtra("NAME", "" + "BUY HDFC")
+                    .putExtra("TITLE", "" + "BUY HDFC"));
+
+
+        }
+
+    }
 }

@@ -15,6 +15,7 @@ import com.datacomp.magicfinmart.R;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageoneUnmatchedList;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +74,7 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
         if(ultraLakshaFacade.getPageTwoStandAloneList() != null)
         {
 
-            PageTwoStandAloneList objStandAlone = ultraLakshaFacade.getPageTwoStandAloneList().get(0);
+            UltraLakshaIllustrationResponseNew.MasterDataBean.PageTwoStandAloneBean objStandAlone = ultraLakshaFacade.getPageTwoStandAloneList().get(0);
 
             txtAnnualPrem1yearAmnt.setText(""+objStandAlone.getAnnualPremiumFirstYr());
             txtAnnualPrem2to7Amnt.setText(""+objStandAlone.getAnnualPremiumOtherYrs());

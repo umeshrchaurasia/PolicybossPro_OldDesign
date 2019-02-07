@@ -1,8 +1,6 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
 
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +24,9 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
-
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.model.BenefitsPopupEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,7 +104,7 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
     }
 
 
-    public void showDeathPayableAlert(DeathBenefitEntity deathBenefitEntity) {
+    public void showDeathPayableAlert(UltraLakshaIllustrationResponseNew.MasterDataBean.DeathBenefitBean deathBenefitEntity) {
 
         if (alertDialog != null && alertDialog.isShowing()) {
 
@@ -124,7 +119,7 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
     //    BenefitsPopupEntity benefitsPopupEntity = ultraLakshaFacade.getBenefitPopupList().get(0);
 
         // region temp 05 added
-        BenefitsPopupEntity benefitsPopupEntity = new BenefitsPopupEntity();
+        UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsPopupBean benefitsPopupEntity = new UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsPopupBean();
         benefitsPopupEntity.setTerm(""+20);
         benefitsPopupEntity.setAnnualPayout("100000");
         benefitsPopupEntity.setULOnDeath("50000");

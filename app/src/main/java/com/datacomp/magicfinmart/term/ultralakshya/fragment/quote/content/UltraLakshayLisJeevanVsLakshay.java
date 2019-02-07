@@ -15,6 +15,7 @@ import com.datacomp.magicfinmart.R;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LicVrsList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +68,7 @@ public class UltraLakshayLisJeevanVsLakshay extends BaseFragment {
         if(ultraLakshaFacade.getLicVrs() != null)
         {
 
-            LicVrsList objLicVsUltra = ultraLakshaFacade.getLicVrs().get(0);
+            UltraLakshaIllustrationResponseNew.MasterDataBean.LicVrsBean objLicVsUltra = ultraLakshaFacade.getLicVrs().get(0);
 
             txtBasicSum.setText(""+objLicVsUltra.getBasicSum());
             txtLicAnnualPremium.setText(""+objLicVsUltra.getLicAnnualPremium());

@@ -12,8 +12,7 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DeathBenefitEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LakshyaBenefitIllustratorEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**
  * Created by IN-RB on 22-02-2018.
@@ -23,10 +22,10 @@ public class UltraLakshyaBenefitIllustratorAdapter extends RecyclerView.Adapter<
 
     Fragment mContext;
 
-    private List<LakshyaBenefitIllustratorEntity> BenefitsIllustratorLst;
+    private List<UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsBean> BenefitsIllustratorLst;
 
 
-    public UltraLakshyaBenefitIllustratorAdapter(Fragment mContext, List<LakshyaBenefitIllustratorEntity> deathBenefitLst) {
+    public UltraLakshyaBenefitIllustratorAdapter(Fragment mContext, List<UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsBean> deathBenefitLst) {
         this.mContext = mContext;
         this.BenefitsIllustratorLst = deathBenefitLst;
     }
@@ -63,7 +62,7 @@ public class UltraLakshyaBenefitIllustratorAdapter extends RecyclerView.Adapter<
     @Override
     public void onBindViewHolder(BenefitIllustratorItem holder, int position) {
 
-        final LakshyaBenefitIllustratorEntity benefitEntity = BenefitsIllustratorLst.get(position);
+        final UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsBean benefitEntity = BenefitsIllustratorLst.get(position);
         holder.txtPolicyYear.setText( "" +benefitEntity.getYear());
         holder.txtAge.setText( "" +benefitEntity.getAge());
         holder.txtLifeCover.setText( "" +benefitEntity.getLicCover());
@@ -72,11 +71,7 @@ public class UltraLakshyaBenefitIllustratorAdapter extends RecyclerView.Adapter<
         holder.txtCashFlow.setText( "" +benefitEntity.getCashFlow());
         holder.txtLoanAvailable.setText( "" +benefitEntity.getLoanAvailable());
 
-
-
-
     }
-
 
     @Override
     public int getItemCount() {

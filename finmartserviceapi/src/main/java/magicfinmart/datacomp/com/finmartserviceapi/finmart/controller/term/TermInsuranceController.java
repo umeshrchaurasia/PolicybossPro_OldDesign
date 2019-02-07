@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQ
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UpdateCRNResponse;
 import retrofit2.Call;
@@ -287,9 +288,9 @@ public class TermInsuranceController implements ITermInsurance {
     @Override
     public void getIllustration(LICIllustrationRequestEntity entity) {
 
-        termNetworkService.getIllustration(entity).enqueue(new Callback<UltraLakshaIllustrationResponse>() {
+        termNetworkService.getIllustration(entity).enqueue(new Callback<UltraLakshaIllustrationResponseNew>() {
             @Override
-            public void onResponse(Call<UltraLakshaIllustrationResponse> call, Response<UltraLakshaIllustrationResponse> response) {
+            public void onResponse(Call<UltraLakshaIllustrationResponseNew> call, Response<UltraLakshaIllustrationResponseNew> response) {
 
                 if (response.body() != null) {
 
@@ -303,7 +304,7 @@ public class TermInsuranceController implements ITermInsurance {
             }
 
             @Override
-            public void onFailure(Call<UltraLakshaIllustrationResponse> call, Throwable t) {
+            public void onFailure(Call<UltraLakshaIllustrationResponseNew> call, Throwable t) {
 
             }
         });

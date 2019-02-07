@@ -17,8 +17,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LicVrsList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageoneUnmatchedList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ProductComboList;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UltraLakshaIllustrationContainer;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.BenefitsPopupEntity;
 
@@ -47,7 +46,7 @@ public class UltraLakshaFacade {
         return editor.commit();
     }
 
-    public boolean saveUltraLakshaIllustration(UltraLakshaIllustrationResponse response) {
+    public boolean saveUltraLakshaIllustration(UltraLakshaIllustrationResponseNew response) {
         Gson gson = new Gson();
         editor.remove(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE);
         editor.putString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, gson.toJson(response));
@@ -107,22 +106,14 @@ public class UltraLakshaFacade {
 
     //region ultra laksh illustration
 
-    private UltraLakshaIllustrationContainer getIllustration() {
-
-//        if (new Gson().fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, "")
-//                , UltraLakshaIllustrationContainer.class) != null) {
-//            return new Gson().fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, ""), UltraLakshaIllustrationContainer.class);
-//        }
+    private UltraLakshaIllustrationResponseNew getIllustration() {
 
         try {
             Gson gson = new Gson();
-
-            String test = sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, "");
-
-            UltraLakshaIllustrationResponse r̥esponse = gson.fromJson(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, UltraLakshaIllustrationResponse.class);
+            UltraLakshaIllustrationResponseNew r̥esponse = gson.fromJson(sharedPreferences.getString(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE, ""), UltraLakshaIllustrationResponseNew.class);
 
             if (r̥esponse != null) {
-                return r̥esponse.getMasterData();
+                return r̥esponse;
             }
         } catch (Exception ex) {
             return null;
@@ -130,77 +121,81 @@ public class UltraLakshaFacade {
         return null;
     }
 
-    public List<DeathBenefitEntity> getDeathBenefitList() {
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.PageoneUnmatchedBean> getPageoneUnmatchedList() {
 
         if (getIllustration() != null) {
-            if (getIllustration().getDeathBenefit() != null)
-                return getIllustration().getDeathBenefit();
+            if (getIllustration().getMasterData().getPageoneUnmatched() != null)
+                return getIllustration().getMasterData().getPageoneUnmatched();
             else
                 return null;
         }
         return null;
     }
 
-    public List<LakshyaBenefitIllustratorEntity> getBenefitList() {
+
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.DeathBenefitBean> getDeathBenefitList() {
 
         if (getIllustration() != null) {
-            if (getIllustration().getBenefits() != null)
-                return getIllustration().getBenefits();
+            if (getIllustration().getMasterData().getDeathBenefit() != null)
+                return getIllustration().getMasterData().getDeathBenefit();
             else
                 return null;
         }
         return null;
     }
 
-    public List<PageoneUnmatchedList> getPageoneUnmatchedList() {
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsBean> getBenefitList() {
 
         if (getIllustration() != null) {
-            if (getIllustration().getPageoneUnmatched() != null)
-                return getIllustration().getPageoneUnmatched();
+            if (getIllustration().getMasterData().getBenefits() != null)
+                return getIllustration().getMasterData().getBenefits();
             else
                 return null;
         }
         return null;
     }
 
-    public List<PageTwoStandAloneList> getPageTwoStandAloneList() {
+
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.PageTwoStandAloneBean> getPageTwoStandAloneList() {
 
         if (getIllustration() != null) {
-            if (getIllustration().getPageTwoStandAlone() != null)
-                return getIllustration().getPageTwoStandAlone();
+            if (getIllustration().getMasterData().getPageTwoStandAlone() != null)
+                return getIllustration().getMasterData().getPageTwoStandAlone();
             else
                 return null;
         }
         return null;
     }
 
-    public List<ProductComboList> getProductComboList() {
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.ProductComboBean> getProductComboList() {
 
         if (getIllustration() != null) {
-            if (getIllustration().getProductCombo() != null)
-                return getIllustration().getProductCombo();
+            if (getIllustration().getMasterData().getProductCombo() != null)
+                return getIllustration().getMasterData().getProductCombo();
             else
                 return null;
         }
         return null;
     }
 
-    public List<LicVrsList> getLicVrs() {
-
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.LicVrsBean> getLicVrs() {
+//
+//
         if (getIllustration() != null) {
-            if (getIllustration().getLicVrs() != null)
-                return getIllustration().getLicVrs();
+            if (getIllustration().getMasterData().getLicVrs() != null)
+                return getIllustration().getMasterData().getLicVrs();
             else
                 return null;
         }
+
         return null;
     }
 
-    public List<BenefitsPopupEntity> getBenefitPopupList() {
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsPopupBean> getBenefitPopupList() {
 
         if (getIllustration() != null) {
-            if (getIllustration().getBenefitsPopupList() != null)
-                return getIllustration().getBenefitsPopupList();
+            if (getIllustration().getMasterData().getBenefitsPopup() != null)
+                return getIllustration().getMasterData().getBenefitsPopup();
             else
                 return null;
         }

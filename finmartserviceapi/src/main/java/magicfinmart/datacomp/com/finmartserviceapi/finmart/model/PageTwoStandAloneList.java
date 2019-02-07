@@ -1,97 +1,87 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 public class PageTwoStandAloneList {
-            /**
-             * AnnualPremiumFirstYr : 71,750
-             * AnnualPremiumOtherYrs : 70,280
-             * OtherYrs : 2 to 17 Years
-             * MaturityYear : 20 Years
-             * LumpsumpDeath : 50,00,000
-             * AnnualTillEOT : 1,00,000
-             * Monthlyterm : 20 Years
-             * MonthlytermValue : 50,000
-             * MaturityDateValue : 19,70,000
-             */
 
-            private String AnnualPremiumFirstYr;
-            private String AnnualPremiumOtherYrs;
-            private String OtherYrs;
-            private String MaturityYear;
-            private String LumpsumpDeath;
-            private String AnnualTillEOT;
-            private String Monthlyterm;
-            private String MonthlytermValue;
-            private String MaturityDateValue;
 
-            public String getAnnualPremiumFirstYr() {
-                return AnnualPremiumFirstYr;
-            }
+    private String AnnualPremiumFirstYr;
+    private String AnnualPremiumOtherYrs;
+    private String OtherYrs;
+    private String MaturityYear;
+    private String LumpsumpDeath;
+    private String AnnualTillEOT;
+    private String Monthlyterm;
+    private String MonthlytermValue;
+    private String MaturityDateValue;
 
-            public void setAnnualPremiumFirstYr(String AnnualPremiumFirstYr) {
-                this.AnnualPremiumFirstYr = AnnualPremiumFirstYr;
-            }
+    public String getAnnualPremiumFirstYr() {
+        return AnnualPremiumFirstYr;
+    }
 
-            public String getAnnualPremiumOtherYrs() {
-                return AnnualPremiumOtherYrs;
-            }
+    public void setAnnualPremiumFirstYr(String AnnualPremiumFirstYr) {
+        this.AnnualPremiumFirstYr = AnnualPremiumFirstYr;
+    }
 
-            public void setAnnualPremiumOtherYrs(String AnnualPremiumOtherYrs) {
-                this.AnnualPremiumOtherYrs = AnnualPremiumOtherYrs;
-            }
+    public String getAnnualPremiumOtherYrs() {
+        return AnnualPremiumOtherYrs;
+    }
 
-            public String getOtherYrs() {
-                return OtherYrs;
-            }
+    public void setAnnualPremiumOtherYrs(String AnnualPremiumOtherYrs) {
+        this.AnnualPremiumOtherYrs = AnnualPremiumOtherYrs;
+    }
 
-            public void setOtherYrs(String OtherYrs) {
-                this.OtherYrs = OtherYrs;
-            }
+    public String getOtherYrs() {
+        return OtherYrs;
+    }
 
-            public String getMaturityYear() {
-                return MaturityYear;
-            }
+    public void setOtherYrs(String OtherYrs) {
+        this.OtherYrs = OtherYrs;
+    }
 
-            public void setMaturityYear(String MaturityYear) {
-                this.MaturityYear = MaturityYear;
-            }
+    public String getMaturityYear() {
+        return MaturityYear;
+    }
 
-            public String getLumpsumpDeath() {
-                return LumpsumpDeath;
-            }
+    public void setMaturityYear(String MaturityYear) {
+        this.MaturityYear = MaturityYear;
+    }
 
-            public void setLumpsumpDeath(String LumpsumpDeath) {
-                this.LumpsumpDeath = LumpsumpDeath;
-            }
+    public String getLumpsumpDeath() {
+        return LumpsumpDeath;
+    }
 
-            public String getAnnualTillEOT() {
-                return AnnualTillEOT;
-            }
+    public void setLumpsumpDeath(String LumpsumpDeath) {
+        this.LumpsumpDeath = LumpsumpDeath;
+    }
 
-            public void setAnnualTillEOT(String AnnualTillEOT) {
-                this.AnnualTillEOT = AnnualTillEOT;
-            }
+    public String getAnnualTillEOT() {
+        return AnnualTillEOT;
+    }
 
-            public String getMonthlyterm() {
-                return Monthlyterm;
-            }
+    public void setAnnualTillEOT(String AnnualTillEOT) {
+        this.AnnualTillEOT = AnnualTillEOT;
+    }
 
-            public void setMonthlyterm(String Monthlyterm) {
-                this.Monthlyterm = Monthlyterm;
-            }
+    public String getMonthlyterm() {
+        return Monthlyterm;
+    }
 
-            public String getMonthlytermValue() {
-                return MonthlytermValue;
-            }
+    public void setMonthlyterm(String Monthlyterm) {
+        this.Monthlyterm = Monthlyterm;
+    }
 
-            public void setMonthlytermValue(String MonthlytermValue) {
-                this.MonthlytermValue = MonthlytermValue;
-            }
+    public String getMonthlytermValue() {
+        return MonthlytermValue;
+    }
 
-            public String getMaturityDateValue() {
-                return MaturityDateValue;
-            }
+    public void setMonthlytermValue(String MonthlytermValue) {
+        this.MonthlytermValue = MonthlytermValue;
+    }
 
-            public void setMaturityDateValue(String MaturityDateValue) {
-                this.MaturityDateValue = MaturityDateValue;
-            }
-        }
+    public String getMaturityDateValue() {
+        return MaturityDateValue;
+    }
+
+    public void setMaturityDateValue(String MaturityDateValue) {
+        this.MaturityDateValue = MaturityDateValue;
+    }
+}

@@ -10,12 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
-
-import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageoneUnmatchedList;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +69,7 @@ public class UltraLakshayUnmatchedBenefit extends Fragment {
         if(ultraLakshaFacade.getPageoneUnmatchedList() != null)
         {
 
-            PageoneUnmatchedList objUnmatched = ultraLakshaFacade.getPageoneUnmatchedList().get(0);
+            UltraLakshaIllustrationResponseNew.MasterDataBean.PageoneUnmatchedBean objUnmatched = ultraLakshaFacade.getPageoneUnmatchedList().get(0);
 
             txtAnnualPrem1yearAmnt.setText(""+objUnmatched.getAnnualPremiumFirstYr());
             txtAnnualPrem2to7Amnt.setText(""+objUnmatched.getAnnualPremiumOtherYrs());
@@ -90,24 +87,7 @@ public class UltraLakshayUnmatchedBenefit extends Fragment {
             txtOnMaturityDateAmnt.setText(""+objUnmatched.getMaturityDateValue());
 
         }
-//        else{
-//
-//            txtAnnualPrem1yearAmnt.setText("Rs. 71750");
-//            txtAnnualPrem2to7Amnt.setText("Rs. 70280");
-//            txtAnnualPrem2to7Text.setText("2 to 17 years");
-//
-//            txtMaturityAfterYearText.setText("Maturity after 20 years");
-//            txtMaturityAfterYearAmnt.setText("Rs. 1970000");
-//
-//            txtLumpsumAmnt.setText("Rs. 5000000");
-//            txtAnnualEndOfTermAmnt.setText("Rs. 100000");
-//
-//            txtMonthlyforYearText.setText("Monthly for 20 years");
-//            txtMonthlyforYearAmnt.setText("Rs. 500000");
-//
-//            txtOnMaturityDateAmnt.setText("Rs. 1970000");
-//
-//        }
+
     }
 
 

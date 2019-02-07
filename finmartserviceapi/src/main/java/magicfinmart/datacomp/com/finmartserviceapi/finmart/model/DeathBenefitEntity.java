@@ -1,57 +1,51 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 public class DeathBenefitEntity {
-            /**
-             * Year : 30
-             * JeevanPremiumPaid : 56263
-             * JeevanBenefitsPayable : 3970000
-             * LakshyaPremiumPaid : 56263
-             * LakshyaBenefitsPayable : 3970000
-             */
+    private String Year;
+    private String JeevanPremiumPaid;
+    private String JeevanBenefitsPayable;
+    private String LakshyaPremiumPaid;
+    private String LakshyaBenefitsPayable;
 
-            private String Year;
-            private String JeevanPremiumPaid;
-            private String JeevanBenefitsPayable;
-            private String LakshyaPremiumPaid;
-            private String LakshyaBenefitsPayable;
+    public String getYear() {
+        return Year;
+    }
 
-            public String getYear() {
-                return Year;
-            }
+    public void setYear(String Year) {
+        this.Year = Year;
+    }
 
-            public void setYear(String Year) {
-                this.Year = Year;
-            }
+    public String getJeevanPremiumPaid() {
+        return JeevanPremiumPaid;
+    }
 
-            public String getJeevanPremiumPaid() {
-                return JeevanPremiumPaid;
-            }
+    public void setJeevanPremiumPaid(String JeevanPremiumPaid) {
+        this.JeevanPremiumPaid = JeevanPremiumPaid;
+    }
 
-            public void setJeevanPremiumPaid(String JeevanPremiumPaid) {
-                this.JeevanPremiumPaid = JeevanPremiumPaid;
-            }
+    public String getJeevanBenefitsPayable() {
+        return JeevanBenefitsPayable;
+    }
 
-            public String getJeevanBenefitsPayable() {
-                return JeevanBenefitsPayable;
-            }
+    public void setJeevanBenefitsPayable(String JeevanBenefitsPayable) {
+        this.JeevanBenefitsPayable = JeevanBenefitsPayable;
+    }
 
-            public void setJeevanBenefitsPayable(String JeevanBenefitsPayable) {
-                this.JeevanBenefitsPayable = JeevanBenefitsPayable;
-            }
+    public String getLakshyaPremiumPaid() {
+        return LakshyaPremiumPaid;
+    }
 
-            public String getLakshyaPremiumPaid() {
-                return LakshyaPremiumPaid;
-            }
+    public void setLakshyaPremiumPaid(String LakshyaPremiumPaid) {
+        this.LakshyaPremiumPaid = LakshyaPremiumPaid;
+    }
 
-            public void setLakshyaPremiumPaid(String LakshyaPremiumPaid) {
-                this.LakshyaPremiumPaid = LakshyaPremiumPaid;
-            }
+    public String getLakshyaBenefitsPayable() {
+        return LakshyaBenefitsPayable;
+    }
 
-            public String getLakshyaBenefitsPayable() {
-                return LakshyaBenefitsPayable;
-            }
+    public void setLakshyaBenefitsPayable(String LakshyaBenefitsPayable) {
+        this.LakshyaBenefitsPayable = LakshyaBenefitsPayable;
+    }
 
-            public void setLakshyaBenefitsPayable(String LakshyaBenefitsPayable) {
-                this.LakshyaBenefitsPayable = LakshyaBenefitsPayable;
-            }
-        }
+
+}

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayILLustration">
+    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -34,8 +34,8 @@
             <TextView
                 style="@style/TextViewStyle.VerySmall"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
                 android:background="@drawable/cell_blue_shape"
                 android:gravity="center"
                 android:paddingLeft="2dp"
@@ -83,8 +83,8 @@
             <TextView
                 style="@style/TextViewStyle.VerySmall"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="20"
+                android:layout_height="match_parent"
+                android:layout_weight="15"
                 android:background="@drawable/cell_blue_shape"
                 android:gravity="center"
                 android:text="Cash Flow from LIC"
