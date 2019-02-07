@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter;
 
+import android.graphics.Paint;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spanned;
@@ -65,8 +66,9 @@ public class UltraLakshyaDeathNomineeAdapter extends RecyclerView.Adapter<UltraL
     public void onBindViewHolder(DeathBenefitItem holder, int position) {
 
         final UltraLakshaIllustrationResponseNew.MasterDataBean.DeathBenefitBean deathBenefitEntity = DeathBenefitLst.get(position);
+        holder.txtYear.setPaintFlags(holder.txtYear.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         holder.txtYear.setText( "" +deathBenefitEntity.getYear());
-     //   holder.txtYear.setPaintFlags(holder.txtYear.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+
         holder.txtJeevanPremPaid.setText( "" +deathBenefitEntity.getJeevanPremiumPaid());
         holder.txtJeevanBenefit.setText( "" +deathBenefitEntity.getJeevanBenefitsPayable());
 

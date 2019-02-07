@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,9 +14,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +34,6 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
 import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -54,21 +49,17 @@ import java.util.Date;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IllustrationRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LICEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LICIllustrationRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -85,7 +76,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     HdfcIProtectAdapter adapter;
 
     // quote
-  //  TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
+    //  TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
     ImageView ivEdit;
     TermCompareResponseEntity termCompareResponseEntity;
     CardView cvQuoteDetails;
@@ -96,8 +87,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     LinearLayout llAddon;
     RecyclerView rvAddOn;
 
-    Button btnGetQuote,btnGetrecalculate;
-    EditText etFirstName,etLasttName, etMobile, et_DOB;
+    Button btnGetQuote, btnGetrecalculate;
+    EditText etFirstName, etLasttName, etMobile, et_DOB;
     TextView tvMale, tvFemale, tvYes, tvNo;
     boolean isMale, isSmoker;
     LinearLayout llGender, llSmoker;
@@ -272,6 +263,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     }
                 }
                 etFirstName.setText("" + firstName);
+                etLasttName.setText("" + lastName);
 
                 etMobile.setText("" + termFinmartRequest.getContactMobile());
                 et_DOB.setText("" + termFinmartRequest.getInsuredDOB());
@@ -401,7 +393,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
         btnGetrecalculate = (Button) view.findViewById(R.id.btnGetrecalculate);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
-        etLasttName  = (EditText) view.findViewById(R.id.etLasttName);
+        etLasttName = (EditText) view.findViewById(R.id.etLasttName);
 
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         et_DOB = (EditText) view.findViewById(R.id.et_DOB);
@@ -670,7 +662,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         }
 
 
-
         if (!isValidePhoneNumber(etMobile)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etMobile.requestFocus();
@@ -800,14 +791,19 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
                         entity.setLicGst1(reqentity.getLicGst1());
                         entity.setLicGst2(reqentity.getLicGst2());
-
+                        showDialog();
+                        new UltraLakshaFacade(getActivity()).removeUltraLakshya();
                         new TermInsuranceController(getActivity()).getIllustration(entity);
-                        ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
+
 
                     }
                     //processResponse((UltraLakshaRecalculateResponse) response);
 
                 }
+            }
+            else if(response instanceof UltraLakshaIllustrationResponseNew)
+            {
+                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
             }
         } catch (Exception ex) {
             ex.printStackTrace();

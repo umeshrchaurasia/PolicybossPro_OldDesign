@@ -2,22 +2,29 @@ package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class coverPage1Fragment extends Fragment {
 
+    TextView txtName;
 
     public coverPage1Fragment() {
         // Required empty public constructor
     }
+
+
 
 
     @Override
@@ -28,4 +35,15 @@ public class coverPage1Fragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        txtName = view.findViewById(R.id.txtName);
+
+        if(getArguments().getString(Utility.ULTRA_LAKSHYA_HDR_NAME) !=null)
+        {
+            txtName.setText("" + getArguments().getString(Utility.ULTRA_LAKSHYA_HDR_NAME));
+        }
+    }
 }

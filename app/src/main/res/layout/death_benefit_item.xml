@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lyParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/lyParent"
-   android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:background="@drawable/lightblue_border"
     android:orientation="vertical">
 
@@ -23,20 +23,22 @@
             <TextView
                 android:id="@+id/txtYear"
                 style="@style/TextViewStyle.Small"
-                android:layout_weight="10"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="10"
                 android:background="@drawable/cell_shape"
-              android:gravity="center"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="@color/colorPrimaryDark"
 
-                android:text="1"></TextView>
+                android:textStyle="bold"></TextView>
 
             <TextView
                 android:id="@+id/txtJeevanPremPaid"
                 style="@style/TextViewStyle.Small"
-                android:layout_weight="22"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="22"
                 android:background="@drawable/cell_shape"
                 android:gravity="center"
                 android:text="wdwdw">
@@ -47,9 +49,9 @@
             <TextView
                 android:id="@+id/txtJeevanBenefit"
                 style="@style/TextViewStyle.Small"
-                android:layout_weight="23"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="23"
                 android:background="@drawable/cell_shape"
                 android:gravity="center"
                 android:text="wdwdw">
@@ -59,9 +61,9 @@
             <TextView
                 android:id="@+id/txtLakhshyaPremPaid"
                 style="@style/TextViewStyle.Small"
-                android:layout_weight="22"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="22"
                 android:background="@drawable/cell_shape"
                 android:gravity="center"
                 android:text="wdwdw">
@@ -71,9 +73,9 @@
             <TextView
                 android:id="@+id/txtLakhshyaBenefit"
                 style="@style/TextViewStyle.Small"
-                android:layout_weight="23"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="23"
                 android:background="@drawable/cell_shape"
 
                 android:gravity="center"
@@ -81,7 +83,6 @@
 
             </TextView>
         </TableRow>
-
 
 
     </TableLayout>

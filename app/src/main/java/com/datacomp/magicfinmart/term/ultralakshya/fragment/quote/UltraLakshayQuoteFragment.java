@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
@@ -31,6 +32,7 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
 
     private ViewPager viewPager;
     CircleIndicator indicator;
+    String strUserName = "";
 
     public UltraLakshayQuoteFragment() {
         // Required empty public constructor
@@ -47,6 +49,14 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if( getArguments().getString(UltraLakshyaTermBottmActivity.INPUT_DATA,"") != null)
+        {
+            strUserName =   getArguments().getString(UltraLakshyaTermBottmActivity.INPUT_DATA,"");
+
+        }
+
+
         initialize(view);
     }
 
@@ -59,7 +69,7 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
     }
 
     private void setupViewPager() {
-        LakshayQuotePagerAdapter adapter = new LakshayQuotePagerAdapter(getActivity().getSupportFragmentManager());
+        LakshayQuotePagerAdapter adapter = new LakshayQuotePagerAdapter(getActivity().getSupportFragmentManager(),strUserName);
 
         adapter.addFrag(new coverPage1Fragment());
         adapter.addFrag(new coverPage2Fragment());

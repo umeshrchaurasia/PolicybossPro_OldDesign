@@ -101,7 +101,7 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
                     if (ivHdrQuote.getVisibility() != View.VISIBLE) {
                         tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                         if (termFinmartRequest != null) {
-                            quoteBundle.putParcelable(INPUT_DATA, null);
+                            quoteBundle.putString(INPUT_DATA, termFinmartRequest.getContactName());
                             //quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
                             UltraLakshayQuoteFragment quoteFragment = new UltraLakshayQuoteFragment();
                             quoteFragment.setArguments(quoteBundle);

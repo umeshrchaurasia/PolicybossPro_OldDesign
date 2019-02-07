@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -17,17 +18,20 @@ import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverP
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+
 /**
  * Created by Rajeev Ranjan on 31/01/2019.
  */
 
 public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
 
-
+   String strUserName;
     private final List<Fragment> mFragmentList = new ArrayList<>();
 
-    public LakshayQuotePagerAdapter(FragmentManager fm) {
+    public LakshayQuotePagerAdapter(FragmentManager fm ,String strName) {
         super(fm);
+        this.strUserName = strName;
     }
 
     @Override
@@ -36,6 +40,9 @@ public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
             case 0:
 
                 coverPage1Fragment objFrag = new coverPage1Fragment();
+                Bundle bundle = new Bundle();           // use bundle for paasing the data
+                bundle.putString(Utility.ULTRA_LAKSHYA_HDR_NAME,strUserName);
+                objFrag.setArguments(bundle);
                 return objFrag;
 
             case 1:

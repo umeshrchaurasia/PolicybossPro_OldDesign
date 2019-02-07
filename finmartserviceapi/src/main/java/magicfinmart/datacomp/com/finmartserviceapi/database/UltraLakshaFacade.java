@@ -37,6 +37,12 @@ public class UltraLakshaFacade {
         editor = sharedPreferences.edit();
     }
 
+    public boolean removeUltraLakshya()
+    {
+        editor.remove(ULTRA_LAKSHA_RESPONSE);
+        editor.remove(ULTRA_LAKSHA_ILLUSTRATION_RESPONSE);
+        return editor.commit();
+    }
     //region save response
 
     public boolean saveRecalculateUltraLaksha(UltraLakshaRecalculateResponse response) {
@@ -45,6 +51,8 @@ public class UltraLakshaFacade {
         editor.putString(ULTRA_LAKSHA_RESPONSE, gson.toJson(response));
         return editor.commit();
     }
+
+
 
     public boolean saveUltraLakshaIllustration(UltraLakshaIllustrationResponseNew response) {
         Gson gson = new Gson();
