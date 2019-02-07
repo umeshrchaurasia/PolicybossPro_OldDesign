@@ -114,7 +114,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     LinearLayout llCompareAll;
-    ScrollView mainScroll;
+
 
     //region icici form
     Spinner spICICIPremiumFrequency;
@@ -135,6 +135,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     int termRequestId = 0, insurerID, age = 0;
     String crn = "";
     ArrayAdapter<String> spinnerArraylakshya_policyterm;
+    ScrollView mainScroll;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -621,7 +622,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         //quote page
      //   cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
         cvQuoteDetails = (CardView) view.findViewById(R.id.cvQuoteDetails);
-
+        mainScroll= (ScrollView) view.findViewById(R.id.mainScroll);
 
 //        tvSum = (TextView) view.findViewById(R.id.tvSum);
 //        tvGender = (TextView) view.findViewById(R.id.tvGender);
@@ -857,7 +858,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         } else {
             if (sumAssured > 1000000)
                 sumAssured = sumAssured - 100000;
-            else if (sumAssured > 100000 && sumAssured <= 1000000)
+            else if (sumAssured > 500000 && sumAssured <= 1000000)
                 sumAssured = sumAssured - 100000;
 
 
@@ -1073,6 +1074,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     etCal_lic.setText("" + reqentity.getTotalPrem());
                     etCal_ultra.setText("" + reqentity.getPremPaidUL());
 
+                    mainScroll.scrollTo(0,mainScroll.getBottom());
                     if (is_illustration) {
 
                         LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
