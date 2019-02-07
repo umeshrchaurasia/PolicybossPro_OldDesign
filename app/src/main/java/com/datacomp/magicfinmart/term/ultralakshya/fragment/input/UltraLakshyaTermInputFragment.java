@@ -97,7 +97,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     RecyclerView rvAddOn;
 
     Button btnGetQuote,btnGetrecalculate;
-    EditText etFirstName, etMobile, et_DOB;
+    EditText etFirstName,etLasttName, etMobile, et_DOB;
     TextView tvMale, tvFemale, tvYes, tvNo;
     boolean isMale, isSmoker;
     LinearLayout llGender, llSmoker;
@@ -637,6 +637,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
         btnGetrecalculate= (Button) view.findViewById(R.id.btnGetrecalculate);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
+        etLasttName  = (EditText) view.findViewById(R.id.etLasttName);
 
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         et_DOB = (EditText) view.findViewById(R.id.et_DOB);
@@ -886,7 +887,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
        // Requestentity.setPolicyTerm(1);
 
-        Requestentity.setContactName(etFirstName.getText().toString());
+        Requestentity.setContactName(etFirstName.getText().toString() + " " + etLasttName.getText().toString());
         Requestentity.setContactEmail("finmarttest@gmail.com");
         Requestentity.setContactMobile(etMobile.getText().toString());
 
@@ -982,9 +983,25 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 etFirstName.setError("Enter First Name");
                 return false;
             }
+
         }
 
-      if (!isValidePhoneNumber(etMobile)) {
+        if (etLasttName.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etLasttName.requestFocus();
+                etLasttName.setError("Enter Last Name");
+                etLasttName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etLasttName.requestFocus();
+                etLasttName.setError("Enter Last Name");
+                return false;
+            }
+        }
+
+
+        if (!isValidePhoneNumber(etMobile)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etMobile.requestFocus();
                 etMobile.setError("Enter Mobile");

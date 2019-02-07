@@ -20,12 +20,13 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/txtHdr"
                 style="@style/TextViewStyle.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="@string/UltraLakshyaHdr" />
+                android:text="@string/UltraLakshyaHdr1" />
 
             <LinearLayout
                 android:layout_width="match_parent"

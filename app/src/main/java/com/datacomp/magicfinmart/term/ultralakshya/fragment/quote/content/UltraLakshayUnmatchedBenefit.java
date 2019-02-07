@@ -1,9 +1,15 @@
 package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +26,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaI
 public class UltraLakshayUnmatchedBenefit extends Fragment {
 
 
-     TextView txtAnnualPrem1yearAmnt ,txtAnnualPrem2to7Amnt, txtAnnualPrem2to7Text,
+     TextView  txtHdr,txtAnnualPrem1yearAmnt ,txtAnnualPrem2to7Amnt, txtAnnualPrem2to7Text,
      txtMaturityAfterYearText,txtMaturityAfterYearAmnt,
      txtLumpsumAmnt ,txtAnnualEndOfTermAmnt,
      txtMonthlyforYearText ,txtMonthlyforYearAmnt,
@@ -42,10 +48,40 @@ public class UltraLakshayUnmatchedBenefit extends Fragment {
         ultraLakshaFacade = new UltraLakshaFacade(getActivity());
 
         setUnmatchedUI();
+
+     //   Spannable wordtoSpan = new SpannableString(getResources().getString(R.string.UltraLakshyaHdr));
+
+//        wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), 15, 30, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        txtHdr.setText(wordtoSpan);
+
+        String text = getActivity().getResources().getString(R.string.UltraLakshyaHdr);
+        SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(getActivity().getResources().getColor(R.color.yellow)),
+                text.indexOf("Ultra Lakshya"),
+                text.indexOf("Ultra Lakshya") + String.valueOf("Ultra Lakshya").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(getActivity().getResources().getColor(R.color.yellow)),
+                text.indexOf("LIC's Jeevan Lakshya"),
+                text.indexOf("LIC's Jeevan Lakshya") + String.valueOf("LIC's Jeevan Lakshya").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        ssBuilder.setSpan(
+                new ForegroundColorSpan(getActivity().getResources().getColor(R.color.yellow)),
+                text.indexOf("HDFC Life's Click2Protect 3D"),
+                text.indexOf("HDFC Life's Click2Protect 3D") + String.valueOf("HDFC Life's Click2Protect 3D").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
     }
 
     private void initialize(View view)
     {
+        txtHdr = view.findViewById(R.id.txtHdr);
         txtAnnualPrem1yearAmnt = view.findViewById(R.id.txtAnnualPrem1yearAmnt);
         txtAnnualPrem2to7Amnt = view.findViewById(R.id.txtAnnualPrem2to7Amnt);
         txtAnnualPrem2to7Text = view.findViewById(R.id.txtAnnualPrem2to7Text);
