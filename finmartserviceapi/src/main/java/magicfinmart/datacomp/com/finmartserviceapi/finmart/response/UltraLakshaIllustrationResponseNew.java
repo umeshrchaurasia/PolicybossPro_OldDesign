@@ -2,11 +2,13 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.response;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+
 /**
  * Created by Rajeev Ranjan on 07/02/2019.
  */
 
-public class UltraLakshaIllustrationResponseNew  {
+public class UltraLakshaIllustrationResponseNew extends APIResponse {
 
 
 
@@ -21,9 +23,6 @@ public class UltraLakshaIllustrationResponseNew  {
      * StatusNo : 0
      */
 
-    private String Message;
-    private String Status;
-    private int StatusNo;
 
     public MasterDataBean getMasterData() {
         return MasterData;
@@ -33,29 +32,6 @@ public class UltraLakshaIllustrationResponseNew  {
         this.MasterData = MasterData;
     }
 
-    public String getMessage() {
-        return Message;
-    }
-
-    public void setMessage(String Message) {
-        this.Message = Message;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String Status) {
-        this.Status = Status;
-    }
-
-    public int getStatusNo() {
-        return StatusNo;
-    }
-
-    public void setStatusNo(int StatusNo) {
-        this.StatusNo = StatusNo;
-    }
 
     public static class MasterDataBean {
         private List<DeathBenefitBean> DeathBenefit;

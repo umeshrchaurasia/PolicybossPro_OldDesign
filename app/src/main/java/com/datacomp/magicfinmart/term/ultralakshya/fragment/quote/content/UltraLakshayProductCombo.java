@@ -127,8 +127,8 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
                HDFCEntity hdfcEntity = ultraLakshaFacade.getUltraLakshaHDFC();
                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                        .putExtra("URL", hdfcEntity.getProposerPageUrl())
-                       .putExtra("NAME", "" + "BUY HDFC")
-                       .putExtra("TITLE", "" + "BUY HDFC"));
+                       .putExtra("NAME", "" + "ULTRA LAKSHYA BUY HDFC")
+                       .putExtra("TITLE", "" + "ULTRA LAKSHYA BUY HDFC"));
            }
 
 

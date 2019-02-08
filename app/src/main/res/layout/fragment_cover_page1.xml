@@ -44,6 +44,6 @@
         android:layout_below="@+id/txtMessage"
 
         android:gravity="center"
-        android:text="Nilesh Verma"
+        android:text=""
         ></TextView>
 </RelativeLayout>

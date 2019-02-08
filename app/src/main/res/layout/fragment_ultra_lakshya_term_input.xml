@@ -51,16 +51,31 @@ android:orientation="vertical"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="NAME">
+                        android:hint="First Name">
 
                         <EditText
                             android:id="@+id/etFirstName"
                             style="@style/Style.edittext"
+                            android:maxLength="25"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:drawableRight="@drawable/vector_person" />
 
                     </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Last Name">
 
+                        <EditText
+                            android:id="@+id/etLasttName"
+                            style="@style/Style.edittext"
+                            android:maxLength="25"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                            android:drawableRight="@drawable/vector_person" />
+
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 
