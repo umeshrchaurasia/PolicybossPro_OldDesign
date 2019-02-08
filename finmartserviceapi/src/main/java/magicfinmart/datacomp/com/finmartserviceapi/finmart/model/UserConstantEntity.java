@@ -169,6 +169,16 @@ public class UserConstantEntity extends RealmObject {
     private String crnmobileno;
     private String insurancerepositorylink;
 
+    private String parentid; // added by Nilesh 08/02/2019
+
+
+    public String getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(String parentid) {
+        this.parentid = parentid;
+    }
 
     public String getEnablencd() {
         return enablencd;

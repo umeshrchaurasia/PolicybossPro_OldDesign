@@ -11,6 +11,10 @@ import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 
 
+import org.matomo.sdk.Matomo;
+import org.matomo.sdk.TrackerBuilder;
+import org.matomo.sdk.extra.TrackHelper;
+
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -23,7 +27,7 @@ public class MyApplication extends MultiDexApplication {
             .getSimpleName();
     private static MyApplication mInstance;
 
-   // private org.matomo.sdk.Tracker mMamatoTracker;
+    private org.matomo.sdk.Tracker mMamatoTracker;
 
     @Override
     public void onCreate() {
@@ -52,13 +56,13 @@ public class MyApplication extends MultiDexApplication {
 
     }
 
-//    public synchronized org.matomo.sdk.Tracker getTracker() {
-//        if (mMamatoTracker == null) {
-//            mMamatoTracker = TrackerBuilder.createDefault("http://domain.tld/matomo.php", 138).build(Matomo.getInstance(this));
-//        }
-//
-//        return mMamatoTracker;
-//    }
+    public synchronized org.matomo.sdk.Tracker getTracker() {
+        if (mMamatoTracker == null) {
+            mMamatoTracker = TrackerBuilder.createDefault("http://domain.tld/matomo.php", 138).build(Matomo.getInstance(this));
+        }
+
+        return mMamatoTracker;
+    }
 
 
     public static synchronized MyApplication getInstance() {
@@ -124,11 +128,11 @@ public class MyApplication extends MultiDexApplication {
         t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).setValue(FBA_ID).build());
 
 
-//        if (mMamatoTracker == null) {
-//            mMamatoTracker = getTracker();
-//        }
+        if (mMamatoTracker == null) {
+            mMamatoTracker = getTracker();
+        }
 
-        //TrackHelper.track().event(category, action);
+        TrackHelper.track().event(category, action);
 
 
     }
