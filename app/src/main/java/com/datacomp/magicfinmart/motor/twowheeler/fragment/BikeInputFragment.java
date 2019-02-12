@@ -1751,7 +1751,20 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
         motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
         motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
-        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+        //added ny Nilesh 08/02/2019
+        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+        if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                && !userConstantEntity.getParentid().equals("0")) {
+            motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
+            motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
+        }else{
+            motorRequestEntity.setSub_fbaid("0");
+            motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+        }
+
+
         try {
             motorRequestEntity.setMac_address(Utility.getMacAddress(getActivity()));
         } catch (IOException e) {
