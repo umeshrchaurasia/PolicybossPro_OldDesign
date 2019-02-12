@@ -1034,6 +1034,7 @@
             android:name=".term.ultralakshya.UltraLakshyaTermBottmActivity"
             android:label="Ultra Lakshya"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".offline_quotes.AddNewOfflineQuotesActivity"

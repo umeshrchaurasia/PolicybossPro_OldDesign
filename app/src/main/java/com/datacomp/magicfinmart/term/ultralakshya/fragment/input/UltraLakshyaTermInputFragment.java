@@ -131,6 +131,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ultra_lakshya_term_input, container, false);
+        ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().show();
+        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(true);
         init(view);
         setListener();
         setPopUpInfo();
@@ -793,7 +795,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                         entity.setLicGst2(reqentity.getLicGst2());
                         showDialog();
                         new UltraLakshaFacade(getActivity()).removeUltraLakshya();
-                        new TermInsuranceController(getActivity()).getIllustration(entity);
+                        new TermInsuranceController(getActivity()).getIllustration(entity ,this);
 
 
                     }

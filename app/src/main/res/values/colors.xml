@@ -55,6 +55,8 @@
     <color name="blue_descent">#4b76c2</color>
     <color name="uvv_green">#ff50b100</color>
     <color name="green_light">#7db142</color>
+    <color name="green_dark">#009900</color>
+
     <color name="uvv_black">#ff000000</color>
 
     <color name="red_button">#E62B21</color>
@@ -73,6 +75,7 @@
     <color name="dark_blue">#0c375f</color>
     <color name="selcted_blue">#234567</color>
     <color name="yellow">#f79f00</color>
+    <color name="yellowlight">#f69f1e</color>
     <!--region posp-->
     <!--<color name="application_primary_text_color">#212121</color>-->
     <!--<color name="icons">#FFFFFF</color>

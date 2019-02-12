@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayScenarioOfBenefitsDeath;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
@@ -87,6 +88,12 @@ public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
 
                 UltraLakshayProductCombo objFrag8 = new UltraLakshayProductCombo();
                 return objFrag8;
+
+            case 9:
+
+                return  new UltraLakshayScenarioOfBenefitsDeath();
+
+
 
 
         }

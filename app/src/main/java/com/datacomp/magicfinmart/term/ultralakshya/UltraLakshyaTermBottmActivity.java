@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -42,16 +44,25 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     UltralakshaRequestEntity termFinmartRequest;
     ImageView ivHdrInput, ivHdrQuote;
+    RelativeLayout RlbottonHeader;
+    View viewHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_ultra_lakshya_term);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        RlbottonHeader = (RelativeLayout) findViewById(R.id.bottomHeader);
+        viewHeader  = (View) findViewById(R.id.viewHeader);
+
         ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
         ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -132,13 +143,25 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-//        if (ivHdrQuote.getVisibility() == View.VISIBLE) {
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//        } else {
-//            UltraLakshyaTermBottmActivity.this.finish();
-//        }
+        if (RlbottonHeader.getVisibility() == View.GONE) {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            UltraLakshyaTermBottmActivity.this.finish();
+        }
 
-        UltraLakshyaTermBottmActivity.this.finish();
+      //  UltraLakshyaTermBottmActivity.this.finish();
+    }
+
+    public void manageHeader(boolean bln)
+    {
+        if(bln) {
+            RlbottonHeader.setVisibility(View.VISIBLE);
+            viewHeader.setVisibility(View.VISIBLE);
+        }else{
+            RlbottonHeader.setVisibility(View.GONE);
+            viewHeader.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

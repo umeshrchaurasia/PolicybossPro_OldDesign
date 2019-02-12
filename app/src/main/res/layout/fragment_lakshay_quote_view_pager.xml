@@ -1,27 +1,31 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/dashboard_bg"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.UltraLakshayQuoteFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <me.relex.circleindicator.CircleIndicator
-        android:id="@+id/indicator"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:ci_drawable="@drawable/circleindicator_round"
 
-
-        />
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dashboard_bg"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="15dp"
 
+        />
 
-</LinearLayout>
+    <!--app:ci_drawable="@drawable/circleindicator_round"-->
+    <!--for color in indicator-->
+</RelativeLayout>

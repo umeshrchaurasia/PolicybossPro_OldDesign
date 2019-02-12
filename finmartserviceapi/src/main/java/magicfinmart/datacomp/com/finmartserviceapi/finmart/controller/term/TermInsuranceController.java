@@ -286,7 +286,7 @@ public class TermInsuranceController implements ITermInsurance {
     }
 
     @Override
-    public void getIllustration(LICIllustrationRequestEntity entity) {
+    public void getIllustration(LICIllustrationRequestEntity entity ,final IResponseSubcriber iResponseSubcriber) {
 
         termNetworkService.getIllustration(entity).enqueue(new Callback<UltraLakshaIllustrationResponseNew>() {
             @Override
@@ -297,6 +297,7 @@ public class TermInsuranceController implements ITermInsurance {
                     if (response.body().getStatusNo() == 0) {
                         //save recalculate respose to facade.
                         new UltraLakshaFacade(mContext).saveUltraLakshaIllustration(response.body());
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     }
 
                 }

@@ -74,7 +74,7 @@ public class UltraLakshayLisJeevanVsLakshay extends BaseFragment {
             txtLicAnnualPremium.setText(""+objLicVsUltra.getLicAnnualPremium());
             txtUlAnnualPremium.setText(""+objLicVsUltra.getUlAnnualPremium());
 
-            txtUlAnnualPremiumPercentage.setText("");
+           // txtUlAnnualPremiumPercentage.setText("");
             txtLicMaturityAmt.setText(""+objLicVsUltra.getLicMaturityAmt());
 
             txtUlMaturityAmt.setText(""+objLicVsUltra.getUlMaturityAmt());
