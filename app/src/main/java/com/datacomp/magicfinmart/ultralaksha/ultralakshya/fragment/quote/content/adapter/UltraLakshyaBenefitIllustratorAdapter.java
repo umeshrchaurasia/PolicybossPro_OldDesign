@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;

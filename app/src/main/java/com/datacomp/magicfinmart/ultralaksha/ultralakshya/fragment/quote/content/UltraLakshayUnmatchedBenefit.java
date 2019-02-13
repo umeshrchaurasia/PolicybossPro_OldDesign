@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content;
 
 
 import android.graphics.Color;

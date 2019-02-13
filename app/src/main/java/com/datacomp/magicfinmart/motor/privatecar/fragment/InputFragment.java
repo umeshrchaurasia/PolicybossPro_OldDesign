@@ -2,6 +2,8 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -12,6 +14,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -46,6 +49,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
+import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -63,6 +67,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
@@ -74,6 +79,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtyp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
@@ -82,6 +88,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnResponse;
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
@@ -1420,12 +1427,34 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     } else {
                         setInputParametersNewCAR();
                     }
-                    if (constantEntity.getLogtracking().equals("0"))
+                    if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
 
                     MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "GET QUOTE MOTOR", "GET QUOTE MOTOR");
-                    showDialog(getResources().getString(R.string.fetching_msg));
-                    new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
+
+                    try {
+                        if (!swIndividual.isChecked() || displayFormat.parse(etExpDate.getText().toString()).before(Calendar.getInstance().getTime())) {
+                            //call break In
+
+                            SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+                            entity.setMotorRequestEntity(motorRequestEntity);
+                            entity.setSRN("");
+                            entity.setFba_id("" + dbController.getUserData().getFBAId());
+                            entity.setComment("");
+                            entity.setVehicleRequestID("");
+                            entity.setIsActive(1);
+                            showDialog("Please wait...");
+                            new MotorController(getActivity()).saveMotorBreakIn(entity, this);
+
+                        } else {
+                            showDialog(getResources().getString(R.string.fetching_msg));
+                            new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
 
                 break;
@@ -1456,7 +1485,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 && !userConstantEntity.getParentid().equals("0")) {
             motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
             motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
-        }else{
+        } else {
             motorRequestEntity.setSub_fbaid("0");
             motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
         }
@@ -1483,7 +1512,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private void insertFastlaneLog() {
         try {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Fastlane :  " + regNo), Constants.FASTLANE), null);
 
         } catch (Exception e) {
@@ -2074,7 +2103,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     }
                 }
 
-                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+
+                //commented by Nilesh
+                //Break in case applied
+
+                // DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.policyBreakInExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -2088,6 +2122,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 //                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
 //                                setSeekbarProgress(yearDiff);
 //                            }
+
+
                         }
                     }
                 });
@@ -2332,10 +2368,32 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new PolicybossTrackingResponse((BikeUniqueResponse) response).execute();
             ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity);
+        } else if (response instanceof SaveAddOnResponse) {
+            dialogBreakIn(((SaveAddOnResponse) response).getMessage());
         }
+
+    }
+
+    public void dialogBreakIn(String msg) {
+
+        AlertDialog.Builder build = new AlertDialog.Builder(getActivity());
+        build.setTitle("");
+        build.setMessage(msg);
+        build.setCancelable(false);
+
+        build.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        getActivity().finish();
+                    }
+                });
+        AlertDialog alertDialog = build.create();
+        alertDialog.show();
 
     }
 
@@ -2345,7 +2403,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (response instanceof FastLaneDataResponse) {
 
             cancelDialog();
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new PolicybossTrackingFastlnaeResponse((FastLaneDataResponse) response).execute();
             if (response.getStatusNo() == 0) {
                 if (!((FastLaneDataResponse) response).getMasterData().getVariant_Id().equals("0")) {
@@ -2508,8 +2566,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             if (!b) {
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "COMPANY", " motor quote");
                 //openPop up
-                swIndividual.setChecked(true);
-                openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
+                // swIndividual.setChecked(true);
+                // openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
                 //showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
             } else {
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "INDIVDUAL", " motor quote");
@@ -2685,6 +2743,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
 
+    //region tracking
+
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
         MotorRequestEntity motorRequestEntity;
         String requestJson = "";
@@ -2702,7 +2762,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         @Override
         protected void onPostExecute(String s) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_REQUEST), null);
 
 
@@ -2726,7 +2786,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         @Override
         protected void onPostExecute(String s) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_RESPONSE), null);
 
 
@@ -2750,10 +2810,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         @Override
         protected void onPostExecute(String s) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_FASTLANE_RESPONSE), null);
         }
     }
+
+    //endregion
 
     @Override
     public void onPause() {

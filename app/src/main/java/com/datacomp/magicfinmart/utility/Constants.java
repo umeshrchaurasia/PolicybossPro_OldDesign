@@ -62,6 +62,7 @@ public class Constants {
     //endregion
     public static String CAMPAIGN = "CAMPAIGN";
     public static String OFFLINE = "OFFLINE";
+    public static String ULTRA_LAKSHA = "ULTRA_LAKSHA";
 
     public static String PRIVATE_CAR = "MOTOR INSURANCE";
     public static String PRIVATE_CAR_REQUEST= "MOTOR  REQUEST";
@@ -75,6 +76,7 @@ public class Constants {
     public static String HEALTH_INS = "HEALTH INSURANCE";
     public static String HEALTH_INS_OFF = "HEALTH INSURANCE_OFFLINE";
     public static String LIFE_INS = "TERM INSURANCE";
+    public static String ULTRALAKSHA_INS = "ULTRA LAKSHA INSURANCE";
     public static String HOME_LOAN = "HOME LOAN";
     public static String PERSONA_LOAN = "PERSONAL LOAN";
     public static String LAP = "LAP";

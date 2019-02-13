@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration">
+    tools:context=".ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

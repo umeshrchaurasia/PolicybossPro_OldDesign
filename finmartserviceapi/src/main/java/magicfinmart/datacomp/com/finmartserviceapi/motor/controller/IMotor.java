@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.motor.controller;
 
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
@@ -18,5 +19,7 @@ public interface IMotor {
     void saveAddOn(SaveAddOnRequestEntity saveAddOnRequestEntity, IResponseSubcriber iResponseSubcriber);
 
     void getMotorQuoteOneTime(int product, IResponseSubcriber iResponseSubcriber);
+
+    void saveMotorBreakIn(SaveMotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
 }

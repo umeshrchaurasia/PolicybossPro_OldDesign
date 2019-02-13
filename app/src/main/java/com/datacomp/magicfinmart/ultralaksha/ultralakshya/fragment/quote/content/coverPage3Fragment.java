@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content;
 
 
 import android.os.Bundle;
@@ -12,10 +12,10 @@ import com.datacomp.magicfinmart.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class coverPage2Fragment extends Fragment {
+public class coverPage3Fragment extends Fragment {
 
 
-    public coverPage2Fragment() {
+    public coverPage3Fragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +24,7 @@ public class coverPage2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_cover_page2, container, false);
+        View view = inflater.inflate(R.layout.fragment_cover_page3, container, false);
         return view;
     }
 
