@@ -68,7 +68,7 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-public class UltraLakshyaTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, SeekBar.OnSeekBarChangeListener , IResponseSubcriber {
+public class UltraLakshyaTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, SeekBar.OnSeekBarChangeListener, IResponseSubcriber {
 
 
     private PopupWindow mPopupWindow, mPopupWindowSelection;
@@ -83,7 +83,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     CardView cvQuoteDetails;
 
 
-    TextView txtSumAssured,txt10lac ,txt25lac ,txt50lac ,txt1cr, txtOther, txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
+    TextView txtSumAssured, txt10lac, txt25lac, txt50lac, txt1cr, txtOther, txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
     LinearLayout llAddon;
     RecyclerView rvAddOn;
@@ -92,7 +92,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     EditText etFirstName, etLasttName, etMobile, et_DOB;
     TextView tvMale, tvFemale, tvYes, tvNo;
     boolean isMale, isSmoker;
-    LinearLayout llGender, llSmoker ,lyAnnualPremium ,lySeekbar;
+    LinearLayout llGender, llSmoker, lyAnnualPremium, lySeekbar;
     SeekBar sbSumAssured;
 
     List<String> policyYear;
@@ -116,7 +116,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     TextView etCal_lic, etCal_ultra;
 
     Button minusICICISum, plusICICISum;
-    boolean is_illustration = false;
 
 
     TextInputLayout tilPremiumPayment;
@@ -133,8 +132,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ultra_lakshya_term_input, container, false);
-        ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().show();
-        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(true);
+        ((UltraLakshyaTermBottmActivity) getActivity()).getSupportActionBar().show();
+        ((UltraLakshyaTermBottmActivity) getActivity()).manageHeader(true);
         init(view);
         setSeekbarSumAssured();
         setListener();
@@ -426,7 +425,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         tvNo = (TextView) view.findViewById(R.id.tvNo);
         llGender = (LinearLayout) view.findViewById(R.id.llGender);
         llSmoker = (LinearLayout) view.findViewById(R.id.llSmoker);
-        lyAnnualPremium  = (LinearLayout) view.findViewById(R.id.lyAnnualPremium);
+        lyAnnualPremium = (LinearLayout) view.findViewById(R.id.lyAnnualPremium);
         lySeekbar = (LinearLayout) view.findViewById(R.id.lySeekbar);
 
         etCal_lic = (TextView) view.findViewById(R.id.etCal_lic);
@@ -447,8 +446,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         //end region
     }
 
-    private void  setSeekbarSumAssured()
-    {
+    private void setSeekbarSumAssured() {
         sbSumAssured.setMax(190);
         sbSumAssured.setProgress(1);
         txtSumAssured.setText("10 Lac");
@@ -499,18 +497,17 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
             case R.id.btnGetQuote:
 
-                is_illustration = true;
-                if (isValidInput()) {
-                    setTermRequest();
-                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
-                    showDialog("Please Wait..");
-                    new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
-                }
+//                if (isValidInput()) {
+//                    setTermRequest();
+//                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+//                    showDialog("Please Wait..");
+//                    new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
+//                }
+
+                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
+
                 break;
             case R.id.btnGetrecalculate:
-
-                is_illustration = false;
-
 
                 if (isValidInput()) {
                     setTermRequest();
@@ -547,40 +544,39 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 break;
 
             case R.id.txt10lac:
-                SUM_ASSURED_AMNT= "1000000";
-                setBackgroundSeekBar(txt10lac,txt25lac ,txt50lac ,txt1cr, txtOther);
+                SUM_ASSURED_AMNT = "1000000";
+                setBackgroundSeekBar(txt10lac, txt25lac, txt50lac, txt1cr, txtOther);
                 lySeekbar.setVisibility(View.GONE);
                 break;
 
             case R.id.txt25lac:
-                SUM_ASSURED_AMNT= "2500000";
-                setBackgroundSeekBar(txt25lac ,txt10lac,txt50lac ,txt1cr, txtOther);
+                SUM_ASSURED_AMNT = "2500000";
+                setBackgroundSeekBar(txt25lac, txt10lac, txt50lac, txt1cr, txtOther);
                 lySeekbar.setVisibility(View.GONE);
                 break;
 
             case R.id.txt50lac:
-                SUM_ASSURED_AMNT= "5000000";
-                setBackgroundSeekBar(txt50lac ,txt10lac,txt25lac ,txt1cr, txtOther);
+                SUM_ASSURED_AMNT = "5000000";
+                setBackgroundSeekBar(txt50lac, txt10lac, txt25lac, txt1cr, txtOther);
                 lySeekbar.setVisibility(View.GONE);
                 break;
 
             case R.id.txt1cr:
-                SUM_ASSURED_AMNT= "10000000";
-                setBackgroundSeekBar(txt1cr,txt10lac,txt25lac ,txt50lac , txtOther);
+                SUM_ASSURED_AMNT = "10000000";
+                setBackgroundSeekBar(txt1cr, txt10lac, txt25lac, txt50lac, txtOther);
                 lySeekbar.setVisibility(View.GONE);
                 break;
 
             case R.id.txtOther:
-                SUM_ASSURED_AMNT= "";
-                setBackgroundSeekBar(txtOther ,txt10lac,txt25lac ,txt50lac ,txt1cr );
+                SUM_ASSURED_AMNT = "1000000";
+                setBackgroundSeekBar(txtOther, txt10lac, txt25lac, txt50lac, txt1cr);
                 lySeekbar.setVisibility(View.VISIBLE);
                 break;
 
         }
     }
 
-    private void setBackgroundSeekBar(TextView txtApply,TextView txt1, TextView txt2,TextView txt3,TextView txt4)
-    {
+    private void setBackgroundSeekBar(TextView txtApply, TextView txt1, TextView txt2, TextView txt3, TextView txt4) {
 
         txtApply.setBackgroundResource(R.drawable.customeborder_blue);
 
@@ -633,9 +629,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         else
             Requestentity.setIs_TabaccoUser("False");
 
-
-     //   Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
-
         Requestentity.setSumAssured(Integer.parseInt(SUM_ASSURED_AMNT));   //-05
         Requestentity.setInsuredDOB(et_DOB.getText().toString());
 
@@ -659,37 +652,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         ((UltraLakshyaTermBottmActivity) getActivity()).updateRequest(Requestentity);
 
-//        Requestentity.setPolicyCommencementDate(et_DOB.getText().toString());
-//        Requestentity.setCityName("Mumbai");
-//        Requestentity.setState("Maharashtra");
-        //termRequestEntity.setPlanTaken("Life");
-        // termRequestEntity.setFrequency("Annual");
-        //termRequestEntity.setDeathBenefitOption("Lump-Sum");
-        //termRequestEntity.setPPT("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
-        //termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
-
-        //termRequestEntity.setInsurerId(0);
-        // Requestentity.setSessionID("");
-
-        //termRequestEntity.setSupportsAgentID("1682");
-
-
-        //icici specific
-        //  Requestentity.setMaritalStatus("");
-        //termRequestEntity.setPremiumPaymentOption(""); //set in optionSelected
-        //   Requestentity.setServiceTaxNotApplicable("");// not known
-
-
-        // termRequestEntity.setServiceTaxNotApplicable("");// not known
-
-
-        //termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
-        //  Requestentity.setInsurerId(40);
-
-        //   termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
-
-        //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
-        //termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
 
@@ -832,53 +794,50 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     hDFCEntity = ((UltraLakshaRecalculateResponse) response).getMasterData().getHDFC().get(0);
 
                     Integer ultraLakshya = entityLIC.getNetPremium() + hDFCEntity.getNetPremium();
-
-
                     IllustrationRequestEntity reqentity = new IllustrationRequestEntity();
-
                     reqentity = ((UltraLakshaRecalculateResponse) response).getMasterData().getIllustrationrequest().get(0);
 
                     etCal_lic.setText("" + reqentity.getTotalPrem());
                     etCal_ultra.setText("" + reqentity.getPremPaidUL());
 
                     mainScroll.scrollTo(0, mainScroll.getBottom());
-                    if (is_illustration) {
 
-                        LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
-
-                        entity.setPlanTerm("" + reqentity.getPlanTerm());
-                        entity.setSumAssured(reqentity.getSumAssured());
-
-                        // entity.setPaymentMode("Y");
-                        //  entity.setDOB("15/Dec/1988");
-
-                        entity.setPaymentMode(reqentity.getPaymentMode());
-                        entity.setDOB(reqentity.getDOB());
-
-                        entity.setHdfcPrem(reqentity.getHdfcPrem());
-                        entity.setHdfcBasicPrem(reqentity.getHdfcBasicPrem());
-                        entity.setTotalPrem(reqentity.getTotalPrem());
-                        entity.setBasicPrem(reqentity.getBasicPrem());
-                        entity.setPremPaidUL(reqentity.getPremPaidUL());
-
-                        entity.setHdfcGst1(reqentity.getHdfcGst1());
-                        entity.setHdfcGst2(reqentity.getHdfcGst2());
-
-                        entity.setLicGst1(reqentity.getLicGst1());
-                        entity.setLicGst2(reqentity.getLicGst2());
-                        showDialog();
-                        new UltraLakshaFacade(getActivity()).removeUltraLakshya();
-                        new TermInsuranceController(getActivity()).getIllustration(entity ,this);
+                    lyAnnualPremium.setVisibility(View.VISIBLE);
+                    btnGetQuote.setVisibility(View.VISIBLE);
 
 
-                    }
+                    LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
+
+                    entity.setPlanTerm("" + reqentity.getPlanTerm());
+                    entity.setSumAssured(reqentity.getSumAssured());
+
+                    // entity.setPaymentMode("Y");
+                    //  entity.setDOB("15/Dec/1988");
+
+                    entity.setPaymentMode(reqentity.getPaymentMode());
+                    entity.setDOB(reqentity.getDOB());
+
+                    entity.setHdfcPrem(reqentity.getHdfcPrem());
+                    entity.setHdfcBasicPrem(reqentity.getHdfcBasicPrem());
+                    entity.setTotalPrem(reqentity.getTotalPrem());
+                    entity.setBasicPrem(reqentity.getBasicPrem());
+                    entity.setPremPaidUL(reqentity.getPremPaidUL());
+
+                    entity.setHdfcGst1(reqentity.getHdfcGst1());
+                    entity.setHdfcGst2(reqentity.getHdfcGst2());
+
+                    entity.setLicGst1(reqentity.getLicGst1());
+                    entity.setLicGst2(reqentity.getLicGst2());
+
+                    showDialog();
+                   // new UltraLakshaFacade(getActivity()).removeUltraLakshya();
+                    new TermInsuranceController(getActivity()).getIllustration(entity, this);
+
                     //processResponse((UltraLakshaRecalculateResponse) response);
 
                 }
-            }
-            else if(response instanceof UltraLakshaIllustrationResponseNew)
-            {
-                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
+            } else if (response instanceof UltraLakshaIllustrationResponseNew) {
+               // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
