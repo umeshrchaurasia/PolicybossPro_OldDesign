@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.input;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.input;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -36,7 +36,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
-import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermBottmActivity;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;

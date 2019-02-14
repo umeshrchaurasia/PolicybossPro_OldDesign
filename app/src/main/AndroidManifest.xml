@@ -1031,8 +1031,8 @@
                 android:value="com.datacomp.magicfinmart.ncd.NCDActivity" />
         </activity>
         <activity
-            android:name=".term.ultralakshya.UltraLakshyaTermBottmActivity"
-            android:label="Ultra Lakshya"
+            android:name=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity"
+            android:label="Ultra Lakshya combo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
@@ -1188,6 +1188,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+
+
+        <activity
+            android:name=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
+            android:label="FINMART EXCLUSIVE"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+
     </application>
 
 </manifest>

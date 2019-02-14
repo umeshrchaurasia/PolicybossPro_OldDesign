@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.adapter;
 
 import android.graphics.Paint;
 import android.support.v4.app.Fragment;
@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
 
 import java.util.List;
 

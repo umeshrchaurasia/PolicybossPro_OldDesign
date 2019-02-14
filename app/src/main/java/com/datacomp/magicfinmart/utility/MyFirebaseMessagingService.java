@@ -187,7 +187,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     //   .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
-    //      builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.finmart_logo));
+    //      builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.finmart_logo_splash));
 
 
     private void setNotifyCounter() {

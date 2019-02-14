@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ul_p2"
-    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage2Fragment">
+    tools:context=".ultralaksha.ultralakshya.fragment.quote.content.coverPage2Fragment">
 
     <!-- TODO: Update blank fragment layout -->
 </LinearLayout>

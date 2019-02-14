@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -20,8 +20,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.input.UltraLakshyaTermInputFragment;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.UltraLakshayQuoteFragment;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.input.UltraLakshyaTermInputFragment;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.UltraLakshayQuoteFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;

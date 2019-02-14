@@ -5,7 +5,7 @@
     android:background="@color/bg_dashboard"
     android:orientation="vertical"
 
-    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay">
+    tools:context=".ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay">
 
     <!-- TODO: Update blank fragment layout -->
 

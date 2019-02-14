@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content;
 
 
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaBenefitIllustratorAdapter;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.adapter.UltraLakshyaBenefitIllustratorAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

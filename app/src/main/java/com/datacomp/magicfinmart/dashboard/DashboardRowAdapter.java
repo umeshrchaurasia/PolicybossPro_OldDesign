@@ -27,6 +27,7 @@ import com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
+import com.datacomp.magicfinmart.ultralaksha.ultra_selection.UltraLakshaSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -238,17 +239,22 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
-            case 10:
-                //bike
-                //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
-                mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
-                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
+
+
+            case 2:
+                //fin peace
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
+                                + new DBPersistanceController(mContext).getUserData().getFBAId())
+                        .putExtra("NAME", "FIN-PEACE")
+                        .putExtra("TITLE", "FIN-PEACE"));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+                MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
             case 3:
                 //health
 
-               // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+                // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
 
 
                 if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
@@ -322,25 +328,16 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                 MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
-            case 13:
 
-                Utility.loadWebViewUrlInBrowser(mContext,
-                        "http://www.rupeeboss.com/equifax-finmart?fbaid="
-                                + String.valueOf(mReal.getUserData().getFBAId()));
-
+            case 10:
+                //bike
+                //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
+                mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
+                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;
 
 
-            case 2:
-                //fin peace
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
-                                + new DBPersistanceController(mContext).getUserData().getFBAId())
-                        .putExtra("NAME", "FIN-PEACE")
-                        .putExtra("TITLE", "FIN-PEACE"));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
-                MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
-                break;
             case 11:
                 //health check up
                 mContext.startActivity(new Intent(mContext, HealthCheckUpListActivity.class));
@@ -354,6 +351,13 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
                 break;
+
+            case 13:
+                Utility.loadWebViewUrlInBrowser(mContext,
+                        "http://www.rupeeboss.com/equifax-finmart?fbaid="
+                                + String.valueOf(mReal.getUserData().getFBAId()));
+                break;
+
 
             case 14:
                 Utility.loadWebViewUrlInBrowser(mContext,
@@ -371,12 +375,21 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
 
                 break;
-            case  16:
+            case 16:
                 mContext.startActivity(new Intent(mContext, AddNewOfflineQuotesActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
                 MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
                 break;
+
+            case 17: // added by Nilesh 13.02.2019 -- Ultra laksh
+                mContext.startActivity(new Intent(mContext, UltraLakshaSelectionActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Ultra laksha"), Constants.CAMPAIGN), null);
+                MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHA");
+                break;
+
+
         }
+
         if (productID >= 20) {
             mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                     .putExtra("URL", "" + dashboardEntity.getLink())

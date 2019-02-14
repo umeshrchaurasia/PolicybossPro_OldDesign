@@ -1,5 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikePremiumRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
@@ -9,7 +11,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
 import magicfinmart.datacomp.com.finmartserviceapi.motor.retrobuilder.NodeRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 public class MotorQuotesRequestBuilder extends NodeRetroRequestBuilder {
 
@@ -29,5 +33,10 @@ public class MotorQuotesRequestBuilder extends NodeRetroRequestBuilder {
 
         @POST("/quote/save_user_data")
         Call<SaveAddOnResponse> saveAddOn(@Body SaveAddOnRequestEntity body);
+
+
+        @Headers("token:" + FinmartRetroRequestBuilder.token)
+        @POST
+        Call<SaveAddOnResponse> saveBreakIn(@Url String url, @Body SaveMotorRequestEntity body);
     }
 }
