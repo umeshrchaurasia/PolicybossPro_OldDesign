@@ -394,47 +394,6 @@
                     android:textColor="@color/blue"
                     android:textSize="12dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="4dp"
-                    android:visibility="gone"
-                    android:weightSum="100">
-
-
-                    <Button
-                        android:id="@+id/minusICICISum"
-                        android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_weight="10"
-                        android:background="@drawable/life_arrow_prev_"
-                        android:gravity="center" />
-
-                    <EditText
-                        android:id="@+id/etICICISumAssured"
-                        style="@style/Style.edittext"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_weight="40"
-                        android:background="@drawable/blue_border"
-                        android:gravity="center_horizontal"
-                        android:inputType="number"
-                        android:maxLength="10"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/plusICICISum"
-                        android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="10"
-                        android:background="@drawable/life_arrow_next_"
-                        android:gravity="center" />
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -515,58 +474,32 @@
                     android:id="@+id/lySeekbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_weight="100"
+                    android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <RelativeLayout
+                    <EditText
+                        android:layout_marginLeft="22dp"
+                        android:layout_marginRight="22dp"
+                        android:padding="8dp"
+                        android:id="@+id/etSumICICIAssured"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        android:paddingTop="5dp">
+                        android:inputType="number"
+                        android:maxLength="9" />
 
-                        <TextView
-                            android:id="@+id/txtDispalayMinTenureYear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:text="10Lac"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-                        <TextView
-                            android:id="@+id/txtDispalayMaxTenureYear"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="200 Lac"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-                        <TextView
-                            android:id="@+id/txtSumAssured"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:background="@drawable/blue_background"
-                            android:text="10 Lac"
-                            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-                            android:textColor="@color/white" />
-                    </RelativeLayout>
-
-
-                    <SeekBar
-                        android:id="@+id/sbSumAssured"
+                    <TextView
+                        android:id="@+id/txtDispalaylac"
+                        style="@style/TextViewStyle.Small"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:max="4"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:text="Sum ASSURED should be Multiply of Lacs" />
 
-                        android:maxHeight="8dp"
-                        android:minHeight="8dp"
-                        android:progress="1"
-                        android:progressDrawable="@drawable/seekbar_style"
-                        android:splitTrack="false"
-                        android:thumb="@drawable/custom_thumb" />
+
                 </LinearLayout>
 
                 <LinearLayout
