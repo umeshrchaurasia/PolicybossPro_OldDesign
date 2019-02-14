@@ -383,15 +383,14 @@ public class DateTimePicker {
 
         DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-        //always shows 1 day ahead in calender
-        // added 1 day in calender
-        //calendar.add(Calendar.DATE,1);
         calendar.add(Calendar.YEAR, -18);
-    //    calendar.add(Calendar.DATE, -1);
-
-
         // disable all before date,
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+
+        calendar.add(Calendar.YEAR, -32);
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
 
         if (cal != null) {
             //set existing date to calender
