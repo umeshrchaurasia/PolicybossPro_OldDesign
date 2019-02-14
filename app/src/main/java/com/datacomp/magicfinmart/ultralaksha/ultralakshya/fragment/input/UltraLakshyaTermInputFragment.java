@@ -93,7 +93,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     EditText etFirstName, etLasttName, etMobile, et_DOB;
     TextView tvMale, tvFemale, tvYes, tvNo;
     boolean isMale, isSmoker;
-    LinearLayout llGender, llSmoker ,lyAnnualPremium ,lySeekbar;
+    LinearLayout llGender, llSmoker, lyAnnualPremium, lySeekbar;
     SeekBar sbSumAssured;
 
     List<String> policyYear;
@@ -117,7 +117,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     TextView etCal_lic, etCal_ultra;
 
     Button minusICICISum, plusICICISum;
-    boolean is_illustration = false;
 
 
     TextInputLayout tilPremiumPayment;
@@ -134,8 +133,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ultra_lakshya_term_input, container, false);
-        ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().show();
-        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(true);
+        ((UltraLakshyaTermBottmActivity) getActivity()).getSupportActionBar().show();
+        ((UltraLakshyaTermBottmActivity) getActivity()).manageHeader(true);
         init(view);
         setSeekbarSumAssured();
         setListener();
@@ -503,18 +502,17 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
             case R.id.btnGetQuote:
 
-                is_illustration = true;
-                if (isValidInput()) {
-                    setTermRequest();
-                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
-                    showDialog("Please Wait..");
-                    new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
-                }
+//                if (isValidInput()) {
+//                    setTermRequest();
+//                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+//                    showDialog("Please Wait..");
+//                    new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
+//                }
+
+                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
+
                 break;
             case R.id.btnGetrecalculate:
-
-                is_illustration = false;
-
 
                 if (isValidInput()) {
 
@@ -670,37 +668,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         ((UltraLakshyaTermBottmActivity) getActivity()).updateRequest(Requestentity);
 
-//        Requestentity.setPolicyCommencementDate(et_DOB.getText().toString());
-//        Requestentity.setCityName("Mumbai");
-//        Requestentity.setState("Maharashtra");
-        //termRequestEntity.setPlanTaken("Life");
-        // termRequestEntity.setFrequency("Annual");
-        //termRequestEntity.setDeathBenefitOption("Lump-Sum");
-        //termRequestEntity.setPPT("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
-        //termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
-
-        //termRequestEntity.setInsurerId(0);
-        // Requestentity.setSessionID("");
-
-        //termRequestEntity.setSupportsAgentID("1682");
-
-
-        //icici specific
-        //  Requestentity.setMaritalStatus("");
-        //termRequestEntity.setPremiumPaymentOption(""); //set in optionSelected
-        //   Requestentity.setServiceTaxNotApplicable("");// not known
-
-
-        // termRequestEntity.setServiceTaxNotApplicable("");// not known
-
-
-        //termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
-        //  Requestentity.setInsurerId(40);
-
-        //   termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
-
-        //  Requestentity.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
-        //termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
 
@@ -849,53 +816,50 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     hDFCEntity = ((UltraLakshaRecalculateResponse) response).getMasterData().getHDFC().get(0);
 
                     Integer ultraLakshya = entityLIC.getNetPremium() + hDFCEntity.getNetPremium();
-
-
                     IllustrationRequestEntity reqentity = new IllustrationRequestEntity();
-
                     reqentity = ((UltraLakshaRecalculateResponse) response).getMasterData().getIllustrationrequest().get(0);
 
                     etCal_lic.setText("" + reqentity.getTotalPrem());
                     etCal_ultra.setText("" + reqentity.getPremPaidUL());
 
                     mainScroll.scrollTo(0, mainScroll.getBottom());
-                    if (is_illustration) {
 
-                        LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
-
-                        entity.setPlanTerm("" + reqentity.getPlanTerm());
-                        entity.setSumAssured(reqentity.getSumAssured());
-
-                        // entity.setPaymentMode("Y");
-                        //  entity.setDOB("15/Dec/1988");
-
-                        entity.setPaymentMode(reqentity.getPaymentMode());
-                        entity.setDOB(reqentity.getDOB());
-
-                        entity.setHdfcPrem(reqentity.getHdfcPrem());
-                        entity.setHdfcBasicPrem(reqentity.getHdfcBasicPrem());
-                        entity.setTotalPrem(reqentity.getTotalPrem());
-                        entity.setBasicPrem(reqentity.getBasicPrem());
-                        entity.setPremPaidUL(reqentity.getPremPaidUL());
-
-                        entity.setHdfcGst1(reqentity.getHdfcGst1());
-                        entity.setHdfcGst2(reqentity.getHdfcGst2());
-
-                        entity.setLicGst1(reqentity.getLicGst1());
-                        entity.setLicGst2(reqentity.getLicGst2());
-                        showDialog();
-                        new UltraLakshaFacade(getActivity()).removeUltraLakshya();
-                        new TermInsuranceController(getActivity()).getIllustration(entity ,this);
+                    lyAnnualPremium.setVisibility(View.VISIBLE);
+                    btnGetQuote.setVisibility(View.VISIBLE);
 
 
-                    }
+                    LICIllustrationRequestEntity entity = new LICIllustrationRequestEntity();
+
+                    entity.setPlanTerm("" + reqentity.getPlanTerm());
+                    entity.setSumAssured(reqentity.getSumAssured());
+
+                    // entity.setPaymentMode("Y");
+                    //  entity.setDOB("15/Dec/1988");
+
+                    entity.setPaymentMode(reqentity.getPaymentMode());
+                    entity.setDOB(reqentity.getDOB());
+
+                    entity.setHdfcPrem(reqentity.getHdfcPrem());
+                    entity.setHdfcBasicPrem(reqentity.getHdfcBasicPrem());
+                    entity.setTotalPrem(reqentity.getTotalPrem());
+                    entity.setBasicPrem(reqentity.getBasicPrem());
+                    entity.setPremPaidUL(reqentity.getPremPaidUL());
+
+                    entity.setHdfcGst1(reqentity.getHdfcGst1());
+                    entity.setHdfcGst2(reqentity.getHdfcGst2());
+
+                    entity.setLicGst1(reqentity.getLicGst1());
+                    entity.setLicGst2(reqentity.getLicGst2());
+
+                    showDialog();
+                   // new UltraLakshaFacade(getActivity()).removeUltraLakshya();
+                    new TermInsuranceController(getActivity()).getIllustration(entity, this);
+
                     //processResponse((UltraLakshaRecalculateResponse) response);
 
                 }
-            }
-            else if(response instanceof UltraLakshaIllustrationResponseNew)
-            {
-                ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
+            } else if (response instanceof UltraLakshaIllustrationResponseNew) {
+               // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
             }
         } catch (Exception ex) {
             ex.printStackTrace();

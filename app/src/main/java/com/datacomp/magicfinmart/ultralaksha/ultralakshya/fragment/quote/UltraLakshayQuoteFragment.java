@@ -8,17 +8,15 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayScenarioOfBenefitsDeath;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayScenarioOfBenefitsDeath;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration;
-import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayProductCombo;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.coverPage1Fragment;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.coverPage2Fragment;
