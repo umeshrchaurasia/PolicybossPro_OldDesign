@@ -20,6 +20,7 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.format.DateUtils;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -1433,16 +1434,36 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "GET QUOTE MOTOR", "GET QUOTE MOTOR");
 
                     try {
-                        if (!swIndividual.isChecked() || displayFormat.parse(etExpDate.getText().toString()).before(Calendar.getInstance().getTime())) {
+
+                        boolean isTomorrow = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
+                                - DateUtils.DAY_IN_MILLIS);
+
+                        boolean isToday = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime());
+
+
+                        boolean isYesterday =
+                                DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
+                                        + DateUtils.DAY_IN_MILLIS);
+
+                        if (!swIndividual.isChecked()
+                                || isYesterday
+                                || displayFormat.parse(etExpDate.getText().toString()).before(Calendar.getInstance().getTime())) {
                             //call break In
 
                             SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
                             entity.setMotorRequestEntity(motorRequestEntity);
                             entity.setSRN("");
-                            entity.setFba_id("" + dbController.getUserData().getFBAId());
                             entity.setComment("");
                             entity.setVehicleRequestID("");
                             entity.setIsActive(1);
+
+                            if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                                    && !userConstantEntity.getParentid().equals("0")) {
+                                entity.setFba_id("" + Integer.parseInt(userConstantEntity.getParentid()));
+                            } else {
+                                entity.setFba_id("" + userConstantEntity.getFBAId());
+                            }
+
                             showDialog("Please wait...");
                             new MotorController(getActivity()).saveMotorBreakIn(entity, this);
 
