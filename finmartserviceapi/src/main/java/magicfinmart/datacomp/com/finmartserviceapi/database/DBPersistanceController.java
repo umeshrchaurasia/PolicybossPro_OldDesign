@@ -652,7 +652,8 @@ public class DBPersistanceController {
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
-        if (new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
+        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+                new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
                 && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
             dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15, "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)", R.drawable.investment_icon));
         }
