@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,7 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -18,10 +20,11 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.input.UltraLakshyaTermInputFragment;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.UltraLakshayQuoteFragment;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.input.UltraLakshyaTermInputFragment;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.UltraLakshayQuoteFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 
 public class UltraLakshyaTermBottmActivity extends BaseActivity {
 
@@ -39,18 +42,27 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
     Bundle quoteBundle;
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
-    TermFinmartRequest termFinmartRequest;
+    UltralakshaRequestEntity termFinmartRequest;
     ImageView ivHdrInput, ivHdrQuote;
+    RelativeLayout RlbottonHeader;
+    View viewHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_ultra_lakshya_term);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        RlbottonHeader = (RelativeLayout) findViewById(R.id.bottomHeader);
+        viewHeader  = (View) findViewById(R.id.viewHeader);
+
         ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
         ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -67,8 +79,8 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
             termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
             quoteBundle.putParcelable(INPUT_DATA, null);
-            quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
-          //  bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            //  quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
+            //  bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
         } else {
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         }
@@ -100,8 +112,8 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
                     if (ivHdrQuote.getVisibility() != View.VISIBLE) {
                         tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                         if (termFinmartRequest != null) {
-                            quoteBundle.putParcelable(INPUT_DATA, null);
-                            quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
+                            quoteBundle.putString(INPUT_DATA, termFinmartRequest.getContactName());
+                            //quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
                             UltraLakshayQuoteFragment quoteFragment = new UltraLakshayQuoteFragment();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, INPUT_FRAGMENT);
@@ -131,13 +143,25 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-//        if (ivHdrQuote.getVisibility() == View.VISIBLE) {
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//        } else {
-//            UltraLakshyaTermBottmActivity.this.finish();
-//        }
+        if (RlbottonHeader.getVisibility() == View.GONE) {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            UltraLakshyaTermBottmActivity.this.finish();
+        }
 
-        UltraLakshyaTermBottmActivity.this.finish();
+      //  UltraLakshyaTermBottmActivity.this.finish();
+    }
+
+    public void manageHeader(boolean bln)
+    {
+        if(bln) {
+            RlbottonHeader.setVisibility(View.VISIBLE);
+            viewHeader.setVisibility(View.VISIBLE);
+        }else{
+            RlbottonHeader.setVisibility(View.GONE);
+            viewHeader.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -146,8 +170,8 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
     }
 
 
-    public void redirectToQuote(TermFinmartRequest termFinmartRequest) {
-        this.termFinmartRequest = termFinmartRequest;
+    public void redirectToQuote() {
+        // this.termFinmartRequest = termFinmartRequest;
         quoteBundle = new Bundle();
         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
         bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
@@ -155,7 +179,7 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         highlighQuote();
     }
 
-    public void redirectToInput(TermFinmartRequest termFinmartRequest) {
+    public void redirectToInput(UltralakshaRequestEntity termFinmartRequest) {
         this.termFinmartRequest = termFinmartRequest;
         quoteBundle = new Bundle();
         quoteBundle.putParcelable(QUOTE_DATA, null);
@@ -163,7 +187,7 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
     }
 
-    public void updateRequest(TermFinmartRequest termFinmartRequest) {
+    public void updateRequest(UltralakshaRequestEntity termFinmartRequest) {
         this.termFinmartRequest = termFinmartRequest;
     }
 
@@ -207,8 +231,6 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         ivHdrQuote.setVisibility(View.GONE);
         ivHdrInput.setVisibility(View.GONE);
     }
-
-
 
 
 }

@@ -548,12 +548,22 @@ public class DBPersistanceController {
         // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANCE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANCE", 39, ""));
-        term.add(new TermSelectionEntity("ULTRA LAKSHYA INSURANCE", 40, ""));
+        term.add(new TermSelectionEntity("ULTRA LAKSHYA COMBO", 40, ""));
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
         return term;
     }
+
+    public List<TermSelectionEntity> getUltraLakshaList() {
+
+        List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
+        term.add(new TermSelectionEntity("ULTRA LAKSHA COMBO", 0, ""));
+        return term;
+    }
+
+
     //endregion
+
 
     //region Dashboard list
 
@@ -565,7 +575,32 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 17, "FINMART EXCLUSIVE", "Contain required", R.drawable.finmart_logo));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
+
+
+        if (prefManager.getMenuDashBoard() != null) {
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardEntity dashboardEntity = new DashboardEntity("INSURANCE", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
+
+        return dashboardEntities;
+    }
+
+    public List<DashboardEntity> getUltraLaksh() {
+        List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
+
+
+        dashboardEntities.add(new DashboardEntity("ULTRALAKSHA", 40, "FINMART EXCLUSIVE", "Contain required", R.drawable.finmart_logo));
 
 
         if (prefManager.getMenuDashBoard() != null) {
@@ -617,7 +652,8 @@ public class DBPersistanceController {
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
-        if (new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
+        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+                new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
                 && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
             dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15, "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)", R.drawable.investment_icon));
         }

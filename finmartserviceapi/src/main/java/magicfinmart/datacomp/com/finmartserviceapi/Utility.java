@@ -86,6 +86,7 @@ public class Utility {
     public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
 
     public static String USER_DASHBOARD = "user_dashboard";
+    public static String ULTRA_LAKSHYA_HDR_NAME = "ultra_lakshya_hdr_name";
 
     public static int OFFLINE_REQUEST_CODE = 10;
 

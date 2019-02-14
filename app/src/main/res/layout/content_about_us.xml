@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="200dp"
             android:layout_height="100dp"
-            android:src="@drawable/finmart_logo" />
+            android:src="@drawable/finmart_logo_splash" />
 
         <TextView
             android:id="@+id/tvAppVersion"

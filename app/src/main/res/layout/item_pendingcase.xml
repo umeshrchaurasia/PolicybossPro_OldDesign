@@ -98,7 +98,7 @@
                     android:gravity="center"
                     android:padding="8dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/finmart_logo" />
+                    android:src="@drawable/finmart_logo_splash" />
             </LinearLayout>
 
             <LinearLayout

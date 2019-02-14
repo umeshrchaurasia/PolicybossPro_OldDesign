@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/bg_dashboard"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee">
+    tools:context=".ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:text="@string/UltraLakshyaDeath"
         android:textColor="@color/black"
@@ -69,7 +70,7 @@
                     <TextView
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="49"
                         android:background="@drawable/cell_blue_shape"
                         android:gravity="center"
@@ -82,7 +83,7 @@
 
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="51"
                         android:background="@drawable/cell_blue_shape"
                         android:gravity="center"
@@ -121,7 +122,7 @@
                     <TextView
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="49"
                         android:background="@drawable/cell_blue_shape"
                         android:gravity="center"
@@ -133,7 +134,7 @@
                     <TextView
                         style="@style/TextViewStyle.VerySmall"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="51"
                         android:background="@drawable/cell_blue_shape"
                         android:gravity="center"

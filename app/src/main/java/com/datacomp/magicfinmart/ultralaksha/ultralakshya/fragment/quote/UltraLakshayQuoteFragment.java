@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote;
 
 
 import android.os.Bundle;
@@ -8,18 +8,21 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayProductCombo;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage1Fragment;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage2Fragment;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage3Fragment;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayScenarioOfBenefitsDeath;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayProductCombo;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.coverPage1Fragment;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.coverPage2Fragment;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.coverPage3Fragment;
 
 import me.relex.circleindicator.CircleIndicator;
 
@@ -31,6 +34,7 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
 
     private ViewPager viewPager;
     CircleIndicator indicator;
+    String strUserName = "";
 
     public UltraLakshayQuoteFragment() {
         // Required empty public constructor
@@ -47,6 +51,18 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+      ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().hide();
+        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(false);
+
+
+        if( getArguments().getString(UltraLakshyaTermBottmActivity.INPUT_DATA,"") != null)
+        {
+            strUserName =   getArguments().getString(UltraLakshyaTermBottmActivity.INPUT_DATA,"");
+
+        }
+
+
         initialize(view);
     }
 
@@ -59,7 +75,9 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
     }
 
     private void setupViewPager() {
-        LakshayQuotePagerAdapter adapter = new LakshayQuotePagerAdapter(getActivity().getSupportFragmentManager());
+        LakshayQuotePagerAdapter adapter = new LakshayQuotePagerAdapter(getActivity().getSupportFragmentManager(),strUserName);
+
+
 
         adapter.addFrag(new coverPage1Fragment());
         adapter.addFrag(new coverPage2Fragment());
@@ -69,7 +87,7 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
         adapter.addFrag(new UltraLakshayBenefitStandAlone());
 
         adapter.addFrag(new UltraLakshayBenefitILLustration());
-        adapter.addFrag(new UltraLakshayLisJeevanVsLakshay());
+        adapter.addFrag(new UltraLakshayScenarioOfBenefitsDeath());
 
         adapter.addFrag(new UltraLakshayDeathBenefitToNominee());
         adapter.addFrag(new UltraLakshayProductCombo());

@@ -36,7 +36,7 @@
         android:id="@+id/ivUnderCons"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:src="@drawable/finmart_logo" />
+        android:src="@drawable/finmart_logo_splash" />
 
     <TextView
         style="@style/TextStyle.Title"

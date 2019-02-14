@@ -14,12 +14,15 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
@@ -95,7 +98,7 @@ public class MotorController implements IMotor {
                                 iResponseSubcriber.OnFailure(new RuntimeException(response.body().getDetails()[0]));
                             else
                                 iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
-                        }else{
+                        } else {
                             iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
                         }
                         //iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
@@ -394,4 +397,48 @@ public class MotorController implements IMotor {
             }
         });
     }
+
+
+    //region break-in
+
+    @Override
+    public void saveMotorBreakIn(SaveMotorRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = BuildConfig.FINMART_URL + "/api/manage-vehicle-breaking";
+        motorQuotesNetworkService.saveBreakIn(url, entity).enqueue(new Callback<SaveAddOnResponse>() {
+            @Override
+            public void onResponse(Call<SaveAddOnResponse> call, Response<SaveAddOnResponse> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body() != null) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SaveAddOnResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+
+    //endregion
 }

@@ -3,17 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ul_p1_body"
-    tools:context="com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage1Fragment">
+    tools:context=".ultralaksha.ultralakshya.fragment.quote.content.coverPage1Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ul_p1_body"
-        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imghdr"
@@ -44,6 +36,6 @@
         android:layout_below="@+id/txtMessage"
 
         android:gravity="center"
-        android:text="Nilesh Verma"
+        android:text=""
         ></TextView>
 </RelativeLayout>

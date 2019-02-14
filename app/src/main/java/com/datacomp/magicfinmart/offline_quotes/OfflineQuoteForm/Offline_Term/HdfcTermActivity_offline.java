@@ -105,7 +105,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
 
     Button btnGetQuote;
     TextInputLayout tilPincode;
-    EditText etPincode, etSumAssured,etcomment;
+    EditText etPincode, etSumAssured, etcomment;
     TermRequestEntity termRequestEntity;
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -161,8 +161,11 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             termFinmartRequest = getIntent().getParcelableExtra(Constants.TERM_INPUT_FRAGMENT);
             termRequestEntity = termFinmartRequest.getTermRequestEntity();
             termRequestId = termFinmartRequest.getTermRequestId();
-         //   changeInputQuote(true);
+            //   changeInputQuote(true);
             bindInput(termFinmartRequest);
+        } else {
+            tvMale.performClick();
+            tvNo.performClick();
         }
 
 
@@ -338,6 +341,8 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
                 tvGender.setText("MALE");
             else
                 tvGender.setText("FEMALE");
+
+
             if (termRequestEntity.getIs_TabaccoUser().equals("true"))
                 tvSmoker.setText("SMOKER");
             else
@@ -669,7 +674,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             termRequestEntity.setLumpsumAmount("" + hfLumsumPayOutOnDeath);
         }
 
-        termRequestEntity.setComment(""+ etcomment.getText().toString());
+        termRequestEntity.setComment("" + etcomment.getText().toString());
         termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
         termRequestEntity.setInsurerId(28);
         //termRequestEntity.setPlanTaken("Life");// set in manipulateInputs()
@@ -737,7 +742,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         etLastName = (EditText) findViewById(R.id.etLastName);
         etMobile = (EditText) findViewById(R.id.etMobile);
         etDOB = (EditText) findViewById(R.id.etDateofBirth);
-        etcomment= (EditText) findViewById(R.id.etcomment);
+        etcomment = (EditText) findViewById(R.id.etcomment);
         llGender = (LinearLayout) findViewById(R.id.llGender);
         llSmoker = (LinearLayout) findViewById(R.id.llSmoker);
 
@@ -1040,10 +1045,12 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         showDialog();
         new OfflineQuotesController(this).getTermInsurer_offline(termFinmartRequest, this);
     }
+
     private void updateCrnToServer() {
-        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+        if (termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id() != null && !termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
             new TermInsuranceController(HdfcTermActivity_offline.this).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
@@ -1054,8 +1061,8 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             startActivity(intent);
 
             finish();
-       //     processResponse((TermCompareQuoteResponse) response);
-         //   new AsyncShareJson_off().execute();
+            //     processResponse((TermCompareQuoteResponse) response);
+            //   new AsyncShareJson_off().execute();
             /*this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             mainScroll.fullScroll(ScrollView.FOCUS_UP);
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
@@ -1071,8 +1078,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             changeInputQuote();*/
 
 
-        }else
-        {
+        } else {
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -1109,7 +1115,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
                 Toast.makeText(HdfcTermActivity_offline.this, "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
         }
-        mainScroll.scrollTo(0,0);
+        mainScroll.scrollTo(0, 0);
     }
 
     //region datepicker
@@ -1438,7 +1444,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
     }
 
     public void CalculateLumsumAmt() {
-        long AdbPercentage = 0,txtSumAssu=0;
+        long AdbPercentage = 0, txtSumAssu = 0;
 
         long txtMntlyIncomOnDeath = 0;
 
@@ -2054,25 +2060,20 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
     }
 
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-      //  if (ivHdrQuote.getVisibility() == View.VISIBLE) {
-           // bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-       // } else {
-            HdfcTermActivity_offline.this.finish();
-      //  }
+        //  if (ivHdrQuote.getVisibility() == View.VISIBLE) {
+        // bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        // } else {
+        HdfcTermActivity_offline.this.finish();
+        //  }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
-
-
 
 
     @Override
@@ -2100,7 +2101,6 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }

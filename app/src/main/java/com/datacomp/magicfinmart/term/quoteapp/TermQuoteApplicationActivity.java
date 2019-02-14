@@ -16,7 +16,7 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
 import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
-import com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermBottmActivity;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;

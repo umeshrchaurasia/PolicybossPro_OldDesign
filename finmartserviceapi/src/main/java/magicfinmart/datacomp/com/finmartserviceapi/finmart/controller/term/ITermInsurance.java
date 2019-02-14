@@ -24,7 +24,7 @@ public interface ITermInsurance {
 
     void recalculateUltraLaksha(UltralakshaRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
-    void getIllustration(LICIllustrationRequestEntity entity);
+    void getIllustration(LICIllustrationRequestEntity entity ,IResponseSubcriber iResponseSubcriber);
 
 
 }

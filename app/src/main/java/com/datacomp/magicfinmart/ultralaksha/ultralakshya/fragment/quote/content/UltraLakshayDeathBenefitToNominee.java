@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content;
 
 
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content.adapter.UltraLakshyaDeathNomineeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,39 +110,19 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
 
             return;
         }
-//       if( ultraLakshaFacade.getBenefitPopupList() == null)
-//       {
-//           return;
-//       }
 
 
-    //    BenefitsPopupEntity benefitsPopupEntity = ultraLakshaFacade.getBenefitPopupList().get(0);
-
-        // region temp 05 added
-        UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsPopupBean benefitsPopupEntity = new UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsPopupBean();
-        benefitsPopupEntity.setTerm(""+20);
-        benefitsPopupEntity.setAnnualPayout("100000");
-        benefitsPopupEntity.setULOnDeath("50000");
-        //endregion
+        UltraLakshaIllustrationResponseNew.MasterDataBean.BenefitsPopupBean  benefitsPopupEntity = ultraLakshaFacade.getBenefitPopupList().get(0);
 
         int period = Integer.valueOf(benefitsPopupEntity.getTerm()) -  Integer.valueOf(deathBenefitEntity.getYear());
-        long JeevanMaturityDate  =    Long.valueOf(deathBenefitEntity.getJeevanBenefitsPayable()) -  (period * Long.valueOf(benefitsPopupEntity.getAnnualPayout()));
+      //  long JeevanMaturityDate  =    Long.valueOf(deathBenefitEntity.getJeevanBenefitsPayable()) -  (period * Long.valueOf(benefitsPopupEntity.getAnnualPayout()));
        // long UltraMaturityDate   =    Long.valueOf(deathBenefitEntity.getLakshyaBenefitsPayable()) -  (period * Long.valueOf(benefitsPopupEntity.getAnnualPayout()));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
 
         AppCompatImageView ivClose;
-        TextView txtHdr ,
-                txtJeevanImmediately ,txtUltraImmediately,
-                txtJeevanAnnualPayoutfor9 ,txtUltraAnnualPayoutfor9,
-                txtJeevanMonthlyPayoutfor9,txtUltraMonthlyPayoutfor9,
-                txtJeevanMaturityDate ,txtUltraMaturityDate,
-                txtJeevanMonthlyPayoutfor5 ,txtUltraMonthlyPayoutfor5,
-                txtJeevanTotal ,txtUltraTotal,
-
-               lblAnnualPayout, lblMonthlyPayout ;
-
-
+        TextView txtHdr , txtJeevanImmediately ,txtUltraImmediately, txtJeevanMaturityDate ,txtUltraMaturityDate, txtJeevanTotal ,txtUltraTotal, lblAnnualPayout, lblMonthlyPayout ,
+                txtUltraMonthlyPayoutforFirst,txtUltraMonthlyPayoutfor5;
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_benefit_payable_to_nominee, null);
 
@@ -158,25 +138,16 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         lblAnnualPayout  =  dialogView.findViewById(R.id.lblAnnualPayout);
         lblMonthlyPayout  =  dialogView.findViewById(R.id.lblMonthlyPayout);
 
-
-
-        txtJeevanImmediately  =  dialogView.findViewById(R.id.txtJeevanImmediately);
         txtUltraImmediately  =  dialogView.findViewById(R.id.txtUltraImmediately);
-
-        txtJeevanAnnualPayoutfor9  =  dialogView.findViewById(R.id.txtJeevanAnnualPayoutfor9);
-        txtUltraAnnualPayoutfor9  =  dialogView.findViewById(R.id.txtUltraAnnualPayoutfor9);
-
-        txtJeevanMonthlyPayoutfor9  =  dialogView.findViewById(R.id.txtJeevanMonthlyPayoutfor9);
-        txtUltraMonthlyPayoutfor9  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutfor9);
 
         txtJeevanMaturityDate  =  dialogView.findViewById(R.id.txtJeevanMaturityDate);
         txtUltraMaturityDate  =  dialogView.findViewById(R.id.txtUltraMaturityDate);
 
-        txtJeevanMonthlyPayoutfor5  =  dialogView.findViewById(R.id.txtJeevanMonthlyPayoutfor5);
-        txtUltraMonthlyPayoutfor5  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutfor5);
-
         txtJeevanTotal  =  dialogView.findViewById(R.id.txtJeevanTotal);
         txtUltraTotal  =  dialogView.findViewById(R.id.txtUltraTotal);
+
+        txtUltraMonthlyPayoutforFirst  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutforFirst);
+        txtUltraMonthlyPayoutfor5  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutfor5);
 
         //endregion
 
@@ -186,9 +157,11 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         txtUltraImmediately.setText("" + benefitsPopupEntity.getULOnDeath());
         txtJeevanTotal.setText(""+deathBenefitEntity.getJeevanBenefitsPayable() );
         txtUltraTotal.setText(""+ deathBenefitEntity.getLakshyaBenefitsPayable() );
+        txtUltraMonthlyPayoutforFirst.setText(""+ benefitsPopupEntity.getMonthlyPayFirst() );
 
-        txtJeevanMaturityDate.setText("" +JeevanMaturityDate);
-        txtUltraMaturityDate.setText("" +JeevanMaturityDate);
+        txtJeevanMaturityDate.setText("" + benefitsPopupEntity.getMatDateJL());
+        txtUltraMaturityDate.setText("" +benefitsPopupEntity.getMatDateJL());  // temp 05
+        txtUltraMonthlyPayoutfor5.setText("" +benefitsPopupEntity.getMonthlyPayFiveYears());
 
 
 

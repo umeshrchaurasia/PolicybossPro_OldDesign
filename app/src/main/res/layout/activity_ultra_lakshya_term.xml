@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-tools:context="com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActivity">
+tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -16,14 +16,6 @@ tools:context="com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActiv
         android:theme="@style/AppTheme.AppBarOverlay">
 
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginStart="48dp"
-            app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
-            app:titleEnabled="false">
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -36,9 +28,9 @@ tools:context="com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActiv
                 app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 app:titleTextAppearance="@style/TextStyle.Toolbar"
-                app:titleTextColor="@color/white"/>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
+                app:titleTextColor="@color/white" />
+
 
 
     </android.support.design.widget.AppBarLayout>
@@ -48,8 +40,9 @@ tools:context="com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActiv
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/bottmc"
+        android:layout_below="@+id/bottomHeader"
         android:animateLayoutChanges="true" />
+
     <View
         android:id="@+id/viewHeader"
         android:layout_width="match_parent"
@@ -58,11 +51,10 @@ tools:context="com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActiv
         android:background="@color/colorPrimaryDark"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:weightSum="100">
-    </View>
+        android:weightSum="100"></View>
 
     <RelativeLayout
-        android:id="@+id/bottmc"
+        android:id="@+id/bottomHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewHeader">
@@ -101,8 +93,8 @@ tools:context="com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActiv
                     android:layout_height="2dp"
                     android:layout_marginBottom="0dp"
                     android:layout_weight="70"
-                    android:visibility="visible"
-                    android:src="@drawable/rect_shape" />
+                    android:src="@drawable/rect_shape"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -121,8 +113,8 @@ tools:context="com.datacomp.magicfinmart.term.ultralakshya.UltraLakshyaTermActiv
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="4dp"
                     android:layout_weight="70"
-                    android:visibility="visible"
-                    android:src="@drawable/rect_shape" />
+                    android:src="@drawable/rect_shape"
+                    android:visibility="visible" />
 
             </LinearLayout>
 

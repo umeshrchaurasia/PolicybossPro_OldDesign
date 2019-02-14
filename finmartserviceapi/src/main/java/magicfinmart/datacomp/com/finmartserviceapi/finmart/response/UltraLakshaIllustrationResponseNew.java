@@ -2,11 +2,13 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.response;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+
 /**
  * Created by Rajeev Ranjan on 07/02/2019.
  */
 
-public class UltraLakshaIllustrationResponseNew  {
+public class UltraLakshaIllustrationResponseNew extends APIResponse {
 
 
 
@@ -21,9 +23,6 @@ public class UltraLakshaIllustrationResponseNew  {
      * StatusNo : 0
      */
 
-    private String Message;
-    private String Status;
-    private int StatusNo;
 
     public MasterDataBean getMasterData() {
         return MasterData;
@@ -33,29 +32,6 @@ public class UltraLakshaIllustrationResponseNew  {
         this.MasterData = MasterData;
     }
 
-    public String getMessage() {
-        return Message;
-    }
-
-    public void setMessage(String Message) {
-        this.Message = Message;
-    }
-
-    public String getStatus() {
-        return Status;
-    }
-
-    public void setStatus(String Status) {
-        this.Status = Status;
-    }
-
-    public int getStatusNo() {
-        return StatusNo;
-    }
-
-    public void setStatusNo(int StatusNo) {
-        this.StatusNo = StatusNo;
-    }
 
     public static class MasterDataBean {
         private List<DeathBenefitBean> DeathBenefit;
@@ -65,6 +41,17 @@ public class UltraLakshaIllustrationResponseNew  {
         private List<ProductComboBean> ProductCombo;
         private List<LicVrsBean> LicVrs;
         private List<BenefitsPopupBean> BenefitsPopup;
+        private List<SampleScenarioEntity> SampleScenario;
+
+        public List<SampleScenarioEntity> getSampleScenarioLst() {
+            return SampleScenario;
+        }
+
+        public void setSampleScenarioLst(List<SampleScenarioEntity> sampleScenarioLst) {
+            SampleScenario = sampleScenarioLst;
+        }
+
+
 
         public List<DeathBenefitBean> getDeathBenefit() {
             return DeathBenefit;
@@ -683,11 +670,19 @@ public class UltraLakshaIllustrationResponseNew  {
              * Term : 20
              * ULOnDeath : 5000000
              * AnnualPayout : 100000
+             * MatDateJL : 2070000
+             * MatDateUL : 19070000
+             * MonthlyPayFirst : 50000
+             * MonthlyPayFiveYears : 50000
              */
 
             private String Term;
             private String ULOnDeath;
             private String AnnualPayout;
+            private String MatDateJL;
+            private String MatDateUL;
+            private String MonthlyPayFirst;
+            private String MonthlyPayFiveYears;
 
             public String getTerm() {
                 return Term;
@@ -711,6 +706,251 @@ public class UltraLakshaIllustrationResponseNew  {
 
             public void setAnnualPayout(String AnnualPayout) {
                 this.AnnualPayout = AnnualPayout;
+            }
+
+            public String getMatDateJL() {
+                return MatDateJL;
+            }
+
+            public void setMatDateJL(String MatDateJL) {
+                this.MatDateJL = MatDateJL;
+            }
+
+            public String getMatDateUL() {
+                return MatDateUL;
+            }
+
+            public void setMatDateUL(String MatDateUL) {
+                this.MatDateUL = MatDateUL;
+            }
+
+            public String getMonthlyPayFirst() {
+                return MonthlyPayFirst;
+            }
+
+            public void setMonthlyPayFirst(String MonthlyPayFirst) {
+                this.MonthlyPayFirst = MonthlyPayFirst;
+            }
+
+            public String getMonthlyPayFiveYears() {
+                return MonthlyPayFiveYears;
+            }
+
+            public void setMonthlyPayFiveYears(String MonthlyPayFiveYears) {
+                this.MonthlyPayFiveYears = MonthlyPayFiveYears;
+            }
+
+
+
+        }
+
+
+        public static class SampleScenarioEntity{
+
+
+            /**
+             * BasicSumAssured : 1000000
+             * OtherYrs : 2 to 12 Years
+             * LicJLFirstPrem : 82787
+             * LicJLRenewalPrem : 81004
+             * LicJLFifthYearPrem : Rs. 408586
+             * LicJLAnnBenefit : Rs. 100000
+             * LicJLMatBenefit : Rs. 1735000
+             * LicFirstYear : 1
+             * LicFifthYear : Year 5
+             Death Occurs
+             * LicLastYear : 15
+             * LicBenefitYear : 20
+             * LicULFirstPrem : 93663
+             * LicULRenewalPrem : 93214
+             * LicULFifthYearPrem : 468315
+             * LicULLumpsumClaim : 5000000
+             * LicULAnnBenefit : Rs. 100000
+             * LicULMonthlyBenefit : Rs. 50000
+             * LicULMonthlyBenefityears : for 15 years
+             * LicULMatBenefit : Rs. 18735000
+             * LicULMonthlyBenefitCont : Rs. 50000
+             */
+
+            private String BasicSumAssured;
+            private String OtherYrs;
+            private String LicJLFirstPrem;
+            private String LicJLRenewalPrem;
+            private String LicJLFifthYearPrem;
+            private String LicJLAnnBenefit;   //every year
+            private String LicJLMatBenefit;   //mat Benefit
+            private String LicFirstYear;   // 1
+            private String LicFifthYear;  // 5
+            private String LicLastYear;    // 20
+            private String LicBenefitYear;  // 25
+            private String LicULFirstPrem;
+            private String LicULRenewalPrem;
+            private String LicULFifthYearPrem;  //3,58,70 : fth Premium Ultra laksyya
+            private String LicULLumpsumClaim;   // Amnt
+            private String LicULAnnBenefit;    // Amnt
+            private String LicULMonthlyBenefit; //50,000
+            private String LicULMonthlyBenefityears;  // for 20 years (text come)
+            private String LicULMatBenefit;         // Amnt
+            private String LicULMonthlyBenefitCont;   //Amnt
+
+            public String getBasicSumAssured() {
+                return BasicSumAssured;
+            }
+
+            public void setBasicSumAssured(String BasicSumAssured) {
+                this.BasicSumAssured = BasicSumAssured;
+            }
+
+            public String getOtherYrs() {
+                return OtherYrs;
+            }
+
+            public void setOtherYrs(String OtherYrs) {
+                this.OtherYrs = OtherYrs;
+            }
+
+            public String getLicJLFirstPrem() {
+                return LicJLFirstPrem;
+            }
+
+            public void setLicJLFirstPrem(String LicJLFirstPrem) {
+                this.LicJLFirstPrem = LicJLFirstPrem;
+            }
+
+            public String getLicJLRenewalPrem() {
+                return LicJLRenewalPrem;
+            }
+
+            public void setLicJLRenewalPrem(String LicJLRenewalPrem) {
+                this.LicJLRenewalPrem = LicJLRenewalPrem;
+            }
+
+            public String getLicJLFifthYearPrem() {
+                return LicJLFifthYearPrem;
+            }
+
+            public void setLicJLFifthYearPrem(String LicJLFifthYearPrem) {
+                this.LicJLFifthYearPrem = LicJLFifthYearPrem;
+            }
+
+            public String getLicJLAnnBenefit() {
+                return LicJLAnnBenefit;
+            }
+
+            public void setLicJLAnnBenefit(String LicJLAnnBenefit) {
+                this.LicJLAnnBenefit = LicJLAnnBenefit;
+            }
+
+            public String getLicJLMatBenefit() {
+                return LicJLMatBenefit;
+            }
+
+            public void setLicJLMatBenefit(String LicJLMatBenefit) {
+                this.LicJLMatBenefit = LicJLMatBenefit;
+            }
+
+            public String getLicFirstYear() {
+                return LicFirstYear;
+            }
+
+            public void setLicFirstYear(String LicFirstYear) {
+                this.LicFirstYear = LicFirstYear;
+            }
+
+            public String getLicFifthYear() {
+                return LicFifthYear;
+            }
+
+            public void setLicFifthYear(String LicFifthYear) {
+                this.LicFifthYear = LicFifthYear;
+            }
+
+            public String getLicLastYear() {
+                return LicLastYear;
+            }
+
+            public void setLicLastYear(String LicLastYear) {
+                this.LicLastYear = LicLastYear;
+            }
+
+            public String getLicBenefitYear() {
+                return LicBenefitYear;
+            }
+
+            public void setLicBenefitYear(String LicBenefitYear) {
+                this.LicBenefitYear = LicBenefitYear;
+            }
+
+            public String getLicULFirstPrem() {
+                return LicULFirstPrem;
+            }
+
+            public void setLicULFirstPrem(String LicULFirstPrem) {
+                this.LicULFirstPrem = LicULFirstPrem;
+            }
+
+            public String getLicULRenewalPrem() {
+                return LicULRenewalPrem;
+            }
+
+            public void setLicULRenewalPrem(String LicULRenewalPrem) {
+                this.LicULRenewalPrem = LicULRenewalPrem;
+            }
+
+            public String getLicULFifthYearPrem() {
+                return LicULFifthYearPrem;
+            }
+
+            public void setLicULFifthYearPrem(String LicULFifthYearPrem) {
+                this.LicULFifthYearPrem = LicULFifthYearPrem;
+            }
+
+            public String getLicULLumpsumClaim() {
+                return LicULLumpsumClaim;
+            }
+
+            public void setLicULLumpsumClaim(String LicULLumpsumClaim) {
+                this.LicULLumpsumClaim = LicULLumpsumClaim;
+            }
+
+            public String getLicULAnnBenefit() {
+                return LicULAnnBenefit;
+            }
+
+            public void setLicULAnnBenefit(String LicULAnnBenefit) {
+                this.LicULAnnBenefit = LicULAnnBenefit;
+            }
+
+            public String getLicULMonthlyBenefit() {
+                return LicULMonthlyBenefit;
+            }
+
+            public void setLicULMonthlyBenefit(String LicULMonthlyBenefit) {
+                this.LicULMonthlyBenefit = LicULMonthlyBenefit;
+            }
+
+            public String getLicULMonthlyBenefityears() {
+                return LicULMonthlyBenefityears;
+            }
+
+            public void setLicULMonthlyBenefityears(String LicULMonthlyBenefityears) {
+                this.LicULMonthlyBenefityears = LicULMonthlyBenefityears;
+            }
+
+            public String getLicULMatBenefit() {
+                return LicULMatBenefit;
+            }
+
+            public void setLicULMatBenefit(String LicULMatBenefit) {
+                this.LicULMatBenefit = LicULMatBenefit;
+            }
+
+            public String getLicULMonthlyBenefitCont() {
+                return LicULMonthlyBenefitCont;
+            }
+
+            public void setLicULMonthlyBenefitCont(String LicULMonthlyBenefitCont) {
+                this.LicULMonthlyBenefitCont = LicULMonthlyBenefitCont;
             }
         }
     }

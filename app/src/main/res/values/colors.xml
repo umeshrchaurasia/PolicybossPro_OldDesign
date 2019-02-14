@@ -17,12 +17,15 @@
     <color name="header_text_color1">#3c4651</color>
     <color name="secondary_text_color">#9ba0a6</color>
     <color name="tab_color">#00476e</color>
+
+
     <color name="button_color">@color/colorPrimary</color>
 
     <color name="blue">#005faf</color>
     <color name="holo_red_dark">#ffcc0000</color>
     <color name="red_text">#fe5e63</color>
     <color name="red_descent">#de6d75</color>
+    <color name="red_dark1">#c00000</color>
     <color name="hdr_white">#f0f0f0</color>
     <color name="bg_white">#f1f1f1</color>
     <color name="seperator_white">#dadada</color>
@@ -55,6 +58,8 @@
     <color name="blue_descent">#4b76c2</color>
     <color name="uvv_green">#ff50b100</color>
     <color name="green_light">#7db142</color>
+    <color name="green_dark">#009900</color>
+
     <color name="uvv_black">#ff000000</color>
 
     <color name="red_button">#E62B21</color>
@@ -72,7 +77,9 @@
     <color name="light_blue">#0a77bf</color>
     <color name="dark_blue">#0c375f</color>
     <color name="selcted_blue">#234567</color>
+    <color name="dark_blue1">#10395f</color>
     <color name="yellow">#f79f00</color>
+    <color name="yellowlight">#f69f1e</color>
     <!--region posp-->
     <!--<color name="application_primary_text_color">#212121</color>-->
     <!--<color name="icons">#FFFFFF</color>
