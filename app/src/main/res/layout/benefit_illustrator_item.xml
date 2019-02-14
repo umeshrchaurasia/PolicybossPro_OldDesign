@@ -23,7 +23,7 @@
 
             <TextView
                 android:id="@+id/txtPolicyYear"
-                style="@style/TextViewStyle.VerySmall"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/txtAge"
-                style="@style/TextViewStyle.VerySmall"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10"
@@ -48,7 +48,7 @@
 
             <TextView
                 android:id="@+id/txtLifeCover"
-                style="@style/TextViewStyle.VerySmall"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
@@ -62,7 +62,7 @@
 
             <TextView
                 android:id="@+id/txtAnnualPrem"
-                style="@style/TextViewStyle.VerySmall"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
@@ -73,7 +73,8 @@
             </TextView>
             <TextView
                 android:id="@+id/txtCashFlow"
-                style="@style/TextViewStyle.VerySmall"
+                android:visibility="gone"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
@@ -85,7 +86,7 @@
 
             <TextView
                 android:id="@+id/txtLoanAvailable"
-                style="@style/TextViewStyle.VerySmall"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="20"

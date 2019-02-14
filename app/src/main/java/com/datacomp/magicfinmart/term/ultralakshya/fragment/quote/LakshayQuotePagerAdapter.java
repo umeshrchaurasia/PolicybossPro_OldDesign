@@ -5,13 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayScenarioOfBenefitsDeath;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitStandAlone;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayDeathBenefitToNominee;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration;
-import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayLisJeevanVsLakshay;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayProductCombo;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayScenarioOfBenefitsDeath;
+import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage1Fragment;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage2Fragment;
 import com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content.coverPage3Fragment;
@@ -27,10 +26,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 
 public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
 
-   String strUserName;
+    String strUserName;
     private final List<Fragment> mFragmentList = new ArrayList<>();
 
-    public LakshayQuotePagerAdapter(FragmentManager fm ,String strName) {
+    public LakshayQuotePagerAdapter(FragmentManager fm, String strName) {
         super(fm);
         this.strUserName = strName;
     }
@@ -42,58 +41,37 @@ public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
 
                 coverPage1Fragment objFrag = new coverPage1Fragment();
                 Bundle bundle = new Bundle();           // use bundle for paasing the data
-                bundle.putString(Utility.ULTRA_LAKSHYA_HDR_NAME,strUserName);
+                bundle.putString(Utility.ULTRA_LAKSHYA_HDR_NAME, strUserName);
                 objFrag.setArguments(bundle);
                 return objFrag;
 
             case 1:
-
-                coverPage2Fragment objFrag1 = new coverPage2Fragment();
-                return objFrag1;
+                return new coverPage2Fragment();
 
             case 2:
-
-                coverPage3Fragment objFrag2 = new coverPage3Fragment();
-                return objFrag2;
+                return new coverPage3Fragment();
 
             case 3:
-                UltraLakshayUnmatchedBenefit objFrag3 = new UltraLakshayUnmatchedBenefit();
-                return objFrag3;
-
+                return new UltraLakshayUnmatchedBenefit();
 
             case 4:
 
-
-                UltraLakshayBenefitStandAlone objFrag4 = new UltraLakshayBenefitStandAlone();
-                return objFrag4;
+                return new UltraLakshayBenefitStandAlone();
 
             case 5:
-
-
-            UltraLakshayBenefitILLustration objFrag5 = new UltraLakshayBenefitILLustration();
-            return objFrag5;
-
+                return new UltraLakshayBenefitILLustration();
 
             case 6:
 
-                return  new UltraLakshayLisJeevanVsLakshay();
+                return new UltraLakshayScenarioOfBenefitsDeath();
 
 
             case 7:
+                return new UltraLakshayDeathBenefitToNominee();
 
-                UltraLakshayDeathBenefitToNominee objFrag7 = new UltraLakshayDeathBenefitToNominee();
-                return objFrag7;
 
             case 8:
-
-                UltraLakshayProductCombo objFrag8 = new UltraLakshayProductCombo();
-                return objFrag8;
-
-            case 9:
-
-                return  new UltraLakshayScenarioOfBenefitsDeath();
-
-
+                return new UltraLakshayProductCombo();
 
 
         }

@@ -78,7 +78,7 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
         LakshayQuotePagerAdapter adapter = new LakshayQuotePagerAdapter(getActivity().getSupportFragmentManager(),strUserName);
 
 
-        adapter.addFrag(new UltraLakshayScenarioOfBenefitsDeath());
+
         adapter.addFrag(new coverPage1Fragment());
         adapter.addFrag(new coverPage2Fragment());
         adapter.addFrag(new coverPage3Fragment());
@@ -87,7 +87,7 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
         adapter.addFrag(new UltraLakshayBenefitStandAlone());
 
         adapter.addFrag(new UltraLakshayBenefitILLustration());
-        adapter.addFrag(new UltraLakshayLisJeevanVsLakshay());
+        adapter.addFrag(new UltraLakshayScenarioOfBenefitsDeath());
 
         adapter.addFrag(new UltraLakshayDeathBenefitToNominee());
         adapter.addFrag(new UltraLakshayProductCombo());

@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,7 +68,7 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-public class UltraLakshyaTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, IResponseSubcriber {
+public class UltraLakshyaTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, SeekBar.OnSeekBarChangeListener , IResponseSubcriber {
 
 
     private PopupWindow mPopupWindow, mPopupWindowSelection;
@@ -82,7 +83,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     CardView cvQuoteDetails;
 
 
-    TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
+    TextView txtSumAssured,txt10lac ,txt25lac ,txt50lac ,txt1cr, txtOther, txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
     LinearLayout llAddon;
     RecyclerView rvAddOn;
@@ -91,8 +92,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     EditText etFirstName, etLasttName, etMobile, et_DOB;
     TextView tvMale, tvFemale, tvYes, tvNo;
     boolean isMale, isSmoker;
-    LinearLayout llGender, llSmoker;
-
+    LinearLayout llGender, llSmoker ,lyAnnualPremium ,lySeekbar;
+    SeekBar sbSumAssured;
 
     List<String> policyYear;
     DBPersistanceController dbPersistanceController;
@@ -103,6 +104,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     LinearLayout llCompareAll;
+    String SUM_ASSURED_AMNT = "1000000";
 
 
     //region icici form
@@ -134,6 +136,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().show();
         ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(true);
         init(view);
+        setSeekbarSumAssured();
         setListener();
         setPopUpInfo();
         // set initial values
@@ -319,6 +322,14 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         plusICICISum.setOnClickListener(this);
 
         etSumICICIAssured.setOnFocusChangeListener(this);
+        sbSumAssured.setOnSeekBarChangeListener(this);
+
+
+        txt10lac.setOnClickListener(this);
+        txt25lac.setOnClickListener(this);
+        txt50lac.setOnClickListener(this);
+        txt1cr.setOnClickListener(this);
+        txtOther.setOnClickListener(this);
 
     }
 
@@ -388,6 +399,16 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         //quote page
         //   cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
+        txtSumAssured = (TextView) view.findViewById(R.id.txtSumAssured);
+
+        txt10lac = (TextView) view.findViewById(R.id.txt10lac);
+        txt25lac = (TextView) view.findViewById(R.id.txt25lac);
+        txt50lac = (TextView) view.findViewById(R.id.txt50lac);
+        txt1cr = (TextView) view.findViewById(R.id.txt1cr);
+        txtOther = (TextView) view.findViewById(R.id.txtOther);
+
+
+        sbSumAssured = (SeekBar) view.findViewById(R.id.sbSumAssured);
         cvQuoteDetails = (CardView) view.findViewById(R.id.cvQuoteDetails);
         mainScroll = (ScrollView) view.findViewById(R.id.mainScroll);
 
@@ -405,6 +426,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         tvNo = (TextView) view.findViewById(R.id.tvNo);
         llGender = (LinearLayout) view.findViewById(R.id.llGender);
         llSmoker = (LinearLayout) view.findViewById(R.id.llSmoker);
+        lyAnnualPremium  = (LinearLayout) view.findViewById(R.id.lyAnnualPremium);
+        lySeekbar = (LinearLayout) view.findViewById(R.id.lySeekbar);
 
         etCal_lic = (TextView) view.findViewById(R.id.etCal_lic);
         etCal_ultra = (TextView) view.findViewById(R.id.etCal_ultra);
@@ -422,6 +445,14 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
 
         //end region
+    }
+
+    private void  setSeekbarSumAssured()
+    {
+        sbSumAssured.setMax(190);
+        sbSumAssured.setProgress(1);
+        txtSumAssured.setText("10 Lac");
+
     }
 
     @Override
@@ -515,8 +546,48 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 //changePolicyTerm(false);
                 break;
 
+            case R.id.txt10lac:
+                SUM_ASSURED_AMNT= "1000000";
+                setBackgroundSeekBar(txt10lac,txt25lac ,txt50lac ,txt1cr, txtOther);
+                lySeekbar.setVisibility(View.GONE);
+                break;
+
+            case R.id.txt25lac:
+                SUM_ASSURED_AMNT= "2500000";
+                setBackgroundSeekBar(txt25lac ,txt10lac,txt50lac ,txt1cr, txtOther);
+                lySeekbar.setVisibility(View.GONE);
+                break;
+
+            case R.id.txt50lac:
+                SUM_ASSURED_AMNT= "5000000";
+                setBackgroundSeekBar(txt50lac ,txt10lac,txt25lac ,txt1cr, txtOther);
+                lySeekbar.setVisibility(View.GONE);
+                break;
+
+            case R.id.txt1cr:
+                SUM_ASSURED_AMNT= "10000000";
+                setBackgroundSeekBar(txt1cr,txt10lac,txt25lac ,txt50lac , txtOther);
+                lySeekbar.setVisibility(View.GONE);
+                break;
+
+            case R.id.txtOther:
+                SUM_ASSURED_AMNT= "";
+                setBackgroundSeekBar(txtOther ,txt10lac,txt25lac ,txt50lac ,txt1cr );
+                lySeekbar.setVisibility(View.VISIBLE);
+                break;
 
         }
+    }
+
+    private void setBackgroundSeekBar(TextView txtApply,TextView txt1, TextView txt2,TextView txt3,TextView txt4)
+    {
+
+        txtApply.setBackgroundResource(R.drawable.customeborder_blue);
+
+        txt1.setBackgroundResource(R.drawable.customeborder);
+        txt2.setBackgroundResource(R.drawable.customeborder);
+        txt3.setBackgroundResource(R.drawable.customeborder);
+        txt4.setBackgroundResource(R.drawable.customeborder);
     }
 
     private void changeSumAssured(boolean b) {
@@ -563,7 +634,9 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
             Requestentity.setIs_TabaccoUser("False");
 
 
-        Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
+     //   Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
+
+        Requestentity.setSumAssured(Integer.parseInt(SUM_ASSURED_AMNT));   //-05
         Requestentity.setInsuredDOB(et_DOB.getText().toString());
 
         switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
@@ -1014,4 +1087,34 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         }*/
     }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+        switch (seekBar.getId()) {
+            case R.id.sbSumAssured:
+                int MIN = 0;
+                if (progress >= MIN) {
+                    if (fromUser) {
+                        // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
+                        txtSumAssured.setText(String.valueOf(progress + 1) + "Lac");
+                    }
+                } else {
+                    sbSumAssured.setProgress(MIN);
+                    txtSumAssured.setText(String.valueOf(MIN) + "Lac");
+                }
+                break;
+
+
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
 }

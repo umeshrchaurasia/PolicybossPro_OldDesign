@@ -210,5 +210,16 @@ public class UltraLakshaFacade {
         return null;
     }
 
+
+    public List<UltraLakshaIllustrationResponseNew.MasterDataBean.SampleScenarioEntity> getSampleScenarioList() {
+
+        if (getIllustration() != null) {
+            if (getIllustration().getMasterData().getSampleScenarioLst() != null)
+                return getIllustration().getMasterData().getSampleScenarioLst();
+            else
+                return null;
+        }
+        return null;
+    }
     //endregion
 }

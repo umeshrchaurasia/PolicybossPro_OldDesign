@@ -76,7 +76,7 @@ public class UltraLakshayUnmatchedBenefit extends Fragment {
                 text.indexOf("HDFC Life's Click2Protect 3D") + String.valueOf("HDFC Life's Click2Protect 3D").length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         );
-
+        txtHdr.setText(ssBuilder);
     }
 
     private void initialize(View view)
