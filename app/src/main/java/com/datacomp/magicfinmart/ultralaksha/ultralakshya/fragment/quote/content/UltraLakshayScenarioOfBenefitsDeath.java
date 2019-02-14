@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.ultralakshya.fragment.quote.content;
+package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.content;
 
 
 import android.graphics.Typeface;
@@ -97,91 +97,79 @@ public class UltraLakshayScenarioOfBenefitsDeath extends Fragment {
             txtLicEveryYear.append(desctext);
             //endregion
 
-           /*
+            //region  txtLic paid on maturity
+            SpannableStringBuilder LicPaidMaturityBuilder = new SpannableStringBuilder();
+            SpannableString LicPaidMaturityAmnt = new SpannableString("" + sampleScenarioEntity.getLicJLMatBenefit());
+            LicPaidMaturityAmnt.setSpan(new StyleSpan(Typeface.BOLD), 0, LicPaidMaturityAmnt.length(), flag);
+            SpannableString LicPaidMaturitytext = new SpannableString("  paid on\nmaturity date");
 
-
+            LicPaidMaturityBuilder.append(LicPaidMaturityAmnt);
+            txtLicPaidOnMaturity.setText("");
+            txtLicPaidOnMaturity.append(LicPaidMaturityAmnt);
+            txtLicPaidOnMaturity.append(LicPaidMaturitytext);
+            //endregion
 
             //region  txtUltraPaidOnMaturity
             SpannableStringBuilder UltraPaidOnMaturityBuilder = new SpannableStringBuilder();
-            SpannableString UltraPaidOnMaturityAmnt = new SpannableString(""+sampleScenarioEntity.getLicULMatBenefit());
-            UltraPaidOnMaturityBuilder.setSpan(new StyleSpan(Typeface.BOLD),0,UltraPaidOnMaturityAmnt.length(),0);
-            SpannableString UltraPaidOnMaturityText = new SpannableString(" paid on maturity date");
+            SpannableString UltraPaidOnMaturityAmnt = new SpannableString("" + sampleScenarioEntity.getLicULMatBenefit());
+            UltraPaidOnMaturityAmnt.setSpan(new StyleSpan(Typeface.BOLD), 0, UltraPaidOnMaturityAmnt.length(), 0);
+            SpannableString UltraPaidOnMaturityText = new SpannableString(" paid on\nmaturity date");
 
-            UltraPaidOnMaturityBuilder.append(UltraPaidOnMaturityAmnt );
+            UltraPaidOnMaturityBuilder.append(UltraPaidOnMaturityAmnt);
+
             txtUltraPaidOnMaturity.setText("");
             txtUltraPaidOnMaturity.append(UltraPaidOnMaturityAmnt);
             txtUltraPaidOnMaturity.append(UltraPaidOnMaturityText);
             //endregion
 
-
-
-
-          //region  txtLicPaidOnMaturity
-            SpannableStringBuilder LicPaidOnMaturityBuilder = new SpannableStringBuilder();
-            SpannableString LicPaidOnMaturityAmnt = new SpannableString(sampleScenarioEntity.getLicJLMatBenefit());
-            LicEveryYearAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,LicPaidOnMaturityAmnt.length(),0);
-            SpannableString PaidOnMaturityText = new SpannableString(" paid on maturity date");
-
-            LicPaidOnMaturityBuilder.append(LicPaidOnMaturityAmnt );
-            txtLicPaidOnMaturity.setText("");
-            txtLicPaidOnMaturity.append(LicPaidOnMaturityAmnt);
-            txtLicPaidOnMaturity.append(PaidOnMaturityText);
-            //endregion
-
-
-
-
-
             //region  txtUltraEveryMonthPeriod
             SpannableStringBuilder UltraEveryMonthPeriodBuilder = new SpannableStringBuilder();
-            SpannableString UltraEveryMonthPeriodAmnt = new SpannableString(""+ sampleScenarioEntity.getLicULMonthlyBenefitCont());
-            LicEveryYearAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,UltraEveryMonthPeriodAmnt.length(),0);
-            SpannableString UltraEveryMonthPeriodText = new SpannableString(" paid on maturity date");
+            SpannableString UltraEveryMonthPeriodAmnt = new SpannableString(""
+                    + sampleScenarioEntity.getLicULMonthlyBenefitCont());
+            UltraEveryMonthPeriodAmnt.setSpan(new StyleSpan(Typeface.BOLD), 0, UltraEveryMonthPeriodAmnt.length(), 0);
+            SpannableString UltraEveryMonthPeriodText = new SpannableString(" every month\ncontinues in this period");
 
-            UltraEveryMonthPeriodBuilder.append(UltraEveryMonthPeriodAmnt );
-            txtUltraPaidOnMaturity.setText("");
-            txtUltraPaidOnMaturity.append(UltraEveryMonthPeriodAmnt);
-            txtUltraPaidOnMaturity.append(UltraEveryMonthPeriodText);
+            UltraEveryMonthPeriodBuilder.append(UltraEveryMonthPeriodAmnt);
+            txtUltraEveryMonthPeriod.setText("");
+            txtUltraEveryMonthPeriod.append(UltraEveryMonthPeriodAmnt);
+            txtUltraEveryMonthPeriod.append(UltraEveryMonthPeriodText);
             //endregion
 
             //region  txtUltraLumSum
             SpannableStringBuilder UltraLumSumBuilder = new SpannableStringBuilder();
-            SpannableString UltraLumSumAmnt = new SpannableString( ""+ sampleScenarioEntity.getLicULLumpsumClaim());
-            LicEveryYearAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,UltraLumSumAmnt.length(),0);
-            SpannableString UltraLumSumText = new SpannableString(" paid in lump sum");
+            SpannableString UltraLumSumAmnt = new SpannableString("" + sampleScenarioEntity.getLicULLumpsumClaim());
+            UltraLumSumAmnt.setSpan(new StyleSpan(Typeface.BOLD), 0, UltraLumSumAmnt.length(), 0);
+            SpannableString UltraLumSumText = new SpannableString(" paid in\nlump sum");
 
-            UltraLumSumBuilder.append(UltraLumSumAmnt );
-            txtUltraPaidOnMaturity.setText("");
-            txtUltraPaidOnMaturity.append(UltraLumSumAmnt);
-            txtUltraPaidOnMaturity.append(UltraLumSumText);
+            UltraLumSumBuilder.append(UltraLumSumAmnt);
+            txtUltraLumSum.setText("");
+            txtUltraLumSum.append(UltraLumSumAmnt);
+            txtUltraLumSum.append(UltraLumSumText);
             //endregion
 
             //region  txtUltraEveryYearEndOfTerm
             SpannableStringBuilder UltraEveryYearBuilder = new SpannableStringBuilder();
             SpannableString UltraEveryYearAmnt = new SpannableString(""+sampleScenarioEntity.getLicULAnnBenefit());
-            LicEveryYearAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,UltraEveryYearAmnt.length(),0);
-            SpannableString UltraEveryYearText = new SpannableString(" every year till end of term");
+            UltraEveryYearAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,UltraEveryYearAmnt.length(),0);
+            SpannableString UltraEveryYearText = new SpannableString(" every year\ntill end of term");
 
             UltraEveryYearBuilder.append(UltraEveryYearAmnt );
-            txtUltraPaidOnMaturity.setText("");
-            txtUltraPaidOnMaturity.append(UltraEveryYearAmnt);
-            txtUltraPaidOnMaturity.append(UltraEveryYearText);
+            txtUltraEveryYearEndOfTerm.setText("");
+            txtUltraEveryYearEndOfTerm.append(UltraEveryYearAmnt);
+            txtUltraEveryYearEndOfTerm.append(UltraEveryYearText);
             //endregion
 
             //region  txtUltraEveryMonth
             SpannableStringBuilder UltraEveryMonthBuilder = new SpannableStringBuilder();
             SpannableString UltraEveryMonthAmnt = new SpannableString(""+sampleScenarioEntity.getLicULMonthlyBenefit());
-            LicEveryYearAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,UltraEveryMonthAmnt.length(),0);
-            SpannableString UltraEveryMonthText = new SpannableString(" every month continues in this period" );
+            UltraEveryMonthAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,UltraEveryMonthAmnt.length(),0);
+            SpannableString UltraEveryMonthText = new SpannableString(" every month" + "\n" + sampleScenarioEntity.getLicULMonthlyBenefityears());
 
             UltraEveryMonthBuilder.append(UltraEveryMonthAmnt );
-            txtUltraPaidOnMaturity.setText("");
-            txtUltraPaidOnMaturity.append(UltraEveryMonthAmnt);
-            txtUltraPaidOnMaturity.append(UltraEveryMonthText);
+            txtUltraEveryMonth.setText("");
+            txtUltraEveryMonth.append(UltraEveryMonthAmnt);
+            txtUltraEveryMonth.append(UltraEveryMonthText);
             //endregion
-
-   */
-
 
             txtBasicSumAssured.setText("" + sampleScenarioEntity.getBasicSumAssured());
             txtLicfirstPremium.setText("" + sampleScenarioEntity.getLicJLFirstPrem());
@@ -199,21 +187,6 @@ public class UltraLakshayScenarioOfBenefitsDeath extends Fragment {
             txtUltrafirstPremium.setText("" + sampleScenarioEntity.getLicULFirstPrem());
             txtUltraRenewalPremium.setText("" + sampleScenarioEntity.getLicULRenewalPrem());
             txtLicULFifthYearPrem.setText("" + sampleScenarioEntity.getLicULFifthYearPrem());
-
-            txtLicEveryYear.setText("" + sampleScenarioEntity.getLicJLAnnBenefit() +  " every year till\nend of the term");         //1
-            txtLicPaidOnMaturity.setText("" + sampleScenarioEntity.getLicJLMatBenefit() +" paid on\nmaturity date");  //2
-
-            txtUltraPaidOnMaturity.setText("" + sampleScenarioEntity.getLicULMatBenefit()+" paid on\nmaturity date");   //3
-            txtUltraEveryMonthPeriod.setText("" + sampleScenarioEntity.getLicULMonthlyBenefitCont()+" every month\ncontinues in this period");  //4
-
-            txtUltraLumSum.setText("" + sampleScenarioEntity.getLicULLumpsumClaim() +" paid in\nlump sum");   //5
-
-            txtUltraEveryYearEndOfTerm.setText("" + sampleScenarioEntity.getLicULAnnBenefit() + " every year till\nend of term");  //6
-            txtUltraEveryMonth.setText("" + sampleScenarioEntity.getLicULMonthlyBenefit() + " every month" + "\n" +sampleScenarioEntity.getLicULMonthlyBenefityears());  //7
-
-            //every month
-           // continues in this period
-
 
 
 
