@@ -11,6 +11,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.introslider.WelcomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.utility.AsyncUserBehaviour;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -71,6 +72,10 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
             startActivity(new Intent(this, WelcomeActivity.class));
         } else {
+
+            //user behaviour data collection in Async
+            new AsyncUserBehaviour(this).execute();
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -82,6 +87,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
                     } else {
+
 
                         if (prefManager.IsBikeMasterUpdate())
                             new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
@@ -100,27 +106,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
                     }
-                   /* if (loginResponseEntity != null) {
-                        //Toast.makeText(SplashScreenActivity.this, "User exist!", Toast.LENGTH_SHORT).show();
-                        //TODO Redirect to homeactivity
-                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-                    } else {
-                        if (checkAllMastersIsUpdate()) {
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                        } else {
-                            if (prefManager.IsBikeMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
-                            if (prefManager.IsCarMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getCarMaster(SplashScreenActivity.this);
-                            if (prefManager.IsRtoMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getRTOMaster(SplashScreenActivity.this);
-                            if (prefManager.IsInsuranceMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getInsuranceMaster(SplashScreenActivity.this);
-                            if (prefManager.getIsRblCityMaster())
-                                new CreditCardController(SplashScreenActivity.this).getRblCityMaster(SplashScreenActivity.this);
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                        }
-                    }*/
+
                 }
             }, SPLASH_DISPLAY_LENGTH);
         }

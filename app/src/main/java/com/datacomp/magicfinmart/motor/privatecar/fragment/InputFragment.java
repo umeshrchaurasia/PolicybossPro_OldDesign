@@ -218,7 +218,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private void bind_init_binders() {
 
-        //fetching initial data
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getCarMakeModel();

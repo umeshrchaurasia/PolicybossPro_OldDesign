@@ -300,8 +300,17 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         entity.setVehicleRequestID(String.valueOf(motorRequestEntity.getVehicleRequestID()));
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
-        entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
         entity.setIsActive(1);
+
+
+        DBPersistanceController db = new DBPersistanceController(getActivity());
+        //entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
+        if (db.getUserConstantsData().getParentid() != null && !db.getUserConstantsData().getParentid().equals("")
+                && !db.getUserConstantsData().getParentid().equals("0")) {
+            entity.setFba_id("" + Integer.parseInt(db.getUserConstantsData().getParentid()));
+        } else {
+            entity.setFba_id("" + db.getUserData().getFBAId());
+        }
 
         if (saveQuoteEntity != null) {
             if (saveQuoteEntity.getVehicleRequestID() != 0)

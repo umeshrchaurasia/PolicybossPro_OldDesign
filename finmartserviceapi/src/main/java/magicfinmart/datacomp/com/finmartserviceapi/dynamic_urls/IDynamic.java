@@ -28,4 +28,7 @@ public interface IDynamic {
     void uploadNCDDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber);
 
     void GetPospAppointmentLetter(CertificateEntity certificateEntity, IResponseSubcriber iResponseSubcriber);
+
+
+    void sendUserBehaviour();
 }

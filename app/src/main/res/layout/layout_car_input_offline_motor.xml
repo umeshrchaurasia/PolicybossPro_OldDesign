@@ -597,6 +597,18 @@
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="match_parent"
+                    android:hint="IDV Amount">
+
+                    <EditText
+                        android:id="@+id/etIDVAmount"
+                        style="@style/Style.edittext"
+                        android:imeOptions="actionNext"
+                        android:inputType="number" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"

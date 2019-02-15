@@ -86,7 +86,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     Gson gson = new Gson();
-    private static final String TAG = "AddNewQuoteActivity";
+    private static final String TAG = "InputOfflineMotorActivity";
     TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb;
     LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
@@ -110,6 +110,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
     EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment;
+    EditText etIDVAmount;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvProgress, tvClaimYes, tvClaimNo;
     EditText etCarNo;
@@ -227,6 +228,13 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             etComment.setText(saveMotorRequestEntity.getComment());
         else
             etComment.setText("");
+
+
+        if (saveMotorRequestEntity.getIdvAmount() != null && saveMotorRequestEntity.getIdvAmount().equals("")) {
+            etIDVAmount.setText(saveMotorRequestEntity.getIdvAmount());
+        } else {
+            etIDVAmount.setText("");
+        }
 
 
         if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
@@ -511,6 +519,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         rbDontHAve = findViewById(R.id.rbDontHAve);
         rbWithIn = findViewById(R.id.rbWithIn);
         rbBeyond = findViewById(R.id.rbBeyond);
+
+        etIDVAmount = findViewById(R.id.etIDVAmount);
 
     }
 
@@ -2014,6 +2024,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     //TODO: Offline motor save
                     saveMotorRequestEntity.setMotorRequestEntity(motorRequestEntity);
                     saveMotorRequestEntity.setComment("" + etComment.getText().toString());
+                    saveMotorRequestEntity.setIdvAmount("" + etIDVAmount.getText().toString());
                     showDialog("Please wait..");
                     new OfflineQuotesController(this).saveMotorOffline(saveMotorRequestEntity, this);
                 }
