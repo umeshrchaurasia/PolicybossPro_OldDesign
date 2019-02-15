@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermActivity">
+tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -51,12 +51,14 @@ tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermActivity">
         android:background="@color/colorPrimaryDark"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:weightSum="100"></View>
 
     <RelativeLayout
         android:id="@+id/bottomHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_below="@+id/viewHeader">
 
         <android.support.design.widget.BottomNavigationView

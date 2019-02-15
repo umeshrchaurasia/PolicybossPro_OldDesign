@@ -45,8 +45,8 @@
                         style="@style/TextViewStyle.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
                         android:gravity="center"
                         android:text="Basic Sum Assured: "
                         android:textColor="@color/black" />
@@ -56,8 +56,8 @@
                         style="@style/TextViewStyle.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
                         android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
                         android:gravity="center"
                         android:text="Rs.10,00,000"
                         android:textColor="@color/black"
@@ -87,9 +87,9 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/cell_yellow_shape"
                     android:padding="8dp"
-                    android:text="YEAR"
+                    android:text="Year"
                     android:textColor="@color/black"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <View
                     android:id="@+id/view"
@@ -120,18 +120,23 @@
                     android:id="@+id/viewDeath"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_alignBaseline="@+id/txtDeathCourse"
+                    android:layout_marginTop="40dp"
+                    android:paddingTop="40dp"
+                    android:layout_below="@+id/lyJeevanLakshya"
                     android:background="@color/yellow">
 
                 </View>
+
+
 
                 <TextView
                     android:id="@+id/txtDeathCourse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lyJeevanLakshya"
+                    android:layout_marginTop="10dp"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
+                    android:layout_alignBaseline="@+id/viewDeath"
                     android:background="@drawable/rect_red_shape"
                     android:gravity="center"
                     android:text="Year 5\nDeath Course"
@@ -150,7 +155,7 @@
                     android:padding="8dp"
                     android:text="Benefits paid to the nominee"
                     android:textColor="@color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/txtYear2"
@@ -199,9 +204,9 @@
                         android:background="@color/dark_blue_one"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="LIC JEEVAN LAKSHYA"
+                        android:text="ULTRA LAKSHYA"
                         android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        android:textStyle="normal" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -236,7 +241,7 @@
                             style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1st Year Premium: "
+                            android:text="Renewal Premium: "
 
                             android:textColor="@color/header_dark_text" />
 
@@ -279,7 +284,7 @@
                         android:padding="10dp"
                         android:text="LIC JEEVAN LAKSHYA"
                         android:textColor="@color/white"
-                        android:textStyle="bold" />
+                        android:textStyle="normal" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -305,6 +310,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/lyJeevanPrem"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
@@ -314,7 +320,7 @@
                             style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1st Year Premium: "
+                            android:text="Renewal Premium: "
                             android:textColor="@color/header_dark_text" />
 
                         <TextView
@@ -341,22 +347,24 @@
 
                 <TextView
                     style="@style/TextViewStyle.Medium"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_above="@+id/viewDeath"
                     android:layout_alignParentRight="true"
                     android:layout_toRightOf="@+id/txtDeathCourse"
+                    android:layout_above="@+id/viewDeath"
+                    android:layout_marginBottom="-39dp"
                     android:gravity="right"
                     android:text="Premium Stops"
-                    android:textColor="@color/red_button" />
+                    android:textColor="@color/red_button"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/textTotalPaidRight"
                     style="@style/TextViewStyle.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/viewDeath"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/viewDeath"
                     android:text="Total paid till date"
                     android:textColor="@color/black" />
 
@@ -365,8 +373,8 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textTotalPaidRight"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/textTotalPaidRight"
                     android:text=""
                     android:textColor="@color/black"
                     android:textStyle="bold" />
@@ -375,25 +383,29 @@
 
 
                 <!--Left step2  Pemeium Stop-->
+                <!--android:layout_toLeftOf="@+id/txtDeathCourse"-->
 
                 <TextView
                     style="@style/TextViewStyle.Medium"
+                    android:id="@+id/txtLicPremText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/viewDeath"
-                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="-39dp"
+                    android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/txtDeathCourse"
                     android:gravity="left"
                     android:text="Premium Stops"
-                    android:textColor="@color/red_button" />
+                    android:textColor="@color/red_button"
+                    android:visibility="visible" />
 
                 <TextView
                     android:id="@+id/textTotalPaidLeft"
                     style="@style/TextViewStyle.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/viewDeath"
                     android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/viewDeath"
                     android:text="Total paid till date"
                     android:textColor="@color/black" />
 
@@ -402,8 +414,8 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textTotalPaidRight"
                     android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/textTotalPaidRight"
                     android:text=""
                     android:textColor="@color/black"
                     android:textStyle="bold" />
@@ -418,8 +430,8 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textBenefitDeath"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/textBenefitDeath"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="8dp"
                     android:layout_toRightOf="@+id/txtYear2"
@@ -435,8 +447,8 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtUltraLumSum"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/txtUltraLumSum"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/txtYear2"
                     android:background="@drawable/rect_light_brown_shape"
@@ -451,8 +463,8 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtUltraEveryYearEndOfTerm"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/txtUltraEveryYearEndOfTerm"
                     android:layout_marginLeft="20dp"
                     android:layout_toRightOf="@+id/txtYear2"
                     android:background="@drawable/rect_verylight_brown_shape"
@@ -466,8 +478,8 @@
                     android:id="@+id/lyPaidOnMaturity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtUltraEveryMonth"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/txtUltraEveryMonth"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="8dp"
 
@@ -516,8 +528,8 @@
                     android:id="@+id/lyEveryMonthPeriod"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/lyPaidOnMaturity"
                     android:layout_alignParentRight="true"
+                    android:layout_below="@+id/lyPaidOnMaturity"
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="8dp"
 
@@ -553,10 +565,10 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textBenefitDeath"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginTop="8dp"
+                    android:layout_below="@+id/textBenefitDeath"
                     android:layout_marginRight="20dp"
+                    android:layout_marginTop="8dp"
                     android:layout_toLeftOf="@+id/txtYear2"
                     android:background="@drawable/rect_light_brown_shape"
                     android:gravity="center"
@@ -568,11 +580,11 @@
                     android:id="@+id/lyLicPaidOnMaturity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtUltraEveryMonth"
                     android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/txtUltraEveryMonth"
 
-                    android:layout_marginTop="8dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginTop="8dp"
                     android:layout_toLeftOf="@+id/txtYear2"
                     android:orientation="horizontal">
 

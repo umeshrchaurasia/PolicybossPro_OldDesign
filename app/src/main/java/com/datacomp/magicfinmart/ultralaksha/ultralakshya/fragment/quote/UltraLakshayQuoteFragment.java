@@ -50,8 +50,8 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-      ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().hide();
-        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(false);
+//             ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().hide();
+//        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(false);
 
 
         if( getArguments().getString(UltraLakshyaTermBottmActivity.INPUT_DATA,"") != null)

@@ -345,6 +345,7 @@ public class PrefManager {
         editor.clear().commit();
 
         setToken(strToken);
+        updateContactMsgFirst("" + 1);
        /* pref.edit().remove(POSP_INFO)
                 .remove(SHARED_KEY_PUSH_NOTIFY)
                 .remove(SHARED_KEY_PUSH_WEB_URL)
@@ -459,9 +460,9 @@ public class PrefManager {
     }
 
 
-    public boolean updateContactMsgFirst(String MotorVersion) {
+    public boolean updateContactMsgFirst(String ContVersion) {
         pref.edit().remove(ContactFirst_Check).commit();
-        return pref.edit().putString(ContactFirst_Check, MotorVersion).commit();
+        return pref.edit().putString(ContactFirst_Check, ContVersion).commit();
     }
 
     public String getContactMsgFirst() {

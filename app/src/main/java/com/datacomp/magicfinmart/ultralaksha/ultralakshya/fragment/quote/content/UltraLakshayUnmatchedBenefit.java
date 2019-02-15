@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.conten
 
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,15 +51,17 @@ public class UltraLakshayUnmatchedBenefit extends Fragment {
 
         setUnmatchedUI();
 
-     //   Spannable wordtoSpan = new SpannableString(getResources().getString(R.string.UltraLakshyaHdr));
-
-//        wordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), 15, 30, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        txtHdr.setText(wordtoSpan);
-
         String text = getActivity().getResources().getString(R.string.UltraLakshyaHdr);
         SpannableStringBuilder ssBuilder = new SpannableStringBuilder(text);
         ssBuilder.setSpan(
                 new ForegroundColorSpan(getActivity().getResources().getColor(R.color.yellow)),
+                text.indexOf("Ultra Lakshya"),
+                text.indexOf("Ultra Lakshya") + String.valueOf("Ultra Lakshya").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        ssBuilder.setSpan(
+                new StyleSpan(Typeface.BOLD),
                 text.indexOf("Ultra Lakshya"),
                 text.indexOf("Ultra Lakshya") + String.valueOf("Ultra Lakshya").length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -71,7 +75,21 @@ public class UltraLakshayUnmatchedBenefit extends Fragment {
         );
 
         ssBuilder.setSpan(
+                new StyleSpan(Typeface.BOLD),
+                text.indexOf("LIC's Jeevan Lakshya"),
+                text.indexOf("LIC's Jeevan Lakshya") + String.valueOf("LIC's Jeevan Lakshya").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        ssBuilder.setSpan(
                 new ForegroundColorSpan(getActivity().getResources().getColor(R.color.yellow)),
+                text.indexOf("HDFC Life's Click2Protect 3D"),
+                text.indexOf("HDFC Life's Click2Protect 3D") + String.valueOf("HDFC Life's Click2Protect 3D").length(),
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        );
+
+        ssBuilder.setSpan(
+                new StyleSpan(Typeface.BOLD),
                 text.indexOf("HDFC Life's Click2Protect 3D"),
                 text.indexOf("HDFC Life's Click2Protect 3D") + String.valueOf("HDFC Life's Click2Protect 3D").length(),
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE

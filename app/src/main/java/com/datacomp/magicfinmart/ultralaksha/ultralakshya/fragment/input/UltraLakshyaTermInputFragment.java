@@ -83,7 +83,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     CardView cvQuoteDetails;
 
 
-    TextView txtSumAssured,txt10lac ,txt25lac ,txt50lac ,txt1cr, txtOther, txtDispalaylac,
+    TextView txtSumAssured,txt10lac ,txt25lac ,txt50lac ,txt1cr, txtOther, txtDispalaylac,txtAnnualPremiumDisplay,
             txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
     LinearLayout llAddon;
@@ -133,8 +133,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_ultra_lakshya_term_input, container, false);
-        ((UltraLakshyaTermBottmActivity) getActivity()).getSupportActionBar().show();
-        ((UltraLakshyaTermBottmActivity) getActivity()).manageHeader(true);
+//        ((UltraLakshyaTermBottmActivity) getActivity()).getSupportActionBar().show();
+//        ((UltraLakshyaTermBottmActivity) getActivity()).manageHeader(true);
         init(view);
         setSeekbarSumAssured();
         setListener();
@@ -334,6 +334,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         txt1cr.setOnClickListener(this);
         txtOther.setOnClickListener(this);
 
+        txt10lac.performClick();
+
     }
 
     private void init_adapters() {
@@ -402,6 +404,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         //quote page
         //   cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
+        txtAnnualPremiumDisplay = (TextView) view.findViewById(R.id.txtAnnualPremiumDisplay);
         txtSumAssured = (TextView) view.findViewById(R.id.txtSumAssured);
         txtDispalaylac =(TextView) view.findViewById(R.id.txtDispalaylac);
         txt10lac = (TextView) view.findViewById(R.id.txt10lac);
@@ -552,35 +555,40 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
             case R.id.txt10lac:
                 SUM_ASSURED_AMNT= "1000000";
+                etSumICICIAssured.setText(SUM_ASSURED_AMNT);
                 setBackgroundSeekBar(txt10lac,txt25lac ,txt50lac ,txt1cr, txtOther);
-                etSumICICIAssured.setVisibility(View.GONE);
-                txtDispalaylac.setVisibility(View.GONE);
+                lySeekbar.setVisibility(View.GONE);
+
                 break;
 
             case R.id.txt25lac:
                 SUM_ASSURED_AMNT= "2500000";
+                etSumICICIAssured.setText(SUM_ASSURED_AMNT);
                 setBackgroundSeekBar(txt25lac ,txt10lac,txt50lac ,txt1cr, txtOther);
-                etSumICICIAssured.setVisibility(View.GONE);
-                txtDispalaylac.setVisibility(View.GONE);
+                lySeekbar.setVisibility(View.GONE);
+
                 break;
 
             case R.id.txt50lac:
                 SUM_ASSURED_AMNT= "5000000";
+                etSumICICIAssured.setText(SUM_ASSURED_AMNT);
                 setBackgroundSeekBar(txt50lac ,txt10lac,txt25lac ,txt1cr, txtOther);
-                etSumICICIAssured.setVisibility(View.GONE);
-                txtDispalaylac.setVisibility(View.GONE);
+                lySeekbar.setVisibility(View.GONE);
+
                 break;
 
             case R.id.txt1cr:
                 SUM_ASSURED_AMNT= "10000000";
+                etSumICICIAssured.setText(SUM_ASSURED_AMNT);
                 setBackgroundSeekBar(txt1cr,txt10lac,txt25lac ,txt50lac , txtOther);
-                etSumICICIAssured.setVisibility(View.GONE);
-                txtDispalaylac.setVisibility(View.GONE);
+                lySeekbar.setVisibility(View.GONE);
+
                 break;
 
             case R.id.txtOther:
-                SUM_ASSURED_AMNT= "1000000";
+               // SUM_ASSURED_AMNT= "1000000";
                 setBackgroundSeekBar(txtOther ,txt10lac,txt25lac ,txt50lac ,txt1cr );
+                lySeekbar.setVisibility(View.VISIBLE);
                 etSumICICIAssured.setVisibility(View.VISIBLE);
                 txtDispalaylac.setVisibility(View.VISIBLE);
                 break;
@@ -628,7 +636,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         // Requestentity.setPolicyTerm(1);
 
-        Requestentity.setContactName(etFirstName.getText().toString() + " " + etLasttName.getText().toString());
+        Requestentity.setContactName(etFirstName.getText().toString().trim() + " " + etLasttName.getText().toString().trim());
         Requestentity.setContactEmail("finmarttest@gmail.com");
         Requestentity.setContactMobile(etMobile.getText().toString());
 
@@ -645,7 +653,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
      //   Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
 
-        Requestentity.setSumAssured(Integer.parseInt(SUM_ASSURED_AMNT));   //-05
+        Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString()));   //-05
         Requestentity.setInsuredDOB(et_DOB.getText().toString());
 
         switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
@@ -715,18 +723,18 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         }
 
 
-        if (!isValidePhoneNumber(etMobile)) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                etMobile.requestFocus();
-                etMobile.setError("Enter Mobile");
-                etMobile.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                return false;
-            } else {
-                etMobile.requestFocus();
-                etMobile.setError("Enter Mobile");
-                return false;
-            }
-        }
+//        if (!isValidePhoneNumber(etMobile)) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                etMobile.requestFocus();
+//                etMobile.setError("Enter Mobile");
+//                etMobile.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//                return false;
+//            } else {
+//                etMobile.requestFocus();
+//                etMobile.setError("Enter Mobile");
+//                return false;
+//            }
+//        }
 
 
         if (et_DOB.getText().toString().isEmpty()) {
@@ -824,7 +832,9 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
                     mainScroll.scrollTo(0, mainScroll.getBottom());
 
+                    txtAnnualPremiumDisplay.setText("ANNUAL PREMIUM on "+  etSumICICIAssured.getText().toString() + " SA");
                     lyAnnualPremium.setVisibility(View.VISIBLE);
+                    lySeekbar.setVisibility(View.GONE);
                     btnGetQuote.setVisibility(View.VISIBLE);
 
 
@@ -1045,21 +1055,40 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     public void   SumICICIAssured()
     {
         String etsumvalue= etSumICICIAssured.getText().toString();
-        String filtervalue="";
-        Integer finalvalue=0;
-        if(etsumvalue.length() == 7) {
-            filtervalue = etsumvalue.substring(0, 2);
-            finalvalue=(Integer.parseInt(filtervalue) + 1)*100000;
+
+        long finalvalue=0;
+        String calValue = "0";
+
+
+   //      finalvalue = (Long.valueOf(etsumvalue)/100000)*100000;
+        calValue = String.valueOf((Double.valueOf(etsumvalue))/100000);
+
+        if(String.valueOf(calValue).contains("."))
+        {
+            String[] arrOfStr = calValue.split("\\.");
+            if(!arrOfStr[1].toString().equalsIgnoreCase("0"))
+            {
+                finalvalue = (Long.valueOf(arrOfStr[0].toString()) + 1) * 100000;
+                etSumICICIAssured.setText("" + finalvalue);
+            }
         }
-        if(etsumvalue.length() == 8) {
-            filtervalue = etsumvalue.substring(0, 3);
-            finalvalue=(Integer.parseInt(filtervalue) + 1)*100000;
-        }
-        if(etsumvalue.length() == 9) {
-            filtervalue= etsumvalue.substring(0, 4);
-            finalvalue=(Integer.parseInt(filtervalue) + 1)*100000;
-        }
-        etSumICICIAssured.setText(""+ finalvalue);
+
+//        String Othervalue="";
+//        Integer finalOthvalue=0;
+//        if(etsumvalue.length() == 7) {
+//            filtervalue = etsumvalue.substring(0, 2);
+//            filtervalue = etsumvalue.substring(2, 2);
+//            finalvalue=(Integer.parseInt(filtervalue) + 1)*100000;
+//        }
+//        if(etsumvalue.length() == 8) {
+//            filtervalue = etsumvalue.substring(0, 3);
+//            finalvalue=(Integer.parseInt(filtervalue) + 1)*100000;
+//        }
+//        if(etsumvalue.length() == 9) {
+//            filtervalue= etsumvalue.substring(0, 4);
+//            finalvalue=(Integer.parseInt(filtervalue) + 1)*100000;
+//        }
+
     }
 
     private void calculatePremiumTerm() {
