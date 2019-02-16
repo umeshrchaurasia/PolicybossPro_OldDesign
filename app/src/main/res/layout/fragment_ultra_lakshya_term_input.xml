@@ -55,8 +55,9 @@
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:drawableRight="@drawable/vector_person"
                                 android:imeOptions="actionNext"
-                                android:inputType="textNoSuggestions"
+                                android:inputType="textCapWords"
                                 android:maxLength="25"
+
                                 android:nextFocusForward="@+id/etLasttName"
                                 android:singleLine="true" />
 
@@ -75,6 +76,7 @@
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:drawableRight="@drawable/vector_person"
                                 android:maxLength="25"
+                                android:inputType="textCapWords"
                                 android:singleLine="true" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -137,7 +139,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
-                            android:hint="MOBILE">
+                            android:hint="Mobile">
 
                             <EditText
                                 android:id="@+id/etMobile"
@@ -153,7 +155,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
-                            android:hint="DATE OF BIRTH">
+                            android:hint="Date Of Birth">
 
                             <EditText
                                 android:id="@+id/et_DOB"
@@ -230,7 +232,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="GENDER"
+                                android:text="Gender"
                                 android:textColor="@color/header_dark_text" />
 
                             <LinearLayout
@@ -249,6 +251,7 @@
                                     android:gravity="center"
                                     android:padding="6dp"
                                     android:text="Male"
+                                    android:textStyle="bold"
                                     android:textAppearance="@style/TextStyle.TextMedium"
                                     android:textColor="@color/black" />
 
@@ -283,7 +286,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="SMOKER"
+                                android:text="Smoker"
                                 android:textColor="@color/header_dark_text" />
 
                             <LinearLayout
@@ -298,10 +301,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
                                     android:layout_weight="1"
-                                    android:background="@drawable/customeborder_blue"
+                                    android:background="@drawable/customeborder"
                                     android:gravity="center"
                                     android:padding="6dp"
-                                    android:text="YES"
+                                    android:text="Yes"
+
                                     android:textAppearance="@style/TextStyle.TextMedium"
                                     android:textColor="@color/black" />
 
@@ -311,10 +315,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="10dp"
                                     android:layout_weight="1"
-                                    android:background="@drawable/customeborder"
+                                    android:background="@drawable/customeborder_blue"
                                     android:gravity="center"
                                     android:padding="6dp"
-                                    android:text="NO"
+                                    android:text="No"
+                                    android:textStyle="bold"
                                     android:textAppearance="@style/TextStyle.TextMedium"
                                     android:textColor="@color/black" />
                             </LinearLayout>
@@ -347,7 +352,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="POLICY TERM"
+                            android:text="Policy Term"
                             android:textColor="@color/blue"
                             android:textSize="14sp" />
 
@@ -394,7 +399,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="3dp"
                     android:gravity="center_horizontal"
-                    android:text="LIC Jeevan Lakshya Sum Assured "
+                    android:text="Lic Jeevan Lakshya Sum Assured "
                     android:textAllCaps="true"
                     android:textColor="@color/blue"
                     android:textSize="12dp" />
@@ -418,6 +423,7 @@
                         android:layout_marginLeft="4dp"
                         android:layout_marginRight="4dp"
                         android:layout_weight="20"
+                        android:textStyle="bold"
                         android:background="@drawable/customeborder_blue"
                         android:gravity="center"
                         android:padding="5dp"
@@ -482,7 +488,7 @@
                     android:layout_weight="100"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <EditText
                         android:layout_marginLeft="32dp"
@@ -602,6 +608,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                style="@style/TextViewStyle.Medium"
                                 android:id="@+id/etCal_lic"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -614,6 +621,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                style="@style/TextViewStyle.Large"
                                 android:id="@+id/etCal_ultra"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"

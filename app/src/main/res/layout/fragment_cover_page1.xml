@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imghdr"
         android:layout_width="160dp"
-        android:layout_height="110dp"
+        android:layout_height="100dp"
         android:scaleType="fitCenter"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -18,9 +18,12 @@
 
     <TextView
         android:id="@+id/txtMessage"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      style="@style/TextViewStyle.Small"
+      style="@style/TextViewStyle.VerySmall"
+        android:textSize="11sp"
         android:textColor="@color/black"
         android:layout_below="@+id/imghdr"
       android:gravity="center"
@@ -30,7 +33,9 @@
         android:id="@+id/txtName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         style="@style/TextViewStyle.Large"
+        android:textSize="17sp"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_below="@+id/txtMessage"

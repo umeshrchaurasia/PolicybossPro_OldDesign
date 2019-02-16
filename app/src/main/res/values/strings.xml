@@ -390,10 +390,10 @@
     </string-array>
     <!--Term lakshya -->
     <string-array name="lakshya_premium_frequency">
-        <item>YEARLY</item>
-        <item>HALF YEARLY</item>
-        <item>QUARTERLY</item>
-        <item>MONTHLY</item>
+        <item>Yearly</item>
+        <item>Half Yearly</item>
+        <item>Quarterly</item>
+        <item>Monthly</item>
     </string-array>
     <string-array name="lakshya_policyterm">
         <item>13</item>

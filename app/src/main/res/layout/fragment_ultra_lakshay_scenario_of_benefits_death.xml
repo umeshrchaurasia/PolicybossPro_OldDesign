@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingTop="5dp"
-                    android:text="@string/UltraLakshyaJeevanVsLakshya"
+                    android:text="@string/UltraLakshyaScenario"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
@@ -71,8 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/lyHdr"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+
                 android:paddingLeft="4dp"
                 android:paddingRight="4dp">
 
@@ -120,8 +119,7 @@
                     android:id="@+id/viewDeath"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="40dp"
-                    android:paddingTop="40dp"
+                    android:layout_marginTop="45dp"
                     android:layout_below="@+id/lyJeevanLakshya"
                     android:background="@color/yellow">
 
@@ -134,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/lyJeevanLakshya"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_centerHorizontal="true"
                     android:layout_alignBaseline="@+id/viewDeath"
                     android:background="@drawable/rect_red_shape"
@@ -219,14 +217,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1st Year Premium: "
-                            android:textColor="@color/header_dark_text" />
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/txtUltrafirstPremium"
-                            style="@style/TextViewStyle.Small"
+                            style="@style/TextViewStyle.VerySmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
+                            android:textStyle="bold"
                             android:text=""
                             android:textColor="@color/black" />
                     </LinearLayout>
@@ -243,13 +241,14 @@
                             android:layout_height="wrap_content"
                             android:text="Renewal Premium: "
 
-                            android:textColor="@color/header_dark_text" />
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/txtUltraRenewalPremium"
-                            style="@style/TextViewStyle.Small"
+                            style="@style/TextViewStyle.VerySmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold"
                             android:text=""
                             android:textColor="@color/black" />
                     </LinearLayout>
@@ -259,6 +258,7 @@
                         style="@style/TextViewStyle.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:textColor="@color/header_dark_text" />
 
                 </LinearLayout>
@@ -297,14 +297,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="1st Year Premium: "
-                            android:textColor="@color/header_dark_text" />
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/txtLicfirstPremium"
-                            style="@style/TextViewStyle.Small"
+                            style="@style/TextViewStyle.VerySmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
+                            android:textStyle="bold"
                             android:text=""
                             android:textColor="@color/black" />
                     </LinearLayout>
@@ -321,14 +321,15 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Renewal Premium: "
-                            android:textColor="@color/header_dark_text" />
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/txtLicRenewalPremium"
-                            style="@style/TextViewStyle.Small"
+                            style="@style/TextViewStyle.VerySmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
+                            android:textStyle="bold"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -337,6 +338,7 @@
                         style="@style/TextViewStyle.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text=""
                         android:textColor="@color/header_dark_text" />
 
@@ -352,7 +354,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_toRightOf="@+id/txtDeathCourse"
                     android:layout_above="@+id/viewDeath"
-                    android:layout_marginBottom="-39dp"
+                    android:layout_marginBottom="-44dp"
                     android:gravity="right"
                     android:text="Premium Stops"
                     android:textColor="@color/red_button"
@@ -391,7 +393,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/viewDeath"
-                    android:layout_marginBottom="-39dp"
+                    android:layout_marginBottom="-44dp"
                     android:layout_alignParentLeft="true"
                     android:layout_toLeftOf="@+id/txtDeathCourse"
                     android:gravity="left"
@@ -433,7 +435,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_below="@+id/textBenefitDeath"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toRightOf="@+id/txtYear2"
                     android:background="@drawable/rect_dark_brown_shape"
                     android:gravity="center"
@@ -469,7 +471,10 @@
                     android:layout_toRightOf="@+id/txtYear2"
                     android:background="@drawable/rect_verylight_brown_shape"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:text="Rs.10000 every year till\n end Of Term"
                     android:textColor="@color/black" />
 
@@ -568,7 +573,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/textBenefitDeath"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_toLeftOf="@+id/txtYear2"
                     android:background="@drawable/rect_light_brown_shape"
                     android:gravity="center"

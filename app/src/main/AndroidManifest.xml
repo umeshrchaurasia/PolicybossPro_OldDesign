@@ -1192,7 +1192,7 @@
 
         <activity
             android:name=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
-            android:label="FINMART EXCLUSIVE"
+            android:label="FINMART EXCLUSIVES"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"

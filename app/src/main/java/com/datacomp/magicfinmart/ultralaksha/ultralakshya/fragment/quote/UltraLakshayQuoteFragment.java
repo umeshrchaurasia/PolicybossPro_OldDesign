@@ -83,10 +83,9 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
 
         adapter.addFrag(new UltraLakshayUnmatchedBenefit());
         adapter.addFrag(new UltraLakshayBenefitStandAlone());
-
-        adapter.addFrag(new UltraLakshayBenefitILLustration());
         adapter.addFrag(new UltraLakshayScenarioOfBenefitsDeath());
 
+        adapter.addFrag(new UltraLakshayBenefitILLustration());
         adapter.addFrag(new UltraLakshayDeathBenefitToNominee());
         adapter.addFrag(new UltraLakshayProductCombo());
 
