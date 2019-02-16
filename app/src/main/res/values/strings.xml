@@ -35,8 +35,7 @@
     <string name="UltraLakshyaHdr1">Presenting <b> <font color='#f79f00'>Ultra Lakshya - </font></b> a unique solution specially crafted for you by blending
      <b> <font color='#f79f00'>LIC\'s Jeevan Lakshya </font></b>  and <b> <font color='#f79f00'>HDFC Life\'s Click2Protect 3D  </font></b> product.</string>
 
-    <string name="UltraLakshyaHdr">Presenting Ultra Lakshya - a unique solution specially crafted for you by blending LIC\'s Jeevan Lakshya
-      HDFC Life\'s Click2Protect 3D product.</string>
+    <string name="UltraLakshyaHdr">Presenting Ultra Lakshya - a unique solution specially crafted for you by blending LIC\'s Jeevan Lakshya and HDFC Life\'s Click2Protect 3D product.</string>
 
 
     <string name="buyHdfc"> <b><u> BUY HDFC NOW</u></b></string>
@@ -391,10 +390,10 @@
     </string-array>
     <!--Term lakshya -->
     <string-array name="lakshya_premium_frequency">
-        <item>YEARLY</item>
-        <item>HALF YEARLY</item>
-        <item>QUARTERLY</item>
-        <item>MONTHLY</item>
+        <item>Yearly</item>
+        <item>Half Yearly</item>
+        <item>Quarterly</item>
+        <item>Monthly</item>
     </string-array>
     <string-array name="lakshya_policyterm">
         <item>13</item>

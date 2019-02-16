@@ -59,12 +59,12 @@ public class LakshayQuotePagerAdapter extends FragmentStatePagerAdapter {
                 return new UltraLakshayBenefitStandAlone();
 
             case 5:
-                return new UltraLakshayBenefitILLustration();
+                return new UltraLakshayScenarioOfBenefitsDeath();
+
 
             case 6:
 
-                return new UltraLakshayScenarioOfBenefitsDeath();
-
+                return new UltraLakshayBenefitILLustration();
 
             case 7:
                 return new UltraLakshayDeathBenefitToNominee();

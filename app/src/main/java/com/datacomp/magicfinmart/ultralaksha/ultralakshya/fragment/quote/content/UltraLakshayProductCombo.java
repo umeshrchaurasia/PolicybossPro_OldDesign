@@ -38,7 +38,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_product_combo, container, false);
+        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_product_combo_new, container, false);
         return view;
     }
 
@@ -98,7 +98,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
             txtLicMode.setText(""+objComboEntity.getLicMode());
 
             txtLicSum.setText(""+objComboEntity.getLicSum());
-            txtOtherYear.setText(""+objComboEntity.getLicYears());
+           // txtOtherYear.setText(""+objComboEntity.getLicYears());
 
             txtLicPremYearOne.setText(""+objComboEntity.getLicPremYearOne());
             txtLicPremOtherYears.setText(""+objComboEntity.getLicPremOtherYears());

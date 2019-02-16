@@ -127,7 +127,7 @@ public class UltraLakshayScenarioOfBenefitsDeath extends Fragment {
             SpannableString UltraEveryMonthPeriodAmnt = new SpannableString(""
                     + sampleScenarioEntity.getLicULMonthlyBenefitCont());
             UltraEveryMonthPeriodAmnt.setSpan(new StyleSpan(Typeface.BOLD), 0, UltraEveryMonthPeriodAmnt.length(), 0);
-            SpannableString UltraEveryMonthPeriodText = new SpannableString(" every month\ncontinues in this period");
+            SpannableString UltraEveryMonthPeriodText = new SpannableString(" every month continues in this period");
 
             UltraEveryMonthPeriodBuilder.append(UltraEveryMonthPeriodAmnt);
             txtUltraEveryMonthPeriod.setText("");
@@ -163,7 +163,7 @@ public class UltraLakshayScenarioOfBenefitsDeath extends Fragment {
             SpannableStringBuilder UltraEveryMonthBuilder = new SpannableStringBuilder();
             SpannableString UltraEveryMonthAmnt = new SpannableString(""+sampleScenarioEntity.getLicULMonthlyBenefit());
             UltraEveryMonthAmnt.setSpan(new StyleSpan(Typeface.BOLD),0,UltraEveryMonthAmnt.length(),0);
-            SpannableString UltraEveryMonthText = new SpannableString(" every month" + "\n" + sampleScenarioEntity.getLicULMonthlyBenefityears());
+            SpannableString UltraEveryMonthText = new SpannableString(" every month" + " " + sampleScenarioEntity.getLicULMonthlyBenefityears());
 
             UltraEveryMonthBuilder.append(UltraEveryMonthAmnt );
             txtUltraEveryMonth.setText("");
