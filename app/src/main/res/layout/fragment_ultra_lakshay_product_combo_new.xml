@@ -89,8 +89,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:textColor="@color/header_dark_text"
                         android:text="Term"></TextView>
@@ -133,8 +134,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:textColor="@color/header_dark_text"
                         android:text="PPT"></TextView>
@@ -177,8 +179,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:text="Mode"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -221,8 +224,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:text="Sum"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -265,8 +269,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:text="Premium Year 1"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -310,8 +315,9 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:text="Premium - Renewal"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -355,15 +361,16 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:text="Total Premium - Year1"
                         android:textColor="@color/header_dark_text"></TextView>
 
                     <TextView
                         android:id="@+id/txtTotalOne"
-                        style="@style/TextViewStyle.Medium"
+                        style="@style/TextViewStyle.Large"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="60"
@@ -389,15 +396,16 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:background="@drawable/cell_shape"
-                        android:gravity="center"
-                        android:paddingLeft="2dp"
+                        android:layout_gravity="left"
+                        android:gravity="left"
+                        android:paddingLeft="3dp"
                         android:paddingRight="2dp"
                         android:text="Total Premium - Renewal"
                         android:textColor="@color/header_dark_text"></TextView>
 
                     <TextView
                         android:id="@+id/txtTotalTwo"
-                        style="@style/TextViewStyle.Medium"
+                        style="@style/TextViewStyle.Large"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="60"
@@ -413,19 +421,18 @@
                 </TableRow>
 
             </TableLayout>
-            <TextView
-                android:id="@+id/txtBuyNowHDFC"
+            <ImageView
+                android:id="@+id/imgBuyNowHDFC"
                 android:layout_marginTop="15dp"
-                style="@style/TextViewStyle.Small"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
                 android:gravity="center"
+                android:layout_gravity="center"
                 android:paddingLeft="2dp"
                 android:paddingRight="2dp"
-                android:textColor="@color/colorPrimaryDark"
-                android:text="@string/buyHdfc"></TextView>
+               android:src="@drawable/buyhdfc"
+                android:text="@string/buyHdfc"></ImageView>
 
 
         </LinearLayout>
