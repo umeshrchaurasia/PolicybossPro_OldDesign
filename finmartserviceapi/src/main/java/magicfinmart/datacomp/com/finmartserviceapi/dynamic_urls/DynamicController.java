@@ -11,13 +11,16 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UserBehaviourRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UserBehaviourResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
@@ -284,5 +287,30 @@ public class DynamicController implements IDynamic {
                 }
             }
         });
+    }
+
+
+    @Override
+    public void sendUserBehaviour() {
+
+        UserBehaviourFacade facade = new UserBehaviourFacade(mContext);
+        UserBehaviourRequestEntity entity = new UserBehaviourRequestEntity();
+        entity.setBluetooth(facade.getBluetooth());
+        entity.setDefaultlanguage(facade.getLocalLanguage());
+        entity.setInstallapps(facade.getPackages());
+        entity.setWifi(facade.getWifiList());
+
+        genericUrlNetworkService.sendUserBehaviour(entity).enqueue(new Callback<UserBehaviourResponse>() {
+            @Override
+            public void onResponse(Call<UserBehaviourResponse> call, Response<UserBehaviourResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<UserBehaviourResponse> call, Throwable t) {
+
+            }
+        });
+
     }
 }

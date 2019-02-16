@@ -9,25 +9,24 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequ
  * Created by Nilesh Birhade on 29-01-2018.
  */
 
-public class SaveMotorRequestEntity implements Parcelable  {
+public class SaveMotorRequestEntity implements Parcelable {
 
     MotorRequestEntity motorRequestEntity;
     String SRN;
     String VehicleRequestID;
     String fba_id;
     String comment;
+    String idvAmount;
     int isActive;
     private String vehicle_insurance_type;
 
 
-    protected SaveMotorRequestEntity(Parcel in) {
-        motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
-        SRN = in.readString();
-        VehicleRequestID = in.readString();
-        fba_id = in.readString();
-        comment = in.readString();
-        isActive = in.readInt();
-        vehicle_insurance_type = in.readString();
+    public String getIdvAmount() {
+        return idvAmount;
+    }
+
+    public void setIdvAmount(String idvAmount) {
+        this.idvAmount = idvAmount;
     }
 
     public String getComment() {
@@ -87,11 +86,6 @@ public class SaveMotorRequestEntity implements Parcelable  {
     }
 
 
-
-    public SaveMotorRequestEntity() {
-    }
-
-
     @Override
     public int describeContents() {
         return 0;
@@ -99,12 +93,39 @@ public class SaveMotorRequestEntity implements Parcelable  {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(motorRequestEntity, flags);
-        dest.writeString(SRN);
-        dest.writeString(VehicleRequestID);
-        dest.writeString(fba_id);
-        dest.writeString(comment);
-        dest.writeInt(isActive);
-        dest.writeString(vehicle_insurance_type);
+        dest.writeParcelable(this.motorRequestEntity, flags);
+        dest.writeString(this.SRN);
+        dest.writeString(this.VehicleRequestID);
+        dest.writeString(this.fba_id);
+        dest.writeString(this.comment);
+        dest.writeString(this.idvAmount);
+        dest.writeInt(this.isActive);
+        dest.writeString(this.vehicle_insurance_type);
     }
+
+    public SaveMotorRequestEntity() {
+    }
+
+    protected SaveMotorRequestEntity(Parcel in) {
+        this.motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
+        this.SRN = in.readString();
+        this.VehicleRequestID = in.readString();
+        this.fba_id = in.readString();
+        this.comment = in.readString();
+        this.idvAmount =in.readString();
+        this.isActive = in.readInt();
+        this.vehicle_insurance_type = in.readString();
+    }
+
+    public static final Parcelable.Creator<SaveMotorRequestEntity> CREATOR = new Parcelable.Creator<SaveMotorRequestEntity>() {
+        @Override
+        public SaveMotorRequestEntity createFromParcel(Parcel source) {
+            return new SaveMotorRequestEntity(source);
+        }
+
+        @Override
+        public SaveMotorRequestEntity[] newArray(int size) {
+            return new SaveMotorRequestEntity[size];
+        }
+    };
 }

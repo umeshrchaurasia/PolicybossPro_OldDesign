@@ -127,6 +127,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     String crn = "";
     ArrayAdapter<String> spinnerArraylakshya_policyterm;
     ScrollView mainScroll;
+    String[] listOption;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -1039,22 +1040,38 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     //endregion
     private void manipulatePremiumTerm(int age) {
 
-        String[] listOption;
 
-
+        int selection=0;
         //region remove pay till 60 if age > 55
-        if (age > 50) {
-            listOption = new String[]{"14", "15"};
+        if (age >= 50) {
+            listOption = new String[]{"13","14", "15"};
+            selection=2;
         }
-//          else if(age > 45)
-//          {
-//             listOption=new String[]{"13","14","15"};
-//          }else if(age >30)
-//          {
-//              listOption=new String[]{"12","13","14","15"};
-//          }
-        else {
+        else if(age > 40 && age <50)
+        {
+            int arraysize = (65 - age)-12;
+
+            listOption=new String[arraysize];
+            for (int i=0;i< arraysize;i++)
+            {
+                String s = String.valueOf(i+13);
+                listOption[i]= s;
+
+            }
+            if(age > 45 && age <50) {
+                selection = arraysize - 1;
+            }
+            if(age > 40 && age <=45)
+            {
+                selection=7;
+            }
+
+
+
+        }
+        else if(age <= 40) {
             listOption = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
+            selection=7;
         }
 
         final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
@@ -1063,6 +1080,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 , optionsList);
 //        spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spPolicyTerm.setAdapter(spAdapterOptions);
+        spPolicyTerm.setSelection(selection);
 //
 //        ArrayAdapter<String> spAdapterPremiumFreq = new ArrayAdapter<String>(getActivity()
 //                , android.R.layout.simple_spinner_item
