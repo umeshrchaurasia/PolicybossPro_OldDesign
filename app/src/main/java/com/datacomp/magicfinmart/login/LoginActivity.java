@@ -80,16 +80,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onPause() {
         super.onPause();
-        unregisterReceiver(receiverWifi);
+      //  unregisterReceiver(receiverWifi);
     }
 
     class WifiReceiver extends BroadcastReceiver {
         public void onReceive(Context c, Intent intent) {
-            wifiList = mainWifi.getScanResults();
-            for (int i = 0; i < wifiList.size(); i++) {
-                wifiArrayList.add((wifiList.get(i)).toString());
-            }
-            new UserBehaviourFacade(LoginActivity.this).saveWifi(wifiArrayList.toString());
+//            wifiList = mainWifi.getScanResults();
+//            for (int i = 0; i < wifiList.size(); i++) {
+//                wifiArrayList.add((wifiList.get(i)).toString());
+//            }
+//            new UserBehaviourFacade(LoginActivity.this).saveWifi(wifiArrayList.toString());
         }
     }
 
@@ -97,11 +97,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        receiverWifi = new WifiReceiver();
-        wifiArrayList = new ArrayList<>();
-        mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        mainWifi.startScan();
+        //receiverWifi = new WifiReceiver();
+      //  wifiArrayList = new ArrayList<>();
+      //  mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+      //  registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+      //  mainWifi.startScan();
         loginRequestEntity = new LoginRequestEntity();
         initWidgets();
         setListener();
