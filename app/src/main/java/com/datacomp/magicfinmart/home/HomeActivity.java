@@ -74,6 +74,7 @@ import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
+import com.datacomp.magicfinmart.mybusiness.MyBusinessActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
@@ -460,6 +461,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_MessageCentre:
                         MessageCenter();
                         //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
+                        break;
+                    case R.id.nav_mybusiness_insurance:
+
+                         startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
                         break;
                     case R.id.nav_AppointmentLetter:
                         startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
