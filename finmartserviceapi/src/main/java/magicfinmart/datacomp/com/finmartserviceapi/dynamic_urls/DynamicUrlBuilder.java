@@ -13,6 +13,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.Generat
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UserBehaviourResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.mybusinessResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -69,6 +70,10 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/user-behaviour-data")
         Call<UserBehaviourResponse> sendUserBehaviour(@Body UserBehaviourRequestEntity entity);
+
+
+        @POST
+        Call<mybusinessResponse> getMyBusiness(@Url String strUrl, @Body HashMap<String, String> body);
 
     }
 }

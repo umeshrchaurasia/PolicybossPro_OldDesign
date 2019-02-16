@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
-
     <uses-feature android:name="android.hardware.bluetooth" />
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -24,7 +23,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
 
     <!--
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -979,7 +977,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
-
         </activity>
         <activity
             android:name=".offline_quotes.AddOfflineQuotesActivity"
@@ -1197,8 +1194,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
-
         <activity
             android:name=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
             android:label="FINMART EXCLUSIVES"
@@ -1211,6 +1206,16 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
 
+        <activity
+            android:name=".mybusiness.MyBusinessActivity"
+            android:label="My Business"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
