@@ -21,6 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.Generat
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UserBehaviourResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.mybusinessResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
@@ -312,5 +313,42 @@ public class DynamicController implements IDynamic {
             }
         });
 
+    }
+
+
+
+    @Override
+    public void getMyBusiness(String id,final IResponseSubcriber iResponseSubcriber) {
+        String url = "http://49.50.95.141:2001/LeadCollection.svc/GetEncryptedErpId";
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("Id",  new DBPersistanceController(mContext).getUserConstantsData().getERPID());
+
+        genericUrlNetworkService.getMyBusiness(url, body).enqueue(new Callback<mybusinessResponse>() {
+            @Override
+            public void onResponse(Call<mybusinessResponse> call, Response<mybusinessResponse> response) {
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<mybusinessResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
     }
 }

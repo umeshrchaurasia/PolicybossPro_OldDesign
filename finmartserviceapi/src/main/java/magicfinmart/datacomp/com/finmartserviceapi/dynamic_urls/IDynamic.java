@@ -31,4 +31,7 @@ public interface IDynamic {
 
 
     void sendUserBehaviour();
+
+    //My Business
+    void getMyBusiness(String id,IResponseSubcriber iResponseSubcriber);
 }

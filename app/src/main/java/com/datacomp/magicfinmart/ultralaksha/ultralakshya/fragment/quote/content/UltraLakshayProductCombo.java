@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
@@ -27,10 +28,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaI
 public class UltraLakshayProductCombo extends BaseFragment implements View.OnClickListener {
 
 
-    TextView txtBuyNowHDFC, txtLicTerm ,txtLicPPT ,txtLicMode ,txtLicSum ,txtOtherYear,
+    TextView  txtLicTerm ,txtLicPPT ,txtLicMode ,txtLicSum ,txtOtherYear,
             txtLicPremYearOne,txtLicPremOtherYears,
             txtHdfcTerm,txtHdfcPPT,txtHdfcMode,txtHdfcSum,txtHdfcPremYearOne,txtHdfcPremOtherYears,
             txtTotalOne,txtTotalTwo;
+
+    ImageView imgBuyNowHDFC;
 
     UltraLakshaFacade ultraLakshaFacade;
 
@@ -38,7 +41,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_product_combo, container, false);
+        View view = inflater.inflate(R.layout.fragment_ultra_lakshay_product_combo_new, container, false);
         return view;
     }
 
@@ -55,7 +58,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
     private void initialize(View view)
     {
-        txtBuyNowHDFC  = view.findViewById(R.id.txtBuyNowHDFC);
+        imgBuyNowHDFC  = view.findViewById(R.id.imgBuyNowHDFC);
         txtLicTerm = view.findViewById(R.id.txtLicTerm);
         txtLicPPT = view.findViewById(R.id.txtLicPPT);
         txtLicMode = view.findViewById(R.id.txtLicMode);
@@ -83,7 +86,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
     private void setOnclickListener()
     {
-        txtBuyNowHDFC.setOnClickListener(this);
+        imgBuyNowHDFC.setOnClickListener(this);
     }
 
     private void bindData()
@@ -98,7 +101,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
             txtLicMode.setText(""+objComboEntity.getLicMode());
 
             txtLicSum.setText(""+objComboEntity.getLicSum());
-            txtOtherYear.setText(""+objComboEntity.getLicYears());
+           // txtOtherYear.setText(""+objComboEntity.getLicYears());
 
             txtLicPremYearOne.setText(""+objComboEntity.getLicPremYearOne());
             txtLicPremOtherYears.setText(""+objComboEntity.getLicPremOtherYears());
@@ -121,14 +124,14 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.txtBuyNowHDFC)
+        if(view.getId() == R.id.imgBuyNowHDFC)
         {
            if(  ultraLakshaFacade.getUltraLakshaHDFC() !=null) {
                HDFCEntity hdfcEntity = ultraLakshaFacade.getUltraLakshaHDFC();
                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                        .putExtra("URL", hdfcEntity.getProposerPageUrl())
-                       .putExtra("NAME", "" + "ULTRA LAKSHYA BUY HDFC")
-                       .putExtra("TITLE", "" + "ULTRA LAKSHYA BUY HDFC"));
+                       .putExtra("NAME", "" + "HDFC Protect 3D Plus")
+                       .putExtra("TITLE", "" + "HDFC Protect 3D Plus"));
            }
 
 

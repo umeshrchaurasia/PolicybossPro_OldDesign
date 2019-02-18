@@ -50,8 +50,8 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-      ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().hide();
-        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(false);
+//             ((UltraLakshyaTermBottmActivity)getActivity()).getSupportActionBar().hide();
+//        ((UltraLakshyaTermBottmActivity)getActivity()).manageHeader(false);
 
 
         if( getArguments().getString(UltraLakshyaTermBottmActivity.INPUT_DATA,"") != null)
@@ -83,10 +83,9 @@ public class UltraLakshayQuoteFragment extends BaseFragment {
 
         adapter.addFrag(new UltraLakshayUnmatchedBenefit());
         adapter.addFrag(new UltraLakshayBenefitStandAlone());
-
-        adapter.addFrag(new UltraLakshayBenefitILLustration());
         adapter.addFrag(new UltraLakshayScenarioOfBenefitsDeath());
 
+        adapter.addFrag(new UltraLakshayBenefitILLustration());
         adapter.addFrag(new UltraLakshayDeathBenefitToNominee());
         adapter.addFrag(new UltraLakshayProductCombo());
 
