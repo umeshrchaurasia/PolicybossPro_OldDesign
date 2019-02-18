@@ -85,11 +85,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     class WifiReceiver extends BroadcastReceiver {
         public void onReceive(Context c, Intent intent) {
-            wifiList = mainWifi.getScanResults();
-            for (int i = 0; i < wifiList.size(); i++) {
-                wifiArrayList.add((wifiList.get(i)).toString());
+            try {
+                wifiList = mainWifi.getScanResults();
+                for (int i = 0; i < wifiList.size(); i++) {
+                    wifiArrayList.add((wifiList.get(i)).toString());
+                }
+                new UserBehaviourFacade(LoginActivity.this).saveWifi(wifiArrayList.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            new UserBehaviourFacade(LoginActivity.this).saveWifi(wifiArrayList.toString());
         }
     }
 
