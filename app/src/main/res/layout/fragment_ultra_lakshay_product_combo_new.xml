@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg_dashboard"
-    android:orientation="vertical"
-   >
+    android:orientation="vertical">
     <!--tools:context=".ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayProductCombo"-->
     <!-- TODO: Update blank fragment layout -->
     <TextView
@@ -421,19 +421,31 @@
                 </TableRow>
 
             </TableLayout>
-            <ImageView
-                android:id="@+id/imgBuyNowHDFC"
-                android:layout_marginTop="15dp"
 
+            <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                app:cardCornerRadius="8dp"
                 android:layout_gravity="center"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-               android:src="@drawable/buyhdfc"
-                android:text="@string/buyHdfc"></ImageView>
+                android:elevation="5dp">
 
+                <ImageView
+                    android:id="@+id/imgBuyNowHDFC"
+
+
+                    android:layout_width="100dp"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:src="@drawable/buyhdfc"
+                    android:scaleType="centerInside"
+                    android:text="@string/buyHdfc"></ImageView>
+
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
