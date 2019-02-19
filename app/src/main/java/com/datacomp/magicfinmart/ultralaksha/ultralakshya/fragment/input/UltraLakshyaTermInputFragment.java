@@ -657,6 +657,25 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         // Requestentity.setPolicyTerm(1);
 
+        if (dbPersistanceController.getUserConstantsData().getParentid() != null
+                && !dbPersistanceController.getUserConstantsData().getParentid().equals("")
+                && !dbPersistanceController.getUserConstantsData().getParentid().equals("0")) {
+            Requestentity.setSubFbaId(String.valueOf(dbPersistanceController.getUserConstantsData().getFBAId()));
+            Requestentity.setFBAID(Integer.parseInt(dbPersistanceController.getUserConstantsData().getParentid()));
+        } else {
+            Requestentity.setSubFbaId("0");
+            Requestentity.setFBAID(Integer.parseInt(dbPersistanceController.getUserConstantsData().getFBAId()));
+        }
+
+
+        if (dbPersistanceController.getUserConstantsData().getPospsendid() != null
+                && !dbPersistanceController.getUserConstantsData().getPospsendid().equals("")) {
+            Requestentity.setPospId(dbPersistanceController.getUserConstantsData().getPospsendid());
+        } else {
+            Requestentity.setPospId("5");
+        }
+
+
         Requestentity.setContactName(etFirstName.getText().toString().trim() + " " + etLasttName.getText().toString().trim());
         Requestentity.setContactEmail("finmarttest@gmail.com");
         Requestentity.setContactMobile(etMobile.getText().toString());

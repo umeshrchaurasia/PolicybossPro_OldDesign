@@ -15,6 +15,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -77,7 +79,6 @@ import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.mybusiness.MyBusinessActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
@@ -97,13 +98,13 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
@@ -118,7 +119,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
@@ -146,11 +146,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     MenuMasterResponse menuMasterResponse;
     AlertDialog finmartContacttDialog;
 
+    WifiManager mainWifi;
+    WifiReceiver receiverWifi;
+    List<ScanResult> wifiList;
+    ArrayList<String> wifiArrayList;
+
+
     String[] perms = {
             "android.permission.READ_CONTACTS",
             "android.permission.WRITE_CONTACTS"
 
     };
+
 
 
     //region broadcast receiver
@@ -189,6 +196,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     };
 
+    class WifiReceiver extends BroadcastReceiver {
+        public void onReceive(Context c, Intent intent) {
+            try {
+                wifiList = mainWifi.getScanResults();
+                for (int i = 0; i < wifiList.size(); i++) {
+                    wifiArrayList.add((wifiList.get(i)).toString());
+                }
+                new UserBehaviourFacade(HomeActivity.this).saveWifi(wifiArrayList.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     //endregion
 
     @Override
@@ -209,6 +230,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
+        receiverWifi = new WifiReceiver();
+        wifiArrayList = new ArrayList<>();
+        mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        mainWifi.startScan();
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
@@ -220,7 +248,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
 
 
         try {
@@ -464,7 +491,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_mybusiness_insurance:
 
-                         startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
+                        startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
                         break;
                     case R.id.nav_AppointmentLetter:
                         startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
@@ -515,6 +542,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionBarDrawerToggle.syncState();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        try {
+            unregisterReceiver(receiverWifi);
+        } catch (Exception w) {
+
+        }
+    }
 
     private void addFinmartContact() {
         if (userConstantEntity.getFinmartwhatsappno() != null) {

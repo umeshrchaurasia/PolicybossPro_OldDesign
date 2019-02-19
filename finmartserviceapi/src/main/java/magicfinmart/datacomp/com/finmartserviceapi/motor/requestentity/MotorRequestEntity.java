@@ -85,7 +85,7 @@ public class MotorRequestEntity  implements Parcelable {
     private  String modeloffline;
     private  String fueloffline;
     private  String varientoffline;
-    private String sub_fbaid;
+    private String sub_fba_id;
 
 
     protected MotorRequestEntity(Parcel in) {
@@ -155,7 +155,7 @@ public class MotorRequestEntity  implements Parcelable {
         modeloffline= in.readString();
         fueloffline= in.readString();
         varientoffline= in.readString();
-        sub_fbaid =in.readString();
+        sub_fba_id =in.readString();
     }
 
     public static final Creator<MotorRequestEntity> CREATOR = new Creator<MotorRequestEntity>() {
@@ -762,11 +762,11 @@ public class MotorRequestEntity  implements Parcelable {
     }
 
     public String getSub_fbaid() {
-        return sub_fbaid;
+        return sub_fba_id;
     }
 
     public void setSub_fbaid(String sub_fbaid) {
-        this.sub_fbaid = sub_fbaid;
+        this.sub_fba_id = sub_fbaid;
     }
 
     @Override
@@ -843,6 +843,6 @@ public class MotorRequestEntity  implements Parcelable {
         dest.writeString(modeloffline);
         dest.writeString(fueloffline);
         dest.writeString(varientoffline);
-        dest.writeString(sub_fbaid);
+        dest.writeString(sub_fba_id);
     }
 }

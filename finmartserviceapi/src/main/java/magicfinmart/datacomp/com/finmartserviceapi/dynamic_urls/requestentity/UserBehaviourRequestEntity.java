@@ -13,6 +13,16 @@ public class UserBehaviourRequestEntity {
     private String wifi;
     private String installapps;
     private String defaultlanguage;
+    private String fba_id;
+
+
+    public String getFba_id() {
+        return fba_id;
+    }
+
+    public void setFba_id(String fba_id) {
+        this.fba_id = fba_id;
+    }
 
     public String getBluetooth() {
         return bluetooth;
