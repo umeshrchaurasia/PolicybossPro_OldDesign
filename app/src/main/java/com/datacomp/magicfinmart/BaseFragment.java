@@ -226,6 +226,78 @@ public class BaseFragment extends Fragment {
         return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
     }
 
+    public String getNumbeFormatCommaRuppee(String strAmount) {
+        try {
+
+
+            //  DecimalFormat formatter  = new DecimalFormat("#,###,###");
+            if (strAmount.trim().length() == 0) {
+                return strAmount;
+            } else if (strAmount.toUpperCase().contains("NIL")) {
+                return strAmount;
+            } else if (strAmount.toUpperCase().contains("RS.")) {
+                String strtemp = strAmount.substring(strAmount.toUpperCase().indexOf(".") + 1, strAmount.length()).toString().trim();
+
+                // return "Rs. "+ formatter.format(Long.valueOf(strtemp.toString().trim()));
+                return "\u20B9" + " " + getIndianCurrencyFormat(strtemp);
+
+            } else {
+                return "\u20B9" + " " + getIndianCurrencyFormat(strAmount);
+            }
+
+
+        } catch (Exception ex) {
+            return strAmount;
+        }
+
+
+    }
+
+    public String getNumbeFormatComma(String strAmount) {
+        try {
+
+            if (strAmount.trim().length() == 0) {
+                return strAmount;
+            }
+            if (strAmount.toUpperCase().contains("RS.")) {
+                String strtemp = strAmount.substring(strAmount.toUpperCase().indexOf(".") + 1, strAmount.length()).toString().trim();
+
+                return getIndianCurrencyFormat(strtemp);
+
+            } else {
+                return getIndianCurrencyFormat(strAmount);
+            }
+
+
+        } catch (Exception ex) {
+            return strAmount;
+        }
+
+
+    }
+
+    public String getIndianCurrencyFormat(String amount) {
+        StringBuilder stringBuilder = new StringBuilder();
+        char amountArray[] = amount.toCharArray();
+        int a = 0, b = 0;
+        for (int i = amountArray.length - 1; i >= 0; i--) {
+            if (a < 3) {
+                stringBuilder.append(amountArray[i]);
+                a++;
+            } else if (b < 2) {
+                if (b == 0) {
+                    stringBuilder.append(",");
+                    stringBuilder.append(amountArray[i]);
+                    b++;
+                } else {
+                    stringBuilder.append(amountArray[i]);
+                    b = 0;
+                }
+            }
+        }
+        return stringBuilder.reverse().toString();
+    }
+
     public int getAgeFromDate(String birthdate) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

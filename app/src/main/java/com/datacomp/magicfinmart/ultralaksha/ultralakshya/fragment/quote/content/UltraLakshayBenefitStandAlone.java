@@ -76,41 +76,23 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
 
             UltraLakshaIllustrationResponseNew.MasterDataBean.PageTwoStandAloneBean objStandAlone = ultraLakshaFacade.getPageTwoStandAloneList().get(0);
 
-            txtAnnualPrem1yearAmnt.setText(""+objStandAlone.getAnnualPremiumFirstYr());
-            txtAnnualPrem2to7Amnt.setText(""+objStandAlone.getAnnualPremiumOtherYrs());
+            txtAnnualPrem1yearAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getAnnualPremiumFirstYr()));
+            txtAnnualPrem2to7Amnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getAnnualPremiumOtherYrs()));
             txtAnnualPrem2to7Text.setText(""+objStandAlone.getOtherYrs());
 
             txtMaturityAfterYearText.setText(""+objStandAlone.getMaturityYear());
-            txtMaturityAfterYearAmnt.setText(""+objStandAlone.getMaturityDateValue());
+            txtMaturityAfterYearAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getMaturityDateValue()));
 
-            txtLumpsumAmnt.setText(""+objStandAlone.getLumpsumpDeath());
-            txtAnnualEndOfTermAmnt.setText(""+objStandAlone.getAnnualTillEOT());
+            txtLumpsumAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getLumpsumpDeath()));
+            txtAnnualEndOfTermAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getAnnualTillEOT()));
 
             txtMonthlyforYearText.setText(""+objStandAlone.getMonthlyterm());
-            txtMonthlyforYearAmnt.setText(""+objStandAlone.getMonthlytermValue());
+            txtMonthlyforYearAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getMonthlytermValue()));
 
-            txtOnMaturityDateAmnt.setText(""+objStandAlone.getMaturityDateValue());
+            txtOnMaturityDateAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getMaturityDateValue()));
 
         }
 
-//        else{
-//
-//            txtAnnualPrem1yearAmnt.setText("Rs. 71750");
-//            txtAnnualPrem2to7Amnt.setText("Rs. 70280");
-//            txtAnnualPrem2to7Text.setText("2 to 17 years");
-//
-//            txtMaturityAfterYearText.setText("Maturity after 20 years");
-//            txtMaturityAfterYearAmnt.setText("Rs. 1970000");
-//
-//            txtLumpsumAmnt.setText("NIL");
-//            txtAnnualEndOfTermAmnt.setText("Rs. 100000");
-//
-//            txtMonthlyforYearText.setText("Monthly for 20 years");
-//            txtMonthlyforYearAmnt.setText("NIL");
-//
-//            txtOnMaturityDateAmnt.setText("Rs. 1970000");
-//
-//        }
     }
 
 

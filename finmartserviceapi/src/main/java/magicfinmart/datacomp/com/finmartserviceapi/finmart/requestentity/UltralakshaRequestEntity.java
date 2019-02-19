@@ -21,88 +21,124 @@ public class UltralakshaRequestEntity implements Parcelable {
     private int PolicyTerm;
     private String InsuredGender;
     private String Is_TabaccoUser;
-    private int SumAssured;
+    private long SumAssured;
     private String InsuredDOB;
     private String ContactName;
     private String ContactEmail;
     private String ContactMobile;
     private String Frequency;
-
-
-
-
     private int FBAID;
+    private int PkRequestId;
+    private String QuoteApplicationStatus;
+    private String CreatedDate;
+    private String CRN;
+
+
+
+
+
+    public UltralakshaRequestEntity() {
+    }
+
+    protected UltralakshaRequestEntity(Parcel in) {
+        PolicyTerm = in.readInt();
+        InsuredGender = in.readString();
+        Is_TabaccoUser = in.readString();
+        SumAssured = in.readLong();
+        InsuredDOB = in.readString();
+        ContactName = in.readString();
+        ContactEmail = in.readString();
+        ContactMobile = in.readString();
+        Frequency = in.readString();
+        FBAID = in.readInt();
+        PkRequestId = in.readInt();
+        QuoteApplicationStatus = in.readString();
+        CreatedDate = in.readString();
+        CRN = in.readString();
+    }
+
+    public static final Creator<UltralakshaRequestEntity> CREATOR = new Creator<UltralakshaRequestEntity>() {
+        @Override
+        public UltralakshaRequestEntity createFromParcel(Parcel in) {
+            return new UltralakshaRequestEntity(in);
+        }
+
+        @Override
+        public UltralakshaRequestEntity[] newArray(int size) {
+            return new UltralakshaRequestEntity[size];
+        }
+    };
 
     public int getPolicyTerm() {
         return PolicyTerm;
     }
 
-    public void setPolicyTerm(int PolicyTerm) {
-        this.PolicyTerm = PolicyTerm;
+    public void setPolicyTerm(int policyTerm) {
+        PolicyTerm = policyTerm;
     }
 
     public String getInsuredGender() {
         return InsuredGender;
     }
 
-    public void setInsuredGender(String InsuredGender) {
-        this.InsuredGender = InsuredGender;
+    public void setInsuredGender(String insuredGender) {
+        InsuredGender = insuredGender;
     }
 
     public String getIs_TabaccoUser() {
         return Is_TabaccoUser;
     }
 
-    public void setIs_TabaccoUser(String Is_TabaccoUser) {
-        this.Is_TabaccoUser = Is_TabaccoUser;
+    public void setIs_TabaccoUser(String is_TabaccoUser) {
+        Is_TabaccoUser = is_TabaccoUser;
     }
 
-    public int getSumAssured() {
+    public long getSumAssured() {
         return SumAssured;
     }
 
-    public void setSumAssured(int SumAssured) {
-        this.SumAssured = SumAssured;
+    public void setSumAssured(long sumAssured) {
+        SumAssured = sumAssured;
     }
 
     public String getInsuredDOB() {
         return InsuredDOB;
     }
 
-    public void setInsuredDOB(String InsuredDOB) {
-        this.InsuredDOB = InsuredDOB;
+    public void setInsuredDOB(String insuredDOB) {
+        InsuredDOB = insuredDOB;
     }
 
     public String getContactName() {
         return ContactName;
     }
 
-    public void setContactName(String ContactName) {
-        this.ContactName = ContactName;
+    public void setContactName(String contactName) {
+        ContactName = contactName;
     }
 
     public String getContactEmail() {
         return ContactEmail;
     }
 
-    public void setContactEmail(String ContactEmail) {
-        this.ContactEmail = ContactEmail;
+    public void setContactEmail(String contactEmail) {
+        ContactEmail = contactEmail;
     }
 
     public String getContactMobile() {
         return ContactMobile;
     }
 
-    public void setContactMobile(String ContactMobile) {
-        this.ContactMobile = ContactMobile;
+    public void setContactMobile(String contactMobile) {
+        ContactMobile = contactMobile;
     }
 
     public String getFrequency() {
         return Frequency;
     }
 
-    public void setFrequency(String Frequency) {
-        this.Frequency = Frequency;
+    public void setFrequency(String frequency) {
+        Frequency = frequency;
     }
 
     public int getFBAID() {
@@ -113,6 +149,39 @@ public class UltralakshaRequestEntity implements Parcelable {
         this.FBAID = FBAID;
     }
 
+    public int getPkRequestId() {
+        return PkRequestId;
+    }
+
+    public void setPkRequestId(int pkRequestId) {
+        PkRequestId = pkRequestId;
+    }
+
+    public String getQuoteApplicationStatus() {
+        return QuoteApplicationStatus;
+    }
+
+    public void setQuoteApplicationStatus(String quoteApplicationStatus) {
+        QuoteApplicationStatus = quoteApplicationStatus;
+    }
+
+    public String getCreatedDate() {
+        return CreatedDate;
+    }
+
+    public void setCreatedDate(String createdDate) {
+        CreatedDate = createdDate;
+    }
+
+    public String getCRN() {
+        return CRN;
+    }
+
+    public void setCRN(String CRN) {
+        this.CRN = CRN;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -120,43 +189,19 @@ public class UltralakshaRequestEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.PolicyTerm);
-        dest.writeString(this.InsuredGender);
-        dest.writeString(this.Is_TabaccoUser);
-        dest.writeInt(this.SumAssured);
-        dest.writeString(this.InsuredDOB);
-        dest.writeString(this.ContactName);
-        dest.writeString(this.ContactEmail);
-        dest.writeString(this.ContactMobile);
-        dest.writeString(this.Frequency);
-        dest.writeInt(this.FBAID);
+        dest.writeInt(PolicyTerm);
+        dest.writeString(InsuredGender);
+        dest.writeString(Is_TabaccoUser);
+        dest.writeLong(SumAssured);
+        dest.writeString(InsuredDOB);
+        dest.writeString(ContactName);
+        dest.writeString(ContactEmail);
+        dest.writeString(ContactMobile);
+        dest.writeString(Frequency);
+        dest.writeInt(FBAID);
+        dest.writeInt(PkRequestId);
+        dest.writeString(QuoteApplicationStatus);
+        dest.writeString(CreatedDate);
+        dest.writeString(CRN);
     }
-
-    public UltralakshaRequestEntity() {
-    }
-
-    protected UltralakshaRequestEntity(Parcel in) {
-        this.PolicyTerm = in.readInt();
-        this.InsuredGender = in.readString();
-        this.Is_TabaccoUser = in.readString();
-        this.SumAssured = in.readInt();
-        this.InsuredDOB = in.readString();
-        this.ContactName = in.readString();
-        this.ContactEmail = in.readString();
-        this.ContactMobile = in.readString();
-        this.Frequency = in.readString();
-        this.FBAID = in.readInt();
-    }
-
-    public static final Parcelable.Creator<UltralakshaRequestEntity> CREATOR = new Parcelable.Creator<UltralakshaRequestEntity>() {
-        @Override
-        public UltralakshaRequestEntity createFromParcel(Parcel source) {
-            return new UltralakshaRequestEntity(source);
-        }
-
-        @Override
-        public UltralakshaRequestEntity[] newArray(int size) {
-            return new UltralakshaRequestEntity[size];
-        }
-    };
 }

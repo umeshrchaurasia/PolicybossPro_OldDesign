@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
@@ -25,7 +26,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaI
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UltraLakshayUnmatchedBenefit extends Fragment {
+public class UltraLakshayUnmatchedBenefit extends BaseFragment {
 
 
      TextView  txtHdr,txtAnnualPrem1yearAmnt ,txtAnnualPrem2to7Amnt, txtAnnualPrem2to7Text,
@@ -125,20 +126,20 @@ public class UltraLakshayUnmatchedBenefit extends Fragment {
 
             UltraLakshaIllustrationResponseNew.MasterDataBean.PageoneUnmatchedBean objUnmatched = ultraLakshaFacade.getPageoneUnmatchedList().get(0);
 
-            txtAnnualPrem1yearAmnt.setText(""+objUnmatched.getAnnualPremiumFirstYr());
-            txtAnnualPrem2to7Amnt.setText(""+objUnmatched.getAnnualPremiumOtherYrs());
+            txtAnnualPrem1yearAmnt.setText(""+ getNumbeFormatCommaRuppee(objUnmatched.getAnnualPremiumFirstYr()));
+            txtAnnualPrem2to7Amnt.setText(""+getNumbeFormatCommaRuppee(objUnmatched.getAnnualPremiumOtherYrs()));
             txtAnnualPrem2to7Text.setText(""+objUnmatched.getOtherYrs());
 
             txtMaturityAfterYearText.setText(""+objUnmatched.getMaturityYear());
-            txtMaturityAfterYearAmnt.setText(""+objUnmatched.getMaturityDateValue());
+            txtMaturityAfterYearAmnt.setText(""+getNumbeFormatCommaRuppee(objUnmatched.getMaturityDateValue()));
 
-            txtLumpsumAmnt.setText(""+objUnmatched.getLumpsumpDeath());
-            txtAnnualEndOfTermAmnt.setText(""+objUnmatched.getAnnualTillEOT());
+            txtLumpsumAmnt.setText(""+getNumbeFormatCommaRuppee(objUnmatched.getLumpsumpDeath() ));
+            txtAnnualEndOfTermAmnt.setText(""+getNumbeFormatCommaRuppee(objUnmatched.getAnnualTillEOT() ));
 
             txtMonthlyforYearText.setText(""+objUnmatched.getMonthlyterm());
-            txtMonthlyforYearAmnt.setText(""+objUnmatched.getMonthlytermValue());
+            txtMonthlyforYearAmnt.setText(""+getNumbeFormatCommaRuppee( objUnmatched.getAnnualTillEOT()));
 
-            txtOnMaturityDateAmnt.setText(""+objUnmatched.getMaturityDateValue());
+            txtOnMaturityDateAmnt.setText(""+getNumbeFormatCommaRuppee(objUnmatched.getMaturityDateValue() ));
 
         }
 

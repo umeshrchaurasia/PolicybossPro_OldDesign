@@ -383,8 +383,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 17: // added by Nilesh 13.02.2019 -- Ultra laksh
                 mContext.startActivity(new Intent(mContext, UltraLakshaSelectionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Ultra laksha"), Constants.CAMPAIGN), null);
-                MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHA");
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Ultra lakshya"), Constants.CAMPAIGN), null);
+                MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHYA");
                 break;
 
 

@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingTop="5dp"
+        android:paddingTop="16dp"
         android:paddingBottom="5dp"
         android:text="@string/UltraLakshyaProdCombo"
         android:textColor="@color/black"
@@ -91,7 +90,7 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="4dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
                         android:textColor="@color/header_dark_text"
                         android:text="Term"></TextView>
@@ -136,7 +135,7 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="4dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
                         android:textColor="@color/header_dark_text"
                         android:text="PPT"></TextView>
@@ -181,7 +180,7 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="4dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
                         android:text="Mode"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -226,9 +225,9 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="4dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
-                        android:text="Sum"
+                        android:text="Sum Assured"
                         android:textColor="@color/header_dark_text"></TextView>
 
                     <TextView
@@ -271,7 +270,7 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="4dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
                         android:text="Premium Year 1"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -317,7 +316,7 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="4dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
                         android:text="Premium - Renewal"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -363,9 +362,9 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="4dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
-                        android:text="Total Premium - Year1"
+                        android:text="Total Premium - Year 1"
                         android:textColor="@color/header_dark_text"></TextView>
 
                     <TextView
@@ -378,6 +377,8 @@
                         android:gravity="center"
                         android:paddingLeft="2dp"
                         android:paddingRight="2dp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:text=""></TextView>
 
 
@@ -398,7 +399,7 @@
                         android:background="@drawable/cell_shape"
                         android:layout_gravity="left"
                         android:gravity="left"
-                        android:paddingLeft="3dp"
+                        android:paddingLeft="6dp"
                         android:paddingRight="2dp"
                         android:text="Total Premium - Renewal"
                         android:textColor="@color/header_dark_text"></TextView>
@@ -413,6 +414,8 @@
                         android:gravity="center"
                         android:paddingLeft="2dp"
                         android:paddingRight="2dp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:text=""></TextView>
 
 
@@ -422,30 +425,22 @@
 
             </TableLayout>
 
-            <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
+
+            <ImageView
+                android:id="@+id/imgBuyNowHDFC"
                 android:layout_marginTop="15dp"
-                app:cardCornerRadius="8dp"
+                android:layout_width="140dp"
+                android:layout_height="55dp"
+                android:gravity="center"
+
+                android:paddingRight="2dp"
+                android:paddingLeft="2dp"
+                android:background="@drawable/rect_blue_border"
                 android:layout_gravity="center"
-                android:elevation="5dp">
+                android:src="@drawable/buyhdfc"
+                android:scaleType="centerInside"></ImageView>
 
-                <ImageView
-                    android:id="@+id/imgBuyNowHDFC"
-
-
-                    android:layout_width="100dp"
-                    android:layout_height="45dp"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
-                    android:src="@drawable/buyhdfc"
-                    android:scaleType="centerInside"
-                    android:text="@string/buyHdfc"></ImageView>
-
-
-            </android.support.v7.widget.CardView>
 
         </LinearLayout>
     </ScrollView>

@@ -557,7 +557,7 @@ public class DBPersistanceController {
     public List<TermSelectionEntity> getUltraLakshaList() {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
-        term.add(new TermSelectionEntity("ULTRA LAKSHA COMBO", 0, ""));
+        term.add(new TermSelectionEntity("ULTRA LAKSHYA COMBO", 0, ""));
         return term;
     }
 

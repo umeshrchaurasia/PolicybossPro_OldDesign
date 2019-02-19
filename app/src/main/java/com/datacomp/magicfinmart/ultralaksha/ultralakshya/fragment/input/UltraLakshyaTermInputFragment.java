@@ -157,42 +157,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
             bindInput(Requestentity);
         }
 
-        /*
-        if (getArguments() != null) {
-            if (getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA);
-                termRequestEntity = termFinmartRequest.getTermRequestEntity();
-                termRequestId = termFinmartRequest.getTermRequestId();
-                int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
-                termFinmartRequest.setFba_id(fba_id);
-                showDialog("Please Wait..");
-                fetchWithDelay();
-            } else if (getArguments().getParcelable(UltraLakshyaTermBottmActivity.INPUT_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermBottmActivity.INPUT_DATA);
-                termRequestEntity = termFinmartRequest.getTermRequestEntity();
-                termRequestId = termFinmartRequest.getTermRequestId();
-                changeInputQuote(true);
-            } else if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null) {
-                termCompareResponseEntity = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA_RESPONSE);
-                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA);
-                termRequestEntity = termFinmartRequest.getTermRequestEntity();
-                termRequestId = termFinmartRequest.getTermRequestId();
-               // bindHeaders();
-                bindQuotes();
-                bindInputFromOther(termFinmartRequest);
-                fromCompare();
-            } else {
-                changeInputQuote(true);
-                tvNo.performClick();
-                tvMale.performClick();
-                //  txtICICILumpSum.performClick();
-            }
-            //bindICICI();
-//            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null && getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) == null) {
-//                bindInput(termFinmartRequest);
-//            }
-        }
-        */
+
 
         return view;
     }
@@ -298,7 +263,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     isMale = true;
                     tvMale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvMale.setTypeface(null, Typeface.BOLD);
-                    tvFemale.setTypeface(null,Typeface.NORMAL);
+                    tvFemale.setTypeface(null, Typeface.NORMAL);
                     tvFemale.setBackgroundResource(R.drawable.customeborder);
                 } else {
                     isMale = false;
@@ -308,6 +273,40 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     tvMale.setBackgroundResource(R.drawable.customeborder);
                 }
 
+                if(termFinmartRequest.getSumAssured() == 1000000)
+                {
+                    SUM_ASSURED_AMNT = "1000000";
+
+                    setBackgroundSeekBar(txt10lac, txt25lac, txt50lac, txt1cr, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+                }
+                else if(termFinmartRequest.getSumAssured() == 2500000)
+                {
+                    SUM_ASSURED_AMNT = "2500000";
+
+                    setBackgroundSeekBar(txt25lac, txt10lac, txt50lac, txt1cr, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+
+                } else if(termFinmartRequest.getSumAssured() == 5000000)
+                {
+                    SUM_ASSURED_AMNT = "5000000";
+
+                    setBackgroundSeekBar(txt50lac, txt10lac, txt25lac, txt1cr, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+
+                }
+                else  if(termFinmartRequest.getSumAssured() == 10000000)
+                {
+                    SUM_ASSURED_AMNT = "10000000";
+                    setBackgroundSeekBar(txt1cr, txt10lac, txt25lac, txt50lac, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+
+                }else{
+                    setBackgroundSeekBar(txtOther, txt10lac, txt25lac, txt50lac, txt1cr);
+                    lySeekbar.setVisibility(View.VISIBLE);
+                    etSumICICIAssured.setVisibility(View.VISIBLE);
+                    txtDispalaylac.setVisibility(View.VISIBLE);
+                }
 
                 etSumICICIAssured.setText("" + termFinmartRequest.getSumAssured());
 
@@ -539,7 +538,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
                     SumICICIAssured();
                     setTermRequest();
-                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+
                     showDialog("Please Wait..");
                     new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
                 }
@@ -619,10 +618,10 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         txtApply.setBackgroundResource(R.drawable.customeborder_blue);
         txtApply.setTypeface(null, Typeface.BOLD);
 
-        txt1.setTypeface(null,Typeface.NORMAL);
-        txt2.setTypeface(null,Typeface.NORMAL);
-        txt3.setTypeface(null,Typeface.NORMAL);
-        txt4.setTypeface(null,Typeface.NORMAL);
+        txt1.setTypeface(null, Typeface.NORMAL);
+        txt2.setTypeface(null, Typeface.NORMAL);
+        txt3.setTypeface(null, Typeface.NORMAL);
+        txt4.setTypeface(null, Typeface.NORMAL);
         txt1.setBackgroundResource(R.drawable.customeborder);
         txt2.setBackgroundResource(R.drawable.customeborder);
         txt3.setBackgroundResource(R.drawable.customeborder);
@@ -675,7 +674,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         //   Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
 
-        Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString()));   //-05
+        Requestentity.setSumAssured(Long.valueOf(etSumICICIAssured.getText().toString()));   //
         Requestentity.setInsuredDOB(et_DOB.getText().toString());
 
         switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
@@ -746,8 +745,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         if (etMobile.getText().toString().trim().length() > 0) {
 
-            if(etMobile.getText().toString().trim().length() <10)
-            {
+            if (etMobile.getText().toString().trim().length() < 10) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Valid Mobile");
@@ -758,10 +756,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     etMobile.setError("Enter Valid Mobile");
                     return false;
                 }
-            }
-
-
-           else if (!isValidePhoneNumber(etMobile)) {
+            } else if (!isValidePhoneNumber(etMobile)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Mobile");
@@ -847,7 +842,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
-
         try {
 
 
@@ -899,16 +893,14 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     entity.setLicGst1(reqentity.getLicGst1());
                     entity.setLicGst2(reqentity.getLicGst2());
 
-                   // showDialog();
                     new TermInsuranceController(getActivity()).getIllustration(entity, this);
-
 
 
                 }
             } else if (response instanceof UltraLakshaIllustrationResponseNew) {
 
                 cancelDialog();
-                // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -1041,37 +1033,31 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     private void manipulatePremiumTerm(int age) {
 
 
-        int selection=0;
+        int selection = 0;
         //region remove pay till 60 if age > 55
         if (age >= 50) {
-            listOption = new String[]{"13","14", "15"};
-            selection=2;
-        }
-        else if(age > 40 && age <50)
-        {
-            int arraysize = (65 - age)-12;
+            listOption = new String[]{"13", "14", "15"};
+            selection = 2;
+        } else if (age > 40 && age < 50) {
+            int arraysize = (65 - age) - 12;
 
-            listOption=new String[arraysize];
-            for (int i=0;i< arraysize;i++)
-            {
-                String s = String.valueOf(i+13);
-                listOption[i]= s;
+            listOption = new String[arraysize];
+            for (int i = 0; i < arraysize; i++) {
+                String s = String.valueOf(i + 13);
+                listOption[i] = s;
 
             }
-            if(age > 45 && age <50) {
+            if (age > 45 && age < 50) {
                 selection = arraysize - 1;
             }
-            if(age > 40 && age <=45)
-            {
-                selection=7;
+            if (age > 40 && age <= 45) {
+                selection = 7;
             }
 
 
-
-        }
-        else if(age <= 40) {
+        } else if (age <= 40) {
             listOption = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
-            selection=7;
+            selection = 7;
         }
 
         final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));

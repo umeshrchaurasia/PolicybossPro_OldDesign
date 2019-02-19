@@ -100,23 +100,23 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
             txtLicPPT.setText(""+objComboEntity.getLicPPT());
             txtLicMode.setText(""+objComboEntity.getLicMode());
 
-            txtLicSum.setText(""+objComboEntity.getLicSum());
+            txtLicSum.setText(""+getNumbeFormatComma(objComboEntity.getLicSum()));
            // txtOtherYear.setText(""+objComboEntity.getLicYears());
 
-            txtLicPremYearOne.setText(""+objComboEntity.getLicPremYearOne());
-            txtLicPremOtherYears.setText(""+objComboEntity.getLicPremOtherYears());
+            txtLicPremYearOne.setText(""+getNumbeFormatComma(objComboEntity.getLicPremYearOne()));
+            txtLicPremOtherYears.setText(""+getNumbeFormatComma(objComboEntity.getLicPremOtherYears()));
             ///////////////
 
             txtHdfcTerm.setText(""+objComboEntity.getHdfcTerm());
             txtHdfcPPT.setText(""+objComboEntity.getHdfcPPT());
             txtHdfcMode.setText(""+objComboEntity.getHdfcMode());
 
-            txtHdfcSum.setText(""+objComboEntity.getHdfcSum());
-            txtHdfcPremYearOne.setText(""+objComboEntity.getHdfcPremYearOne());
-            txtHdfcPremOtherYears.setText(""+objComboEntity.getHdfcPremOtherYears());
+            txtHdfcSum.setText(""+getNumbeFormatComma(objComboEntity.getHdfcSum()));
+            txtHdfcPremYearOne.setText(""+getNumbeFormatComma(objComboEntity.getHdfcPremYearOne()));
+            txtHdfcPremOtherYears.setText(""+getNumbeFormatComma(objComboEntity.getHdfcPremOtherYears()));
 
-            txtTotalOne.setText(""+objComboEntity.getTotalOne());
-            txtTotalTwo.setText(""+objComboEntity.getTotalTwo());
+            txtTotalOne.setText(""+getNumbeFormatComma(objComboEntity.getTotalOne()));
+            txtTotalTwo.setText(""+getNumbeFormatComma(objComboEntity.getTotalTwo()));
         }
     }
 

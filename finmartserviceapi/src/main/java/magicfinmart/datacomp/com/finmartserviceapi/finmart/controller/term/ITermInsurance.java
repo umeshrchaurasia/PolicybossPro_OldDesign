@@ -26,5 +26,7 @@ public interface ITermInsurance {
 
     void getIllustration(LICIllustrationRequestEntity entity ,IResponseSubcriber iResponseSubcriber);
 
+     void getUltraQualeAppList( IResponseSubcriber iResponseSubcriber);
+
 
 }
