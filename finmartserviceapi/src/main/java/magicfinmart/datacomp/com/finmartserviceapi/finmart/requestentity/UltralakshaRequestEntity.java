@@ -27,11 +27,28 @@ public class UltralakshaRequestEntity implements Parcelable {
     private String ContactEmail;
     private String ContactMobile;
     private String Frequency;
-
-
-
-
     private int FBAID;
+
+    //addded by Nilesh 19.02.2019
+    private String SubFbaId;
+    private String PospId;
+
+
+    public String getPospId() {
+        return PospId;
+    }
+
+    public String getSubFbaId() {
+        return SubFbaId;
+    }
+
+    public void setPospId(String pospId) {
+        PospId = pospId;
+    }
+
+    public void setSubFbaId(String subFbaId) {
+        SubFbaId = subFbaId;
+    }
 
     public int getPolicyTerm() {
         return PolicyTerm;

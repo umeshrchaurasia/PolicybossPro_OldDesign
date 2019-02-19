@@ -1434,19 +1434,24 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                     try {
 
-                        boolean isTomorrow = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
-                                - DateUtils.DAY_IN_MILLIS);
-
-                        boolean isToday = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime());
+//                        boolean isTomorrow = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
+//                                - DateUtils.DAY_IN_MILLIS);
+//
+//                        boolean isToday = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime());
 
 
                         boolean isYesterday =
                                 DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
                                         + DateUtils.DAY_IN_MILLIS);
 
+                        //for before todays Date
+                        final Calendar calendar = Calendar.getInstance();
+
+                        calendar.add(Calendar.DATE, -1);
+
                         if (!swIndividual.isChecked()
                                 || isYesterday
-                                || displayFormat.parse(etExpDate.getText().toString()).before(Calendar.getInstance().getTime())) {
+                                || displayFormat.parse(etExpDate.getText().toString()).before(calendar.getTime())) {
                             //call break In
 
                             SaveMotorRequestEntity entity = new SaveMotorRequestEntity();

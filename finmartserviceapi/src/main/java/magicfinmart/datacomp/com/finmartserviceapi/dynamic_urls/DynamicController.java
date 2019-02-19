@@ -296,11 +296,16 @@ public class DynamicController implements IDynamic {
 
         UserBehaviourFacade facade = new UserBehaviourFacade(mContext);
         UserBehaviourRequestEntity entity = new UserBehaviourRequestEntity();
-        entity.setBluetooth(facade.getBluetooth());
-        entity.setDefaultlanguage(facade.getLocalLanguage());
-        entity.setInstallapps(facade.getPackages());
-        entity.setWifi(facade.getWifiList());
 
+        try {
+            entity.setBluetooth(facade.getBluetooth());
+            entity.setDefaultlanguage(facade.getLocalLanguage());
+            entity.setInstallapps(facade.getPackages());
+            entity.setWifi(facade.getWifiList());
+            entity.setFba_id("" + new DBPersistanceController(mContext).getUserData().getFBAId());
+        } catch (Exception w) {
+
+        }
         genericUrlNetworkService.sendUserBehaviour(entity).enqueue(new Callback<UserBehaviourResponse>() {
             @Override
             public void onResponse(Call<UserBehaviourResponse> call, Response<UserBehaviourResponse> response) {
@@ -316,13 +321,12 @@ public class DynamicController implements IDynamic {
     }
 
 
-
     @Override
-    public void getMyBusiness(String id,final IResponseSubcriber iResponseSubcriber) {
+    public void getMyBusiness(String id, final IResponseSubcriber iResponseSubcriber) {
         String url = "http://49.50.95.141:2001/LeadCollection.svc/GetEncryptedErpId";
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("Id",  new DBPersistanceController(mContext).getUserConstantsData().getERPID());
+        body.put("Id", new DBPersistanceController(mContext).getUserConstantsData().getERPID());
 
         genericUrlNetworkService.getMyBusiness(url, body).enqueue(new Callback<mybusinessResponse>() {
             @Override

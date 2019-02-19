@@ -298,7 +298,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     isMale = true;
                     tvMale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvMale.setTypeface(null, Typeface.BOLD);
-                    tvFemale.setTypeface(null,Typeface.NORMAL);
+                    tvFemale.setTypeface(null, Typeface.NORMAL);
                     tvFemale.setBackgroundResource(R.drawable.customeborder);
                 } else {
                     isMale = false;
@@ -619,10 +619,10 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         txtApply.setBackgroundResource(R.drawable.customeborder_blue);
         txtApply.setTypeface(null, Typeface.BOLD);
 
-        txt1.setTypeface(null,Typeface.NORMAL);
-        txt2.setTypeface(null,Typeface.NORMAL);
-        txt3.setTypeface(null,Typeface.NORMAL);
-        txt4.setTypeface(null,Typeface.NORMAL);
+        txt1.setTypeface(null, Typeface.NORMAL);
+        txt2.setTypeface(null, Typeface.NORMAL);
+        txt3.setTypeface(null, Typeface.NORMAL);
+        txt4.setTypeface(null, Typeface.NORMAL);
         txt1.setBackgroundResource(R.drawable.customeborder);
         txt2.setBackgroundResource(R.drawable.customeborder);
         txt3.setBackgroundResource(R.drawable.customeborder);
@@ -657,6 +657,25 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     private void setTermRequest() {
 
         // Requestentity.setPolicyTerm(1);
+
+        if (dbPersistanceController.getUserConstantsData().getParentid() != null
+                && !dbPersistanceController.getUserConstantsData().getParentid().equals("")
+                && !dbPersistanceController.getUserConstantsData().getParentid().equals("0")) {
+            Requestentity.setSubFbaId(String.valueOf(dbPersistanceController.getUserConstantsData().getFBAId()));
+            Requestentity.setFBAID(Integer.parseInt(dbPersistanceController.getUserConstantsData().getParentid()));
+        } else {
+            Requestentity.setSubFbaId("0");
+            Requestentity.setFBAID(Integer.parseInt(dbPersistanceController.getUserConstantsData().getFBAId()));
+        }
+
+
+        if (dbPersistanceController.getUserConstantsData().getPospsendid() != null
+                && !dbPersistanceController.getUserConstantsData().getPospsendid().equals("")) {
+            Requestentity.setPospId(dbPersistanceController.getUserConstantsData().getPospsendid());
+        } else {
+            Requestentity.setPospId("5");
+        }
+
 
         Requestentity.setContactName(etFirstName.getText().toString().trim() + " " + etLasttName.getText().toString().trim());
         Requestentity.setContactEmail("finmarttest@gmail.com");
@@ -746,8 +765,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         if (etMobile.getText().toString().trim().length() > 0) {
 
-            if(etMobile.getText().toString().trim().length() <10)
-            {
+            if (etMobile.getText().toString().trim().length() < 10) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Valid Mobile");
@@ -758,10 +776,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     etMobile.setError("Enter Valid Mobile");
                     return false;
                 }
-            }
-
-
-           else if (!isValidePhoneNumber(etMobile)) {
+            } else if (!isValidePhoneNumber(etMobile)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Mobile");
@@ -899,9 +914,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     entity.setLicGst1(reqentity.getLicGst1());
                     entity.setLicGst2(reqentity.getLicGst2());
 
-                   // showDialog();
+                    // showDialog();
                     new TermInsuranceController(getActivity()).getIllustration(entity, this);
-
 
 
                 }
@@ -1041,37 +1055,31 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     private void manipulatePremiumTerm(int age) {
 
 
-        int selection=0;
+        int selection = 0;
         //region remove pay till 60 if age > 55
         if (age >= 50) {
-            listOption = new String[]{"13","14", "15"};
-            selection=2;
-        }
-        else if(age > 40 && age <50)
-        {
-            int arraysize = (65 - age)-12;
+            listOption = new String[]{"13", "14", "15"};
+            selection = 2;
+        } else if (age > 40 && age < 50) {
+            int arraysize = (65 - age) - 12;
 
-            listOption=new String[arraysize];
-            for (int i=0;i< arraysize;i++)
-            {
-                String s = String.valueOf(i+13);
-                listOption[i]= s;
+            listOption = new String[arraysize];
+            for (int i = 0; i < arraysize; i++) {
+                String s = String.valueOf(i + 13);
+                listOption[i] = s;
 
             }
-            if(age > 45 && age <50) {
+            if (age > 45 && age < 50) {
                 selection = arraysize - 1;
             }
-            if(age > 40 && age <=45)
-            {
-                selection=7;
+            if (age > 40 && age <= 45) {
+                selection = 7;
             }
 
 
-
-        }
-        else if(age <= 40) {
+        } else if (age <= 40) {
             listOption = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
-            selection=7;
+            selection = 7;
         }
 
         final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
