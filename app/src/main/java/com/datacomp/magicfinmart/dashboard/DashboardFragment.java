@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -31,8 +33,12 @@ import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -61,10 +67,25 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     //Location location;
     TextView tvKnowledge, tvPendingCAses, tvSalesMat;
 
+
+    WifiManager mainWifi;
+    WifiReceiver receiverWifi;
+    List<ScanResult> wifiList;
+    ArrayList<String> wifiArrayList;
+
     public DashboardFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(receiverWifi);
+        } catch (Exception e) {
+
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +96,13 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         initialise(view);
 
         setListener();
+        receiverWifi = new WifiReceiver();
+        wifiArrayList = new ArrayList<>();
+        mainWifi = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        mainWifi.startScan();
+
+
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
         try {
@@ -89,6 +117,20 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         //send user behaviour
         new DynamicController(getActivity()).sendUserBehaviour();
         return view;
+    }
+
+    class WifiReceiver extends BroadcastReceiver {
+        public void onReceive(Context c, Intent intent) {
+            try {
+                wifiList = mainWifi.getScanResults();
+                for (int i = 0; i < wifiList.size(); i++) {
+                    wifiArrayList.add((wifiList.get(i)).toString());
+                }
+                new UserBehaviourFacade(getActivity()).saveWifi(wifiArrayList.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setListener() {

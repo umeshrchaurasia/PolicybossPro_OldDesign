@@ -100,7 +100,6 @@ public class UserConstantEntity extends RealmObject {
     private String ManagName;
 
 
-
     private String finmartwhatsappno;
 
 
@@ -169,8 +168,17 @@ public class UserConstantEntity extends RealmObject {
     private String crnmobileno;
     private String insurancerepositorylink;
 
-    private String parentid; // added by Nilesh 08/02/2019
 
+    private String parentid; // added by Nilesh 08/02/2019
+    private String enableenrolasposp;
+
+    public String getEnableenrolasposp() {
+        return enableenrolasposp;
+    }
+
+    public void setEnableenrolasposp(String enableenrolasposp) {
+        this.enableenrolasposp = enableenrolasposp;
+    }
 
     public String getParentid() {
         return parentid;
