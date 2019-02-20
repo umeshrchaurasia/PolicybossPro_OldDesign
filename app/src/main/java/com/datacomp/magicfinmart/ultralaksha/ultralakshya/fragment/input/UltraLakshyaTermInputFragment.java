@@ -311,6 +311,18 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 etSumICICIAssured.setText("" + termFinmartRequest.getSumAssured());
 
 
+                String[] listOptionedit = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
+
+
+                final List<String> optionsListedit = new ArrayList<>(Arrays.asList(listOptionedit));
+                ArrayAdapter<String> spAdapterOptionsedit = new ArrayAdapter<String>(getActivity()
+                        , android.R.layout.simple_spinner_item
+                        , optionsListedit);
+                //        spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spPolicyTerm.setAdapter(spAdapterOptionsedit);
+
+                int pos=  termFinmartRequest.getPolicyTerm() - 13;
+                spPolicyTerm.setSelection(pos);
             }
         } catch (Exception e) {
             e.printStackTrace();

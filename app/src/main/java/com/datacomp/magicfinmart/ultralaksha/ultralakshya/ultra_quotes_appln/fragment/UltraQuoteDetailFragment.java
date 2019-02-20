@@ -135,7 +135,7 @@ public class UltraQuoteDetailFragment extends BaseFragment implements View.OnCli
                 MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","ULTRA COMBO QUOTES ADD WITH FLAOTING BUTTON");
 
                 startActivity(new Intent(getActivity(), UltraLakshyaTermBottmActivity.class));
-
+                break;
 
             case R.id.tvSearch:
             case R.id.ivSearch:
@@ -163,7 +163,7 @@ public class UltraQuoteDetailFragment extends BaseFragment implements View.OnCli
                 MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","ULTRA COMBO QUOTES WITH TEXT BUTTON");
 
                 startActivity(new Intent(getActivity(), UltraLakshyaTermBottmActivity.class));
-                break;
+               break;
         }
 
     }
