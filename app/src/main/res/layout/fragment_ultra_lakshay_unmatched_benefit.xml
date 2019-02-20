@@ -5,44 +5,44 @@
     android:layout_gravity="center"
     android:layout_marginBottom="10dp"
     android:background="@color/bg_dashboard"
-    android:gravity="center"
+    android:gravity="top"
     android:orientation="vertical"
     tools:context=".ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayUnmatchedBenefit">
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
+        android:scrollbars="none">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="top"
-        android:layout_gravity="center"
 
         android:weightSum="100">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="47"
-            android:gravity="bottom"
-            android:layout_marginBottom="16dp"
+            android:layout_height="wrap_content"
+
+            android:gravity="top"
+            android:layout_marginBottom="8dp"
             android:orientation="vertical"
             android:paddingBottom="4dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="4dp">
+            android:paddingRight="8dp">
 
             <TextView
                 android:id="@+id/txtHdr"
                 style="@style/TextViewStyle.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingTop="10dp"
                 android:gravity="bottom"
+                android:paddingTop="16dp"
                 android:text="@string/UltraLakshyaHdr1" />
 
             <TextView
@@ -196,9 +196,8 @@
         <TextView
             style="@style/TextViewStyle.Large"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="4dp"
-            android:layout_weight="6"
+            android:layout_height="wrap_content"
+
             android:background="@color/yellow"
             android:gravity="center"
             android:padding="5dp"
@@ -208,10 +207,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="47"
+            android:layout_height="wrap_content"
+
             android:gravity="top"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical"
             android:paddingLeft="8dp"
             android:paddingRight="8dp">
@@ -410,6 +409,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
+    </ScrollView>
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteApplicationActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionItemAdapter;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.ultra_quotes_appln.activity.UltraLakshyaDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -46,7 +47,11 @@ public class UltraLakshaSelectionActivity extends BaseActivity {
 
     public void planClick(TermSelectionEntity entity) {
 
-        startActivity(new Intent(this, UltraLakshyaTermBottmActivity.class).putExtra(Constants.LIFE_INS, entity.getCompantID()));
+//        startActivity(new Intent(this, UltraLakshyaTermBottmActivity.class).putExtra(Constants.LIFE_INS, entity.getCompantID()));
+//        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(entity.getCompanyName() + " Selection"), Constants.ULTRALAKSHA_INS), null);
+
+
+        startActivity(new Intent(this, UltraLakshyaDetailActivity.class));
         new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(entity.getCompanyName() + " Selection"), Constants.ULTRALAKSHA_INS), null);
     }
 

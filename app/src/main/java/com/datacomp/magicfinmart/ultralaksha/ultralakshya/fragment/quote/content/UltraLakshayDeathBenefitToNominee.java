@@ -122,7 +122,7 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
 
         AppCompatImageView ivClose;
         TextView txtHdr , txtJeevanImmediately ,txtUltraImmediately, txtJeevanMaturityDate ,txtUltraMaturityDate, txtJeevanTotal ,txtUltraTotal, lblAnnualPayout, lblMonthlyPayout ,
-                txtUltraMonthlyPayoutforFirst,txtUltraMonthlyPayoutfor5;
+                txtUltraMonthlyPayoutforFirst,txtUltraMonthlyPayoutfor5,txtJeevanAnnualPayoutfor ,txtUltraAnnualPayoutfor;
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.layout_benefit_payable_to_nominee, null);
 
@@ -149,19 +149,25 @@ public class UltraLakshayDeathBenefitToNominee extends BaseFragment {
         txtUltraMonthlyPayoutforFirst  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutforFirst);
         txtUltraMonthlyPayoutfor5  =  dialogView.findViewById(R.id.txtUltraMonthlyPayoutfor5);
 
+        txtJeevanAnnualPayoutfor  = dialogView.findViewById(R.id.txtJeevanAnnualPayoutfor);
+        txtUltraAnnualPayoutfor = dialogView.findViewById(R.id.txtUltraAnnualPayoutfor);
+
         //endregion
 
         txtHdr.setText("Benefits payable to nominee in case of death in year "+ deathBenefitEntity.getYear());
         lblAnnualPayout.setText("Annual payout for years "+ period);
         lblMonthlyPayout.setText("Monthly payout for years "+ period);
-        txtUltraImmediately.setText("" + benefitsPopupEntity.getULOnDeath());
-        txtJeevanTotal.setText(""+deathBenefitEntity.getJeevanBenefitsPayable() );
-        txtUltraTotal.setText(""+ deathBenefitEntity.getLakshyaBenefitsPayable() );
-        txtUltraMonthlyPayoutforFirst.setText(""+ benefitsPopupEntity.getMonthlyPayFirst() );
+        txtUltraImmediately.setText("" + getNumbeFormatComma(benefitsPopupEntity.getULOnDeath()));
+        txtJeevanTotal.setText(""+getNumbeFormatComma(deathBenefitEntity.getJeevanBenefitsPayable()));
+        txtUltraTotal.setText(""+ getNumbeFormatComma(deathBenefitEntity.getLakshyaBenefitsPayable()));
+        txtUltraMonthlyPayoutforFirst.setText(""+ getNumbeFormatComma(benefitsPopupEntity.getMonthlyPayFirst()) );
 
-        txtJeevanMaturityDate.setText("" + benefitsPopupEntity.getMatDateJL());
-        txtUltraMaturityDate.setText("" +benefitsPopupEntity.getMatDateJL());  // temp 05
-        txtUltraMonthlyPayoutfor5.setText("" +benefitsPopupEntity.getMonthlyPayFiveYears());
+        txtJeevanMaturityDate.setText("" + getNumbeFormatComma(benefitsPopupEntity.getMatDateJL()));
+        txtUltraMaturityDate.setText("" + getNumbeFormatComma(benefitsPopupEntity.getMatDateJL()));  // temp 05
+        txtUltraMonthlyPayoutfor5.setText("" + getNumbeFormatComma(benefitsPopupEntity.getMonthlyPayFiveYears()));
+
+        txtJeevanAnnualPayoutfor.setText("" +getNumbeFormatComma(benefitsPopupEntity.getAnnualPayout()));
+        txtUltraAnnualPayoutfor.setText("" + getNumbeFormatComma(benefitsPopupEntity.getAnnualPayout()));
 
 
 

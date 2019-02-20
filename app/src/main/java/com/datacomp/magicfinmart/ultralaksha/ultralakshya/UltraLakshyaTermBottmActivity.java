@@ -1,11 +1,11 @@
 package com.datacomp.magicfinmart.ultralaksha.ultralakshya;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,12 +18,10 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-
-import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.input.UltraLakshyaTermInputFragment;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.UltraLakshayQuoteFragment;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.ultra_quotes_appln.fragment.UltraQuoteDetailFragment;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 
 public class UltraLakshyaTermBottmActivity extends BaseActivity {
@@ -58,7 +56,7 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         RlbottonHeader = (RelativeLayout) findViewById(R.id.bottomHeader);
-        viewHeader  = (View) findViewById(R.id.viewHeader);
+        viewHeader = (View) findViewById(R.id.viewHeader);
 
         ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
         ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
@@ -71,19 +69,21 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         //2, check request
         hideBoth();
         quoteBundle = new Bundle();
-        if (getIntent().getIntExtra(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, 0) != 0) {
-            int insurerID = getIntent().getIntExtra(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, 0);
-            quoteBundle.putInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, insurerID);
+
+
+        //1. if UltraTermRequest entity found
+        //2. send to input page and bind data
+        //3. if no entity data send to input page
+
+        if (getIntent().getParcelableExtra(UltraQuoteDetailFragment.ULTRA_FOR_INPUT_FRAGMENT) != null) {
+            termFinmartRequest = getIntent().getParcelableExtra(UltraQuoteDetailFragment.ULTRA_FOR_INPUT_FRAGMENT);
+            quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
+
         }
 
-        if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
-            termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
-            quoteBundle.putParcelable(INPUT_DATA, null);
-            //  quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
-            //  bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
-        } else {
-            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-        }
+        //
+        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+
     }
 
     //region navigation click
@@ -105,19 +105,19 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
                         UltraLakshyaTermInputFragment inputFragment = new UltraLakshyaTermInputFragment();
                         inputFragment.setArguments(quoteBundle);
                         loadFragment(inputFragment, INPUT_FRAGMENT);
-                        highlighInput();
+                        // highlighInput();
                     }
                     return true;
                 case R.id.navigation_quote:
                     if (ivHdrQuote.getVisibility() != View.VISIBLE) {
-                        tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+                        tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
                         if (termFinmartRequest != null) {
                             quoteBundle.putString(INPUT_DATA, termFinmartRequest.getContactName());
                             //quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
                             UltraLakshayQuoteFragment quoteFragment = new UltraLakshayQuoteFragment();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, INPUT_FRAGMENT);
-                            highlighQuote();
+                            // highlighQuote();
                         } else {
                             Toast.makeText(UltraLakshyaTermBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
@@ -142,22 +142,21 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-//        if (bottomNavigationView.getVisibility() == View.GONE) {
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//        } else {
-//            UltraLakshyaTermBottmActivity.this.finish();
-//        }
+        super.onBackPressed();
+        if (bottomNavigationView.getSelectedItemId() == R.id.navigation_quote) {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            UltraLakshyaTermBottmActivity.this.finish();
+        }
 
-        UltraLakshyaTermBottmActivity.this.finish();
+
     }
 
-    public void manageHeader(boolean bln)
-    {
-        if(bln) {
+    public void manageHeader(boolean bln) {
+        if (bln) {
             RlbottonHeader.setVisibility(View.VISIBLE);
             viewHeader.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             RlbottonHeader.setVisibility(View.GONE);
             viewHeader.setVisibility(View.GONE);
         }
@@ -176,7 +175,7 @@ public class UltraLakshyaTermBottmActivity extends BaseActivity {
         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
         bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
-        highlighQuote();
+        //highlighQuote();
     }
 
     public void redirectToInput(UltralakshaRequestEntity termFinmartRequest) {

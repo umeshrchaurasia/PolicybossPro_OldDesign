@@ -61,7 +61,7 @@
                     android:id="@+id/nav_mybusiness_insurance"
                     android:icon="@drawable/ic_business_name"
                     android:orderInCategory="360"
-                    android:title="MY Business"
+                    android:title="My Business"
                     android:visible="true" />
             </menu>
         </item>

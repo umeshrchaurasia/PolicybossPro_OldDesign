@@ -24,7 +24,7 @@
     <string name="UltraLakshyaAlone"> STAND-ALONE BENEFITS OF LIC\'s JEEVAN LAKSHYA</string>
     <string name="UltraLakshyaDeath"> DEATH BENEFITS PAYABLE TO NOMINEE</string>
     <string name="UltraLakshyaProdCombo"> PRODUCT COMBO INFORMATION </string>
-    <string name="UltraLakshyaBenefitIllustratoe">BENEFIT ILLUSTRATION OF LIC\'s JEEVAN LAKSHYA</string>
+    <string name="UltraLakshyaBenefitIllustratoe">BENEFITS ILLUSTRATION OF LIC\'s JEEVAN LAKSHYA</string>
     <string name="UltraLakshyaBenefitPayable">Benefits payable to nominee in case of death in year</string>
     <string name="UltraLakshyaBenefitPayable_Terms">* including guaranteed and non-guaranteed benefits.</string>
 
@@ -667,4 +667,5 @@ We presume that this feature will be used only for contacts where the customer h
     </string>
     <string name="title_activity_send_sms">SMS TEMPLATE</string>
     <string name="title_activity_insert_contact">FINMART WHATSAPP CHAT</string>
+    <string name="title_activity_ultra_lakshya_detail">UltraLakshyaDetailActivity</string>
 </resources>

@@ -157,42 +157,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
             bindInput(Requestentity);
         }
 
-        /*
-        if (getArguments() != null) {
-            if (getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermBottmActivity.QUOTE_DATA);
-                termRequestEntity = termFinmartRequest.getTermRequestEntity();
-                termRequestId = termFinmartRequest.getTermRequestId();
-                int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
-                termFinmartRequest.setFba_id(fba_id);
-                showDialog("Please Wait..");
-                fetchWithDelay();
-            } else if (getArguments().getParcelable(UltraLakshyaTermBottmActivity.INPUT_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(UltraLakshyaTermBottmActivity.INPUT_DATA);
-                termRequestEntity = termFinmartRequest.getTermRequestEntity();
-                termRequestId = termFinmartRequest.getTermRequestId();
-                changeInputQuote(true);
-            } else if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null) {
-                termCompareResponseEntity = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA_RESPONSE);
-                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA);
-                termRequestEntity = termFinmartRequest.getTermRequestEntity();
-                termRequestId = termFinmartRequest.getTermRequestId();
-               // bindHeaders();
-                bindQuotes();
-                bindInputFromOther(termFinmartRequest);
-                fromCompare();
-            } else {
-                changeInputQuote(true);
-                tvNo.performClick();
-                tvMale.performClick();
-                //  txtICICILumpSum.performClick();
-            }
-            //bindICICI();
-//            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null && getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) == null) {
-//                bindInput(termFinmartRequest);
-//            }
-        }
-        */
+
 
         return view;
     }
@@ -308,10 +273,56 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     tvMale.setBackgroundResource(R.drawable.customeborder);
                 }
 
+                if(termFinmartRequest.getSumAssured() == 1000000)
+                {
+                    SUM_ASSURED_AMNT = "1000000";
+
+                    setBackgroundSeekBar(txt10lac, txt25lac, txt50lac, txt1cr, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+                }
+                else if(termFinmartRequest.getSumAssured() == 2500000)
+                {
+                    SUM_ASSURED_AMNT = "2500000";
+
+                    setBackgroundSeekBar(txt25lac, txt10lac, txt50lac, txt1cr, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+
+                } else if(termFinmartRequest.getSumAssured() == 5000000)
+                {
+                    SUM_ASSURED_AMNT = "5000000";
+
+                    setBackgroundSeekBar(txt50lac, txt10lac, txt25lac, txt1cr, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+
+                }
+                else  if(termFinmartRequest.getSumAssured() == 10000000)
+                {
+                    SUM_ASSURED_AMNT = "10000000";
+                    setBackgroundSeekBar(txt1cr, txt10lac, txt25lac, txt50lac, txtOther);
+                    lySeekbar.setVisibility(View.GONE);
+
+                }else{
+                    setBackgroundSeekBar(txtOther, txt10lac, txt25lac, txt50lac, txt1cr);
+                    lySeekbar.setVisibility(View.VISIBLE);
+                    etSumICICIAssured.setVisibility(View.VISIBLE);
+                    txtDispalaylac.setVisibility(View.VISIBLE);
+                }
 
                 etSumICICIAssured.setText("" + termFinmartRequest.getSumAssured());
 
 
+                String[] listOptionedit = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
+
+
+                final List<String> optionsListedit = new ArrayList<>(Arrays.asList(listOptionedit));
+                ArrayAdapter<String> spAdapterOptionsedit = new ArrayAdapter<String>(getActivity()
+                        , android.R.layout.simple_spinner_item
+                        , optionsListedit);
+                //        spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spPolicyTerm.setAdapter(spAdapterOptionsedit);
+
+                int pos=  termFinmartRequest.getPolicyTerm() - 13;
+                spPolicyTerm.setSelection(pos);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -539,7 +550,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
                     SumICICIAssured();
                     setTermRequest();
-                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+
                     showDialog("Please Wait..");
                     new TermInsuranceController(getActivity()).recalculateUltraLaksha(Requestentity, this);
                 }
@@ -694,7 +705,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
         //   Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", "")));
 
-        Requestentity.setSumAssured(Integer.parseInt(etSumICICIAssured.getText().toString()));   //-05
+        Requestentity.setSumAssured(Long.valueOf(etSumICICIAssured.getText().toString()));   //
         Requestentity.setInsuredDOB(et_DOB.getText().toString());
 
         switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
@@ -862,7 +873,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
-
         try {
 
 
@@ -914,7 +924,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     entity.setLicGst1(reqentity.getLicGst1());
                     entity.setLicGst2(reqentity.getLicGst2());
 
-                    // showDialog();
                     new TermInsuranceController(getActivity()).getIllustration(entity, this);
 
 
@@ -922,7 +931,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
             } else if (response instanceof UltraLakshaIllustrationResponseNew) {
 
                 cancelDialog();
-                // ((UltraLakshyaTermBottmActivity) getActivity()).redirectToQuote();
+
             }
         } catch (Exception ex) {
             ex.printStackTrace();
