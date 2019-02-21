@@ -146,10 +146,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     MenuMasterResponse menuMasterResponse;
     AlertDialog finmartContacttDialog;
 
-    WifiManager mainWifi;
-    WifiReceiver receiverWifi;
-    List<ScanResult> wifiList;
-    ArrayList<String> wifiArrayList;
+
 
 
     String[] perms = {
@@ -196,19 +193,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     };
 
-    class WifiReceiver extends BroadcastReceiver {
-        public void onReceive(Context c, Intent intent) {
-            try {
-                wifiList = mainWifi.getScanResults();
-                for (int i = 0; i < wifiList.size(); i++) {
-                    wifiArrayList.add((wifiList.get(i)).toString());
-                }
-                new UserBehaviourFacade(HomeActivity.this).saveWifi(wifiArrayList.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
     //endregion
 
@@ -230,11 +215,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-        receiverWifi = new WifiReceiver();
-        wifiArrayList = new ArrayList<>();
-        mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        mainWifi.startScan();
 
 
         setSupportActionBar(toolbar);
@@ -542,15 +522,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionBarDrawerToggle.syncState();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        try {
-            unregisterReceiver(receiverWifi);
-        } catch (Exception w) {
 
-        }
-    }
 
     private void addFinmartContact() {
         if (userConstantEntity.getFinmartwhatsappno() != null) {
@@ -1301,6 +1273,26 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             else
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
         }
+
+
+        //todo : check key from userconstant to hide my business
+        if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
+            int visibility = Integer.parseInt(userConstantEntity.getERPID());
+            if (visibility == 1)
+                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(false);
+        }
+
+        //todo : check key from userconstant to hide posp enrollment
+        if (userConstantEntity != null && userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
+            int visibility = Integer.parseInt(userConstantEntity.getEnableenrolasposp());
+            if (visibility == 1)
+                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
+        }
+
 
     }
 

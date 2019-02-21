@@ -1506,7 +1506,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         //added ny Nilesh 08/02/2019
         //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
 
-        if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+        if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
                 && !userConstantEntity.getParentid().equals("0")) {
             motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
             motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
