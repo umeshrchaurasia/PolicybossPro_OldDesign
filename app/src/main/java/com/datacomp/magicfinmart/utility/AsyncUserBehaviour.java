@@ -2,13 +2,9 @@ package com.datacomp.magicfinmart.utility;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
@@ -34,7 +30,6 @@ public class AsyncUserBehaviour extends AsyncTask<Void, Void, Void> {
         bluetoothList = new ArrayList<>();
 
     }
-
 
 
     @Override
@@ -77,7 +72,6 @@ public class AsyncUserBehaviour extends AsyncTask<Void, Void, Void> {
             }
 
             mFacade.saveBluetooth(bluetoothList.toString());
-
 
 
         } catch (Exception e) {
