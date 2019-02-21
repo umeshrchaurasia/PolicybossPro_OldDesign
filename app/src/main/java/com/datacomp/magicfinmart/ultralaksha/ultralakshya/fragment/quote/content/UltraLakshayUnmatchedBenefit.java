@@ -137,7 +137,7 @@ public class UltraLakshayUnmatchedBenefit extends BaseFragment {
             txtAnnualEndOfTermAmnt.setText(""+getNumbeFormatCommaRuppee(objUnmatched.getAnnualTillEOT() ));
 
             txtMonthlyforYearText.setText(""+objUnmatched.getMonthlyterm());
-            txtMonthlyforYearAmnt.setText(""+getNumbeFormatCommaRuppee( objUnmatched.getAnnualTillEOT()));
+            txtMonthlyforYearAmnt.setText(""+getNumbeFormatCommaRuppee( objUnmatched.getMonthlytermValue()));
 
             txtOnMaturityDateAmnt.setText(""+getNumbeFormatCommaRuppee(objUnmatched.getMaturityDateValue() ));
 
