@@ -81,6 +81,7 @@ public class BaseActivity extends AppCompatActivity {
         cal.add(Calendar.YEAR, -year);
         return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
     }
+
     public int getAgeFromDate(String birthdate) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -214,6 +215,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
     }
 
     protected void cancelDialog() {
@@ -765,7 +767,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-
     public void permissionAlert(final View view, String Title, String strBody) {
         try {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
@@ -863,7 +864,7 @@ public class BaseActivity extends AppCompatActivity {
             //Get the string value to process
             //shareQuote();
             startActivity(new Intent(BaseActivity.this, IncomePotentialActivity.class));
-           // startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
+            // startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
         }
 
         @JavascriptInterface
@@ -873,16 +874,15 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         @JavascriptInterface
-        public void callPDF(String url)
-        {
+        public void callPDF(String url) {
             startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
                     .putExtra("URL", url)
                     .putExtra("NAME", "LIC Business")
                     .putExtra("TITLE", "LIC Business"));
         }
+
         @JavascriptInterface
-        public void callPDFCREDIT(String url)
-        {
+        public void callPDFCREDIT(String url) {
             startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
                     .putExtra("URL", url)
                     .putExtra("NAME", "FREE CREDIT REPORT")

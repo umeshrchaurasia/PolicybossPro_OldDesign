@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
@@ -27,10 +28,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaI
 public class UltraLakshayProductCombo extends BaseFragment implements View.OnClickListener {
 
 
-    TextView txtBuyNowHDFC, txtLicTerm ,txtLicPPT ,txtLicMode ,txtLicSum ,txtOtherYear,
+    TextView  txtLicTerm ,txtLicPPT ,txtLicMode ,txtLicSum ,txtOtherYear,
             txtLicPremYearOne,txtLicPremOtherYears,
             txtHdfcTerm,txtHdfcPPT,txtHdfcMode,txtHdfcSum,txtHdfcPremYearOne,txtHdfcPremOtherYears,
             txtTotalOne,txtTotalTwo;
+
+    ImageView imgBuyNowHDFC;
 
     UltraLakshaFacade ultraLakshaFacade;
 
@@ -55,7 +58,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
     private void initialize(View view)
     {
-        txtBuyNowHDFC  = view.findViewById(R.id.txtBuyNowHDFC);
+        imgBuyNowHDFC  = view.findViewById(R.id.imgBuyNowHDFC);
         txtLicTerm = view.findViewById(R.id.txtLicTerm);
         txtLicPPT = view.findViewById(R.id.txtLicPPT);
         txtLicMode = view.findViewById(R.id.txtLicMode);
@@ -83,7 +86,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
     private void setOnclickListener()
     {
-        txtBuyNowHDFC.setOnClickListener(this);
+        imgBuyNowHDFC.setOnClickListener(this);
     }
 
     private void bindData()
@@ -97,23 +100,23 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
             txtLicPPT.setText(""+objComboEntity.getLicPPT());
             txtLicMode.setText(""+objComboEntity.getLicMode());
 
-            txtLicSum.setText(""+objComboEntity.getLicSum());
+            txtLicSum.setText(""+getNumbeFormatComma(objComboEntity.getLicSum()));
            // txtOtherYear.setText(""+objComboEntity.getLicYears());
 
-            txtLicPremYearOne.setText(""+objComboEntity.getLicPremYearOne());
-            txtLicPremOtherYears.setText(""+objComboEntity.getLicPremOtherYears());
+            txtLicPremYearOne.setText(""+getNumbeFormatComma(objComboEntity.getLicPremYearOne()));
+            txtLicPremOtherYears.setText(""+getNumbeFormatComma(objComboEntity.getLicPremOtherYears()));
             ///////////////
 
             txtHdfcTerm.setText(""+objComboEntity.getHdfcTerm());
             txtHdfcPPT.setText(""+objComboEntity.getHdfcPPT());
             txtHdfcMode.setText(""+objComboEntity.getHdfcMode());
 
-            txtHdfcSum.setText(""+objComboEntity.getHdfcSum());
-            txtHdfcPremYearOne.setText(""+objComboEntity.getHdfcPremYearOne());
-            txtHdfcPremOtherYears.setText(""+objComboEntity.getHdfcPremOtherYears());
+            txtHdfcSum.setText(""+getNumbeFormatComma(objComboEntity.getHdfcSum()));
+            txtHdfcPremYearOne.setText(""+getNumbeFormatComma(objComboEntity.getHdfcPremYearOne()));
+            txtHdfcPremOtherYears.setText(""+getNumbeFormatComma(objComboEntity.getHdfcPremOtherYears()));
 
-            txtTotalOne.setText(""+objComboEntity.getTotalOne());
-            txtTotalTwo.setText(""+objComboEntity.getTotalTwo());
+            txtTotalOne.setText(""+getNumbeFormatComma(objComboEntity.getTotalOne()));
+            txtTotalTwo.setText(""+getNumbeFormatComma(objComboEntity.getTotalTwo()));
         }
     }
 
@@ -121,14 +124,14 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.txtBuyNowHDFC)
+        if(view.getId() == R.id.imgBuyNowHDFC)
         {
            if(  ultraLakshaFacade.getUltraLakshaHDFC() !=null) {
                HDFCEntity hdfcEntity = ultraLakshaFacade.getUltraLakshaHDFC();
                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                        .putExtra("URL", hdfcEntity.getProposerPageUrl())
-                       .putExtra("NAME", "" + "ULTRA LAKSHYA BUY HDFC")
-                       .putExtra("TITLE", "" + "ULTRA LAKSHYA BUY HDFC"));
+                       .putExtra("NAME", "" + "HDFC Protect 3D Plus")
+                       .putExtra("TITLE", "" + "HDFC Protect 3D Plus"));
            }
 
 

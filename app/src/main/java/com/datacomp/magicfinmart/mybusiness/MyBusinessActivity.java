@@ -18,6 +18,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleMobileResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.mybusinessResponse;
@@ -31,6 +32,7 @@ public class MyBusinessActivity extends BaseActivity {
     String url;
     String name;
     String title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,32 +46,38 @@ public class MyBusinessActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("My Business");
-        new DynamicController(MyBusinessActivity.this).getMyBusiness("", new IResponseSubcriber() {
-            @Override
-            public void OnSuccess(APIResponse response, String message) {
-                cancelDialog();
-                if ((mybusinessResponse) response != null) {
-                   try
-                   {
-                       url= ((mybusinessResponse) response).getUrl();
-                       name="My Business";
-                       title="My Business";
-                       settingWebview();
-                   }catch (Exception e)
-                   {
 
-                   }
+        if (new DBPersistanceController(this).getUserConstantsData() != null
+                && new DBPersistanceController(this).getUserConstantsData().getERPID() != null
+                && !new DBPersistanceController(this).getUserConstantsData().getERPID().equals("0")) {
+
+            new DynamicController(MyBusinessActivity.this).getMyBusiness("", new IResponseSubcriber() {
+                @Override
+                public void OnSuccess(APIResponse response, String message) {
+                    cancelDialog();
+                    if ((mybusinessResponse) response != null) {
+                        try {
+                            url = ((mybusinessResponse) response).getUrl();
+                            name = "My Business";
+                            title = "My Business";
+                            settingWebview();
+                        } catch (Exception e) {
+
+                        }
+                    }
                 }
-            }
 
-            @Override
-            public void OnFailure(Throwable t) {
-                cancelDialog();
+                @Override
+                public void OnFailure(Throwable t) {
+                    cancelDialog();
 
-                Toast.makeText(MyBusinessActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+                    Toast.makeText(MyBusinessActivity.this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
-        });
+            });
+        } else {
+            Toast.makeText(MyBusinessActivity.this, "Your not valid user for this feature", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

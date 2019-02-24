@@ -1434,19 +1434,24 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                     try {
 
-                        boolean isTomorrow = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
-                                - DateUtils.DAY_IN_MILLIS);
-
-                        boolean isToday = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime());
+//                        boolean isTomorrow = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
+//                                - DateUtils.DAY_IN_MILLIS);
+//
+//                        boolean isToday = DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime());
 
 
                         boolean isYesterday =
                                 DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
                                         + DateUtils.DAY_IN_MILLIS);
 
+                        //for before todays Date
+                        final Calendar calendar = Calendar.getInstance();
+
+                        calendar.add(Calendar.DATE, -1);
+
                         if (!swIndividual.isChecked()
                                 || isYesterday
-                                || displayFormat.parse(etExpDate.getText().toString()).before(Calendar.getInstance().getTime())) {
+                                || displayFormat.parse(etExpDate.getText().toString()).before(calendar.getTime())) {
                             //call break In
 
                             SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
@@ -1501,7 +1506,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         //added ny Nilesh 08/02/2019
         //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
 
-        if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+        if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
                 && !userConstantEntity.getParentid().equals("0")) {
             motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
             motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));

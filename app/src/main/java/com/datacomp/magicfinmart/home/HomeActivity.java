@@ -15,6 +15,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -77,7 +79,6 @@ import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.mybusiness.MyBusinessActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
@@ -97,13 +98,13 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
-import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
@@ -118,7 +119,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
@@ -146,11 +146,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     MenuMasterResponse menuMasterResponse;
     AlertDialog finmartContacttDialog;
 
+
+
+
     String[] perms = {
             "android.permission.READ_CONTACTS",
             "android.permission.WRITE_CONTACTS"
 
     };
+
 
 
     //region broadcast receiver
@@ -189,6 +193,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     };
 
+
+
     //endregion
 
     @Override
@@ -209,6 +215,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
@@ -220,7 +228,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-
 
 
         try {
@@ -464,7 +471,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_mybusiness_insurance:
 
-                         startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
+                        startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
                         break;
                     case R.id.nav_AppointmentLetter:
                         startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
@@ -514,6 +521,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
+
 
 
     private void addFinmartContact() {
@@ -1265,6 +1273,26 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             else
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
         }
+
+
+        //todo : check key from userconstant to hide my business
+        if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
+            int visibility = Integer.parseInt(userConstantEntity.getERPID());
+            if (visibility == 1)
+                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(false);
+        }
+
+        //todo : check key from userconstant to hide posp enrollment
+        if (userConstantEntity != null && userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
+            int visibility = Integer.parseInt(userConstantEntity.getEnableenrolasposp());
+            if (visibility == 1)
+                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
+        }
+
 
     }
 

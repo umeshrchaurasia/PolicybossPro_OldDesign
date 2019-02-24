@@ -61,7 +61,7 @@ public class UltraSelectionItemAdapter extends RecyclerView.Adapter<RecyclerView
         if (holder instanceof DashboardItemHolder) {
             final TermSelectionEntity termSelectionEntity = listInsur.get(position);
             if (termSelectionEntity.getCompantID() == 0)
-                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.compare_term_insurance_icon);
+                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.ultra_lakshya);
 
 
             ((DashboardItemHolder) holder).txtProductName.setText(termSelectionEntity.getCompanyName());

@@ -1,13 +1,8 @@
 package com.datacomp.magicfinmart.login;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -24,17 +19,11 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
-import com.datacomp.magicfinmart.utility.AsyncUserBehaviour;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
-import com.google.firebase.iid.FirebaseInstanceId;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -55,11 +44,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private static int PERMISSION_DENIED = 0;
 
-    WifiManager mainWifi;
-    WifiReceiver receiverWifi;
-    List<ScanResult> wifiList;
-    ArrayList<String> wifiArrayList;
-
 
     String[] perms = {
             "android.permission.CAMERA",
@@ -77,31 +61,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             "android.permission.BLUETOOTH_ADMIN"
     };
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(receiverWifi);
-    }
-
-    class WifiReceiver extends BroadcastReceiver {
-        public void onReceive(Context c, Intent intent) {
-            wifiList = mainWifi.getScanResults();
-            for (int i = 0; i < wifiList.size(); i++) {
-                wifiArrayList.add((wifiList.get(i)).toString());
-            }
-            new UserBehaviourFacade(LoginActivity.this).saveWifi(wifiArrayList.toString());
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        receiverWifi = new WifiReceiver();
-        wifiArrayList = new ArrayList<>();
-        mainWifi = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        mainWifi.startScan();
         loginRequestEntity = new LoginRequestEntity();
         initWidgets();
         setListener();

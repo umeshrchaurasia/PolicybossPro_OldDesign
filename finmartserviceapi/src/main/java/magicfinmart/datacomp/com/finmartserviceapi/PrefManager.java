@@ -342,10 +342,12 @@ public class PrefManager {
     public void clearAll() {
 
         String strToken = getToken();
+        String strContact = getContactMsgFirst();
         editor.clear().commit();
 
         setToken(strToken);
-        updateContactMsgFirst("" + 1);
+        updateContactMsgFirst(strContact);
+
        /* pref.edit().remove(POSP_INFO)
                 .remove(SHARED_KEY_PUSH_NOTIFY)
                 .remove(SHARED_KEY_PUSH_WEB_URL)

@@ -146,7 +146,7 @@
 
                             <TextView
                                 android:id="@+id/txtUltraImmediately"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
@@ -154,6 +154,7 @@
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
+                                android:textColor="@color/header_dark_text"
                                 android:text=""></TextView>
 
                         </TableRow>
@@ -180,8 +181,8 @@
                                 android:textColor="@color/header_dark_text"></TextView>
 
                             <TextView
-                                android:id="@+id/txtJeevanAnnualPayoutfor9"
-                                style="@style/TextViewStyle.Medium"
+                                android:id="@+id/txtJeevanAnnualPayoutfor"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
@@ -189,12 +190,13 @@
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
-                                android:text="100000"></TextView>
+                                android:textColor="@color/header_dark_text"
+                                android:text=""></TextView>
 
 
                             <TextView
-                                android:id="@+id/txtUltraAnnualPayoutfor9"
-                                style="@style/TextViewStyle.Medium"
+                                android:id="@+id/txtUltraAnnualPayoutfor"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
@@ -202,7 +204,8 @@
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
-                                android:text="100000"></TextView>
+                                android:textColor="@color/header_dark_text"
+                                android:text=""></TextView>
 
                         </TableRow>
 
@@ -226,7 +229,7 @@
 
                             <TextView
                                 android:id="@+id/txtJeevanMonthlyPayoutfor9"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
@@ -234,12 +237,13 @@
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
+                                android:textColor="@color/header_dark_text"
                                 android:text="---"></TextView>
 
 
                             <TextView
                                 android:id="@+id/txtUltraMonthlyPayoutforFirst"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
@@ -247,7 +251,8 @@
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
-                                android:text="50000"></TextView>
+                                android:textColor="@color/header_dark_text"
+                                android:text=""></TextView>
 
                         </TableRow>
 
@@ -269,11 +274,12 @@
 
                             <TextView
                                 android:id="@+id/txtJeevanMaturityDate"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
                                 android:background="@drawable/cell_shape"
+                                android:textColor="@color/header_dark_text"
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
@@ -282,11 +288,12 @@
 
                             <TextView
                                 android:id="@+id/txtUltraMaturityDate"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
                                 android:background="@drawable/cell_shape"
+                                android:textColor="@color/header_dark_text"
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
@@ -314,11 +321,12 @@
 
                             <TextView
                                 android:id="@+id/txtJeevanMonthlyPayoutfor5"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
                                 android:background="@drawable/cell_shape"
+                                android:textColor="@color/header_dark_text"
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
@@ -327,15 +335,16 @@
 
                             <TextView
                                 android:id="@+id/txtUltraMonthlyPayoutfor5"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
                                 android:background="@drawable/cell_shape"
+                                android:textColor="@color/header_dark_text"
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
-                                android:text="50000"></TextView>
+                                android:text=""></TextView>
 
                         </TableRow>
 
@@ -359,11 +368,12 @@
 
                             <TextView
                                 android:id="@+id/txtJeevanTotal"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
                                 android:background="@drawable/cell_shape"
+                                android:textColor="@color/header_dark_text"
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
@@ -373,11 +383,12 @@
 
                             <TextView
                                 android:id="@+id/txtUltraTotal"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextViewStyle.Small"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="25"
                                 android:background="@drawable/cell_shape"
+                                android:textColor="@color/header_dark_text"
                                 android:gravity="center"
                                 android:paddingLeft="2dp"
                                 android:paddingRight="2dp"
