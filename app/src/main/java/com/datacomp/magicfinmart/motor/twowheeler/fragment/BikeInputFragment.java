@@ -2479,13 +2479,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
 
+
     public void InfomationAlert(String Title, String strBody) {
 
-        if (infoDialog != null) {
-            if (infoDialog.isShowing()) {
-                return;
-            }
-        } else {
+        if (infoDialog != null && infoDialog.isShowing()) {
+
+            return;
+        }
+        else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
 
 
@@ -2505,7 +2506,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
             txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
             ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
-            viewSeperator = (View) dialogView.findViewById(R.id.ivCross);
+            viewSeperator = (View) dialogView.findViewById(R.id.viewSeperator);
 
             btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
             btnReject = (Button) dialogView.findViewById(R.id.btnReject);
@@ -2540,31 +2541,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 }
             });
-            infoDialog.setCancelable(true);
+            infoDialog.setCancelable(false);
             infoDialog.show();
         }
 
-        class PolicybossTrackingFastlnaeResponse extends AsyncTask<Void, Void, String> {
-            FastLaneDataResponse fastLaneDataResponse;
-            String response = "";
 
-            public PolicybossTrackingFastlnaeResponse(FastLaneDataResponse fastLaneDataResponse) {
-                this.fastLaneDataResponse = fastLaneDataResponse;
-            }
-
-            @Override
-            protected String doInBackground(Void... voids) {
-
-                response = gson.toJson(fastLaneDataResponse);
-                return response;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                if (constantEntity.getLogtracking().equals("0"))
-                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.TWO_WHEELER_FASTLANE_RESPONSE), null);
-            }
-        }
     }
 
 }

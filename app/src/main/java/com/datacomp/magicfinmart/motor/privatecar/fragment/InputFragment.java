@@ -2882,7 +2882,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
             txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
             ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
-            viewSeperator = (View) dialogView.findViewById(R.id.ivCross);
+            viewSeperator = (View) dialogView.findViewById(R.id.viewSeperator);
 
             btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
             btnReject = (Button) dialogView.findViewById(R.id.btnReject);
@@ -2917,7 +2917,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 }
             });
-            infoDialog.setCancelable(true);
+            infoDialog.setCancelable(false);
             infoDialog.show();
         }
 

@@ -1563,11 +1563,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     public void ConfirmInsertContactAlert(String Title, String strBody, final String strMobile) {
 
-        if (finmartContacttDialog != null) {
-            if (finmartContacttDialog.isShowing()) {
-                return;
-            }
-        } else {
+        if (finmartContacttDialog != null && finmartContacttDialog.isShowing()) {
+
+            return;
+        }
+        else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
 
