@@ -208,6 +208,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
                 tvDontKnow.performClick();
                 bindInputsQuotes();
+
+                //disable if crn exist
+                disableInputs();
             }
         }
 
@@ -218,6 +221,24 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
     //region binding parameter
+
+    private void disableInputs() {
+
+        if (motorRequestEntity != null
+                && motorRequestEntity.getCrn() != null
+                && !motorRequestEntity.getCrn().equalsIgnoreCase("")) {
+
+            acMakeModel.setEnabled(false);
+            spFuel.setEnabled(false);
+            spVarient.setEnabled(false);
+            acRto.setEnabled(false);
+        } else {
+            acMakeModel.setEnabled(true);
+            spFuel.setEnabled(true);
+            spVarient.setEnabled(true);
+            acRto.setEnabled(true);
+        }
+    }
 
     private void bind_init_binders() {
 
@@ -527,6 +548,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
+//region bind form
 
     private void bindInputsQuotes() {
 
@@ -869,6 +891,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
     }
+
+    //endregion
 
     //endregion
 

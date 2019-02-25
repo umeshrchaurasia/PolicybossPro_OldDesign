@@ -190,6 +190,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 motorRequestEntity = getArguments().getParcelable(BikeAddQuoteActivity.BIKE_INPUT_REQUEST);
                 tvDontKnow.performClick();
                 bindInputsQuotes();
+                disableInputs();
             }
         }
 
@@ -199,6 +200,26 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
 
     //region binding parameter
+
+    private void disableInputs() {
+
+        if (motorRequestEntity != null
+                && motorRequestEntity.getCrn() != null
+                && !motorRequestEntity.getCrn().equalsIgnoreCase("")) {
+
+            acMakeModel.setEnabled(false);
+            spFuel.setEnabled(false);
+            spVarient.setEnabled(false);
+            acRto.setEnabled(false);
+            etExtValue.setEnabled(false);
+        } else {
+            acMakeModel.setEnabled(true);
+            spFuel.setEnabled(true);
+            spVarient.setEnabled(true);
+            acRto.setEnabled(true);
+            etExtValue.setEnabled(true);
+        }
+    }
 
     private void bind_init_binders() {
 
