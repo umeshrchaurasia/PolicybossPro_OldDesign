@@ -30,6 +30,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -328,22 +329,22 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     //added by Nilesh
-                    case R.id.nav_vehicleinfo:
-                        getSupportActionBar().setTitle("VEHICLE DETAIL");
-                        fragment = new VehicleDetailFragment();
-                        break;
+//                    case R.id.nav_vehicleinfo:
+//                        getSupportActionBar().setTitle("VEHICLE DETAIL");
+//                        fragment = new VehicleDetailFragment();
+//                        break;
 
-                    case R.id.nav_expressLoan:
-                        startActivity(new Intent(HomeActivity.this, AppliedOnlineLoanListActivity.class));
-                        break;
+//                    case R.id.nav_expressLoan:
+//                        startActivity(new Intent(HomeActivity.this, AppliedOnlineLoanListActivity.class));
+//                        break;
                     //Replacing the main content with ContentFragment Which is our Inbox View;
-                    case R.id.nav_yesbankbot:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
-                                .putExtra("NAME", "" + "YES BANK BOT")
-                                .putExtra("TITLE", "" + "YES BANK BOT"));
-
-                        break;
+//                    case R.id.nav_yesbankbot:
+//                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+//                                .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
+//                                .putExtra("NAME", "" + "YES BANK BOT")
+//                                .putExtra("TITLE", "" + "YES BANK BOT"));
+//
+//                        break;
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
                         getSupportActionBar().setTitle("MAGIC FIN-MART");
@@ -357,7 +358,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_sharedata:
                         fragment = new ShareDataFragment();
-                        getSupportActionBar().setTitle("SHARE DATA");
+                        getSupportActionBar().setTitle("Generate Loan Leads");
                         break;
                     case R.id.nav_changepassword:
                         fragment = new ChangePasswordFragment();
@@ -385,37 +386,37 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         fragment = new POSPListFragment();
                         getSupportActionBar().setTitle("Sub User List");
                         break;
-                    case R.id.nav_homeloanApplication:
-                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
-                        break;
+//                    case R.id.nav_homeloanApplication:
+//                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+//                        break;
 
                     case R.id.nav_crnpolicy:
                         startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
                         break;
-                    case R.id.nav_offlineQuotes:
-                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
-                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
-                        break;
-                    case R.id.nav_myBusiness:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My Business : My Business button in menu "), Constants.MY_BUSINESS), null);
-                        break;
-                    case R.id.nav_referFriend:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
-                        break;
-                    case R.id.nav_mps:
-                        // DialogMPS();
-                        showDialog();
-                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-
-                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-                        break;
-                    case R.id.nav_helpfeedback:
-                        startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
-                        break;
+//                    case R.id.nav_offlineQuotes:
+//                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
+//                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
+//                        break;
+//                    case R.id.nav_myBusiness:
+//                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My Business : My Business button in menu "), Constants.MY_BUSINESS), null);
+//                        break;
+//                    case R.id.nav_referFriend:
+//                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
+//                        break;
+//                    case R.id.nav_mps:
+//                        // DialogMPS();
+//                        showDialog();
+//                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+//
+//                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+//                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+//                        break;
+//                    case R.id.nav_helpfeedback:
+//                        startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
+//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+//                        break;
                     /*case R.id.nav_posptraining:
                         startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.login.LoginActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("POPS TRAINING : POPS TRAINING button in menu "), Constants.POSP_TRAINING), null);
@@ -438,14 +439,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
-                    case R.id.nav_IncomeCalculator:
-                        startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
-
-                        break;
-                    case R.id.nav_IncomePotential:
-                        startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
-
-                        break;
+//                    case R.id.nav_IncomeCalculator:
+//                        startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+//
+//                        break;
+//                    case R.id.nav_IncomePotential:
+//                        startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
+//
+//                        break;
                     case R.id.nav_transactionhistory:
                         startActivity(new Intent(HomeActivity.this, nav_transactionhistoryActivity.class));
 
@@ -481,6 +482,22 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
                                 .putExtra("TYPE", "0"));
                         break;
+
+                    case R.id.nav_OtherLoan:
+                        ConfirmOtherLoanProductsAlert();
+
+                        break;
+
+                    case R.id.nav_REQUEST:
+                        ConfirmMORESERVICESAlert();
+
+                        break;
+                    case R.id.nav_MYUTILITIES:
+                        ConfirmnMYUTILITIESsAlert();
+
+                        break;
+
+
                     default:
                         break;
                 }
@@ -1701,4 +1718,332 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     }
     //endregion
+
+    //popup
+    public void ConfirmOtherLoanProductsAlert() {
+
+//        if (finmartContacttDialog != null) {
+//            if (finmartContacttDialog.isShowing()) {
+//                return;
+//            }
+//        } else
+        {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+
+
+            Button btnone, btntwo;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            CardView cvDialPad_one,cvFollowup_one,  cvAddLead_one,
+                    cvSetPriority_one, cvRBALead_one, cvFBAFollowUp_one;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard1, null);
+
+            builder.setView(dialogView);
+            finmartContacttDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            cvDialPad_one = (CardView) dialogView.findViewById(R.id.cvDialPad_one);
+            cvFollowup_one = (CardView) dialogView.findViewById(R.id.cvFollowup_one);
+            cvAddLead_one = (CardView) dialogView.findViewById(R.id.cvAddLead_one);
+            cvSetPriority_one = (CardView) dialogView.findViewById(R.id.cvSetPriority_one);
+            cvRBALead_one = (CardView) dialogView.findViewById(R.id.cvRBALead_one);
+            cvFBAFollowUp_one = (CardView) dialogView.findViewById(R.id.cvFBAFollowUp_one);
+
+            cvDialPad_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    sharedPreferences =getActivity().getSharedPreferences("CALLER_AGENT", MODE_PRIVATE);
+                    editor = sharedPreferences.edit();
+                    editor.putString(Utility.CALL_FIRSTPOPUP, "calling");
+                    editor.commit();
+                    startActivity(new Intent(getActivity(), DialerPadActivity.class));
+                    //  .putExtra("type_call", "calling")
+                    // .putExtra("lead_source","300DATA"));
+                }
+            });
+
+            cvFollowup_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), FollowUpActivity.class));
+                }
+            });
+
+            cvAddLead_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
+                            .putExtra("DEMO", true)
+                            .putExtra("PHONE_DIAL_NUMBER", "")
+                            .putExtra("type_call", "calling")
+                            .putExtra("lead_source","300DATA"));
+                }
+            });
+
+            cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+                }
+            });
+//pending
+            cvRBALead_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(),GroupListActivity.class));
+                }
+            });
+
+            cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), FBAFollowupList.class));
+                }
+            });
+
+
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+
+                }
+            });
+            finmartContacttDialog.setCancelable(false);
+            finmartContacttDialog.show();
+        }
+
+    }
+
+    public void ConfirmMORESERVICESAlert() {
+
+//        if (finmartContacttDialog != null) {
+//            if (finmartContacttDialog.isShowing()) {
+//                return;
+//            }
+//        } else
+        {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+
+
+            Button btnone, btntwo;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            CardView cvDialPad_one,cvFollowup_one,  cvAddLead_one,
+                    cvSetPriority_one, cvRBALead_one, cvFBAFollowUp_one;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard2, null);
+
+            builder.setView(dialogView);
+            finmartContacttDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            cvDialPad_one = (CardView) dialogView.findViewById(R.id.cvDialPad_one);
+            cvFollowup_one = (CardView) dialogView.findViewById(R.id.cvFollowup_one);
+            cvAddLead_one = (CardView) dialogView.findViewById(R.id.cvAddLead_one);
+            cvSetPriority_one = (CardView) dialogView.findViewById(R.id.cvSetPriority_one);
+            cvRBALead_one = (CardView) dialogView.findViewById(R.id.cvRBALead_one);
+            cvFBAFollowUp_one = (CardView) dialogView.findViewById(R.id.cvFBAFollowUp_one);
+
+            cvDialPad_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    sharedPreferences =getActivity().getSharedPreferences("CALLER_AGENT", MODE_PRIVATE);
+                    editor = sharedPreferences.edit();
+                    editor.putString(Utility.CALL_FIRSTPOPUP, "calling");
+                    editor.commit();
+                    startActivity(new Intent(getActivity(), DialerPadActivity.class));
+                    //  .putExtra("type_call", "calling")
+                    // .putExtra("lead_source","300DATA"));
+                }
+            });
+
+            cvFollowup_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), FollowUpActivity.class));
+                }
+            });
+
+            cvAddLead_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
+                            .putExtra("DEMO", true)
+                            .putExtra("PHONE_DIAL_NUMBER", "")
+                            .putExtra("type_call", "calling")
+                            .putExtra("lead_source","300DATA"));
+                }
+            });
+
+            cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+                }
+            });
+//pending
+            cvRBALead_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(),GroupListActivity.class));
+                }
+            });
+
+            cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), FBAFollowupList.class));
+                }
+            });
+
+
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+
+                }
+            });
+            finmartContacttDialog.setCancelable(false);
+            finmartContacttDialog.show();
+        }
+
+    }
+
+    public void ConfirmnMYUTILITIESsAlert() {
+
+//        if (finmartContacttDialog != null) {
+//            if (finmartContacttDialog.isShowing()) {
+//                return;
+//            }
+//        } else
+        {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+
+
+            Button btnone, btntwo;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            CardView cvDialPad_one,cvFollowup_one,  cvAddLead_one,
+                    cvSetPriority_one, cvRBALead_one, cvFBAFollowUp_one;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null);
+
+            builder.setView(dialogView);
+            finmartContacttDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            cvDialPad_one = (CardView) dialogView.findViewById(R.id.cvDialPad_one);
+            cvFollowup_one = (CardView) dialogView.findViewById(R.id.cvFollowup_one);
+            cvAddLead_one = (CardView) dialogView.findViewById(R.id.cvAddLead_one);
+            cvSetPriority_one = (CardView) dialogView.findViewById(R.id.cvSetPriority_one);
+            cvRBALead_one = (CardView) dialogView.findViewById(R.id.cvRBALead_one);
+            cvFBAFollowUp_one = (CardView) dialogView.findViewById(R.id.cvFBAFollowUp_one);
+
+            cvDialPad_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    sharedPreferences =getActivity().getSharedPreferences("CALLER_AGENT", MODE_PRIVATE);
+                    editor = sharedPreferences.edit();
+                    editor.putString(Utility.CALL_FIRSTPOPUP, "calling");
+                    editor.commit();
+                    startActivity(new Intent(getActivity(), DialerPadActivity.class));
+                    //  .putExtra("type_call", "calling")
+                    // .putExtra("lead_source","300DATA"));
+                }
+            });
+
+            cvFollowup_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), FollowUpActivity.class));
+                }
+            });
+
+            cvAddLead_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
+                            .putExtra("DEMO", true)
+                            .putExtra("PHONE_DIAL_NUMBER", "")
+                            .putExtra("type_call", "calling")
+                            .putExtra("lead_source","300DATA"));
+                }
+            });
+
+            cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+                }
+            });
+//pending
+            cvRBALead_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(),GroupListActivity.class));
+                }
+            });
+
+            cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+                    startActivity(new Intent(getActivity(), FBAFollowupList.class));
+                }
+            });
+
+
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finmartContacttDialog.dismiss();
+
+                }
+            });
+            finmartContacttDialog.setCancelable(false);
+            finmartContacttDialog.show();
+        }
+
+    }
 }
