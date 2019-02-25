@@ -19,8 +19,8 @@
             style="@style/CardStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_margin="10dp">
+            android:layout_margin="10dp"
+            android:layout_marginBottom="0dp">
 
             <RelativeLayout
 
@@ -31,21 +31,22 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
                     android:id="@+id/tvNew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@+id/switchNewRenew"
                     android:layout_toStartOf="@+id/switchNewRenew"
+                    android:layout_toLeftOf="@+id/switchNewRenew"
                     android:gravity="right|center_vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:text="NEW VEHICLE"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.TextMedium" />
+
 
                 <Switch
                     android:id="@+id/switchNewRenew"
@@ -62,9 +63,6 @@
                     android:trackTint="@color/colorPrimaryDark" />
 
                 <TextView
-                    android:layout_marginLeft="12dp"
-                    android:gravity="left|center_vertical"
-                    android:layout_toRightOf="@id/switchNewRenew"
                     android:id="@+id/tvRenew"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,6 +70,9 @@
                     android:layout_alignBottom="@+id/switchNewRenew"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@id/switchNewRenew"
+                    android:gravity="left|center_vertical"
                     android:text="RENEWAL"
                     android:textAppearance="@style/TextStyle.TextMedium"
                     android:textColor="@color/colorAccent"
@@ -84,10 +85,10 @@
             style="@style/CardStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="4dp">
+            android:layout_marginBottom="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -97,18 +98,18 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:paddingTop="12dp"
-                    android:paddingBottom="12dp"
                     android:id="@+id/tvCompany"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="12dp"
-                    android:layout_toLeftOf="@+id/swIndividual"
                     android:layout_toStartOf="@+id/swIndividual"
+                    android:layout_toLeftOf="@+id/swIndividual"
                     android:gravity="right|center_vertical"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:text="COMPANY"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.TextMedium" />
@@ -128,20 +129,19 @@
                     android:trackTint="@color/colorPrimaryDark" />
 
                 <TextView
-                    android:layout_marginLeft="12dp"
-                    android:gravity="left|center_vertical"
-                    android:layout_toRightOf="@id/swIndividual"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/swIndividual"
                     android:layout_alignBottom="@+id/swIndividual"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@id/swIndividual"
+                    android:gravity="left|center_vertical"
                     android:text="INDIVIDUAL"
                     android:textAppearance="@style/TextStyle.TextMedium"
                     android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
@@ -168,15 +168,24 @@
                     android:textAppearance="@style/TextStyle.TextLarge"
                     android:textColor="@color/colorPrimaryDark" />
 
+                <ImageView
+                    android:id="@+id/imgInfo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_toRightOf="@+id/head"
+                    app:srcCompat="@drawable/infop" />
+
                 <LinearLayout
-                    android:paddingTop="10dp"
                     android:id="@+id/llRegNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/head"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
 
 
                     <EditText
@@ -234,31 +243,31 @@
                 </LinearLayout>
 
                 <TextView
-                    android:textColor="#c4c4c4"
-                    android:layout_marginTop="5dp"
                     android:id="@+id/tvHintRegNo"
                     style="@style/TextStyle.TextLarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/llRegNo"
                     android:layout_centerHorizontal="true"
-                    android:text="e.g.MH 04 EQ 1234 " />
+                    android:layout_marginTop="5dp"
+                    android:text="e.g.MH 04 EQ 1234 "
+                    android:textColor="#c4c4c4" />
 
 
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
         <TextView
-            android:textSize="20sp"
             android:id="@+id/tvOr"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvHintRegNo"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
+            android:gravity="center"
             android:text="OR"
             android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -276,16 +285,16 @@
                 android:text="Don't know registration number?" />
 
             <TextView
-                android:textStyle="bold"
                 android:id="@+id/tvDontKnow"
                 style="@style/TextStyle.TextLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
-                android:paddingBottom="15dp"
                 android:paddingTop="15dp"
+                android:paddingBottom="15dp"
                 android:text="Click Here"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!--<android.support.v7.widget.CardView-->
