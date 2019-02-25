@@ -144,6 +144,18 @@ public class UserConstantEntity extends RealmObject {
     private String messagesender;
 
     private String enablencd;
+    private  String ultralakshyaenabled;
+
+
+    public String getUltralakshyaenabled() {
+        return ultralakshyaenabled;
+    }
+
+    public void setUltralakshyaenabled(String ultralakshyaenabled) {
+        this.ultralakshyaenabled = ultralakshyaenabled;
+    }
+
+
     /**
      * marketinghomeimageurl :
      * marketinghomebirthdayimageurl :
