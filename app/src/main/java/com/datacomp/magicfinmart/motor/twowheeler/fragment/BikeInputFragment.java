@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -30,6 +31,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.Spinner;
@@ -100,6 +102,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     EditText etreg1, etreg2, etreg3, etreg4;
     String regNo = "";
     Switch switchNewRenew;
+    ImageView imgInfo;
 
     MotorRequestEntity motorRequestEntity;
     FastLaneDataEntity fastLaneResponseEntity;
@@ -140,6 +143,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     //ArrayAdapter<String> subTypeAdapter;
     List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
     ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
+    AlertDialog infoDialog;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -1037,6 +1041,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     private void setListener() {
+        imgInfo.setOnClickListener(this);
         btnGo.setOnClickListener(this);
         switchNewRenew.setOnCheckedChangeListener(this);
         swIndividual.setOnCheckedChangeListener(this);
@@ -1173,6 +1178,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         spMonth = (Spinner) view.findViewById(R.id.spMonth);
         spYear = (Spinner) view.findViewById(R.id.spYear);
         llNCB = (LinearLayout) view.findViewById(R.id.llNCB);
+        imgInfo = (ImageView) view.findViewById(R.id.imgInfo);
     }
 
     @Override
@@ -1215,6 +1221,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
+                break;
+            case R.id.imgInfo:
+                InfomationAlert("Information", getActivity().getResources().getString(R.string.motorInfo));
                 break;
             case R.id.tvClaimNo:
                 isClaimExist = false;
@@ -1759,7 +1768,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 && !userConstantEntity.getParentid().equals("0")) {
             motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
             motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
-        }else{
+        } else {
             motorRequestEntity.setSub_fbaid("0");
             motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
         }
@@ -2468,4 +2477,94 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.TWO_WHEELER_FASTLANE_RESPONSE), null);
         }
     }
+
+
+    public void InfomationAlert(String Title, String strBody) {
+
+        if (infoDialog != null) {
+            if (infoDialog.isShowing()) {
+                return;
+            }
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
+
+
+            Button btnAllow, btnReject;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            View viewSeperator;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
+
+            builder.setView(dialogView);
+            infoDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+            viewSeperator = (View) dialogView.findViewById(R.id.ivCross);
+
+            btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+            btnReject = (Button) dialogView.findViewById(R.id.btnReject);
+            txtTile.setText(Title);
+            txtBody.setText(strBody);
+            btnAllow.setVisibility(View.GONE);
+            btnReject.setVisibility(View.GONE);
+            viewSeperator.setVisibility(View.GONE);
+
+
+            btnAllow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    infoDialog.dismiss();
+
+                    //  Toast.makeText(HomeActivity.this,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            btnReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    infoDialog.dismiss();
+
+                }
+            });
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    infoDialog.dismiss();
+
+                }
+            });
+            infoDialog.setCancelable(true);
+            infoDialog.show();
+        }
+
+        class PolicybossTrackingFastlnaeResponse extends AsyncTask<Void, Void, String> {
+            FastLaneDataResponse fastLaneDataResponse;
+            String response = "";
+
+            public PolicybossTrackingFastlnaeResponse(FastLaneDataResponse fastLaneDataResponse) {
+                this.fastLaneDataResponse = fastLaneDataResponse;
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                response = gson.toJson(fastLaneDataResponse);
+                return response;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                if (constantEntity.getLogtracking().equals("0"))
+                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.TWO_WHEELER_FASTLANE_RESPONSE), null);
+            }
+        }
+    }
+
 }
