@@ -40,15 +40,15 @@
                         android:id="@+id/tvNew"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="12dp"
-                        android:layout_toLeftOf="@+id/switchNewRenew"
                         android:layout_toStartOf="@+id/switchNewRenew"
+                        android:layout_toLeftOf="@+id/switchNewRenew"
                         android:gravity="right|center_vertical"
-                        android:paddingBottom="12dp"
                         android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
                         android:text="NEW VEHICLE"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.TextMedium" />
@@ -84,75 +84,75 @@
                         android:textStyle="bold" />
 
                     <RadioGroup
-                        android:visibility="gone"
                         android:id="@+id/rgNewRenew"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvNew"
                         android:layout_centerHorizontal="true"
                         android:checkedButton="@id/rbReNew"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone">
 
                         <RadioButton
-                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbNew"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="NEW" />
+                            android:text="NEW"
+                            android:textColor="@drawable/radiogroup_selector" />
 
                         <RadioButton
-                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbReNew"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
-                            android:text="RENEW" />
+                            android:text="RENEW"
+                            android:textColor="@drawable/radiogroup_selector" />
 
                         <RadioButton
-                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbExpired"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="EXPIRED" />
+                            android:text="EXPIRED"
+                            android:textColor="@drawable/radiogroup_selector" />
                     </RadioGroup>
 
                     <RadioGroup
-                        android:visibility="gone"
                         android:id="@+id/rgExpiry"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/rgNewRenew"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginBottom="10dp"
                         android:checkedButton="@id/rbDontHAve"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <RadioButton
-                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbDontHAve"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="I don’t have existing policy " />
+                            android:text="I don’t have existing policy "
+                            android:textColor="@drawable/radiogroup_selector" />
 
                         <RadioButton
-                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbWithIn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Expired within 90 days " />
+                            android:text="Expired within 90 days "
+                            android:textColor="@drawable/radiogroup_selector" />
 
                         <RadioButton
-                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbBeyond"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Expired beyond 90 days" />
+                            android:text="Expired beyond 90 days"
+                            android:textColor="@drawable/radiogroup_selector" />
                     </RadioGroup>
                 </RelativeLayout>
 
@@ -163,10 +163,10 @@
                 style="@style/CardStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="4dp">
+                android:layout_marginBottom="0dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -179,15 +179,15 @@
                         android:id="@+id/tvCompany"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="12dp"
-                        android:layout_toLeftOf="@+id/swIndividual"
                         android:layout_toStartOf="@+id/swIndividual"
+                        android:layout_toLeftOf="@+id/swIndividual"
                         android:gravity="right|center_vertical"
-                        android:paddingBottom="12dp"
                         android:paddingTop="12dp"
+                        android:paddingBottom="12dp"
                         android:text="COMPANY"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.TextMedium" />
@@ -245,6 +245,15 @@
                         android:text="ENTER VEHICLE REGISTRATION NO."
                         android:textAppearance="@style/TextStyle.TextLarge"
                         android:textColor="@color/colorPrimaryDark" />
+
+                    <ImageView
+                        android:id="@+id/imgInfo"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_toRightOf="@+id/head"
+                        app:srcCompat="@drawable/infop" />
 
                     <LinearLayout
                         android:id="@+id/llRegNo"
@@ -327,7 +336,6 @@
             </android.support.v7.widget.CardView>
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tvOr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -341,7 +349,6 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:visibility="gone"
                 android:id="@+id/llDontKnow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -361,8 +368,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:paddingBottom="15dp"
                     android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
                     android:text="Click Here"
                     android:textColor="@color/colorAccent"
                     android:textStyle="bold" />
