@@ -96,7 +96,7 @@ public class RBCustomerEntity {
         Email = "";
         Contact = "";
         ApplicantGender = "";
-        ApplicantSource = "";
+        ApplicantSource = "1";
         ApplicantIncome = "";
         ApplicantObligations = "";
         ApplicantDOB = "";
