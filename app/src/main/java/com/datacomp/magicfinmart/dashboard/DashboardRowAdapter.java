@@ -363,10 +363,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Utility.loadWebViewUrlInBrowser(mContext,
                         "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
                /* mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
+                        .putExtra(                break;
+"URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
                         .putExtra("NAME", "" + "Loan On Messenger")
                         .putExtra("TITLE", "" + "Loan On Messenger"));*/
-                break;
 
             case 15: //ncd
                 //car

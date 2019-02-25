@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.home;
 
 import android.Manifest;
 import android.app.ActivityOptions;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -29,7 +30,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
+
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -53,6 +54,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
@@ -61,11 +63,13 @@ import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
 import com.datacomp.magicfinmart.insert_contact.InsertContactActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
@@ -84,6 +88,7 @@ import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanLi
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
+import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.scan_vehicle.VehicleScanActivity;
 import com.datacomp.magicfinmart.sendTemplateSms.SendTemplateSmsActivity;
@@ -1277,10 +1282,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     public void hideNavigationItem() {
         Menu nav_Menu = navigationView.getMenu();
-        if (Utility.checkPospTrainingStatus(this) == 1)
-            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
-        else
-            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
+        //25th
+
+//        if (Utility.checkPospTrainingStatus(this) == 1)
+//            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
+//        else
+//            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
 
         //todo : check key from userconstant to hide add posp
         if (userConstantEntity != null && userConstantEntity.getAddPospVisible() != null && !userConstantEntity.getAddPospVisible().equals("")) {
@@ -1293,13 +1300,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         //todo : check key from userconstant to hide my business
-        if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
-            int visibility = Integer.parseInt(userConstantEntity.getERPID());
-            if (visibility == 1)
-                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(false);
-        }
+//        if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
+//            int visibility = Integer.parseInt(userConstantEntity.getERPID());
+//            if (visibility == 1)
+//                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(true);
+//            else
+//                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(false);
+//        }
 
         //todo : check key from userconstant to hide posp enrollment
         if (userConstantEntity != null && userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
@@ -1364,7 +1371,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     dialog.dismiss();
                 }
             });
-            final android.support.v7.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             //  dialog.setCancelable(false);
             //  dialog.setCanceledOnTouchOutside(false);
 
@@ -1721,19 +1728,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     //popup
     public void ConfirmOtherLoanProductsAlert() {
-        if (LoanDialog != null && LoanDialog.isShowing()) {
 
-            return;
-        }
-        else {
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvDialPad_one,cvFollowup_one,  cvAddLead_one,
-                    cvSetPriority_one, cvRBALead_one, cvFBAFollowUp_one;
+            CardView cvBalanceTransfer,cvFreeCreditReport,  cvLoanOnMessanger,
+                    cvLeadSubmission, cvCashLoan, cvBusinessLoan,cvRectifyCredit;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -1747,25 +1750,27 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
             ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
 
-            cvDialPad_one = (CardView) dialogView.findViewById(R.id.cvDialPad_one);
-            cvFollowup_one = (CardView) dialogView.findViewById(R.id.cvFollowup_one);
-            cvAddLead_one = (CardView) dialogView.findViewById(R.id.cvAddLead_one);
-            cvSetPriority_one = (CardView) dialogView.findViewById(R.id.cvSetPriority_one);
-            cvRBALead_one = (CardView) dialogView.findViewById(R.id.cvRBALead_one);
-            cvFBAFollowUp_one = (CardView) dialogView.findViewById(R.id.cvFBAFollowUp_one);
+           cvBalanceTransfer = (CardView) dialogView.findViewById(R.id.cvBalanceTransfer);
+        cvFreeCreditReport = (CardView) dialogView.findViewById(R.id.cvFreeCreditReport);
+        cvLoanOnMessanger = (CardView) dialogView.findViewById(R.id.cvLoanOnMessanger);
+        cvLeadSubmission = (CardView) dialogView.findViewById(R.id.cvLeadSubmission);
+        cvCashLoan = (CardView) dialogView.findViewById(R.id.cvCashLoan);
+        cvBusinessLoan = (CardView) dialogView.findViewById(R.id.cvBusinessLoan);
+        cvRectifyCredit = (CardView) dialogView.findViewById(R.id.cvRectifyCredit);
 
-            cvDialPad_one.setOnClickListener(new View.OnClickListener() {
+        cvBalanceTransfer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
 
-                   // startActivity(new Intent(getActivity(), DialerPadActivity.class));
-                    //  .putExtra("type_call", "calling")
-                    // .putExtra("lead_source","300DATA"));
+                    startActivity(new Intent(HomeActivity.this, BalanceTransferDetailActivity.class));
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
+                    MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
+
                 }
             });
 
-            cvFollowup_one.setOnClickListener(new View.OnClickListener() {
+        cvFreeCreditReport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
@@ -1773,54 +1778,67 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             });
 
-            cvAddLead_one.setOnClickListener(new View.OnClickListener() {
+        cvLoanOnMessanger.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-//                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
-//                            .putExtra("DEMO", true)
-//                            .putExtra("PHONE_DIAL_NUMBER", "")
-//                            .putExtra("type_call", "calling")
-//                            .putExtra("lead_source","300DATA"));
+                    Utility.loadWebViewUrlInBrowser(HomeActivity.this,
+                            "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
+
                 }
             });
 
-            cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
+        cvLeadSubmission.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                  //  startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+                   startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                    MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 }
             });
 //pending
-            cvRBALead_one.setOnClickListener(new View.OnClickListener() {
+        cvCashLoan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    //startActivity(new Intent(getActivity(),GroupListActivity.class));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id="+String.valueOf(loginResponseEntity.getLoanId()))
+                            .putExtra("NAME", "" + "Rectify Credit")
+                            .putExtra("TITLE", "" + "Rectify Credit"));
                 }
             });
 
-            cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
+        cvBusinessLoan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                  //  startActivity(new Intent(getActivity(), FBAFollowupList.class));
+
+                    //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id="+String.valueOf(loginResponseEntity.getLoanId()))
+                            .putExtra("NAME", "" + "Rectify Credit")
+                            .putExtra("TITLE", "" + "Rectify Credit"));
                 }
             });
 
 
 
-            ivCross.setOnClickListener(new View.OnClickListener() {
+        cvRectifyCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // LoanDialog.dismiss();
+                    LoanDialog.dismiss();
+                //    http://www.rupeeboss.com/rectifycredit?fbaid=37292&type=finmart&loan_id=38054
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id="+String.valueOf(loginResponseEntity.getLoanId()))
+                                .putExtra("NAME", "" + "Rectify Credit")
+                                .putExtra("TITLE", "" + "Rectify Credit"));
 
                 }
             });
+
             finmartContacttDialog.setCancelable(false);
             finmartContacttDialog.show();
-        }
 
     }
 
@@ -1837,8 +1855,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvDialPad_one,cvFollowup_one,  cvAddLead_one,
-                    cvSetPriority_one, cvRBALead_one, cvFBAFollowUp_one;
+            CardView cvFinpeace,llhealth;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -1852,62 +1869,33 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
             ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
 
-            cvDialPad_one = (CardView) dialogView.findViewById(R.id.cvDialPad_one);
-            cvFollowup_one = (CardView) dialogView.findViewById(R.id.cvFollowup_one);
-            cvAddLead_one = (CardView) dialogView.findViewById(R.id.cvAddLead_one);
-            cvSetPriority_one = (CardView) dialogView.findViewById(R.id.cvSetPriority_one);
-            cvRBALead_one = (CardView) dialogView.findViewById(R.id.cvRBALead_one);
-            cvFBAFollowUp_one = (CardView) dialogView.findViewById(R.id.cvFBAFollowUp_one);
+            cvFinpeace = (CardView) dialogView.findViewById(R.id.cvFinpeace);
+            llhealth = (CardView) dialogView.findViewById(R.id.llhealth);
 
-            cvDialPad_one.setOnClickListener(new View.OnClickListener() {
+            cvFinpeace.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MoreServiceDialog.dismiss();
 
-                 //   startActivity(new Intent(getActivity(), DialerPadActivity.class));
-                    //  .putExtra("type_call", "calling")
-                    // .putExtra("lead_source","300DATA"));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
+                                    + new DBPersistanceController(HomeActivity.this).getUserData().getFBAId())
+                            .putExtra("NAME", "FIN-PEACE")
+                            .putExtra("TITLE", "FIN-PEACE"));
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+                    MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
+
                 }
             });
 
-            cvFollowup_one.setOnClickListener(new View.OnClickListener() {
+            llhealth.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MoreServiceDialog.dismiss();
-                   // startActivity(new Intent(getActivity(), FollowUpActivity.class));
-                }
-            });
+                    startActivity(new Intent(HomeActivity.this, HealthCheckUpListActivity.class));
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                    MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
 
-            cvAddLead_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MoreServiceDialog.dismiss();
-                  //  startActivity(new Intent(getActivity(), AddLeadActivity.class)
-
-                }
-            });
-
-            cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MoreServiceDialog.dismiss();
-                  //  startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
-                }
-            });
-//pending
-            cvRBALead_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MoreServiceDialog.dismiss();
-                  //  startActivity(new Intent(getActivity(),GroupListActivity.class));
-                }
-            });
-
-            cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                   // MoreServiceDialog.dismiss();
-                    startActivity(new Intent(getActivity(), FBAFollowupList.class));
                 }
             });
 
@@ -1938,8 +1926,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvDialPad_one,cvFollowup_one,  cvAddLead_one,
-                    cvSetPriority_one, cvRBALead_one, cvFBAFollowUp_one;
+            CardView cvMPS,cvIncomeCalculator,
+                    cvMyTrainingCalender, cvHelpFeedback;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -1953,65 +1941,55 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
             ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
 
-            cvDialPad_one = (CardView) dialogView.findViewById(R.id.cvDialPad_one);
-            cvFollowup_one = (CardView) dialogView.findViewById(R.id.cvFollowup_one);
-            cvAddLead_one = (CardView) dialogView.findViewById(R.id.cvAddLead_one);
-            cvSetPriority_one = (CardView) dialogView.findViewById(R.id.cvSetPriority_one);
-            cvRBALead_one = (CardView) dialogView.findViewById(R.id.cvRBALead_one);
-            cvFBAFollowUp_one = (CardView) dialogView.findViewById(R.id.cvFBAFollowUp_one);
+            cvMPS = (CardView) dialogView.findViewById(R.id.cvMPS);
+            cvIncomeCalculator = (CardView) dialogView.findViewById(R.id.cvIncomeCalculator);
+            cvMyTrainingCalender = (CardView) dialogView.findViewById(R.id.cvMyTrainingCalender);
+            cvHelpFeedback = (CardView) dialogView.findViewById(R.id.cvHelpFeedback);
 
-            cvDialPad_one.setOnClickListener(new View.OnClickListener() {
+
+            cvMPS.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
 
-                  //  startActivity(new Intent(getActivity(), DialerPadActivity.class));
-                    //  .putExtra("type_call", "calling")
-                    // .putExtra("lead_source","300DATA"));
+                         new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                 }
             });
 
-            cvFollowup_one.setOnClickListener(new View.OnClickListener() {
+            cvIncomeCalculator.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
-                   // startActivity(new Intent(getActivity(), FollowUpActivity.class));
-                }
-            });
-
-            cvAddLead_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-                 //   startActivity(new Intent(getActivity(), AddLeadActivity.class)
+                    startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
 
                 }
             });
 
-            cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
+            cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
-                   // startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginResponseEntity.getFBAId()))
+                            .putExtra("NAME", "" + "My Training Calender")
+                            .putExtra("TITLE", "" + "My Training Calender"));
+
+                }
+            });
+
+            cvHelpFeedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+                    startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+
                 }
             });
 //pending
-            cvRBALead_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-                   // startActivity(new Intent(getActivity(),GroupListActivity.class));
-                }
-            });
-
-            cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-                   // startActivity(new Intent(getActivity(), FBAFollowupList.class));
-                }
-            });
-
 
 
             ivCross.setOnClickListener(new View.OnClickListener() {

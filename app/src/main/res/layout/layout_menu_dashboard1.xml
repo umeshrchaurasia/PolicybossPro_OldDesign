@@ -175,7 +175,7 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="" />
+                                android:src="@drawable/yesbank_chat_ic" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -207,7 +207,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="" />
+                                android:src="@drawable/quick_lead" />
 
 
                             <TextView
@@ -252,7 +252,7 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="" />
+                                android:src="@drawable/paysense_ic" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -288,7 +288,7 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="" />
+                                android:src="@drawable/business_loan_ic" />
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -331,7 +331,7 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="" />
+                                android:src="@drawable/credit_score" />
 
                             <TextView
                                 android:layout_width="match_parent"
