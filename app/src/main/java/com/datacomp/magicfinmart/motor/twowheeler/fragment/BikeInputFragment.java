@@ -2562,7 +2562,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 }
             });
-            infoDialog.setCancelable(false);
+            infoDialog.setCancelable(true);
             infoDialog.show();
         }
 

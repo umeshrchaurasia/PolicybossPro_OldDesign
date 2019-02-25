@@ -101,14 +101,14 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/open_dial_pad" />
+                                android:src="@drawable/balance_transfer" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Balance Transfer"
-                                android:textColor="@color/account_black" />
+                                android:textColor="@color/black" />
 
 
                         </LinearLayout>
@@ -134,7 +134,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="@drawable/my_attendance" />
+                                android:src="@drawable/credit_card" />
 
 
                             <TextView
@@ -142,7 +142,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Free Credit Report"
-                                android:textColor="@color/account_black" />
+                                android:textColor="@color/black" />
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
@@ -175,14 +175,14 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/add_lead" />
+                                android:src="" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Loan On Messanger"
-                                android:textColor="@color/account_black" />
+                                android:textColor="@color/black" />
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
 
@@ -207,7 +207,7 @@
                             <ImageView
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
-                                android:src="@drawable/set_priority" />
+                                android:src="" />
 
 
                             <TextView
@@ -215,7 +215,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Lead Submission"
-                                android:textColor="@color/account_black" />
+                                android:textColor="@color/black" />
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
                 </LinearLayout>
@@ -252,14 +252,14 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/rbafba" />
+                                android:src="" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Cash Loan"
-                                android:textColor="@color/account_black" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
@@ -288,14 +288,14 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/outdoor_attendance" />
+                                android:src="" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Business Loan"
-                                android:textColor="@color/account_black" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
@@ -331,14 +331,14 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/rbafba" />
+                                android:src="" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Rectify Credit"
-                                android:textColor="@color/account_black" />
+                                android:textColor="@color/black" />
 
                         </LinearLayout>
                     </android.support.v7.widget.CardView>

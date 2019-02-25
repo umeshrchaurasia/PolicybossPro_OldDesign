@@ -2941,7 +2941,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 }
             });
-            infoDialog.setCancelable(false);
+            infoDialog.setCancelable(true);
             infoDialog.show();
         }
 

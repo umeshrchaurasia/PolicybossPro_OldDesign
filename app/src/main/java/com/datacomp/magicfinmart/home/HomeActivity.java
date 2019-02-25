@@ -145,7 +145,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
-    AlertDialog finmartContacttDialog;
+    AlertDialog finmartContacttDialog ,LoanDialog ,MoreServiceDialog ,MyUtilitiesDialog ;
 
 
 
@@ -489,11 +489,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_REQUEST:
-                        ConfirmMORESERVICESAlert();
+                        ConfirmMoreServiceAlert();
 
                         break;
                     case R.id.nav_MYUTILITIES:
-                        ConfirmnMYUTILITIESsAlert();
+                        ConfirmnMyUtilitiesAlert();
 
                         break;
 
@@ -1721,14 +1721,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     //popup
     public void ConfirmOtherLoanProductsAlert() {
+        if (LoanDialog != null && LoanDialog.isShowing()) {
 
-//        if (finmartContacttDialog != null) {
-//            if (finmartContacttDialog.isShowing()) {
-//                return;
-//            }
-//        } else
-        {
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+            return;
+        }
+        else {
+            AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
@@ -1742,7 +1740,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard1, null);
 
             builder.setView(dialogView);
-            finmartContacttDialog = builder.create();
+            LoanDialog = builder.create();
             // set the custom dialog components - text, image and button
             txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
             //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
@@ -1759,12 +1757,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             cvDialPad_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    sharedPreferences =getActivity().getSharedPreferences("CALLER_AGENT", MODE_PRIVATE);
-                    editor = sharedPreferences.edit();
-                    editor.putString(Utility.CALL_FIRSTPOPUP, "calling");
-                    editor.commit();
-                    startActivity(new Intent(getActivity(), DialerPadActivity.class));
+                    LoanDialog.dismiss();
+
+                   // startActivity(new Intent(getActivity(), DialerPadActivity.class));
                     //  .putExtra("type_call", "calling")
                     // .putExtra("lead_source","300DATA"));
                 }
@@ -1773,44 +1768,44 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             cvFollowup_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), FollowUpActivity.class));
+                    LoanDialog.dismiss();
+                  //  startActivity(new Intent(getActivity(), FollowUpActivity.class));
                 }
             });
 
             cvAddLead_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
-                            .putExtra("DEMO", true)
-                            .putExtra("PHONE_DIAL_NUMBER", "")
-                            .putExtra("type_call", "calling")
-                            .putExtra("lead_source","300DATA"));
+                    LoanDialog.dismiss();
+//                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
+//                            .putExtra("DEMO", true)
+//                            .putExtra("PHONE_DIAL_NUMBER", "")
+//                            .putExtra("type_call", "calling")
+//                            .putExtra("lead_source","300DATA"));
                 }
             });
 
             cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+                    LoanDialog.dismiss();
+                  //  startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
                 }
             });
 //pending
             cvRBALead_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(),GroupListActivity.class));
+                    LoanDialog.dismiss();
+                    //startActivity(new Intent(getActivity(),GroupListActivity.class));
                 }
             });
 
             cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), FBAFollowupList.class));
+                    LoanDialog.dismiss();
+                  //  startActivity(new Intent(getActivity(), FBAFollowupList.class));
                 }
             });
 
@@ -1819,7 +1814,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             ivCross.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
+                   // LoanDialog.dismiss();
 
                 }
             });
@@ -1829,15 +1824,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
-    public void ConfirmMORESERVICESAlert() {
+    public void ConfirmMoreServiceAlert() {
 
-//        if (finmartContacttDialog != null) {
-//            if (finmartContacttDialog.isShowing()) {
-//                return;
-//            }
-//        } else
+        if (MoreServiceDialog != null && MoreServiceDialog.isShowing()) {
+
+            return;
+        }else
         {
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+            AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
@@ -1851,7 +1845,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard2, null);
 
             builder.setView(dialogView);
-            finmartContacttDialog = builder.create();
+            MoreServiceDialog = builder.create();
             // set the custom dialog components - text, image and button
             txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
             //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
@@ -1868,12 +1862,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             cvDialPad_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    sharedPreferences =getActivity().getSharedPreferences("CALLER_AGENT", MODE_PRIVATE);
-                    editor = sharedPreferences.edit();
-                    editor.putString(Utility.CALL_FIRSTPOPUP, "calling");
-                    editor.commit();
-                    startActivity(new Intent(getActivity(), DialerPadActivity.class));
+                    MoreServiceDialog.dismiss();
+
+                 //   startActivity(new Intent(getActivity(), DialerPadActivity.class));
                     //  .putExtra("type_call", "calling")
                     // .putExtra("lead_source","300DATA"));
                 }
@@ -1882,43 +1873,40 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             cvFollowup_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), FollowUpActivity.class));
+                    MoreServiceDialog.dismiss();
+                   // startActivity(new Intent(getActivity(), FollowUpActivity.class));
                 }
             });
 
             cvAddLead_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
-                            .putExtra("DEMO", true)
-                            .putExtra("PHONE_DIAL_NUMBER", "")
-                            .putExtra("type_call", "calling")
-                            .putExtra("lead_source","300DATA"));
+                    MoreServiceDialog.dismiss();
+                  //  startActivity(new Intent(getActivity(), AddLeadActivity.class)
+
                 }
             });
 
             cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+                    MoreServiceDialog.dismiss();
+                  //  startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
                 }
             });
 //pending
             cvRBALead_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(),GroupListActivity.class));
+                    MoreServiceDialog.dismiss();
+                  //  startActivity(new Intent(getActivity(),GroupListActivity.class));
                 }
             });
 
             cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
+                   // MoreServiceDialog.dismiss();
                     startActivity(new Intent(getActivity(), FBAFollowupList.class));
                 }
             });
@@ -1928,25 +1916,23 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             ivCross.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
+                    MoreServiceDialog.dismiss();
 
                 }
             });
-            finmartContacttDialog.setCancelable(false);
-            finmartContacttDialog.show();
+            MoreServiceDialog.setCancelable(false);
+            MoreServiceDialog.show();
         }
 
     }
 
-    public void ConfirmnMYUTILITIESsAlert() {
+    public void ConfirmnMyUtilitiesAlert() {
 
-//        if (finmartContacttDialog != null) {
-//            if (finmartContacttDialog.isShowing()) {
-//                return;
-//            }
-//        } else
-        {
-            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+        if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
+
+            return;
+        }else {
+            AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
@@ -1960,7 +1946,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null);
 
             builder.setView(dialogView);
-            finmartContacttDialog = builder.create();
+            MyUtilitiesDialog = builder.create();
             // set the custom dialog components - text, image and button
             txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
             //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
@@ -1977,12 +1963,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             cvDialPad_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    sharedPreferences =getActivity().getSharedPreferences("CALLER_AGENT", MODE_PRIVATE);
-                    editor = sharedPreferences.edit();
-                    editor.putString(Utility.CALL_FIRSTPOPUP, "calling");
-                    editor.commit();
-                    startActivity(new Intent(getActivity(), DialerPadActivity.class));
+                    MyUtilitiesDialog.dismiss();
+
+                  //  startActivity(new Intent(getActivity(), DialerPadActivity.class));
                     //  .putExtra("type_call", "calling")
                     // .putExtra("lead_source","300DATA"));
                 }
@@ -1991,44 +1974,41 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             cvFollowup_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), FollowUpActivity.class));
+                    MyUtilitiesDialog.dismiss();
+                   // startActivity(new Intent(getActivity(), FollowUpActivity.class));
                 }
             });
 
             cvAddLead_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), AddLeadActivity.class)
-                            .putExtra("DEMO", true)
-                            .putExtra("PHONE_DIAL_NUMBER", "")
-                            .putExtra("type_call", "calling")
-                            .putExtra("lead_source","300DATA"));
+                    MyUtilitiesDialog.dismiss();
+                 //   startActivity(new Intent(getActivity(), AddLeadActivity.class)
+
                 }
             });
 
             cvSetPriority_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
+                    MyUtilitiesDialog.dismiss();
+                   // startActivity(new Intent(getActivity(), LeadPriorityActivity.class));
                 }
             });
 //pending
             cvRBALead_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(),GroupListActivity.class));
+                    MyUtilitiesDialog.dismiss();
+                   // startActivity(new Intent(getActivity(),GroupListActivity.class));
                 }
             });
 
             cvFBAFollowUp_one.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
-                    startActivity(new Intent(getActivity(), FBAFollowupList.class));
+                    MyUtilitiesDialog.dismiss();
+                   // startActivity(new Intent(getActivity(), FBAFollowupList.class));
                 }
             });
 
@@ -2037,12 +2017,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             ivCross.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finmartContacttDialog.dismiss();
+                    MyUtilitiesDialog.dismiss();
 
                 }
             });
-            finmartContacttDialog.setCancelable(false);
-            finmartContacttDialog.show();
+            MyUtilitiesDialog.setCancelable(false);
+            MyUtilitiesDialog.show();
         }
 
     }
