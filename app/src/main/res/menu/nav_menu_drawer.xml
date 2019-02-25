@@ -176,7 +176,7 @@
 
                 <item
                     android:id="@+id/nav_sendSmsTemplate"
-                    android:icon="@drawable/insurance_policy_ic"
+                    android:icon="@drawable/mps"
                     android:orderInCategory="460"
                     android:title="Sms Templates"
                     android:visible="true" />
@@ -184,36 +184,37 @@
 
             </menu>
         </item>
+    </group>
 
 
         <item
             android:id="@+id/nav_OtherLoan"
-            android:icon="@drawable/my_account"
+            android:icon="@drawable/income_potential_ic"
             android:orderInCategory="600"
             android:title="Other Loan Products" />
 
 
 
-        <menu>
+
             <item
                 android:id="@+id/nav_REQUEST"
-                android:icon="@drawable/my_account"
+                android:icon="@drawable/ic_business_name"
                 android:orderInCategory="700"
                 android:title="MORE SERVICES">
 
             </item>
-        </menu>
-        <menu>
+
+
 
 
         <item
             android:id="@+id/nav_MYUTILITIES"
-            android:icon="@drawable/my_account"
+            android:icon="@drawable/training_ic"
             android:orderInCategory="710"
             android:title="MY UTILITIES">
 
         </item>
-        </menu>
+
         <item
             android:id="@+id/nav_whatsnew"
             android:icon="@drawable/whats_new"
@@ -227,7 +228,6 @@
             android:title="LOG-OUT" />
 
 
-    </group>
 
 
 </menu>

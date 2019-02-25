@@ -1300,13 +1300,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         //todo : check key from userconstant to hide my business
-//        if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
-//            int visibility = Integer.parseInt(userConstantEntity.getERPID());
-//            if (visibility == 1)
-//                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(true);
-//            else
-//                nav_Menu.findItem(R.id.nav_myBusiness).setVisible(false);
-//        }
+        if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
+            int visibility = Integer.parseInt(userConstantEntity.getERPID());
+            if (visibility == 1)
+                nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
+        }
 
         //todo : check key from userconstant to hide posp enrollment
         if (userConstantEntity != null && userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
@@ -1729,14 +1729,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     //popup
     public void ConfirmOtherLoanProductsAlert() {
 
+        if (LoanDialog != null && LoanDialog.isShowing()) {
+
+            return;
+        }else {
+
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvBalanceTransfer,cvFreeCreditReport,  cvLoanOnMessanger,
-                    cvLeadSubmission, cvCashLoan, cvBusinessLoan,cvRectifyCredit;
+            CardView cvBalanceTransfer, cvFreeCreditReport, cvLoanOnMessanger,
+                    cvLeadSubmission, cvCashLoan, cvBusinessLoan, cvRectifyCredit;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -1750,15 +1755,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
             ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
 
-           cvBalanceTransfer = (CardView) dialogView.findViewById(R.id.cvBalanceTransfer);
-        cvFreeCreditReport = (CardView) dialogView.findViewById(R.id.cvFreeCreditReport);
-        cvLoanOnMessanger = (CardView) dialogView.findViewById(R.id.cvLoanOnMessanger);
-        cvLeadSubmission = (CardView) dialogView.findViewById(R.id.cvLeadSubmission);
-        cvCashLoan = (CardView) dialogView.findViewById(R.id.cvCashLoan);
-        cvBusinessLoan = (CardView) dialogView.findViewById(R.id.cvBusinessLoan);
-        cvRectifyCredit = (CardView) dialogView.findViewById(R.id.cvRectifyCredit);
+            cvBalanceTransfer = (CardView) dialogView.findViewById(R.id.cvBalanceTransfer);
+            cvFreeCreditReport = (CardView) dialogView.findViewById(R.id.cvFreeCreditReport);
+            cvLoanOnMessanger = (CardView) dialogView.findViewById(R.id.cvLoanOnMessanger);
+            cvLeadSubmission = (CardView) dialogView.findViewById(R.id.cvLeadSubmission);
+            cvCashLoan = (CardView) dialogView.findViewById(R.id.cvCashLoan);
+            cvBusinessLoan = (CardView) dialogView.findViewById(R.id.cvBusinessLoan);
+            cvRectifyCredit = (CardView) dialogView.findViewById(R.id.cvRectifyCredit);
 
-        cvBalanceTransfer.setOnClickListener(new View.OnClickListener() {
+            cvBalanceTransfer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
@@ -1770,15 +1775,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             });
 
-        cvFreeCreditReport.setOnClickListener(new View.OnClickListener() {
+            cvFreeCreditReport.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                  //  startActivity(new Intent(getActivity(), FollowUpActivity.class));
+                    Utility.loadWebViewUrlInBrowser(HomeActivity.this,
+                            "http://www.rupeeboss.com/equifax-finmart?fbaid="
+                                    + String.valueOf(loginResponseEntity.getFBAId()));
                 }
             });
 
-        cvLoanOnMessanger.setOnClickListener(new View.OnClickListener() {
+            cvLoanOnMessanger.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
@@ -1788,57 +1795,64 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             });
 
-        cvLeadSubmission.setOnClickListener(new View.OnClickListener() {
+            cvLeadSubmission.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                   startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
+                    startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
                     new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                     MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 }
             });
 //pending
-        cvCashLoan.setOnClickListener(new View.OnClickListener() {
+            cvCashLoan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id="+String.valueOf(loginResponseEntity.getLoanId()))
+                            .putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
                             .putExtra("NAME", "" + "Rectify Credit")
                             .putExtra("TITLE", "" + "Rectify Credit"));
                 }
             });
 
-        cvBusinessLoan.setOnClickListener(new View.OnClickListener() {
+            cvBusinessLoan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
 
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id="+String.valueOf(loginResponseEntity.getLoanId()))
+                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
                             .putExtra("NAME", "" + "Rectify Credit")
                             .putExtra("TITLE", "" + "Rectify Credit"));
                 }
             });
 
 
-
-        cvRectifyCredit.setOnClickListener(new View.OnClickListener() {
+            cvRectifyCredit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                //    http://www.rupeeboss.com/rectifycredit?fbaid=37292&type=finmart&loan_id=38054
+                    //    http://www.rupeeboss.com/rectifycredit?fbaid=37292&type=finmart&loan_id=38054
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id="+String.valueOf(loginResponseEntity.getLoanId()))
-                                .putExtra("NAME", "" + "Rectify Credit")
-                                .putExtra("TITLE", "" + "Rectify Credit"));
+                            .putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
+                            .putExtra("NAME", "" + "Rectify Credit")
+                            .putExtra("TITLE", "" + "Rectify Credit"));
+
+                }
+            });
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LoanDialog.dismiss();
 
                 }
             });
 
-            finmartContacttDialog.setCancelable(false);
-            finmartContacttDialog.show();
+            LoanDialog.setCancelable(false);
+            LoanDialog.show();
+        }
 
     }
 
@@ -1849,13 +1863,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             return;
         }else
         {
-            AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvFinpeace,llhealth;
+            CardView cvFinpeace,cvHealthAssure;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -1870,7 +1884,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
 
             cvFinpeace = (CardView) dialogView.findViewById(R.id.cvFinpeace);
-            llhealth = (CardView) dialogView.findViewById(R.id.llhealth);
+            cvHealthAssure = (CardView) dialogView.findViewById(R.id.cvHealthAssure);
 
             cvFinpeace.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -1888,7 +1902,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             });
 
-            llhealth.setOnClickListener(new View.OnClickListener() {
+            cvHealthAssure.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     MoreServiceDialog.dismiss();
