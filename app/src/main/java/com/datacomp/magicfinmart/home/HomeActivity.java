@@ -398,6 +398,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_crnpolicy:
                         startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
                         break;
+
+                    case R.id.nav_leaddetail:
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+                                .putExtra("NAME", "" + "Lead DashBoard")
+                                .putExtra("TITLE", "" + "Lead DashBoard"));
+                        break;
+
+
 //                    case R.id.nav_offlineQuotes:
 //                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
 //                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
@@ -444,10 +453,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
-//                    case R.id.nav_IncomeCalculator:
-//                        startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
-//
-//                        break;
+                    case R.id.nav_raiseTicket:
+                        startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+
+                        break;
 //                    case R.id.nav_IncomePotential:
 //                        startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
 //
@@ -1968,7 +1977,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                          new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
                          new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                 }
             });
 
