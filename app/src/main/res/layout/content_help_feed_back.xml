@@ -37,6 +37,7 @@
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginTop="@dimen/fab_margin"
         android:elevation="5dp"
+        android:visibility="gone"
         app:cardCornerRadius="2dp">
 
         <TextView
