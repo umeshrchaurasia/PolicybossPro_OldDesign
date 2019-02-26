@@ -26,7 +26,7 @@
                     android:id="@+id/nav_myaccount"
                     android:icon="@drawable/vector_person"
                     android:orderInCategory="210"
-                    android:title="Profile" />
+                    android:title="My Profile" />
 
                 <item
                     android:id="@+id/nav_pospenrollment"
@@ -120,7 +120,7 @@
                     android:icon="@drawable/notification_ic"
                     android:title="My Alerts"
                     android:orderInCategory="340"
-                    android:visible="true" />
+                    android:visible="false" />
 
                 <item
                     android:id="@+id/nav_crnpolicy"
@@ -137,7 +137,7 @@
             android:id="@+id/nav_LEADS"
             android:icon="@drawable/my_account"
             android:orderInCategory="400"
-            android:title="MyLeads">
+            android:title="MY LEADS">
             <menu>
 
                 <item
@@ -191,7 +191,7 @@
             android:id="@+id/nav_OtherLoan"
             android:icon="@drawable/income_potential_ic"
             android:orderInCategory="600"
-            android:title="Other Loan Products" />
+            android:title="OTHER LOAN PRODUCTS" />
 
 
 
