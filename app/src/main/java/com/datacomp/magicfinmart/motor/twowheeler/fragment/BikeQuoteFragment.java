@@ -1024,6 +1024,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     }
                 } else {
                     Toast.makeText(getActivity(), "No quotes found..", Toast.LENGTH_SHORT).show();
+                    webViewLoader.setVisibility(View.GONE);
                 }
                 break;
             case R.id.fabrefresh:
