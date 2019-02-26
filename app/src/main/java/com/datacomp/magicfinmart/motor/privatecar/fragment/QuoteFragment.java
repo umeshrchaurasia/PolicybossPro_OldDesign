@@ -426,8 +426,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        if (getActivity() != null)
+        if (getActivity() != null) {
+            webViewLoader.setVisibility(View.GONE);
             Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

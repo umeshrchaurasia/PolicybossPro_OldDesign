@@ -374,6 +374,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
+        webViewLoader.setVisibility(View.GONE);
         if (getActivity() != null)
             Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
