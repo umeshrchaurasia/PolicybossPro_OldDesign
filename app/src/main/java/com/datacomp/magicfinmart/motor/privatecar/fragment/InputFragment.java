@@ -2882,10 +2882,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     public void InfomationAlert(String Title, String strBody) {
 
-        if (infoDialog != null) {
-            if (infoDialog.isShowing()) {
-                return;
-            }
+        if (infoDialog != null && infoDialog.isShowing()) {
+
+            return;
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
 

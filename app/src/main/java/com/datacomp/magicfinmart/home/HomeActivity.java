@@ -497,7 +497,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         ConfirmMoreServiceAlert();
 
                         break;
-                    case R.id.nav_MYUTILITIES:
+                    case R.id.nav_MYUtilities:
                         ConfirmnMyUtilitiesAlert();
 
                         break;
