@@ -208,7 +208,7 @@
 
 
         <item
-            android:id="@+id/nav_MYUTILITIES"
+            android:id="@+id/nav_MYUtilities"
             android:icon="@drawable/training_ic"
             android:orderInCategory="710"
             android:title="MY UTILITIES">

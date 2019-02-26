@@ -33,7 +33,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class DashboardItemHolder extends RecyclerView.ViewHolder {
-        ImageView imgIcon;
+        ImageView imgIcon, imgNew;
         TextView txtProductName, txtProductDesc;
         CardView card_view;
 
@@ -41,6 +41,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(view);
             card_view = (CardView) view.findViewById(R.id.card_view);
             imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
+            imgNew = (ImageView) view.findViewById(R.id.imgNew);
             txtProductName = (TextView) view.findViewById(R.id.txtProductName);
             txtProductDesc = (TextView) view.findViewById(R.id.txtProductDesc);
         }
@@ -69,6 +70,21 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
             ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
+
+            if (listInsur.get(position).getProductId() == 17) {
+                ((DashboardItemHolder) holder).imgNew.setVisibility(View.VISIBLE);
+                Glide.with(mContext).
+                        load(R.drawable.newicon)
+                        .asGif()
+                        .crossFade()
+                        .into(((DashboardItemHolder) holder).imgNew);
+
+
+                ((DashboardItemHolder) holder).card_view.setBackgroundResource(R.drawable.customeborder_blue_thin);
+            } else {
+                ((DashboardItemHolder) holder).imgNew.setVisibility(View.GONE);
+                ((DashboardItemHolder) holder).card_view.setBackgroundResource(R.drawable.customeborder_grey_thin);
+            }
 
         }
     }

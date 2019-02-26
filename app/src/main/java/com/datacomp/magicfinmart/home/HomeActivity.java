@@ -506,7 +506,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         ConfirmMoreServiceAlert();
 
                         break;
-                    case R.id.nav_MYUTILITIES:
+                    case R.id.nav_MYUtilities:
                         ConfirmnMyUtilitiesAlert();
 
                         break;
@@ -1311,7 +1311,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //todo : check key from userconstant to hide my business
         if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
             int visibility = Integer.parseInt(userConstantEntity.getERPID());
-            if (visibility == 1)
+            if (visibility > 0)
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
@@ -1820,8 +1820,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     LoanDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                             .putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
-                            .putExtra("NAME", "" + "Rectify Credit")
-                            .putExtra("TITLE", "" + "Rectify Credit"));
+                            .putExtra("NAME", "" + "Cash Loan")
+                            .putExtra("TITLE", "" + "Cash Loan"));
                 }
             });
 
@@ -1833,8 +1833,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                             .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
-                            .putExtra("NAME", "" + "Rectify Credit")
-                            .putExtra("TITLE", "" + "Rectify Credit"));
+                            .putExtra("NAME", "" + "Business Loan")
+                            .putExtra("TITLE", "" + "Business Loan"));
                 }
             });
 
