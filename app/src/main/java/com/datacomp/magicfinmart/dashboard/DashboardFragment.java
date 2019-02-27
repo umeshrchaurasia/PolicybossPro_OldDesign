@@ -206,8 +206,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
                 //endregion
-                if (getActivity() != null)
-                    ((HomeActivity) getActivity()).hideNavigationItem();
+                // if (getActivity() != null)
+                //     ((HomeActivity) getActivity()).hideNavigationItem();
             }
         }
 

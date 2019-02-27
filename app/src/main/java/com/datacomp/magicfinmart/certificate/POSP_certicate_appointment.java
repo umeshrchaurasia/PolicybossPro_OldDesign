@@ -22,12 +22,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.R
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 
-public class POSP_certicate_appointment extends BaseActivity implements View.OnClickListener, IResponseSubcriber  {
+public class POSP_certicate_appointment extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     String type;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
-    Button btnsendemail,btnview;
-    String  URL;
+    Button btnsendemail, btnview;
+    String URL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +37,9 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if(type.equals("1")) {
+        if (type.equals("1")) {
             getSupportActionBar().setTitle("POSP Appointment Letter");
-        }else {
+        } else {
             getSupportActionBar().setTitle("POSP Application Form");
         }
         btnsendemail = (Button) findViewById(R.id.btnsendemail);
@@ -60,13 +61,13 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
         if (response instanceof CertificateResponse) {
             if (response.getStatusNo() == 0) {
                 URL = "" + ((CertificateResponse) response).getMasterData();
-                Utility.loadWebViewUrlInBrowser(this,URL);
+                Utility.loadWebViewUrlInBrowser(this, URL);
 
             }
         } else if (response instanceof PospAppointEmailResponse) {
             if (response.getStatusNo() == 0) {
 
-                Toast.makeText(this,((PospAppointEmailResponse) response).getMessage(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, ((PospAppointEmailResponse) response).getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         }
@@ -77,7 +78,7 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
     @Override
     public void OnFailure(Throwable t) {
 
-        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
         cancelDialog();
     }
@@ -85,23 +86,24 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
     @Override
     public void onClick(View view) {
 
-            switch (view.getId()) {
+        switch (view.getId()) {
             case R.id.btnsendemail:
 
                 showDialog();
 
-                new RegisterController(this).getEmailTemplate(URL,type,POSP_certicate_appointment.this);
+                new RegisterController(this).getEmailTemplate(URL, type, POSP_certicate_appointment.this);
 
                 break;
             case R.id.btnview:
 
                 CertificateEntity requestEntity = new CertificateEntity();
-                requestEntity.setSS_ID(Integer.valueOf(loginEntity.getPOSPNo()));
-                //  requestEntity.setSS_ID(10325);
-                requestEntity.setType(Integer.valueOf(type));
-
+                if (loginEntity.getPOSPNo() != null && !loginEntity.getPOSPNo().equalsIgnoreCase("")) {
+                    requestEntity.setSS_ID(Integer.valueOf(loginEntity.getPOSPNo()));
+                    //  requestEntity.setSS_ID(10325);
+                    requestEntity.setType(Integer.valueOf(type));
+                }
                 showDialog("Please Wait...");
-                new DynamicController(this).GetPospAppointmentLetter(requestEntity ,POSP_certicate_appointment.this);
+                new DynamicController(this).GetPospAppointmentLetter(requestEntity, POSP_certicate_appointment.this);
 
                 break;
         }
