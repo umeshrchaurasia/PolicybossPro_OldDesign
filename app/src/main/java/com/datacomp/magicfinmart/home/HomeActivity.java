@@ -150,9 +150,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
-    AlertDialog finmartContacttDialog ,LoanDialog ,MoreServiceDialog ,MyUtilitiesDialog ;
-
-
+    AlertDialog finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
 
 
     String[] perms = {
@@ -160,7 +158,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             "android.permission.WRITE_CONTACTS"
 
     };
-
 
 
     //region broadcast receiver
@@ -200,7 +197,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     };
 
 
-
     //endregion
 
     @Override
@@ -220,7 +216,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-
 
 
         setSupportActionBar(toolbar);
@@ -552,7 +547,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
-
 
 
     private void addFinmartContact() {
@@ -1599,8 +1593,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (finmartContacttDialog != null && finmartContacttDialog.isShowing()) {
 
             return;
-        }
-        else {
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
 
@@ -1741,7 +1734,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (LoanDialog != null && LoanDialog.isShowing()) {
 
             return;
-        }else {
+        } else {
 
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
@@ -1870,15 +1863,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (MoreServiceDialog != null && MoreServiceDialog.isShowing()) {
 
             return;
-        }else
-        {
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvFinpeace,cvHealthAssure;
+            CardView cvFinpeace, cvHealthAssure;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -1923,7 +1915,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             });
 
 
-
             ivCross.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1942,14 +1933,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
 
             return;
-        }else {
+        } else {
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvMPS,cvIncomeCalculator,
+            CardView cvMPS, cvIncomeCalculator,
                     cvMyTrainingCalender, cvHelpFeedback;
 
             LayoutInflater inflater = this.getLayoutInflater();
@@ -1975,9 +1966,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
 
-                         new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-                      //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                    new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                    //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                 }
             });
 
@@ -2008,7 +1999,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
 
                 }
             });
