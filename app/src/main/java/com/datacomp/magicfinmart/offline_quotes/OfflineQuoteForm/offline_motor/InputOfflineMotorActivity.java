@@ -230,7 +230,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
             etComment.setText("");
 
 
-        if (saveMotorRequestEntity.getIdvAmount() != null && saveMotorRequestEntity.getIdvAmount().equals("")) {
+        if (saveMotorRequestEntity.getIdvAmount() != null && !saveMotorRequestEntity.getIdvAmount().equals("")) {
             etIDVAmount.setText(saveMotorRequestEntity.getIdvAmount());
         } else {
             etIDVAmount.setText("");
