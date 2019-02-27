@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.dashboard;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -97,6 +98,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView rvDashboard;
         TextView txtTypeName, tvPoweredBy;
         ImageView ivLogo;
+        CardView card_view;
 
         public MoreServiceHolder(View view) {
             super(view);
@@ -104,6 +106,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
             ivLogo = view.findViewById(R.id.ivLogo);
             tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
+            card_view = view.findViewById(R.id.card_view);
 
         }
     }
@@ -198,7 +201,16 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }));*/
 
         } else if (holder instanceof MoreServiceHolder) {
+
             final List<DashboardEntity> listMore = mReal.getMoreProductList();
+//            if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+//                    new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
+//                    && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
+//
+//            }
+
+
+
             ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
             ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
             ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
