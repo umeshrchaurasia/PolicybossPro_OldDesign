@@ -54,6 +54,7 @@ android {
             buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
+            signingConfig signingConfigs.debug
 
 //            buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
 //            buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'

@@ -1305,6 +1305,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
+        }  else {
+            nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
         }
 
 
@@ -1315,6 +1317,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
+        }else {
+            nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
         }
 
         //todo : check key from userconstant to hide posp enrollment
@@ -1324,6 +1328,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
+        } else {
+            nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
         }
 
 
