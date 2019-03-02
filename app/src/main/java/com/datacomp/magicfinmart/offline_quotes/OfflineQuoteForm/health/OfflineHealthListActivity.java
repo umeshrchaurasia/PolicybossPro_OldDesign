@@ -150,6 +150,7 @@ public class OfflineHealthListActivity extends BaseActivity implements View.OnCl
 
     public void editOfflineHealth(HealthQuote entity) {
 
+
         Intent intent = new Intent(this, InputOfflineHealthActivity.class);
         intent.putExtra(Constants.OFFLINE_HEALTH_EDIT, entity);
         startActivityForResult(intent, 2);

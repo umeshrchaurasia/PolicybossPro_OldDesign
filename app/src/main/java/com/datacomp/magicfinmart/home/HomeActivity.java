@@ -538,6 +538,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                hideNavigationItem();
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -1082,26 +1083,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 } else if (((ConstantsResponse) response).getMasterData().
                         getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
 
-                    /*for (Fragment frg :
-                            getSupportFragmentManager().getFragments()) {
-
-                        if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
-                            if (!frg.isVisible()) {
-                                if (prefManager.getMps() != null) {
-                                    DialogMPS();
-                                }
-                            }
-                        } else {
-                            if (prefManager.getMps() != null) {
-                                DialogMPS();
-                            }
-                        }
-                    }*/
-
                 }
                 //endregion
 
-                hideNavigationItem();
+                //hideNavigationItem();
             }
         } else if (response instanceof MenuMasterResponse) {
             if (response.getStatusNo() == 0) {
@@ -1299,7 +1284,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
-        }  else {
+        } else {
             nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
         }
 
@@ -1311,7 +1296,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
-        }else {
+        } else {
             nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
         }
 
