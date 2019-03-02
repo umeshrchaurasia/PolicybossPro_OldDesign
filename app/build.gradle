@@ -35,7 +35,7 @@ android {
         applicationId "com.datacomp.magicfinmart"
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 37
+        versionCode 39
 
         versionName "2.1.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
