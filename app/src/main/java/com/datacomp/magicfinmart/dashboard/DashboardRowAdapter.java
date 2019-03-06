@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.MyApplication;
@@ -71,12 +70,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView rvDashboard;
         TextView txtTypeName, tvPoweredBy;
         ImageView ivLogo;
-        RelativeLayout rlServiceName;
 
         public InsuranceHolder(View view) {
             super(view);
             rvDashboard = (RecyclerView) view.findViewById(R.id.rvDashboard);
-            rlServiceName = (RelativeLayout) view.findViewById(R.id.rlServiceName);
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
             ivLogo = view.findViewById(R.id.ivLogo);
             tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
@@ -87,11 +84,9 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView rvDashboard;
         TextView txtTypeName, tvPoweredBy;
         ImageView ivLogo;
-        RelativeLayout rlServiceName;
 
         public LoanHolder(View view) {
             super(view);
-            rlServiceName = (RelativeLayout) view.findViewById(R.id.rlServiceName);
             rvDashboard = (RecyclerView) view.findViewById(R.id.rvDashboard);
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
             ivLogo = view.findViewById(R.id.ivLogo);
@@ -103,13 +98,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView rvDashboard;
         TextView txtTypeName, tvPoweredBy;
         ImageView ivLogo;
-        RelativeLayout rlServiceName;
-
         CardView card_view;
 
         public MoreServiceHolder(View view) {
             super(view);
-            rlServiceName = (RelativeLayout) view.findViewById(R.id.rlServiceName);
             rvDashboard = (RecyclerView) view.findViewById(R.id.rvDashboard);
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
             ivLogo = view.findViewById(R.id.ivLogo);
@@ -158,7 +150,6 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof InsuranceHolder) {
 
             final List<DashboardEntity> listIns = mReal.getInsurProductList();
-            ((InsuranceHolder) holder).rlServiceName.setVisibility(View.VISIBLE);
             ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
             ((InsuranceHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_policyboss1));
             ((InsuranceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
@@ -187,7 +178,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final List<DashboardEntity> listLoan = mReal.getLoanProductList();
             ((LoanHolder) holder).txtTypeName.setText("LOANS");
             ((LoanHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_rupeeboss1));
-            ((LoanHolder) holder).rlServiceName.setVisibility(View.VISIBLE);
+
             ((LoanHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan));
 
@@ -219,8 +210,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //            }
 
 
-            if (listMore.size() > 0) {
-                ((MoreServiceHolder) holder).rlServiceName.setVisibility(View.VISIBLE);
+
                 ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
                 ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
                 ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
@@ -235,9 +225,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                         switchMenus(listMore.get(position));
                                     }
                                 }));
-            } else {
-                ((MoreServiceHolder) holder).rlServiceName.setVisibility(View.GONE);
-            }
+
         }
 
     }

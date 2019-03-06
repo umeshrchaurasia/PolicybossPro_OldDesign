@@ -656,14 +656,16 @@ public class DBPersistanceController {
         if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
                 new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
                 && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
-            dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15, "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)", R.drawable.investment_icon));
+            dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15,
+                    "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)",
+                    R.drawable.investment_icon));
         }
-       // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
-       // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
-            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+            if (dashboardEntities != null) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
                     if (dashBoardItemEntity.getDashboard_type() == 3 && dashBoardItemEntity.getIsActive() == 1) {
                         DashboardEntity dashboardEntity = new DashboardEntity("MORE SERVICES", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
