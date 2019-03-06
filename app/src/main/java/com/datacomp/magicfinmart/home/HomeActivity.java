@@ -382,7 +382,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        break;
 
                     case R.id.nav_crnpolicy:
-                        startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+
+                        if(userConstantEntity != null && userConstantEntity.getPBByCrnSearch()!= null && !userConstantEntity.getPBByCrnSearch().equalsIgnoreCase("") ) {
+
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", userConstantEntity.getPBByCrnSearch())
+                                    .putExtra("NAME", "" + "Search CRN")
+                                    .putExtra("TITLE", "" + "Search CRN"));
+                        }else{
+                          Toast.makeText(HomeActivity.this,"Please contact to your RM" ,Toast.LENGTH_SHORT).show();
+                        }
                         break;
 
                     case R.id.nav_leaddetail:
