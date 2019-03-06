@@ -147,7 +147,7 @@ ul li {margin:2px; padding:4px !important;}
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="divinfo">
         <div class="img-responsive">
             <table class="table table-striped">
                 <tr style="width:100%">
@@ -199,6 +199,15 @@ ul li {margin:2px; padding:4px !important;}
       var response= JSON.parse(bikeReponse);
       var otherDetails =JSON.parse(userReponse);
 
+      if(otherDetails.pospName == "")
+      {
+       document.getElementById('divinfo').style.display = 'none';
+      }
+       else
+      {
+        document.getElementById('divinfo').style.display = '';
+      }
+
       document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name + " " + response.Summary.Request_Core.last_name;
 
       document.getElementById('regNo').innerHTML = otherDetails.CAR_NAME;
@@ -208,7 +217,7 @@ ul li {margin:2px; padding:4px !important;}
       document.getElementById('ncbPercent').innerHTML = response.Summary.Request_Core.vehicle_ncb_current;
       document.getElementById('claim').innerHTML = response.Summary.Request_Core.is_claim_exists.toUpperCase();;
 
-      document.getElementById('pospName').innerHTML = otherDetails.pospNAme;
+      document.getElementById('pospName').innerHTML = otherDetails.pospName;
       document.getElementById('pospPhoto').src = otherDetails.pospPhotoUrl;
       document.getElementById('deg').innerHTML = otherDetails.pospDesg;
       document.getElementById('phone').innerHTML = otherDetails.PospMobNo;;
