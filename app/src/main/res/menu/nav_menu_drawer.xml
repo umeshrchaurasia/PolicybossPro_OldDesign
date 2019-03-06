@@ -145,7 +145,7 @@
                     android:icon="@drawable/sync_contact_ic"
                     android:orderInCategory="410"
                     android:title="Sync My Contacts"
-                    android:visible="true" />
+                    android:visible="false" />
                 <item
                     android:id="@+id/nav_generateLead"
                     android:icon="@drawable/vehicledetail"
