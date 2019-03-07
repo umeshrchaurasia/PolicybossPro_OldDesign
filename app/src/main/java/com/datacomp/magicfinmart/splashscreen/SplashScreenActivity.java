@@ -44,13 +44,12 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
-//        Utility.LOGIN_IP = Utility.getLocalIpAddress(this);
 
-        // By default set to 1.
-        //prefManager.updateMotorVersion("1");
 
         // for user constant
         if (loginResponseEntity != null) {
+            //reset user behaviour flag to send data on every app launch
+            prefManager.saveUserbehaviourState(false);
             new MasterController(this).geUserConstant(0, this);
             new MasterController(this).getConstants(this);
         }
