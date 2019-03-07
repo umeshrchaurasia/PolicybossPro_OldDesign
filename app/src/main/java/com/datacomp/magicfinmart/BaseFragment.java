@@ -152,18 +152,8 @@ public class BaseFragment extends Fragment {
             mobNumber = mobNumber.replaceAll("\\+", "");
             mobNumber = mobNumber.replaceAll("-", "");
             mobNumber = mobNumber.replaceAll(",", "");
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
             callIntent.setData(Uri.parse("tel:" + mobNumber));
-            if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
             startActivity(callIntent);
         } catch (Exception e) {
             e.printStackTrace();

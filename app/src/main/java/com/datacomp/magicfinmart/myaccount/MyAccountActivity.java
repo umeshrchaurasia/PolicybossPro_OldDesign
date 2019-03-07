@@ -239,9 +239,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 if (isChecked) {
                     prefManager.updateNotificationsetting("0");
-                  //  Toast.makeText(getApplicationContext(), "Switch is on", Toast.LENGTH_LONG).show();
+                    //  Toast.makeText(getApplicationContext(), "Switch is on", Toast.LENGTH_LONG).show();
                 } else {
-                   // Toast.makeText(getApplicationContext(), "Switch is off", Toast.LENGTH_LONG).show();
+                    // Toast.makeText(getApplicationContext(), "Switch is off", Toast.LENGTH_LONG).show();
                     prefManager.updateNotificationsetting("1");
                 }
             }
@@ -385,45 +385,45 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.ivMyProfile:
             case R.id.rlMyProfile:
-                manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout,llNotify);
-                manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout,ivNotify);
+                manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify);
+                manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout, ivNotify);
                 break;
             case R.id.ivAddress:
             case R.id.rlAddress:
-                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload, llPosp, llAbout,llNotify);
-                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout,ivNotify);
+                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify);
+                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout, ivNotify);
                 saveProfile();
                 break;
             case R.id.ivBankDetail:
             case R.id.rlBankDetail:
-                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload, llPosp, llAbout,llNotify);
-                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP, ivAbout,ivNotify);
+                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload, llPosp, llAbout, llNotify);
+                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP, ivAbout, ivNotify);
                 saveAddress();
                 break;
             case R.id.ivDocumentUpload:
             case R.id.rlDocumentUpload:
-                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress, llPosp, llAbout,llNotify);
-                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivPOSP, ivAbout,ivNotify);
+                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress, llPosp, llAbout, llNotify);
+                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivPOSP, ivAbout, ivNotify);
                 saveBankDtl();
                 break;
 
             case R.id.ivPOSP:
             case R.id.rlPOSP:
-                manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress, llAbout,llNotify);
-                manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivAbout,ivNotify);
+                manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress, llAbout, llNotify);
+                manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivAbout, ivNotify);
                 savePOSP();
                 break;
 
             case R.id.ivAbout:
             case R.id.rlAbout:
-                manageMainLayouts(llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress,llNotify);
-                manageImages(llAbout, ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP,ivNotify);
+                manageMainLayouts(llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress, llNotify);
+                manageImages(llAbout, ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP, ivNotify);
                 break;
 
-            case R.id.ivNotify :
+            case R.id.ivNotify:
             case R.id.rlNotify:
-                manageMainLayouts(llNotify,llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
-                manageImages(llNotify,ivNotify , ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP);
+                manageMainLayouts(llNotify, llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
+                manageImages(llNotify, ivNotify, ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP);
 
 
             case R.id.txtSaving:
@@ -488,22 +488,24 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 if (dbPersistanceController.getUserConstantsData().getManagName() != null) {
 
-                    if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
-
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, permissionsRequired[0])) {
-                            //Show Information about why you need the permission
-                            ActivityCompat.requestPermissions(MyAccountActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
-
-                        } else {
-
-                            openPopUp(ivManagerMobile, "Need  Permission", "This app needs all permissions.", "GRANT", true);
 
 
-                        }
-                    } else {
+//                    if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+//
+//                        if (ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, permissionsRequired[0])) {
+//                            //Show Information about why you need the permission
+//                            ActivityCompat.requestPermissions(MyAccountActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
+//
+//                        } else {
+//
+//                            openPopUp(ivManagerMobile, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+//
+//
+//                        }
+//                    } else {
 
                         ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + dbPersistanceController.getUserConstantsData().getManagName(), dbPersistanceController.getUserConstantsData().getMangMobile());
-                    }
+                    //}
 
                 }
 
@@ -518,21 +520,21 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             case R.id.ivSupportMobile:
                 if (dbPersistanceController.getUserConstantsData().getManagName() != null) {
 
-                    if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
-
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, permissionsRequired[0])) {
-                            //Show Information about why you need the permission
-                            ActivityCompat.requestPermissions(MyAccountActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_SUPPORT);
-
-                        } else {
-
-                            openPopUp(ivManagerMobile, "Need  Permission", "This app needs all permissions.", "GRANT", true);
-
-                        }
-                    } else {
+//                    if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+//
+//                        if (ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, permissionsRequired[0])) {
+//                            //Show Information about why you need the permission
+//                            ActivityCompat.requestPermissions(MyAccountActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_SUPPORT);
+//
+//                        } else {
+//
+//                            openPopUp(ivManagerMobile, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+//
+//                        }
+//                    } else {
                         ConfirmAlert("Calling", getResources().getString(R.string.Support_Calling), dbPersistanceController.getUserConstantsData().getSuppMobile());
 
-                    }
+//                    }
 
                 }
 
@@ -550,8 +552,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 if (validateProfile() == false) {
                     // llMyProfile.setVisibility(View.GONE);
                     if (llMyProfile.getVisibility() == View.GONE) {
-                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout,llNotify);
-                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout,ivNotify );
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout, ivNotify);
                     }
 
                 } else {
@@ -737,7 +739,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3, LinearLayout hideLayout4, LinearLayout hideLayout5 ,LinearLayout hideLayout6) {
+    private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3, LinearLayout hideLayout4, LinearLayout hideLayout5, LinearLayout hideLayout6) {
 
         if (visibleLayout.getVisibility() == View.GONE) {
             visibleLayout.setVisibility(View.VISIBLE);
@@ -752,7 +754,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3, ImageView upImage4, ImageView upImage5,ImageView upImage6) {
+    private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3, ImageView upImage4, ImageView upImage5, ImageView upImage6) {
 
         if (clickedLayout.getVisibility() == View.GONE) {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
@@ -1693,18 +1695,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-
-                            if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
-                                return;
-                            }
-                            Intent intentCalling = new Intent(Intent.ACTION_CALL);
+                            Intent intentCalling = new Intent(Intent.ACTION_DIAL);
                             intentCalling.setData(Uri.parse("tel:" + strMobile));
                             startActivity(intentCalling);
                         }
