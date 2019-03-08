@@ -45,28 +45,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static int PERMISSION_DENIED = 0;
 
 
-//    String[] perms = {
-//            "android.permission.CAMERA",
-//            "android.permission.ACCESS_FINE_LOCATION",
-//            "android.permission.SEND_SMS",
-//            "android.permission.READ_SMS",
-//            "android.permission.RECEIVE_SMS",
-//            "android.permission.WRITE_EXTERNAL_STORAGE",
-//            "android.permission.READ_EXTERNAL_STORAGE",
-//            "android.permission.CALL_PHONE",
-//            "android.permission.RECORD_AUDIO",
-//            "android.permission.READ_CONTACTS",
-//            "android.permission.WRITE_CONTACTS",
-//            "android.permission.BLUETOOTH",
-//            "android.permission.BLUETOOTH_ADMIN"
-//    };
 
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.RECORD_AUDIO",
             "android.permission.BLUETOOTH",
             "android.permission.BLUETOOTH_ADMIN"
     };
@@ -97,34 +81,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private boolean checkPermission() {
 
-//        int camera = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
-//        int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
-//        int sendSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[2]);
-//        int readSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[3]);
-//        int receiveSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
-//        int WRITE_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
-//        int READ_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[6]);
-//        int callPhone = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
-//        int recordAudio = ContextCompat.checkSelfPermission(getApplicationContext(), perms[8]);
-//        int readContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[9]);
-//        int writeContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[10]);
-//        int bluetooth = ContextCompat.checkSelfPermission(getApplicationContext(), perms[11]);
-//        int bluetoothAdmin = ContextCompat.checkSelfPermission(getApplicationContext(), perms[12]);
+
 
 
         int camera = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
         int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int WRITE_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[2]);
         int READ_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[3]);
-        int recordAudio = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
-        int bluetooth = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
-        int bluetoothAdmin = ContextCompat.checkSelfPermission(getApplicationContext(), perms[6]);
+
+        int bluetooth = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
+        int bluetoothAdmin = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
 
         return camera == PackageManager.PERMISSION_GRANTED
                 && fineLocation == PackageManager.PERMISSION_GRANTED
                 && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
                 && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && recordAudio == PackageManager.PERMISSION_GRANTED
                 && bluetooth == PackageManager.PERMISSION_GRANTED
                 && bluetoothAdmin == PackageManager.PERMISSION_GRANTED;
     }
@@ -140,17 +111,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults.length > 0) {
 
-                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[3] == PackageManager.PERMISSION_GRANTED;
-                    boolean recordAudio = grantResults[4] == PackageManager.PERMISSION_GRANTED;
-                    boolean bluetooth = grantResults[5] == PackageManager.PERMISSION_GRANTED;
-                    boolean bluetoothAdmin = grantResults[6] == PackageManager.PERMISSION_GRANTED;
+                    boolean bluetooth = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    boolean bluetoothAdmin = grantResults[5] == PackageManager.PERMISSION_GRANTED;
 
                     if (camera && fineLocation && writeExternal
-                            && readExternal && recordAudio
+                            && readExternal
                             && bluetooth && bluetoothAdmin) {
 
                         // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
