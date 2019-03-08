@@ -329,7 +329,7 @@ ul li {margin:2px; padding:4px !important;}
         <h5><b>Please feel free to contact me for more details and renewal</b></h5>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="divinfo">
         <div class="img-responsive">
             <table class="table table-striped">
                 <tr style="width:100%">
@@ -446,7 +446,16 @@ document.getElementById('polexpdate').innerHTML = "";
         document.getElementById('NCB').innerHTML = otherReponse.NCB;
         document.getElementById('PYN').innerHTML = otherReponse.CLAIM.toUpperCase();;
 
-        document.getElementById('pospName').innerHTML = userReponse.pospNAme;
+         if(userReponse.pospName == "")
+      {
+       document.getElementById('divinfo').style.display = 'none';
+      }
+      else
+      {
+        document.getElementById('divinfo').style.display = '';
+      }
+
+        document.getElementById('pospName').innerHTML = userReponse.pospName;
         document.getElementById('pospPhoto').src = userReponse.pospPhotoUrl;
         document.getElementById('deg').innerHTML = userReponse.pospDesg;
         document.getElementById('phone').innerHTML = userReponse.PospMobNo;;

@@ -16,21 +16,17 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
@@ -53,7 +49,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
-import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
@@ -72,7 +67,6 @@ import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 import com.datacomp.magicfinmart.messagecenter.messagecenteractivity;
@@ -84,7 +78,6 @@ import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.mybusiness.MyBusinessActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
-import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
@@ -96,10 +89,8 @@ import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
-import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.vehicle_details.VehicleDetailFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
@@ -110,7 +101,6 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
@@ -150,17 +140,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
-    AlertDialog finmartContacttDialog ,LoanDialog ,MoreServiceDialog ,MyUtilitiesDialog ;
+    AlertDialog finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
 
 
-
-
-    String[] perms = {
-            "android.permission.READ_CONTACTS",
-            "android.permission.WRITE_CONTACTS"
-
-    };
-
+//    String[] perms = {
+//            "android.permission.READ_CONTACTS",
+//            "android.permission.WRITE_CONTACTS"
+//
+//    };
 
 
     //region broadcast receiver
@@ -200,7 +187,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     };
 
 
-
     //endregion
 
     @Override
@@ -220,7 +206,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-
 
 
         setSupportActionBar(toolbar);
@@ -268,14 +253,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             new MasterController(this).getInsuranceSubType(this);
         }
 
-        if (userConstantEntity != null) {
-            if (!checkPermission()) {
-                requestPermission();
-            } else {
-                addFinmartContact();
+//        if (userConstantEntity != null) {
+//            if (!checkPermission()) {
+//                requestPermission();
+//            } else {
+//                addFinmartContact();
+//
+//            }
+//        }
 
-            }
-        }
         checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
         if (checkfirstmsg_call == 0) {
 
@@ -396,7 +382,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        break;
 
                     case R.id.nav_crnpolicy:
-                        startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+
+                        if(userConstantEntity != null && userConstantEntity.getPBByCrnSearch()!= null && !userConstantEntity.getPBByCrnSearch().equalsIgnoreCase("") ) {
+
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", userConstantEntity.getPBByCrnSearch())
+                                    .putExtra("NAME", "" + "Search CRN")
+                                    .putExtra("TITLE", "" + "Search CRN"));
+                        }else{
+                          Toast.makeText(HomeActivity.this,"Please contact to your RM" ,Toast.LENGTH_SHORT).show();
+                        }
                         break;
 
                     case R.id.nav_leaddetail:
@@ -506,7 +502,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         ConfirmMoreServiceAlert();
 
                         break;
-                    case R.id.nav_MYUTILITIES:
+                    case R.id.nav_MYUtilities:
                         ConfirmnMyUtilitiesAlert();
 
                         break;
@@ -543,6 +539,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                hideNavigationItem();
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -552,7 +549,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
     }
-
 
 
     private void addFinmartContact() {
@@ -918,10 +914,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onOptionsItemSelected(menuItem);
-
-
             }
         });
 
@@ -940,26 +933,32 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             case R.id.action_call:
                 if (userConstantEntity.getMangMobile() != null) {
 
-                    if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
-                        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, permissionsRequired[0])) {
-                            //Show Information about why you need the permission
-                            ActivityCompat.requestPermissions(HomeActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
-
-                        } else {
-                            //Previously Permission Request was cancelled with 'Dont Ask Again',
-                            // Redirect to Settings after showing Information about why you need the permission
-
-                            permissionAlert(navigationView, "Need Call Permission", "This app needs Call permission.");
-
-
-                        }
-                    } else {
-                        if (userConstantEntity.getManagName() != null) {
-                            ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
-                        }
-
+                    if (userConstantEntity.getManagName() != null) {
+                        ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
                     }
+
+//
+//                    if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+//
+//                        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, permissionsRequired[0])) {
+//                            //Show Information about why you need the permission
+//                            ActivityCompat.requestPermissions(HomeActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
+//
+//                        } else {
+//                            //Previously Permission Request was cancelled with 'Dont Ask Again',
+//                            // Redirect to Settings after showing Information about why you need the permission
+//
+//                            permissionAlert(navigationView, "Need Call Permission", "This app needs Call permission.");
+//
+//
+//                        }
+//                    } else {
+//                        if (userConstantEntity.getManagName() != null) {
+//                            ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+//                        }
+//
+//                    }
                 }
 
 
@@ -1003,16 +1002,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
                     init_headers();
-                    if (!checkPermission()) {
-                        if (checkRationalePermission()) {
-                            requestPermission();
-                        } else {
-                            openPopUp(drawerLayout, "Need  Permission", "Required Contact Permission", "GRANT", true);
-                        }
-                    } else {
-                        addFinmartContact();
-
-                    }
+//                    if (!checkPermission()) {
+//                        if (checkRationalePermission()) {
+//                            requestPermission();
+//                        } else {
+//                            openPopUp(drawerLayout, "Need  Permission", "Required Contact Permission", "GRANT", true);
+//                        }
+//                    } else {
+//                        addFinmartContact();
+//
+//                    }
                     if (prefManager.getPopUpCounter().equals("0")) {
                         showMArketingPopup();
                     }
@@ -1088,26 +1087,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 } else if (((ConstantsResponse) response).getMasterData().
                         getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
 
-                    /*for (Fragment frg :
-                            getSupportFragmentManager().getFragments()) {
-
-                        if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
-                            if (!frg.isVisible()) {
-                                if (prefManager.getMps() != null) {
-                                    DialogMPS();
-                                }
-                            }
-                        } else {
-                            if (prefManager.getMps() != null) {
-                                DialogMPS();
-                            }
-                        }
-                    }*/
-
                 }
                 //endregion
 
-                hideNavigationItem();
+                //hideNavigationItem();
             }
         } else if (response instanceof MenuMasterResponse) {
             if (response.getStatusNo() == 0) {
@@ -1305,16 +1288,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
+        } else {
+            nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
         }
 
 
         //todo : check key from userconstant to hide my business
         if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
             int visibility = Integer.parseInt(userConstantEntity.getERPID());
-            if (visibility == 1)
+            if (visibility > 0)
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
+        } else {
+            nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
         }
 
         //todo : check key from userconstant to hide posp enrollment
@@ -1324,6 +1311,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
+        } else {
+            nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
         }
 
 
@@ -1332,63 +1321,70 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     public void ConfirmAlert(String Title, String strBody) {
         try {
-            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-            builder.setTitle(Title);
-
-            builder.setMessage(strBody);
-            String positiveText = "Call";
-            String NegativeText = "Share";
-            String NeutralText = "Cancel";
-            builder.setPositiveButton(positiveText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
 
 
-                            if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
-                                return;
-                            }
-                            Intent intentCalling = new Intent(Intent.ACTION_CALL);
-                            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
-                            startActivity(intentCalling);
-                        }
-                    });
+            Intent intentCalling = new Intent(Intent.ACTION_DIAL);
+            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
+            startActivity(intentCalling);
 
-            builder.setNegativeButton(NegativeText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            if (userConstantEntity.getMangEmail() != null) {
-                                // composeEmail(userConstantEntity.getMangEmail(), "");
-                                shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
 
-                            }
-                        }
-                    });
-
-            builder.setNeutralButton(NeutralText, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            final AlertDialog dialog = builder.create();
-            //  dialog.setCancelable(false);
-            //  dialog.setCanceledOnTouchOutside(false);
-
-            dialog.show();
-
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.uvv_green));
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.holo_red_dark));
-            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.button_color));
+//            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+//            builder.setTitle(Title);
+//
+//            builder.setMessage(strBody);
+//            String positiveText = "Call";
+//            String NegativeText = "Share";
+//            String NeutralText = "Cancel";
+//            builder.setPositiveButton(positiveText,
+//                    new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//
+//
+//                            if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                                // TODO: Consider calling
+//                                //    ActivityCompat#requestPermissions
+//                                // here to request the missing permissions, and then overriding
+//                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                //                                          int[] grantResults)
+//                                // to handle the case where the user grants the permission. See the documentation
+//                                // for ActivityCompat#requestPermissions for more details.
+//                                return;
+//                            }
+//                            Intent intentCalling = new Intent(Intent.ACTION_CALL);
+//                            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
+//                            startActivity(intentCalling);
+//                        }
+//                    });
+//
+//            builder.setNegativeButton(NegativeText,
+//                    new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                            if (userConstantEntity.getMangEmail() != null) {
+//                                // composeEmail(userConstantEntity.getMangEmail(), "");
+//                                shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
+//
+//                            }
+//                        }
+//                    });
+//
+//            builder.setNeutralButton(NeutralText, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.dismiss();
+//                }
+//            });
+//            final AlertDialog dialog = builder.create();
+//            //  dialog.setCancelable(false);
+//            //  dialog.setCanceledOnTouchOutside(false);
+//
+//            dialog.show();
+//
+//            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.uvv_green));
+//            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.holo_red_dark));
+//            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.button_color));
 
         } catch (Exception ex) {
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
@@ -1599,8 +1595,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (finmartContacttDialog != null && finmartContacttDialog.isShowing()) {
 
             return;
-        }
-        else {
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
 
@@ -1670,70 +1665,71 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     //region permission
 
-    private boolean checkPermission() {
-
-        int readContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
-        int writeContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
-
-        return readContact == PackageManager.PERMISSION_GRANTED
-                && writeContact == PackageManager.PERMISSION_GRANTED;
-
-    }
-
-    private boolean checkRationalePermission() {
-
-        boolean readContact = ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, perms[0]);
-
-        boolean writeContact = ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, perms[1]);
-
-
-        return readContact || writeContact;
-    }
-
-    private void requestPermission() {
-        ActivityCompat.requestPermissions(this, perms, Constants.REQUEST_CODE_ASK_PERMISSIONS);
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-        switch (requestCode) {
-            case Constants.PERMISSION_CALLBACK_CONSTANT:
-                if (grantResults.length > 0) {
-
-                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean call_phone = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-
-                    if (call_phone) {
-
-                        if (userConstantEntity.getMangMobile() != null && userConstantEntity.getManagName() != null) {
-                            ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
-                        }
-
-                    }
-
-                }
-                break;
-
-            case Constants.REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults.length > 0) {
-
-                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean readContact = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean writeContact = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-
-
-                    if (readContact && writeContact) {
-
-                        addFinmartContact();
-                    }
-                }
-                break;
-
-        }
-    }
-    //endregion
+//    private boolean checkPermission() {
+//
+//        int readContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
+//        int writeContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
+//
+//        return readContact == PackageManager.PERMISSION_GRANTED
+//                && writeContact == PackageManager.PERMISSION_GRANTED;
+//
+//    }
+//
+//    private boolean checkRationalePermission() {
+//
+//        boolean readContact = ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, perms[0]);
+//
+//        boolean writeContact = ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, perms[1]);
+//
+//
+//        return readContact || writeContact;
+//    }
+//
+//    private void requestPermission() {
+//        ActivityCompat.requestPermissions(this, perms, Constants.REQUEST_CODE_ASK_PERMISSIONS);
+//    }
+//
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//
+//        switch (requestCode) {
+//            case Constants.PERMISSION_CALLBACK_CONSTANT:
+//                if (grantResults.length > 0) {
+//
+//                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                    boolean call_phone = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//
+//                    if (call_phone) {
+//
+//                        if (userConstantEntity.getMangMobile() != null && userConstantEntity.getManagName() != null) {
+//                            ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+//                        }
+//
+//                    }
+//
+//                }
+//                break;
+//
+//            case Constants.REQUEST_CODE_ASK_PERMISSIONS:
+//                if (grantResults.length > 0) {
+//
+//                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                    boolean readContact = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                    boolean writeContact = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+//
+//
+//                    if (readContact && writeContact) {
+//
+//                        addFinmartContact();
+//                    }
+//                }
+//                break;
+//
+//        }
+//    }
+//
+// endregion
 
     //popup
     public void ConfirmOtherLoanProductsAlert() {
@@ -1741,7 +1737,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (LoanDialog != null && LoanDialog.isShowing()) {
 
             return;
-        }else {
+        } else {
 
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
@@ -1820,8 +1816,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     LoanDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                             .putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
-                            .putExtra("NAME", "" + "Rectify Credit")
-                            .putExtra("TITLE", "" + "Rectify Credit"));
+                            .putExtra("NAME", "" + "Cash Loan")
+                            .putExtra("TITLE", "" + "Cash Loan"));
                 }
             });
 
@@ -1833,8 +1829,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                             .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
-                            .putExtra("NAME", "" + "Rectify Credit")
-                            .putExtra("TITLE", "" + "Rectify Credit"));
+                            .putExtra("NAME", "" + "Business Loan")
+                            .putExtra("TITLE", "" + "Business Loan"));
                 }
             });
 
@@ -1870,15 +1866,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (MoreServiceDialog != null && MoreServiceDialog.isShowing()) {
 
             return;
-        }else
-        {
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvFinpeace,cvHealthAssure;
+            CardView cvFinpeace, cvHealthAssure;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -1923,7 +1918,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             });
 
 
-
             ivCross.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -1942,14 +1936,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
 
             return;
-        }else {
+        } else {
             AlertDialog.Builder builder = new android.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
 
 
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvMPS,cvIncomeCalculator,
+            CardView cvMPS, cvIncomeCalculator,
                     cvMyTrainingCalender, cvHelpFeedback;
 
             LayoutInflater inflater = this.getLayoutInflater();
@@ -1975,9 +1969,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
 
-                         new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-                      //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                    new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                    //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                 }
             });
 
@@ -2008,7 +2002,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
 
                 }
             });

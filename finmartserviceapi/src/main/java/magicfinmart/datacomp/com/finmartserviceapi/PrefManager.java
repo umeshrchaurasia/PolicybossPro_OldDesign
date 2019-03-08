@@ -470,6 +470,7 @@ public class PrefManager {
     public String getContactMsgFirst() {
         return pref.getString(ContactFirst_Check, "0");
     }
+
     public void removeCheckMsgFirst() {
         editor.remove(MsgFirst_Check);
     }
@@ -484,6 +485,9 @@ public class PrefManager {
     private static final String SEASONAL_DATE = "seasonaldate";
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+
+    private static final String SAVE_BEHAVIOUR = "seasonaldate";
 
     public void setIsBirthday(boolean isFirstTime) {
         Calendar calendar = Calendar.getInstance();
@@ -506,23 +510,44 @@ public class PrefManager {
     }
 
     public void setIsSeasonal(boolean isFirstTime) {
-        Calendar calendar = Calendar.getInstance();
-        String currentDay = simpleDateFormat.format(calendar.getTime());
-        editor.putString(SEASONAL_DATE, currentDay);
-        editor.putBoolean(IS_SEASONAL, isFirstTime);
-        editor.commit();
+        try {
+            Calendar calendar = Calendar.getInstance();
+            String currentDay = simpleDateFormat.format(calendar.getTime());
+            editor.putString(SEASONAL_DATE, currentDay);
+            editor.putBoolean(IS_SEASONAL, isFirstTime);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean getIsSeasonal() {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            String currentDay = simpleDateFormat.format(calendar.getTime());
+            String birthDay = pref.getString(SEASONAL_DATE, "");
 
-        Calendar calendar = Calendar.getInstance();
-        String currentDay = simpleDateFormat.format(calendar.getTime());
-        String birthDay = pref.getString(SEASONAL_DATE, "");
-
-        if (birthDay.equals(currentDay)) {
-            return false;
+            if (birthDay.equals(currentDay)) {
+                return false;
+            }
+            return pref.getBoolean(IS_SEASONAL, true);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return pref.getBoolean(IS_SEASONAL, true);
+        return false;
+    }
+
+    //endregion
+
+
+    //region user behaviour
+
+    public boolean saveUserbehaviourState(boolean isSend) {
+        return editor.putBoolean(SAVE_BEHAVIOUR, isSend).commit();
+    }
+
+    public boolean isUserBehaviourSave() {
+        return pref.getBoolean(SAVE_BEHAVIOUR, false);
     }
 
     //endregion

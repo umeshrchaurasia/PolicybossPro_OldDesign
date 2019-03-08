@@ -120,6 +120,9 @@ public class UserConstantEntity extends RealmObject {
     private String AddPospVisible;
 
 
+    private String PBByCrnSearch;
+
+
     private String ERPID;
     /**
      * userid :
@@ -766,5 +769,14 @@ public class UserConstantEntity extends RealmObject {
     public void setFinmartwhatsappno(String finmartwhatsappno) {
         this.finmartwhatsappno = finmartwhatsappno;
     }
+
+    public String getPBByCrnSearch() {
+        return PBByCrnSearch;
+    }
+
+    public void setPBByCrnSearch(String PBByCrnSearch) {
+        this.PBByCrnSearch = PBByCrnSearch;
+    }
+
 
 }

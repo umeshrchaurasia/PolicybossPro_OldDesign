@@ -548,7 +548,7 @@ public class DBPersistanceController {
         // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANCE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANCE", 39, ""));
-        term.add(new TermSelectionEntity("ULTRA LAKSHYA COMBO", 40, ""));
+
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
         return term;
@@ -632,11 +632,6 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan));
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
-       // dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Transfer existing loans at lower interest rate . And help customers to save more on existing loans.", R.drawable.balance_transfer));
-      //  dashboardEntities.add(new DashboardEntity("LOANS", 13, "FREE CREDIT REPORT", "Get your Credit report with score at no cost.", R.drawable.free_credit_report));
-      //  dashboardEntities.add(new DashboardEntity("LOANS", 14, "LOAN ON MESSENGER", "Enjoy chatting with your BOT friend & provide Instant loan sanction to your customer for Personal loan, Home Loan, Business Loan, Car loan, LAP, Gold loan,etc.", R.drawable.yesbank_chat_ic));
-
-      //  dashboardEntities.add(new DashboardEntity("LOANS", 9, "LEAD SUBMISSION - OTHER LOANS", "Submit leads for products like Car loan, Business loan, Working Capital, Term Loan, LRD,etc.", R.drawable.quick_lead));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
@@ -661,14 +656,16 @@ public class DBPersistanceController {
         if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
                 new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
                 && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
-            dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15, "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)", R.drawable.investment_icon));
+            dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15,
+                    "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)",
+                    R.drawable.investment_icon));
         }
-       // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
-       // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
-            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+            if (dashboardEntities != null) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
                     if (dashBoardItemEntity.getDashboard_type() == 3 && dashBoardItemEntity.getIsActive() == 1) {
                         DashboardEntity dashboardEntity = new DashboardEntity("MORE SERVICES", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);

@@ -56,6 +56,8 @@ public class MyApplication extends MultiDexApplication {
 
     }
 
+
+
     public synchronized org.matomo.sdk.Tracker getTracker() {
         if (mMamatoTracker == null) {
             mMamatoTracker = TrackerBuilder.createDefault("http://domain.tld/matomo.php", 138).build(Matomo.getInstance(this));
@@ -136,4 +138,6 @@ public class MyApplication extends MultiDexApplication {
 
 
     }
+
+
 }

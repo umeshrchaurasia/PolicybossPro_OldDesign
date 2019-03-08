@@ -75,7 +75,7 @@ ul li {margin:2px; padding:4px !important;}
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="divinfo">
         <div class="img-responsive">
             <table class="table table-striped">
                 <tr style="width:100%">
@@ -104,7 +104,7 @@ ul li {margin:2px; padding:4px !important;}
         document.getElementById('name').innerHTML = otherReponse;
 
 
-        document.getElementById('pospName').innerHTML = userReponse.pospNAme;
+        document.getElementById('pospName').innerHTML = userReponse.pospName;
         document.getElementById('pospPhoto').src = userReponse.pospPhotoUrl;
         document.getElementById('deg').innerHTML = userReponse.pospDesg;
         document.getElementById('phone').innerHTML = userReponse.PospMobNo;;
@@ -113,6 +113,14 @@ ul li {margin:2px; padding:4px !important;}
         var response = JSON.parse(bikeReponse);
 
 
+          if(userReponse.pospName == "")
+      {
+       document.getElementById('divinfo').style.display = 'none';
+      }
+       else
+      {
+        document.getElementById('divinfo').style.display = '';
+      }
 
         var HTML = "";
 

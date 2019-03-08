@@ -33,6 +33,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 
 public class SalesShareActivity extends BaseActivity implements BaseActivity.PopUpListener {
 
@@ -48,6 +49,8 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
     SalesProductEntity salesProductEntity;
     AccountDtlEntity accountDtlEntity;
     URL pospPhotoUrl = null;
+    UserConstantEntity userConstantEntity;
+    boolean isSecondImageToShow = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,51 +61,27 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         registerPopUp(this);
         dbPersistanceController = new DBPersistanceController(this);
+        userConstantEntity = dbPersistanceController.getUserConstantsData();
         loginResponseEntity = dbPersistanceController.getUserData();
         accountDtlEntity = dbPersistanceController.getAccountData();
 
-//        Toast.makeText(this, accountDtlEntity.getDesignation() + "\n" +
-//                accountDtlEntity.getEditMobiNumb() + "\n" +
-//                accountDtlEntity.getEditEmailId() + "\n" +
-//                accountDtlEntity.getDisplayDesignation() + "\n" +
-//                accountDtlEntity.getDisplayPhoneNo() + "\n" +
-//                accountDtlEntity.getDisplayEmail(), Toast.LENGTH_LONG).show();
+
+        //Realm Thread access denied in Async
+        if (userConstantEntity.getParentid() != null
+                && !userConstantEntity.getParentid().equals("")
+                && !userConstantEntity.getParentid().equals("0")) {
+
+            isSecondImageToShow = false;
+
+        } else {
+            isSecondImageToShow = true;
+        }
 
         if (getIntent().hasExtra(Constants.PRODUCT_ID)) {
             salesProductEntity = getIntent().getExtras().getParcelable(Constants.PRODUCT_ID);
-            //The key argument here must match that used in the other activity
-            /*switch (salesProductEntity.getProduct_Id()) {
-                case 1:
-                case 2:
-                    //setPospDetails();
-                    try {
-                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    break;
 
-                case 3:
-                case 4:
-                case 5:
-                    //setOtherDetails();
-                    try {
-                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-            }*/
         }
-
-
         initialize();
-
-        /*BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        salesPhoto = BitmapFactory.decodeFile(docsEntity.getImage_path(), options);*/
-        //salesPhoto = ((BitmapDrawable) ivProduct.getDrawable()).getBitmap();
-
         //new createBitmapFromURL(pospPhotoUrl).execute();
         new createBitmapFromURLNew().execute();
     }
@@ -112,12 +91,6 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
         if (getIntent().hasExtra(Constants.DOC_DATA)) {
             docsEntity = getIntent().getExtras().getParcelable(Constants.DOC_DATA);
-            /*Glide.with(this)
-                    .load(docsEntity.getImage_path())
-                    .asBitmap()
-                    .placeholder(getResources().getDrawable(R.drawable.ambulance))
-                    .into(ivProduct);*/
-
         }
     }
 
@@ -392,16 +365,33 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         @Override
         protected Bitmap doInBackground(Void... voids) {
 
+            if (isSecondImageToShow) {
+                try {
+                    if (salesProductEntity.getProduct_Id() == 1 || salesProductEntity.getProduct_Id() == 2)
+                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
+                    else if (salesProductEntity.getProduct_Id() == 3
+                            || salesProductEntity.getProduct_Id() == 4
+                            || salesProductEntity.getProduct_Id() == 5) {
+                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
+                    }
+                } catch (Exception e) {
+
+                }
+            } else {
+                combinedImage = null;
+            }
+
+
             switch (salesProductEntity.getProduct_Id()) {
                 case 1:
                 case 2:
                     //setPospDetails();
                     try {
-                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
                         URL salePhotoUrl = new URL(docsEntity.getImage_path());
                         salesPhoto = BitmapFactory.decodeStream(
                                 salePhotoUrl.openConnection().getInputStream());
-                        if (combinedImage != null && salesPhoto != null) {
+                        //if (combinedImage != null && salesPhoto != null) {
+                        if (salesPhoto != null) {
                             combinedImage = combineImages(salesPhoto, combinedImage);
                             //ivProduct.setImageBitmap(combinedImage);
                         }
@@ -415,11 +405,10 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 case 5:
                     //setOtherDetails();
                     try {
-                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
                         URL salePhotoUrl = new URL(docsEntity.getImage_path());
                         salesPhoto = BitmapFactory.decodeStream(
                                 salePhotoUrl.openConnection().getInputStream());
-                        if (combinedImage != null && salesPhoto != null) {
+                        if (salesPhoto != null) {
                             combinedImage = combineImages(salesPhoto, combinedImage);
                             //ivProduct.setImageBitmap(combinedImage);
                         }

@@ -275,81 +275,94 @@ public class BaseActivity extends AppCompatActivity {
 
     public void dialNumber(String mobNumber) {
 
-        if (ActivityCompat.checkSelfPermission(BaseActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(BaseActivity.this, permissionsRequired[0])) {
-                //Show Information about why you need the permission
-                ActivityCompat.requestPermissions(BaseActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
-
-            } else {
-                //Previously Permission Request was cancelled with 'Dont Ask Again',
-                // Redirect to Settings after showing Information about why you need the permission
-                try {
-                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
-                    builder.setTitle("Need Call Permission");
-
-                    builder.setMessage("This app needs Call permission.");
-                    String positiveText = "GRANT";
-                    String NegativeText = "CANCEL";
-                    builder.setPositiveButton(positiveText,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    if (permissionListener != null)
-                                        dialog.dismiss();
-
-                                    /////
-
-                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                    intent.setData(uri);
-                                    startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
-
-
-                                }
-                            });
-
-                    builder.setNegativeButton(NegativeText,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    final android.support.v7.app.AlertDialog dialog = builder.create();
-                    dialog.setCancelable(false);
-                    dialog.setCanceledOnTouchOutside(false);
-                    dialog.show();
-                } catch (Exception ex) {
-                    Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
-                }
-            }
-        } else {
-
-            try {
-                mobNumber = mobNumber.replaceAll("\\s", "");
-                mobNumber = mobNumber.replaceAll("\\+", "");
-                mobNumber = mobNumber.replaceAll("-", "");
-                mobNumber = mobNumber.replaceAll(",", "");
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + mobNumber));
-                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                startActivity(callIntent);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
-            }
+        try {
+            mobNumber = mobNumber.replaceAll("\\s", "");
+            mobNumber = mobNumber.replaceAll("\\+", "");
+            mobNumber = mobNumber.replaceAll("-", "");
+            mobNumber = mobNumber.replaceAll(",", "");
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + mobNumber));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
         }
+
+//        if (ActivityCompat.checkSelfPermission(BaseActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+//
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(BaseActivity.this, permissionsRequired[0])) {
+//                //Show Information about why you need the permission
+//                ActivityCompat.requestPermissions(BaseActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
+//
+//            } else {
+//                //Previously Permission Request was cancelled with 'Dont Ask Again',
+//                // Redirect to Settings after showing Information about why you need the permission
+//                try {
+//                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
+//                    builder.setTitle("Need Call Permission");
+//
+//                    builder.setMessage("This app needs Call permission.");
+//                    String positiveText = "GRANT";
+//                    String NegativeText = "CANCEL";
+//                    builder.setPositiveButton(positiveText,
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//
+//                                    if (permissionListener != null)
+//                                        dialog.dismiss();
+//
+//                                    /////
+//
+//                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+//                                    intent.setData(uri);
+//                                    startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+//
+//
+//                                }
+//                            });
+//
+//                    builder.setNegativeButton(NegativeText,
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//                    final android.support.v7.app.AlertDialog dialog = builder.create();
+//                    dialog.setCancelable(false);
+//                    dialog.setCanceledOnTouchOutside(false);
+//                    dialog.show();
+//                } catch (Exception ex) {
+//                    Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        } else {
+//
+//            try {
+//                mobNumber = mobNumber.replaceAll("\\s", "");
+//                mobNumber = mobNumber.replaceAll("\\+", "");
+//                mobNumber = mobNumber.replaceAll("-", "");
+//                mobNumber = mobNumber.replaceAll(",", "");
+//                Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                callIntent.setData(Uri.parse("tel:" + mobNumber));
+//                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    // here to request the missing permissions, and then overriding
+//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                    //                                          int[] grantResults)
+//                    // to handle the case where the user grants the permission. See the documentation
+//                    // for ActivityCompat#requestPermissions for more details.
+//                    return;
+//                }
+//                startActivity(callIntent);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     public void composeEmail(String addresses, String subject) {
@@ -471,17 +484,27 @@ public class BaseActivity extends AppCompatActivity {
 
     public Bitmap combineImages(Bitmap first, Bitmap second) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
         Bitmap cs = null;
-
         int width, height = 0;
-        width = first.getWidth();
-        height = first.getHeight() + second.getHeight();
 
-        cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        if (second == null) {
+            width = first.getWidth();
+            height = first.getHeight();
+            cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas comboImage = new Canvas(cs);
+            comboImage.drawBitmap(first, 0f, 0f, null);
+        } else {
 
-        Canvas comboImage = new Canvas(cs);
 
-        comboImage.drawBitmap(first, 0f, 0f, null);
-        comboImage.drawBitmap(second, 0f, first.getHeight(), null);
+            width = first.getWidth();
+            height = first.getHeight() + second.getHeight();
+
+            cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+            Canvas comboImage = new Canvas(cs);
+
+            comboImage.drawBitmap(first, 0f, 0f, null);
+            comboImage.drawBitmap(second, 0f, first.getHeight(), null);
+        }
 
         // this is an extra bit I added, just incase you want to save the new image somewhere and then return the location
     /*String tmpImg = String.valueOf(System.currentTimeMillis()) + ".png";

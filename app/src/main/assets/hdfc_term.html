@@ -88,7 +88,7 @@ h5 b{font-size:13px !important;}
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="divinfo">
         <div class="img-responsive">
             <table class="table table-striped">
                 <tr style="width:100%">
@@ -117,7 +117,16 @@ h5 b{font-size:13px !important;}
 
        var userReponse = JSON.parse(userReponse);
 
-        document.getElementById('pospName').innerHTML = userReponse.pospNAme;
+          if(userReponse.pospName == "")
+      {
+       document.getElementById('divinfo').style.display = 'none';
+      }
+       else
+      {
+        document.getElementById('divinfo').style.display = '';
+      }
+
+        document.getElementById('pospName').innerHTML = userReponse.pospName;
         document.getElementById('pospPhoto').src = userReponse.pospPhotoUrl;
         document.getElementById('deg').innerHTML = userReponse.pospDesg;
         document.getElementById('phone').innerHTML = userReponse.PospMobNo;;

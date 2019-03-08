@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
@@ -309,7 +310,7 @@ public class DynamicController implements IDynamic {
         genericUrlNetworkService.sendUserBehaviour(entity).enqueue(new Callback<UserBehaviourResponse>() {
             @Override
             public void onResponse(Call<UserBehaviourResponse> call, Response<UserBehaviourResponse> response) {
-
+                    new PrefManager(mContext).saveUserbehaviourState(true);
             }
 
             @Override
