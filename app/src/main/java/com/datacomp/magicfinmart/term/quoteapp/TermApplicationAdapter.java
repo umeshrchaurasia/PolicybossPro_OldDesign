@@ -60,10 +60,12 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
                 holder.txtTermPpt.setText(entity.getTermRequestEntity().getPolicyTerm() + "/" + entity.getTermRequestEntity().getPPT());
                 holder.txtSum.setText("" + entity.getTermRequestEntity().getSumAssured());
                 holder.txtStatusDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
+
                 if (entity.getTermRequestEntity().getFrequency().toLowerCase().equals("annual"))
                     holder.txtMode.setText("YEARLY");
                 else
                     holder.txtMode.setText("" + entity.getTermRequestEntity().getFrequency());
+
                 if (entity.getStatusProgress() == 0)
                     holder.txtStatus.setText("LINK SENT");
                 else

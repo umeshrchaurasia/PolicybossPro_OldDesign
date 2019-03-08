@@ -484,17 +484,27 @@ public class BaseActivity extends AppCompatActivity {
 
     public Bitmap combineImages(Bitmap first, Bitmap second) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
         Bitmap cs = null;
-
         int width, height = 0;
-        width = first.getWidth();
-        height = first.getHeight() + second.getHeight();
 
-        cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        if (second == null) {
+            width = first.getWidth();
+            height = first.getHeight();
+            cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas comboImage = new Canvas(cs);
+            comboImage.drawBitmap(first, 0f, 0f, null);
+        } else {
 
-        Canvas comboImage = new Canvas(cs);
 
-        comboImage.drawBitmap(first, 0f, 0f, null);
-        comboImage.drawBitmap(second, 0f, first.getHeight(), null);
+            width = first.getWidth();
+            height = first.getHeight() + second.getHeight();
+
+            cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+            Canvas comboImage = new Canvas(cs);
+
+            comboImage.drawBitmap(first, 0f, 0f, null);
+            comboImage.drawBitmap(second, 0f, first.getHeight(), null);
+        }
 
         // this is an extra bit I added, just incase you want to save the new image somewhere and then return the location
     /*String tmpImg = String.valueOf(System.currentTimeMillis()) + ".png";
