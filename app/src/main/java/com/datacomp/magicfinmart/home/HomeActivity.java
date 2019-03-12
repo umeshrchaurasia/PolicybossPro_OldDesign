@@ -62,7 +62,6 @@ import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
-import com.datacomp.magicfinmart.insert_contact.InsertContactActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
@@ -136,18 +135,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     int forceUpdate, checkfirstmsg_call, isContactFirstCall;
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
-    String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
+
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
     AlertDialog finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
 
 
-//    String[] perms = {
-//            "android.permission.READ_CONTACTS",
-//            "android.permission.WRITE_CONTACTS"
-//
-//    };
 
 
     //region broadcast receiver
@@ -344,7 +338,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                     case R.id.nav_insert_contact:
-                        startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
 
                         break;
                     case R.id.nav_sharedata:
@@ -938,27 +932,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
                     }
 
-//
-//                    if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
-//
-//                        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, permissionsRequired[0])) {
-//                            //Show Information about why you need the permission
-//                            ActivityCompat.requestPermissions(HomeActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
-//
-//                        } else {
-//                            //Previously Permission Request was cancelled with 'Dont Ask Again',
-//                            // Redirect to Settings after showing Information about why you need the permission
-//
-//                            permissionAlert(navigationView, "Need Call Permission", "This app needs Call permission.");
-//
-//
-//                        }
-//                    } else {
-//                        if (userConstantEntity.getManagName() != null) {
-//                            ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
-//                        }
-//
-//                    }
                 }
 
 

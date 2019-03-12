@@ -12,7 +12,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.helpfeedback.aboutus.AboutUsActivity;
 import com.datacomp.magicfinmart.helpfeedback.contactus.ContactUsActivity;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
-import com.datacomp.magicfinmart.insert_contact.InsertContactActivity;
+
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 public class HelpFeedBackActivity extends BaseActivity implements View.OnClickListener {
@@ -50,7 +50,7 @@ public class HelpFeedBackActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cvChat:
-                startActivity(new Intent(this, InsertContactActivity.class));
+              //    startActivity(new Intent(this, InsertContactActivity.class));
                 break;
             case R.id.cvContactUs:
                 startActivity(new Intent(this, ContactUsActivity.class));
