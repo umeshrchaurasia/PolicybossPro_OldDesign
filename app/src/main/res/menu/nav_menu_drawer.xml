@@ -187,7 +187,7 @@
                     android:icon="@drawable/mps"
                     android:orderInCategory="470"
                     android:title="Gift Voucher"
-                    android:visible="true" />
+                    android:visible="false" />
 
             </menu>
         </item>

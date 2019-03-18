@@ -1301,68 +1301,59 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         try {
 
 
-            Intent intentCalling = new Intent(Intent.ACTION_DIAL);
-            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
-            startActivity(intentCalling);
+//            Intent intentCalling = new Intent(Intent.ACTION_DIAL);
+//            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
+//            startActivity(intentCalling);
 
 
-//            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-//            builder.setTitle(Title);
-//
-//            builder.setMessage(strBody);
-//            String positiveText = "Call";
-//            String NegativeText = "Share";
-//            String NeutralText = "Cancel";
-//            builder.setPositiveButton(positiveText,
-//                    new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//
-//
-//                            if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                                // TODO: Consider calling
-//                                //    ActivityCompat#requestPermissions
-//                                // here to request the missing permissions, and then overriding
-//                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                                //                                          int[] grantResults)
-//                                // to handle the case where the user grants the permission. See the documentation
-//                                // for ActivityCompat#requestPermissions for more details.
-//                                return;
-//                            }
-//                            Intent intentCalling = new Intent(Intent.ACTION_CALL);
-//                            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
-//                            startActivity(intentCalling);
-//                        }
-//                    });
-//
-//            builder.setNegativeButton(NegativeText,
-//                    new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                            if (userConstantEntity.getMangEmail() != null) {
-//                                // composeEmail(userConstantEntity.getMangEmail(), "");
-//                                shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
-//
-//                            }
-//                        }
-//                    });
-//
-//            builder.setNeutralButton(NeutralText, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            final AlertDialog dialog = builder.create();
-//            //  dialog.setCancelable(false);
-//            //  dialog.setCanceledOnTouchOutside(false);
-//
-//            dialog.show();
-//
-//            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.uvv_green));
-//            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.holo_red_dark));
-//            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.button_color));
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+            builder.setTitle(Title);
+
+            builder.setMessage(strBody);
+            String positiveText = "Call";
+            String NegativeText = "Share";
+            String NeutralText = "Cancel";
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                            Intent intentCalling = new Intent(Intent.ACTION_DIAL);
+                            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
+                            startActivity(intentCalling);
+
+                        }
+                    });
+
+            builder.setNegativeButton(NegativeText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (userConstantEntity.getMangEmail() != null) {
+                                // composeEmail(userConstantEntity.getMangEmail(), "");
+                                shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
+
+                            }
+                        }
+                    });
+
+            builder.setNeutralButton(NeutralText, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            final AlertDialog dialog = builder.create();
+            //  dialog.setCancelable(false);
+            //  dialog.setCanceledOnTouchOutside(false);
+
+            dialog.show();
+
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.uvv_green));
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.holo_red_dark));
+            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.button_color));
 
         } catch (Exception ex) {
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
