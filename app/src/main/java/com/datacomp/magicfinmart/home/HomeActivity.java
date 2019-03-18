@@ -395,7 +395,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 .putExtra("NAME", "" + "Lead DashBoard")
                                 .putExtra("TITLE", "" + "Lead DashBoard"));
                         break;
-
+                    case R.id.nav_gift:
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", "http://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()))
+                                .putExtra("NAME", "" + "Gift Voucher")
+                                .putExtra("TITLE", "" + "Gift Voucher"));
+                        break;
 
 //                    case R.id.nav_offlineQuotes:
 //                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
