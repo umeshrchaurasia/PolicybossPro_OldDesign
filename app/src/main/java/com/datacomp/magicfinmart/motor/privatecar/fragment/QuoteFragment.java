@@ -86,7 +86,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     ImageView webViewLoader;
     List<MobileAddOn> listMobileAddOn;
     //TextView tvPolicyExp, tvFuel, tvCrn;
-    TextView tvMakeModel, tvCount, tvRtoName, txtCrn;
+    TextView tvMakeModel, tvCount, tvRtoName, txtCrn,tvNote;
     //Switch swAddon;
     CheckBox chkAddon;
     TextView filter, tvWithoutAddon, tvWithAddon;
@@ -147,10 +147,13 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                     if (b) {
                         //tvWithAddon.setTextColor(getResources().getColor(R.color.colorAccent));
                         //tvWithoutAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        tvNote.setVisibility(View.VISIBLE);
                         applyAllAddon();
+
                     } else {
                         //tvWithoutAddon.setTextColor(getResources().getColor(R.color.colorAccent));
                         //tvWithAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        tvNote.setVisibility(View.GONE);
                         removeAllAddon();
                     }
                 } else {
@@ -198,6 +201,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         fabrefresh = view.findViewById(R.id.fabrefresh);
         scrollView = view.findViewById(R.id.scrollView);
         txtCrn = (TextView) view.findViewById(R.id.txtCrn);
+        tvNote = (TextView) view.findViewById(R.id.tvNote);
         bikeQuoteRecycler = (RecyclerView) view.findViewById(R.id.bikeQuoteRecycler);
         webViewLoader = (ImageView) view.findViewById(R.id.webViewLoader);
         Glide.with(this).load(R.drawable.preloader).into(webViewLoader);

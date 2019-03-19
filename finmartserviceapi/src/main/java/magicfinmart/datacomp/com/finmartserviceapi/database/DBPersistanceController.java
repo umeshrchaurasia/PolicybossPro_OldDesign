@@ -695,8 +695,10 @@ public class DBPersistanceController {
 
     public void MapInsurence() {
         hashMapInsurence = new TreeMap<String, Integer>();
+        hashMapInsurence.put("Acko", 45);
         hashMapInsurence.put("Bajaj", 1);
         hashMapInsurence.put("Bharti", 2);
+        hashMapInsurence.put("Go Digit", 44);
         hashMapInsurence.put("HDFC", 5);
         hashMapInsurence.put("ICICI", 6);
         hashMapInsurence.put("IFFCO", 7);
@@ -717,6 +719,10 @@ public class DBPersistanceController {
         hashMapInsurence.put("Future Gen", 4);
         hashMapInsurence.put("Universal Sompo", 19);
         hashMapInsurence.put("Cholamandalam", 3);
+
+
+
+
         /*
             Following not shown in FINMART
 

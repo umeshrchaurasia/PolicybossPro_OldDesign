@@ -181,6 +181,13 @@
                     android:title="Sms Templates"
                     android:visible="true" />
 
+                  <!--added temp =05-->
+                <item
+                    android:id="@+id/nav_gift"
+                    android:icon="@drawable/mps"
+                    android:orderInCategory="470"
+                    android:title="Gift Voucher"
+                    android:visible="false" />
 
             </menu>
         </item>
