@@ -68,6 +68,7 @@ import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.messagecenter.messagecenteractivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
@@ -732,6 +733,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtReferalCode.setText("Referral Code - ");
         }
         if (userConstantEntity != null) {
+
+            if(userConstantEntity.getIsactive() == 0)
+            {
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                this.finish();
+
+            }
             txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
             txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
             Glide.with(HomeActivity.this)

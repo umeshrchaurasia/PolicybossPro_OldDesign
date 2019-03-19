@@ -101,6 +101,7 @@ public class UserConstantEntity extends RealmObject {
 
 
     private String finmartwhatsappno;
+    private int isactive;
 
 
     /**
@@ -778,5 +779,11 @@ public class UserConstantEntity extends RealmObject {
         this.PBByCrnSearch = PBByCrnSearch;
     }
 
+    public int getIsactive() {
+        return isactive;
+    }
 
+    public void setIsactive(int isactive) {
+        this.isactive = isactive;
+    }
 }
