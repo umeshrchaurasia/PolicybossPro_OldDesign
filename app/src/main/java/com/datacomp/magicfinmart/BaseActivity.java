@@ -142,8 +142,9 @@ public class BaseActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        new DBPersistanceController(context).logout();
                         new PrefManager(context).clearAll();
+                        new DBPersistanceController(context).logout();
+
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
