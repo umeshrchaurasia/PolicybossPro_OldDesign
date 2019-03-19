@@ -592,7 +592,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_pospuser">ADD  SUB USER</string>
-    <string-array name="motor_subtype_new">
+    <string-array name="motor_subtype_new_test">
         <item>T.P. Only (3 Yrs)</item>
         <item>Comprehensive (1 Yr) + T.P. (2 Yrs)</item>
         <item>Comprehensive Plan (3 Yrs)</item>
