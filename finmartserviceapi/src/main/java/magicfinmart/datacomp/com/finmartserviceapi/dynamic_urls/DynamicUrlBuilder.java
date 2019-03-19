@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import java.util.Map;
 
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.Personal_bankdetailEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.personal_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
@@ -74,6 +76,10 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
 
         @POST
         Call<mybusinessResponse> getMyBusiness(@Url String strUrl, @Body HashMap<String, String> body);
+
+        @GET
+        Call<personal_bank_list_Response> getBankdetail_personalloan(@Url String strUrl);
+
 
     }
 }

@@ -58,6 +58,7 @@ public class DBPersistanceController {
     HashMap<String, String> hashMapAddons, hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
     HashMap<String, Integer> hashmapCity;
+    HashMap<String, Integer> hashmapLoanCity;
     Context mContext;
     Realm realm;
     PrefManager prefManager;
@@ -972,6 +973,9 @@ public class DBPersistanceController {
         return HealthCityName;
     }
 
+
+
+
     public void MapHealthCity() {
 
         hashmapCity.put("ADILABAD", 3);
@@ -1672,6 +1676,7 @@ public class DBPersistanceController {
     }
 
 
+
     public List<HealthSumAssured> getSumAssured() {
         List<HealthSumAssured> list = new ArrayList<HealthSumAssured>();
         list.add(new HealthSumAssured("1 LAC", 100000, false));
@@ -1688,6 +1693,28 @@ public class DBPersistanceController {
         list.add(new HealthSumAssured("100 LACS", 10000000, false));
         return list;
     }
+
+
+    //endregion
+    //region LOan City Data
+
+    public List<String> getLoanCity() {
+        hashmapCity = new HashMap<String, Integer>();
+        MapHealthCity();
+        return new ArrayList<String>(hashmapCity.keySet());
+    }
+    public int getLoanCityID(String cityName) {
+        int i=0;
+        hashmapCity = new HashMap<String, Integer>();
+        MapHealthCity();
+        if (hashmapCity.get(cityName) != null) {
+            i= hashmapCity.get(cityName);
+        } else {
+            i= 0;
+        }
+        return  i;
+    }
+
 
 
     //endregion

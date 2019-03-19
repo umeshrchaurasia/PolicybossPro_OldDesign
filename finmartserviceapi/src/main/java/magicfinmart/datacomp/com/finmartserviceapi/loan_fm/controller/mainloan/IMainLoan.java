@@ -31,4 +31,6 @@ public interface IMainLoan {
     void getdelete_personalrequest(String loan_requestID, IResponseSubcriberFM iResponseSubcriber);
 
     void getdelete_balancerequest(String BalanceTransferId, IResponseSubcriberFM iResponseSubcriber);
+
+    void getLoanApplication(int count,String type,String fbaid, IResponseSubcriberFM iResponseSubcriber);
 }

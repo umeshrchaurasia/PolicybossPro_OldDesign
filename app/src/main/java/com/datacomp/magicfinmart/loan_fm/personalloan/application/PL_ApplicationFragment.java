@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.loan_fm.personalloan.application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -16,18 +17,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.ActivityTabsPagerAdapter_PL;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanApplicationAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity;
 import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
@@ -47,7 +54,7 @@ public class PL_ApplicationFragment extends BaseFragment implements View.OnClick
     TextView tvAdd, tvSearch;
     EditText etSearch;
     boolean isHit = false;
-
+    FloatingActionButton plAddQuote;
     public PL_ApplicationFragment() {
         // Required empty public constructor
     }
@@ -147,7 +154,8 @@ public class PL_ApplicationFragment extends BaseFragment implements View.OnClick
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvApplicationList.setLayoutManager(layoutManager);
 
-
+        plAddQuote = (FloatingActionButton) view.findViewById(R.id.plAddQuote);
+        plAddQuote.setOnClickListener(this);
     }
 
     private void setListener() {
@@ -188,6 +196,14 @@ public class PL_ApplicationFragment extends BaseFragment implements View.OnClick
                     etSearch.setVisibility(View.VISIBLE);
                     etSearch.requestFocus();
                 }
+                break;
+            case R.id.plAddQuote:
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.PERSONA_LOAN), null);
+
+                MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON");
+
+                startActivity(new Intent(getActivity(), city_selecton_personalloan_Activity.class));
                 break;
         }
     }

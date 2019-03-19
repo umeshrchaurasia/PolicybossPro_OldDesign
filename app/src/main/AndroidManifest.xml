@@ -4,12 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 
     <uses-feature android:name="android.hardware.bluetooth" />
 
@@ -49,7 +47,6 @@
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".broadcast.UpdateAppBroadCastReceiver">
             <intent-filter android:priority="5823">
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
@@ -1218,12 +1215,42 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.ultralaksha.ultra_selection.UltraLakshaSelectionActivity" />
         </activity>
-        <activity android:name=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
+        <activity
+            android:name=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
             android:label="Personl Loan"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" ></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity" />
+        </activity>
+        <activity
+            android:name=".loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity"
+            android:label="Personl Loan"
+            android:parentActivityName=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity" />
+        </activity>
+
+        <activity
+            android:name=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
+            android:label="@string/title_activity_personal_loan_apply"
+            android:parentActivityName=".loan_fm.personalloan.PersonalLoanDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity" />
+        </activity>
+
+
     </application>
 
 </manifest>

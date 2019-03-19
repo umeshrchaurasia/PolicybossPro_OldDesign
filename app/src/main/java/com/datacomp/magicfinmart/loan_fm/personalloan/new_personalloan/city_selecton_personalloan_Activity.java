@@ -1,6 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -34,13 +34,13 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_city_selecton_personalloan_);
+        setContentView(R.layout.activity_city_selecton_personalloan);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         databaseController = new DBPersistanceController(city_selecton_personalloan_Activity.this);
-        cityList = databaseController.getHealthCity();
+        cityList = databaseController.getLoanCity();
 
         acCity = (AutoCompleteTextView)findViewById(R.id.acCity);
         acCity.setOnFocusChangeListener(acCityFocusChange);
@@ -56,6 +56,81 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
 
         btnNEXT = (Button) findViewById(R.id.btnNEXT);
         btnNEXT.setOnClickListener(this);
+
+        cvMUMBAI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","677")
+                );
+            }
+        });
+        cvDELHI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","1171")
+                );
+            }
+        });
+        cvBangalore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","93")
+                );
+            }
+        });
+        cvhyderabad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","404")
+                );
+            }
+        });
+        cvAhamadabad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","9")
+                );
+            }
+        });
+        cvKolkata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","550")
+                );
+            }
+        });
+        cvCHENNAI.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","196")
+                );
+            }
+        });
+        cvPUNE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","828")
+                );
+            }
+        });
+
+        cvJAIPUR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id","419")
+                );
+            }
+        });
 
         loadSpinner();
     }
@@ -96,12 +171,21 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
     }
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnGetQuote) {
+        if (v.getId() == R.id.btnNEXT) {
             if (acCity.getText().toString().equals("") || acCity.getText().toString().length() == 0) {
                 acCity.setError("Please Enter city.");
                 acCity.requestFocus();
                 return;
             }
+            int city_id = databaseController.getLoanCityID(acCity.getText().toString().toUpperCase());
+
+        //    startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class));
+
+            startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                    .putExtra("city_id",String.valueOf( city_id ))
+                  );
         }
+
+
     }
 }

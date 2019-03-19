@@ -34,4 +34,7 @@ public interface IDynamic {
 
     //My Business
     void getMyBusiness(String id,IResponseSubcriber iResponseSubcriber);
+
+    //Personal loan
+    void getBankdetail_personalloan(String cityid,IResponseSubcriber iResponseSubcriber);
 }
