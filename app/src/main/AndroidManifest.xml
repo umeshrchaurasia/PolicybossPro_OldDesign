@@ -116,6 +116,7 @@
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
+
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".login.LoginActivity"
@@ -1217,7 +1218,7 @@
         </activity>
         <activity
             android:name=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
-            android:label="Personl Loan"
+            android:label="Personal Loan"
             android:parentActivityName=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"

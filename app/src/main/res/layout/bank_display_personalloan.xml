@@ -209,7 +209,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="5dp"
                         android:paddingLeft="10dp"
-                        android:text="ROI: "
+                        android:text="BEST ROI: "
                         android:textAppearance="@style/TextViewStyle.Medium"
                         android:textColor="@color/black" />
 
