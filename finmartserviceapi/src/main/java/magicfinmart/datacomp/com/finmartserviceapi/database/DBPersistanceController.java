@@ -1497,7 +1497,8 @@ public class DBPersistanceController {
         hashmapCity.put("SEOHAR", 1168);
         hashmapCity.put("BHILAI", 1169);
         hashmapCity.put("DAMAN & DIU", 1170);
-        hashmapCity.put("NEW DELHI", 1171);
+        hashmapCity.put("NEW DELHI", 729);
+        hashmapCity.put("DELHI", 252);
         hashmapCity.put("GOA", 1172);
         hashmapCity.put("AMRELA", 1173);
         hashmapCity.put("DANGS", 1174);

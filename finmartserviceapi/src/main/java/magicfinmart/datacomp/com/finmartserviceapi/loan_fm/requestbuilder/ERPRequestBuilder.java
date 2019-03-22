@@ -9,6 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveRespo
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GenerateHLLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LeadResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LoanCityResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder.ERPRetroRequestBuilder;
@@ -54,6 +55,8 @@ public class ERPRequestBuilder extends ERPRetroRequestBuilder {
         @POST("/LoginDtls.svc/XMLService/genrateLeadFrmHLAppln")
         Call<GenerateHLLeadResponse> generateLead(@Body HomeLoanApplyRequestEntity body);
 
+        @POST("/LoginDtls.svc/XMLService/dsplyCityDtls")
+        Call<LoanCityResponse> getcityloan();
 
     }
 }

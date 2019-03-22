@@ -163,8 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="gone"
-                >
+                android:visibility="visible">
 
 
                 <LinearLayout
@@ -335,6 +334,7 @@
 
                         android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -390,6 +390,7 @@
 
                         android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -417,8 +418,9 @@
 
                         android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="horizontal"
@@ -427,15 +429,86 @@
 
 
                     <TextView
-                        android:id="@+id/tvPrepayment"
+                        android:id="@+id/tvCibilscore1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="5dp"
                         android:paddingLeft="10dp"
+                        android:text="Minimum Cibil score: "
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvCibilscore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
                         android:textAppearance="@style/TextViewStyle.Medium"
 
                         android:textStyle="bold" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/lightGrey"
+                    android:orientation="horizontal"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp">
+
+
+                    <TextView
+                        android:id="@+id/tvForeclosure1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="10dp"
+                        android:text="Foreclosure charges: "
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvForeclosure"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp">
+
+
+                    <TextView
+                        android:id="@+id/tvPrepayment1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:paddingLeft="10dp"
+                        android:text="Prepayment: "
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvPrepayment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+
                 <LinearLayout
                     android:id="@+id/llbacklist"
                     android:layout_width="match_parent"

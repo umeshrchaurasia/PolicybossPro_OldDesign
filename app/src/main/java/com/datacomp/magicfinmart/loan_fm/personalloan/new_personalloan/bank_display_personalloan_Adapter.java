@@ -54,7 +54,10 @@ public class bank_display_personalloan_Adapter  extends RecyclerView.Adapter<ban
         holder.tvminSalary.setText(""+quoteEntity.getMin_Salary());
         holder.tvWorkExperence.setText(""+quoteEntity.getMin_Work_Exp());
         holder.tvProcessingFees.setText(""+quoteEntity.getProcessing_Fees());
-        holder.tvPrepayment.setText("Prepayment/ Foreclosure charges: "+quoteEntity.getPrepayment_charges());
+        holder.tvPrepayment.setText(""+quoteEntity.getPrepayment_charges());
+
+        holder.tvCibilscore.setText(""+quoteEntity.getMin_Cibil_Score());
+        holder.tvForeclosure.setText(""+quoteEntity.getForeclosure_charges());
 
         Glide.with(mContext)
                 .load(quoteEntity.getBank_URL())
@@ -115,12 +118,15 @@ public class bank_display_personalloan_Adapter  extends RecyclerView.Adapter<ban
         TextView tvBankName, btnreadterm, btnApply,
                 tvsegment, tvroi, tvPer_Lac_EMI,tvLoanAmount,
                 tvTenure,tvAge,tvminSalary,tvWorkExperence,
-                tvProcessingFees,tvPrepayment;
+                tvProcessingFees,tvPrepayment,tvCibilscore,tvForeclosure;
         ImageView ivBankLogo,ivArrow,ivcloseArrow;
         LinearLayout llbtnreadterms,llbtnApply,rvhlknowmore,llbacklist;
 
         public PLQuotesItem(View itemView) {
             super(itemView);
+
+            tvCibilscore = (TextView) itemView.findViewById(R.id.tvCibilscore);
+            tvForeclosure = (TextView) itemView.findViewById(R.id.tvForeclosure);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
             btnreadterm = (TextView) itemView.findViewById(R.id.btnreadterm);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
