@@ -825,16 +825,19 @@ public class DBPersistanceController {
 
     public void storeUserData(LoginResponseEntity loginResponseEntity) {
         realm.beginTransaction();
+        realm.delete(LoginResponseEntity.class);
         realm.copyToRealmOrUpdate(loginResponseEntity);
         realm.commitTransaction();
     }
 
     public void logout() {
         realm.beginTransaction();
-        realm.delete(LoginResponseEntity.class);
-        realm.delete(AccountDtlEntity.class);
-        realm.delete(DocsEntity.class);
-        realm.delete(UserConstantEntity.class);
+//        realm.delete(LoginResponseEntity.class);
+//        realm.delete(AccountDtlEntity.class);
+//        realm.delete(DocsEntity.class);
+//        realm.delete(UserConstantEntity.class);
+
+        realm.deleteAll();
         realm.commitTransaction();
     }
 
@@ -1721,6 +1724,7 @@ public class DBPersistanceController {
         }
         return  i;
     }
+
 
 
 

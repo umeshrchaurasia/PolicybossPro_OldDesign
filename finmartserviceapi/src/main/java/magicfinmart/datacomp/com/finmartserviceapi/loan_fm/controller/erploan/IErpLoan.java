@@ -29,5 +29,5 @@ public interface IErpLoan {
 
     void generateLead(HomeLoanApplyRequestEntity homeLoanApplyRequestEntity, IResponseSubcriberERP iResponseSubcriber);
 
-    void getcityloan(IResponseSubcriberERP iResponseSubcriber);
+    void getcityloan(IResponseSubcriberERP iResponseSubcriber );
 }

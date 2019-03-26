@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setListener();
         realm = Realm.getDefaultInstance();
         prefManager = new PrefManager(this);
-        prefManager.clearAll();
+
 
         if (!checkPermission()) {
             requestPermission();

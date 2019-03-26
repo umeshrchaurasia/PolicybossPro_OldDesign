@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -12,14 +13,21 @@ import android.widget.ListAdapter;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.MakeCityAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.database.LoanCityFacade;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanCityEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LoanCityResponse;
 
-public class city_selecton_personalloan_Activity extends BaseActivity implements View.OnClickListener {
+public class city_selecton_personalloan_Activity extends BaseActivity implements View.OnClickListener ,IResponseSubcriberERP {
 
 
     AutoCompleteTextView acCity;
@@ -30,6 +38,10 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
     ArrayList<String> arrayNewLoan, arrayPreferedCity;
 
     ArrayAdapter<String> preferedCityAdapter;
+    MakeCityAdapter makeCityAdapter;
+    LoanCityFacade loanCityFacade;
+    boolean IsCityValid = false;
+    LoanCityEntity loanCityEntity;
     CardView cvMUMBAI,cvDELHI,cvBangalore,cvhyderabad,cvAhamadabad,cvKolkata,cvCHENNAI,cvPUNE,cvJAIPUR;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +53,8 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         databaseController = new DBPersistanceController(city_selecton_personalloan_Activity.this);
         cityList = databaseController.getLoanCity();
-
+        loanCityFacade = new  LoanCityFacade(this);
+        IsCityValid = false;
         acCity = (AutoCompleteTextView)findViewById(R.id.acCity);
         acCity.setOnFocusChangeListener(acCityFocusChange);
         cvMUMBAI=(CardView)findViewById(R.id.cvMUMBAI) ;
@@ -57,6 +70,7 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
         btnNEXT = (Button) findViewById(R.id.btnNEXT);
         btnNEXT.setOnClickListener(this);
 
+
         cvMUMBAI.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +83,7 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
-                        .putExtra("city_id","1171")
+                        .putExtra("city_id","252")
                 );
             }
         });
@@ -132,7 +146,26 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
             }
         });
 
-        loadSpinner();
+
+        acCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                IsCityValid = true;
+                acCity.setError(null);
+                loanCityEntity   = makeCityAdapter.getItem(position);
+                acCity.setSelection(0);
+            }
+        });
+       // loadSpinner();
+
+        if(loanCityFacade.getLoanCity() == null) {
+            showDialog();
+            new ErpLoanController(this).getcityloan(this);
+        }else{
+            loadSpinner(loanCityFacade.getLoanCity());
+        }
+
     }
     View.OnFocusChangeListener acCityFocusChange = new View.OnFocusChangeListener() {
         @Override
@@ -160,12 +193,34 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
 
 
         //region Preferred City Adapter
-        arrayPreferedCity = new ArrayList<String>();
-        preferedCityAdapter = new ArrayAdapter<String>(city_selecton_personalloan_Activity.this,
-                android.R.layout.simple_list_item_1, cityList);
+//        arrayPreferedCity = new ArrayList<String>();
+//        preferedCityAdapter = new ArrayAdapter<String>(city_selecton_personalloan_Activity.this,
+//                android.R.layout.simple_list_item_1, cityList);
+//
+//        acCity.setAdapter(preferedCityAdapter);
+//        acCity.setThreshold(1);
 
-        acCity.setAdapter(preferedCityAdapter);
-        acCity.setThreshold(1);
+        if(loanCityFacade.getLoanCity() != null) {
+
+            makeCityAdapter = new MakeCityAdapter(this, R.layout.activity_city_selecton_personalloan, R.id.lbl_name, loanCityFacade.getLoanCity());
+            acCity.setAdapter(makeCityAdapter);
+            acCity.setThreshold(1);
+        }
+
+        //endregion
+
+    }
+
+    private void loadSpinner(List<LoanCityEntity> loanCity) {
+
+
+        if(loanCityFacade.getLoanCity() != null) {
+
+            makeCityAdapter = new MakeCityAdapter(this, R.layout.activity_city_selecton_personalloan, R.id.lbl_name, loanCity);
+            acCity.setAdapter(makeCityAdapter);
+            acCity.setThreshold(1);
+        }
+
         //endregion
 
     }
@@ -177,15 +232,40 @@ public class city_selecton_personalloan_Activity extends BaseActivity implements
                 acCity.requestFocus();
                 return;
             }
-            int city_id = databaseController.getLoanCityID(acCity.getText().toString().toUpperCase());
+            if(IsCityValid == false)
+            {
+                acCity.setError("Please Enter Valid City.");
+                acCity.requestFocus();
+                return;
+            }
 
-        //    startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class));
+       //     int city_id = databaseController.getLoanCityID(acCity.getText().toString().toUpperCase());
 
-            startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
-                    .putExtra("city_id",String.valueOf( city_id ))
-                  );
+            if(loanCityEntity != null){
+
+                startActivity(new Intent(city_selecton_personalloan_Activity.this, bank_selection_personalloanActivity.class)
+                        .putExtra("city_id", String.valueOf(loanCityEntity.getCityId()))
+                );
+            }
         }
 
 
+    }
+
+
+    @Override
+    public void OnSuccessERP(APIResponseERP response, String message) {
+
+        cancelDialog();
+        if(response instanceof  LoanCityResponse)
+        {
+
+            loadSpinner(((LoanCityResponse) response).getResult().getLstCity());
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
     }
 }

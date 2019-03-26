@@ -1229,7 +1229,7 @@
         </activity>
         <activity
             android:name=".loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity"
-            android:label="Personl Loan"
+            android:label="Personal Loan"
             android:parentActivityName=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"

@@ -12,6 +12,6 @@
         android:singleLine="true"
         android:textAllCaps="true"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@color/textTitle" />
+        android:textColor="@color/black" />
 
 </LinearLayout>

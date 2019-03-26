@@ -15,18 +15,19 @@ import com.datacomp.magicfinmart.utility.AsyncUserBehaviour;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.LoanCityFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
 
 public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber,
         magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber {
@@ -44,6 +45,12 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
+
+        if(new LoanCityFacade(this) != null) {
+            if (new LoanCityFacade(this).getLoanCity() == null) {
+                new ErpLoanController(this).getcityloan(null);
+            }
+        }
 
 
         // for user constant
@@ -142,6 +149,8 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             Log.d("Test", "success");
         }
     }
+
+
 
     @Override
     public void OnFailure(Throwable t) {

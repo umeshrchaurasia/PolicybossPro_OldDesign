@@ -339,6 +339,13 @@ public class PrefManager {
 
     // region delete Share Data
 
+    public void clearUser() {
+
+        editor.clear().commit();
+
+
+    }
+
     public void clearAll() {
 
         String strToken = getToken();

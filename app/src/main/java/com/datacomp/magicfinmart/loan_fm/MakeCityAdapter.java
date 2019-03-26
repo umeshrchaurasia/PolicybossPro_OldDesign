@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.TextView;
 
+import com.datacomp.magicfinmart.R;
+
 import java.util.ArrayList;
 import java.util.List;
 

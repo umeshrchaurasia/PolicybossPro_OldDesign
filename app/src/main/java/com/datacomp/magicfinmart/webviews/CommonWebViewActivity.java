@@ -28,6 +28,8 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
@@ -287,6 +289,13 @@ public class CommonWebViewActivity extends BaseActivity {
 //                    .putExtra("URL", url)
 //                    .putExtra("NAME", "FREE CREDIT REPORT")
 //                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
+        }
+        @JavascriptInterface
+        public void redirectpersonalloan() {//Android.RedirectToHomepage();
+            Intent intent = new Intent(CommonWebViewActivity.this, NewPersonalApplicaionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
     }
 
