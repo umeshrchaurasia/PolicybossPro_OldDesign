@@ -12,6 +12,16 @@ public class PageTwoStandAloneList {
     private String Monthlyterm;
     private String MonthlytermValue;
     private String MaturityDateValue;
+    private String PremTerm;
+
+    public String getPremTerm() {
+        return PremTerm;
+    }
+
+    public void setPremTerm(String premTerm) {
+        PremTerm = premTerm;
+    }
+
 
     public String getAnnualPremiumFirstYr() {
         return AnnualPremiumFirstYr;

@@ -895,7 +895,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
                     mainScroll.scrollTo(0, mainScroll.getBottom());
 
-                    txtAnnualPremiumDisplay.setText("ANNUAL PREMIUM on " + etSumICICIAssured.getText().toString() + " SA");
+                    txtAnnualPremiumDisplay.setText( spICICIPremiumFrequency.getSelectedItem() +" PREMIUM ON " + etSumICICIAssured.getText().toString() + " SA");
                     lyAnnualPremium.setVisibility(View.VISIBLE);
                     lySeekbar.setVisibility(View.GONE);
                     btnGetQuote.setVisibility(View.VISIBLE);
@@ -923,6 +923,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
                     entity.setLicGst1(reqentity.getLicGst1());
                     entity.setLicGst2(reqentity.getLicGst2());
+                    entity.setPremTermText(reqentity.getPremTermText());
 
                     new TermInsuranceController(getActivity()).getIllustration(entity, this);
 

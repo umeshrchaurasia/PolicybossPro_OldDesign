@@ -216,7 +216,7 @@
                             style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1st Year Premium: "
+                            android:text="Premium Year 1: "
                             android:textColor="@color/black" />
 
                         <TextView
@@ -239,7 +239,7 @@
                             style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Renewal Premium: "
+                            android:text="Premium Year 2: "
 
                             android:textColor="@color/black" />
 
@@ -296,7 +296,7 @@
                             style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1st Year Premium: "
+                            android:text="Premium Year 1: "
                             android:textColor="@color/black" />
 
                         <TextView
@@ -320,7 +320,7 @@
                             style="@style/TextViewStyle.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Renewal Premium: "
+                            android:text="Premium Year 2: "
                             android:textColor="@color/black" />
 
                         <TextView
