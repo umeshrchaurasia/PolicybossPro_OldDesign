@@ -72,11 +72,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txtPremTerm"
                         style="@style/TextViewStyle.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elevation="2dp"
-                        android:text="Annual Premium"
+                        android:text=""
                         android:textColor="@color/white" />
 
                     <LinearLayout

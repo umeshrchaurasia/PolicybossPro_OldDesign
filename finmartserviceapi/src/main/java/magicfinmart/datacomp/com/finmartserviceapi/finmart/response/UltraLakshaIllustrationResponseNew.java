@@ -253,6 +253,15 @@ public class UltraLakshaIllustrationResponseNew extends APIResponse {
             private String Monthlyterm;
             private String MonthlytermValue;
             private String MaturityDateValue;
+            private String PremTerm;
+
+            public String getPremTerm() {
+                return PremTerm;
+            }
+
+            public void setPremTerm(String premTerm) {
+                PremTerm = premTerm;
+            }
 
             public String getAnnualPremiumFirstYr() {
                 return AnnualPremiumFirstYr;
@@ -349,6 +358,15 @@ public class UltraLakshaIllustrationResponseNew extends APIResponse {
             private String Monthlyterm;
             private String MonthlytermValue;
             private String MaturityDateValue;
+            private String PremTerm;
+
+            public String getPremTerm() {
+                return PremTerm;
+            }
+
+            public void setPremTerm(String premTerm) {
+                PremTerm = premTerm;
+            }
 
             public String getAnnualPremiumFirstYr() {
                 return AnnualPremiumFirstYr;
@@ -459,7 +477,55 @@ public class UltraLakshaIllustrationResponseNew extends APIResponse {
             private String HdfcYears;
             private String TotalOne;
             private String TotalTwo;
+            private String PremTerm;
 
+            private String lblPremiumYear;
+            private String lblPremiumOtherYear;
+
+            private String lblPremiumTotalYear;
+            private String lblPremiumOtherTotalYear;
+
+
+            public String getLblPremiumYear() {
+                return lblPremiumYear;
+            }
+
+            public void setLblPremiumYear(String lblPremiumYear) {
+                this.lblPremiumYear = lblPremiumYear;
+            }
+
+            public String getLblPremiumOtherYear() {
+                return lblPremiumOtherYear;
+            }
+
+            public void setLblPremiumOtherYear(String lblPremiumOtherYear) {
+                this.lblPremiumOtherYear = lblPremiumOtherYear;
+            }
+
+            public String getLblPremiumTotalYear() {
+                return lblPremiumTotalYear;
+            }
+
+            public void setLblPremiumTotalYear(String lblPremiumTotalYear) {
+                this.lblPremiumTotalYear = lblPremiumTotalYear;
+            }
+
+            public String getLblPremiumOtherTotalYear() {
+                return lblPremiumOtherTotalYear;
+            }
+
+            public void setLblPremiumOtherTotalYear(String lblPremiumOtherTotalYear) {
+                this.lblPremiumOtherTotalYear = lblPremiumOtherTotalYear;
+            }
+
+
+            public String getPremTerm() {
+                return PremTerm;
+            }
+
+            public void setPremTerm(String premTerm) {
+                PremTerm = premTerm;
+            }
             public String getLicTerm() {
                 return LicTerm;
             }

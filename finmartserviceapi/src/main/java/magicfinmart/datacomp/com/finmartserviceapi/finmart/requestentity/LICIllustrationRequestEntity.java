@@ -34,6 +34,9 @@ public class LICIllustrationRequestEntity {
     private long hdfcGst2;
     private long licGst1;
     private long licGst2;
+    private String  PremTermText;
+
+
 
 
 
@@ -50,6 +53,15 @@ public class LICIllustrationRequestEntity {
         this.hdfcGst2 = 0;
         this.licGst1 = 0;
         this.licGst2 = 0;
+        this.PremTermText = "";
+    }
+
+    public String getPremTermText() {
+        return PremTermText;
+    }
+
+    public void setPremTermText(String premTermText) {
+        PremTermText = premTermText;
     }
 
     public String getPlanTerm() {

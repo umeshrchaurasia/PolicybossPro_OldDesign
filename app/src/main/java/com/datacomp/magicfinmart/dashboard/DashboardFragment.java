@@ -27,7 +27,6 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
@@ -42,12 +41,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 
 
 /**
@@ -110,9 +110,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        mAdapter = new DashboardRowAdapter(DashboardFragment.this);
-        this.rvHome.setAdapter(mAdapter);
-        //new MasterController(getActivity()).getConstants(this);
+//        mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+//        this.rvHome.setAdapter(mAdapter);
+
+        showDialog();
+        new MasterController(getActivity()).geUserConstantSync(this);
 
         //send user behaviour
         if (!prefManager.isUserBehaviourSave())
@@ -182,6 +184,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
@@ -210,6 +213,12 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 //endregion
                 // if (getActivity() != null)
                 //     ((HomeActivity) getActivity()).hideNavigationItem();
+            }
+        } else if (response instanceof UserConstatntResponse) {
+            if (response.getStatusNo() == 0) {
+
+                mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+                this.rvHome.setAdapter(mAdapter);
             }
         }
 

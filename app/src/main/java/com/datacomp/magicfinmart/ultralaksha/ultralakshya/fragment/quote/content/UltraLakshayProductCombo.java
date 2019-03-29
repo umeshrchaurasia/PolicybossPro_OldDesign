@@ -31,7 +31,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
     TextView  txtLicTerm ,txtLicPPT ,txtLicMode ,txtLicSum ,txtOtherYear,
             txtLicPremYearOne,txtLicPremOtherYears,
             txtHdfcTerm,txtHdfcPPT,txtHdfcMode,txtHdfcSum,txtHdfcPremYearOne,txtHdfcPremOtherYears,
-            txtTotalOne,txtTotalTwo;
+            txtTotalOne,txtTotalTwo ,lblPremiumYear ,lblPremiumOtherYear ,lblPremiumTotalYear,lblPremiumOtherTotalYear;
 
     ImageView imgBuyNowHDFC;
 
@@ -64,7 +64,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
         txtLicMode = view.findViewById(R.id.txtLicMode);
 
         txtLicSum = view.findViewById(R.id.txtLicSum);
-        txtOtherYear = view.findViewById(R.id.txtOtherYear);
+
 
         txtLicPremYearOne = view.findViewById(R.id.txtLicPremYearOne);
         txtLicPremOtherYears = view.findViewById(R.id.txtLicPremOtherYears);
@@ -81,6 +81,13 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
         txtTotalOne = view.findViewById(R.id.txtTotalOne);
         txtTotalTwo = view.findViewById(R.id.txtTotalTwo);
+
+        //lblPremiumYear ,lblPremiumOtherYear ,lblPremiumTotalYear,lblPremiumOtherTotalYear;
+        lblPremiumYear = view.findViewById(R.id.lblPremiumYear);
+        lblPremiumOtherYear = view.findViewById(R.id.lblPremiumOtherYear);
+
+        lblPremiumTotalYear = view.findViewById(R.id.lblPremiumTotalYear);
+        lblPremiumOtherTotalYear = view.findViewById(R.id.lblPremiumOtherTotalYear);
 
     }
 
@@ -117,6 +124,16 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
             txtTotalOne.setText(""+getNumbeFormatComma(objComboEntity.getTotalOne()));
             txtTotalTwo.setText(""+getNumbeFormatComma(objComboEntity.getTotalTwo()));
+
+
+            lblPremiumYear.setText("" +(objComboEntity.getLblPremiumYear()));
+            lblPremiumOtherYear.setText("" +(objComboEntity.getLblPremiumOtherYear()));
+
+            lblPremiumTotalYear.setText("" +(objComboEntity.getLblPremiumTotalYear()));
+            lblPremiumOtherTotalYear.setText("" +(objComboEntity.getLblPremiumOtherTotalYear()));
+
+
+
         }
     }
 

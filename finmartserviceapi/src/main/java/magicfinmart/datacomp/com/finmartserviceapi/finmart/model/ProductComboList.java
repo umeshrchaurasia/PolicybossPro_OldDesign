@@ -18,6 +18,16 @@ public class ProductComboList {
     private String HdfcYears;
     private String TotalOne;
     private String TotalTwo;
+    private String PremTerm;
+
+    public String getPremTerm() {
+        return PremTerm;
+    }
+
+    public void setPremTerm(String premTerm) {
+        PremTerm = premTerm;
+    }
+
 
     public String getLicTerm() {
         return LicTerm;

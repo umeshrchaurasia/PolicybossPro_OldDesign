@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.home;
 
-import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,7 +19,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
@@ -54,7 +52,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
-import com.datacomp.magicfinmart.crnpolicy.crnpolicyActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -140,8 +137,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     MenuMasterResponse menuMasterResponse;
     AlertDialog finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
-
-
 
 
     //region broadcast receiver
@@ -338,7 +333,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                     case R.id.nav_insert_contact:
-                      //  startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
+                        //  startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
 
                         break;
                     case R.id.nav_sharedata:
@@ -376,16 +371,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        break;
 
                     case R.id.nav_crnpolicy:
-                      //  startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+                        //  startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
 
-                        if(userConstantEntity != null && userConstantEntity.getPBByCrnSearch()!= null && !userConstantEntity.getPBByCrnSearch().equalsIgnoreCase("") ) {
+                        if (userConstantEntity != null && userConstantEntity.getPBByCrnSearch() != null && !userConstantEntity.getPBByCrnSearch().equalsIgnoreCase("")) {
 
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                     .putExtra("URL", userConstantEntity.getPBByCrnSearch())
                                     .putExtra("NAME", "" + "Search CRN")
                                     .putExtra("TITLE", "" + "Search CRN"));
-                        }else{
-                          Toast.makeText(HomeActivity.this,"Please contact to your RM" ,Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(HomeActivity.this, "Please contact to your RM", Toast.LENGTH_SHORT).show();
                         }
                         break;
 
@@ -1992,10 +1987,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
 
-
-
     }
-
 
 
 }

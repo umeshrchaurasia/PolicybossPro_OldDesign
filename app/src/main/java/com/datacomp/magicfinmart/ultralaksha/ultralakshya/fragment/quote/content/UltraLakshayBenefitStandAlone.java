@@ -27,7 +27,7 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
             txtMaturityAfterYearText,txtMaturityAfterYearAmnt,
             txtLumpsumAmnt ,txtAnnualEndOfTermAmnt,
             txtMonthlyforYearText ,txtMonthlyforYearAmnt,
-            txtOnMaturityDateAmnt;
+            txtOnMaturityDateAmnt,txtPremTerm;
 
     UltraLakshaFacade ultraLakshaFacade;
 
@@ -65,6 +65,7 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
         txtMonthlyforYearAmnt = view.findViewById(R.id.txtMonthlyforYearAmnt);
 
         txtOnMaturityDateAmnt = view.findViewById(R.id.txtOnMaturityDateAmnt);
+        txtPremTerm = view.findViewById(R.id.txtPremTerm);
 
     }
 
@@ -90,7 +91,7 @@ public class UltraLakshayBenefitStandAlone extends BaseFragment {
             txtMonthlyforYearAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getMonthlytermValue()));
 
             txtOnMaturityDateAmnt.setText(""+getNumbeFormatCommaRuppee(objStandAlone.getMaturityDateValue()));
-
+            txtPremTerm.setText(""+(objStandAlone.getPremTerm()));
         }
 
     }
