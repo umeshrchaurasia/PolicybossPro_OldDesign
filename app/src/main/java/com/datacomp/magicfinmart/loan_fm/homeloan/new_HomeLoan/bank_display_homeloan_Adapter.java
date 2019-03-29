@@ -11,11 +11,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity;
+
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.Personal_bankdetailEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.Home_bankdetailEntity;
+
 
 /**
  * Created by IN-RB on 13-03-2019.
@@ -23,11 +24,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.Personal_b
 
 public class bank_display_homeloan_Adapter extends RecyclerView.Adapter<bank_display_homeloan_Adapter.PLQuotesItem>{
     Activity mContext;
-    List<Personal_bankdetailEntity> quoteEntities;
+    List<Home_bankdetailEntity> quoteEntities;
     boolean isclick = false;
 
     //bank_display_personalloan.xml
-    public bank_display_homeloan_Adapter(Activity mContext, List<Personal_bankdetailEntity> quoteEntities) {
+    public bank_display_homeloan_Adapter(Activity mContext, List<Home_bankdetailEntity> quoteEntities) {
         this.mContext = mContext;
         this.quoteEntities = quoteEntities;
     }
@@ -42,7 +43,7 @@ public class bank_display_homeloan_Adapter extends RecyclerView.Adapter<bank_dis
 
     @Override
     public void onBindViewHolder(final bank_display_homeloan_Adapter.PLQuotesItem holder, final int position) {
-        final Personal_bankdetailEntity quoteEntity = quoteEntities.get(position);
+        final Home_bankdetailEntity quoteEntity = quoteEntities.get(position);
         holder.tvsegment.setText(""+quoteEntity.getSeqment());
         holder.tvroi.setText(""+quoteEntity.getBest_ROI());
         holder.tvPer_Lac_EMI.setText(""+quoteEntity.getPer_Lac_EMI());
@@ -53,7 +54,10 @@ public class bank_display_homeloan_Adapter extends RecyclerView.Adapter<bank_dis
         holder.tvminSalary.setText(""+quoteEntity.getMin_Salary());
         holder.tvWorkExperence.setText(""+quoteEntity.getMin_Work_Exp());
         holder.tvProcessingFees.setText(""+quoteEntity.getProcessing_Fees());
-        holder.tvPrepayment.setText("Prepayment/ Foreclosure charges: "+quoteEntity.getPrepayment_charges());
+        holder.tvPrepayment.setText(""+quoteEntity.getPrepayment_charges());
+
+        holder.tvCibilscore.setText(""+quoteEntity.getMin_Cibil_Score());
+        holder.tvForeclosure.setText(""+quoteEntity.getForeclosure_charges());
 
         Glide.with(mContext)
                 .load(quoteEntity.getBank_URL())
@@ -67,7 +71,7 @@ public class bank_display_homeloan_Adapter extends RecyclerView.Adapter<bank_dis
             @Override
             public void onClick(View v) {
 
-                ((bank_selection_personalloanActivity)mContext).redirectToApplyBank(quoteEntity);
+                ((bank_selection_homeloanActivity)mContext).redirectToApplyBank(quoteEntity);
             }
         });
         holder.ivArrow.setOnClickListener(new View.OnClickListener() {
@@ -114,12 +118,15 @@ public class bank_display_homeloan_Adapter extends RecyclerView.Adapter<bank_dis
         TextView tvBankName, btnreadterm, btnApply,
                 tvsegment, tvroi, tvPer_Lac_EMI,tvLoanAmount,
                 tvTenure,tvAge,tvminSalary,tvWorkExperence,
-                tvProcessingFees,tvPrepayment;
+                tvProcessingFees,tvPrepayment,tvCibilscore,tvForeclosure;
         ImageView ivBankLogo,ivArrow,ivcloseArrow;
         LinearLayout llbtnreadterms,llbtnApply,rvhlknowmore,llbacklist;
 
         public PLQuotesItem(View itemView) {
             super(itemView);
+
+            tvCibilscore = (TextView) itemView.findViewById(R.id.tvCibilscore);
+            tvForeclosure = (TextView) itemView.findViewById(R.id.tvForeclosure);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
             btnreadterm = (TextView) itemView.findViewById(R.id.btnreadterm);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);

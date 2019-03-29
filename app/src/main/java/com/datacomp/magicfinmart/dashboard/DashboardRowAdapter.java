@@ -19,6 +19,7 @@ import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
@@ -298,7 +299,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 4:
                 //home loan
-                mContext.startActivity(new Intent(mContext, HomeLoanDetailActivity.class));
+                mContext.startActivity(new Intent(mContext, city_selecton_homeloan_Activity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;

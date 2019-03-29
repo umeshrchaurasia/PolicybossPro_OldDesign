@@ -72,7 +72,7 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
         dbPersistanceController = new DBPersistanceController(bank_selection_personalloanActivity.this);
         loginResponseEntity = dbPersistanceController.getUserData();
         showDialog();
-       new DynamicController(bank_selection_personalloanActivity.this).getBankdetail_personalloan(Cityid,bank_selection_personalloanActivity.this);
+       new DynamicController(bank_selection_personalloanActivity.this).getBankdetail_personalloan(Cityid,"9",bank_selection_personalloanActivity.this);
     }
 
     @Override
