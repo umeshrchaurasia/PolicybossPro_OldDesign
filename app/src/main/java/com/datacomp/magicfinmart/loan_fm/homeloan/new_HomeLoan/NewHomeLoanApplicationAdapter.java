@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
+
 
 import java.text.ParseException;
 import java.util.List;
@@ -87,7 +87,7 @@ public class NewHomeLoanApplicationAdapter extends RecyclerView.Adapter<NewHomeL
 
                     }else{
 
-                        ((NewPersonalApplicaionActivity) mContext).redirectPersonalLoanApply(entity);
+                        ((NewHomeApplicaionActivity) mContext).redirectPersonalLoanApply(entity);
 
                     }
 
