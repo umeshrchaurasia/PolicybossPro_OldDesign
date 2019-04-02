@@ -288,13 +288,13 @@
                                 android:layout_width="60dp"
                                 android:layout_height="60dp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/business_loan_ic" />
+                                android:src="@drawable/loan_against_property" />
 
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Business Loan"
+                                android:text="Loan Against Property"
                                 android:textColor="@color/black" />
 
                         </LinearLayout>

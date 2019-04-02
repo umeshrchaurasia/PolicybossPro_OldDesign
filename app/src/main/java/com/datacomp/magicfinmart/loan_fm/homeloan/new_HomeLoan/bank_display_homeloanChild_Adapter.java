@@ -1,7 +1,6 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan;
+package com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +14,6 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.Personal_bankdetailEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.personal_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCityBankdetailEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCitywiseBankLoanEntity;
 
@@ -24,31 +21,28 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCitywiseBank
  * Created by IN-RB on 13-03-2019.
  */
 
-public class bank_display_personalloan_Adapter  extends RecyclerView.Adapter<bank_display_personalloan_Adapter.PLQuotesItem>{
+public class bank_display_homeloanChild_Adapter extends RecyclerView.Adapter<bank_display_homeloanChild_Adapter.PLQuotesItem>{
     Activity mContext;
-    List<LstCitywiseBankLoanEntity> quoteEntities;
+    List<LstCityBankdetailEntity> quoteEntities;
     boolean isclick = false;
 
     //bank_display_personalloan.xml
-    public bank_display_personalloan_Adapter(Activity mContext, List<LstCitywiseBankLoanEntity> quoteEntities) {
+    public bank_display_homeloanChild_Adapter(Activity mContext, List<LstCityBankdetailEntity> quoteEntities) {
         this.mContext = mContext;
         this.quoteEntities = quoteEntities;
     }
 
     @Override
-    public bank_display_personalloan_Adapter.PLQuotesItem onCreateViewHolder(ViewGroup parent, int viewType) {
+    public bank_display_homeloanChild_Adapter.PLQuotesItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.bank_display_personalloan,parent,false);
-        return  new bank_display_personalloan_Adapter.PLQuotesItem(view);
+                R.layout.bank_display_homeloan_child,parent,false);
+        return  new bank_display_homeloanChild_Adapter.PLQuotesItem(view);
     }
 
     @Override
-    public void onBindViewHolder(final bank_display_personalloan_Adapter.PLQuotesItem holder,final int position) {
-        final LstCitywiseBankLoanEntity quoteEntity1 = quoteEntities.get(position);
-        LstCityBankdetailEntity quoteEntity;
-        quoteEntity=quoteEntity1.getLstCityProdBank().get(0);
-           //     = quoteEntity1.getLstCityProdBank();
+    public void onBindViewHolder(final bank_display_homeloanChild_Adapter.PLQuotesItem holder, final int position) {
+         final LstCityBankdetailEntity quoteEntity = quoteEntities.get(position);
 
 
         holder.tvsegment.setText(""+quoteEntity.getSeqment());
@@ -57,63 +51,16 @@ public class bank_display_personalloan_Adapter  extends RecyclerView.Adapter<ban
         holder.tvLoanAmount.setText(""+quoteEntity.getLoan_Amt());
         holder.tvTenure.setText(""+quoteEntity.getTenure());
         holder.tvAge.setText(""+quoteEntity.getAge());
+        holder.tvProduct_Type.setText(""+quoteEntity.getProduct_Type());
+        holder.tvProduct.setText(""+quoteEntity.getProduct_Name());
 
         holder.tvminSalary.setText(""+quoteEntity.getMin_Salary());
         holder.tvWorkExperence.setText(""+quoteEntity.getMin_Work_Exp());
         holder.tvProcessingFees.setText(""+quoteEntity.getProcessing_Fees());
         holder.tvPrepayment.setText(""+quoteEntity.getPrepayment_charges());
-
+//
         holder.tvCibilscore.setText(""+quoteEntity.getMin_Cibil_Score());
         holder.tvForeclosure.setText(""+quoteEntity.getForeclosure_charges());
-
-        Glide.with(mContext)
-                .load(quoteEntity1.getBank_URL())
-                .into(holder.ivBankLogo);
-
-        holder.rvhlknowmore.setVisibility(View.GONE);
-        holder.ivArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down_arrow));
-        holder.ivcloseArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down_arrow));
-
-        holder.btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ((bank_selection_personalloanActivity)mContext).redirectToApplyBank(quoteEntity1);
-            }
-        });
-        holder.ivArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(isclick)
-                {
-                    isclick=false;
-                    holder.ivArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down_arrow));
-                    holder.ivcloseArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down_arrow));
-
-                    holder.rvhlknowmore.setVisibility(View.GONE);
-                }else {
-                    isclick=true;
-                    holder.ivArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.up_arrow));
-                    holder.ivcloseArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.up_arrow));
-
-                    holder.rvhlknowmore.setVisibility(View.VISIBLE);
-                }
-            }
-        });
-        holder.llbacklist.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//
-               holder.ivArrow.performClick();
-            }
-        });
-        holder.llbtnreadterms.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.ivArrow.performClick();
-            }
-        });
     }
 
     @Override
@@ -122,7 +69,7 @@ public class bank_display_personalloan_Adapter  extends RecyclerView.Adapter<ban
     }
 
     public class PLQuotesItem   extends RecyclerView.ViewHolder {
-        TextView tvBankName, btnreadterm, btnApply,
+        TextView tvBankName, btnreadterm, btnApply,tvProduct_Type,tvProduct,
                 tvsegment, tvroi, tvPer_Lac_EMI,tvLoanAmount,
                 tvTenure,tvAge,tvminSalary,tvWorkExperence,
                 tvProcessingFees,tvPrepayment,tvCibilscore,tvForeclosure;
@@ -132,6 +79,8 @@ public class bank_display_personalloan_Adapter  extends RecyclerView.Adapter<ban
         public PLQuotesItem(View itemView) {
             super(itemView);
 
+            tvProduct_Type = (TextView) itemView.findViewById(R.id.tvProduct_Type);
+            tvProduct = (TextView) itemView.findViewById(R.id.tvProduct);
             tvCibilscore = (TextView) itemView.findViewById(R.id.tvCibilscore);
             tvForeclosure = (TextView) itemView.findViewById(R.id.tvForeclosure);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);

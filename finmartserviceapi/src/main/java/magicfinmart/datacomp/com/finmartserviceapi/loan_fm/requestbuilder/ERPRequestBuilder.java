@@ -12,6 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LeadResponse
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LoanCityResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.citywisebankloanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder.ERPRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -58,5 +59,7 @@ public class ERPRequestBuilder extends ERPRetroRequestBuilder {
         @POST("/LoginDtls.svc/XMLService/dsplyCityDtls")
         Call<LoanCityResponse> getcityloan();
 
+        @POST("/LoginDtls.svc/XMLService/GetCitywiseBankList")
+        Call<citywisebankloanResponse> getCitywiseBankListloan(@Body HashMap<String, String> body);
     }
 }

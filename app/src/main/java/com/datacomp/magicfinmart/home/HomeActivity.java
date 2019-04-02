@@ -63,6 +63,7 @@ import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
+import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 import com.datacomp.magicfinmart.messagecenter.messagecenteractivity;
@@ -1791,12 +1792,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
+                    startActivity(new Intent(HomeActivity.this, LapLoanDetailActivity.class));
+                new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
 
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
-                            .putExtra("NAME", "" + "Business Loan")
-                            .putExtra("TITLE", "" + "Business Loan"));
+//                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+//                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
+//                            .putExtra("NAME", "" + "Business Loan")
+//                            .putExtra("TITLE", "" + "Business Loan"));
                 }
             });
 

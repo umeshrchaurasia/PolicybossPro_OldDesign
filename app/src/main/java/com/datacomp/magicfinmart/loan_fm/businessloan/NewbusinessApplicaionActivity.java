@@ -1,6 +1,7 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan;
+package com.datacomp.magicfinmart.loan_fm.businessloan;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 
 import android.os.Bundle;
@@ -15,14 +16,14 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+
+
 import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-
-
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
@@ -33,10 +34,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.M
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.NewLoanApplicationEnity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.NewLoanApplicationResponse;
 
-public class NewPersonalApplicaionActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriberFM {
+public class NewbusinessApplicaionActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriberFM {
 
     RecyclerView rvApplicationList;
-    NewPersonalLoanApplicationAdapter mAdapter;
+    NewbusinessLoanApplicationAdapter mAdapter;
 
     Toolbar toolbar;
     DBPersistanceController dbPersistanceController;
@@ -62,12 +63,12 @@ public class NewPersonalApplicaionActivity extends BaseActivity implements View.
         loanAddlist.setOnClickListener(this);
 
         rvApplicationList = (RecyclerView)findViewById(R.id.rvApplicationList);
-        rvApplicationList.setLayoutManager(new LinearLayoutManager(NewPersonalApplicaionActivity.this));
+        rvApplicationList.setLayoutManager(new LinearLayoutManager(NewbusinessApplicaionActivity.this));
 
-        dbPersistanceController = new DBPersistanceController(NewPersonalApplicaionActivity.this);
+        dbPersistanceController = new DBPersistanceController(NewbusinessApplicaionActivity.this);
         loginResponseEntity = dbPersistanceController.getUserData();
         showDialog();
-        new MainLoanController(NewPersonalApplicaionActivity.this).getLoanApplication(0,"PSL",String.valueOf(loginResponseEntity.getFBAId()),NewPersonalApplicaionActivity.this);
+        new MainLoanController(NewbusinessApplicaionActivity.this).getLoanApplication(0,"BL",String.valueOf(loginResponseEntity.getFBAId()), NewbusinessApplicaionActivity.this);
 
     }
 
@@ -76,20 +77,19 @@ public class NewPersonalApplicaionActivity extends BaseActivity implements View.
         switch (v.getId()) {
             case R.id.loanAddlist:
 
-                new TrackingController(NewPersonalApplicaionActivity.this).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.PERSONA_LOAN), null);
+                new TrackingController(NewbusinessApplicaionActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Business LOAN : Business LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.BUSINESS_LOAN), null);
 
-                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON");
+                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business LOAN QUOTES ADD WITH FLAOTING BUTTON");
 
-                startActivity(new Intent(NewPersonalApplicaionActivity.this, city_selecton_personalloan_Activity.class));
-                break;
+                startActivity(new Intent(NewbusinessApplicaionActivity.this, city_selecton_businessloan_Activity.class));
+		     break;
             case R.id.tvAdd:
+				   new TrackingController(NewbusinessApplicaionActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Business LOAN : Business LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.BUSINESS_LOAN), null);
 
-                new TrackingController(NewPersonalApplicaionActivity.this).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.PERSONA_LOAN), null);
+                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business LOAN QUOTES ADD WITH FLAOTING BUTTON");
 
-                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON");
-
-                startActivity(new Intent(NewPersonalApplicaionActivity.this, city_selecton_personalloan_Activity.class));
-
+                startActivity(new Intent(NewbusinessApplicaionActivity.this, city_selecton_businessloan_Activity.class));
+		    
                 break;
         }
     }
@@ -103,7 +103,7 @@ public class NewPersonalApplicaionActivity extends BaseActivity implements View.
             getpersonal_bank_list_response = ((NewLoanApplicationResponse) response);
             if (getpersonal_bank_list_response != null) {
                 if(getpersonal_bank_list_response.getMasterData().size() > 0) {
-                    mAdapter = new NewPersonalLoanApplicationAdapter(NewPersonalApplicaionActivity.this, getpersonal_bank_list_response.getMasterData());
+                    mAdapter = new NewbusinessLoanApplicationAdapter(NewbusinessApplicaionActivity.this, getpersonal_bank_list_response.getMasterData());
                     rvApplicationList.setAdapter(mAdapter);
 
 
@@ -126,7 +126,7 @@ public class NewPersonalApplicaionActivity extends BaseActivity implements View.
 
     }
 
-    public void redirectPersonalLoanApply(NewLoanApplicationEnity entity) {
+    public void redirectbusinessLoanApply(NewLoanApplicationEnity entity) {
 
         String url="";
         String Bankname="";
@@ -146,7 +146,7 @@ public class NewPersonalApplicaionActivity extends BaseActivity implements View.
             Bankname="YES BANK";
             String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
 
-            Utility.loadWebViewUrlInBrowser(NewPersonalApplicaionActivity.this,url1);
+            Utility.loadWebViewUrlInBrowser(NewbusinessApplicaionActivity.this,url1);
         }else   if(String.valueOf(entity.getBankId()).equals("20")){
             Bankname="HDFC BANK";
             url="https://www.rupeeboss.com/hdfc-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
@@ -163,9 +163,9 @@ public class NewPersonalApplicaionActivity extends BaseActivity implements View.
         }
     }
 
-    public void openLeadDetailPopUp_personal(String AppNumb)
+    public void openLeadDetailPopUp_business(String AppNumb)
     {
-        Intent intent = new Intent(NewPersonalApplicaionActivity.this, LeadInfoPopupActivity.class);
+        Intent intent = new Intent(NewbusinessApplicaionActivity.this, LeadInfoPopupActivity.class);
         intent.putExtra("APPLICATION_NUMBER",AppNumb);
         startActivityForResult(intent,Utility.LEAD_REQUEST_CODE);
     }

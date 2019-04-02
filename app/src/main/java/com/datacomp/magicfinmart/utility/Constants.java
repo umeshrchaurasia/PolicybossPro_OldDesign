@@ -79,6 +79,8 @@ public class Constants {
     public static String ULTRALAKSHA_INS = "ULTRA LAKSHA INSURANCE";
     public static String HOME_LOAN = "HOME LOAN";
     public static String PERSONA_LOAN = "PERSONAL LOAN";
+    public static String BUSINESS_LOAN = "BUSINESS LOAN";
+
     public static String LAP = "LAP";
     public static String CREDIT_CARD = "CREDIT CARD";
     public static String BALANCE_TRANSFER = "BALANCE TRANSFER";
