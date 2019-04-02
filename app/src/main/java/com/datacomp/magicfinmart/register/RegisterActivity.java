@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.register;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,6 +43,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -104,12 +107,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     EditText etRefererCode;
     TextInputLayout tilReferer,txtsale;
     boolean isVAlidPromo = false;
+    boolean isValidPinCode = false;
 
     List<SourceEntity> sourceList;
     List<SalesDataEntity> saleList;
     boolean isSaleclick=false;
     LinkedHashMap<String,Integer> mapSale = new LinkedHashMap<>();
    ArrayList<String> tempSaleList ;
+    AlertDialog pincodeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -460,21 +465,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 return false;
             }
         }
-        if (!isEmpty(etCity)) {
-            etCity.requestFocus();
-            etCity.setError("Enter City");
+
+        if(!isValidPinCode)
+        {
+            PincodeAlert("Alert","City Not Found. Kindly Contact to Tech Support Person","9137850207");
             return false;
         }
-        if (!isEmpty(etState)) {
-            etState.requestFocus();
-            etState.setError("Enter State");
-            return false;
-        }
-        if (!isEmpty(etFirstName)) {
-            etFirstName.requestFocus();
-            etFirstName.setError("Enter First Name");
-            return false;
-        }
+//        if (!isEmpty(etCity)) {
+//            etCity.requestFocus();
+//            etCity.setError("Enter City");
+//            return false;
+//        }
+//        if (!isEmpty(etState)) {
+//            etState.requestFocus();
+//            etState.setError("Enter State");
+//            return false;
+//        }
+
+
+
       /*  if (!isVAlidPromo) {
             etRefererCode.requestFocus();
             etRefererCode.setError("Enter Valid Promo Code");
@@ -619,6 +628,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 Constants.hideKeyBoard(etPincode, this);
+                isValidPinCode = true;
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
@@ -893,6 +903,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             if (start == 5) {
                 etCity.setText("");
                 etState.setText("");
+                isValidPinCode = false;
             }
         }
 
@@ -1051,5 +1062,73 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private boolean checkPR_Info() {
 
         return false;
+    }
+
+    public void PincodeAlert(String Title, String strBody, final String strMobile) {
+
+        if (pincodeDialog != null && pincodeDialog.isShowing()) {
+
+            return;
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
+
+            Button btnAllow, btnReject;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
+
+            builder.setView(dialogView);
+            pincodeDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+            btnReject = (Button) dialogView.findViewById(R.id.btnReject);
+            txtTile.setText(Title);
+            txtBody.setText(strBody);
+            txtMob.setText(strMobile);
+
+            btnAllow.setText("Call");
+            btnReject.setText("Close");
+
+
+
+            btnAllow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pincodeDialog.dismiss();
+                    Intent intentCalling = new Intent(Intent.ACTION_DIAL);
+                    intentCalling.setData(Uri.parse("tel:" + strMobile));
+                    startActivity(intentCalling);
+
+                }
+            });
+
+            btnReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pincodeDialog.dismiss();
+                    prefManager.updateContactMsgFirst("" + 1);
+                }
+            });
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pincodeDialog.dismiss();
+
+                }
+            });
+            pincodeDialog.setCancelable(true);
+            pincodeDialog.show();
+        }
+
     }
 }
