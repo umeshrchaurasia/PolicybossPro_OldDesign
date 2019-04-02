@@ -36,5 +36,8 @@ public interface IDynamic {
     void getMyBusiness(String id,IResponseSubcriber iResponseSubcriber);
 
     //Personal loan
-    void getBankdetail_personalloan(String cityid,IResponseSubcriber iResponseSubcriber);
+    void getBankdetail_personalloan(String cityid,String Productid,IResponseSubcriber iResponseSubcriber);
+
+    //Personal loan
+    void getBankdetail_homeloan(String cityid,String Productid,IResponseSubcriber iResponseSubcriber);
 }

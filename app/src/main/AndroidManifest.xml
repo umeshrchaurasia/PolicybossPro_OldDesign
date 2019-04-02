@@ -1251,7 +1251,27 @@
                 android:value="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity" />
         </activity>
 
+        <activity
+            android:name=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity"
+            android:label="Home Loan"
+            android:parentActivityName=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
 
+        </activity>
+
+        <activity
+            android:name=".loan_fm.homeloan.new_HomeLoan.bank_selection_homeloanActivity"
+            android:label="Home Loan"
+            android:parentActivityName=".loan_fm.homeloan.new_HomeLoan.bank_selection_homeloanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
+        </activity>
     </application>
 
 </manifest>

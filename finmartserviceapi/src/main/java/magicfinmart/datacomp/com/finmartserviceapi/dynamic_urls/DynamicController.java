@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.Personal_bankdetailEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.home_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.personal_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
@@ -360,8 +361,8 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getBankdetail_personalloan(final String cityid, final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid;
+    public void getBankdetail_personalloan(final String cityid,String Productid, final IResponseSubcriber iResponseSubcriber) {
+        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid+"&Product_Id="+Productid;
 
 
         genericUrlNetworkService.getBankdetail_personalloan(url).enqueue(new Callback<personal_bank_list_Response>() {
@@ -377,6 +378,41 @@ public class DynamicController implements IDynamic {
 
             @Override
             public void onFailure(Call<personal_bank_list_Response> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void getBankdetail_homeloan(final String cityid,String Productid, final IResponseSubcriber iResponseSubcriber) {
+        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid+"&Product_Id="+Productid;
+
+
+        genericUrlNetworkService.getBankdetail_homeloan(url).enqueue(new Callback<home_bank_list_Response>() {
+            @Override
+            public void onResponse(Call<home_bank_list_Response> call, Response<home_bank_list_Response> response) {
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<home_bank_list_Response> call, Throwable t) {
 
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
