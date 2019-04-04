@@ -382,7 +382,12 @@ public class Utility {
         if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
             ssid = loginResponseEntity.getPOSPNo();
         String url = BuildConfig.PROPOSAL_BASE_URL;
-        url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+
+        //Changed by 4/4/2019 Umesh C.
+       // https://www.policyboss.com/car-insurance/buynow/2/ARN-CSV3M0BR-FV9L-PIN1-1WVQ-HZMQJGEKHRRJ_10681167_621570/NonPOSP/0
+        //url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+
+        url = url + "car-insurance/buynow/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
 
@@ -393,7 +398,10 @@ public class Utility {
         if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
             ssid = loginResponseEntity.getPOSPNo();
         String url = BuildConfig.PROPOSAL_BASE_URL;
-        url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+        //https://www.policyboss.com/two-wheeler-insurance/buynow/2/ARN-RR6SNRE0-ZQQW-VHKX-BPQ1-Q24ICBRLG5T9_10680516_621536/NonPOSP/0
+       // url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+
+        url = url + "two-wheeler-insurance/buynow/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
 
