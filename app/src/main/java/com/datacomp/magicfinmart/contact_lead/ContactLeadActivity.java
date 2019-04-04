@@ -251,7 +251,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showDialog("Syncing Contact..");
+            showDialog("Create Contact..");
             //Toast.makeText(ContactLeadActivity.this, "Syncing Contact..", Toast.LENGTH_SHORT).show();
         }
 

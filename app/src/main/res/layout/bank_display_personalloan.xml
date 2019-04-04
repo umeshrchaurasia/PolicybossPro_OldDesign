@@ -525,7 +525,7 @@
                         android:drawablePadding="5dp"
                         android:paddingLeft="10dp"
 
-                        android:text="T &amp;C Apply"
+                        android:text="T&amp;C Apply"
                         android:textAppearance="@style/TextViewStyle.Medium"
                         android:textColor="@color/blue" />
 

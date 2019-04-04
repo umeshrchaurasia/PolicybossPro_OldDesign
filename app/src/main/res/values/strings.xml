@@ -616,35 +616,28 @@
     <string name="title_activity_generate_lead">GENERATE LEAD</string>
     <string name="title_activity_income_potential">Income Calculator</string>
     <string name="title_activity_nav_transactionhistory">TRANSACTION HISTORY</string>
-    <string name="title_activity_contact_lead">CONTACT LEAD</string>
+    <string name="title_activity_contact_lead">Create Contact Lead</string>
     <string name="title_activity_scan_vehicle">SCAN VEHICLE</string>
     <string name="title_activity_vehicle_scan">SCAN VEHICLE</string>
     <string name="title_activity_offline_quotes_list">OFFLINE QUOTES</string>
     <string name="title_activity_add_offline_quotes">ADD OFFLINE QUOTES</string>
     <string name="Finmart_underline"><u>Know Your Magic Finmart</u>.</string>
     <string name="title_activity_messagecenteractivity">Message Center</string>
-    <string name="txtSyncContacts1"><b><big>Sync Contacts:</big></b></string>
+    <string name="txtSyncContacts1"><b><big>Create Contact Lead:</big></b></string>
     <string name="txtSyncContacts">
-        <b><u>About Sync Contacts Feature:</u></b>
-        \n
-       As part of our continuous efforts in making Magic Finmart more relevant for you, we are launching a new feature - Sync Contacts. You can use this to generate motor insurance leads by marrying your contacts with our data base. In
+        <b><u>About Creating Contact Lead Feature:</u></b>
+        \nAs part of our continuous efforts in making Magic Finmart more relevant for you, we are launching a new feature - Create Contact Lead. You can use this to generate motor insurance leads by marrying your contacts with our data base. In
         subsequent app versions, we will make this feature available across other products in the future.
-        \n
-        Once you give your consent the application syncs the contacts in your phone book and checks our database for any motor vehicle the customer may have. Once the contact sync is complete you will get an update with the number of matches found in our database
-        \n
-        Upon syncing your contacts with our database, we will return back the Make/ Model/ Sub-Model/ Date of Expiry and other relevant details, as found for all matched contacts. This is then converted into a lead and listed in the lead module of your app. You can see the leads for every month, 6 weeks prior to their expiry date.
-        \n
-        PLEASE NOTE: Currently, it takes up to 72 hours for the data to be synced after you have given your permission.
- \n \n<b><u>Data Safety:</u></b>
-         \n
-At Magic Finmart, it is our constant endeavour to enable your business and we believe by opening our databases and giving you access to the same, we will be able to help your business grow. So if you are sharing your contact with us, do note that we are also sharing the data of our customers with you, which has been accumulated by us over the last several years. It is a win-win for all.
-   \n
-        While the customer details are already in our database, it is our strong belief that in a competitive market scenario, multiple people are trying to sell to the same customer. Still the customer buys insurance from you even today. We want to further empower you and increase your product penetration, that will help you in making your business grow better.
-\n
-        The sale is yours if you are able to close it.
+        \n\nOnce you give your consent the application syncs the contacts in your phone book and checks our database for any motor vehicle the customer may have. Once the contact sync is complete you will get an update with the number of matches found in our database
+        \n\nUpon syncing your contacts with our database, we will return back the Make/ Model/ Sub-Model/ Date of Expiry and other relevant details, as found for all matched contacts. This is then converted into a lead and listed in the lead module of your app. You can see the leads for every month, 6 weeks prior to their expiry date.
+        \n\nPLEASE NOTE: Currently, it takes up to 72 hours for the data to be synced after you have given your permission.
+ \n\n<b><u>Data Safety:</u></b>
+         \nAt Magic Finmart, it is our constant endeavour to enable your business and we believe by opening our databases and giving you access to the same, we will be able to help your business grow. So if you are sharing your contact with us, do note that we are also sharing the data of our customers with you, which has been accumulated by us over the last several years. It is a win-win for all.
+   \n\nWhile the customer details are already in our database, it is our strong belief that in a competitive market scenario, multiple people are trying to sell to the same customer. Still the customer buys insurance from you even today. We want to further empower you and increase your product penetration, that will help you in making your business grow better.
+\n\nThe sale is yours if you are able to close it.
 
 
-  \n  \n<b><u>Terms &amp; Conditions:</u></b>
+  \n\n<b><u>Terms &amp; Conditions:</u></b>
         \n
         <ul><li>This service is offered in good faith and subject to a fair use policy</li>\n
             <li>This feature will be made available only to those customers who have paid our onboarding fee</li>\n<li>
