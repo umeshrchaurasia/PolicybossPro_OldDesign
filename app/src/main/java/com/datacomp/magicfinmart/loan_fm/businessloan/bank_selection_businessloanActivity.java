@@ -1,9 +1,8 @@
 
-package com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan;
+package com.datacomp.magicfinmart.loan_fm.businessloan;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -19,7 +18,6 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
@@ -28,9 +26,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCitywiseBank
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.citywisebankloanResponse;
 
 
-public class bank_selection_personalloanActivity extends BaseActivity   implements View.OnClickListener, IResponseSubcriberERP {
+public class bank_selection_businessloanActivity extends BaseActivity   implements View.OnClickListener, IResponseSubcriberERP {
     RecyclerView rvQuotes;
-    bank_display_personalloan_Adapter  mAdapter;
+    bank_display_businessloan_Adapter  mAdapter;
 
     citywisebankloanResponse getpersonal_bank_list_response;
     Toolbar toolbar;
@@ -57,18 +55,18 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(bank_selection_personalloanActivity.this, city_selecton_personalloan_Activity.class));
+                startActivity(new Intent(bank_selection_businessloanActivity.this, city_selecton_businessloan_Activity.class));
 
             }
         });
         rvQuotes = (RecyclerView)findViewById(R.id.rvQuotes);
-        rvQuotes.setLayoutManager(new LinearLayoutManager(bank_selection_personalloanActivity.this));
+        rvQuotes.setLayoutManager(new LinearLayoutManager(bank_selection_businessloanActivity.this));
     //getBankdetail_personalloan
         Cityid= getIntent().getStringExtra("city_id");
-        dbPersistanceController = new DBPersistanceController(bank_selection_personalloanActivity.this);
+        dbPersistanceController = new DBPersistanceController(bank_selection_businessloanActivity.this);
         loginResponseEntity = dbPersistanceController.getUserData();
         showDialog();
-       new ErpLoanController(bank_selection_personalloanActivity.this).getCitywiseBankListloan(Cityid,"9",bank_selection_personalloanActivity.this);
+       new ErpLoanController(bank_selection_businessloanActivity.this).getCitywiseBankListloan(Cityid,"13", bank_selection_businessloanActivity.this);
     }
 
     @Override
@@ -77,41 +75,41 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
     }
 
 
-    public void redirectToApplyBank(LstCitywiseBankLoanEntity entity) {
+    public void redirectToApplyBankBL(LstCitywiseBankLoanEntity entity) {
         String url="";
         String Bankname="";
 
         if(entity.getBank_Id().equals("33")){
             Bankname="KOTAK MAHINDRA BANK";
-            url="https://www.rupeeboss.com/kotakmahindra-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+         //   url="https://www.rupeeboss.com/kotakmahindra-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 
         }else  if(entity.getBank_Id().equals("43")){
             Bankname="RBL BANK";
-            url="https://www.rupeeboss.com/rbl-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+          //  url="https://www.rupeeboss.com/rbl-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 
         }else  if(entity.getBank_Id().equals("51")){
             Bankname="TATA CAPITAL";
-            url="https://www.rupeeboss.com/tatacapital-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+           // url="https://www.rupeeboss.com/tatacapital-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 
         }else  if(entity.getBank_Id().equals("53")){
             Bankname="YES BANK";
-            String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
+          //  String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
 
-            Utility.loadWebViewUrlInBrowser(bank_selection_personalloanActivity.this,url1);
+           // Utility.loadWebViewUrlInBrowser(bank_selection_businessloanActivity.this,url1);
         }else  if(entity.getBank_Id().equals("20")){
             Bankname="HDFC BANK";
-            url="https://www.rupeeboss.com/hdfc-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+            url="https://www.rupeeboss.com/hdfc-bl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
         }else  if(entity.getBank_Id().equals("2152")){
             Bankname="CASHE";
-            url="https://www.rupeeboss.com/cashe-new?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+         //   url="https://www.rupeeboss.com/cashe-new?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
         }
 
-        if(!entity.getBank_Id().equals("53")) {
+
             startActivity(new Intent(this, CommonWebViewActivity.class)
                     .putExtra("URL", url)
                     .putExtra("NAME", "" + Bankname)
                     .putExtra("TITLE", "" + Bankname));
-        }
+
         //  setFmBankRequest(entity);
     }
 
@@ -124,7 +122,7 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
             if (getpersonal_bank_list_response != null) {
                 if(getpersonal_bank_list_response.getResult().size() > 0) {
                     llmessage.setVisibility(View.GONE);
-                    mAdapter = new bank_display_personalloan_Adapter(bank_selection_personalloanActivity.this, getpersonal_bank_list_response.getResult());
+                    mAdapter = new bank_display_businessloan_Adapter(bank_selection_businessloanActivity.this, getpersonal_bank_list_response.getResult());
                     rvQuotes.setAdapter(mAdapter);
                 }else {
                     //  Toast.makeText(this, "Data Not Found", Toast.LENGTH_LONG).show();

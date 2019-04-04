@@ -18,7 +18,9 @@ import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
@@ -299,7 +301,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 4:
                 //home loan
-                mContext.startActivity(new Intent(mContext, city_selecton_homeloan_Activity.class));
+                mContext.startActivity(new Intent(mContext, NewHomeApplicaionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;
@@ -309,12 +311,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
                 break;
-            case 6:
-                //lap
-                mContext.startActivity(new Intent(mContext, LapLoanDetailActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
-                break;
+//            case 6:
+//                //lap
+//                mContext.startActivity(new Intent(mContext, LapLoanDetailActivity.class));
+//                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+//                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
+//                break;
             case 7:
                 //cc
                 // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
@@ -324,9 +326,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 8:
                 //BT
-                mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
-                MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
+              //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
+                mContext.startActivity(new Intent(mContext, NewbusinessApplicaionActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
+                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
             case 9:
 

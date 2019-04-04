@@ -28,6 +28,8 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
@@ -293,6 +295,20 @@ public class CommonWebViewActivity extends BaseActivity {
         @JavascriptInterface
         public void redirectpersonalloan() {//Android.RedirectToHomepage();
             Intent intent = new Intent(CommonWebViewActivity.this, NewPersonalApplicaionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        @JavascriptInterface
+        public void redirecthomeloan() {//Android.RedirectToHomepage();
+            Intent intent = new Intent(CommonWebViewActivity.this, NewHomeApplicaionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+        @JavascriptInterface
+        public void redirectbusinessloan() {//Android.RedirectToHomepage();
+            Intent intent = new Intent(CommonWebViewActivity.this, NewbusinessApplicaionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
