@@ -21,6 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
@@ -142,6 +143,10 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/get-field-sales")
         Call<RegisterSaleResponse> getfieldsales();
+
+        @Headers("token:" + token)
+        @POST("/api/sync-lead-data-send-sms")
+        Call<SendSyncSmsResponse> sendSyncSms(@Body HashMap<String, String> body);
     }
 
 
