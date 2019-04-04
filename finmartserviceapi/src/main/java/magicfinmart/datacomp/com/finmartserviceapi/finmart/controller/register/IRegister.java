@@ -48,13 +48,15 @@ public interface IRegister {
 
     void getChildPosp(IResponseSubcriber iResponseSubcriber);
 
-    void saveContactLead(ContactLeadRequestEntity contactLeadRequestEntity ,IResponseSubcriber iResponseSubcriber);
+    void saveContactLead(ContactLeadRequestEntity contactLeadRequestEntity, IResponseSubcriber iResponseSubcriber);
 
-    void uploadContact(ContactLeadRequestEntity contactLeadRequestEntity ,IResponseSubcriber iResponseSubcriber);
+    void uploadContact(ContactLeadRequestEntity contactLeadRequestEntity, IResponseSubcriber iResponseSubcriber);
 
     void getSmsTemplate(IResponseSubcriber iResponseSubcriber);
 
-    void getEmailTemplate( String URL, String Type,IResponseSubcriber iResponseSubcriber);
+    void getEmailTemplate(String URL, String Type, IResponseSubcriber iResponseSubcriber);
 
-     void getfieldsales( IResponseSubcriber iResponseSubcriber);
+    void getfieldsales(IResponseSubcriber iResponseSubcriber);
+
+    void sendSyncSms(IResponseSubcriber iResponseSubcriber);
 }
