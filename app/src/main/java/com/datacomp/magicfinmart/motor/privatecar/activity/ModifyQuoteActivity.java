@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
     Switch swlldriver, swAnti, swMemAto, swPaidPa;
     TextView tvLiabYes, tvLiabNo, tvAntiYes, tvAntiNo, tvMinIdv, tvMaxIdv, tvProgress;
     boolean isLiability = false, isAntiTheft = false;
+
+    TextView tvPACoverODYes, tvPACoverODNo, lblPAMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
         if (motorRequestEntity.getVehicle_expected_idv() > 0) {
             etIdv.setText("" + motorRequestEntity.getVehicle_expected_idv());
-            sbIdv.setProgress((int)(motorRequestEntity.getVehicle_expected_idv() / 1000));
+            sbIdv.setProgress((int) (motorRequestEntity.getVehicle_expected_idv() / 1000));
             tvProgress.setText("DESIRED IDV (" + motorRequestEntity.getVehicle_expected_idv() + ")");
         }
     }
@@ -145,6 +148,11 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         tvAntiYes.setOnClickListener(this);
         tvLiabYes.setOnClickListener(this);
         tvLiabNo.setOnClickListener(this);
+
+        tvPACoverODNo.setOnClickListener(this);
+        tvPACoverODYes.setOnClickListener(this);
+
+
         try {
             sbIdv.setMin(Integer.parseInt(summaryEntity.getVehicle_min_idv()) / 1000);
             sbIdv.setMax(Integer.parseInt(summaryEntity.getVehicle_max_idv()) / 1000);
@@ -223,11 +231,24 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             etElecAcc.setVisibility(View.GONE);
             etNonElecAcc.setVisibility(View.GONE);
         }
+
+        tvPACoverODYes = (TextView) findViewById(R.id.tvPACoverODYes);
+        tvPACoverODNo = (TextView) findViewById(R.id.tvPACoverODNo);
+
+        lblPAMsg = (TextView) findViewById(R.id.lblPAMsg);
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.tvPACoverODYes:
+                lblPAMsg.setVisibility(View.GONE);
+                break;
+            case R.id.tvPACoverODNo:
+                lblPAMsg.setVisibility(View.VISIBLE);
+                break;
 
             case R.id.tvAntiNo:
                 isAntiTheft = false;
@@ -291,6 +312,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
     private void addparameters() {
 
+
         if (isLiability) {
             motorRequestEntity.setIs_llpd("yes");
         } else {
@@ -311,10 +333,16 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         if (!etIdv.getText().toString().isEmpty())
             motorRequestEntity.setVehicle_expected_idv(Long.parseLong(etIdv.getText().toString()));
 
+
         motorRequestEntity.setVoluntary_deductible(Integer.parseInt(spVolExcessAmt.getSelectedItem().toString()));
-
-
         motorRequestEntity.setPa_unnamed_passenger_si(spPaCover.getSelectedItem().toString());
+
+
+        if (lblPAMsg.getVisibility() == View.VISIBLE) {  // NO
+            motorRequestEntity.setPa_owner_driver_si("0");
+        } else {                                         // YES
+            motorRequestEntity.setPa_owner_driver_si("1500000");
+        }
 
 
         /*if (swMemAto.isChecked()) {
