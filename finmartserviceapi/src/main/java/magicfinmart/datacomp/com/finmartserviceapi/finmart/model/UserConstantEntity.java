@@ -188,6 +188,18 @@ public class UserConstantEntity extends RealmObject {
     private String parentid; // added by Nilesh 08/02/2019
     private String enableenrolasposp;
 
+
+    // added by Nilesh 17.04.2019
+    private String paenable;
+
+    public String getPaenable() {
+        return paenable;
+    }
+
+    public void setPaenable(String paenable) {
+        this.paenable = paenable;
+    }
+
     public String getEnableenrolasposp() {
         return enableenrolasposp;
     }

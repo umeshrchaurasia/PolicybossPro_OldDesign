@@ -92,6 +92,26 @@ public class MotorRequestEntity implements Parcelable {
     private String is_policy_exist;
     private String is_breakin;
 
+    //added by Nilesh 17.04.2019
+    private String needrsa;
+    private String rsaplan;
+
+    public String getRsaplan() {
+        return rsaplan;
+    }
+
+    public void setRsaplan(String rsaplan) {
+        this.rsaplan = rsaplan;
+    }
+
+    public String getNeedrsa() {
+        return needrsa;
+    }
+
+    public void setNeedrsa(String needrsa) {
+        this.needrsa = needrsa;
+    }
+
     public String getIs_breakin() {
         return is_breakin;
     }
@@ -783,6 +803,8 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.sub_fba_id);
         dest.writeString(this.is_breakin);
         dest.writeString(this.is_policy_exist);
+        dest.writeString(this.needrsa);
+        dest.writeString(this.rsaplan);
     }
 
     protected MotorRequestEntity(Parcel in) {
@@ -854,6 +876,8 @@ public class MotorRequestEntity implements Parcelable {
         this.sub_fba_id = in.readString();
         this.is_breakin = in.readString();
         this.is_policy_exist = in.readString();
+        this.needrsa = in.readString();
+        this.rsaplan =in.readString();
     }
 
     public static final Parcelable.Creator<MotorRequestEntity> CREATOR = new Parcelable.Creator<MotorRequestEntity>() {

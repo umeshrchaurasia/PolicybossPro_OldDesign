@@ -25,6 +25,8 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
@@ -48,12 +50,16 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
     TextView tvPACoverODYes, tvPACoverODNo, lblPAMsg;
 
+    UserConstantEntity userConstantEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_quote);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(true);
+
+
         if (getIntent().hasExtra("CAR_REQUEST")) {
             motorRequestEntity = getIntent().getParcelableExtra("CAR_REQUEST");
             volAccess = getResources().getStringArray(R.array.voluntary_car);
@@ -68,14 +74,32 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
 
+        userConstantEntity = new DBPersistanceController(this).getUserConstantsData();
+
         initWidgets();
         bindAdapters();
         setListener();
 
         filPrevInputs();
+
+        if (userConstantEntity.getPaenable().equals("1")) {
+            tvPACoverODYes.performClick();
+            tvPACoverODYes.setEnabled(false);
+            tvPACoverODNo.setEnabled(false);
+        } else {
+            tvPACoverODYes.setEnabled(true);
+            tvPACoverODNo.setEnabled(true);
+        }
     }
 
     private void filPrevInputs() {
+
+        if (motorRequestEntity.getPa_owner_driver_si().equals("0")) {
+            tvPACoverODNo.performClick();
+        } else {
+            tvPACoverODYes.performClick();
+        }
+
         if (!motorRequestEntity.getElectrical_accessory().matches("0"))
             etElecAcc.setText(motorRequestEntity.getElectrical_accessory());
         if (!motorRequestEntity.getNon_electrical_accessory().matches("0"))
@@ -245,9 +269,13 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.tvPACoverODYes:
                 lblPAMsg.setVisibility(View.GONE);
+                tvPACoverODYes.setBackgroundResource(R.drawable.customeborder_blue);
+                tvPACoverODNo.setBackgroundResource(R.drawable.customeborder);
                 break;
             case R.id.tvPACoverODNo:
                 lblPAMsg.setVisibility(View.VISIBLE);
+                tvPACoverODNo.setBackgroundResource(R.drawable.customeborder_blue);
+                tvPACoverODYes.setBackgroundResource(R.drawable.customeborder);
                 break;
 
             case R.id.tvAntiNo:

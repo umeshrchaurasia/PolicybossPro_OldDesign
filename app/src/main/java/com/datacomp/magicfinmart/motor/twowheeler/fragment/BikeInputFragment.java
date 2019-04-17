@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -131,6 +132,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     String modelId, varientId;
     String regplace, makeModel = "";
     boolean isClaimExist = true;
+    boolean isNeedRSA = true;
 
     LocationTracker locationTracker;
     Location location;
@@ -144,6 +146,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
     ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
     AlertDialog infoDialog;
+
+
+    TextView txtRSAYes, txtRSANo;
+    RadioButton rbRSA, rbExtendedRSA;
+    ImageView imgInfoRSA, imgInfoExtendedRSA;
+    LinearLayout llOptionRSA;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -174,7 +182,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         constantEntity = dbController.getConstantsData();
         loginResponseEntity = dbController.getUserData();
         userConstantEntity = dbController.getUserConstantsData();
+
         registerPopUp(this);
+
         init_view(view);
 
         setListener();
@@ -990,6 +1000,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
         tvClaimNo.performClick();
+        txtRSAYes.performClick();
+
         spPrevIns.setEnabled(false);
         llVerifyCarDetails.setVisibility(View.GONE);
 
@@ -1062,6 +1074,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     private void setListener() {
+
+        txtRSAYes.setOnClickListener(this);
+        txtRSANo.setOnClickListener(this);
+        imgInfoRSA.setOnClickListener(this);
+        imgInfoExtendedRSA.setOnClickListener(this);
+
         imgInfo.setOnClickListener(this);
         btnGo.setOnClickListener(this);
         switchNewRenew.setOnCheckedChangeListener(this);
@@ -1200,11 +1218,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         spYear = (Spinner) view.findViewById(R.id.spYear);
         llNCB = (LinearLayout) view.findViewById(R.id.llNCB);
         imgInfo = (ImageView) view.findViewById(R.id.imgInfo);
+
+        txtRSAYes = view.findViewById(R.id.txtRSAYes);
+        txtRSANo = view.findViewById(R.id.txtRSANo);
+        rbRSA = view.findViewById(R.id.rbRSA);
+        rbExtendedRSA = view.findViewById(R.id.rbExtendedRSA);
+        imgInfoRSA = view.findViewById(R.id.imgInfoRSA);
+        imgInfoExtendedRSA = view.findViewById(R.id.imgInfoExtendedRSA);
+        llOptionRSA = view.findViewById(R.id.llOptionRSA);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+
             case R.id.btnGo:
                 if (etreg1.getText().toString().equals("")) {
                     etreg1.requestFocus();
@@ -1263,6 +1291,22 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 sbNoClaimBonus.setProgress(0);
 
                 break;
+
+            case R.id.txtRSAYes:
+                isNeedRSA = true;
+                txtRSAYes.setBackgroundResource(R.drawable.customeborder_blue);
+                txtRSANo.setBackgroundResource(R.drawable.customeborder);
+                llOptionRSA.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.txtRSANo:
+                isNeedRSA = false;
+                txtRSAYes.setBackgroundResource(R.drawable.customeborder);
+                txtRSANo.setBackgroundResource(R.drawable.customeborder_blue);
+                llOptionRSA.setVisibility(View.GONE);
+                break;
+
+
             case R.id.btnGetQuote:
                 //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
 
@@ -1275,6 +1319,20 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                     if (constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
+
+                    if (isNeedRSA) {
+                        motorRequestEntity.setNeedrsa("yes");
+                        if (rbRSA.isChecked()) {
+                            motorRequestEntity.setRsaplan("t99");
+                        } else if (rbExtendedRSA.isChecked()) {
+                            motorRequestEntity.setRsaplan("t349");
+                        }
+
+                    } else {
+                        motorRequestEntity.setNeedrsa("no");
+                        motorRequestEntity.setRsaplan("");
+                    }
+
                     MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "GET QUOTE TWO WHEELER", "GET QUOTE TWO WHEELER");
 
                     showDialog(getResources().getString(R.string.fetching_msg));
@@ -2501,14 +2559,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
 
-
     public void InfomationAlert(String Title, String strBody) {
 
         if (infoDialog != null && infoDialog.isShowing()) {
 
             return;
-        }
-        else {
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
 
 
