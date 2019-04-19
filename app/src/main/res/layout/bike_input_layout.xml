@@ -491,7 +491,8 @@
                             android:gravity="left|center"
                             android:text="RSA(Rs.99)"
                             android:textAppearance="@style/TextStyle.TextMedium"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/imgInfoRSA"
@@ -499,16 +500,16 @@
                             android:layout_height="18dp"
                             android:layout_marginLeft="4dp"
                             android:layout_marginTop="0dp"
+                            android:visibility="gone"
                             app:srcCompat="@drawable/infop" />
 
                         <RadioButton
                             android:id="@+id/rbExtendedRSA"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="16dp"
                             android:checked="true"
                             android:gravity="left|center"
-                            android:text="RSA+ (Rs.349)"
+                            android:text="Ultra RSA (Rs.199/-)"
                             android:textColor="@color/black" />
 
                         <ImageView

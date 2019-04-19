@@ -24,6 +24,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -742,7 +744,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 }
                 spVarient.setSelection(varientIndex);
 
-                //endregion
+                //endregiononc
 
                 //region Rto binding
 
@@ -1228,6 +1230,49 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         llOptionRSA = view.findViewById(R.id.llOptionRSA);
     }
 
+
+    private void dialogRSA(int id) {
+        //wvRSA
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+                android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+        final View view = getLayoutInflater().inflate(R.layout.layout_rsa_webview, null);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+
+        WebView webView = view.findViewById(R.id.wvRSA);
+        Button btnClose = view.findViewById(R.id.btnClose);
+
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setUseWideViewPort(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportMultipleWindows(false);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setLightTouchEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+
+        if (R.id.imgInfoRSA == id) {
+            webView.loadUrl("file:///android_asset/planT99.html");
+        } else if (R.id.imgInfoExtendedRSA == id) {
+            webView.loadUrl("file:///android_asset/planT199.html");
+        }
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -1307,6 +1352,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 break;
 
 
+            case R.id.imgInfoRSA:
+                dialogRSA(R.id.imgInfoRSA);
+                break;
+
+            case R.id.imgInfoExtendedRSA:
+                dialogRSA(R.id.imgInfoExtendedRSA);
+                break;
+
             case R.id.btnGetQuote:
                 //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
 
@@ -1325,7 +1378,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                         if (rbRSA.isChecked()) {
                             motorRequestEntity.setRsaplan("t99");
                         } else if (rbExtendedRSA.isChecked()) {
-                            motorRequestEntity.setRsaplan("t349");
+                            motorRequestEntity.setRsaplan("t199");
                         }
 
                     } else {
