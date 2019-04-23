@@ -241,6 +241,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             new MasterController(this).getMenuMaster(this);
             new MasterController(this).getInsuranceSubType(this);
+            new MasterController(this).getInsurerList();
         }
 
 //        if (userConstantEntity != null) {
@@ -1793,8 +1794,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, LapLoanDetailActivity.class));
-                new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
+                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+                    MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
 
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
 //                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)

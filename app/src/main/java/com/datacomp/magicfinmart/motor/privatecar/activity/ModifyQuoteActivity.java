@@ -80,16 +80,17 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         bindAdapters();
         setListener();
 
-        filPrevInputs();
 
         if (userConstantEntity.getPaenable().equals("1")) {
             tvPACoverODYes.performClick();
-            tvPACoverODYes.setEnabled(false);
-            tvPACoverODNo.setEnabled(false);
-        } else {
             tvPACoverODYes.setEnabled(true);
             tvPACoverODNo.setEnabled(true);
+        } else {
+            tvPACoverODYes.setEnabled(false);
+            tvPACoverODNo.setEnabled(false);
         }
+
+        filPrevInputs();
     }
 
     private void filPrevInputs() {

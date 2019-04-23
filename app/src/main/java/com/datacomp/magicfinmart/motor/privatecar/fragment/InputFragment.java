@@ -163,7 +163,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
     TextView txtExistingPolicyYes, txtExistingPolicyNo;
-    LinearLayout llExistingPolicy;
+    LinearLayout llExistingPolicy, llExp;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -249,7 +249,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getCarMakeModel();
-        prevInsurerList = dbController.getInsurerList();
+        prevInsurerList = dbController.getInsurerMasterList();
         fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");
         //region Autocomplete Make Model
@@ -658,7 +658,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
-                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
+                String insName = dbController.getInsurerNameMaster("" + motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
                         prevInsurerIndex = i;
@@ -1404,6 +1404,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         txtExistingPolicyYes = view.findViewById(R.id.txtExistingPolicyYes);
         txtExistingPolicyNo = view.findViewById(R.id.txtExistingPolicyNo);
         llExistingPolicy = view.findViewById(R.id.llExistingPolicy);
+        llExp = view.findViewById(R.id.llExp);
     }
 
     @Override
@@ -1476,6 +1477,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 etExpDate.setVisibility(View.GONE);
                 spPrevIns.setVisibility(View.GONE);
                 cvNcb.setVisibility(View.GONE);
+                llExp.setVisibility(View.GONE);
                 llNoClaim.setVisibility(View.GONE);
                 break;
 
@@ -1487,6 +1489,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 spPrevIns.setVisibility(View.VISIBLE);
                 cvNcb.setVisibility(View.VISIBLE);
                 llNoClaim.setVisibility(View.VISIBLE);
+                llExp.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnGetQuote:
 
@@ -2325,11 +2328,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("");
+        motorRequestEntity.setPa_owner_driver_si("1500000");
         //motorRequestEntity.setPa_owner_driver_si("");
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
-        motorRequestEntity.setPa_paid_driver_si("0");
+        motorRequestEntity.setPa_paid_driver_si("");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
         motorRequestEntity.setMiddle_name(" ");
@@ -2403,7 +2406,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (spPrevIns.getSelectedItemPosition() == 0) {
             motorRequestEntity.setPrev_insurer_id(0);
         } else {
-            motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+            motorRequestEntity.setPrev_insurer_id(Integer.parseInt(dbController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
         }
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
@@ -2431,16 +2434,19 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("");
+
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
-        motorRequestEntity.setPa_paid_driver_si("0");
+        motorRequestEntity.setPa_paid_driver_si("");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("finmarttest@gmail.com");
+        motorRequestEntity.setPa_owner_driver_si("1500000");
+
+
         if (sendOldCrn) {
 
         } else {
@@ -2586,7 +2592,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         try {
             newDate = displayFormat.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            return "";
         }
 
         return policyBossDateFormat.format(newDate);

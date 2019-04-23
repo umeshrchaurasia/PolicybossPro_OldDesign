@@ -106,7 +106,7 @@
                     android:gravity="left"
                     android:text="By not choosing, you agree to either already having a PA cover of 15 Lakhs, or not a valid driving license."
                     android:textAppearance="@style/TextViewStyle.Small"
-                    android:textColor="@color/button_color"
+                    android:textColor="@color/red_button"
                     android:visibility="gone" />
             </LinearLayout>
 

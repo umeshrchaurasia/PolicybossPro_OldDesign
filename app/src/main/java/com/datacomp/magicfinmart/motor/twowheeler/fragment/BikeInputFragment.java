@@ -150,10 +150,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     AlertDialog infoDialog;
 
 
-    TextView txtRSAYes, txtRSANo;
-    RadioButton rbRSA, rbExtendedRSA;
-    ImageView imgInfoRSA, imgInfoExtendedRSA;
-    LinearLayout llOptionRSA;
+//    TextView txtRSAYes, txtRSANo;
+//    RadioButton rbRSA, rbExtendedRSA;
+//    ImageView imgInfoRSA, imgInfoExtendedRSA;
+//    LinearLayout llOptionRSA;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -539,6 +539,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 switchNewRenew.setChecked(false);
             }
         }
+
+
+//        if (motorRequestEntity.getNeedrsa().equals("yes")) {
+//            tvClaimYes.performClick();
+//        } else {
+//            tvClaimNo.performClick();
+//        }
+
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
 
@@ -582,7 +590,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
 
-                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
+                String insName = dbController.getInsurerNameMaster("" + motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
                         prevInsurerIndex = i;
@@ -1002,7 +1010,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
         tvClaimNo.performClick();
-        txtRSAYes.performClick();
+        //txtRSAYes.performClick();
 
         spPrevIns.setEnabled(false);
         llVerifyCarDetails.setVisibility(View.GONE);
@@ -1077,10 +1085,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     private void setListener() {
 
-        txtRSAYes.setOnClickListener(this);
-        txtRSANo.setOnClickListener(this);
-        imgInfoRSA.setOnClickListener(this);
-        imgInfoExtendedRSA.setOnClickListener(this);
+//        txtRSAYes.setOnClickListener(this);
+//        txtRSANo.setOnClickListener(this);
+//        imgInfoRSA.setOnClickListener(this);
+//        imgInfoExtendedRSA.setOnClickListener(this);
 
         imgInfo.setOnClickListener(this);
         btnGo.setOnClickListener(this);
@@ -1221,13 +1229,13 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         llNCB = (LinearLayout) view.findViewById(R.id.llNCB);
         imgInfo = (ImageView) view.findViewById(R.id.imgInfo);
 
-        txtRSAYes = view.findViewById(R.id.txtRSAYes);
-        txtRSANo = view.findViewById(R.id.txtRSANo);
-        rbRSA = view.findViewById(R.id.rbRSA);
-        rbExtendedRSA = view.findViewById(R.id.rbExtendedRSA);
-        imgInfoRSA = view.findViewById(R.id.imgInfoRSA);
-        imgInfoExtendedRSA = view.findViewById(R.id.imgInfoExtendedRSA);
-        llOptionRSA = view.findViewById(R.id.llOptionRSA);
+//        txtRSAYes = view.findViewById(R.id.txtRSAYes);
+//        txtRSANo = view.findViewById(R.id.txtRSANo);
+//        rbRSA = view.findViewById(R.id.rbRSA);
+//        rbExtendedRSA = view.findViewById(R.id.rbExtendedRSA);
+//        imgInfoRSA = view.findViewById(R.id.imgInfoRSA);
+//        imgInfoExtendedRSA = view.findViewById(R.id.imgInfoExtendedRSA);
+//        llOptionRSA = view.findViewById(R.id.llOptionRSA);
     }
 
 
@@ -1339,16 +1347,16 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             case R.id.txtRSAYes:
                 isNeedRSA = true;
-                txtRSAYes.setBackgroundResource(R.drawable.customeborder_blue);
-                txtRSANo.setBackgroundResource(R.drawable.customeborder);
-                llOptionRSA.setVisibility(View.VISIBLE);
+//                txtRSAYes.setBackgroundResource(R.drawable.customeborder_blue);
+//                txtRSANo.setBackgroundResource(R.drawable.customeborder);
+//                llOptionRSA.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.txtRSANo:
                 isNeedRSA = false;
-                txtRSAYes.setBackgroundResource(R.drawable.customeborder);
-                txtRSANo.setBackgroundResource(R.drawable.customeborder_blue);
-                llOptionRSA.setVisibility(View.GONE);
+//                txtRSAYes.setBackgroundResource(R.drawable.customeborder);
+//                txtRSANo.setBackgroundResource(R.drawable.customeborder_blue);
+//                llOptionRSA.setVisibility(View.GONE);
                 break;
 
 
@@ -1373,18 +1381,18 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     if (constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
 
-                    if (isNeedRSA) {
-                        motorRequestEntity.setNeedrsa("yes");
-                        if (rbRSA.isChecked()) {
-                            motorRequestEntity.setRsaplan("t99");
-                        } else if (rbExtendedRSA.isChecked()) {
-                            motorRequestEntity.setRsaplan("t199");
-                        }
-
-                    } else {
-                        motorRequestEntity.setNeedrsa("no");
-                        motorRequestEntity.setRsaplan("");
-                    }
+//                    if (isNeedRSA) {
+//                        motorRequestEntity.setNeedrsa("yes");
+//                        if (rbRSA.isChecked()) {
+//                            motorRequestEntity.setRsaplan("t99");
+//                        } else if (rbExtendedRSA.isChecked()) {
+//                            motorRequestEntity.setRsaplan("t199");
+//                        }
+//
+//                    } else {
+//                        motorRequestEntity.setNeedrsa("no");
+//                        motorRequestEntity.setRsaplan("");
+//                    }
 
                     MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "GET QUOTE TWO WHEELER", "GET QUOTE TWO WHEELER");
 
@@ -2067,7 +2075,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         // motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
         //motorRequestEntity.setPolicy_expiry_date(getYYYYMMDDPattern(etExpDate.getText().toString()));
-        motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        motorRequestEntity.setPrev_insurer_id(Integer.parseInt(dbController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
 
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(10);
@@ -2095,7 +2103,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("");
+        motorRequestEntity.setPa_owner_driver_si("1500000");
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
         motorRequestEntity.setPa_paid_driver_si("0");
