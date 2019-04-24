@@ -978,6 +978,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                         cvNcb.setVisibility(View.VISIBLE);
                         llNCB.setVisibility(View.VISIBLE);
                         setNcb();
+                        tvClaimNo.performClick();
                     }
                 }
             }
