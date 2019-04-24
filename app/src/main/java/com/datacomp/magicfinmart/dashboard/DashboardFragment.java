@@ -117,6 +117,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         new MasterController(getActivity()).geUserConstantSync(this);
 
         //send user behaviour
+
         if (!prefManager.isUserBehaviourSave())
             new DynamicController(getActivity()).sendUserBehaviour();
 
