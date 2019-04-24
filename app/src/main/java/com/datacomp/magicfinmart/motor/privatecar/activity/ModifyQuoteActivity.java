@@ -91,6 +91,16 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         }
 
         filPrevInputs();
+
+        /*if (motorRequestEntity.getVehicle_insurance_subtype().equalsIgnoreCase("0CH_5TP")
+                || motorRequestEntity.getVehicle_insurance_subtype().equalsIgnoreCase("0CH_3TP")
+                || motorRequestEntity.getVehicle_insurance_subtype().equalsIgnoreCase("0CH_1TP")) {
+            sbIdv.setEnabled(false);
+            etIdv.setEnabled(false);
+        } else {
+            sbIdv.setEnabled(true);
+            etIdv.setEnabled(true);
+        }*/
     }
 
     private void filPrevInputs() {
