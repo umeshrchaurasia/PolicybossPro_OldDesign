@@ -24,6 +24,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -34,6 +36,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -131,6 +134,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     String modelId, varientId;
     String regplace, makeModel = "";
     boolean isClaimExist = true;
+    boolean isNeedRSA = true;
 
     LocationTracker locationTracker;
     Location location;
@@ -144,6 +148,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
     ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
     AlertDialog infoDialog;
+
+
+//    TextView txtRSAYes, txtRSANo;
+//    RadioButton rbRSA, rbExtendedRSA;
+//    ImageView imgInfoRSA, imgInfoExtendedRSA;
+//    LinearLayout llOptionRSA;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -174,7 +184,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         constantEntity = dbController.getConstantsData();
         loginResponseEntity = dbController.getUserData();
         userConstantEntity = dbController.getUserConstantsData();
+
         registerPopUp(this);
+
         init_view(view);
 
         setListener();
@@ -527,6 +539,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 switchNewRenew.setChecked(false);
             }
         }
+
+
+//        if (motorRequestEntity.getNeedrsa().equals("yes")) {
+//            tvClaimYes.performClick();
+//        } else {
+//            tvClaimNo.performClick();
+//        }
+
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
 
@@ -570,7 +590,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
 
-                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
+                String insName = dbController.getInsurerNameMaster("" + motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
                         prevInsurerIndex = i;
@@ -732,7 +752,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 }
                 spVarient.setSelection(varientIndex);
 
-                //endregion
+                //endregiononc
 
                 //region Rto binding
 
@@ -958,6 +978,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                         cvNcb.setVisibility(View.VISIBLE);
                         llNCB.setVisibility(View.VISIBLE);
                         setNcb();
+                        tvClaimNo.performClick();
                     }
                 }
             }
@@ -990,6 +1011,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
         tvClaimNo.performClick();
+        //txtRSAYes.performClick();
+
         spPrevIns.setEnabled(false);
         llVerifyCarDetails.setVisibility(View.GONE);
 
@@ -1062,6 +1085,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     private void setListener() {
+
+//        txtRSAYes.setOnClickListener(this);
+//        txtRSANo.setOnClickListener(this);
+//        imgInfoRSA.setOnClickListener(this);
+//        imgInfoExtendedRSA.setOnClickListener(this);
+
         imgInfo.setOnClickListener(this);
         btnGo.setOnClickListener(this);
         switchNewRenew.setOnCheckedChangeListener(this);
@@ -1200,11 +1229,64 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         spYear = (Spinner) view.findViewById(R.id.spYear);
         llNCB = (LinearLayout) view.findViewById(R.id.llNCB);
         imgInfo = (ImageView) view.findViewById(R.id.imgInfo);
+
+//        txtRSAYes = view.findViewById(R.id.txtRSAYes);
+//        txtRSANo = view.findViewById(R.id.txtRSANo);
+//        rbRSA = view.findViewById(R.id.rbRSA);
+//        rbExtendedRSA = view.findViewById(R.id.rbExtendedRSA);
+//        imgInfoRSA = view.findViewById(R.id.imgInfoRSA);
+//        imgInfoExtendedRSA = view.findViewById(R.id.imgInfoExtendedRSA);
+//        llOptionRSA = view.findViewById(R.id.llOptionRSA);
+    }
+
+
+    private void dialogRSA(int id) {
+        //wvRSA
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(),
+                android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+
+        final View view = getLayoutInflater().inflate(R.layout.layout_rsa_webview, null);
+        builder.setView(view);
+        final AlertDialog alertDialog = builder.create();
+
+        WebView webView = view.findViewById(R.id.wvRSA);
+        Button btnClose = view.findViewById(R.id.btnClose);
+
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setUseWideViewPort(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportMultipleWindows(false);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setLightTouchEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+
+        if (R.id.imgInfoRSA == id) {
+            webView.loadUrl("file:///android_asset/planT99.html");
+        } else if (R.id.imgInfoExtendedRSA == id) {
+            webView.loadUrl("file:///android_asset/planT199.html");
+        }
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertDialog.setCancelable(true);
+        alertDialog.show();
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+
             case R.id.btnGo:
                 if (etreg1.getText().toString().equals("")) {
                     etreg1.requestFocus();
@@ -1263,6 +1345,30 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 sbNoClaimBonus.setProgress(0);
 
                 break;
+
+            case R.id.txtRSAYes:
+                isNeedRSA = true;
+//                txtRSAYes.setBackgroundResource(R.drawable.customeborder_blue);
+//                txtRSANo.setBackgroundResource(R.drawable.customeborder);
+//                llOptionRSA.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.txtRSANo:
+                isNeedRSA = false;
+//                txtRSAYes.setBackgroundResource(R.drawable.customeborder);
+//                txtRSANo.setBackgroundResource(R.drawable.customeborder_blue);
+//                llOptionRSA.setVisibility(View.GONE);
+                break;
+
+
+            case R.id.imgInfoRSA:
+                dialogRSA(R.id.imgInfoRSA);
+                break;
+
+            case R.id.imgInfoExtendedRSA:
+                dialogRSA(R.id.imgInfoExtendedRSA);
+                break;
+
             case R.id.btnGetQuote:
                 //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
 
@@ -1275,6 +1381,20 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                     if (constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
+
+//                    if (isNeedRSA) {
+//                        motorRequestEntity.setNeedrsa("yes");
+//                        if (rbRSA.isChecked()) {
+//                            motorRequestEntity.setRsaplan("t99");
+//                        } else if (rbExtendedRSA.isChecked()) {
+//                            motorRequestEntity.setRsaplan("t199");
+//                        }
+//
+//                    } else {
+//                        motorRequestEntity.setNeedrsa("no");
+//                        motorRequestEntity.setRsaplan("");
+//                    }
+
                     MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "GET QUOTE TWO WHEELER", "GET QUOTE TWO WHEELER");
 
                     showDialog(getResources().getString(R.string.fetching_msg));
@@ -1849,7 +1969,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("");
+        motorRequestEntity.setPa_owner_driver_si("1500000");
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
         motorRequestEntity.setPa_paid_driver_si("0");
@@ -1956,7 +2076,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         // motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
         //motorRequestEntity.setPolicy_expiry_date(getYYYYMMDDPattern(etExpDate.getText().toString()));
-        motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        motorRequestEntity.setPrev_insurer_id(Integer.parseInt(dbController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
 
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(10);
@@ -1984,7 +2104,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("");
+        motorRequestEntity.setPa_owner_driver_si("1500000");
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
         motorRequestEntity.setPa_paid_driver_si("0");
@@ -2501,14 +2621,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
 
-
     public void InfomationAlert(String Title, String strBody) {
 
         if (infoDialog != null && infoDialog.isShowing()) {
 
             return;
-        }
-        else {
+        } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
 
 

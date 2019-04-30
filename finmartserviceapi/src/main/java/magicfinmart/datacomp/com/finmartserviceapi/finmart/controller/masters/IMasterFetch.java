@@ -35,4 +35,6 @@ public interface IMasterFetch {
 
     public void getInsuranceSubType(IResponseSubcriber iResponseSubcriber);
 
+    void getInsurerList();
+
 }

@@ -14,8 +14,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 
 public class PrefManager {
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    public SharedPreferences pref;
+    public SharedPreferences.Editor editor;
     Context _context;
 
     // shared pref mode

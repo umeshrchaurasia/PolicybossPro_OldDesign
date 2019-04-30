@@ -416,30 +416,34 @@ public class MotorController implements IMotor {
             public void onResponse(Call<SaveAddOnResponse> call, Response<SaveAddOnResponse> response) {
 
                 if (response.isSuccessful()) {
-
-                    if (response.body() != null) {
-                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
-                    } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    if (iResponseSubcriber != null) {
+                        if (response.body() != null) {
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        } else {
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        }
                     }
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    if (iResponseSubcriber != null) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<SaveAddOnResponse> call, Throwable t) {
-
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
                 }
             }
         });

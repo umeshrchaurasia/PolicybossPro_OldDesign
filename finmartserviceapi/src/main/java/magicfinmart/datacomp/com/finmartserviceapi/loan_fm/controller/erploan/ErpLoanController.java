@@ -337,17 +337,16 @@ public class ErpLoanController implements IErpLoan {
             @Override
             public void onResponse(Call<LoanCityResponse> call, Response<LoanCityResponse> response) {
 
-                    if (response.body().getStatusId() == 0) {
-                        new AsyncLoanCityConstant(mContext, response.body()).execute();
+                if (response.body().getStatusId() == 0) {
+                    new AsyncLoanCityConstant(mContext, response.body()).execute();
+                    if (iResponseSubcriber != null) {
+                        iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
+                    } else {
                         if (iResponseSubcriber != null) {
-                            iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
-                        }
-                        else {
-                            if (iResponseSubcriber != null) {
-                                iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
-                            }
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                         }
                     }
+                }
 
             }
 
@@ -372,7 +371,7 @@ public class ErpLoanController implements IErpLoan {
     }
 
     @Override
-    public void getCitywiseBankListloan(String cityid, String Productid,final IResponseSubcriberERP iResponseSubcriber) {
+    public void getCitywiseBankListloan(String cityid, String Productid, final IResponseSubcriberERP iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("cityId", cityid);
@@ -382,9 +381,11 @@ public class ErpLoanController implements IErpLoan {
             @Override
             public void onResponse(Call<citywisebankloanResponse> call, Response<citywisebankloanResponse> response) {
                 try {
-
-                    iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
-
+                    if (response.body().getStatusId() == 0) {
+                        iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
 
                 } catch (Exception e) {
                     iResponseSubcriber.OnFailure(new RuntimeException(e.getMessage()));

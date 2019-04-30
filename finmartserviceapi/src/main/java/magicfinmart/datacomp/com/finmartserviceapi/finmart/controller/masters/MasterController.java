@@ -20,6 +20,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
@@ -466,7 +467,7 @@ public class MasterController implements IMasterFetch {
     }
 
     @Override
-    public void geUserConstantSync( final IResponseSubcriber iResponseSubcriber) {
+    public void geUserConstantSync(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
         body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
         masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
@@ -571,6 +572,25 @@ public class MasterController implements IMasterFetch {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
+            }
+        });
+    }
+
+
+    @Override
+    public void getInsurerList() {
+        masterNetworkService.getInsuranceList().enqueue(new Callback<InsurerResponse>() {
+            @Override
+            public void onResponse(Call<InsurerResponse> call, Response<InsurerResponse> response) {
+
+                if (response.isSuccessful()) {
+                    new DBPersistanceController(mContext).storeInsurerMaster(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InsurerResponse> call, Throwable t) {
+
             }
         });
     }

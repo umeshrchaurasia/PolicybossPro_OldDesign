@@ -327,7 +327,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
-                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
+                String insName = dbController.getInsurerNameMaster("" + motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
                         prevInsurerIndex = i;
@@ -2190,7 +2190,8 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
         }
 
-        motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        motorRequestEntity.setPrev_insurer_id(Integer.parseInt(dbController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
+
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
         motorRequestEntity.setExecution_async("yes");

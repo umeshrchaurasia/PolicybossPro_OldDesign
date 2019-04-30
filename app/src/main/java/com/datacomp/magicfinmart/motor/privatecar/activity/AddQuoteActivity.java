@@ -607,7 +607,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
-        motorRequestEntity.setPrev_insurer_id(databaseController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+
+        motorRequestEntity.setPrev_insurer_id(Integer.parseInt(databaseController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
 
         motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);

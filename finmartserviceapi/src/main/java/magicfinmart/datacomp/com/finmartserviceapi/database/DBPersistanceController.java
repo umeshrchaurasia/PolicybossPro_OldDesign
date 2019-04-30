@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.database;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +37,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEnt
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -63,11 +67,15 @@ public class DBPersistanceController {
     Realm realm;
     PrefManager prefManager;
     List<DashBoardItemEntity> dashBoardItemEntities;
+    SharedPreferences.Editor editor;
+
+    public static final String INSURER_LIST = "insurer_list";
 
     public DBPersistanceController(Context mContext) {
         this.mContext = mContext;
         realm = Realm.getDefaultInstance();
         prefManager = new PrefManager(mContext);
+        editor = prefManager.editor;
     }
 
 
@@ -686,6 +694,72 @@ public class DBPersistanceController {
 
     //region previous insurer
 
+    public boolean storeInsurerMaster(InsurerResponse insurerResponse) {
+        Gson gson = new Gson();
+        editor.remove(INSURER_LIST);
+        editor.putString(INSURER_LIST, gson.toJson(insurerResponse));
+        return editor.commit();
+    }
+
+    public InsurerResponse getInsurerMaster() {
+        if (new Gson().fromJson(prefManager.pref.getString(INSURER_LIST, "")
+                , InsurerResponse.class) != null) {
+            return new Gson().fromJson(prefManager.pref.getString(INSURER_LIST, "")
+                    , InsurerResponse.class);
+        }
+        return null;
+    }
+
+    public List<String> getInsurerMasterList() {
+        ArrayList<String> insurenceList = new ArrayList<>();
+        InsurerResponse master = getInsurerMaster();
+        if (master != null) {
+            for (int i = 0; i < master.getMasterData().size(); i++) {
+                insurenceList.add(master.getMasterData().get(i).getInsurer_name());
+            }
+            insurenceList.add(0, "Present Insurer");
+        } else {
+            return getInsurerList();
+        }
+        return insurenceList;
+    }
+
+    public String getInsurerMasterID(String insurerName) {
+        InsurerResponse master = getInsurerMaster();
+        if (master != null) {
+            for (int i = 0; i < master.getMasterData().size(); i++) {
+
+                if (insurerName.toLowerCase().equalsIgnoreCase(
+                        master.getMasterData().get(i).getInsurer_name().toLowerCase()
+                )) {
+                    return master.getMasterData().get(i).getInsurer_id();
+                }
+            }
+        } else {
+
+            return "" + getInsurenceID(insurerName);
+        }
+
+        return "0";
+    }
+
+    public String getInsurerNameMaster(String insurerID) {
+        InsurerResponse master = getInsurerMaster();
+        if (master != null) {
+            for (int i = 0; i < master.getMasterData().size(); i++) {
+
+                if (insurerID.equalsIgnoreCase(
+                        master.getMasterData().get(i).getInsurer_id()
+                )) {
+                    return master.getMasterData().get(i).getInsurer_id();
+                }
+            }
+        } else {
+            return getInsurername(Integer.parseInt(insurerID));
+        }
+        return "0";
+    }
+
 
     public List<String> getInsurerList() {
         MapInsurence();
@@ -982,8 +1056,6 @@ public class DBPersistanceController {
 
         return HealthCityName;
     }
-
-
 
 
     public void MapHealthCity() {
@@ -1687,7 +1759,6 @@ public class DBPersistanceController {
     }
 
 
-
     public List<HealthSumAssured> getSumAssured() {
         List<HealthSumAssured> list = new ArrayList<HealthSumAssured>();
         list.add(new HealthSumAssured("1 LAC", 100000, false));
@@ -1714,19 +1785,18 @@ public class DBPersistanceController {
         MapHealthCity();
         return new ArrayList<String>(hashmapCity.keySet());
     }
+
     public int getLoanCityID(String cityName) {
-        int i=0;
+        int i = 0;
         hashmapCity = new HashMap<String, Integer>();
         MapHealthCity();
         if (hashmapCity.get(cityName) != null) {
-            i= hashmapCity.get(cityName);
+            i = hashmapCity.get(cityName);
         } else {
-            i= 0;
+            i = 0;
         }
-        return  i;
+        return i;
     }
-
-
 
 
     //endregion

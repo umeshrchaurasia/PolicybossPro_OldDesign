@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -24,6 +25,8 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
@@ -45,12 +48,18 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
     TextView tvLiabYes, tvLiabNo, tvAntiYes, tvAntiNo, tvMinIdv, tvMaxIdv, tvProgress;
     boolean isLiability = false, isAntiTheft = false;
 
+    TextView tvPACoverODYes, tvPACoverODNo, lblPAMsg;
+
+    UserConstantEntity userConstantEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify_quote);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(true);
+
+
         if (getIntent().hasExtra("CAR_REQUEST")) {
             motorRequestEntity = getIntent().getParcelableExtra("CAR_REQUEST");
             volAccess = getResources().getStringArray(R.array.voluntary_car);
@@ -65,14 +74,43 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
 
+        userConstantEntity = new DBPersistanceController(this).getUserConstantsData();
+
         initWidgets();
         bindAdapters();
         setListener();
 
+
+        if (userConstantEntity.getPaenable().equals("1")) {
+            tvPACoverODYes.performClick();
+            tvPACoverODYes.setEnabled(true);
+            tvPACoverODNo.setEnabled(true);
+        } else {
+            tvPACoverODYes.setEnabled(false);
+            tvPACoverODNo.setEnabled(false);
+        }
+
         filPrevInputs();
+
+        /*if (motorRequestEntity.getVehicle_insurance_subtype().equalsIgnoreCase("0CH_5TP")
+                || motorRequestEntity.getVehicle_insurance_subtype().equalsIgnoreCase("0CH_3TP")
+                || motorRequestEntity.getVehicle_insurance_subtype().equalsIgnoreCase("0CH_1TP")) {
+            sbIdv.setEnabled(false);
+            etIdv.setEnabled(false);
+        } else {
+            sbIdv.setEnabled(true);
+            etIdv.setEnabled(true);
+        }*/
     }
 
     private void filPrevInputs() {
+
+        if (motorRequestEntity.getPa_owner_driver_si().equals("0")) {
+            tvPACoverODNo.performClick();
+        } else {
+            tvPACoverODYes.performClick();
+        }
+
         if (!motorRequestEntity.getElectrical_accessory().matches("0"))
             etElecAcc.setText(motorRequestEntity.getElectrical_accessory());
         if (!motorRequestEntity.getNon_electrical_accessory().matches("0"))
@@ -108,7 +146,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
         if (motorRequestEntity.getVehicle_expected_idv() > 0) {
             etIdv.setText("" + motorRequestEntity.getVehicle_expected_idv());
-            sbIdv.setProgress((int)(motorRequestEntity.getVehicle_expected_idv() / 1000));
+            sbIdv.setProgress((int) (motorRequestEntity.getVehicle_expected_idv() / 1000));
             tvProgress.setText("DESIRED IDV (" + motorRequestEntity.getVehicle_expected_idv() + ")");
         }
     }
@@ -145,6 +183,11 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         tvAntiYes.setOnClickListener(this);
         tvLiabYes.setOnClickListener(this);
         tvLiabNo.setOnClickListener(this);
+
+        tvPACoverODNo.setOnClickListener(this);
+        tvPACoverODYes.setOnClickListener(this);
+
+
         try {
             sbIdv.setMin(Integer.parseInt(summaryEntity.getVehicle_min_idv()) / 1000);
             sbIdv.setMax(Integer.parseInt(summaryEntity.getVehicle_max_idv()) / 1000);
@@ -223,11 +266,28 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             etElecAcc.setVisibility(View.GONE);
             etNonElecAcc.setVisibility(View.GONE);
         }
+
+        tvPACoverODYes = (TextView) findViewById(R.id.tvPACoverODYes);
+        tvPACoverODNo = (TextView) findViewById(R.id.tvPACoverODNo);
+
+        lblPAMsg = (TextView) findViewById(R.id.lblPAMsg);
+
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.tvPACoverODYes:
+                lblPAMsg.setVisibility(View.GONE);
+                tvPACoverODYes.setBackgroundResource(R.drawable.customeborder_blue);
+                tvPACoverODNo.setBackgroundResource(R.drawable.customeborder);
+                break;
+            case R.id.tvPACoverODNo:
+                lblPAMsg.setVisibility(View.VISIBLE);
+                tvPACoverODNo.setBackgroundResource(R.drawable.customeborder_blue);
+                tvPACoverODYes.setBackgroundResource(R.drawable.customeborder);
+                break;
 
             case R.id.tvAntiNo:
                 isAntiTheft = false;
@@ -291,6 +351,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
     private void addparameters() {
 
+
         if (isLiability) {
             motorRequestEntity.setIs_llpd("yes");
         } else {
@@ -311,10 +372,16 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         if (!etIdv.getText().toString().isEmpty())
             motorRequestEntity.setVehicle_expected_idv(Long.parseLong(etIdv.getText().toString()));
 
+
         motorRequestEntity.setVoluntary_deductible(Integer.parseInt(spVolExcessAmt.getSelectedItem().toString()));
-
-
         motorRequestEntity.setPa_unnamed_passenger_si(spPaCover.getSelectedItem().toString());
+
+
+        if (lblPAMsg.getVisibility() == View.VISIBLE) {  // NO
+            motorRequestEntity.setPa_owner_driver_si("0");
+        } else {                                         // YES
+            motorRequestEntity.setPa_owner_driver_si("1500000");
+        }
 
 
         /*if (swMemAto.isChecked()) {

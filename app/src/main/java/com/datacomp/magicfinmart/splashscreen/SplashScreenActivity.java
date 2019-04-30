@@ -46,7 +46,9 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
 
-        if(new LoanCityFacade(this) != null) {
+        new MasterController(this).getInsurerList();
+
+        if (new LoanCityFacade(this) != null) {
             if (new LoanCityFacade(this).getLoanCity() == null) {
                 new ErpLoanController(this).getcityloan(null);
             }
@@ -59,6 +61,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             prefManager.saveUserbehaviourState(false);
             new MasterController(this).geUserConstant(0, this);
             new MasterController(this).getConstants(this);
+
         }
        /* if (userConstantEntity != null) {
             new MasterController(this).geUserConstant(0, this);
@@ -149,7 +152,6 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             Log.d("Test", "success");
         }
     }
-
 
 
     @Override
