@@ -381,4 +381,9 @@ public class BaseFragment extends Fragment {
             Toast.makeText(getActivity(), "Please try again..", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    public int dateDifferenceInDays(Date startDate, Date endDate) {
+        return (int) ((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24));
+    }
 }

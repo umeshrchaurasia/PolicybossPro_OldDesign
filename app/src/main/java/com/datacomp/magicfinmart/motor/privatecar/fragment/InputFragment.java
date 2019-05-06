@@ -1413,6 +1413,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 break;
 
             case R.id.txtExistingPolicyNo:
+
+                Toast.makeText(getActivity(), "Your policy will not issue instantly, It will issue after inspection.", Toast.LENGTH_SHORT).show();
+
                 isPolicyExist = false;
                 txtExistingPolicyNo.setBackgroundResource(R.drawable.customeborder_blue);
                 txtExistingPolicyYes.setBackgroundResource(R.drawable.customeborder);
@@ -1473,6 +1476,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                     DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
                                             + DateUtils.DAY_IN_MILLIS);
 
+                            //expiry date above 90 days
+                            if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
+                                motorRequestEntity.setIs_policy_exist("yes");
+                                motorRequestEntity.setVehicle_ncb_current("0");
+                            }
+
+
                             //for before todays Date
                             final Calendar calendar = Calendar.getInstance();
 
@@ -1481,9 +1491,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                             if (!swIndividual.isChecked()
                                     || isYesterday
                                     || displayFormat.parse(etExpDate.getText().toString()).before(calendar.getTime())) {
-                                isBreakIn = true;
 
+                                isBreakIn = true;
                                 motorRequestEntity.setIs_breakin("yes");
+                                Toast.makeText(getActivity(), "Your policy will not issue instantly, It will issue after inspection.", Toast.LENGTH_SHORT).show();
+
                             }
 
                         }
@@ -2085,35 +2097,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                                 etRegDate.setTag(R.id.etRegDate, calendar);
                                 etRegDate.setError(null);
-                                /*Calendar calendar1 = Calendar.getInstance();
-                                calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
-                                String expDate = simpleDateFormat.format(calendar1.getTime());
-                                etExpDate.setText(expDate);*/
+
                             }
                         }
                     });
 
-                    /*DateTimePicker.testDatePicker(view.getContext(), (Calendar) view.getTag(R.id.etRegDate), new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-
-                            if (view1.isShown()) {
-                                Calendar calendar = Calendar.getInstance();
-                                Calendar calSetPrev = Calendar.getInstance();
-                                calendar.set(year, monthOfYear, dayOfMonth);
-                                calSetPrev.set(year, monthOfYear, dayOfMonth);
-                                String currentDay = displayFormat.format(calendar.getTime());
-                                etRegDate.setTag(R.id.etRegDate, calSetPrev);
-                                etRegDate.setText(currentDay);
-
-                                calendar.set(year, monthOfYear, 01);
-                                String currentDay1 = displayFormat.format(calendar.getTime());
-                                etMfgDate.setText(currentDay1);
-                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
-
-                            }
-                        }
-                    });*/
 
                     //endregion
                 } else {
@@ -2123,12 +2111,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         @Override
                         public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                             if (view1.isShown()) {
-                                /*Calendar calendar = Calendar.getInstance();
-                                calendar.set(year, monthOfYear, dayOfMonth);
-                                String currentDay = displayFormat.format(calendar.getTime());
-                                etRegDate.setText(currentDay);
-                                etMfgDate.setText(currentDay);
-                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));*/
 
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.set(year, monthOfYear, dayOfMonth);
@@ -2182,12 +2164,19 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                             String currentDay = displayFormat.format(calendar.getTime());
                             etExpDate.setText(currentDay);
                             etExpDate.setError(null);
-//                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
-//                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-//                                setSeekbarProgress(yearDiff);
-//                            }
 
+                            if (switchNewRenew.isChecked()) {
+                                int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
 
+                                if (day > 90) {
+                                    llNoClaim.setVisibility(View.GONE);
+                                    cvNcb.setVisibility(View.GONE);
+                                } else {
+                                    llNoClaim.setVisibility(View.VISIBLE);
+                                    cvNcb.setVisibility(View.VISIBLE);
+
+                                }
+                            }
                         }
                     }
                 });
@@ -2234,8 +2223,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private void setInputParametersNewCAR() {
         // motorRequestEntity.setBirth_date("1992-01-01");
-
-
         motorRequestEntity.setProduct_id(1);
         varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
@@ -2314,8 +2301,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void setInputParametersReNewCar() {
         if (fastLaneResponseEntity != null) {
             try {
-                /*motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
-                motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
                 varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
                 motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
@@ -2323,8 +2308,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
-                //motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
-                //motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
                 motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
             } catch (Exception e) {
@@ -2334,10 +2317,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
             motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
-            //motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
             try {
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
-                //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
             } catch (Exception e) {
@@ -2815,7 +2796,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
 
-//region tracking
+    //region tracking
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
         MotorRequestEntity motorRequestEntity;

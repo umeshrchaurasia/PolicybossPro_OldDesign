@@ -1834,23 +1834,18 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             String expDate = displayFormat.format(calendar.getTime());
                             etExpDate.setText(expDate);
                             etExpDate.setError(null);
-                            /*if (getDaysDiff(expDate, currDate) < 90) {
-                                cvNcb.setVisibility(View.VISIBLE);
-                                llNCB.setVisibility(View.VISIBLE);
-                            } else {
-                                cvNcb.setVisibility(View.GONE);
-                                llNCB.setVisibility(View.INVISIBLE);
-                            }
 
                             if (switchNewRenew.isChecked()) {
-                                if (spInsSubTYpe.getSelectedItemPosition() == 0) {
+                                int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
+                                if (day > 90) {
+                                    llNoClaim.setVisibility(View.GONE);
                                     cvNcb.setVisibility(View.GONE);
-                                    llNCB.setVisibility(View.INVISIBLE);
                                 } else {
+                                    llNoClaim.setVisibility(View.VISIBLE);
                                     cvNcb.setVisibility(View.VISIBLE);
-                                    llNCB.setVisibility(View.VISIBLE);
                                 }
-                            }*/
+                            }
+
                         }
                     }
                 });
@@ -2008,8 +2003,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         if (fastLaneResponseEntity != null) {
             try {
-                /*motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
-                motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
+
                 varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
                 motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
@@ -2017,7 +2011,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
-                //motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
                 motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
             } catch (Exception e) {
@@ -2029,7 +2022,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
             try {
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
-                //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
             } catch (Exception e) {
@@ -2040,52 +2032,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         }
 
-        //region previous code
-        /*if (fastLaneResponseEntity != null) {
-            try {
-                varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-                motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-                motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
-
-                //motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
-                //motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));
-                motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(changeDateFormat(fastLaneResponseEntity.getRegistration_Date())));
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
-
-                motorRequestEntity.setVehicle_manf_date(getMfgDate());
-                motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
-                motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
-                //motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-            motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-            motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
-            motorRequestEntity.setVehicle_manf_date(getMfgDate());
-            // motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
-            if (regNo.equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
-            else
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
-        }*/
-        //endregion
-
-        // motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
-        //motorRequestEntity.setPolicy_expiry_date(getYYYYMMDDPattern(etExpDate.getText().toString()));
         motorRequestEntity.setPrev_insurer_id(Integer.parseInt(dbController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
-
-        // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(10);
-        //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
-        //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("renew");
-
-
         motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setMethod_type("Premium");
 
@@ -2116,27 +2066,20 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("");
 
-
-        /*if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
-            motorRequestEntity.setExternal_bifuel_type("lpg");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-        } else if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
-            motorRequestEntity.setExternal_bifuel_type("cng");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-
-        } else {
-            motorRequestEntity.setExternal_bifuel_type("");
-            motorRequestEntity.setIs_external_bifuel("no");
-            motorRequestEntity.setExternal_bifuel_value(0);
-        }*/
-
         motorRequestEntity.setExternal_bifuel_type("");
         motorRequestEntity.setIs_external_bifuel("no");
         motorRequestEntity.setExternal_bifuel_value(0);
+
+        try {
+            //expiry date above 90 days
+            if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
+                motorRequestEntity.setIs_claim_exists("yes");
+                motorRequestEntity.setVehicle_ncb_current("0");
+            }
+        } catch (Exception e) {
+
+        }
+
         setCustomerDetails();
 
     }
