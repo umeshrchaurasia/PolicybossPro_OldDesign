@@ -96,7 +96,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb, llNCB;
-    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
+    LinearLayout llVerifyCarDetails, llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvIndividual, cvRegNo;
     View cvInput;
@@ -230,6 +230,19 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             spVarient.setEnabled(true);
             acRto.setEnabled(true);
             etExtValue.setEnabled(true);
+        }
+
+        try {
+            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+            if (day > 90) {
+                llNCB.setVisibility(View.INVISIBLE);
+                cvNcb.setVisibility(View.GONE);
+            } else {
+                llNCB.setVisibility(View.VISIBLE);
+                cvNcb.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -853,25 +866,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         });
         //endregion
 
-        //region fuel Listener
-       /* spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
-                        || fuelList.get(position).equals(Constants.EXTERNAL_CNG)) {
-                    etExtValue.setEnabled(true);
-                } else {
-                    etExtValue.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                etExtValue.setEnabled(false);
-            }
-        });*/
-        //endregion
-
         //region cubic capacity
         spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -975,10 +969,23 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                         llNCB.setVisibility(View.INVISIBLE);
                         tvClaimYes.performClick();
                     } else {
-                        cvNcb.setVisibility(View.VISIBLE);
-                        llNCB.setVisibility(View.VISIBLE);
-                        setNcb();
-                        tvClaimNo.performClick();
+
+                        try {
+                            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString()));
+                            if (day > 90) {
+                                llNCB.setVisibility(View.INVISIBLE);
+                                cvNcb.setVisibility(View.GONE);
+                            } else {
+                                cvNcb.setVisibility(View.VISIBLE);
+                                llNCB.setVisibility(View.VISIBLE);
+                                setNcb();
+                                tvClaimNo.performClick();
+                            }
+                        } catch (Exception e) {
+
+                        }
+
+
                     }
                 }
             }
@@ -1182,7 +1189,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         llDontKnow = (LinearLayout) view.findViewById(R.id.llDontKnow);
         llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
         cvNcb = (LinearLayout) view.findViewById(R.id.cvNcb);
-        llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvIndividual = (CardView) view.findViewById(R.id.cvIndividual);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
@@ -1838,11 +1844,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             if (switchNewRenew.isChecked()) {
                                 int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
                                 if (day > 90) {
-                                    llNoClaim.setVisibility(View.GONE);
+                                    llNCB.setVisibility(View.INVISIBLE);
                                     cvNcb.setVisibility(View.GONE);
                                 } else {
-                                    llNoClaim.setVisibility(View.VISIBLE);
-                                    cvNcb.setVisibility(View.VISIBLE);
+
+                                    InsuranceSubtypeEntity insuranceSubtypeEntity =
+                                            (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+
+                                    if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
+                                        cvNcb.setVisibility(View.GONE);
+                                        llNCB.setVisibility(View.INVISIBLE);
+                                        tvClaimYes.performClick();
+                                    } else {
+                                        llNCB.setVisibility(View.VISIBLE);
+                                        cvNcb.setVisibility(View.VISIBLE);
+                                    }
                                 }
                             }
 
