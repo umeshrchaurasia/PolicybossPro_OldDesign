@@ -246,6 +246,21 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             txtExistingPolicyYes.setEnabled(true);
             txtExistingPolicyNo.setEnabled(true);
         }
+
+        try {
+            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+
+            if (day > 90) {
+                llNoClaim.setVisibility(View.GONE);
+                cvNcb.setVisibility(View.GONE);
+            } else {
+                llNoClaim.setVisibility(View.VISIBLE);
+                cvNcb.setVisibility(View.VISIBLE);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void bind_init_binders() {
@@ -1077,9 +1092,24 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         tvClaimYes.performClick();
                     } else {
                         //cvNcb.setVisibility(View.VISIBLE);
-                        llNoClaim.setVisibility(View.VISIBLE);
-                        tvClaimNo.performClick();
-                        setNcb();
+
+                        try {
+                            int day = dateDifferenceInDays(Calendar.getInstance().getTime(),
+                                    displayFormat.parse(etExpDate.getText().toString()));
+
+                            if (day > 90) {
+                                llNoClaim.setVisibility(View.INVISIBLE);
+
+                            } else {
+                                llNoClaim.setVisibility(View.VISIBLE);
+                                tvClaimNo.performClick();
+                                setNcb();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 }
             }
@@ -1419,12 +1449,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 isPolicyExist = false;
                 txtExistingPolicyNo.setBackgroundResource(R.drawable.customeborder_blue);
                 txtExistingPolicyYes.setBackgroundResource(R.drawable.customeborder);
-
+                etExpDate.setText("");
                 etExpDate.setVisibility(View.GONE);
                 spPrevIns.setVisibility(View.GONE);
                 cvNcb.setVisibility(View.GONE);
                 llExp.setVisibility(View.GONE);
-                llNoClaim.setVisibility(View.GONE);
+                llNoClaim.setVisibility(View.INVISIBLE);
                 break;
 
             case R.id.txtExistingPolicyYes:
@@ -1476,13 +1506,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                     DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
                                             + DateUtils.DAY_IN_MILLIS);
 
-                            //expiry date above 90 days
-                            if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
-                                motorRequestEntity.setIs_policy_exist("yes");
-                                motorRequestEntity.setVehicle_ncb_current("0");
-                            }
-
-
                             //for before todays Date
                             final Calendar calendar = Calendar.getInstance();
 
@@ -1500,6 +1523,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                         }
 
+                        //expiry date above 90 days
+                        if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
+                            motorRequestEntity.setIs_claim_exists("yes");
+                            motorRequestEntity.setVehicle_ncb_current("0");
+                        }
 
                         if (isBreakIn) {
                             SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
@@ -2169,11 +2197,18 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                 int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
 
                                 if (day > 90) {
-                                    llNoClaim.setVisibility(View.GONE);
+                                    llNoClaim.setVisibility(View.INVISIBLE);
                                     cvNcb.setVisibility(View.GONE);
                                 } else {
-                                    llNoClaim.setVisibility(View.VISIBLE);
-                                    cvNcb.setVisibility(View.VISIBLE);
+
+                                    InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+                                    if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
+                                        llNoClaim.setVisibility(View.INVISIBLE);
+                                        cvNcb.setVisibility(View.GONE);
+                                    } else {
+                                        llNoClaim.setVisibility(View.VISIBLE);
+                                        cvNcb.setVisibility(View.VISIBLE);
+                                    }
 
                                 }
                             }
