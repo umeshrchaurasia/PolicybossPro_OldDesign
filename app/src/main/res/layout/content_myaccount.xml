@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
+    android:animateLayoutChanges="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.datacomp.magicfinmart.myaccount.MyAccountActivity"
     tools:showIn="@layout/activity_myaccount">
@@ -25,7 +26,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
-            android:animateLayoutChanges="true"
+
 
             android:orientation="vertical">
 

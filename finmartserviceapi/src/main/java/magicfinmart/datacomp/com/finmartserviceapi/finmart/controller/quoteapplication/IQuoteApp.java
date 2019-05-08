@@ -1,6 +1,8 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 
 /**
@@ -17,4 +19,6 @@ public interface IQuoteApp {
     void convertQuoteToApp(String vehicleRequestID, String selectedPrevInsID, String insImage, IResponseSubcriber iResponseSubcriber);
 
     void deleteQuote(String vehicleRequestID, IResponseSubcriber iResponseSubcriber);
+
+    void ModifyLead(MotorMyLeadEntity entity, IResponseSubcriber iResponseSubcriber);
 }

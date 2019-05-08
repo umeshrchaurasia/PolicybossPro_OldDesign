@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorLeadFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import java.util.ArrayList;
@@ -16,12 +17,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicatio
 
 public class ActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final int TOTAL = 2;
+    private static final int TOTAL = 3;
+    public final static String LEAD_LIST = "LIST_LEAD";
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     QuoteApplicationEntity mMasterData;
 
-    private String[] pageTitle = new String[]{"QUOTE", "APPLICATION"};
+    private String[] pageTitle = new String[]{"LEAD", "QUOTE", "APPLICATION"};
 
 
     public ActivityTabsPagerAdapter(FragmentManager fm, QuoteApplicationEntity masterData) {
@@ -45,6 +47,17 @@ public class ActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
         switch (index) {
             case 0:
                 // Salary fragment activity
+                MotorLeadFragment Lfragment = new MotorLeadFragment();
+                Bundle leadBundle = new Bundle();
+                if (mMasterData == null) {
+                    leadBundle.putParcelableArrayList(LEAD_LIST, null);
+                } else {
+                    leadBundle.putParcelableArrayList(LEAD_LIST, (ArrayList<? extends Parcelable>) mMasterData.getMyleads());
+                }
+                Lfragment.setArguments(leadBundle);
+                return Lfragment;
+            case 1:
+                // Salary fragment activity
                 MotorQuoteFragment Qfragment = new MotorQuoteFragment();
                 Bundle bundle = new Bundle();
                 if (mMasterData == null) {
@@ -54,7 +67,7 @@ public class ActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
                 }
                 Qfragment.setArguments(bundle);
                 return Qfragment;
-            case 1:
+            case 2:
                 // ABN fragment activity
                 MotorApplicationFragment Afragment = new MotorApplicationFragment();
                 Bundle Abundle = new Bundle();

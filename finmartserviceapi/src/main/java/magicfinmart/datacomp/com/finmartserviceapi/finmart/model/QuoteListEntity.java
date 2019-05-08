@@ -10,10 +10,58 @@ public class QuoteListEntity implements Parcelable {
     private String vehicle_insurance_type;
     private String SRN;
     private int VehicleRequestID;
-
     private int fba_id;
     private int isActive;
+    private int LeadId;
     private MotorRequestEntity motorRequestEntity;
+    public QuoteListEntity() {
+    }
+
+    protected QuoteListEntity(Parcel in) {
+        vehicle_insurance_type = in.readString();
+        SRN = in.readString();
+        VehicleRequestID = in.readInt();
+        fba_id = in.readInt();
+        isActive = in.readInt();
+        LeadId = in.readInt();
+        motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(vehicle_insurance_type);
+        dest.writeString(SRN);
+        dest.writeInt(VehicleRequestID);
+        dest.writeInt(fba_id);
+        dest.writeInt(isActive);
+        dest.writeInt(LeadId);
+        dest.writeParcelable(motorRequestEntity, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<QuoteListEntity> CREATOR = new Creator<QuoteListEntity>() {
+        @Override
+        public QuoteListEntity createFromParcel(Parcel in) {
+            return new QuoteListEntity(in);
+        }
+
+        @Override
+        public QuoteListEntity[] newArray(int size) {
+            return new QuoteListEntity[size];
+        }
+    };
+
+    public String getVehicle_insurance_type() {
+        return vehicle_insurance_type;
+    }
+
+    public void setVehicle_insurance_type(String vehicle_insurance_type) {
+        this.vehicle_insurance_type = vehicle_insurance_type;
+    }
 
     public String getSRN() {
         return SRN;
@@ -27,15 +75,8 @@ public class QuoteListEntity implements Parcelable {
         return VehicleRequestID;
     }
 
-    public void setVehicleRequestID(int VehicleRequestID) {
-        this.VehicleRequestID = VehicleRequestID;
-    }
-    public String getVehicle_insurance_type() {
-        return vehicle_insurance_type;
-    }
-
-    public void setVehicle_insurance_type(String vehicle_insurance_type) {
-        this.vehicle_insurance_type = vehicle_insurance_type;
+    public void setVehicleRequestID(int vehicleRequestID) {
+        VehicleRequestID = vehicleRequestID;
     }
 
     public int getFba_id() {
@@ -54,6 +95,14 @@ public class QuoteListEntity implements Parcelable {
         this.isActive = isActive;
     }
 
+    public int getLeadId() {
+        return LeadId;
+    }
+
+    public void setLeadId(int leadId) {
+        LeadId = leadId;
+    }
+
     public MotorRequestEntity getMotorRequestEntity() {
         return motorRequestEntity;
     }
@@ -62,42 +111,7 @@ public class QuoteListEntity implements Parcelable {
         this.motorRequestEntity = motorRequestEntity;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.vehicle_insurance_type);
-        dest.writeString(this.SRN);
-        dest.writeInt(this.VehicleRequestID);
-        dest.writeInt(this.fba_id);
-        dest.writeInt(this.isActive);
-        dest.writeParcelable(this.motorRequestEntity, flags);
-    }
 
-    public QuoteListEntity() {
-    }
 
-    protected QuoteListEntity(Parcel in) {
-        this.vehicle_insurance_type = in.readString();
-        this.SRN = in.readString();
-        this.VehicleRequestID = in.readInt();
-        this.fba_id = in.readInt();
-        this.isActive = in.readInt();
-        this.motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<QuoteListEntity> CREATOR = new Parcelable.Creator<QuoteListEntity>() {
-        @Override
-        public QuoteListEntity createFromParcel(Parcel source) {
-            return new QuoteListEntity(source);
-        }
-
-        @Override
-        public QuoteListEntity[] newArray(int size) {
-            return new QuoteListEntity[size];
-        }
-    };
 }
