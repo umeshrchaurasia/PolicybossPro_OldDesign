@@ -1,16 +1,23 @@
 package com.datacomp.magicfinmart.helpfeedback.raiseticket.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +34,7 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
     List<TicketEntity> mQuoteList;
     List<TicketEntity> mQuoteListFiltered;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
 
     public RaiseTicketAdapter(Context context, List<TicketEntity> list) {
         this.context = context;
@@ -57,7 +65,8 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             holder.txtTicketCategory.setText(entity.getCateName());
             holder.txtTicketDesc.setText("" + entity.getMessage());
 
-
+            holder.llviewComment.setOnClickListener(this);
+            holder.llAddComment.setOnClickListener(this);
 
            /* holder.txtCrnNo.setTag(R.id.txtCrnNo, entity);
             holder.txtQuoteDate.setTag(R.id.txtQuoteDate, entity);
@@ -66,7 +75,7 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
 
             //click listener
-            holder.txtCrnNo.setOnClickListener(this);
+
             holder.txtQuoteDate.setOnClickListener(this);
             holder.txtVehicleName.setOnClickListener(this);
             holder.txtPersonName.setOnClickListener(this);
@@ -125,13 +134,20 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
                 openPopUp(view, (QuoteListEntity) view.getTag(view.getId()));
                 break;
 */
+           case R.id.llviewComment:
+                break;
+            case R.id.llAddComment:
+                ((RaiseTicketActivity) context).PopUp_addcomment();
+
+                break;
         }
     }
 
     public class RaiseTicketItem extends RecyclerView.ViewHolder {
 
         public ImageView ticketPhoto;
-        public TextView txtTicketId, txtTicketStatus, txtTicketCategory, txtTicketDesc;
+        public TextView txtTicketId, txtTicketStatus, txtTicketCategory, txtTicketDesc,txtproduct,txtCRN;
+        public LinearLayout llviewComment,llAddComment;
 
         public RaiseTicketItem(View itemView) {
             super(itemView);
@@ -140,6 +156,11 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             txtTicketCategory = (TextView) itemView.findViewById(R.id.txtTicketCategory);
             txtTicketDesc = (TextView) itemView.findViewById(R.id.txtTicketDesc);
             ticketPhoto = (ImageView) itemView.findViewById(R.id.ticketPhoto);
+            llAddComment =(LinearLayout)itemView.findViewById(R.id.llAddComment);
+            llviewComment =(LinearLayout)itemView.findViewById(R.id.llviewComment);
+            txtproduct = (TextView) itemView.findViewById(R.id.txtproduct);
+            txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
+
         }
     }
 
@@ -182,4 +203,5 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             }
         };
     }
+
 }

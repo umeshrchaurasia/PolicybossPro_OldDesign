@@ -96,7 +96,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb, llNCB;
-    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
+    LinearLayout llVerifyCarDetails, llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvIndividual, cvRegNo;
     View cvInput;
@@ -230,6 +230,19 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             spVarient.setEnabled(true);
             acRto.setEnabled(true);
             etExtValue.setEnabled(true);
+        }
+
+        try {
+            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+            if (day > 90) {
+                llNCB.setVisibility(View.INVISIBLE);
+                cvNcb.setVisibility(View.GONE);
+            } else {
+                llNCB.setVisibility(View.VISIBLE);
+                cvNcb.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -853,25 +866,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         });
         //endregion
 
-        //region fuel Listener
-       /* spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
-                        || fuelList.get(position).equals(Constants.EXTERNAL_CNG)) {
-                    etExtValue.setEnabled(true);
-                } else {
-                    etExtValue.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                etExtValue.setEnabled(false);
-            }
-        });*/
-        //endregion
-
         //region cubic capacity
         spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -975,10 +969,23 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                         llNCB.setVisibility(View.INVISIBLE);
                         tvClaimYes.performClick();
                     } else {
-                        cvNcb.setVisibility(View.VISIBLE);
-                        llNCB.setVisibility(View.VISIBLE);
-                        setNcb();
-                        tvClaimNo.performClick();
+
+                        try {
+                            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString()));
+                            if (day > 90) {
+                                llNCB.setVisibility(View.INVISIBLE);
+                                cvNcb.setVisibility(View.GONE);
+                            } else {
+                                cvNcb.setVisibility(View.VISIBLE);
+                                llNCB.setVisibility(View.VISIBLE);
+                                setNcb();
+                                tvClaimNo.performClick();
+                            }
+                        } catch (Exception e) {
+
+                        }
+
+
                     }
                 }
             }
@@ -1182,7 +1189,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         llDontKnow = (LinearLayout) view.findViewById(R.id.llDontKnow);
         llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
         cvNcb = (LinearLayout) view.findViewById(R.id.cvNcb);
-        llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvIndividual = (CardView) view.findViewById(R.id.cvIndividual);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
@@ -1834,23 +1840,28 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             String expDate = displayFormat.format(calendar.getTime());
                             etExpDate.setText(expDate);
                             etExpDate.setError(null);
-                            /*if (getDaysDiff(expDate, currDate) < 90) {
-                                cvNcb.setVisibility(View.VISIBLE);
-                                llNCB.setVisibility(View.VISIBLE);
-                            } else {
-                                cvNcb.setVisibility(View.GONE);
-                                llNCB.setVisibility(View.INVISIBLE);
-                            }
 
                             if (switchNewRenew.isChecked()) {
-                                if (spInsSubTYpe.getSelectedItemPosition() == 0) {
-                                    cvNcb.setVisibility(View.GONE);
+                                int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
+                                if (day > 90) {
                                     llNCB.setVisibility(View.INVISIBLE);
+                                    cvNcb.setVisibility(View.GONE);
                                 } else {
-                                    cvNcb.setVisibility(View.VISIBLE);
-                                    llNCB.setVisibility(View.VISIBLE);
+
+                                    InsuranceSubtypeEntity insuranceSubtypeEntity =
+                                            (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+
+                                    if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
+                                        cvNcb.setVisibility(View.GONE);
+                                        llNCB.setVisibility(View.INVISIBLE);
+                                        tvClaimYes.performClick();
+                                    } else {
+                                        llNCB.setVisibility(View.VISIBLE);
+                                        cvNcb.setVisibility(View.VISIBLE);
+                                    }
                                 }
-                            }*/
+                            }
+
                         }
                     }
                 });
@@ -2008,8 +2019,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         if (fastLaneResponseEntity != null) {
             try {
-                /*motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
-                motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
+
                 varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
                 motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
@@ -2017,7 +2027,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
-                //motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
                 motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
             } catch (Exception e) {
@@ -2029,7 +2038,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
             try {
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
-                //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
             } catch (Exception e) {
@@ -2040,52 +2048,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         }
 
-        //region previous code
-        /*if (fastLaneResponseEntity != null) {
-            try {
-                varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-                motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-                motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
-
-                //motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
-                //motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));
-                motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(changeDateFormat(fastLaneResponseEntity.getRegistration_Date())));
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
-
-                motorRequestEntity.setVehicle_manf_date(getMfgDate());
-                motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
-                motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
-                //motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-            motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-            motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
-            motorRequestEntity.setVehicle_manf_date(getMfgDate());
-            // motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
-            if (regNo.equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
-            else
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
-        }*/
-        //endregion
-
-        // motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
-        //motorRequestEntity.setPolicy_expiry_date(getYYYYMMDDPattern(etExpDate.getText().toString()));
         motorRequestEntity.setPrev_insurer_id(Integer.parseInt(dbController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
-
-        // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(10);
-        //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
-        //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("renew");
-
-
         motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setMethod_type("Premium");
 
@@ -2116,27 +2082,20 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("");
 
-
-        /*if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
-            motorRequestEntity.setExternal_bifuel_type("lpg");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-        } else if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
-            motorRequestEntity.setExternal_bifuel_type("cng");
-            motorRequestEntity.setIs_external_bifuel("yes");
-            if (!etExtValue.getText().toString().equals(""))
-                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-
-        } else {
-            motorRequestEntity.setExternal_bifuel_type("");
-            motorRequestEntity.setIs_external_bifuel("no");
-            motorRequestEntity.setExternal_bifuel_value(0);
-        }*/
-
         motorRequestEntity.setExternal_bifuel_type("");
         motorRequestEntity.setIs_external_bifuel("no");
         motorRequestEntity.setExternal_bifuel_value(0);
+
+        try {
+            //expiry date above 90 days
+            if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
+                motorRequestEntity.setIs_claim_exists("yes");
+                motorRequestEntity.setVehicle_ncb_current("0");
+            }
+        } catch (Exception e) {
+
+        }
+
         setCustomerDetails();
 
     }

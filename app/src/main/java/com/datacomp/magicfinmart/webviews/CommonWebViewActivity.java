@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.webviews;
 
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -40,8 +41,8 @@ public class CommonWebViewActivity extends BaseActivity {
 
     WebView webView;
     String url;
-     String name;
-      String title;
+    String name;
+    String title;
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
 
@@ -155,7 +156,7 @@ public class CommonWebViewActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                /*if (url.endsWith(".pdf")) {
+                if (url.endsWith(".pdf")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(url), "application/pdf");
                     try {
@@ -165,7 +166,11 @@ public class CommonWebViewActivity extends BaseActivity {
                         String googleDocs = "https://docs.google.com/viewer?url=";
                         webView.loadUrl(googleDocs + url);
                     }
-                }*/
+                }
+                /*qacamp@gmail.com/01011980
+                download policy QA user
+                878769 crn
+                */
                 return false;
             }
         });
@@ -281,9 +286,9 @@ public class CommonWebViewActivity extends BaseActivity {
             startActivity(intent);
             finish();
         }
+
         @JavascriptInterface
-        public void callPDFCREDIT(String u)
-        {
+        public void callPDFCREDIT(String u) {
 
             webView.loadUrl("http://www.google.com");
 
@@ -292,6 +297,7 @@ public class CommonWebViewActivity extends BaseActivity {
 //                    .putExtra("NAME", "FREE CREDIT REPORT")
 //                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
         }
+
         @JavascriptInterface
         public void redirectpersonalloan() {//Android.RedirectToHomepage();
             Intent intent = new Intent(CommonWebViewActivity.this, NewPersonalApplicaionActivity.class);
@@ -299,6 +305,7 @@ public class CommonWebViewActivity extends BaseActivity {
             startActivity(intent);
             finish();
         }
+
         @JavascriptInterface
         public void redirecthomeloan() {//Android.RedirectToHomepage();
             Intent intent = new Intent(CommonWebViewActivity.this, NewHomeApplicaionActivity.class);
@@ -306,6 +313,7 @@ public class CommonWebViewActivity extends BaseActivity {
             startActivity(intent);
             finish();
         }
+
         @JavascriptInterface
         public void redirectbusinessloan() {//Android.RedirectToHomepage();
             Intent intent = new Intent(CommonWebViewActivity.this, NewbusinessApplicaionActivity.class);
