@@ -1093,7 +1093,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         etExpDate.setText("");
                     } else {
                         //cvNcb.setVisibility(View.VISIBLE);
-
                         try {
                             int day = dateDifferenceInDays(Calendar.getInstance().getTime(),
                                     displayFormat.parse(etExpDate.getText().toString()));
