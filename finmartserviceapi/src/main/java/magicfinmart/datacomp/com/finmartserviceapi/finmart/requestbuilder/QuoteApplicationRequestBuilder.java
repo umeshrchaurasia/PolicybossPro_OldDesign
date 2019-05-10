@@ -49,7 +49,7 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
         Call<QuoteAppUpdateDeleteResponse> deleteQuote(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/manage-vehicle")
+        @POST("/api/get-my-leads")
         Call<MotorLeadResponse> modifyLead(@Body MotorMyLeadEntity entity);
 
 
