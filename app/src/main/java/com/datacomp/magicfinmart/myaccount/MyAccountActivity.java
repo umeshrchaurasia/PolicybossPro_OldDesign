@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.myaccount;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -1493,7 +1494,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 .setMultiTouchEnabled(true)
                 .start(this);
     }
-
+    @Override
+    @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
