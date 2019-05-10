@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -14,16 +13,13 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorLeadFragment;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 /**
  * Created by Rajeev Ranjan on 07/05/2019.
@@ -44,8 +40,9 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 
     public class LeadItem extends RecyclerView.ViewHolder {
 
-        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo ,txtNew ,txtEdit;
-        LinearLayout llDetails;
+        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo, txtView, txtEdit;
+        LinearLayout llDetails, llViewLead, llEditLead;
+        ImageView imgView, imgEdit;
 
 
         public LeadItem(View itemView) {
@@ -54,11 +51,18 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
             txtVehicleName = (TextView) itemView.findViewById(R.id.txtVehicleName);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
 
+            txtView = (TextView) itemView.findViewById(R.id.txtView);
+            txtEdit  = (TextView) itemView.findViewById(R.id.txtEdit);
+
             txtCrnNo = (TextView) itemView.findViewById(R.id.txtCrnNo);
-            txtNew = (TextView) itemView.findViewById(R.id.txtNew);
-            txtEdit = (TextView) itemView.findViewById(R.id.txtEdit);
+            llViewLead = (LinearLayout) itemView.findViewById(R.id.llViewLead);
+            llEditLead = (LinearLayout) itemView.findViewById(R.id.llEditLead);
+
 
             llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
+
+            imgView = (ImageView) itemView.findViewById(R.id.imgView);
+            imgEdit =  (ImageView) itemView.findViewById(R.id.imgEdit);
 
         }
     }
@@ -77,20 +81,19 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 
             final MotorMyLeadEntity entity = mLeadListFiltered.get(position);
 
-           if(entity.getCRN().trim().equals(""))
-           {
-               holder.txtNew.setText("NEW");
-               holder.txtNew.setBackgroundResource(R.drawable.add_icon_resize);
-               holder.txtNew.setVisibility(View.VISIBLE);
+            if (entity.getCRN().trim().equals("")) {
+                holder.txtView.setText("NEW");
+                // holder.txtNew.setBackgroundResource(R.drawable.add_icon_resize);
+                holder.llViewLead.setVisibility(View.VISIBLE);
+                holder.llEditLead.setVisibility(View.GONE);
 
-               holder.txtEdit.setVisibility(View.GONE);
-           }else{
-               holder.txtNew.setText("VIEW");
-               holder.txtNew.setBackgroundResource(R.drawable.view_icon_resize);
-               holder.txtNew.setVisibility(View.VISIBLE);
+            } else {
+                holder.txtView.setText("VIEW");
+                // holder.txtNew.setBackgroundResource(R.drawable.view_icon_resize);
+                holder.llViewLead.setVisibility(View.VISIBLE);
+                holder.llEditLead.setVisibility(View.VISIBLE);
 
-               holder.txtEdit.setVisibility(View.VISIBLE);
-           }
+            }
 
             holder.txtPersonName.setText(entity.getName());
             holder.txtVehicleName.setText(entity.getMake() + "," + entity.getModel());
@@ -99,11 +102,11 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
             holder.txtQuoteDate.setText(entity.getExpiryDate());
             holder.txtCrnNo.setText("" + entity.getCRN());
 
-            holder.txtNew.setTag(R.id.txtNew, entity);
-            holder.txtEdit.setTag(R.id.txtEdit, entity);
+            holder.llViewLead.setTag(R.id.llViewLead, entity);
+            holder.llEditLead.setTag(R.id.llEditLead, entity);
 
-            holder.txtNew.setOnClickListener(this);
-            holder.txtEdit.setOnClickListener(this);
+            holder.llViewLead.setOnClickListener(this);
+            holder.llEditLead.setOnClickListener(this);
         }
 
 
@@ -138,8 +141,8 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 //                ((MotorLeadFragment) mFrament).redirectToInputQuote((MotorMyLeadEntity) view.getTag(view.getId()));
 //                break;
 
-            case R.id.txtNew:
-            case R.id.txtEdit:
+            case R.id.llViewLead:
+            case R.id.llEditLead:
                 ((MotorLeadFragment) mFrament).redirectToInputQuote((MotorMyLeadEntity) view.getTag(view.getId()));
                 break;
 

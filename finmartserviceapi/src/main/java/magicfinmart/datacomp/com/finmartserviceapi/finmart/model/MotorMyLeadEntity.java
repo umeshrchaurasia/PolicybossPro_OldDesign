@@ -28,6 +28,8 @@ public class MotorMyLeadEntity implements Parcelable {
     private String Make;
     private String Model;
     private String RegNo;
+    private String ss_id;
+
 
     protected MotorMyLeadEntity(Parcel in) {
         Name = in.readString();
@@ -38,6 +40,7 @@ public class MotorMyLeadEntity implements Parcelable {
         Make = in.readString();
         Model = in.readString();
         RegNo = in.readString();
+        ss_id = in.readString();
     }
 
     public static final Creator<MotorMyLeadEntity> CREATOR = new Creator<MotorMyLeadEntity>() {
@@ -56,16 +59,16 @@ public class MotorMyLeadEntity implements Parcelable {
         return Name;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setName(String name) {
+        Name = name;
     }
 
     public int getLeadId() {
         return LeadId;
     }
 
-    public void setLeadId(int LeadId) {
-        this.LeadId = LeadId;
+    public void setLeadId(int leadId) {
+        LeadId = leadId;
     }
 
     public int getFBAID() {
@@ -88,33 +91,42 @@ public class MotorMyLeadEntity implements Parcelable {
         return ExpiryDate;
     }
 
-    public void setExpiryDate(String ExpiryDate) {
-        this.ExpiryDate = ExpiryDate;
+    public void setExpiryDate(String expiryDate) {
+        ExpiryDate = expiryDate;
     }
 
     public String getMake() {
         return Make;
     }
 
-    public void setMake(String Make) {
-        this.Make = Make;
+    public void setMake(String make) {
+        Make = make;
     }
 
     public String getModel() {
         return Model;
     }
 
-    public void setModel(String Model) {
-        this.Model = Model;
+    public void setModel(String model) {
+        Model = model;
     }
 
     public String getRegNo() {
         return RegNo;
     }
 
-    public void setRegNo(String RegNo) {
-        this.RegNo = RegNo;
+    public void setRegNo(String regNo) {
+        RegNo = regNo;
     }
+
+    public String getSs_id() {
+        return ss_id;
+    }
+
+    public void setSs_id(String ss_id) {
+        this.ss_id = ss_id;
+    }
+
 
     @Override
     public int describeContents() {
@@ -131,5 +143,6 @@ public class MotorMyLeadEntity implements Parcelable {
         dest.writeString(Make);
         dest.writeString(Model);
         dest.writeString(RegNo);
+        dest.writeString(ss_id);
     }
 }
