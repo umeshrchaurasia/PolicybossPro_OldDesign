@@ -968,6 +968,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                         cvNcb.setVisibility(View.GONE);
                         llNCB.setVisibility(View.INVISIBLE);
                         tvClaimYes.performClick();
+                        etExpDate.setText("");
                     } else {
 
                         try {
@@ -1829,42 +1830,63 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                 }
 
-                DateTimePicker.BikepolicyExpValidation(view.getContext(), calendar, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            spPrevIns.setEnabled(true);
-                            Calendar calendar = Calendar.getInstance();
-                            String currDate = displayFormat.format(calendar.getTime());
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String expDate = displayFormat.format(calendar.getTime());
-                            etExpDate.setText(expDate);
-                            etExpDate.setError(null);
+                InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
 
-                            if (switchNewRenew.isChecked()) {
-                                int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
-                                if (day > 90) {
-                                    llNCB.setVisibility(View.INVISIBLE);
-                                    cvNcb.setVisibility(View.GONE);
-                                } else {
+                if (insuranceSubtypeEntity.getCode().equalsIgnoreCase("0CH_1TP")) {
+                    DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
 
-                                    InsuranceSubtypeEntity insuranceSubtypeEntity =
-                                            (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            if (view.isShown()) {
+                                spPrevIns.setEnabled(true);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, month, dayOfMonth);
+                                String currentDay = displayFormat.format(calendar.getTime());
+                                etExpDate.setText(currentDay);
+                                etExpDate.setError(null);
+                            }
+                        }
+                    });
+                } else {
 
-                                    if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
-                                        cvNcb.setVisibility(View.GONE);
+
+                    DateTimePicker.BikepolicyExpValidation(view.getContext(), calendar, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                spPrevIns.setEnabled(true);
+                                Calendar calendar = Calendar.getInstance();
+                                String currDate = displayFormat.format(calendar.getTime());
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String expDate = displayFormat.format(calendar.getTime());
+                                etExpDate.setText(expDate);
+                                etExpDate.setError(null);
+
+                                if (switchNewRenew.isChecked()) {
+                                    int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
+                                    if (day > 90) {
                                         llNCB.setVisibility(View.INVISIBLE);
-                                        tvClaimYes.performClick();
+                                        cvNcb.setVisibility(View.GONE);
                                     } else {
-                                        llNCB.setVisibility(View.VISIBLE);
-                                        cvNcb.setVisibility(View.VISIBLE);
+
+                                        InsuranceSubtypeEntity insuranceSubtypeEntity =
+                                                (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+
+                                        if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
+                                            cvNcb.setVisibility(View.GONE);
+                                            llNCB.setVisibility(View.INVISIBLE);
+                                            tvClaimYes.performClick();
+                                        } else {
+                                            llNCB.setVisibility(View.VISIBLE);
+                                            cvNcb.setVisibility(View.VISIBLE);
+                                        }
                                     }
                                 }
-                            }
 
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
             //endregion
 

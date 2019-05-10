@@ -336,18 +336,22 @@ public class ErpLoanController implements IErpLoan {
         erpNetworkService.getcityloan().enqueue(new Callback<LoanCityResponse>() {
             @Override
             public void onResponse(Call<LoanCityResponse> call, Response<LoanCityResponse> response) {
-
-                if (response.body().getStatusId() == 0) {
-                    new AsyncLoanCityConstant(mContext, response.body()).execute();
-                    if (iResponseSubcriber != null) {
-                        iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
-                    } else {
+                if (response.body() != null) {
+                    if (response.body().getStatusId() == 0) {
+                        new AsyncLoanCityConstant(mContext, response.body()).execute();
                         if (iResponseSubcriber != null) {
-                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                            iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
+                        } else {
+                            if (iResponseSubcriber != null) {
+                                iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                            }
                         }
                     }
+                } else {
+                    if (iResponseSubcriber != null) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Please try again"));
+                    }
                 }
-
             }
 
             @Override

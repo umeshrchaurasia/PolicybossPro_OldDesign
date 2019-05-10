@@ -1090,9 +1090,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         //cvNcb.setVisibility(View.GONE);
                         llNoClaim.setVisibility(View.INVISIBLE);
                         tvClaimYes.performClick();
+                        etExpDate.setText("");
                     } else {
                         //cvNcb.setVisibility(View.VISIBLE);
-
                         try {
                             int day = dateDifferenceInDays(Calendar.getInstance().getTime(),
                                     displayFormat.parse(etExpDate.getText().toString()));
@@ -1458,6 +1458,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 break;
 
             case R.id.txtExistingPolicyYes:
+                InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+
                 isPolicyExist = true;
                 txtExistingPolicyYes.setBackgroundResource(R.drawable.customeborder_blue);
                 txtExistingPolicyNo.setBackgroundResource(R.drawable.customeborder);
@@ -1467,6 +1469,17 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     cvNcb.setVisibility(View.VISIBLE);
                     llNoClaim.setVisibility(View.VISIBLE);
                     llExp.setVisibility(View.VISIBLE);
+                }
+
+                if (insuranceSubtypeEntity.getCode().equalsIgnoreCase("0CH_1TP")) {
+                    etExpDate.setVisibility(View.VISIBLE);
+                    etExpDate.setText("");
+                    cvNcb.setVisibility(View.GONE);
+                    llNoClaim.setVisibility(View.INVISIBLE);
+                    llExp.setVisibility(View.VISIBLE);
+                } else {
+                    llNoClaim.setVisibility(View.VISIBLE);
+                    cvNcb.setVisibility(View.VISIBLE);
                 }
                 break;
             case R.id.btnGetQuote:
@@ -2180,41 +2193,60 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 //commented by Nilesh
                 //Break in case applied
+                InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
 
-                // DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
-                DateTimePicker.policyBreakInExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            spPrevIns.setEnabled(true);
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = displayFormat.format(calendar.getTime());
-                            etExpDate.setText(currentDay);
-                            etExpDate.setError(null);
+                //if 1-Year TP only back date disable
+                if (insuranceSubtypeEntity.getCode().equalsIgnoreCase("0CH_1TP")) {
+                    DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
 
-                            if (switchNewRenew.isChecked()) {
-                                int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            if (view.isShown()) {
+                                spPrevIns.setEnabled(true);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, month, dayOfMonth);
+                                String currentDay = displayFormat.format(calendar.getTime());
+                                etExpDate.setText(currentDay);
+                                etExpDate.setError(null);
+                            }
+                        }
+                    });
+                } else {
 
-                                if (day > 90) {
-                                    llNoClaim.setVisibility(View.INVISIBLE);
-                                    cvNcb.setVisibility(View.GONE);
-                                } else {
+                    // DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                    DateTimePicker.policyBreakInExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                spPrevIns.setEnabled(true);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = displayFormat.format(calendar.getTime());
+                                etExpDate.setText(currentDay);
+                                etExpDate.setError(null);
 
-                                    InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
-                                    if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
+                                if (switchNewRenew.isChecked()) {
+                                    int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
+
+                                    if (day > 90) {
                                         llNoClaim.setVisibility(View.INVISIBLE);
                                         cvNcb.setVisibility(View.GONE);
                                     } else {
-                                        llNoClaim.setVisibility(View.VISIBLE);
-                                        cvNcb.setVisibility(View.VISIBLE);
-                                    }
 
+                                        if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
+                                            llNoClaim.setVisibility(View.INVISIBLE);
+                                            cvNcb.setVisibility(View.GONE);
+                                        } else {
+                                            llNoClaim.setVisibility(View.VISIBLE);
+                                            cvNcb.setVisibility(View.VISIBLE);
+                                        }
+
+                                    }
                                 }
                             }
                         }
-                    }
-                });
+                    });
+                }
             }
             //endregion
 
