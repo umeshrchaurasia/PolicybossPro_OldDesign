@@ -19,6 +19,9 @@ public class CreateTicketrequest {
     private String Message;
     private int FBAID;
 
+    private String productname;
+    private String crnloan;
+
     public int getCategoryId() {
         return CategoryId;
     }
@@ -57,5 +60,21 @@ public class CreateTicketrequest {
 
     public void setFBAID(int FBAID) {
         this.FBAID = FBAID;
+    }
+
+    public String getProductname() {
+        return productname;
+    }
+
+    public void setProductname(String productname) {
+        this.productname = productname;
+    }
+
+    public String getCrnloan() {
+        return crnloan;
+    }
+
+    public void setCrnloan(String crnloan) {
+        this.crnloan = crnloan;
     }
 }

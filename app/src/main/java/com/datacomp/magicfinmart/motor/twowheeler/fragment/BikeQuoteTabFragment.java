@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.helpfeedback.raiseticket.AddTicketActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteTabAdapter;
@@ -222,4 +223,10 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
     }
 
     //endregion
+    public void raiseticket(QuoteListEntity entity)
+    {
+        startActivity(new Intent(getActivity(), AddTicketActivity.class)
+                .putExtra("ProductType", "Bike")
+                .putExtra("crn",entity.getMotorRequestEntity().getCrn()));
+    }
 }
