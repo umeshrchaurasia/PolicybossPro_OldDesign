@@ -83,13 +83,13 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 
             if (entity.getCRN().trim().equals("")) {
                 holder.txtView.setText("New Lead");
-                holder.imgView.setBackgroundResource(R.drawable.file_add);
+              //  holder.imgView.setBackgroundResource(R.drawable.file_add);
                 holder.llViewLead.setVisibility(View.VISIBLE);
                 holder.llEditLead.setVisibility(View.GONE);
 
             } else {
                 holder.txtView.setText("View Lead");
-              holder.imgView.setBackgroundResource(R.drawable.agreemnet);
+           //   holder.imgView.setBackgroundResource(R.drawable.agreemnet);
                 holder.llViewLead.setVisibility(View.VISIBLE);
                 holder.llEditLead.setVisibility(View.VISIBLE);
 
