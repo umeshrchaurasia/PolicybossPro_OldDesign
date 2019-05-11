@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.helpfeedback.raiseticket;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,7 @@ public class ViewImageRaiseTicketActivity extends BaseActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.black_dark)));
         ivUser = findViewById(R.id.ivUser);
 
        if( getIntent().getStringExtra("RAISE_TICKET_URL") != null)

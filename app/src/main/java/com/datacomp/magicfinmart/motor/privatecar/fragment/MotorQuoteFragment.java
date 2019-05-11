@@ -153,9 +153,15 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     }
     public void raiseticket(QuoteListEntity entity)
     {
-        getActivity().startActivity(new Intent(this.getActivity(), AddTicketActivity.class)
-                .putExtra("ProductType", "Motor")
-                .putExtra("crn",entity.getMotorRequestEntity().getCrn()));
+//        getActivity().startActivity(new Intent(this.getActivity(), AddTicketActivity.class)
+//                .putExtra("ProductType", "Motor")
+//                .putExtra("crn",entity.getMotorRequestEntity().getCrn()));
+
+        Intent intent = new Intent(this.getActivity(), AddTicketActivity.class);
+        intent.putExtra("ProductType", "MOTOR");
+        intent.putExtra("crn",entity.getMotorRequestEntity().getCrn());
+
+       startActivity(intent);
     }
     @Override
     public void onClick(View view) {

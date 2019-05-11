@@ -26,7 +26,7 @@
             android:gravity="center"
             android:minHeight="45dp"
             android:padding="8dp"
-            android:text="View"
+            android:text="View Comment"
 
             android:textSize="17sp"
             android:textColor="@android:color/white"

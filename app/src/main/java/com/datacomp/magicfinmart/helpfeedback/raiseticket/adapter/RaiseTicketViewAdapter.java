@@ -64,7 +64,7 @@ public class RaiseTicketViewAdapter extends RecyclerView.Adapter<RaiseTicketView
 
             Glide.with(context)
                     .load(entity.getDocpath())
-                    .override(60, 60)
+                   // .override(60, 60)
                     .transform(new CircleTransform(context))
                     .into(holder.ivUser);
 
