@@ -118,6 +118,10 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
                     case R.id.menuDelete:
                         ((BikeQuoteTabFragment) mFrament).removeQuote(entity);
                         break;
+                    case R.id.menuticket:
+                        ((BikeQuoteTabFragment) mFrament).raiseticket(entity);
+                        break;
+
                 }
                 return false;
             }

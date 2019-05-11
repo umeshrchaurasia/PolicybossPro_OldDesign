@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.helpfeedback.raiseticket.AddTicketActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorQuoteAdapter;
@@ -150,7 +151,12 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
                 this);
 
     }
-
+    public void raiseticket(QuoteListEntity entity)
+    {
+        getActivity().startActivity(new Intent(this.getActivity(), AddTicketActivity.class)
+                .putExtra("ProductType", "Motor")
+                .putExtra("crn",entity.getMotorRequestEntity().getCrn()));
+    }
     @Override
     public void onClick(View view) {
 

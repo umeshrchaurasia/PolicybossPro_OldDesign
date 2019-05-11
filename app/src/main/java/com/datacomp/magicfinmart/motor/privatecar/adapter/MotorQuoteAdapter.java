@@ -114,6 +114,9 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                     case R.id.menuDelete:
                         ((MotorQuoteFragment) mFrament).removeQuote(entity);
                         break;
+                    case R.id.menuticket:
+                        ((MotorQuoteFragment) mFrament).raiseticket(entity);
+                        break;
                 }
                 return false;
             }
