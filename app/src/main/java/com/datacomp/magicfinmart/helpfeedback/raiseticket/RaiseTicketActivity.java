@@ -1,8 +1,10 @@
 package com.datacomp.magicfinmart.helpfeedback.raiseticket;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -186,8 +189,25 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
         showDialog();
         new ZohoController(this).viewCommentOfTickets(String.valueOf(entity.getTicketRequestId()), this);
 
-
     }
+
+    public void redirectToRaiseTicket(View view ,String URL)
+    {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Intent shareIntent = new Intent(RaiseTicketActivity.this, ViewImageRaiseTicketActivity.class)
+                    .putExtra("RAISE_TICKET_URL",URL);
+            Pair[] pairs = new Pair[1];
+            pairs[0] = new Pair<View, String>(view, "profileTransition");
+            ActivityOptions options =  ActivityOptions.makeSceneTransitionAnimation(RaiseTicketActivity.this, pairs);
+
+            startActivity(shareIntent,options.toBundle());
+        }else{
+            startActivity(new Intent(RaiseTicketActivity.this, ViewImageRaiseTicketActivity.class)
+                    .putExtra("RAISE_TICKET_URL",URL));
+        }
+    }
+
 
     public void PopUp_addcomment() {
 
@@ -300,6 +320,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
 
 
     }
+
 
 
 }

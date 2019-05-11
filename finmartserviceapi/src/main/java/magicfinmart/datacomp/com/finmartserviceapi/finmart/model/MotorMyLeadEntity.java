@@ -21,7 +21,7 @@ public class MotorMyLeadEntity implements Parcelable {
      */
 
     private String Name;
-    private int LeadId;
+    private String LeadId;
     private int FBAID;
     private String CRN;
     private String ExpiryDate;
@@ -29,11 +29,12 @@ public class MotorMyLeadEntity implements Parcelable {
     private String Model;
     private String RegNo;
     private String ss_id;
+    private  int leadtype;
 
 
     protected MotorMyLeadEntity(Parcel in) {
         Name = in.readString();
-        LeadId = in.readInt();
+        LeadId = in.readString();
         FBAID = in.readInt();
         CRN = in.readString();
         ExpiryDate = in.readString();
@@ -41,6 +42,26 @@ public class MotorMyLeadEntity implements Parcelable {
         Model = in.readString();
         RegNo = in.readString();
         ss_id = in.readString();
+        leadtype = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(Name);
+        dest.writeString(LeadId);
+        dest.writeInt(FBAID);
+        dest.writeString(CRN);
+        dest.writeString(ExpiryDate);
+        dest.writeString(Make);
+        dest.writeString(Model);
+        dest.writeString(RegNo);
+        dest.writeString(ss_id);
+        dest.writeInt(leadtype);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<MotorMyLeadEntity> CREATOR = new Creator<MotorMyLeadEntity>() {
@@ -63,11 +84,11 @@ public class MotorMyLeadEntity implements Parcelable {
         Name = name;
     }
 
-    public int getLeadId() {
+    public String getLeadId() {
         return LeadId;
     }
 
-    public void setLeadId(int leadId) {
+    public void setLeadId(String leadId) {
         LeadId = leadId;
     }
 
@@ -127,22 +148,16 @@ public class MotorMyLeadEntity implements Parcelable {
         this.ss_id = ss_id;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public int getLeadtype() {
+        return leadtype;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(Name);
-        dest.writeInt(LeadId);
-        dest.writeInt(FBAID);
-        dest.writeString(CRN);
-        dest.writeString(ExpiryDate);
-        dest.writeString(Make);
-        dest.writeString(Model);
-        dest.writeString(RegNo);
-        dest.writeString(ss_id);
+    public void setLeadtype(int leadtype) {
+        this.leadtype = leadtype;
     }
+
+
+
+
+
 }

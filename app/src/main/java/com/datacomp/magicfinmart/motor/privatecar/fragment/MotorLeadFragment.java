@@ -192,7 +192,7 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
         } else if (response instanceof MotorLeadResponse) {
 
             QuoteListEntity entity = ((MotorLeadResponse) response).getMasterData();
-            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(MotorQuoteFragment.FROM_QUOTE, entity));
+            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
         }
 
 

@@ -7,14 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
+import com.borjabravo.readmoretextview.ReadMoreTextView;
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
+import com.datacomp.magicfinmart.utility.CircleTransform;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RaiseTickeViewEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TicketEntity;
 
 /**
  * Created by Rajeev Ranjan on 09/05/2019.
@@ -32,14 +35,14 @@ public class RaiseTicketViewAdapter extends RecyclerView.Adapter<RaiseTicketView
     public class RaiseTicketViewItem extends RecyclerView.ViewHolder {
 
         public ImageView ivUser;
-        public TextView txtComment;
+        public ReadMoreTextView txtComment;
         public LinearLayout lyParent;
 
         public RaiseTicketViewItem(View itemView) {
             super(itemView);
-            txtComment = (TextView) itemView.findViewById(R.id.txtComment);
-            lyParent =(LinearLayout)itemView.findViewById(R.id.lyParent);
-            ivUser = (ImageView) itemView.findViewById(R.id.ivUser);
+            txtComment = itemView.findViewById(R.id.txtComment);
+            lyParent = itemView.findViewById(R.id.lyParent);
+            ivUser = itemView.findViewById(R.id.ivUser);
         }
     }
 
@@ -56,9 +59,22 @@ public class RaiseTicketViewAdapter extends RecyclerView.Adapter<RaiseTicketView
 
         if (holder instanceof RaiseTicketViewAdapter.RaiseTicketViewItem) {
             final RaiseTickeViewEntity entity = viewEntityList.get(position);
-            holder.txtComment.setText(""+entity.getComment());
+            entity.setDocpath("http://qa.mgfm.in/uploads/1976/POSPPhotograph.jpg");  // 05 temp
+            holder.txtComment.setText("" + entity.getComment());
 
+            Glide.with(context)
+                    .load(entity.getDocpath())
+                    .override(60, 60)
+                    .transform(new CircleTransform(context))
+                    .into(holder.ivUser);
 
+            holder.ivUser.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    ((RaiseTicketActivity) context).redirectToRaiseTicket(view, entity.getDocpath());
+                }
+            });
         }
     }
 

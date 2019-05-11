@@ -119,6 +119,27 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/llNewLead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+
+                android:src="@drawable/file_add" />
+            <TextView
+                style="@style/TextStyle.TextMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="New Lead"
+
+                android:textSize="11sp" />
+        </LinearLayout>
+        <LinearLayout
             android:id="@+id/llViewLead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -130,7 +151,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
 
-                android:src="@drawable/agreemnet" />
+                android:src="@drawable/view" />
             <TextView
                 android:id="@+id/txtView"
                 style="@style/TextStyle.TextMedium"
@@ -153,7 +174,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
 
-                android:src="@drawable/edit_icon" />
+                android:src="@drawable/agreemnet" />
             <TextView
                 android:id="@+id/txtEdit"
                 style="@style/TextStyle.TextMedium"
