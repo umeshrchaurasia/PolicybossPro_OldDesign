@@ -158,7 +158,6 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         }
 
 
-
         return view;
     }
 
@@ -242,6 +241,8 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 etLasttName.setText("" + lastName);
 
                 etMobile.setText("" + termFinmartRequest.getContactMobile());
+
+                et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(simpleDateFormat, termFinmartRequest.getInsuredDOB())));
                 et_DOB.setText("" + termFinmartRequest.getInsuredDOB());
 
 
@@ -273,35 +274,29 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                     tvMale.setBackgroundResource(R.drawable.customeborder);
                 }
 
-                if(termFinmartRequest.getSumAssured() == 1000000)
-                {
+                if (termFinmartRequest.getSumAssured() == 1000000) {
                     SUM_ASSURED_AMNT = "1000000";
 
                     setBackgroundSeekBar(txt10lac, txt25lac, txt50lac, txt1cr, txtOther);
                     lySeekbar.setVisibility(View.GONE);
-                }
-                else if(termFinmartRequest.getSumAssured() == 2500000)
-                {
+                } else if (termFinmartRequest.getSumAssured() == 2500000) {
                     SUM_ASSURED_AMNT = "2500000";
 
                     setBackgroundSeekBar(txt25lac, txt10lac, txt50lac, txt1cr, txtOther);
                     lySeekbar.setVisibility(View.GONE);
 
-                } else if(termFinmartRequest.getSumAssured() == 5000000)
-                {
+                } else if (termFinmartRequest.getSumAssured() == 5000000) {
                     SUM_ASSURED_AMNT = "5000000";
 
                     setBackgroundSeekBar(txt50lac, txt10lac, txt25lac, txt1cr, txtOther);
                     lySeekbar.setVisibility(View.GONE);
 
-                }
-                else  if(termFinmartRequest.getSumAssured() == 10000000)
-                {
+                } else if (termFinmartRequest.getSumAssured() == 10000000) {
                     SUM_ASSURED_AMNT = "10000000";
                     setBackgroundSeekBar(txt1cr, txt10lac, txt25lac, txt50lac, txtOther);
                     lySeekbar.setVisibility(View.GONE);
 
-                }else{
+                } else {
                     setBackgroundSeekBar(txtOther, txt10lac, txt25lac, txt50lac, txt1cr);
                     lySeekbar.setVisibility(View.VISIBLE);
                     etSumICICIAssured.setVisibility(View.VISIBLE);
@@ -311,17 +306,18 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
                 etSumICICIAssured.setText("" + termFinmartRequest.getSumAssured());
 
 
-                String[] listOptionedit = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
+                //               String[] listOptionedit = getActivity().getResources().getStringArray(R.array.lakshya_policyterm);
 
 
-                final List<String> optionsListedit = new ArrayList<>(Arrays.asList(listOptionedit));
-                ArrayAdapter<String> spAdapterOptionsedit = new ArrayAdapter<String>(getActivity()
-                        , android.R.layout.simple_spinner_item
-                        , optionsListedit);
-                //        spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spPolicyTerm.setAdapter(spAdapterOptionsedit);
+//                final List<String> optionsListedit = new ArrayList<>(Arrays.asList(listOptionedit));
+//                ArrayAdapter<String> spAdapterOptionsedit = new ArrayAdapter<String>(getActivity()
+//                        , android.R.layout.simple_spinner_item
+//                        , optionsListedit);
+//                //        spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                spPolicyTerm.setAdapter(spAdapterOptionsedit);
 
-                int pos=  termFinmartRequest.getPolicyTerm() - 13;
+                manipulatePremiumTerm(age);
+                int pos = termFinmartRequest.getPolicyTerm() - 13;
                 spPolicyTerm.setSelection(pos);
             }
         } catch (Exception e) {
@@ -844,10 +840,10 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
     public int caluclateAge(Calendar dob) {
         Calendar current = Calendar.getInstance();
         int diff = current.get(YEAR) - dob.get(YEAR);
-        if (dob.get(MONTH) > current.get(MONTH) ||
-                (dob.get(MONTH) == current.get(MONTH) && dob.get(DATE) > current.get(DATE))) {
-            diff--;
-        }
+//        if (dob.get(MONTH) > current.get(MONTH) ||
+//                (dob.get(MONTH) == current.get(MONTH) && dob.get(DATE) > current.get(DATE))) {
+//            diff--;
+//        }//required year wise age
         return diff;
     }
 
@@ -863,10 +859,10 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
         dob.setTime(date);
         Calendar current = Calendar.getInstance();
         int diff = current.get(YEAR) - dob.get(YEAR);
-        if (dob.get(MONTH) > current.get(MONTH) ||
-                (dob.get(MONTH) == current.get(MONTH) && dob.get(DATE) > current.get(DATE))) {
-            diff--;
-        }
+//        if (dob.get(MONTH) > current.get(MONTH) ||
+//                (dob.get(MONTH) == current.get(MONTH) && dob.get(DATE) > current.get(DATE))) {
+//            diff--;
+//        }//required year wise age
         return diff;
     }
 
@@ -895,7 +891,7 @@ public class UltraLakshyaTermInputFragment extends BaseFragment implements View.
 
                     mainScroll.scrollTo(0, mainScroll.getBottom());
 
-                    txtAnnualPremiumDisplay.setText( spICICIPremiumFrequency.getSelectedItem() +" PREMIUM ON " + etSumICICIAssured.getText().toString() + " SA");
+                    txtAnnualPremiumDisplay.setText(spICICIPremiumFrequency.getSelectedItem() + " PREMIUM ON " + etSumICICIAssured.getText().toString() + " SA");
                     lyAnnualPremium.setVisibility(View.VISIBLE);
                     lySeekbar.setVisibility(View.GONE);
                     btnGetQuote.setVisibility(View.VISIBLE);

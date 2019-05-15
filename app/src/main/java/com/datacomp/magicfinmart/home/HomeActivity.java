@@ -47,6 +47,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
+import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
@@ -1950,8 +1951,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
-                    startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
-
+              //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+                    startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
                 }
             });
 

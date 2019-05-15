@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
@@ -34,6 +35,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
             txtTotalOne,txtTotalTwo ,lblPremiumYear ,lblPremiumOtherYear ,lblPremiumTotalYear,lblPremiumOtherTotalYear;
 
     ImageView imgBuyNowHDFC;
+    LinearLayout llimgBuyNowHDFC;
 
     UltraLakshaFacade ultraLakshaFacade;
 
@@ -58,7 +60,9 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
     private void initialize(View view)
     {
-        imgBuyNowHDFC  = view.findViewById(R.id.imgBuyNowHDFC);
+        //imgBuyNowHDFC  = view.findViewById(R.id.imgBuyNowHDFC);
+        llimgBuyNowHDFC = view.findViewById(R.id.llimgBuyNowHDFC);
+
         txtLicTerm = view.findViewById(R.id.txtLicTerm);
         txtLicPPT = view.findViewById(R.id.txtLicPPT);
         txtLicMode = view.findViewById(R.id.txtLicMode);
@@ -93,7 +97,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
 
     private void setOnclickListener()
     {
-        imgBuyNowHDFC.setOnClickListener(this);
+        llimgBuyNowHDFC.setOnClickListener(this);
     }
 
     private void bindData()
@@ -141,7 +145,7 @@ public class UltraLakshayProductCombo extends BaseFragment implements View.OnCli
     @Override
     public void onClick(View view) {
 
-        if(view.getId() == R.id.imgBuyNowHDFC)
+        if(view.getId() == R.id.llimgBuyNowHDFC)
         {
            if(  ultraLakshaFacade.getUltraLakshaHDFC() !=null) {
                HDFCEntity hdfcEntity = ultraLakshaFacade.getUltraLakshaHDFC();
