@@ -133,6 +133,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
     implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+    implementation 'com.borjabravo:readmoretextview:2.1.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.6@aar') {
         transitive = true;
     }

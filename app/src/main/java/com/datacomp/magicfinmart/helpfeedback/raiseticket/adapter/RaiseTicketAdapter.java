@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
+import com.datacomp.magicfinmart.helpfeedback.raiseticket.UploadRaiseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -65,6 +66,8 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             holder.txtTicketCategory.setText(entity.getCateName());
             holder.txtTicketDesc.setText("" + entity.getMessage());
 
+            holder.llAddComment.setTag(entity);
+            holder.llviewComment.setTag(entity);
             holder.llviewComment.setOnClickListener(this);
             holder.llAddComment.setOnClickListener(this);
 
@@ -135,9 +138,12 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
                 break;
 */
            case R.id.llviewComment:
-                break;
+               ((RaiseTicketActivity) context).redirectToView((TicketEntity) view.getTag());
+
+               break;
             case R.id.llAddComment:
-                ((RaiseTicketActivity) context).PopUp_addcomment();
+                ((RaiseTicketActivity) context).redirectToUpload((TicketEntity) view.getTag());
+
 
                 break;
         }

@@ -663,4 +663,6 @@ The system is configured to monitor the number of leads generated, to the conver
     <string name="title_activity_send_sms">SMS TEMPLATE</string>
     <string name="title_activity_insert_contact">FINMART WHATSAPP CHAT</string>
     <string name="title_activity_ultra_lakshya_detail">UltraLakshyaDetailActivity</string>
+    <string name="title_activity_upload_raise">UploadRaiseActivity</string>
+    <string name="title_activity_view_image_raise_ticket">View Image</string>
 </resources>

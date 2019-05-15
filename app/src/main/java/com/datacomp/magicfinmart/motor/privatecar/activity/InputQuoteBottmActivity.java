@@ -16,6 +16,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorLeadFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -116,7 +117,36 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
-        } else {
+        }  else if (getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE) != null) {
+            QuoteListEntity entity = getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE);
+            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
+
+                //update counetr to hit  two times only to manage multiple hits
+                Utility.getSharedPreferenceEditor(this).putInt(Utility.QUOTE_COUNTER,
+                        MotorController.NO_OF_SERVER_HITS - 1)
+                        .commit();
+                //1. update srn in preference
+                Utility.getSharedPreferenceEditor(this).
+                        putString(Utility.CARQUOTE_UNIQUEID, entity.getSRN()).commit();
+
+
+                //2. create bundle
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity.getMotorRequestEntity());
+                quoteBundle = bundle;
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            }else {
+                //send to Input
+                //modify
+                quoteBundle = new Bundle();
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity.getMotorRequestEntity());
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            }
+        }
+
+        else {
             //first input fragment load
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         }
