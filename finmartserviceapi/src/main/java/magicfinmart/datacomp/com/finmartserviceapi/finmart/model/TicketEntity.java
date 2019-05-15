@@ -29,6 +29,10 @@ public class TicketEntity {
     private String QuerType;
     private String Description;
 
+
+
+    private String productname;
+    private String crnloan;
     public int getTicketRequestId() {
         return TicketRequestId;
     }
@@ -123,5 +127,21 @@ public class TicketEntity {
 
     public void setDescription(String Description) {
         this.Description = Description;
+    }
+
+    public String getProductname() {
+        return productname;
+    }
+
+    public void setProductname(String productname) {
+        this.productname = productname;
+    }
+
+    public String getCrnloan() {
+        return crnloan;
+    }
+
+    public void setCrnloan(String crnloan) {
+        this.crnloan = crnloan;
     }
 }

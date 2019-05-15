@@ -66,6 +66,9 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             holder.txtTicketCategory.setText(entity.getCateName());
             holder.txtTicketDesc.setText("" + entity.getMessage());
 
+            holder.txtproduct.setText("" + entity.getProductname());
+            holder.txtCRN.setText("CRN : " + entity.getCrnloan());
+
             holder.llAddComment.setTag(entity);
             holder.llviewComment.setTag(entity);
             holder.llviewComment.setOnClickListener(this);

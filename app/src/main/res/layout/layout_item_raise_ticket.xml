@@ -76,14 +76,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="PRODUCT"
-                    android:textAllCaps="true"
-                    android:textSize="11sp" />
+
 
                 <TextView
                     android:id="@+id/txtproduct"
@@ -91,6 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginTop="8dp"
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
                 <LinearLayout
@@ -160,14 +154,7 @@
                     android:textAllCaps="true"
                     android:textColor="@color/black" />
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="CRN"
-                    android:textAllCaps="true"
-                    android:textSize="11sp" />
+
 
                 <TextView
                     android:id="@+id/txtCRN"
@@ -176,6 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textAllCaps="true"
+                    android:layout_marginTop="8dp"
                     android:textColor="@color/black" />
 
                 <LinearLayout
