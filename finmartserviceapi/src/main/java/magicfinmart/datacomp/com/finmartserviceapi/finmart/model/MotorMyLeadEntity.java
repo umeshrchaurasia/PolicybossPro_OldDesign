@@ -30,6 +30,7 @@ public class MotorMyLeadEntity implements Parcelable {
     private String RegNo;
     private String ss_id;
     private  int leadtype;
+    private String VehicleRequestID;
 
 
     protected MotorMyLeadEntity(Parcel in) {
@@ -43,6 +44,7 @@ public class MotorMyLeadEntity implements Parcelable {
         RegNo = in.readString();
         ss_id = in.readString();
         leadtype = in.readInt();
+        VehicleRequestID = in.readString();
     }
 
     @Override
@@ -57,6 +59,7 @@ public class MotorMyLeadEntity implements Parcelable {
         dest.writeString(RegNo);
         dest.writeString(ss_id);
         dest.writeInt(leadtype);
+        dest.writeString(VehicleRequestID);
     }
 
     @Override
@@ -154,6 +157,14 @@ public class MotorMyLeadEntity implements Parcelable {
 
     public void setLeadtype(int leadtype) {
         this.leadtype = leadtype;
+    }
+
+    public String getVehicleRequestID() {
+        return VehicleRequestID;
+    }
+
+    public void setVehicleRequestID(String vehicleRequestID) {
+        VehicleRequestID = vehicleRequestID;
     }
 
 

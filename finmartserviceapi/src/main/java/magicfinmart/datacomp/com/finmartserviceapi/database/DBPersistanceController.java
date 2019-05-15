@@ -905,12 +905,19 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
+    public void clearUserData()
+    {
+        realm.beginTransaction();
+        realm.delete(LoginResponseEntity.class);
+        realm.delete(UserConstantEntity.class);
+        realm.commitTransaction();
+    }
     public void logout() {
         realm.beginTransaction();
-//        realm.delete(LoginResponseEntity.class);
-//        realm.delete(AccountDtlEntity.class);
-//        realm.delete(DocsEntity.class);
-//        realm.delete(UserConstantEntity.class);
+        realm.delete(LoginResponseEntity.class);
+        realm.delete(AccountDtlEntity.class);
+        realm.delete(DocsEntity.class);
+        realm.delete(UserConstantEntity.class);
 
         realm.deleteAll();
         realm.commitTransaction();

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -32,6 +33,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteappli
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorLeadResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorViewLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 /**
@@ -51,6 +53,7 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
     EditText etSearch;
     RecyclerView.LayoutManager layoutManager;
     boolean isHit = false;
+    String Type = "";
 
     public MotorLeadFragment() {
         // Required empty public constructor
@@ -154,6 +157,13 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    public void redirectViewToInputQuote(MotorMyLeadEntity entity) {
+
+        showDialog();
+        new QuoteApplicationController(getActivity()).ViewLead(entity.getVehicleRequestID(), entity.getLeadId(), this);
+
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -192,6 +202,13 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
         } else if (response instanceof MotorLeadResponse) {
 
             QuoteListEntity entity = ((MotorLeadResponse) response).getMasterData();
+
+
+            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
+        } else if (response instanceof MotorViewLeadResponse) {
+
+            QuoteListEntity entity = ((MotorViewLeadResponse) response).getMasterData();
+
             startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
         }
 
@@ -201,5 +218,6 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
+        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

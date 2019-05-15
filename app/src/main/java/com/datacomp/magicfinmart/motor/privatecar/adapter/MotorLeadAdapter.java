@@ -132,6 +132,7 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
             case R.id.llNewLead:
                 MotorMyLeadEntity myLeadEntity1 = (MotorMyLeadEntity) view.getTag(view.getId());
                 myLeadEntity1.setLeadtype(1);
+                myLeadEntity1.setCRN("");
                 ((MotorLeadFragment) mFrament).redirectToInputQuote(myLeadEntity1);
                 break;
 
@@ -144,7 +145,7 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
             case R.id.llViewLead:
                 MotorMyLeadEntity myLeadEntity3 = (MotorMyLeadEntity) view.getTag(view.getId());
                 myLeadEntity3.setLeadtype(3);
-                ((MotorLeadFragment) mFrament).redirectToInputQuote(myLeadEntity3);
+                ((MotorLeadFragment) mFrament).redirectViewToInputQuote(myLeadEntity3);
                 break;
 
 

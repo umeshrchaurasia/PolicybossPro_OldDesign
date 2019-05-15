@@ -18,6 +18,8 @@ public class SaveMotorRequestEntity implements Parcelable {
     String comment;
     String idvAmount;
     int isActive;
+
+    String LeadId;
     private String vehicle_insurance_type;
 
 
@@ -85,6 +87,13 @@ public class SaveMotorRequestEntity implements Parcelable {
         this.isActive = isActive;
     }
 
+    public String getLeadId() {
+        return LeadId;
+    }
+
+    public void setLeadId(String leadId) {
+        LeadId = leadId;
+    }
 
     @Override
     public int describeContents() {
@@ -101,6 +110,7 @@ public class SaveMotorRequestEntity implements Parcelable {
         dest.writeString(this.idvAmount);
         dest.writeInt(this.isActive);
         dest.writeString(this.vehicle_insurance_type);
+        dest.writeString(this.LeadId);
     }
 
     public SaveMotorRequestEntity() {
@@ -115,6 +125,7 @@ public class SaveMotorRequestEntity implements Parcelable {
         this.idvAmount =in.readString();
         this.isActive = in.readInt();
         this.vehicle_insurance_type = in.readString();
+        this.LeadId =in.readString();
     }
 
     public static final Parcelable.Creator<SaveMotorRequestEntity> CREATOR = new Parcelable.Creator<SaveMotorRequestEntity>() {

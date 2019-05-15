@@ -59,7 +59,7 @@ public class RaiseTicketViewAdapter extends RecyclerView.Adapter<RaiseTicketView
 
         if (holder instanceof RaiseTicketViewAdapter.RaiseTicketViewItem) {
             final RaiseTickeViewEntity entity = viewEntityList.get(position);
-            entity.setDocpath("http://qa.mgfm.in/uploads/1976/POSPPhotograph.jpg");  // 05 temp
+
             holder.txtComment.setText("" + entity.getComment());
 
             Glide.with(context)
