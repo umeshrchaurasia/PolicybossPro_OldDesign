@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -60,7 +61,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
     HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
-    String categoryId = "";
+    String categoryId = "",subCategoryId_bind="";
     int subCategoryId = 0, classId = 0;
     CreateTicketrequest createTicketrequest;
     String et_Type_ticket ="",et_Crn_ticket ="";
@@ -93,35 +94,106 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
         showDialog();
         new ZohoController(this).getTicketCategories(this);
 
-        adapterListener();
+        spCategory.setOnItemSelectedListener(spCategoryListener);
+        spSubCategories.setOnItemSelectedListener(spSubCategoriesListner);
+        spClassification.setOnItemSelectedListener(spClassificationListener);
+
+    }
+
+    private void bindadapterfromotor() {
 
         try {
             if(getIntent().hasExtra("ProductType")) {
                 if (getIntent().getStringExtra("ProductType") != null) {
                     et_Type_ticket = getIntent().getStringExtra("ProductType");
-                    if(et_Type_ticket.equals("MOTOR"))
-                    {
-                        spCategory.setSelection(3);
-                        spSubCategories.setSelection(1);
-                        spClassification.setSelection(2);
-                    }else  if(et_Type_ticket.equals("TWO WHEELER"))
-                    {
-                        spCategory.setSelection(3);
-                        spSubCategories.setSelection(1);
-                        spClassification.setSelection(1);
-                    }
+
+                  //  spCategory.setOnItemSelectedListener(null);
+                 //   spSubCategories.setOnItemSelectedListener(null);
+                //    spClassification.setOnItemSelectedListener(null);
+
+                //    if(et_Type_ticket.equals("MOTOR"))
+               //     {
+                        int varientIndex = 0;
+                        for (int i = 0; i < categoryList.size(); i++) {
+
+                            String variantName = "Product Related";
+                            String vari = categoryList.get(i);
+                            if (variantName.equalsIgnoreCase(vari)) {
+                                varientIndex = i;
+                                break;
+                            }
+                        }
+                        spCategory.setSelection(varientIndex);
+
+                        //
+
+
+//                        categoryId = dbPersistanceController.getCategoryId(zohoTicketCategoryEntity, spCategory.getSelectedItem().toString());
+//                        if (!categoryId.equals("")) {
+//                            subCategoryList.clear();
+//                            List<String> subCategory_varList  = dbPersistanceController.getSubCategoryList(zohoTicketCategoryEntity, categoryId);
+//                            subCategoryList.addAll(subCategory_varList);
+//                            subCategoriesAdapter.notifyDataSetChanged();
+//                        }
+
+
+//
+//                        int varientIndexSub = 0;
+//                        for (int i = 0; i < subCategoryList.size(); i++) {
+//
+//                            String variantName = "Insurance Products";
+//                            String vari = subCategoryList.get(i);
+//                            if (variantName.equalsIgnoreCase(vari)) {
+//                                varientIndexSub = i;
+//                                break;
+//                            }
+//                        }
+
+//                        spSubCategories.setSelection(varientIndexSub);
+//
+//
+//                        //
+//                        subCategoryId = dbPersistanceController.getSubCategoryId(zohoTicketCategoryEntity, spSubCategories.getSelectedItem().toString());
+//                        if (subCategoryId !=0) {
+//                            classList.clear();
+//                            List<String> classList_varList  = dbPersistanceController.getClassificationList(zohoTicketCategoryEntity, subCategoryId);
+//                            classList.addAll(classList_varList);
+//                            classAdapter.notifyDataSetChanged();
+//                        }
+//
+//                        int varientIndexcl = 0;
+//                        for (int i = 0; i < classList.size(); i++) {
+//
+//                            String variantName = "Motor";
+//                            String vari = classList.get(i);
+//                            if (variantName.equalsIgnoreCase(vari)) {
+//                                varientIndexcl = i;
+//                                break;
+//                            }
+//                        }
+//                        spClassification.setSelection(varientIndexcl);
+//                    }
+//                     else  if(et_Type_ticket.equals("TWO WHEELER"))
+//                    {
+//
+//                    }
                 }
 
                 if (getIntent().getStringExtra("crn") != null) {
                     et_Crn_ticket = String.valueOf(getIntent().getStringExtra("crn"));
 
-                    etMessage.setText(et_Crn_ticket);
+                    etMessage.setText("CRN No : "+et_Crn_ticket);
                 }
 
             }
         }catch (Exception e)
         {
             e.printStackTrace();
+        }
+        finally {
+            spCategory.setOnItemSelectedListener(spCategoryListener);
+            spSubCategories.setOnItemSelectedListener(spSubCategoriesListner);
+            spClassification.setOnItemSelectedListener(spClassificationListener);
         }
     }
 
@@ -214,12 +286,17 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
             }
         };
         spClassification.setAdapter(classAdapter);
+
+        bindadapterfromotor();
+
     }
 
-    private void adapterListener() {
+
 
         //region category
-        spCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+
+       AdapterView.OnItemSelectedListener spCategoryListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
@@ -254,6 +331,21 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                         }
                     };
                     spSubCategories.setAdapter(subCategoriesAdapter);
+                    if(getIntent().hasExtra("ProductType")) {
+                         int varientIndexSub = 0;
+                        for (int i = 0; i < subCategoryList.size(); i++) {
+
+                            String variantName = "Insurance Products";
+                            String vari = subCategoryList.get(i);
+                            if (variantName.equalsIgnoreCase(vari)) {
+                                varientIndexSub = i;
+                                break;
+                            }
+                        }
+                        spSubCategories.setSelection(varientIndexSub);
+
+                    }
+
                 }
             }
 
@@ -261,11 +353,11 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        };
         //endregion
 
         //region subCategory
-        spSubCategories.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        AdapterView.OnItemSelectedListener spSubCategoriesListner = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
@@ -300,6 +392,37 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                         }
                     };
                     spClassification.setAdapter(classAdapter);
+
+                    if(getIntent().hasExtra("ProductType")) {
+                        int varientIndexcl = 0;
+                        if(et_Type_ticket.equals("MOTOR"))
+                        {
+
+                        for (int i = 0; i < classList.size(); i++) {
+
+                            String variantName = "Motor";
+                            String vari = classList.get(i);
+                            if (variantName.equalsIgnoreCase(vari)) {
+                                varientIndexcl = i;
+                                break;
+
+                            }
+                        }
+                        }else  if(et_Type_ticket.equals("TWO WHEELER"))
+                        {
+                            for (int i = 0; i < classList.size(); i++) {
+
+                                String variantName = "2W";
+                                String vari = classList.get(i);
+                                if (variantName.equalsIgnoreCase(vari)) {
+                                    varientIndexcl = i;
+                                    break;
+
+                                }
+                            }
+                        }
+                        spClassification.setSelection(varientIndexcl);
+                    }
                 }
             }
 
@@ -307,11 +430,11 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        };
         //endregion
 
         //region classification
-        spClassification.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        AdapterView.OnItemSelectedListener spClassificationListener= new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                 classId = dbPersistanceController.getClassificationId(zohoTicketCategoryEntity, adapterView.getSelectedItem().toString());
@@ -321,10 +444,10 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        };
         //endregion
 
-    }
+
 
     private void init_widgets() {
         spCategory = (Spinner) findViewById(R.id.spCategory);
@@ -339,6 +462,10 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
     private void setListener() {
         tvBrowse.setOnClickListener(this);
         btnSubmit.setOnClickListener(this);
+        spCategory.setOnItemSelectedListener(spCategoryListener);
+        spSubCategories.setOnItemSelectedListener(spSubCategoriesListner);
+        spClassification.setOnItemSelectedListener(spClassificationListener);
+
     }
 
 

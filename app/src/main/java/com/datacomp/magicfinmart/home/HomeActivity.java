@@ -504,7 +504,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         break;
 
+                    case R.id.nav_finbox:
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL",  userConstantEntity.getFinboxurl())
+                                .putExtra("NAME", "MY FINBOX")
+                                .putExtra("TITLE", "MY FINBOX"));
 
+                        break;
+                    case R.id.nav_finperk:
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", userConstantEntity.getFinperkurl())
+                                .putExtra("NAME", "FINPERK")
+                                .putExtra("TITLE", "FINPERK"));
+
+                        break;
                     default:
                         break;
                 }
