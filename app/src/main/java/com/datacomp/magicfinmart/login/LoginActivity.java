@@ -24,6 +24,7 @@ import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -41,7 +42,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     TextView tvSignUp, tvForgotPass;
     Button btnSignIn;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
-
+    DBPersistanceController dbPersistanceController;
     private static int PERMISSION_DENIED = 0;
 
 
@@ -64,8 +65,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setListener();
         realm = Realm.getDefaultInstance();
         prefManager = new PrefManager(this);
-
-
+        dbPersistanceController = new DBPersistanceController(this);
+        dbPersistanceController.clearUserData();
         if (!checkPermission()) {
             requestPermission();
         }

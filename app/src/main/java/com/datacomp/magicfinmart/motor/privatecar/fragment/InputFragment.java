@@ -113,6 +113,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     String regNo = "";
     Switch switchNewRenew;
 
+    String LeadId = "0";
     MotorRequestEntity motorRequestEntity;
     FastLaneDataEntity fastLaneResponseEntity;
     ConstantEntity constantEntity;
@@ -210,6 +211,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
+                LeadId = getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID,"0");
                 tvDontKnow.performClick();
                 bindInputsQuotes();
 
@@ -2499,7 +2501,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (response instanceof BikeUniqueResponse) {
             if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new PolicybossTrackingResponse((BikeUniqueResponse) response).execute();
-            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity);
+            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity,LeadId);
         } else if (response instanceof SaveAddOnResponse) {
             dialogBreakIn(((SaveAddOnResponse) response).getMessage());
         }

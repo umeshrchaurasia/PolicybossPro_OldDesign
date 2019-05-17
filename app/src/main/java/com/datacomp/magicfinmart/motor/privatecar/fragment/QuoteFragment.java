@@ -86,7 +86,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     ImageView webViewLoader;
     List<MobileAddOn> listMobileAddOn;
     //TextView tvPolicyExp, tvFuel, tvCrn;
-    TextView tvMakeModel, tvCount, tvRtoName, txtCrn,tvNote;
+    TextView tvMakeModel, tvCount, tvRtoName, txtCrn, tvNote;
     //Switch swAddon;
     CheckBox chkAddon;
     TextView filter, tvWithoutAddon, tvWithAddon;
@@ -97,6 +97,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     NestedScrollView scrollView;
     FloatingActionButton fabrefresh;
     boolean isSync = false;
+    String LeadId = "0";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         databaseController = new DBPersistanceController(getActivity());
         saveQuoteEntity = new SaveQuoteResponse.SaveQuoteEntity();
         shareResponseEntityList = new ArrayList<>();
+
         if (getArguments() != null) {
+
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
                 if (motorRequestEntity.getVehicleRequestID() != 0)
@@ -125,6 +128,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 setListener();
                 updateHeader();
                 fetchQuotes();
+            }
+            if (getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID) != null) {
+
+                LeadId = getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID, "0");
             }
         } else {
             Toast.makeText(getActivity(), "Please fill inputs", Toast.LENGTH_SHORT).show();
@@ -337,6 +344,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     private void saveQuoteToServer(BikePremiumResponse response) {
         //store request and SRN to mySql
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+        entity.setLeadId(LeadId);
         if (response.getSummary().getPB_CRN() != null && !response.getSummary().getPB_CRN().equals(""))
             motorRequestEntity.setCrn(response.getSummary().getPB_CRN());
 

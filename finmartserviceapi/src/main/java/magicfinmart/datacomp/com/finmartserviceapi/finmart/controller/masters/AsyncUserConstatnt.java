@@ -8,6 +8,7 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 
 /**
@@ -33,9 +34,12 @@ public class AsyncUserConstatnt extends AsyncTask<Void, Void, Void> {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
+
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
+
+                    realm.delete(UserConstantEntity.class);
                     realm.copyToRealmOrUpdate(userConstantEntity);
 
                 }

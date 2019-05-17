@@ -21,4 +21,6 @@ public interface IQuoteApp {
     void deleteQuote(String vehicleRequestID, IResponseSubcriber iResponseSubcriber);
 
     void ModifyLead(MotorMyLeadEntity entity, IResponseSubcriber iResponseSubcriber);
+
+    void ViewLead(String VehicleRequestID, String LeadId,  IResponseSubcriber iResponseSubcriber);
 }
