@@ -72,21 +72,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        try {
-            if(getIntent().hasExtra("ProductType")) {
-                if (getIntent().getStringExtra("ProductType") != null) {
-                    et_Type_ticket = getIntent().getStringExtra("ProductType");
-                }
 
-                if (getIntent().getStringExtra("crn") != null) {
-                    et_Crn_ticket = String.valueOf(getIntent().getStringExtra("crn"));
-                }
-
-            }
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         prefManager = new PrefManager(this);
@@ -108,6 +94,35 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
         new ZohoController(this).getTicketCategories(this);
 
         adapterListener();
+
+        try {
+            if(getIntent().hasExtra("ProductType")) {
+                if (getIntent().getStringExtra("ProductType") != null) {
+                    et_Type_ticket = getIntent().getStringExtra("ProductType");
+                    if(et_Type_ticket.equals("MOTOR"))
+                    {
+                        spCategory.setSelection(3);
+                        spSubCategories.setSelection(1);
+                        spClassification.setSelection(2);
+                    }else  if(et_Type_ticket.equals("TWO WHEELER"))
+                    {
+                        spCategory.setSelection(3);
+                        spSubCategories.setSelection(1);
+                        spClassification.setSelection(1);
+                    }
+                }
+
+                if (getIntent().getStringExtra("crn") != null) {
+                    et_Crn_ticket = String.valueOf(getIntent().getStringExtra("crn"));
+
+                    etMessage.setText(et_Crn_ticket);
+                }
+
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     private void init_adapters() {
