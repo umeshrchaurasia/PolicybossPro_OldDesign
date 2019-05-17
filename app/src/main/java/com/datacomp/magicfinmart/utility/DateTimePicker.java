@@ -379,6 +379,28 @@ public class DateTimePicker {
         dialog.show();
     }
 
+    public static void showDataPickerDialog_lakshya(Context mContex, Calendar cal, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        calendar.add(Calendar.YEAR, -18);
+        // disable all before date,
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+
+        calendar.add(Calendar.YEAR, -32);
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+
+        if (cal != null) {
+            //set existing date to calender
+            dialog.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        }
+
+        dialog.show();
+    }
+
 
     public static void invoiceNewValidation(Context context, DatePickerDialog.OnDateSetListener callBack) {
 
@@ -426,13 +448,31 @@ public class DateTimePicker {
         dialog.show();
     }
 
-    public static void policyExpValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+    public static void policyBreakInExpValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
+
         DatePickerDialog dialog;
         if (date.getMonth() <= calendar.get(Calendar.MONTH))
             dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
         else
             dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        // dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        calendar.add(Calendar.MONTH, 2);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        dialog.show();
+    }
+
+    public static void policyExpValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog dialog;
+        if (date.getMonth() <= calendar.get(Calendar.MONTH))
+            dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate() - 1);
+        else
+            dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH) - 1);
 
         dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
@@ -510,4 +550,13 @@ public class DateTimePicker {
         dialog.show();
     }
 
+    public static void openDatePicker(Context context, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(context,
+                callBack,
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.show();
+    }
 }

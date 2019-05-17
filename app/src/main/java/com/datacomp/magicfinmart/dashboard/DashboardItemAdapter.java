@@ -33,7 +33,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public class DashboardItemHolder extends RecyclerView.ViewHolder {
-        ImageView imgIcon;
+        ImageView imgIcon, imgNew;
         TextView txtProductName, txtProductDesc;
         CardView card_view;
 
@@ -41,6 +41,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(view);
             card_view = (CardView) view.findViewById(R.id.card_view);
             imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
+            imgNew = (ImageView) view.findViewById(R.id.imgNew);
             txtProductName = (TextView) view.findViewById(R.id.txtProductName);
             txtProductDesc = (TextView) view.findViewById(R.id.txtProductDesc);
         }
@@ -69,94 +70,22 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
             ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
-            /*((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    switch (listInsur.get(position).getProductId()) {
-                        case 1:
-                            //car
-                            mContext.startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
-                            break;
-                        case 10:
-                            //bike
-                            //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
-                            mContext.startActivity(new Intent(mContext.getActivity(), TwoWheelerQuoteAppActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
-                            break;
-                        case 3:
-                            //health
-                            mContext.startActivity(new Intent(mContext.getActivity(), HealthQuoteAppActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
-                            break;
-                        case 4:
-                            //home loan
-                            mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
-                            break;
-                        case 5:
-                            //personal loan
-                            mContext.startActivity(new Intent(mContext.getActivity(), PersonalLoanDetailActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
-                            break;
-                        case 6:
-                            //lap
-                            mContext.startActivity(new Intent(mContext.getActivity(), LapLoanDetailActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                            break;
-                        case 7:
-                            //cc
-                            // mContext.startActivity(new Intent(mContext.getActivity(), CreditCardMainActivity.class));
-                            mContext.startActivity(new Intent(mContext.getActivity(), AppliedCreditListActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
-                            break;
-                        case 8:
-                            //BT
-                            mContext.startActivity(new Intent(mContext.getActivity(), BalanceTransferDetailActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
-                            break;
-                        case 9:
-
-                            mContext.startActivity(new Intent(mContext.getActivity(), QuickLeadActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
-
-                            break;
-                        case 13:
-
-                            mContext.startActivity(new Intent(mContext.getActivity(), AppliedOnlineLoanListActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
-
-                            break;
+            if (listInsur.get(position).getProductId() == 17) {
+                ((DashboardItemHolder) holder).imgNew.setVisibility(View.VISIBLE);
+                Glide.with(mContext).
+                        load(R.drawable.newicon)
+                        .asGif()
+                        .crossFade()
+                        .into(((DashboardItemHolder) holder).imgNew);
 
 
-                        case 2:
-                            //fin peace
-                            mContext.startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                                    .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/" + fbaId)
-                                    .putExtra("NAME", "FIN-PEACE")
-                                    .putExtra("TITLE", "FIN-PEACE"));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
-                            break;
-                        case 11:
-                            //health check up
-                            mContext.startActivity(new Intent(mContext.getActivity(), HealthCheckUpListActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
-                            break;
+                ((DashboardItemHolder) holder).card_view.setBackgroundResource(R.drawable.customeborder_blue_thin);
+            } else {
+                ((DashboardItemHolder) holder).imgNew.setVisibility(View.GONE);
+                ((DashboardItemHolder) holder).card_view.setBackgroundResource(R.drawable.customeborder_grey_thin);
+            }
 
-                        case 12:
-                            //Life Insurance
-                            mContext.startActivity(new Intent(mContext.getActivity(), TermSelectionActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
-                            break;
-                        default:
-                            Toast.makeText(mContext.getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
-                            break;
-
-                    }
-
-                }
-            });*/
         }
     }
 

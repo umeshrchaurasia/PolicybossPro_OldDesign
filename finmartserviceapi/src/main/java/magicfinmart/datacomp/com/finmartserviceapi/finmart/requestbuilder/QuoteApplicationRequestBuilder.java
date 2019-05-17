@@ -3,7 +3,11 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorLeadResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorViewLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
@@ -45,6 +49,14 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/delete-vehicle-request")
         Call<QuoteAppUpdateDeleteResponse> deleteQuote(@Body HashMap<String, String> body);
 
+        @Headers("token:" + token)
+        @POST("/api/get-my-leads")
+        Call<MotorLeadResponse> modifyLead(@Body MotorMyLeadEntity entity);
+
+
+        @Headers("token:" + token)
+        @POST("/api/get-my-leads-view")
+        Call<MotorViewLeadResponse> modifyLeadView(@Body HashMap<String, String> body);
     }
 
 }

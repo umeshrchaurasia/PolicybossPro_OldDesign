@@ -129,7 +129,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_hdfc_input, container, false);
+        View view = inflater.inflate(R.layout.fragment_hdfc_input_offline, container, false);
         init_view(view);
         setListener();
         setPopUpInfo();

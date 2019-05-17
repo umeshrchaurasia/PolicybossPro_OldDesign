@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.webviews;
 
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +29,10 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
@@ -56,7 +61,7 @@ public class CommonWebViewActivity extends BaseActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
-                || name.equals("FRANCHISE_AGREEMENT")) {
+                || name.equals("LOAN_AGREEMENT") || name.equals("LIC Business") || name.equals("OfflineQuotes")) {
             // fab.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
         } else {
@@ -151,7 +156,7 @@ public class CommonWebViewActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                /*if (url.endsWith(".pdf")) {
+                if (url.endsWith(".pdf")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(url), "application/pdf");
                     try {
@@ -161,7 +166,11 @@ public class CommonWebViewActivity extends BaseActivity {
                         String googleDocs = "https://docs.google.com/viewer?url=";
                         webView.loadUrl(googleDocs + url);
                     }
-                }*/
+                }
+                /*qacamp@gmail.com/01011980
+                download policy QA user
+                878769 crn
+                */
                 return false;
             }
         });
@@ -273,6 +282,41 @@ public class CommonWebViewActivity extends BaseActivity {
         @JavascriptInterface
         public void RedirectToHomepage() {//Android.RedirectToHomepage();
             Intent intent = new Intent(CommonWebViewActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
+        @JavascriptInterface
+        public void callPDFCREDIT(String u) {
+
+            webView.loadUrl("http://www.google.com");
+
+//            startActivity(new Intent(CommonWebViewActivity.this, CommonWebViewActivity.class)
+//                    .putExtra("URL", url)
+//                    .putExtra("NAME", "FREE CREDIT REPORT")
+//                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
+        }
+
+        @JavascriptInterface
+        public void redirectpersonalloan() {//Android.RedirectToHomepage();
+            Intent intent = new Intent(CommonWebViewActivity.this, NewPersonalApplicaionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
+        @JavascriptInterface
+        public void redirecthomeloan() {//Android.RedirectToHomepage();
+            Intent intent = new Intent(CommonWebViewActivity.this, NewHomeApplicaionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
+        @JavascriptInterface
+        public void redirectbusinessloan() {//Android.RedirectToHomepage();
+            Intent intent = new Intent(CommonWebViewActivity.this, NewbusinessApplicaionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();

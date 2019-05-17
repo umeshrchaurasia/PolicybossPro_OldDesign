@@ -24,6 +24,7 @@ import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -41,36 +42,31 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     TextView tvSignUp, tvForgotPass;
     Button btnSignIn;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
-
+    DBPersistanceController dbPersistanceController;
     private static int PERMISSION_DENIED = 0;
+
+
 
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.ACCESS_FINE_LOCATION",
-            "android.permission.SEND_SMS",
-            "android.permission.READ_SMS",
-            "android.permission.RECEIVE_SMS",
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.CALL_PHONE",
-            "android.permission.RECORD_AUDIO",
-            "android.permission.READ_CONTACTS",
+            "android.permission.BLUETOOTH",
+            "android.permission.BLUETOOTH_ADMIN"
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         loginRequestEntity = new LoginRequestEntity();
         initWidgets();
         setListener();
         realm = Realm.getDefaultInstance();
         prefManager = new PrefManager(this);
-
-
+        dbPersistanceController = new DBPersistanceController(this);
+        dbPersistanceController.clearUserData();
         if (!checkPermission()) {
             requestPermission();
         }
@@ -86,26 +82,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private boolean checkPermission() {
 
+
+
+
         int camera = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
         int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
-        int sendSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[2]);
-        int readSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[3]);
-        int receiveSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
-        int WRITE_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
-        int READ_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[6]);
-        int callPhone = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
-        int recordAudio = ContextCompat.checkSelfPermission(getApplicationContext(), perms[8]);
-        int readContact = ContextCompat.checkSelfPermission(getApplicationContext(), perms[9]);
+        int WRITE_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        int READ_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[3]);
+
+        int bluetooth = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
+        int bluetoothAdmin = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
+
         return camera == PackageManager.PERMISSION_GRANTED
                 && fineLocation == PackageManager.PERMISSION_GRANTED
-                && sendSms == PackageManager.PERMISSION_GRANTED
-                && readSms == PackageManager.PERMISSION_GRANTED
-                && receiveSms == PackageManager.PERMISSION_GRANTED
                 && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
                 && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && callPhone == PackageManager.PERMISSION_GRANTED
-                && recordAudio == PackageManager.PERMISSION_GRANTED
-                && readContact == PackageManager.PERMISSION_GRANTED;
+                && bluetooth == PackageManager.PERMISSION_GRANTED
+                && bluetoothAdmin == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
@@ -119,19 +112,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case REQUEST_CODE_ASK_PERMISSIONS:
                 if (grantResults.length > 0) {
 
-                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    boolean sendSms = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean readSms = grantResults[3] == PackageManager.PERMISSION_GRANTED;
-                    boolean receiveSms = grantResults[4] == PackageManager.PERMISSION_GRANTED;
-                    boolean writeExternal = grantResults[5] == PackageManager.PERMISSION_GRANTED;
-                    boolean readExternal = grantResults[6] == PackageManager.PERMISSION_GRANTED;
-                    boolean callPhone = grantResults[7] == PackageManager.PERMISSION_GRANTED;
-                    boolean recordAudio = grantResults[8] == PackageManager.PERMISSION_GRANTED;
-                    boolean readContact = grantResults[8] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean readExternal = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+                    boolean bluetooth = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    boolean bluetoothAdmin = grantResults[5] == PackageManager.PERMISSION_GRANTED;
 
-                    if (camera && fineLocation && sendSms && readSms && receiveSms && writeExternal && readExternal && callPhone && recordAudio && readContact) {
+                    if (camera && fineLocation && writeExternal
+                            && readExternal
+                            && bluetooth && bluetoothAdmin) {
 
                         // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
                     } else {

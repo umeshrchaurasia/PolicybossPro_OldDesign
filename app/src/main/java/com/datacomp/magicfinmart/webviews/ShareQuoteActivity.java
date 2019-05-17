@@ -77,7 +77,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
     String userReponse;
     String otherData = "";
     Gson gson = new Gson();
-    String pospPhotoUrl, pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
+    String pospPhotoUrl, pospName, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
     String from;
     DBPersistanceController dbPersistanceController;
     GetQuoteResponse getQuoteResponse;
@@ -207,33 +207,48 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
 
     private void setPospDetails() {
 
-        pospNAme = "POSP Name";
+        pospName = "POSP Name";
         pospEmail = "XXXXXX@finmart.com";
         pospDesg = "LandMark POSP";
         PospMobNo = "98XXXXXXXX";
 
-        if (userConstantEntity != null) {
-            if (userConstantEntity.getPospsendname() != null && !userConstantEntity.getPospsendname().equals("")) {
-                pospNAme = userConstantEntity.getPospsendname();
-            }
-            if (userConstantEntity.getPospsendemail() != null && !userConstantEntity.getPospsendemail().equals("")) {
-                pospEmail = userConstantEntity.getPospsendemail();
-            }
-            if (userConstantEntity.getPospsendmobile() != null && !userConstantEntity.getPospsendmobile().equals("")) {
-                PospMobNo = userConstantEntity.getPospsendmobile();
-            }
-            if (userConstantEntity.getPospsenddesignation() != null && !userConstantEntity.getPospsenddesignation().equals("")) {
-                pospDesg = userConstantEntity.getPospsenddesignation();
-            }
-            if (userConstantEntity.getPospsendphoto() != null && !userConstantEntity.getPospsendphoto().equals("")) {
-                pospPhotoUrl = userConstantEntity.getPospsendphoto();
+
+        if (userConstantEntity != null
+                && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                && !userConstantEntity.getParentid().equals("0")) {
+            // not to show
+            pospName = "";
+            pospEmail = "";
+            PospMobNo = "";
+            pospDesg = "";
+            pospPhotoUrl = "";
+        } else {
+            //show
+
+
+            if (userConstantEntity != null) {
+                if (userConstantEntity.getPospsendname() != null && !userConstantEntity.getPospsendname().equals("")) {
+                    pospName = userConstantEntity.getPospsendname();
+                }
+                if (userConstantEntity.getPospsendemail() != null && !userConstantEntity.getPospsendemail().equals("")) {
+                    pospEmail = userConstantEntity.getPospsendemail();
+                }
+                if (userConstantEntity.getPospsendmobile() != null && !userConstantEntity.getPospsendmobile().equals("")) {
+                    PospMobNo = userConstantEntity.getPospsendmobile();
+                }
+                if (userConstantEntity.getPospsenddesignation() != null && !userConstantEntity.getPospsenddesignation().equals("")) {
+                    pospDesg = userConstantEntity.getPospsenddesignation();
+                }
+                if (userConstantEntity.getPospsendphoto() != null && !userConstantEntity.getPospsendphoto().equals("")) {
+                    pospPhotoUrl = userConstantEntity.getPospsendphoto();
+                }
             }
         }
 
         try {
             userJson.put("pospPhotoUrl", pospPhotoUrl);
             userJson.put("pospDesg", pospDesg);
-            userJson.put("pospNAme", pospNAme);
+            userJson.put("pospName", pospName);
             userJson.put("pospEmail", pospEmail);
             userJson.put("PospMobNo", PospMobNo);
         } catch (JSONException e) {
@@ -243,33 +258,44 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
 
     private void setOtherDetails() {
 
-        pospNAme = "FBA Name";
+        pospName = "FBA Name";
         pospEmail = "XXXXXX@finmart.com";
         pospDesg = "FBA SUPPORT ASSISTANT";
         PospMobNo = "98XXXXXXXX";
 
-        if (userConstantEntity != null) {
-            if (userConstantEntity.getLoansendname() != null && !userConstantEntity.getLoansendname().equals("")) {
-                pospNAme = userConstantEntity.getLoansendname();
-            }
-            if (userConstantEntity.getLoansendemail() != null && !userConstantEntity.getLoansendemail().equals("")) {
-                pospEmail = userConstantEntity.getLoansendemail();
-            }
-            if (userConstantEntity.getLoansendmobile() != null && !userConstantEntity.getLoansendmobile().equals("")) {
-                PospMobNo = userConstantEntity.getLoansendmobile();
-            }
-            if (userConstantEntity.getLoansenddesignation() != null && !userConstantEntity.getLoansenddesignation().equals("")) {
-                pospDesg = userConstantEntity.getLoansenddesignation();
-            }
-            if (userConstantEntity.getLoansendphoto() != null && !userConstantEntity.getLoansendphoto().equals("")) {
-                pospPhotoUrl = userConstantEntity.getLoansendphoto();
+        if (userConstantEntity != null
+                && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                && !userConstantEntity.getParentid().equals("0")) {
+            // not to show
+            pospName = "";
+            pospEmail = "";
+            PospMobNo = "";
+            pospDesg = "";
+            pospPhotoUrl = "";
+        } else {
+            //show
+            if (userConstantEntity != null) {
+                if (userConstantEntity.getLoansendname() != null && !userConstantEntity.getLoansendname().equals("")) {
+                    pospName = userConstantEntity.getLoansendname();
+                }
+                if (userConstantEntity.getLoansendemail() != null && !userConstantEntity.getLoansendemail().equals("")) {
+                    pospEmail = userConstantEntity.getLoansendemail();
+                }
+                if (userConstantEntity.getLoansendmobile() != null && !userConstantEntity.getLoansendmobile().equals("")) {
+                    PospMobNo = userConstantEntity.getLoansendmobile();
+                }
+                if (userConstantEntity.getLoansenddesignation() != null && !userConstantEntity.getLoansenddesignation().equals("")) {
+                    pospDesg = userConstantEntity.getLoansenddesignation();
+                }
+                if (userConstantEntity.getLoansendphoto() != null && !userConstantEntity.getLoansendphoto().equals("")) {
+                    pospPhotoUrl = userConstantEntity.getLoansendphoto();
+                }
             }
         }
-
         try {
             userJson.put("pospPhotoUrl", pospPhotoUrl);
             userJson.put("pospDesg", pospDesg);
-            userJson.put("pospNAme", pospNAme);
+            userJson.put("pospName", pospName);
             userJson.put("pospEmail", pospEmail);
             userJson.put("PospMobNo", PospMobNo);
         } catch (JSONException e) {

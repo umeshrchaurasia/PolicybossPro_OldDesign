@@ -60,6 +60,9 @@ public class Constants {
     public static String WHATSNEW = "WHATS NEW";
     public static String LOGOUT = "LOGOUT";
     //endregion
+    public static String CAMPAIGN = "CAMPAIGN";
+    public static String OFFLINE = "OFFLINE";
+    public static String ULTRA_LAKSHA = "ULTRA_LAKSHA";
 
     public static String PRIVATE_CAR = "MOTOR INSURANCE";
     public static String PRIVATE_CAR_REQUEST= "MOTOR  REQUEST";
@@ -71,15 +74,20 @@ public class Constants {
     public static String TWO_WHEELER_FASTLANE_RESPONSE = "TWO WHEELER FASTLANE RESPONSE";
     public static String FASTLANE = "FASTLANE";
     public static String HEALTH_INS = "HEALTH INSURANCE";
+    public static String HEALTH_INS_OFF = "HEALTH INSURANCE_OFFLINE";
     public static String LIFE_INS = "TERM INSURANCE";
+    public static String ULTRALAKSHA_INS = "ULTRA LAKSHA INSURANCE";
     public static String HOME_LOAN = "HOME LOAN";
     public static String PERSONA_LOAN = "PERSONAL LOAN";
+    public static String BUSINESS_LOAN = "BUSINESS LOAN";
+
     public static String LAP = "LAP";
     public static String CREDIT_CARD = "CREDIT CARD";
     public static String BALANCE_TRANSFER = "BALANCE TRANSFER";
     public static String QUICK_LEAD = "QUICK LEAD";
     public static String FIN_PEACE = "FIN PEACE";
     public static String HEALTH_CHECKUP = "HEALTH CHECKUP PLANS";
+    public static String ULTRALAKSHA_COMBO =  "ULTRA LAKSHYA COMBO";
 
 
     public static final Double GST = 0.18;
@@ -114,7 +122,12 @@ public class Constants {
     public static final int REQUEST_PERMISSION_SETTING = 101;
     public static final int PERMISSION_CAMERA_STORACGE_CONSTANT = 103;
     public static final int PERMISSION_CALLBACK_SUPPORT = 104;
+    public static final int REQUEST_CODE_ASK_PERMISSIONS = 105;
 
+    public static String OFFLINE_DOC_DATA = "offline_docData";
+    public static String OFFLINE_HEALTH_EDIT = "offline_health_edit";
+
+    public static String TERM_INPUT_FRAGMENT = "input_term_fragment_bottom";
 
     public static String[] permissionsRequired ={Manifest.permission.CALL_PHONE};
 

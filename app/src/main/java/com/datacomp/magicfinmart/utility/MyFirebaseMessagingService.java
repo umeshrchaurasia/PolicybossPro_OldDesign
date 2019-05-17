@@ -158,8 +158,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
         }
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.drawable.finmart_white_logo);
+            notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
+        } else {
+            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        }
+
         notificationBuilder
-                .setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
                 .setContentTitle(NotifyData.get("title"))
                 .setContentText(NotifyData.get("body"))
@@ -171,6 +177,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setWhen(System.currentTimeMillis())
                 .setVisibility(NOTIFICATION_ID)
                 .setChannelId(CHANNEL_ID)
+                .setNumber(1)
+                .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
                 .setContentIntent(pendingIntent);
 
 
@@ -187,7 +195,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
     //   .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
-    //      builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.finmart_logo));
+    //      builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.finmart_logo_splash));
 
 
     private void setNotifyCounter() {

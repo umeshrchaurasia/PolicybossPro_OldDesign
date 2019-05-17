@@ -1206,5 +1206,5 @@
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Get quote" />
+        android:text="REQUEST OFFLINE QUOTE" />
 </LinearLayout>

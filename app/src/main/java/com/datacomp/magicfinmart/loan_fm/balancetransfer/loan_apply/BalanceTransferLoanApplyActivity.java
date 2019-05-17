@@ -119,7 +119,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     TextInputLayout textInpLayCurrJob, textInpLayTotalExp,
-            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax,textInpLaySpouseName;
+            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax, textInpLaySpouseName;
     //endregion
 
     // region Variable Declaration
@@ -167,9 +167,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
             TypePage = buyLoanQuerystring.getType();
 
-            if(TypePage.equals("HLBT")) {
+            if (TypePage.equals("HLBT")) {
                 getSupportActionBar().setTitle("HOME LOAN - BALANCE TRANSFER");
-            }else{
+            } else {
                 getSupportActionBar().setTitle("LAP - BALANCE TRANSFER");
 
             }
@@ -184,9 +184,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             isAppliction = true;
 
             TypePage = getIntent().getExtras().getString("TypePage", "");
-            if(TypePage.equals("HLBT")) {
+            if (TypePage.equals("HLBT")) {
                 getSupportActionBar().setTitle("HOME LOAN - BALANCE TRANSFER");
-            }else{
+            } else {
                 getSupportActionBar().setTitle("LAP - BALANCE TRANSFER");
 
             }
@@ -455,44 +455,44 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
         // region  CAPS Text
 
-        etFirstName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
-        etLastName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etFirstName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etLastName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
         //  etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etFatherName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
-        etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
-        etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etPan.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etNationality.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etUniversity.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
+        etMoMaidenName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etSpouceName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(20)});
+        etSpouceName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(20)});
         //  etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etIDNumber.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etIDNumber.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etAddress1ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress2ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etCountryPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etAddress1ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress2ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etCountryPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
         //   etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
         //     etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etAddress1ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress2ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress1ContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress2ContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
 
-        etAddress3ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etLandmakContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
-        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etLandmakContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etAddress3ContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
 
-        etDesig.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etDesig.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
         //   etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etNameOfOrg.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
-        etAddress1ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etNameOfOrg.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
+        etAddress1ED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
 
-        etAddress2ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress3ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etLandmakED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
-        etCountryED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etAddress2ED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress3ED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etCountryED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
         //endregion
 
@@ -613,12 +613,11 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
-        if(MaritalStatus.equals("MARRIED"))
-        {
+        if (MaritalStatus.equals("MARRIED")) {
             textInpLaySpouseName.setHint("*Spouse Name");
             etSpouceName.setEnabled(true);
 
-        }else{
+        } else {
             textInpLaySpouseName.setHint("Spouse Name");
             etSpouceName.setText("");
             etSpouceName.setError(null);
@@ -631,7 +630,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
     }
 
     private void settotal() {
-        long  netIncome = 0, othIncome = 0;
+        long netIncome = 0, othIncome = 0;
 
 
         if (!etNetIncome.getText().toString().trim().equals("")) {
@@ -642,8 +641,8 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             othIncome = Long.valueOf(etOtherIncome.getText().toString());
         }
 
-        double total =  netIncome + othIncome;
-        etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
+        double total = netIncome + othIncome;
+        etTotalIncome.setText("" + BigDecimal.valueOf(total).toPlainString());
 
     }
 
@@ -679,8 +678,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
     private void saveData(int SubmitType) {
 
-        if(isAppliction)
-        {
+        if (isAppliction) {
             //region PL_INFO
             erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
 
@@ -778,10 +776,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
             //region Financial INFO
             erpLoanRequest.setGross_Income(etGrossIncome.getText().toString().trim());
-			  if (!etNetIncome.getText().toString().equals("")) {
-            erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
-			  }else
-            {
+            if (!etNetIncome.getText().toString().equals("")) {
+                erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
+            } else {
                 erpLoanRequest.setNet_Income("0");
 
             }
@@ -818,32 +815,30 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             //endregion
 
 
-       //     Gson gson = new Gson();
-        //    String result = gson.toJson(erpLoanRequest);
-         //   Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
+            //     Gson gson = new Gson();
+            //    String result = gson.toJson(erpLoanRequest);
+            //   Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
             //region  hl
-            if(SubmitType == 1)
-            {
+            if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
 
-            if(TypePage.equals("HLBT")) {
+            if (TypePage.equals("HLBT")) {
 
                 new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer HOME LOAN : Application Save"), Constants.BALANCE_TRANSFER), null);
 
-                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Balance Transfer HOME LOAN : Application Save");
+                MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer HOME LOAN : Application Save");
 
                 new ErpLoanController(this).saveERPHomeLoan(erpLoanRequest, BalanceTransferLoanApplyActivity.this);
-            }else {
+            } else {
 
                 new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer LAP LOAN : Application Save"), Constants.BALANCE_TRANSFER), null);
 
-                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Balance Transfer LAP LOAN : Application Save");
+                MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer LAP LOAN : Application Save");
 
                 new ErpLoanController(this).saveERPLoanAgainstProperty(erpLoanRequest, BalanceTransferLoanApplyActivity.this);
             }  //endregion
-        }
-        else {
+        } else {
 
             //region PL_INFO
             erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
@@ -967,10 +962,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             erpLoanRequest.setProp_Terms(rbCustomerEntity.getLoanTenure());//
             erpLoanRequest.setProp_Id_Type(rbCustomerEntity.getPropertyID());
             erpLoanRequest.setProp_Processing_Fee(rbCustomerEntity.getProcessing_fee());
-            if(AppID.trim().equals(""))
-            {
+            if (AppID.trim().equals("")) {
                 erpLoanRequest.setApplnId(0);
-            }else{
+            } else {
                 erpLoanRequest.setApplnId(Integer.valueOf(AppID));
             }
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
@@ -987,22 +981,21 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 //            String result = gson.toJson(erpLoanRequest);
 //            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
 
-            if(SubmitType == 1)
-            {
+            if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
 
-            if(TypePage.equals("HLBT")) {
+            if (TypePage.equals("HLBT")) {
                 new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer HOME LOAN : Application Save"), Constants.BALANCE_TRANSFER), null);
 
-                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Balance Transfer HOME LOAN : Application Save");
+                MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer HOME LOAN : Application Save");
 
                 new ErpLoanController(this).saveERPHomeLoan(erpLoanRequest, BalanceTransferLoanApplyActivity.this);
-            }else {
+            } else {
 
                 new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer LAP LOAN : Application Save"), Constants.BALANCE_TRANSFER), null);
 
-                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Balance Transfer LAP LOAN : Application Save");
+                MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer LAP LOAN : Application Save");
 
                 new ErpLoanController(this).saveERPLoanAgainstProperty(erpLoanRequest, BalanceTransferLoanApplyActivity.this);
             }
@@ -1085,7 +1078,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
         etFatherName.setText(homeLoanApplyAppliEntity.getMiddle_Name());
         spTitle.setSelection(getTitlePos(homeLoanApplyAppliEntity.getTitle()));
-     //   etDob.setText(getDDMMYYYPattern(homeLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+        //   etDob.setText(getDDMMYYYPattern(homeLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
         etDob.setText(homeLoanApplyAppliEntity.getDOB());
         //etFatherName.setText("");
 
@@ -1197,7 +1190,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
         // region Address PA
 
-        spResidence.setSelection(getResidencePos(homeLoanApplyAppliEntity.getResidence_Type()) );
+        spResidence.setSelection(getResidencePos(homeLoanApplyAppliEntity.getResidence_Type()));
         etAddress1ContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Address1());
         etAddress2ContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Address2());
         etAddress3ContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Address3());
@@ -1445,8 +1438,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
     private String getDDMMYYYPattern(String dateCal, String datePattern) {
 
         String dateSelected = "";
-        if(dateCal.equals(""))
-        {
+        if (dateCal.equals("")) {
             return "";
         }
         long select_milliseconds = 0;
@@ -1469,8 +1461,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
     private String getMMDDYYYPattern(String dateCal) {
 
         String dateSelected = "";
-        if(dateCal.equals(""))
-        {
+        if (dateCal.equals("")) {
             return "";
         }
         long select_milliseconds = 0;
@@ -1496,21 +1487,19 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
         String[] name = rbCustomerEntity.getApplicantNme().split(" ");
 
-        if(name.length >2)
-        {
+        if (name.length > 2) {
             for (int i = 0; i < name.length; i++) {
                 if (i == 0) {
                     etFirstName.setText(name[i]);
                 }
-                if (i == 1)
-                {
+                if (i == 1) {
                     etFatherName.setText(name[i]);
                 }
-                if (i == name.length-1) {
+                if (i == name.length - 1) {
                     etLastName.setText(name[i]);
                 }
             }
-        }else {
+        } else {
             for (int i = 0; i < name.length; i++) {
                 if (i == 0) {
                     etFirstName.setText(name[i]);
@@ -1523,10 +1512,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
         if (rbCustomerEntity.getApplicantGender() != null) {
 
-            if(rbCustomerEntity.getApplicantGender().toUpperCase().equals("F"))
-            {
+            if (rbCustomerEntity.getApplicantGender().toUpperCase().equals("F")) {
                 spTitle.setSelection(2);
-            }else{
+            } else {
                 spTitle.setSelection(0);
             }
 
@@ -1601,7 +1589,6 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
 
     //endregion
-
 
 
     //region datePickerDialog Applicant
@@ -1689,19 +1676,19 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
         if (MaritalStatus.equals("MARRIED")) {
 
-        if (!isEmpty(etSpouceName)) {
+            if (!isEmpty(etSpouceName)) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                etSpouceName.requestFocus();
-                etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSpouceName.setError("Enter Spouse Name");
-                return false;
-            } else {
-                etSpouceName.requestFocus();
-                etSpouceName.setError("Enter Spouse Name");
-                return false;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    etSpouceName.setError("Enter Spouse Name");
+                    return false;
+                } else {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setError("Enter Spouse Name");
+                    return false;
+                }
             }
-        }
         }
 
         if (!isEmpty(etPan)) {
@@ -2179,10 +2166,10 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
 
         if (MaritalStatus.equals("MARRIED")) {
-        if (!isEmpty(etSpouceName)) {
+            if (!isEmpty(etSpouceName)) {
 
-            return false;
-        }
+                return false;
+            }
         }
         if (!isEmpty(etPan)) {
             return false;
@@ -2251,7 +2238,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
                 return false;
             }
-        }else{
+        } else {
             if (!isEmpty(etTurnOver)) {
 
                 return false;
@@ -2270,7 +2257,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         if (!isEmpty(etNameOfOrg)) {
 
             return false;
-        }   else if (!isEmpty(etAddress1ED)) {
+        } else if (!isEmpty(etAddress1ED)) {
             return false;
 
         } else if (!isEmpty(etPincodeED)) {
@@ -2392,9 +2379,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
                 break;
-                //endregion
+            //endregion
 
-                // region PL INFO IDType
+            // region PL INFO IDType
             case R.id.txtPORT:
                 managePL_IDTYPE("P-PORT", txtPORT, txtVOTER, txtDRV);
                 break;
@@ -2422,7 +2409,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             case R.id.txteducatOTH:
                 managePL_Common(EducationType, "OTH", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
                 break;
-                //endregion
+            //endregion
 
             case R.id.txtEmpNatureSalaried:
                 setEmpSalaried("Salaried", false, txtEmpNatureSalaried, txtEmpNatureSelfEmp);
@@ -2464,7 +2451,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
                     }
                 } else {
-                   // manageTaskBar();
+                    // manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }
@@ -2539,12 +2526,12 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
-                AppID  = ""+ ((ERPSaveResponse) response).getResult();
+                AppID = "" + ((ERPSaveResponse) response).getResult();
                 if (isSubmit) {
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
 
-                        startActivity(new Intent(this, BalanceTransferDetailActivity.class));
-                        finish();
+                    startActivity(new Intent(this, BalanceTransferDetailActivity.class));
+                    finish();
 
                 }
 
@@ -2572,7 +2559,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     //endregion
@@ -2733,7 +2720,6 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
-
 
 
     //endregion

@@ -123,6 +123,10 @@ public class HomeLoanRequest implements Parcelable {
     private  String bank_image;
     private  String progress_image;
 
+
+    private  String lead_id;
+
+
     public HomeLoanRequest() {
         this.loan_requestID = 0;
         this.PropertyID = "";
@@ -178,6 +182,7 @@ public class HomeLoanRequest implements Parcelable {
         this.CoApplicantRelation="";
         this.bank_image="";
         this.progress_image="";
+        this.lead_id="";
     }
 
 
@@ -236,6 +241,7 @@ public class HomeLoanRequest implements Parcelable {
         CoApplicantRelation = in.readString();
         bank_image = in.readString();
         progress_image=  in.readString();
+        lead_id=in.readString();
     }
 
     public static final Creator<HomeLoanRequest> CREATOR = new Creator<HomeLoanRequest>() {
@@ -676,6 +682,15 @@ public class HomeLoanRequest implements Parcelable {
         this.progress_image = progress_image;
     }
 
+    public String getLead_id() {
+        return lead_id;
+    }
+
+    public void setLead_id(String lead_id) {
+        this.lead_id = lead_id;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -737,5 +752,6 @@ public class HomeLoanRequest implements Parcelable {
         dest.writeString(CoApplicantRelation);
         dest.writeString(bank_image);
         dest.writeString(progress_image);
+        dest.writeString(lead_id);
     }
 }

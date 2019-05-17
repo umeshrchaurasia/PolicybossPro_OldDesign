@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -25,22 +27,27 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 
 
 /**
@@ -60,10 +67,25 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     //Location location;
     TextView tvKnowledge, tvPendingCAses, tvSalesMat;
 
+
+    WifiManager mainWifi;
+    WifiReceiver receiverWifi;
+    List<ScanResult> wifiList;
+    ArrayList<String> wifiArrayList;
+
     public DashboardFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            getActivity().unregisterReceiver(receiverWifi);
+        } catch (Exception e) {
+
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +96,13 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         initialise(view);
 
         setListener();
+        receiverWifi = new WifiReceiver();
+        wifiArrayList = new ArrayList<>();
+        mainWifi = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+        mainWifi.startScan();
+
+
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
         try {
@@ -81,10 +110,32 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        mAdapter = new DashboardRowAdapter(DashboardFragment.this);
-        this.rvHome.setAdapter(mAdapter);
-        //new MasterController(getActivity()).getConstants(this);
+//        mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+//        this.rvHome.setAdapter(mAdapter);
+
+        showDialog();
+        new MasterController(getActivity()).geUserConstantSync(this);
+
+        //send user behaviour
+
+        if (!prefManager.isUserBehaviourSave())
+            new DynamicController(getActivity()).sendUserBehaviour();
+
         return view;
+    }
+
+    class WifiReceiver extends BroadcastReceiver {
+        public void onReceive(Context c, Intent intent) {
+            try {
+                wifiList = mainWifi.getScanResults();
+                for (int i = 0; i < wifiList.size(); i++) {
+                    wifiArrayList.add((wifiList.get(i)).toString());
+                }
+                new UserBehaviourFacade(getActivity()).saveWifi(wifiArrayList.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setListener() {
@@ -134,6 +185,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
@@ -160,8 +212,14 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                     }
                 }
                 //endregion
-                if (getActivity() != null)
-                    ((HomeActivity) getActivity()).hideNavigationItem();
+                // if (getActivity() != null)
+                //     ((HomeActivity) getActivity()).hideNavigationItem();
+            }
+        } else if (response instanceof UserConstatntResponse) {
+            if (response.getStatusNo() == 0) {
+
+                mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+                this.rvHome.setAdapter(mAdapter);
             }
         }
 

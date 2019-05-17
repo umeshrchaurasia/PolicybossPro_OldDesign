@@ -34,6 +34,8 @@ public class PendingCasesEntity implements Parcelable {
     private String cdate;
     private String ApplicationNo;
 
+    private String Lead_Id;
+
 
     public int getId() {
         return Id;
@@ -131,7 +133,13 @@ public class PendingCasesEntity implements Parcelable {
         ApplicationNo = applicationNo;
     }
 
+    public String getLead_Id() {
+        return Lead_Id;
+    }
 
+    public void setLead_Id(String lead_Id) {
+        Lead_Id = lead_Id;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -151,6 +159,7 @@ public class PendingCasesEntity implements Parcelable {
         dest.writeString(this.BankImage);
         dest.writeString(this.cdate);
         dest.writeString(this.ApplicationNo);
+        dest.writeString(this.Lead_Id);
     }
 
     public PendingCasesEntity() {
@@ -169,6 +178,7 @@ public class PendingCasesEntity implements Parcelable {
         this.BankImage = in.readString();
         this.cdate = in.readString();
         this.ApplicationNo = in.readString();
+        this.Lead_Id=in.readString();
     }
 
     public static final Parcelable.Creator<PendingCasesEntity> CREATOR = new Parcelable.Creator<PendingCasesEntity>() {

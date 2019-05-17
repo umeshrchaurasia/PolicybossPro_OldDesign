@@ -34,7 +34,16 @@ ul li {padding:8px;list-style-type:none; border-bottom:1px solid #ccc;}
 .txt-lft td {text-align:left !important;}
 h4{font-size:16px !important;}
 h5 b{font-size:13px !important;}
+.buybtn {
+    background: #f38d1e;
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #fff;
+    width: 55px !important;
+    display: block;
+    margin: 0 auto;
 
+}
 </style>
 </head>
 
@@ -56,7 +65,7 @@ h5 b{font-size:13px !important;}
                     <td><img src="img/reliance_logo.png" class="img-responsive center"/></td>
                     <td colspan="2"><h4 class="text-center">HDFC Life Click 2 Protect 3D Plus</h4>
                     </td>
-                    <td rowspan="2"><a href="#" class="amount">₹ 13949</a></td>
+                    <td ><a href="#" class="amount">₹ 13949</a></td>
                 </tr>
                 <tr>
                     <td><p>COVER</p><h5><b style="white-space:nowrap">Care + UAR </b></h5></td>
@@ -79,13 +88,13 @@ h5 b{font-size:13px !important;}
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="divinfo">
         <div class="img-responsive">
             <table class="table table-striped">
                 <tr style="width:100%">
                     <td style="width:30%"><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
-                             onerror=this.src="file:///android_asset/profile_pic.png" width="100"
-                             class="img-responsive"/></td>
+                                               onerror=this.src="file:///android_asset/profile_pic.png" width="100"
+                                               class="img-responsive"/></td>
                     <td style="text-align:left !important;"><h4 id="pospName" class="red-txt">Test User</h4>
                         <p id="deg" class="posp-txt" style="margin-top:-7px">Landmark POSP</p>
                         <h4 id="phone" class="posp-txt" style="margin-top:-9px; color: #4FB4E9;">98XXXXXXXX</h4>
@@ -108,7 +117,16 @@ h5 b{font-size:13px !important;}
 
        var userReponse = JSON.parse(userReponse);
 
-        document.getElementById('pospName').innerHTML = userReponse.pospNAme;
+          if(userReponse.pospName == "")
+      {
+       document.getElementById('divinfo').style.display = 'none';
+      }
+       else
+      {
+        document.getElementById('divinfo').style.display = '';
+      }
+
+        document.getElementById('pospName').innerHTML = userReponse.pospName;
         document.getElementById('pospPhoto').src = userReponse.pospPhotoUrl;
         document.getElementById('deg').innerHTML = userReponse.pospDesg;
         document.getElementById('phone').innerHTML = userReponse.PospMobNo;;

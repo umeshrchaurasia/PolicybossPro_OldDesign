@@ -179,68 +179,86 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tvCount"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="65"
-                    android:gravity="left|center_vertical"
-                    android:text="results from www.policyboss.com"
-                    android:textColor="?attr/colorPrimary" />
-
-                <CheckBox
-                    android:id="@+id/chkAddon"
-                    style="@style/CheckBoxStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="35"
-                    android:text="WITH ADD-ON"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold" />
-
-                <!--<LinearLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
                     android:gravity="center_horizontal|center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    android:visibility="gone">
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvWithoutAddon"
-                        style="@style/TextViewStyle.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:text="WIthout Addon"
-                        android:textAllCaps="true"
-                        android:visibility="gone" />
-
-                    <Switch
-                        android:id="@+id/swAddon"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvCount"
+                        style="@style/TextStyle.TextMedium"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAllCaps="true"
-                        android:textColor="@color/secondary_text_color"
-                        android:visibility="gone" />
+                        android:layout_weight="65"
+                        android:gravity="left|center_vertical"
+                        android:text="results from www.policyboss.com"
+                        android:textColor="?attr/colorPrimary" />
 
-                    <TextView
-                        android:id="@+id/tvWithAddon"
-                        style="@style/TextViewStyle.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_marginRight="8dp"
-                        android:text="WIth Addon"
+                    <CheckBox
+                        android:id="@+id/chkAddon"
+                        style="@style/CheckBoxStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="35"
+                        android:text="WITH ADD-ON"
                         android:textAllCaps="true"
-                        android:visibility="gone" />
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
 
-                </LinearLayout>-->
+                    <!--<LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:orientation="horizontal"
+                        android:padding="8dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvWithoutAddon"
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:text="WIthout Addon"
+                            android:textAllCaps="true"
+                            android:visibility="gone" />
+
+                        <Switch
+                            android:id="@+id/swAddon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/secondary_text_color"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tvWithAddon"
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:text="WIth Addon"
+                            android:textAllCaps="true"
+                            android:visibility="gone" />
+
+                    </LinearLayout>-->
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvNote"
+                    style="@style/TextStyle.TextSmall"
+                    android:layout_marginLeft="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center_vertical"
+                    android:visibility="gone"
+                    android:text="Note: You can only opt Zero Depreciation if you have Zero Depreciation in previous policy."
+                    android:textColor="@color/red" />
             </LinearLayout>
+
 
             <android.support.v7.widget.CardView
                 android:id="@+id/card_view"

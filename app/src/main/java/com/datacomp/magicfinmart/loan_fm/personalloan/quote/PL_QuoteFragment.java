@@ -22,6 +22,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.ActivityTabsPagerAdapter_PL;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.text.SimpleDateFormat;
@@ -160,7 +161,7 @@ public class PL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
                 MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON");
 
-                startActivity(new Intent(getActivity(), PLMainActivity.class));
+                startActivity(new Intent(getActivity(), city_selecton_personalloan_Activity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:

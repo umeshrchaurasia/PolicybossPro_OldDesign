@@ -32,6 +32,7 @@ public class ConstantEntity extends RealmObject {
 
 
 
+
     /**
      * POSPTraining : 1
      */
@@ -51,6 +52,8 @@ public class ConstantEntity extends RealmObject {
      */
 
     private String HorizonVersion;
+    private String HealthThrowBrowser;
+
 
     public String getHealthappenable() {
         return healthappenable;
@@ -180,4 +183,13 @@ public class ConstantEntity extends RealmObject {
     public void setHorizonVersion(String HorizonVersion) {
         this.HorizonVersion = HorizonVersion;
     }
+
+    public String getHealthThrowBrowser() {
+        return HealthThrowBrowser;
+    }
+
+    public void setHealthThrowBrowser(String healthThrowBrowser) {
+        HealthThrowBrowser = healthThrowBrowser;
+    }
+
 }

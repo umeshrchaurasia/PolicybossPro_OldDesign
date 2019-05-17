@@ -16,6 +16,7 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
 import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -44,7 +45,11 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
                 getSupportActionBar().setTitle("COMPARE TERM INSURANCE");
             } else if (compId == 28) {
                 getSupportActionBar().setTitle("CLICK TO PROTECT 3D");
+            } else if (compId == 40) {
+                getSupportActionBar().setTitle("ULTRA LAKSHYA");
+                startActivity(new Intent(this, UltraLakshyaTermBottmActivity.class));  // 05  temp code
             }
+
         }
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -154,6 +159,9 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
         } else if (compId == 28) {
             MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "HDFC TERM INSURANCE", "HDFC TERM INSURANCE");
             startActivity(new Intent(this, HdfcTermActivity.class));
+        } else if (compId == 40) {
+            MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ULTRA LAKSHYA INSURANCE", "ULTRA LAKSHYA INSURANCE");
+            // startActivity(new Intent(this, UltraLakshyaTermBottmActivity.class));
         }
     }
 

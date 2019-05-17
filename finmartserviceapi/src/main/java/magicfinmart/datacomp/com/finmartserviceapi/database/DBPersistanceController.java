@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.database;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +37,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEnt
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -58,15 +62,20 @@ public class DBPersistanceController {
     HashMap<String, String> hashMapAddons, hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
     HashMap<String, Integer> hashmapCity;
+    HashMap<String, Integer> hashmapLoanCity;
     Context mContext;
     Realm realm;
     PrefManager prefManager;
     List<DashBoardItemEntity> dashBoardItemEntities;
+    SharedPreferences.Editor editor;
+
+    public static final String INSURER_LIST = "insurer_list";
 
     public DBPersistanceController(Context mContext) {
         this.mContext = mContext;
         realm = Realm.getDefaultInstance();
         prefManager = new PrefManager(mContext);
+        editor = prefManager.editor;
     }
 
 
@@ -548,11 +557,22 @@ public class DBPersistanceController {
         // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANCE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANCE", 39, ""));
+
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
         return term;
     }
+
+    public List<TermSelectionEntity> getUltraLakshaList() {
+
+        List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
+        term.add(new TermSelectionEntity("ULTRA LAKSHYA COMBO", 0, ""));
+        return term;
+    }
+
+
     //endregion
+
 
     //region Dashboard list
 
@@ -560,10 +580,43 @@ public class DBPersistanceController {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
 
+        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+                new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled() != null
+                && new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
+            dashboardEntities.add(new DashboardEntity("INSURANCE", 17, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive));
+
+        }
+
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
+
+
+        if (prefManager.getMenuDashBoard() != null) {
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardEntity dashboardEntity = new DashboardEntity("INSURANCE", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
+
+        return dashboardEntities;
+    }
+
+    public List<DashboardEntity> getUltraLaksh() {
+        List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
+
+
+        dashboardEntities.add(new DashboardEntity("ULTRALAKSHA", 40, "FINMART EXCLUSIVE", "Contain required", R.drawable.finmart_logo));
+
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
@@ -586,12 +639,9 @@ public class DBPersistanceController {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
         dashboardEntities.add(new DashboardEntity("LOANS", 4, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan));
         dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan));
-        dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
+        //dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
-        dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Transfer existing loans at lower interest rate . And help customers to save more on existing loans.", R.drawable.balance_transfer));
-        // dashboardEntities.add(new DashboardEntity("LOANS", 13, "CASH LOAN", "Loan disbursed in just few hours!!!", R.drawable.paysense_ic));
-        dashboardEntities.add(new DashboardEntity("LOANS", 14, "LOAN ON MESSENGER", "Enjoy chatting with your BOT friend & provide Instant loan sanction to your customer for Personal loan, Home Loan, Business Loan, Car loan, LAP, Gold loan,etc.", R.drawable.yesbank_chat_ic));
-        dashboardEntities.add(new DashboardEntity("LOANS", 9, "LEAD SUBMISSION - OTHER LOANS", "Submit leads for products like Car loan, Business loan, Working Capital, Term Loan, LRD,etc.", R.drawable.quick_lead));
+        dashboardEntities.add(new DashboardEntity("LOANS", 8, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
@@ -613,12 +663,19 @@ public class DBPersistanceController {
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
-        dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
-        dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
+        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+                new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
+                && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
+            dashboardEntities.add(new DashboardEntity("MORE SERVICES", 15,
+                    "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)",
+                    R.drawable.investment_icon));
+        }
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
-            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+            if (dashboardEntities != null) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
                     if (dashBoardItemEntity.getDashboard_type() == 3 && dashBoardItemEntity.getIsActive() == 1) {
                         DashboardEntity dashboardEntity = new DashboardEntity("MORE SERVICES", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
@@ -637,6 +694,72 @@ public class DBPersistanceController {
 
     //region previous insurer
 
+    public boolean storeInsurerMaster(InsurerResponse insurerResponse) {
+        Gson gson = new Gson();
+        editor.remove(INSURER_LIST);
+        editor.putString(INSURER_LIST, gson.toJson(insurerResponse));
+        return editor.commit();
+    }
+
+    public InsurerResponse getInsurerMaster() {
+        if (new Gson().fromJson(prefManager.pref.getString(INSURER_LIST, "")
+                , InsurerResponse.class) != null) {
+            return new Gson().fromJson(prefManager.pref.getString(INSURER_LIST, "")
+                    , InsurerResponse.class);
+        }
+        return null;
+    }
+
+    public List<String> getInsurerMasterList() {
+        ArrayList<String> insurenceList = new ArrayList<>();
+        InsurerResponse master = getInsurerMaster();
+        if (master != null) {
+            for (int i = 0; i < master.getMasterData().size(); i++) {
+                insurenceList.add(master.getMasterData().get(i).getInsurer_name());
+            }
+            insurenceList.add(0, "Present Insurer");
+        } else {
+            return getInsurerList();
+        }
+        return insurenceList;
+    }
+
+    public String getInsurerMasterID(String insurerName) {
+        InsurerResponse master = getInsurerMaster();
+        if (master != null) {
+            for (int i = 0; i < master.getMasterData().size(); i++) {
+
+                if (insurerName.toLowerCase().equalsIgnoreCase(
+                        master.getMasterData().get(i).getInsurer_name().toLowerCase()
+                )) {
+                    return master.getMasterData().get(i).getInsurer_id();
+                }
+            }
+        } else {
+
+            return "" + getInsurenceID(insurerName);
+        }
+
+        return "0";
+    }
+
+    public String getInsurerNameMaster(String insurerID) {
+        InsurerResponse master = getInsurerMaster();
+        if (master != null) {
+            for (int i = 0; i < master.getMasterData().size(); i++) {
+
+                if (insurerID.equalsIgnoreCase(
+                        master.getMasterData().get(i).getInsurer_id()
+                )) {
+                    return master.getMasterData().get(i).getInsurer_id();
+                }
+            }
+        } else {
+            return getInsurername(Integer.parseInt(insurerID));
+        }
+        return "0";
+    }
+
 
     public List<String> getInsurerList() {
         MapInsurence();
@@ -648,8 +771,10 @@ public class DBPersistanceController {
 
     public void MapInsurence() {
         hashMapInsurence = new TreeMap<String, Integer>();
+        hashMapInsurence.put("Acko", 45);
         hashMapInsurence.put("Bajaj", 1);
         hashMapInsurence.put("Bharti", 2);
+        hashMapInsurence.put("Go Digit", 44);
         hashMapInsurence.put("HDFC", 5);
         hashMapInsurence.put("ICICI", 6);
         hashMapInsurence.put("IFFCO", 7);
@@ -670,6 +795,10 @@ public class DBPersistanceController {
         hashMapInsurence.put("Future Gen", 4);
         hashMapInsurence.put("Universal Sompo", 19);
         hashMapInsurence.put("Cholamandalam", 3);
+
+
+
+
         /*
             Following not shown in FINMART
 
@@ -771,16 +900,26 @@ public class DBPersistanceController {
 
     public void storeUserData(LoginResponseEntity loginResponseEntity) {
         realm.beginTransaction();
+        realm.delete(LoginResponseEntity.class);
         realm.copyToRealmOrUpdate(loginResponseEntity);
         realm.commitTransaction();
     }
 
+    public void clearUserData()
+    {
+        realm.beginTransaction();
+        realm.delete(LoginResponseEntity.class);
+        realm.delete(UserConstantEntity.class);
+        realm.commitTransaction();
+    }
     public void logout() {
         realm.beginTransaction();
         realm.delete(LoginResponseEntity.class);
         realm.delete(AccountDtlEntity.class);
         realm.delete(DocsEntity.class);
         realm.delete(UserConstantEntity.class);
+
+        realm.deleteAll();
         realm.commitTransaction();
     }
 
@@ -924,6 +1063,7 @@ public class DBPersistanceController {
 
         return HealthCityName;
     }
+
 
     public void MapHealthCity() {
 
@@ -1440,7 +1580,8 @@ public class DBPersistanceController {
         hashmapCity.put("SEOHAR", 1168);
         hashmapCity.put("BHILAI", 1169);
         hashmapCity.put("DAMAN & DIU", 1170);
-        hashmapCity.put("NEW DELHI", 1171);
+        hashmapCity.put("NEW DELHI", 729);
+        hashmapCity.put("DELHI", 252);
         hashmapCity.put("GOA", 1172);
         hashmapCity.put("AMRELA", 1173);
         hashmapCity.put("DANGS", 1174);
@@ -1640,6 +1781,28 @@ public class DBPersistanceController {
         list.add(new HealthSumAssured("50 LACS", 5000000, false));
         list.add(new HealthSumAssured("100 LACS", 10000000, false));
         return list;
+    }
+
+
+    //endregion
+    //region LOan City Data
+
+    public List<String> getLoanCity() {
+        hashmapCity = new HashMap<String, Integer>();
+        MapHealthCity();
+        return new ArrayList<String>(hashmapCity.keySet());
+    }
+
+    public int getLoanCityID(String cityName) {
+        int i = 0;
+        hashmapCity = new HashMap<String, Integer>();
+        MapHealthCity();
+        if (hashmapCity.get(cityName) != null) {
+            i = hashmapCity.get(cityName);
+        } else {
+            i = 0;
+        }
+        return i;
     }
 
 
@@ -1883,7 +2046,7 @@ public class DBPersistanceController {
         hashmapPremTerm.put("38 YEARS", 38);
         hashmapPremTerm.put("39 YEARS", 39);
         hashmapPremTerm.put("40 YEARS", 40);
-        hashmapPremTerm.put("MAX POLICY TERM", 41);
+        hashmapPremTerm.put("Max Policy Term", 41);
 
 
     }

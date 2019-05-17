@@ -24,9 +24,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -712,6 +716,149 @@ public class RegisterController implements IRegister {
 
             @Override
             public void onFailure(Call<ContactLeadResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getSmsTemplate(final IResponseSubcriber iResponseSubcriber) {
+
+        registerQuotesNetworkService.getSmsTemplate().enqueue(new Callback<SmsTemplateResponse>() {
+            @Override
+            public void onResponse(Call<SmsTemplateResponse> call, Response<SmsTemplateResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SmsTemplateResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getEmailTemplate( String URL, String Type, final IResponseSubcriber iResponseSubcriber) {
+
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("url", "" + URL);
+        body.put("type", "" + Type);
+        registerQuotesNetworkService.getEmailTemplate(body).enqueue(new Callback<PospAppointEmailResponse>() {
+            @Override
+            public void onResponse(Call<PospAppointEmailResponse> call, Response<PospAppointEmailResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PospAppointEmailResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getfieldsales( final IResponseSubcriber iResponseSubcriber) {
+
+        registerQuotesNetworkService.getfieldsales().enqueue(new Callback<RegisterSaleResponse>() {
+            @Override
+            public void onResponse(Call<RegisterSaleResponse> call, Response<RegisterSaleResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterSaleResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void sendSyncSms(final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+
+        registerQuotesNetworkService.sendSyncSms(body).enqueue(new Callback<SendSyncSmsResponse>() {
+            @Override
+            public void onResponse(Call<SendSyncSmsResponse> call, Response<SendSyncSmsResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SendSyncSmsResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

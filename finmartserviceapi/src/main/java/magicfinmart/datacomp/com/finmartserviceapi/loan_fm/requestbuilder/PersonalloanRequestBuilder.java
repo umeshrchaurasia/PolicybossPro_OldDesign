@@ -31,5 +31,6 @@ public class PersonalloanRequestBuilder extends LoanRetroRequestBuilder {
 
         @POST("/api/equifax")
         Call<equifax_personalloan_response> getequifaxQuotes(@Body equifax_personalloan_request equifax_personalloan_requestlist);
+
     }
 }

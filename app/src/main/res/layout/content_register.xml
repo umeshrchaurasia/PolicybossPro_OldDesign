@@ -287,7 +287,8 @@
                             android:id="@+id/etCity"
                             style="@style/Style.edittext"
                             android:drawableRight="@drawable/vector_city"
-                            android:editable="false" />
+                            android:enabled="false"
+                            />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
@@ -309,7 +310,7 @@
                             android:id="@+id/etState"
                             style="@style/Style.edittext"
                             android:drawableRight="@drawable/vector_state"
-                            android:editable="false" />
+                            android:enabled="false" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -371,6 +372,30 @@
 
                     <Spinner
                         android:id="@+id/spSource"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:dropDownWidth="200dp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/txtsale"
+                    android:hint="Field Sale"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:gravity="left"
+                        android:text="Field Sale"
+                        android:textSize="14sp" />
+
+                    <Spinner
+                        android:id="@+id/spsales"
                         style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

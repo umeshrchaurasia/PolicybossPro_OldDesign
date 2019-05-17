@@ -14,20 +14,21 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 
 public class PrefManager {
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    public SharedPreferences pref;
+    public SharedPreferences.Editor editor;
     Context _context;
 
     // shared pref mode
     int PRIVATE_MODE = 0;
 
     // Shared preferences file name
-    private static final String PREF_NAME = "magic-finmart";
+    public static final String PREF_NAME = "magic-finmart";
     private static final String MOTOR_VERSION = "motor_master_version";
     private static final String POPUP_COUNTER = "popup_counter_value";
     private static final String POPUP_ID = "popup_id";
     private static final String NotificationTypeEnable = "NotificationType_Enable";
     private static final String MsgFirst_Check = "msgfirst_check";
+    private static final String ContactFirst_Check = "Contactfirst_check";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_BIKE_MASTER_UPDATE = "isBikeMasterUpdate";
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
@@ -332,14 +333,28 @@ public class PrefManager {
     }
 
     public boolean getContactListCount() {
-        return pref.getBoolean(CONTACT_COUNT,false );
+        return pref.getBoolean(CONTACT_COUNT, false);
     }
     //endregion
 
     // region delete Share Data
 
-    public void clearAll() {
+    public void clearUser() {
+
         editor.clear().commit();
+
+
+    }
+
+    public void clearAll() {
+
+        String strToken = getToken();
+        String strContact = getContactMsgFirst();
+        editor.clear().commit();
+
+        setToken(strToken);
+        updateContactMsgFirst(strContact);
+
        /* pref.edit().remove(POSP_INFO)
                 .remove(SHARED_KEY_PUSH_NOTIFY)
                 .remove(SHARED_KEY_PUSH_WEB_URL)
@@ -428,7 +443,7 @@ public class PrefManager {
         editor.remove(POPUP_ID);
     }
 
-//Notification Enable
+    //Notification Enable
     public boolean updateNotificationsetting(String notification) {
         pref.edit().remove(NotificationTypeEnable).commit();
         return pref.edit().putString(NotificationTypeEnable, notification).commit();
@@ -453,6 +468,16 @@ public class PrefManager {
         return pref.getString(MsgFirst_Check, "0");
     }
 
+
+    public boolean updateContactMsgFirst(String ContVersion) {
+        pref.edit().remove(ContactFirst_Check).commit();
+        return pref.edit().putString(ContactFirst_Check, ContVersion).commit();
+    }
+
+    public String getContactMsgFirst() {
+        return pref.getString(ContactFirst_Check, "0");
+    }
+
     public void removeCheckMsgFirst() {
         editor.remove(MsgFirst_Check);
     }
@@ -467,6 +492,9 @@ public class PrefManager {
     private static final String SEASONAL_DATE = "seasonaldate";
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+
+    private static final String SAVE_BEHAVIOUR = "seasonaldate";
 
     public void setIsBirthday(boolean isFirstTime) {
         Calendar calendar = Calendar.getInstance();
@@ -489,23 +517,44 @@ public class PrefManager {
     }
 
     public void setIsSeasonal(boolean isFirstTime) {
-        Calendar calendar = Calendar.getInstance();
-        String currentDay = simpleDateFormat.format(calendar.getTime());
-        editor.putString(SEASONAL_DATE, currentDay);
-        editor.putBoolean(IS_SEASONAL, isFirstTime);
-        editor.commit();
+        try {
+            Calendar calendar = Calendar.getInstance();
+            String currentDay = simpleDateFormat.format(calendar.getTime());
+            editor.putString(SEASONAL_DATE, currentDay);
+            editor.putBoolean(IS_SEASONAL, isFirstTime);
+            editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean getIsSeasonal() {
+        try {
+            Calendar calendar = Calendar.getInstance();
+            String currentDay = simpleDateFormat.format(calendar.getTime());
+            String birthDay = pref.getString(SEASONAL_DATE, "");
 
-        Calendar calendar = Calendar.getInstance();
-        String currentDay = simpleDateFormat.format(calendar.getTime());
-        String birthDay = pref.getString(SEASONAL_DATE, "");
-
-        if (birthDay.equals(currentDay)) {
-            return false;
+            if (birthDay.equals(currentDay)) {
+                return false;
+            }
+            return pref.getBoolean(IS_SEASONAL, true);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return pref.getBoolean(IS_SEASONAL, true);
+        return false;
+    }
+
+    //endregion
+
+
+    //region user behaviour
+
+    public boolean saveUserbehaviourState(boolean isSend) {
+        return editor.putBoolean(SAVE_BEHAVIOUR, isSend).commit();
+    }
+
+    public boolean isUserBehaviourSave() {
+        return pref.getBoolean(SAVE_BEHAVIOUR, false);
     }
 
     //endregion

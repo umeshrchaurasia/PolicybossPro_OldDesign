@@ -51,7 +51,8 @@
                 android:layout_marginLeft="8dp"
                 android:layout_weight="50"
                 android:backgroundTint="#c6c6c6"
-                android:hint="SEARCH" />
+                android:hint="SEARCH"
+                android:visibility="gone"/>
 
             <ImageView
                 android:id="@+id/ivSearch"
@@ -60,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:padding="5dp"
+                android:visibility="gone"
                 android:src="@drawable/file_search" />
 
             <TextView
@@ -70,6 +72,7 @@
                 android:layout_marginRight="10dp"
                 android:gravity="center"
                 android:text="SEARCH"
+                android:visibility="gone"
                 android:textColor="#474747"
                 android:textStyle="bold" />
         </LinearLayout>

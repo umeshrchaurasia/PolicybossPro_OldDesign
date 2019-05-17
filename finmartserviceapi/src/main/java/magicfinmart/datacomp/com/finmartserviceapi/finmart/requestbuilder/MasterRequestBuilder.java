@@ -11,6 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
@@ -67,7 +68,7 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/get-mps-data")
         Call<MpsResponse> getMpsData(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/validated-cupon-code")
         Call<MpsResponse> applyPromoCode(@Body HashMap<String, String> body);
 
@@ -82,6 +83,10 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/get-vehicle-insu-sub-type")
         Call<InsuranceSubtypeResponse> getInsuranceSubtype();
+
+        @Headers("token:" + token)
+        @POST("/api/insurer-list")
+        Call<InsurerResponse> getInsuranceList();
 
     }
 }

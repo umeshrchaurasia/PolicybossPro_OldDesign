@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLo
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.NewLoanApplicationResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -47,6 +48,11 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
         //endregion
 
         //    region PersonalLoan
+
+
+        @Headers("token:1234567890")
+        @POST("/api/getloanrequest")
+        Call<NewLoanApplicationResponse> getLoanApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
         @POST("/api/get-personalloan-request")

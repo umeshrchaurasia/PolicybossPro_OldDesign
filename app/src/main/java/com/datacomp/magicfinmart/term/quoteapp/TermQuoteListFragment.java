@@ -22,6 +22,8 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
 import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
+import com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.UltraLakshayQuoteFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,6 +163,12 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
                     intent.putExtra(TERM_FOR_INPUT_FRAGMENT, 39);
                     //intent.putExtra(TERM_INPUT_FRAGMENT, null);
                     startActivity(intent);
+                    break;
+
+                case 40://Ultra Lakshya
+                    Intent intentUltra = new Intent(getActivity(), UltraLakshyaTermBottmActivity.class);
+                    intentUltra.putExtra(TERM_FOR_INPUT_FRAGMENT, 40);
+                    startActivity(intentUltra);
                     break;
             }
         } else if (v.getId() == R.id.tvSearch

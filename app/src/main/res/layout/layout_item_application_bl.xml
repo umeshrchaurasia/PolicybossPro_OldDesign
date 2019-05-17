@@ -44,14 +44,14 @@
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/ivLeadInfo"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_weight="0"
-                android:scaleType="centerInside"
-                android:layout_marginRight="25dp"
-                android:src="@drawable/history_icon" />
+                <ImageView
+                    android:id="@+id/ivLeadInfo"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="0"
+                    android:scaleType="centerInside"
+                    android:layout_marginRight="25dp"
+                    android:src="@drawable/history_icon" />
 
             <TextView
                 android:id="@+id/txtOverflowMenu"

@@ -78,6 +78,55 @@ public class MotorRequestEntity implements Parcelable {
     private int fba_id;
     private String srn;
     private int selectedPrevInsID;
+    private String usage;
+    private String grossvehicleweight;
+    private String seatingcapacity;
+
+    private String modeloffline;
+    private String fueloffline;
+    private String varientoffline;
+    private String sub_fba_id;
+
+
+    //Added by Nilesh 15.04.2019
+    private String is_policy_exist;
+    private String is_breakin;
+
+    //added by Nilesh 17.04.2019
+    private String needrsa;
+    private String rsaplan;
+
+    public String getRsaplan() {
+        return rsaplan;
+    }
+
+    public void setRsaplan(String rsaplan) {
+        this.rsaplan = rsaplan;
+    }
+
+    public String getNeedrsa() {
+        return needrsa;
+    }
+
+    public void setNeedrsa(String needrsa) {
+        this.needrsa = needrsa;
+    }
+
+    public String getIs_breakin() {
+        return is_breakin;
+    }
+
+    public void setIs_breakin(String is_breakin) {
+        this.is_breakin = is_breakin;
+    }
+
+    public String getIs_policy_exist() {
+        return is_policy_exist;
+    }
+
+    public void setIs_policy_exist(String is_policy_exist) {
+        this.is_policy_exist = is_policy_exist;
+    }
 
     public String getVehicle_insurance_subtype() {
         return vehicle_insurance_subtype;
@@ -152,7 +201,6 @@ public class MotorRequestEntity implements Parcelable {
     }
 
 
-
     public int getVehicleRequestID() {
         return VehicleRequestID;
     }
@@ -160,6 +208,7 @@ public class MotorRequestEntity implements Parcelable {
     public void setVehicleRequestID(int vehicleRequestID) {
         VehicleRequestID = vehicleRequestID;
     }
+
 
     public MotorRequestEntity(Context context) {
         /*DBPersistanceController dbPersistanceController;
@@ -220,6 +269,12 @@ public class MotorRequestEntity implements Parcelable {
         else
             this.ss_id = 5;
         this.ip_address = Utility.getLocalIpAddress(context);*/
+        this.usage = "";
+        this.grossvehicleweight = "";
+        this.seatingcapacity = "";
+        this.modeloffline = "";
+        this.fueloffline = "";
+        this.varientoffline = "";
     }
 
 
@@ -616,6 +671,62 @@ public class MotorRequestEntity implements Parcelable {
         this.mac_address = mac_address;
     }
 
+    public String getUsage() {
+        return usage;
+    }
+
+    public void setUsage(String usage) {
+        this.usage = usage;
+    }
+
+    public String getGrossvehicleweight() {
+        return grossvehicleweight;
+    }
+
+    public void setGrossvehicleweight(String grossvehicleweight) {
+        this.grossvehicleweight = grossvehicleweight;
+    }
+
+    public String getSeatingcapacity() {
+        return seatingcapacity;
+    }
+
+    public void setSeatingcapacity(String seatingcapacity) {
+        this.seatingcapacity = seatingcapacity;
+    }
+
+    public String getModeloffline() {
+        return modeloffline;
+    }
+
+    public void setModeloffline(String modeloffline) {
+        this.modeloffline = modeloffline;
+    }
+
+    public String getFueloffline() {
+        return fueloffline;
+    }
+
+    public void setFueloffline(String fueloffline) {
+        this.fueloffline = fueloffline;
+    }
+
+    public String getVarientoffline() {
+        return varientoffline;
+    }
+
+    public void setVarientoffline(String varientoffline) {
+        this.varientoffline = varientoffline;
+    }
+
+    public String getSub_fbaid() {
+        return sub_fba_id;
+    }
+
+    public void setSub_fbaid(String sub_fbaid) {
+        this.sub_fba_id = sub_fbaid;
+    }
+
 
     @Override
     public int describeContents() {
@@ -683,6 +794,17 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeInt(this.fba_id);
         dest.writeString(this.srn);
         dest.writeInt(this.selectedPrevInsID);
+        dest.writeString(this.usage);
+        dest.writeString(this.grossvehicleweight);
+        dest.writeString(this.seatingcapacity);
+        dest.writeString(this.modeloffline);
+        dest.writeString(this.fueloffline);
+        dest.writeString(this.varientoffline);
+        dest.writeString(this.sub_fba_id);
+        dest.writeString(this.is_breakin);
+        dest.writeString(this.is_policy_exist);
+        dest.writeString(this.needrsa);
+        dest.writeString(this.rsaplan);
     }
 
     protected MotorRequestEntity(Parcel in) {
@@ -745,6 +867,17 @@ public class MotorRequestEntity implements Parcelable {
         this.fba_id = in.readInt();
         this.srn = in.readString();
         this.selectedPrevInsID = in.readInt();
+        this.usage = in.readString();
+        this.grossvehicleweight = in.readString();
+        this.seatingcapacity = in.readString();
+        this.modeloffline = in.readString();
+        this.fueloffline = in.readString();
+        this.varientoffline = in.readString();
+        this.sub_fba_id = in.readString();
+        this.is_breakin = in.readString();
+        this.is_policy_exist = in.readString();
+        this.needrsa = in.readString();
+        this.rsaplan =in.readString();
     }
 
     public static final Parcelable.Creator<MotorRequestEntity> CREATOR = new Parcelable.Creator<MotorRequestEntity>() {

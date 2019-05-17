@@ -63,7 +63,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
     String categoryId = "";
     int subCategoryId = 0, classId = 0;
     CreateTicketrequest createTicketrequest;
-
+    String et_Type_ticket ="",et_Crn_ticket ="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +71,22 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        try {
+            if(getIntent().hasExtra("ProductType")) {
+                if (getIntent().getStringExtra("ProductType") != null) {
+                    et_Type_ticket = getIntent().getStringExtra("ProductType");
+                }
+
+                if (getIntent().getStringExtra("crn") != null) {
+                    et_Crn_ticket = String.valueOf(getIntent().getStringExtra("crn"));
+                }
+
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         prefManager = new PrefManager(this);
@@ -80,6 +96,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
         categoryList = new ArrayList<>();
         subCategoryList = new ArrayList<>();
         classList = new ArrayList<>();
+
         /*if (prefManager.getIsZohoMaster()) {
             showDialog();
             new ZohoController(this).getTicketCategories(this);
@@ -380,6 +397,8 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                 createTicketrequest.setClassification(classId);
                 createTicketrequest.setSubCategoryId(subCategoryId);
                 createTicketrequest.setMessage(etMessage.getText().toString());
+                createTicketrequest.setProductname(et_Type_ticket);
+                createTicketrequest.setCrnloan(et_Crn_ticket);
                 showDialog();
                 new ZohoController(this).createTicket(createTicketrequest, this);
                 break;

@@ -1,0 +1,167 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dashboard"
+    android:orientation="vertical"
+    tools:context=".ultralaksha.ultralakshya.fragment.quote.content.UltraLakshayBenefitILLustration">
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lyfooter"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/TextViewStyle.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="16dp"
+            android:text="@string/UltraLakshyaBenefitIllustratoe"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+
+        <TableLayout
+            android:id="@+id/tbParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/lightblue_border"
+            android:weightSum="100">
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:background="@drawable/cell_blue_shape"
+                    android:gravity="center"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:text="Policy Year"
+                    android:textColor="@color/white"></TextView>
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"
+                    android:background="@drawable/cell_blue_shape"
+                    android:gravity="center"
+                    android:text="Age"
+                    android:textColor="@color/white">
+
+                </TextView>
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:background="@drawable/cell_blue_shape"
+                    android:gravity="center"
+                    android:text="Life Cover"
+                    android:textColor="@color/white">
+
+                </TextView>
+
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:background="@drawable/cell_blue_shape"
+                    android:gravity="center"
+                    android:text="Annual Premium"
+                    android:textColor="@color/white">
+
+                </TextView>
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:background="@drawable/cell_blue_shape"
+                    android:gravity="center"
+                    android:text="Cash Flow from LIC"
+                    android:textColor="@color/white"
+                    android:visibility="gone">
+
+                </TextView>
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:background="@drawable/cell_blue_shape"
+                    android:gravity="center"
+                    android:text="Loan Available"
+                    android:textColor="@color/white">
+
+                </TextView>
+
+
+            </TableRow>
+
+
+        </TableLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvDeathBenefit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lyfooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="4dp">
+
+        <TextView
+            style="@style/TextViewStyle.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cash Flow from LIC at end of Policy: "
+            android:textColor="@color/black">
+
+        </TextView>
+        <TextView
+            android:id="@+id/txtCashFlow"
+            style="@style/TextViewStyle.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:textStyle="bold"
+            android:text=" "
+            android:textColor="@color/black">
+
+        </TextView>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

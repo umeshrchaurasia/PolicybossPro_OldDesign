@@ -16,6 +16,4 @@ public interface IPersonalLoan {
     void getBLQuote(BLLoanRequest blLoanRequest, IResponseSubcriber iResponseSubcriber);
 
     void getPLequifax(equifax_personalloan_request equifax_personalloan_requestlist,IResponseSubcriber  iResponseSubcriber);
-
-
 }

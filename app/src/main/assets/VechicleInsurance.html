@@ -36,6 +36,17 @@
     margin: 0 auto;
     margin-top: -10px;
 }
+
+.buybtn {
+    background: #f38d1e;
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #fff;
+    width: 55px !important;
+    display: block;
+    margin: 0 auto;
+    margin-top: -10px;
+}
 .center {display: block;margin:0 auto; margin-top:2px;height:45px;}
 .brd-left {border-right:1px solid #eee !important;}
 .bg-gray {background:#f5f5f5;}
@@ -136,13 +147,13 @@ ul li {margin:2px; padding:4px !important;}
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="divinfo">
         <div class="img-responsive">
             <table class="table table-striped">
                 <tr style="width:100%">
                     <td style="width:30%"><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
-                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
-                              class="img-responsiv"  height="100" /></td>
+                                               onerror=this.src="file:///android_asset/profile_pic.png" width="100"
+                                               class="img-responsiv"  height="100" /></td>
                     <td style="text-align:left !important;"><h4 id="pospName" class="red-txt">Test User</h4>
                         <h5 id="deg" class="posp-txt" style="margin-top:-6px">Landmark POSP</h5>
                         <h4 id="phone" class="posp-txt" style="margin-top:-7px; color: #4FB4E9;">98XXXXXXXX</h4>
@@ -188,6 +199,15 @@ ul li {margin:2px; padding:4px !important;}
       var response= JSON.parse(bikeReponse);
       var otherDetails =JSON.parse(userReponse);
 
+      if(otherDetails.pospName == "")
+      {
+       document.getElementById('divinfo').style.display = 'none';
+      }
+       else
+      {
+        document.getElementById('divinfo').style.display = '';
+      }
+
       document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name + " " + response.Summary.Request_Core.last_name;
 
       document.getElementById('regNo').innerHTML = otherDetails.CAR_NAME;
@@ -197,7 +217,7 @@ ul li {margin:2px; padding:4px !important;}
       document.getElementById('ncbPercent').innerHTML = response.Summary.Request_Core.vehicle_ncb_current;
       document.getElementById('claim').innerHTML = response.Summary.Request_Core.is_claim_exists.toUpperCase();;
 
-      document.getElementById('pospName').innerHTML = otherDetails.pospNAme;
+      document.getElementById('pospName').innerHTML = otherDetails.pospName;
       document.getElementById('pospPhoto').src = otherDetails.pospPhotoUrl;
       document.getElementById('deg').innerHTML = otherDetails.pospDesg;
       document.getElementById('phone').innerHTML = otherDetails.PospMobNo;;
@@ -249,10 +269,13 @@ ul li {margin:2px; padding:4px !important;}
                 HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 10px !important;"><img style="width:80%"   src="http://api.magicfinmart.com/InsurerImages/car_' + response.Response[i].Insurer_Id + '.png" class="" /></td>';
                 HTML = HTML + '<td style="text-align:left;">IDV</td>';
                 HTML = HTML + '<td class="red-txt">PREMIUM</td>';
+
                 HTML = HTML + '</tr>';
                 HTML = HTML + '<tr>';
                 HTML = HTML + ' <td style="text-align:left;"> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                 HTML = HTML + ' <td><span class="amount">₹ ' + Math.round(response.Response [i].Premium_Breakup.final_premium) + '</span></td>';
+
+
                 HTML = HTML + '</tr>';
                 HTML = HTML + '</tbody>';
                 HTML = HTML + '</table>';
@@ -269,11 +292,13 @@ ul li {margin:2px; padding:4px !important;}
                     HTML = HTML + '<tr>';
                     HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 10px !important;"><img style="width:80%"  src="http://api.magicfinmart.com/InsurerImages/car_' + response.Response[i].Insurer_Id + '.png" class="" /></td>';
                     HTML = HTML + '<td style="text-align:left;">IDV</td>';
-                    HTML = HTML + '<td class="red-txt">PREMIIUM</td>';
+                    HTML = HTML + '<td class="red-txt">PREMIUM</td>';
+
                     HTML = HTML + '</tr>';
                     HTML = HTML + '<tr>';
                     HTML = HTML + ' <td style="text-align:left;"> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                     HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  Math.round( response.Response[i].final_premium_with_addon) + '</a></td>';
+
                     HTML = HTML + '</tr>';
                     HTML = HTML + '</tbody>';
                     HTML = HTML + '</table>';

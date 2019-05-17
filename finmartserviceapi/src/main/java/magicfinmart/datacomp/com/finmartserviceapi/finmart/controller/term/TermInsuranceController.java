@@ -8,13 +8,20 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.TermRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LICIllustrationRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.UltralakshaRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DeleteTermQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaRecalculateResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshyaQuoteApplnResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UpdateCRNResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -191,8 +198,8 @@ public class TermInsuranceController implements ITermInsurance {
     }
 
     /*
-    * {"termRequestId":"47","fba_id":"39774","Existing_ProductInsuranceMapping_Id":"255"}
-    * */
+     * {"termRequestId":"47","fba_id":"39774","Existing_ProductInsuranceMapping_Id":"255"}
+     * */
     @Override
     public void updateCRN(int termRequestID, int crn, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
@@ -226,8 +233,141 @@ public class TermInsuranceController implements ITermInsurance {
                     iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+
+    }
+            }
+        });
+    }
+
+    //region ultra laksha
+
+    @Override
+    public void recalculateUltraLaksha(UltralakshaRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        termNetworkService.recalculateUltraLaksha(entity).enqueue(new Callback<UltraLakshaRecalculateResponse>() {
+            @Override
+            public void onResponse(Call<UltraLakshaRecalculateResponse> call, Response<UltraLakshaRecalculateResponse> response) {
+
+                if (response.body() != null) {
+
+                    if (iResponseSubcriber != null) {
+
+                        if (response.body().getStatusNo() == 0) {
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                            //save recalculate respose to facade.
+                            new UltraLakshaFacade(mContext).saveRecalculateUltraLaksha(response.body());
+                        } else {
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        }
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UltraLakshaRecalculateResponse> call, Throwable t) {
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void getIllustration(LICIllustrationRequestEntity entity ,final IResponseSubcriber iResponseSubcriber) {
+
+        termNetworkService.getIllustration(entity).enqueue(new Callback<UltraLakshaIllustrationResponseNew>() {
+            @Override
+            public void onResponse(Call<UltraLakshaIllustrationResponseNew> call, Response<UltraLakshaIllustrationResponseNew> response) {
+
+                if (response.body() != null) {
+
+                    if (response.body().getStatusNo() == 0) {
+                        //save recalculate respose to facade.
+                        new UltraLakshaFacade(mContext).saveUltraLakshaIllustration(response.body());
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    }else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<UltraLakshaIllustrationResponseNew> call, Throwable t) {
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void getUltraQualeAppList( final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+
+        body.put("FBAID", "" + new DBPersistanceController(mContext).getUserData().getFBAId());
+
+        termNetworkService.getUltraQuoteApplnList(body).enqueue(new Callback<UltraLakshyaQuoteApplnResponse>() {
+            @Override
+            public void onResponse(Call<UltraLakshyaQuoteApplnResponse> call, Response<UltraLakshyaQuoteApplnResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UltraLakshyaQuoteApplnResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+
                 }
             }
         });
     }
+
+
+    //endregion
 }

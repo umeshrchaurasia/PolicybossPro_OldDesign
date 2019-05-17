@@ -98,6 +98,12 @@ public class UserConstantEntity extends RealmObject {
     private String SuppEmail;
     private String LoginID;
     private String ManagName;
+
+
+    private String finmartwhatsappno;
+    private int isactive;
+
+
     /**
      * plbanner : http://api.magicfinmart.com/images/plbanner.gif
      * plactive : 1
@@ -113,6 +119,9 @@ public class UserConstantEntity extends RealmObject {
     private String healthurl;
 
     private String AddPospVisible;
+
+
+    private String PBByCrnSearch;
 
 
     private String ERPID;
@@ -137,6 +146,20 @@ public class UserConstantEntity extends RealmObject {
     private String healthurltemp;
 
     private String messagesender;
+
+    private String enablencd;
+    private  String ultralakshyaenabled;
+
+
+    public String getUltralakshyaenabled() {
+        return ultralakshyaenabled;
+    }
+
+    public void setUltralakshyaenabled(String ultralakshyaenabled) {
+        this.ultralakshyaenabled = ultralakshyaenabled;
+    }
+
+
     /**
      * marketinghomeimageurl :
      * marketinghomebirthdayimageurl :
@@ -159,6 +182,55 @@ public class UserConstantEntity extends RealmObject {
 
 
     private String crnmobileno;
+    private String insurancerepositorylink;
+
+
+    private String parentid; // added by Nilesh 08/02/2019
+    private String enableenrolasposp;
+
+
+    // added by Nilesh 17.04.2019
+    private String paenable;
+
+    public String getPaenable() {
+        return paenable;
+    }
+
+    public void setPaenable(String paenable) {
+        this.paenable = paenable;
+    }
+
+    public String getEnableenrolasposp() {
+        return enableenrolasposp;
+    }
+
+    public void setEnableenrolasposp(String enableenrolasposp) {
+        this.enableenrolasposp = enableenrolasposp;
+    }
+
+    public String getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(String parentid) {
+        this.parentid = parentid;
+    }
+
+    public String getEnablencd() {
+        return enablencd;
+    }
+
+    public void setEnablencd(String enablencd) {
+        this.enablencd = enablencd;
+    }
+
+    public String getInsurancerepositorylink() {
+        return insurancerepositorylink;
+    }
+
+    public void setInsurancerepositorylink(String insurancerepositorylink) {
+        this.insurancerepositorylink = insurancerepositorylink;
+    }
 
     public String getNotificationpopupurltype() {
         return notificationpopupurltype;
@@ -703,5 +775,27 @@ public class UserConstantEntity extends RealmObject {
         this.messagesender = messagesender;
     }
 
+    public String getFinmartwhatsappno() {
+        return finmartwhatsappno;
+    }
 
+    public void setFinmartwhatsappno(String finmartwhatsappno) {
+        this.finmartwhatsappno = finmartwhatsappno;
+    }
+
+    public String getPBByCrnSearch() {
+        return PBByCrnSearch;
+    }
+
+    public void setPBByCrnSearch(String PBByCrnSearch) {
+        this.PBByCrnSearch = PBByCrnSearch;
+    }
+
+    public int getIsactive() {
+        return isactive;
+    }
+
+    public void setIsactive(int isactive) {
+        this.isactive = isactive;
+    }
 }

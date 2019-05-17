@@ -18,12 +18,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalMainEnt
  */
 
 public class ActivityTabsPagerAdapter_PL extends FragmentStatePagerAdapter {
-    private static final int TOTAL = 2;
+    private static final int TOTAL = 1;
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     PersonalMainEntity mMasterData;
 
-    private String[] tabTitles = new String[]{"QUOTES", "APPLICATION"};
+    private String[] tabTitles = new String[]{"APPLICATION"};
 
     public ActivityTabsPagerAdapter_PL(FragmentManager fm,PersonalMainEntity masterData) {
         super(fm);
@@ -45,23 +45,23 @@ public class ActivityTabsPagerAdapter_PL extends FragmentStatePagerAdapter {
     public Fragment getItem(int index) {
 
         switch (index) {
+//            case 0:
+//                // Salary fragment activity
+//
+//                PL_QuoteFragment Qfragment = new PL_QuoteFragment();
+//                Bundle bundle = new Bundle();
+//
+//                if (mMasterData == null) {
+//                    bundle.putParcelableArrayList(QUOTE_LIST, null);
+//
+//                }else{
+//                    bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuote());
+//                }
+//                Qfragment.setArguments(bundle);
+//                return Qfragment;
+
+
             case 0:
-                // Salary fragment activity
-
-                PL_QuoteFragment Qfragment = new PL_QuoteFragment();
-                Bundle bundle = new Bundle();
-
-                if (mMasterData == null) {
-                    bundle.putParcelableArrayList(QUOTE_LIST, null);
-
-                }else{
-                    bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuote());
-                }
-                Qfragment.setArguments(bundle);
-                return Qfragment;
-
-
-            case 1:
                 // ABN fragment activity
                 PL_ApplicationFragment Afragment = new PL_ApplicationFragment();
 

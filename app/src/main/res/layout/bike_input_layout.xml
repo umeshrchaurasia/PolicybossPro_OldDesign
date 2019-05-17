@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
@@ -19,8 +19,8 @@
             style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
             android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
             android:visibility="visible">
             <!--All inputs-->
             <LinearLayout
@@ -347,15 +347,14 @@
                     android:id="@+id/cvNcb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@drawable/customeborder"
                     android:orientation="vertical"
                     android:padding="5dp">
 
 
                     <LinearLayout
-                        android:id="@+id/llNoClaim"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -430,6 +429,101 @@
 
                 </LinearLayout>
 
+                <!--RSA-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/TextStyle.TextMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Need RSA?"
+                        android:textColor="@color/header_dark_text" />
+
+                    <TextView
+                        android:id="@+id/txtRSAYes"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/customeborder_blue"
+                        android:gravity="center"
+                        android:padding="6dp"
+                        android:text="YES"
+                        android:textAppearance="@style/TextStyle.TextMedium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/txtRSANo"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:background="@drawable/customeborder"
+                        android:gravity="center"
+                        android:padding="6dp"
+                        android:text="NO"
+                        android:textAppearance="@style/TextStyle.TextMedium"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llOptionRSA"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <RadioGroup
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rbRSA"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left|center"
+                            android:text="RSA(Rs.99)"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/black"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/imgInfoRSA"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginTop="0dp"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/infop" />
+
+                        <RadioButton
+                            android:id="@+id/rbExtendedRSA"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:gravity="left|center"
+                            android:text="Ultra RSA (Rs.199/-)"
+                            android:textColor="@color/black" />
+
+                        <ImageView
+                            android:id="@+id/imgInfoExtendedRSA"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginTop="0dp"
+                            app:srcCompat="@drawable/infop" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
                 <!--RTO and PREV INS-->
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.register;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -41,6 +43,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -49,6 +52,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -64,12 +68,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.R
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SalesDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SourceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
@@ -97,13 +103,18 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     String pass = "";
     PrefManager prefManager;
     TrackingRequestEntity trackingRequestEntity;
-    Spinner spReferal, spSource;
+    Spinner spReferal, spSource,spsales;
     EditText etRefererCode;
-    TextInputLayout tilReferer;
+    TextInputLayout tilReferer,txtsale;
     boolean isVAlidPromo = false;
+    boolean isValidPinCode = false;
 
     List<SourceEntity> sourceList;
-
+    List<SalesDataEntity> saleList;
+    boolean isSaleclick=false;
+    LinkedHashMap<String,Integer> mapSale = new LinkedHashMap<>();
+   ArrayList<String> tempSaleList ;
+    AlertDialog pincodeDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +127,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         dbPersistanceController = new DBPersistanceController(this);
         registerRequestEntity = new RegisterRequestEntity();
         sourceList = new ArrayList<>();
-
+        saleList = new ArrayList<>();
+        tempSaleList = new ArrayList<>();
 
         initWidgets();
         bindSource();
@@ -124,9 +136,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         initLayouts();
         setSpinnerListener();
 
+        txtsale.setVisibility(View.GONE);
         prefManager = new PrefManager(this);
 
         new RegisterController(this).getRegSource(this);
+
+       // showDialog();
+
 
         if (prefManager.IsInsuranceMasterUpdate()) {
             new MasterController(this).getInsuranceMaster(this);
@@ -164,6 +180,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        spSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position ==0)
+                {
+                    isSaleclick=false;
+                    txtsale.setVisibility(View.GONE);
+                }
+                else
+                {
+                    isSaleclick=true;
+                    if(isSaleclick) {
+                        isSaleclick=false;
+                        txtsale.setVisibility(View.VISIBLE);
+                        showDialog();
+                        new RegisterController(RegisterActivity.this).getfieldsales(RegisterActivity.this);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
@@ -253,6 +296,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         txtMale.setOnClickListener(this);
         txtFemale.setOnClickListener(this);
         etConfirmEmail.setOnFocusChangeListener(confirmEmailFocus);
+
+
     }
 
     View.OnFocusChangeListener confirmEmailFocus = new View.OnFocusChangeListener() {
@@ -305,7 +350,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         etRefererCode = (EditText) findViewById(R.id.etRefererCode);
         spReferal = (Spinner) findViewById(R.id.spReferal);
         spSource = (Spinner) findViewById(R.id.spSource);
+        spsales = (Spinner)findViewById(R.id.spsales);
         tilReferer = (TextInputLayout) findViewById(R.id.tilReferer);
+        txtsale = (TextInputLayout) findViewById(R.id.txtsale);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
     }
 
@@ -418,21 +465,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 return false;
             }
         }
-        if (!isEmpty(etCity)) {
-            etCity.requestFocus();
-            etCity.setError("Enter City");
+
+        if(!isValidPinCode)
+        {
+            PincodeAlert("Alert","City Not Found. Kindly Contact to Tech Support Person","9137850207");
             return false;
         }
-        if (!isEmpty(etState)) {
-            etState.requestFocus();
-            etState.setError("Enter State");
-            return false;
-        }
-        if (!isEmpty(etFirstName)) {
-            etFirstName.requestFocus();
-            etFirstName.setError("Enter First Name");
-            return false;
-        }
+//        if (!isEmpty(etCity)) {
+//            etCity.requestFocus();
+//            etCity.setError("Enter City");
+//            return false;
+//        }
+//        if (!isEmpty(etState)) {
+//            etState.requestFocus();
+//            etState.setError("Enter State");
+//            return false;
+//        }
+
+
+
       /*  if (!isVAlidPromo) {
             etRefererCode.requestFocus();
             etRefererCode.setError("Enter Valid Promo Code");
@@ -521,8 +572,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             registerRequestEntity.setPassword(pass);
         }
 
+
         SourceEntity sourceEntity = (SourceEntity) spSource.getSelectedItem();
         registerRequestEntity.setAppSource("" + sourceEntity.getId());
+
+        if(spSource.getSelectedItemPosition() != 0) {
+            if(spsales.getSelectedItem() !=null) {
+                registerRequestEntity.setField_sales_uid("" + mapSale.get(spsales.getSelectedItem().toString()));
+            }else
+            {
+                registerRequestEntity.setField_sales_uid("");
+            }
+
+        }else{
+            registerRequestEntity.setField_sales_uid("");
+        }
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -564,6 +628,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 Constants.hideKeyBoard(etPincode, this);
+                isValidPinCode = true;
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
@@ -612,7 +677,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Snackbar.make(etRefererCode, "" + response.getMessage(), Snackbar.LENGTH_LONG).show();
                 etRefererCode.setText("");
             }
+        }else if(response instanceof RegisterSaleResponse)
+        {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                saleList = ((RegisterSaleResponse) response).getMasterData();
+                bindsale();
+            }
         }
+
     }
 
     private void bindSource() {
@@ -671,6 +744,31 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spSource.setAdapter(prevInsAdapter);
     }
 
+    private List<String> getSaleyList( ) {
+        mapSale.clear();
+       // mapSale.put("SELECT", 0);
+        for (SalesDataEntity salesDataEntity : saleList) {
+            mapSale.put(salesDataEntity.getEmployeeName().toUpperCase(), salesDataEntity.getUid());    // adding in Map
+        }
+        tempSaleList.clear();
+        tempSaleList = new ArrayList<String>(mapSale.keySet());
+        return tempSaleList;
+    }
+
+    private  void bindsale()
+    {
+        if(saleList != null && saleList.size() > 0)
+        {
+            ArrayAdapter<String> saleAdapter = new ArrayAdapter<String >(this, android.R.layout.simple_spinner_item, getSaleyList());
+
+            // Drop down layout style - list view with radio button
+            saleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            // attaching data adapter to spinner
+
+            spsales.setAdapter(saleAdapter);
+        }
+    }
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
@@ -805,6 +903,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             if (start == 5) {
                 etCity.setText("");
                 etState.setText("");
+                isValidPinCode = false;
             }
         }
 
@@ -963,5 +1062,73 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private boolean checkPR_Info() {
 
         return false;
+    }
+
+    public void PincodeAlert(String Title, String strBody, final String strMobile) {
+
+        if (pincodeDialog != null && pincodeDialog.isShowing()) {
+
+            return;
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
+
+            Button btnAllow, btnReject;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
+
+            builder.setView(dialogView);
+            pincodeDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+            btnReject = (Button) dialogView.findViewById(R.id.btnReject);
+            txtTile.setText(Title);
+            txtBody.setText(strBody);
+            txtMob.setText(strMobile);
+
+            btnAllow.setText("Call");
+            btnReject.setText("Close");
+
+
+
+            btnAllow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pincodeDialog.dismiss();
+                    Intent intentCalling = new Intent(Intent.ACTION_DIAL);
+                    intentCalling.setData(Uri.parse("tel:" + strMobile));
+                    startActivity(intentCalling);
+
+                }
+            });
+
+            btnReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pincodeDialog.dismiss();
+                    prefManager.updateContactMsgFirst("" + 1);
+                }
+            });
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pincodeDialog.dismiss();
+
+                }
+            });
+            pincodeDialog.setCancelable(true);
+            pincodeDialog.show();
+        }
+
     }
 }

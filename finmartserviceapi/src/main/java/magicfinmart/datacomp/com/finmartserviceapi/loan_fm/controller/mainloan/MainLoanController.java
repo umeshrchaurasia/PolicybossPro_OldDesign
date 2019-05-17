@@ -20,6 +20,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLo
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.NewLoanApplicationResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -158,44 +159,6 @@ public class MainLoanController implements IMainLoan {
     }
 
 
-    @Override
-    public void getPLQuoteApplication(int count, int type, String fbaid, final IResponseSubcriberFM iResponseSubcriber) {
-
-        HashMap<String, String> body = new HashMap<>();
-        body.put("FBA_id", fbaid);
-        body.put("count", "" + count);
-        body.put("type", "" + type);
-
-        loanMainNetworkService.getPLQuoteApplication(body).enqueue(new Callback<FmPersonalLoanResponse>() {
-            @Override
-            public void onResponse(Call<FmPersonalLoanResponse> call, Response<FmPersonalLoanResponse> response) {
-                if (response.body() != null) {
-
-                    //callback of data
-                    iResponseSubcriber.OnSuccessFM(response.body(), "");
-
-                } else {
-                    //failure
-                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<FmPersonalLoanResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
-                }
-            }
-        });
-    }
 
     @Override
     public void savebankFbABuyData(BankSaveRequest bankSaveRequest, final IResponseSubcriberFM iResponseSubcriber) {
@@ -424,6 +387,87 @@ public class MainLoanController implements IMainLoan {
         });
     }
 
+
+
     //endregion
+
+
+    @Override
+    public void getPLQuoteApplication(int count, int type, String fbaid, final IResponseSubcriberFM iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("FBA_id", fbaid);
+        body.put("count", "" + count);
+        body.put("type", "" + type);
+
+        loanMainNetworkService.getPLQuoteApplication(body).enqueue(new Callback<FmPersonalLoanResponse>() {
+            @Override
+            public void onResponse(Call<FmPersonalLoanResponse> call, Response<FmPersonalLoanResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccessFM(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FmPersonalLoanResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void getLoanApplication(int count, String type, String fbaid,final IResponseSubcriberFM iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("FBAID", fbaid);
+        body.put("Count", "" + count);
+        body.put("Type", "" + type);
+
+        loanMainNetworkService.getLoanApplication(body).enqueue(new Callback<NewLoanApplicationResponse>() {
+            @Override
+            public void onResponse(Call<NewLoanApplicationResponse> call, Response<NewLoanApplicationResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccessFM(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NewLoanApplicationResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
 }
 

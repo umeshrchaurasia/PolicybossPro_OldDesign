@@ -28,4 +28,8 @@ public interface IErpLoan {
     void getLeadDetails(String LeadID, IResponseSubcriberERP iResponseSubcriber);
 
     void generateLead(HomeLoanApplyRequestEntity homeLoanApplyRequestEntity, IResponseSubcriberERP iResponseSubcriber);
+
+    void getcityloan(IResponseSubcriberERP iResponseSubcriber );
+
+    void getCitywiseBankListloan(String cityid,String Productid,IResponseSubcriberERP iResponseSubcriber );
 }

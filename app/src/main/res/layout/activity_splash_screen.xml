@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="122dp"
-        android:src="@drawable/finmart_logo" />
+        android:src="@drawable/finmart_logo_splash" />
 
     <TextView
         style="@style/TextViewStyle.Large"

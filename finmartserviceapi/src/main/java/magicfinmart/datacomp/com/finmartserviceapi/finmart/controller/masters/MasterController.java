@@ -20,6 +20,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
@@ -320,28 +321,32 @@ public class MasterController implements IMasterFetch {
                             getCarMaster(null);
                             getBikeMaster(null);
                         }
-
-                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                    if (iResponseSubcriber != null)
+                        iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }
             }
 
             @Override
             public void onFailure(Call<ConstantsResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
                 }
             }
         });
@@ -462,6 +467,44 @@ public class MasterController implements IMasterFetch {
     }
 
     @Override
+    public void geUserConstantSync(final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
+            @Override
+            public void onResponse(Call<UserConstatntResponse> call, Response<UserConstatntResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        new SyncUserConstatnt(mContext, response.body().getMasterData()).bindUserConstant();
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserConstatntResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+
+    @Override
     public void getMenuMaster(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
         body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
@@ -529,6 +572,25 @@ public class MasterController implements IMasterFetch {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
+            }
+        });
+    }
+
+
+    @Override
+    public void getInsurerList() {
+        masterNetworkService.getInsuranceList().enqueue(new Callback<InsurerResponse>() {
+            @Override
+            public void onResponse(Call<InsurerResponse> call, Response<InsurerResponse> response) {
+
+                if (response.isSuccessful()) {
+                    new DBPersistanceController(mContext).storeInsurerMaster(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InsurerResponse> call, Throwable t) {
+
             }
         });
     }

@@ -42,6 +42,7 @@ import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,9 +61,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 
-/**
- * Created by Rohit on 12/12/15.
- */
+
 public class BaseActivity extends AppCompatActivity {
 
     public Realm realm;
@@ -75,6 +74,13 @@ public class BaseActivity extends AppCompatActivity {
     PermissionListener permissionListener;
     String[] permissionsRequired = new String[]{android.Manifest.permission.CALL_PHONE};
 
+
+    public String getDateFromAge(int age) {
+        Calendar cal = Calendar.getInstance();
+        int year = age;
+        cal.add(Calendar.YEAR, -year);
+        return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
+    }
 
     public int getAgeFromDate(String birthdate) {
 
@@ -136,8 +142,9 @@ public class BaseActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        new DBPersistanceController(context).logout();
                         new PrefManager(context).clearAll();
+                        new DBPersistanceController(context).logout();
+
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -209,6 +216,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+
     }
 
     protected void cancelDialog() {
@@ -268,81 +276,94 @@ public class BaseActivity extends AppCompatActivity {
 
     public void dialNumber(String mobNumber) {
 
-        if (ActivityCompat.checkSelfPermission(BaseActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(BaseActivity.this, permissionsRequired[0])) {
-                //Show Information about why you need the permission
-                ActivityCompat.requestPermissions(BaseActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
-
-            } else {
-                //Previously Permission Request was cancelled with 'Dont Ask Again',
-                // Redirect to Settings after showing Information about why you need the permission
-                try {
-                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
-                    builder.setTitle("Need Call Permission");
-
-                    builder.setMessage("This app needs Call permission.");
-                    String positiveText = "GRANT";
-                    String NegativeText = "CANCEL";
-                    builder.setPositiveButton(positiveText,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    if (permissionListener != null)
-                                        dialog.dismiss();
-
-                                    /////
-
-                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                    intent.setData(uri);
-                                    startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
-
-
-                                }
-                            });
-
-                    builder.setNegativeButton(NegativeText,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    final android.support.v7.app.AlertDialog dialog = builder.create();
-                    dialog.setCancelable(false);
-                    dialog.setCanceledOnTouchOutside(false);
-                    dialog.show();
-                } catch (Exception ex) {
-                    Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
-                }
-            }
-        } else {
-
-            try {
-                mobNumber = mobNumber.replaceAll("\\s", "");
-                mobNumber = mobNumber.replaceAll("\\+", "");
-                mobNumber = mobNumber.replaceAll("-", "");
-                mobNumber = mobNumber.replaceAll(",", "");
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + mobNumber));
-                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                startActivity(callIntent);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
-            }
+        try {
+            mobNumber = mobNumber.replaceAll("\\s", "");
+            mobNumber = mobNumber.replaceAll("\\+", "");
+            mobNumber = mobNumber.replaceAll("-", "");
+            mobNumber = mobNumber.replaceAll(",", "");
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + mobNumber));
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
         }
+
+//        if (ActivityCompat.checkSelfPermission(BaseActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+//
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(BaseActivity.this, permissionsRequired[0])) {
+//                //Show Information about why you need the permission
+//                ActivityCompat.requestPermissions(BaseActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
+//
+//            } else {
+//                //Previously Permission Request was cancelled with 'Dont Ask Again',
+//                // Redirect to Settings after showing Information about why you need the permission
+//                try {
+//                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
+//                    builder.setTitle("Need Call Permission");
+//
+//                    builder.setMessage("This app needs Call permission.");
+//                    String positiveText = "GRANT";
+//                    String NegativeText = "CANCEL";
+//                    builder.setPositiveButton(positiveText,
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//
+//                                    if (permissionListener != null)
+//                                        dialog.dismiss();
+//
+//                                    /////
+//
+//                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+//                                    intent.setData(uri);
+//                                    startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+//
+//
+//                                }
+//                            });
+//
+//                    builder.setNegativeButton(NegativeText,
+//                            new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//                    final android.support.v7.app.AlertDialog dialog = builder.create();
+//                    dialog.setCancelable(false);
+//                    dialog.setCanceledOnTouchOutside(false);
+//                    dialog.show();
+//                } catch (Exception ex) {
+//                    Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        } else {
+//
+//            try {
+//                mobNumber = mobNumber.replaceAll("\\s", "");
+//                mobNumber = mobNumber.replaceAll("\\+", "");
+//                mobNumber = mobNumber.replaceAll("-", "");
+//                mobNumber = mobNumber.replaceAll(",", "");
+//                Intent callIntent = new Intent(Intent.ACTION_CALL);
+//                callIntent.setData(Uri.parse("tel:" + mobNumber));
+//                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    // here to request the missing permissions, and then overriding
+//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                    //                                          int[] grantResults)
+//                    // to handle the case where the user grants the permission. See the documentation
+//                    // for ActivityCompat#requestPermissions for more details.
+//                    return;
+//                }
+//                startActivity(callIntent);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     public void composeEmail(String addresses, String subject) {
@@ -355,7 +376,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public static boolean isValidePhoneNumber(EditText editText) {
-        String phoneNumberPattern = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$";
+        String phoneNumberPattern = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[6789]\\d{9}$";
         String phoneNumberEntered = editText.getText().toString().trim();
         return !(phoneNumberEntered.isEmpty() || !phoneNumberEntered.matches(phoneNumberPattern));
     }
@@ -464,17 +485,27 @@ public class BaseActivity extends AppCompatActivity {
 
     public Bitmap combineImages(Bitmap first, Bitmap second) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
         Bitmap cs = null;
-
         int width, height = 0;
-        width = first.getWidth();
-        height = first.getHeight() + second.getHeight();
 
-        cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        if (second == null) {
+            width = first.getWidth();
+            height = first.getHeight();
+            cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas comboImage = new Canvas(cs);
+            comboImage.drawBitmap(first, 0f, 0f, null);
+        } else {
 
-        Canvas comboImage = new Canvas(cs);
 
-        comboImage.drawBitmap(first, 0f, 0f, null);
-        comboImage.drawBitmap(second, 0f, first.getHeight(), null);
+            width = first.getWidth();
+            height = first.getHeight() + second.getHeight();
+
+            cs = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+            Canvas comboImage = new Canvas(cs);
+
+            comboImage.drawBitmap(first, 0f, 0f, null);
+            comboImage.drawBitmap(second, 0f, first.getHeight(), null);
+        }
 
         // this is an extra bit I added, just incase you want to save the new image somewhere and then return the location
     /*String tmpImg = String.valueOf(System.currentTimeMillis()) + ".png";
@@ -759,6 +790,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
     public void permissionAlert(final View view, String Title, String strBody) {
         try {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
@@ -850,18 +882,39 @@ public class BaseActivity extends AppCompatActivity {
             //shareQuote();
             startActivity(new Intent(BaseActivity.this, IncomePotentialActivity.class));
         }
+
         @JavascriptInterface
         public void incomeCalculator() {
             //Get the string value to process
             //shareQuote();
-            startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
+            startActivity(new Intent(BaseActivity.this, IncomePotentialActivity.class));
+            // startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
         }
+
         @JavascriptInterface
         public void processComplete() {
             //Get the string value to process
             //shareQuote();
         }
+
+        @JavascriptInterface
+        public void callPDF(String url) {
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "LIC Business")
+                    .putExtra("TITLE", "LIC Business"));
+        }
+
+        @JavascriptInterface
+        public void callPDFCREDIT(String url) {
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "FREE CREDIT REPORT")
+                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
+        }
+
     }
+
     private void settingWebview(WebView webView, String url) {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -918,6 +971,8 @@ public class BaseActivity extends AppCompatActivity {
             webView.loadUrl(url);
         }
     }
+
+
     //endregion
 }
 

@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.dashboard;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,13 +18,21 @@ import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+import com.datacomp.magicfinmart.ncd.NCDActivity;
+import com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
+import com.datacomp.magicfinmart.ultralaksha.ultra_selection.UltraLakshaSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -93,6 +102,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView rvDashboard;
         TextView txtTypeName, tvPoweredBy;
         ImageView ivLogo;
+        CardView card_view;
 
         public MoreServiceHolder(View view) {
             super(view);
@@ -100,6 +110,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
             ivLogo = view.findViewById(R.id.ivLogo);
             tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
+            card_view = view.findViewById(R.id.card_view);
 
         }
     }
@@ -194,30 +205,31 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }));*/
 
         } else if (holder instanceof MoreServiceHolder) {
+
             final List<DashboardEntity> listMore = mReal.getMoreProductList();
-            ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
-            ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
-            ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
-            ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-            ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
+//            if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+//                    new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
+//                    && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
+//
+//            }
 
-            ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
-                    new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
-                            new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    switchMenus(listMore.get(position));
-                                }
-                            }));
-          /*
-            ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
-                    ((MoreServiceHolder) holder).rvDashboard, new ClickListener() {
-                @Override
-                public void onClick(View view) {
-                    switchMenus(listMore.get(position).getProductId());
-                }
 
-            }));*/
+
+                ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
+                ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
+                ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
+                ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
+                ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
+
+                ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
+                        new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
+                                new RecyclerItemClickListener.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(View view, int position) {
+                                        switchMenus(listMore.get(position));
+                                    }
+                                }));
+
         }
 
     }
@@ -226,21 +238,33 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int productID = dashboardEntity.getProductId();
 
         switch (productID) {
+
+
             case 1:
+
                 //car
                 mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
-            case 10:
-                //bike
-                //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
-                mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
-                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
+
+
+            case 2:
+                //fin peace
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
+                                + new DBPersistanceController(mContext).getUserData().getFBAId())
+                        .putExtra("NAME", "FIN-PEACE")
+                        .putExtra("TITLE", "FIN-PEACE"));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+                MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
             case 3:
                 //health
+
+                // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+
+
                 if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
                     mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
                 } else {
@@ -260,10 +284,15 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             + "&device_id=" + Utility.getDeviceId(mContext);
                     healthUrl = healthUrl + append;
 
-                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                            .putExtra("URL", healthUrl)
-                            .putExtra("NAME", "Health Insurance")
-                            .putExtra("TITLE", "Health Insurance"));
+                    if (new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser() != null &&
+                            new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+                        Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
+                    } else {
+                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                .putExtra("URL", healthUrl)
+                                .putExtra("NAME", "Health Insurance")
+                                .putExtra("TITLE", "Health Insurance"));
+                    }
                 }
 
 
@@ -272,22 +301,22 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 4:
                 //home loan
-                mContext.startActivity(new Intent(mContext, HomeLoanDetailActivity.class));
+                mContext.startActivity(new Intent(mContext, NewHomeApplicaionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;
             case 5:
                 //personal loan
-                mContext.startActivity(new Intent(mContext, PersonalLoanDetailActivity.class));
+                mContext.startActivity(new Intent(mContext, NewPersonalApplicaionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
                 break;
-            case 6:
-                //lap
-                mContext.startActivity(new Intent(mContext, LapLoanDetailActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
-                break;
+//            case 6:
+//                //lap
+//                mContext.startActivity(new Intent(mContext, LapLoanDetailActivity.class));
+//                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+//                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
+//                break;
             case 7:
                 //cc
                 // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
@@ -297,9 +326,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 8:
                 //BT
-                mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
-                MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
+              //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
+                mContext.startActivity(new Intent(mContext, NewbusinessApplicaionActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
+                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
             case 9:
 
@@ -307,27 +337,16 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                 MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
-            case 13:
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "http://www.rupeeboss.com/gopaysense")
-                        .putExtra("NAME", "Cash Loan")
-                        .putExtra("TITLE", "Cash Loan"));
-                //mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
-                //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
-                //MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
+
+            case 10:
+                //bike
+                //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
+                mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
+                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;
 
 
-            case 2:
-                //fin peace
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
-                                + new DBPersistanceController(mContext).getUserData().getFBAId())
-                        .putExtra("NAME", "FIN-PEACE")
-                        .putExtra("TITLE", "FIN-PEACE"));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
-                MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
-                break;
             case 11:
                 //health check up
                 mContext.startActivity(new Intent(mContext, HealthCheckUpListActivity.class));
@@ -341,16 +360,45 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
                 break;
+
+            case 13:
+                Utility.loadWebViewUrlInBrowser(mContext,
+                        "http://www.rupeeboss.com/equifax-finmart?fbaid="
+                                + String.valueOf(mReal.getUserData().getFBAId()));
+                break;
+
+
             case 14:
                 Utility.loadWebViewUrlInBrowser(mContext,
                         "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
                /* mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
+                        .putExtra(                break;
+"URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
                         .putExtra("NAME", "" + "Loan On Messenger")
                         .putExtra("TITLE", "" + "Loan On Messenger"));*/
+
+            case 15: //ncd
+                //car
+                mContext.startActivity(new Intent(mContext, NCDActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
+                MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
+
+                break;
+            case 16:
+                mContext.startActivity(new Intent(mContext, AddNewOfflineQuotesActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
+                MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
                 break;
 
+            case 17: // added by Nilesh 13.02.2019 -- Ultra laksh
+                mContext.startActivity(new Intent(mContext, UltraLakshaSelectionActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Ultra lakshya"), Constants.CAMPAIGN), null);
+                MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHYA");
+                break;
+
+
         }
+
         if (productID >= 20) {
             mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                     .putExtra("URL", "" + dashboardEntity.getLink())

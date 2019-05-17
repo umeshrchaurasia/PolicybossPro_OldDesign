@@ -11,10 +11,20 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.OfflineQuoteRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveHealthRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineCommonResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.Offline_TermResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +46,8 @@ public class OfflineQuotesController implements IOfflineQuote {
         mContext = context;
         loginResponseEntity = new DBPersistanceController(mContext).getUserData();
     }
+
+    //region Deprecated
 
     @Override
     public void getOfflineInput(final IResponseSubcriber iResponseSubcriber) {
@@ -73,10 +85,10 @@ public class OfflineQuotesController implements IOfflineQuote {
     }
 
     @Override
-    public void createQuote(String ProductName, String ProductDiscription, final IResponseSubcriber iResponseSubcriber) {
+    public void createQuote(String ProductName, String ProductDiscription, String id, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-
+        body.put("id", id);
         body.put("FBAID", "" + loginResponseEntity.getFBAId());
         body.put("ProductName", ProductName);
         body.put("ProductDiscription", ProductDiscription);
@@ -175,6 +187,254 @@ public class OfflineQuotesController implements IOfflineQuote {
 
             @Override
             public void onFailure(Call<OfflineQuoteResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    //endregion
+
+
+    @Override
+    public void getOfflineMotorList(String count,String product_id, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("count", count);
+       // body.put("fba_id", "52933");// + loginResponseEntity.getFBAId());
+        body.put("fba_id", String.valueOf(new DBPersistanceController(mContext).getUserData().getFBAId()));
+        body.put("product_id", product_id);
+
+        offlineQuoteNetworkService.getOfflineMotorList(body).enqueue(new Callback<OfflineMotorListResponse>() {
+            @Override
+            public void onResponse(Call<OfflineMotorListResponse> call, Response<OfflineMotorListResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<OfflineMotorListResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void saveMotorOffline(SaveMotorRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        offlineQuoteNetworkService.saveOfflineMotor(entity).enqueue(new Callback<OfflineCommonResponse>() {
+            @Override
+            public void onResponse(Call<OfflineCommonResponse> call, Response<OfflineCommonResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Error.. Please try again later"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<OfflineCommonResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void getOfflineHealthList(String fba_id, int count, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("count", String.valueOf(count));
+        body.put("fba_id",fba_id);
+
+        offlineQuoteNetworkService.getOfflineHealthList(body).enqueue(new Callback<OfflineHealthResponse>() {
+            @Override
+            public void onResponse(Call<OfflineHealthResponse> call, Response<OfflineHealthResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+
+
+            @Override
+            public void onFailure(Call<OfflineHealthResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void saveHealthOffline(SaveHealthRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        offlineQuoteNetworkService.saveOfflineHealth(entity).enqueue(new Callback<OfflineHealthSaveResponse>() {
+            @Override
+            public void onResponse(Call<OfflineHealthSaveResponse> call, Response<OfflineHealthSaveResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Error.. Please try again later"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<OfflineHealthSaveResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
+    }
+
+    //Life
+    @Override
+    public void getTermInsurer_offline(TermFinmartRequest entity, final IResponseSubcriber iResponseSubcriber) {
+        offlineQuoteNetworkService.getTermCompareQuotes_offline(entity).enqueue(new Callback<Offline_TermResponse>() {
+            @Override
+            public void onResponse(Call<Offline_TermResponse> call, Response<Offline_TermResponse> response) {
+                if (iResponseSubcriber != null) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusNo() == 0) {
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        } else {
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        }
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Offline_TermResponse> call, Throwable t) {
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getTermQuoteApplicationList_offline(int insurerID, int count, String type, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("InsurerId", String.valueOf(insurerID));
+
+        body.put("count", String.valueOf(count));
+        body.put("type", String.valueOf(type));
+        body.put("fba_id", String.valueOf(new DBPersistanceController(mContext).getUserData().getFBAId()));
+
+        offlineQuoteNetworkService.getTermQuoteApplication_offline(body).enqueue(new Callback<TermQuoteApplicationResponse>() {
+            @Override
+            public void onResponse(Call<TermQuoteApplicationResponse> call, Response<TermQuoteApplicationResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TermQuoteApplicationResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

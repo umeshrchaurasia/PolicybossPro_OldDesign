@@ -10,10 +10,38 @@
 
     <string name="RM_Calling">Do you want to call/mail to your\nManager: </string>
 
+    <string name="FM_Contact">Hello, Welcome to Finmart Whatsapp chat.\nyou can use this to communicate with us,\nto allow press Add to Contact</string>
+
+    <string name="Finmart"> Finmart </string>
+
+
     <string name="Support_Calling">Do you want to call Support Team. </string>
 
     <string name="materail_count">new Images are available for downloading.\nContinue???</string>
+
+    <string name="view"><b><u>View</u></b></string>
     <string name="fetching_msg">Please Wait... fetching quotes</string>
+    <string name="UltraLakshyaAlone"> STAND-ALONE BENEFITS OF LIC\'s JEEVAN LAKSHYA</string>
+    <string name="UltraLakshyaDeath"> DEATH BENEFITS PAYABLE TO NOMINEE</string>
+    <string name="UltraLakshyaProdCombo"> PRODUCT COMBO INFORMATION </string>
+    <string name="UltraLakshyaBenefitIllustratoe">BENEFITS ILLUSTRATION OF LIC\'s JEEVAN LAKSHYA</string>
+    <string name="UltraLakshyaBenefitPayable">Benefits payable to nominee in case of death in year</string>
+    <string name="UltraLakshyaBenefitPayable_Terms">* including guaranteed and non-guaranteed benefits.</string>
+
+    <string name="UltraLakshyaJeevanVsLakshya">LIC JEEVAN LAKSHYA v/s ULTRA LAKSHYA</string>
+    <string name="UltraLakshyaScenario">SAMPLE SCENARIO OF BENEFITS ON DEATH</string>
+
+
+    <string name="UltraLakshyaHdr1">Presenting <b> <font color='#f79f00'>Ultra Lakshya - </font></b> a unique solution specially crafted for you by blending
+     <b> <font color='#f79f00'>LIC\'s Jeevan Lakshya </font></b>  and <b> <font color='#f79f00'>HDFC Life\'s Click2Protect 3D  </font></b> product.</string>
+
+    <string name="UltraLakshyaHdr">Presenting Ultra Lakshya - a unique solution specially crafted for you by blending LIC\'s Jeevan Lakshya and HDFC Life\'s Click2Protect 3D product.</string>
+
+
+    <string name="buyHdfc"> <b><u> BUY HDFC NOW</u></b></string>
+
+    <string name="motorInfo">  Please insert the Vehicle Number here if you have issued the policy from Magic Finmart last year and are renewing the same. This will enable your proposal form to be auto filled. </string>
+
     <string-array name="ncb_percent">
         <item>0</item>
         <item>20</item>
@@ -362,7 +390,28 @@
         <item>7 PAY</item>
         <item>5 PAY</item>
     </string-array>
-
+    <!--Term lakshya -->
+    <string-array name="lakshya_premium_frequency">
+        <item>Yearly</item>
+        <item>Half Yearly</item>
+        <item>Quarterly</item>
+        <item>Monthly</item>
+    </string-array>
+    <string-array name="lakshya_policyterm">
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+    </string-array>
 
     <!--Term hdfc-->
     <string-array name="hdfc_options">
@@ -542,8 +591,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_add_pospuser">Add POSP</string>
-    <string-array name="motor_subtype_new">
+    <string name="title_activity_add_pospuser">ADD  SUB USER</string>
+    <string-array name="motor_subtype_new_test">
         <item>T.P. Only (3 Yrs)</item>
         <item>Comprehensive (1 Yr) + T.P. (2 Yrs)</item>
         <item>Comprehensive Plan (3 Yrs)</item>
@@ -565,45 +614,55 @@
 
     <string name="title_activity_notification_sms">NOTIFICATION SMS</string>
     <string name="title_activity_generate_lead">GENERATE LEAD</string>
-    <string name="title_activity_income_potential">INCOME POTENTIAl</string>
+    <string name="title_activity_income_potential">Income Calculator</string>
     <string name="title_activity_nav_transactionhistory">TRANSACTION HISTORY</string>
-    <string name="title_activity_contact_lead">CONTACT LEAD</string>
+    <string name="title_activity_contact_lead">Create Contact Lead</string>
     <string name="title_activity_scan_vehicle">SCAN VEHICLE</string>
     <string name="title_activity_vehicle_scan">SCAN VEHICLE</string>
     <string name="title_activity_offline_quotes_list">OFFLINE QUOTES</string>
     <string name="title_activity_add_offline_quotes">ADD OFFLINE QUOTES</string>
     <string name="Finmart_underline"><u>Know Your Magic Finmart</u>.</string>
     <string name="title_activity_messagecenteractivity">Message Center</string>
-    <string name="txtSyncContacts1"><b><big>Sync Contacts:</big></b></string>
+    <string name="txtSyncContacts1"><b><big>Create Contact Lead:</big></b></string>
     <string name="txtSyncContacts">
-        <b><u>What is this Sync Contacts Feature:</u></b>
-        \n
-        At Magic Finmart we are committed to enabling your business. Sync contacts is a feature that enables you to generate leads by marrying your contacts with our data base. This is currently being rolled out for generation of Motor insurance leads but will be available across other products in the future.
- \n \n<b><u>How will it help me:</u></b>
-         \n
+        <b><u>About Creating Contact Lead Feature:</u></b>
+        \nAs part of our continuous efforts in making Magic Finmart more relevant for you, we are launching a new feature - Create Contact Lead. You can use this to generate motor insurance leads by marrying your contacts with our data base. In
+        subsequent app versions, we will make this feature available across other products in the future.
+        \n\nOnce you give your consent the application syncs the contacts in your phone book and checks our database for any motor vehicle the customer may have. Once the contact sync is complete you will get an update with the number of matches found in our database
+        \n\nUpon syncing your contacts with our database, we will return back the Make/ Model/ Sub-Model/ Date of Expiry and other relevant details, as found for all matched contacts. This is then converted into a lead and listed in the lead module of your app. You can see the leads for every month, 6 weeks prior to their expiry date.
+        \n\nPLEASE NOTE: Currently, it takes up to 72 hours for the data to be synced after you have given your permission.
+ \n\n<b><u>Data Safety:</u></b>
+         \nAt Magic Finmart, it is our constant endeavour to enable your business and we believe by opening our databases and giving you access to the same, we will be able to help your business grow. So if you are sharing your contact with us, do note that we are also sharing the data of our customers with you, which has been accumulated by us over the last several years. It is a win-win for all.
+   \n\nWhile the customer details are already in our database, it is our strong belief that in a competitive market scenario, multiple people are trying to sell to the same customer. Still the customer buys insurance from you even today. We want to further empower you and increase your product penetration, that will help you in making your business grow better.
+\n\nThe sale is yours if you are able to close it.
 
-We will use the phone number and sync it with our database. Once we find a match you will be able to get access to the same, you will come to know the make, model, sub model and date of expiry of your contact’s vehicle. This is then converted into a lead for you.
-         \n  \n<b><u>How does this work:</u></b>
-         \n
-Once you give your consent the application syncs the contacts in your phone book and checks our database for any motor vehicle the customer may have. This is then converted into a lead and will reside in the lead module in your back end panel. You can see the leads for every month 6 weeks prior to their expiry date.
-         \n  \n<b><u>How will I know if my leads have been created:</u></b>
-         \n
 
-Once the contact sync is complete you will get an update with the number of matches found in our database. The same will be made available to you in your backend panel. Currently it takes upto 72 hours for the data to be synced after you have given your permission.
-         \n  \n<b><u>How do I know if my data is safe:</u></b>
-         \n
-At Magic Finmart it is our constant endeavour to enable your business and we believe by opening our databases and giving you access to the same we will be able to help your business grow. So if you are sharing your contact with us we are also sharing the data of our customers with you which has been accumulated by us over the last several years. It is a win-win for both of us.
-
-         \n  \n<b><u>How do I know you will not try to reach out to the customer directly:</u></b>
-         \n
-        The customer is already in our database and we have access to them. We do not need your contact to reach out to them. We are enabling you by giving you access to the information we have. In a competitive market scenario multiple people are trying to sell to the same customer. The customer buys from you for a variety of reasons. The sale is yours if you are able to close it.
-  \n  \n<b><u>General Terms &amp; Conditions:</u></b>
+  \n\n<b><u>Terms &amp; Conditions:</u></b>
         \n
         <ul><li>This service is offered in good faith and subject to a fair use policy</li>\n
-            <li>We will enable this for all customers who have paid our onboarding fee</li>\n<li>
+            <li>This feature will be made available only to those customers who have paid our onboarding fee</li>\n<li>
             The system is configured to monitor the number of leads generated to the conversion done from those leads. If there are no conversions we can disable access to this feature.
             </li>\n<li>
-We presume that this feature will be used only for contacts where the customer has a relationship and will not be used to generate data from our database. Any unfair use will also lead to disabling of the feature.
-            </li></ul>
+The system is configured to monitor the number of leads generated, to the conversion done from those leads. If there are no conversions, access to this feature could get disabled.
+            </li>\n<li>
+        This feature is to be used only for contacts where the customer has a relationship, and should not be used to generate data from our database. If found guilty of any unfair use,  access to this feature shall be removed immediately
+       </li> </ul>
     </string>
+    <string name="title_activity_ncd">NCD</string>
+    <string name="title_activity_upload_ncddoc">Upload Document</string>
+    <string name="title_activity_ultra_lakshyadetail">UltraLakshyadetailActivity</string>
+    <string name="title_activity_motor_offline"> OFFLINE MOTOR QUOTE</string>
+    <string name="title_activity_offline_motor_list">OFFLINE MOTOR</string>
+    <string name="title_activity_input_offline_motor">OFFLINE MOTOR</string>
+    <string name="title_activity_offline_health_list_activity">OFFLINE HEALTH
+    </string>
+    <string name="title_activity_input_offline_health">OFFLINE HEALTH</string>
+    <string name="title_activity_offline_health_member_details_dialog">
+        OfflineHealthMemberDetailsDialogActivity
+    </string>
+    <string name="title_activity_send_sms">SMS TEMPLATE</string>
+    <string name="title_activity_insert_contact">FINMART WHATSAPP CHAT</string>
+    <string name="title_activity_ultra_lakshya_detail">UltraLakshyaDetailActivity</string>
+    <string name="title_activity_upload_raise">UploadRaiseActivity</string>
+    <string name="title_activity_view_image_raise_ticket">View Image</string>
 </resources>

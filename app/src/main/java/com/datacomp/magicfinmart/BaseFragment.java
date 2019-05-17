@@ -23,9 +23,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Rohit on 17/01/16.
- */
+
 public class BaseFragment extends Fragment {
     PopUpListener popUpListener;
     ProgressDialog dialog;
@@ -154,18 +152,8 @@ public class BaseFragment extends Fragment {
             mobNumber = mobNumber.replaceAll("\\+", "");
             mobNumber = mobNumber.replaceAll("-", "");
             mobNumber = mobNumber.replaceAll(",", "");
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
             callIntent.setData(Uri.parse("tel:" + mobNumber));
-            if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
             startActivity(callIntent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -226,6 +214,78 @@ public class BaseFragment extends Fragment {
         int year = age;
         cal.add(Calendar.YEAR, -year);
         return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
+    }
+
+    public String getNumbeFormatCommaRuppee(String strAmount) {
+        try {
+
+
+            //  DecimalFormat formatter  = new DecimalFormat("#,###,###");
+            if (strAmount.trim().length() == 0) {
+                return strAmount;
+            } else if (strAmount.toUpperCase().contains("NIL")) {
+                return strAmount;
+            } else if (strAmount.toUpperCase().contains("RS.")) {
+                String strtemp = strAmount.substring(strAmount.toUpperCase().indexOf(".") + 1, strAmount.length()).toString().trim();
+
+                // return "Rs. "+ formatter.format(Long.valueOf(strtemp.toString().trim()));
+                return "\u20B9" + " " + getIndianCurrencyFormat(strtemp);
+
+            } else {
+                return "\u20B9" + " " + getIndianCurrencyFormat(strAmount);
+            }
+
+
+        } catch (Exception ex) {
+            return strAmount;
+        }
+
+
+    }
+
+    public String getNumbeFormatComma(String strAmount) {
+        try {
+
+            if (strAmount.trim().length() == 0) {
+                return strAmount;
+            }
+            if (strAmount.toUpperCase().contains("RS.")) {
+                String strtemp = strAmount.substring(strAmount.toUpperCase().indexOf(".") + 1, strAmount.length()).toString().trim();
+
+                return getIndianCurrencyFormat(strtemp);
+
+            } else {
+                return getIndianCurrencyFormat(strAmount);
+            }
+
+
+        } catch (Exception ex) {
+            return strAmount;
+        }
+
+
+    }
+
+    public String getIndianCurrencyFormat(String amount) {
+        StringBuilder stringBuilder = new StringBuilder();
+        char amountArray[] = amount.toCharArray();
+        int a = 0, b = 0;
+        for (int i = amountArray.length - 1; i >= 0; i--) {
+            if (a < 3) {
+                stringBuilder.append(amountArray[i]);
+                a++;
+            } else if (b < 2) {
+                if (b == 0) {
+                    stringBuilder.append(",");
+                    stringBuilder.append(amountArray[i]);
+                    b++;
+                } else {
+                    stringBuilder.append(amountArray[i]);
+                    b = 0;
+                }
+            }
+        }
+        return stringBuilder.reverse().toString();
     }
 
     public int getAgeFromDate(String birthdate) {
@@ -320,5 +380,10 @@ public class BaseFragment extends Fragment {
         } catch (Exception ex) {
             Toast.makeText(getActivity(), "Please try again..", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    public int dateDifferenceInDays(Date startDate, Date endDate) {
+        return (int) ((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24));
     }
 }

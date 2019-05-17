@@ -1,25 +1,34 @@
 package magicfinmart.datacomp.com.finmartserviceapi;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
@@ -36,6 +45,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 import static android.content.Context.WIFI_SERVICE;
 
@@ -76,6 +86,9 @@ public class Utility {
     public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
 
     public static String USER_DASHBOARD = "user_dashboard";
+    public static String ULTRA_LAKSHYA_HDR_NAME = "ultra_lakshya_hdr_name";
+
+    public static int OFFLINE_REQUEST_CODE = 10;
 
 
     public static SharedPreferences getSharedPreference(Context context) {
@@ -129,7 +142,17 @@ public class Utility {
         return body;
     }
 
+    public static HashMap<String, String> getNCDBody(Context context, String GUID, int DocTyp) {
+        HashMap<String, String> body = new HashMap<String, String>();
 
+
+        body.put("guid", String.valueOf(GUID));
+        body.put("DocType",String.valueOf(DocTyp));
+
+
+
+        return body;
+    }
     public static File createDirIfNotExists() {
         boolean ret = true;
 
@@ -359,7 +382,12 @@ public class Utility {
         if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
             ssid = loginResponseEntity.getPOSPNo();
         String url = BuildConfig.PROPOSAL_BASE_URL;
-        url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+
+        //Changed by 4/4/2019 Umesh C.
+       // https://www.policyboss.com/car-insurance/buynow/2/ARN-CSV3M0BR-FV9L-PIN1-1WVQ-HZMQJGEKHRRJ_10681167_621570/NonPOSP/0
+        //url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+
+        url = url + "car-insurance/buynow/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
 
@@ -370,7 +398,10 @@ public class Utility {
         if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
             ssid = loginResponseEntity.getPOSPNo();
         String url = BuildConfig.PROPOSAL_BASE_URL;
-        url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+        //https://www.policyboss.com/two-wheeler-insurance/buynow/2/ARN-RR6SNRE0-ZQQW-VHKX-BPQ1-Q24ICBRLG5T9_10680516_621536/NonPOSP/0
+       // url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
+
+        url = url + "two-wheeler-insurance/buynow/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
 
@@ -388,5 +419,116 @@ public class Utility {
             browserIntent.setData(Uri.parse(url));
         }
         context.startActivity(browserIntent);
+    }
+
+
+    public static void WritePhoneContact(String displayName, String number, Context cntx /*App or Activity Ctx*/) {
+        Context contetx = cntx; //Application's context or Activity's context
+        String strDisplayName = displayName; // Name of the Person to add
+        String strNumber = number; //number of the person to add with the Contact
+        System.out.println("NAME> " + strDisplayName + "    NUMBER ====>  " + strNumber);
+        ArrayList<ContentProviderOperation> cntProOper = new ArrayList<ContentProviderOperation>();
+        int contactIndex = cntProOper.size();//ContactSize
+
+        //Newly Inserted contact
+        // A raw contact will be inserted ContactsContract.RawContacts table in contacts database.
+        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)//Step1
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null).build());
+
+        //Display name will be inserted in ContactsContract.Data table
+        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)//Step2
+                .withValueBackReference(ContactsContract.RawContacts.Data.RAW_CONTACT_ID, contactIndex)
+                .withValue(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, strDisplayName) // Name of the contact
+                .build());
+        //Mobile number will be inserted in ContactsContract.Data table
+        cntProOper.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)//Step 3
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, contactIndex)
+                .withValue(ContactsContract.RawContacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, strNumber) // Number to be added
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).build()); //Type like HOME, MOBILE etc
+        try {
+            // We will do batch operation to insert all above data
+            //Contains the output of the app of a ContentProviderOperation.
+            //It is sure to have exactly one of uri or count set
+            ContentProviderResult[] contentProresult = null;
+            contentProresult = contetx.getContentResolver().applyBatch(ContactsContract.AUTHORITY, cntProOper); //apply above data insertion into contacts list
+
+            Toast.makeText(cntx,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
+
+        } catch (RemoteException exp) {
+            //logs;
+        } catch (OperationApplicationException exp) {
+            //logs
+        }
+    }
+
+
+    public static boolean isTheNumberExistsinContacts(Context ctx, String phoneNumber) {
+
+        Cursor cur = null;
+        ContentResolver cr = null;
+
+        try {
+            cr = ctx.getContentResolver();
+
+        } catch (Exception ex) {
+            Log.d(TAG, ex.getMessage());
+        }
+
+        try {
+            cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null,
+                    null, null);
+        } catch (Exception ex) {
+            Log.i(TAG, ex.getMessage());
+        }
+
+        try {
+            if (cur.getCount() > 0) {
+                while (cur.moveToNext()) {
+                    String id = cur.getString(cur
+                            .getColumnIndex(ContactsContract.Contacts._ID));
+                    String name = cur
+                            .getString(cur
+                                    .getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    // Log.i("Names", name);
+                    if (Integer
+                            .parseInt(cur.getString(cur
+                                    .getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                        // Query phone here. Covered next
+                        Cursor phones = ctx
+                                .getContentResolver()
+                                .query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                        null,
+                                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                                                + " = " + id, null, null);
+                        while (phones.moveToNext()) {
+                            String phoneNumberX = phones
+                                    .getString(phones
+                                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            // Log.i("Number", phoneNumber);
+
+                            phoneNumberX = phoneNumberX.replace(" ", "");
+                            phoneNumberX = phoneNumberX.replace("(", "");
+                            phoneNumberX = phoneNumberX.replace(")", "");
+                            if (phoneNumberX.contains(phoneNumber)) {
+                                phones.close();
+                                return true;
+
+                            }
+
+                        }
+                        phones.close();
+                    }
+
+                }
+            }
+        } catch (Exception ex) {
+            Log.i(TAG, ex.getMessage());
+
+        }
+
+        return false;
     }
 }

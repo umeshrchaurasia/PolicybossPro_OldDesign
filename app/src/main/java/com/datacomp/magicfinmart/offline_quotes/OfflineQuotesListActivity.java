@@ -17,6 +17,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -28,7 +29,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInput
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
 
 public class OfflineQuotesListActivity extends BaseActivity implements IResponseSubcriber {
-
+    public static final String OFFLINE_FROM = "offline_from_list";
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     RecyclerView rvOffline;
@@ -52,12 +53,9 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(OfflineQuotesListActivity.this, AddOfflineQuotesActivity.class));
+              //  startActivity(new Intent(OfflineQuotesListActivity.this, AddOfflineQuotesActivity.class));
             }
         });
-
-        showDialog();
-        new OfflineQuotesController(this).getOfflineQuote(OfflineQuotesListActivity.this);
 
     }
 
@@ -78,10 +76,19 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
       //  Toast.makeText(this,""+strName,Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, CommonWebViewActivity.class)
                 .putExtra("URL", docuEntity.getDocument_path())
-                .putExtra("NAME", "" + docuEntity.getDocument_name())
+                .putExtra("NAME", "OfflineQuotes")
                 .putExtra("TITLE", "" +docuEntity.getDocument_name()));
 
     }
+    public void redirectToEdit(OfflineQuoteEntity quoteEntity )
+    {
+        Intent intent  = new Intent(this,AddOfflineQuotesActivity.class);
+        intent.putExtra(OFFLINE_FROM,quoteEntity);
+        startActivity(intent);
+
+    }
+
+
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -103,5 +110,14 @@ public class OfflineQuotesListActivity extends BaseActivity implements IResponse
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        showDialog();
+        new OfflineQuotesController(this).getOfflineQuote(OfflineQuotesListActivity.this);
+
     }
 }

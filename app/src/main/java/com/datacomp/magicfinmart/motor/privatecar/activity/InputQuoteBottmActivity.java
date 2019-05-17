@@ -16,6 +16,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorLeadFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -39,6 +40,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     public static String MOTOR_INPUT_REQUEST = "input_request_entity";
     public static String MOTOR_QUOTE_REQUEST = "quote_request_entity";
+    public static String MOTOR_LEAD_ID = "motor_lead_id";
 
     BottomNavigationView bottomNavigationView;
     Bundle quoteBundle;
@@ -89,7 +91,8 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
 
-        } else if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
+        }  // Note : when we click on Lead tab
+        else if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
             QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
             if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
 
@@ -105,6 +108,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 //2. create bundle
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity.getMotorRequestEntity());
+
                 quoteBundle = bundle;
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
@@ -116,7 +120,39 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
-        } else {
+        }  else if (getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE) != null) {
+            QuoteListEntity entity = getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE);
+            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
+
+                //update counetr to hit  two times only to manage multiple hits
+                Utility.getSharedPreferenceEditor(this).putInt(Utility.QUOTE_COUNTER,
+                        MotorController.NO_OF_SERVER_HITS - 1)
+                        .commit();
+                //1. update srn in preference
+                Utility.getSharedPreferenceEditor(this).
+                        putString(Utility.CARQUOTE_UNIQUEID, entity.getSRN()).commit();
+
+
+                //2. create bundle
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity.getMotorRequestEntity());
+                bundle.putString(MOTOR_LEAD_ID, String.valueOf(entity.getLeadId()));
+                quoteBundle = bundle;
+
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            }else {
+                //send to Input
+                //modify
+                quoteBundle = new Bundle();
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity.getMotorRequestEntity());
+                quoteBundle.putString(MOTOR_LEAD_ID, String.valueOf(entity.getLeadId()));
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            }
+        }
+
+        else {
             //first input fragment load
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         }
@@ -272,11 +308,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
         }
     }
 
-    public void getQuoteParameterBundle(MotorRequestEntity entity) {
+    public void getQuoteParameterBundle(MotorRequestEntity entity, String MOTOR_LEAD_ID) {
 
         motorRequestEntity = entity;
         quoteBundle = new Bundle();
         quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST, motorRequestEntity);
+        quoteBundle.putString(InputQuoteBottmActivity.MOTOR_LEAD_ID,MOTOR_LEAD_ID);
 
         if (motorRequestEntity == null)
             Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();

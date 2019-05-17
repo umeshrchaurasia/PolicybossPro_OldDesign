@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.R;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.AsyncLoanCityConstant;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder.ERPRequestBuilder;
@@ -21,8 +22,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveRespo
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GenerateHLLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LeadResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LoanCityResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.citywisebankloanResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -320,7 +323,90 @@ public class ErpLoanController implements IErpLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getcityloan(final IResponseSubcriberERP iResponseSubcriber) {
+
+        erpNetworkService.getcityloan().enqueue(new Callback<LoanCityResponse>() {
+            @Override
+            public void onResponse(Call<LoanCityResponse> call, Response<LoanCityResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusId() == 0) {
+                        new AsyncLoanCityConstant(mContext, response.body()).execute();
+                        if (iResponseSubcriber != null) {
+                            iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
+                        } else {
+                            if (iResponseSubcriber != null) {
+                                iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                            }
+                        }
+                    }
+                } else {
+                    if (iResponseSubcriber != null) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Please try again"));
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoanCityResponse> call, Throwable t) {
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                    } else if (t instanceof JsonParseException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
+                    }
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void getCitywiseBankListloan(String cityid, String Productid, final IResponseSubcriberERP iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("cityId", cityid);
+        body.put("prodId", Productid);
+
+        erpNetworkService.getCitywiseBankListloan(body).enqueue(new Callback<citywisebankloanResponse>() {
+            @Override
+            public void onResponse(Call<citywisebankloanResponse> call, Response<citywisebankloanResponse> response) {
+                try {
+                    if (response.body().getStatusId() == 0) {
+                        iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+
+                } catch (Exception e) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<citywisebankloanResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof JsonParseException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }

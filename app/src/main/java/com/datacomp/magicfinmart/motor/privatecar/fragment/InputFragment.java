@@ -2,6 +2,8 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -12,11 +14,13 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.format.DateUtils;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +35,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
@@ -46,6 +51,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
+import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -63,6 +69,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
@@ -74,6 +81,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtyp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
@@ -82,6 +90,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnResponse;
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
@@ -104,6 +113,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     String regNo = "";
     Switch switchNewRenew;
 
+    String LeadId = "0";
     MotorRequestEntity motorRequestEntity;
     FastLaneDataEntity fastLaneResponseEntity;
     ConstantEntity constantEntity;
@@ -130,7 +140,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter, ncbPerctAdapter;
     String modelId, varientId;
     String regplace, makeModel = "";
-    boolean isClaimExist = true;
+    boolean isClaimExist, isPolicyExist = true;
 
     LocationTracker locationTracker;
     Location location;
@@ -149,6 +159,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
 
     boolean sendOldCrn = true;
+    ImageView imgInfo;
+    AlertDialog infoDialog;
+
+
+    TextView txtExistingPolicyYes, txtExistingPolicyNo;
+    LinearLayout llExistingPolicy, llExp;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -195,8 +211,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
+                LeadId = getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID,"0");
                 tvDontKnow.performClick();
                 bindInputsQuotes();
+
+                //disable if crn exist
+                disableInputs();
             }
         }
 
@@ -208,13 +228,49 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     //region binding parameter
 
+    private void disableInputs() {
+
+        if (motorRequestEntity != null
+                && motorRequestEntity.getCrn() != null
+                && !motorRequestEntity.getCrn().equalsIgnoreCase("")) {
+
+            acMakeModel.setEnabled(false);
+            spFuel.setEnabled(false);
+            spVarient.setEnabled(false);
+            acRto.setEnabled(false);
+            txtExistingPolicyYes.setEnabled(false);
+            txtExistingPolicyNo.setEnabled(false);
+        } else {
+            acMakeModel.setEnabled(true);
+            spFuel.setEnabled(true);
+            spVarient.setEnabled(true);
+            acRto.setEnabled(true);
+            txtExistingPolicyYes.setEnabled(true);
+            txtExistingPolicyNo.setEnabled(true);
+        }
+
+        try {
+            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+
+            if (day > 90) {
+                llNoClaim.setVisibility(View.GONE);
+                cvNcb.setVisibility(View.GONE);
+            } else {
+                llNoClaim.setVisibility(View.VISIBLE);
+                cvNcb.setVisibility(View.VISIBLE);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void bind_init_binders() {
 
-        //fetching initial data
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getCarMakeModel();
-        prevInsurerList = dbController.getInsurerList();
+        prevInsurerList = dbController.getInsurerMasterList();
         fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");
         //region Autocomplete Make Model
@@ -517,6 +573,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
+    //region bind form
 
     private void bindInputsQuotes() {
 
@@ -532,6 +589,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 switchNewRenew.setChecked(false);
             }
         }
+
 
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
@@ -615,7 +673,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
-                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
+                String insName = dbController.getInsurerNameMaster("" + motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
                         prevInsurerIndex = i;
@@ -664,24 +722,16 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         try {
 
 
-            //commented by Nilesh 12.10.2018
-
-            /*Date ManfDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(ManfDate);
-            setYearMonthAdapter(calendar);*/
-
-
-            etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
-
-            etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
-
-
             //By Nilesh 12.10.2018
             Date regDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(regDate);
             setYearMonthAdapter(calendar);
+
+
+            etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
+
+            etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
 
 
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
@@ -694,16 +744,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 spPrevIns.setEnabled(false);
             }
 
-
-            //etExpDate.setText(displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-
-
-            /*
-            etRegDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date())));
-
-            etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
-
-            etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));*/
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
                 int ncbPercent = 0;
                 if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
@@ -712,10 +752,17 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 } else {
                     setSeekbarProgress(ncbPercent);
                 }
-                //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+
             } else {
                 tvClaimYes.performClick();
             }
+
+            if (motorRequestEntity.getIs_policy_exist().equals("yes")) {
+                txtExistingPolicyYes.performClick();
+            } else {
+                txtExistingPolicyNo.performClick();
+            }
+
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -727,9 +774,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void bindFastLaneData(FastLaneDataEntity masterData) {
 
         insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
-        /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
-                insuranceSubtypeEntities);
-        spInsSubTYpe.setAdapter(subTypeAdapter);*/
         setSubTypeAdapterView(insuranceSubtypeEntities);
         String vehicleID = masterData.getVariant_Id();
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(vehicleID);
@@ -806,15 +850,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 if (masterData.getRegistration_Date() != null) {
                     calendarReg.setTime(fastLaneDateFormat.parse(masterData.getRegistration_Date()));
                     etRegDate.setText(getDisplayDateFormatFastLane(masterData.getRegistration_Date()));
-
-
-                    //String reg = changeDateFormat(masterData.getRegistration_Date());
-                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    //calendarReg.setTime(displayFormat.parse(regDate));
-                    //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
 
-                if (masterData.getManufacture_Year() != null) {
+                if (masterData.getManufacture_Year() != null
+                        && !masterData.getManufacture_Year().equalsIgnoreCase("0")
+                        && !masterData.getManufacture_Year().equalsIgnoreCase("")) {
+
                     String mfDate = "";
                     int month = calendarReg.get(Calendar.MONTH) + 1;
                     if (month <= 9)
@@ -831,22 +872,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     setYearMonthAdapterFastlane(Calendar.getInstance());
                 }
 
-                /*if (masterData.getPurchase_Date() != null) {
-                    String mf = changeDateFormat(masterData.getPurchase_Date());
-                    String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
-                    etMfgDate.setText(mfDate);
-                    //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getPurchase_Date())));
-                } else {
-                    String mf = changeDateFormat(masterData.getRegistration_Date());
-                    String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
-                    etMfgDate.setText(mfDate);
-                    //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getRegistration_Date())));
-                }*/
-                // etCC.setText("" + masterData.getCubic_Capacity() + "CC");
                 etExpDate.setEnabled(true);
 
                 etCC.setText(carMasterEntity.getCubic_Capacity() + "CC");
-                //  setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -857,6 +886,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
     }
+
+    //endregion
 
     //endregion
 
@@ -884,9 +915,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     spVarient.setSelection(0);
                     etCC.setText("");
 
-//                    variantList.clear();
-//                    variantList.addAll(dbController.getVariantbyModelID(modelId));
-//                    varientAdapter.notifyDataSetChanged();
                 } else {
                     acMakeModel.requestFocus();
                     acMakeModel.setError("Enter Make,Model");
@@ -896,23 +924,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         });
 
-
-        /*spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
-                        || fuelList.get(position).equals(Constants.EXTERNAL_CNG)) {
-                    etExtValue.setEnabled(true);
-                } else {
-                    etExtValue.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                etExtValue.setEnabled(false);
-            }
-        });*/
         //endregion
 
         //region cubic capacity
@@ -931,9 +942,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         }
                         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                     }
-
-                    /*if (varientId != null && !varientId.equals(""))
-                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));*/
 
                 }
 
@@ -1081,13 +1089,29 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
                 if (switchNewRenew.isChecked()) {
                     if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
-                        cvNcb.setVisibility(View.GONE);
+                        //cvNcb.setVisibility(View.GONE);
                         llNoClaim.setVisibility(View.INVISIBLE);
                         tvClaimYes.performClick();
+                        etExpDate.setText("");
                     } else {
-                        cvNcb.setVisibility(View.VISIBLE);
-                        llNoClaim.setVisibility(View.VISIBLE);
-                        setNcb();
+                        //cvNcb.setVisibility(View.VISIBLE);
+                        try {
+                            int day = dateDifferenceInDays(Calendar.getInstance().getTime(),
+                                    displayFormat.parse(etExpDate.getText().toString()));
+
+                            if (day > 90) {
+                                llNoClaim.setVisibility(View.INVISIBLE);
+
+                            } else {
+                                llNoClaim.setVisibility(View.VISIBLE);
+                                tvClaimNo.performClick();
+                                setNcb();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
                 }
             }
@@ -1132,15 +1156,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void setSubTypeAdapter() {
         if (switchNewRenew.isChecked()) {
             insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
-            /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
-                    insuranceSubtypeEntities);
-            spInsSubTYpe.setAdapter(subTypeAdapter);*/
             setSubTypeAdapterView(insuranceSubtypeEntities);
         } else {
             insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
-            /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
-                    insuranceSubtypeEntities);
-            spInsSubTYpe.setAdapter(subTypeAdapter);*/
             setSubTypeAdapterView(insuranceSubtypeEntities);
         }
     }
@@ -1195,6 +1213,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     private void setListener() {
+        imgInfo.setOnClickListener(this);
         rgExpiry.setOnCheckedChangeListener(this);
         rgNewRenew.setOnCheckedChangeListener(this);
         btnGo.setOnClickListener(this);
@@ -1213,6 +1232,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         etRegDate.setOnClickListener(datePickerDialog);
         etMfgDate.setOnClickListener(datePickerDialog);
         etExpDate.setOnClickListener(datePickerDialog);
+
+        txtExistingPolicyNo.setOnClickListener(this);
+        txtExistingPolicyYes.setOnClickListener(this);
 
         acRto.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1348,6 +1370,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         rbDontHAve = view.findViewById(R.id.rbDontHAve);
         rbWithIn = view.findViewById(R.id.rbWithIn);
         rbBeyond = view.findViewById(R.id.rbBeyond);
+        imgInfo = (ImageView) view.findViewById(R.id.imgInfo);
+
+        txtExistingPolicyYes = view.findViewById(R.id.txtExistingPolicyYes);
+        txtExistingPolicyNo = view.findViewById(R.id.txtExistingPolicyNo);
+        llExistingPolicy = view.findViewById(R.id.llExistingPolicy);
+        llExp = view.findViewById(R.id.llExp);
     }
 
     @Override
@@ -1392,11 +1420,18 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
                 break;
+            case R.id.imgInfo:
+                InfomationAlert("Information", getActivity().getResources().getString(R.string.motorInfo));
+                break;
             case R.id.tvClaimNo:
                 isClaimExist = false;
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder_blue);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder);
-                cvNcb.setVisibility(View.VISIBLE);
+                if (isPolicyExist) {
+                    cvNcb.setVisibility(View.VISIBLE);
+                } else {
+                    cvNcb.setVisibility(View.GONE);
+                }
                 sbNoClaimBonus.setEnabled(true);
                 break;
             case R.id.tvClaimYes:
@@ -1408,6 +1443,47 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 tvProgress.setText("Existing NCB");
                 sbNoClaimBonus.setProgress(0);
                 break;
+
+            case R.id.txtExistingPolicyNo:
+
+                Toast.makeText(getActivity(), "Your policy will not issue instantly, It will issue after inspection.", Toast.LENGTH_SHORT).show();
+
+                isPolicyExist = false;
+                txtExistingPolicyNo.setBackgroundResource(R.drawable.customeborder_blue);
+                txtExistingPolicyYes.setBackgroundResource(R.drawable.customeborder);
+                etExpDate.setText("");
+                etExpDate.setVisibility(View.GONE);
+                spPrevIns.setVisibility(View.GONE);
+                cvNcb.setVisibility(View.GONE);
+                llExp.setVisibility(View.GONE);
+                llNoClaim.setVisibility(View.INVISIBLE);
+                break;
+
+            case R.id.txtExistingPolicyYes:
+                InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+
+                isPolicyExist = true;
+                txtExistingPolicyYes.setBackgroundResource(R.drawable.customeborder_blue);
+                txtExistingPolicyNo.setBackgroundResource(R.drawable.customeborder);
+                if (switchNewRenew.isChecked()) {
+                    etExpDate.setVisibility(View.VISIBLE);
+                    spPrevIns.setVisibility(View.VISIBLE);
+                    cvNcb.setVisibility(View.VISIBLE);
+                    llNoClaim.setVisibility(View.VISIBLE);
+                    llExp.setVisibility(View.VISIBLE);
+                }
+
+                if (insuranceSubtypeEntity.getCode().equalsIgnoreCase("0CH_1TP")) {
+                    etExpDate.setVisibility(View.VISIBLE);
+                    etExpDate.setText("");
+                    cvNcb.setVisibility(View.GONE);
+                    llNoClaim.setVisibility(View.INVISIBLE);
+                    llExp.setVisibility(View.VISIBLE);
+                } else {
+                    llNoClaim.setVisibility(View.VISIBLE);
+                    cvNcb.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.btnGetQuote:
 
 
@@ -1418,12 +1494,86 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     } else {
                         setInputParametersNewCAR();
                     }
-                    if (constantEntity.getLogtracking().equals("0"))
+                    if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
 
                     MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "GET QUOTE MOTOR", "GET QUOTE MOTOR");
-                    showDialog(getResources().getString(R.string.fetching_msg));
-                    new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
+
+                    try {
+
+                        boolean isBreakIn = false;
+                        boolean isYesterday = false;
+
+                        if (!isPolicyExist) {
+                            motorRequestEntity.setIs_breakin("yes");
+                            motorRequestEntity.setIs_policy_exist("no");
+                        } else {
+                            motorRequestEntity.setIs_breakin("no");
+                            motorRequestEntity.setIs_policy_exist("yes");
+                        }
+
+
+                        if (etExpDate.getText().toString().equalsIgnoreCase("")) {
+                            //new
+                            isBreakIn = false;
+                        } else {
+                            isYesterday =
+                                    DateUtils.isToday(displayFormat.parse(etExpDate.getText().toString()).getTime()
+                                            + DateUtils.DAY_IN_MILLIS);
+
+                            //for before todays Date
+                            final Calendar calendar = Calendar.getInstance();
+
+                            calendar.add(Calendar.DATE, -1);
+
+                            if (!swIndividual.isChecked()
+                                    || isYesterday
+                                    || displayFormat.parse(etExpDate.getText().toString()).before(calendar.getTime())) {
+
+                                isBreakIn = true;
+                                motorRequestEntity.setIs_breakin("yes");
+                                Toast.makeText(getActivity(), "Your policy will not issue instantly, It will issue after inspection.", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+
+                        //expiry date above 90 days
+                        if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
+                            motorRequestEntity.setIs_claim_exists("yes");
+                            motorRequestEntity.setVehicle_ncb_current("0");
+                        }
+
+                        if (isBreakIn) {
+                            SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+                            entity.setMotorRequestEntity(motorRequestEntity);
+                            entity.setSRN("");
+                            entity.setComment("");
+                            entity.setVehicleRequestID("");
+                            entity.setIsActive(1);
+
+                            if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                                    && !userConstantEntity.getParentid().equals("0")) {
+                                entity.setFba_id("" + Integer.parseInt(userConstantEntity.getParentid()));
+                            } else {
+                                entity.setFba_id("" + userConstantEntity.getFBAId());
+                            }
+
+                            showDialog("Please wait...");
+                            new MotorController(getActivity()).saveMotorBreakIn(entity, null);
+                            new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
+                        } else {
+                            showDialog(getResources().getString(R.string.fetching_msg));
+                            new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
+
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
 
                 break;
@@ -1445,7 +1595,21 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
         motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
         motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
-        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+
+        //added ny Nilesh 08/02/2019
+        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+        if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                && !userConstantEntity.getParentid().equals("0")) {
+            motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
+            motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
+        } else {
+            motorRequestEntity.setSub_fbaid("0");
+            motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+        }
+
+
         try {
             motorRequestEntity.setMac_address(Utility.getMacAddress(getActivity()));
         } catch (IOException e) {
@@ -1467,7 +1631,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private void insertFastlaneLog() {
         try {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Fastlane :  " + regNo), Constants.FASTLANE), null);
 
         } catch (Exception e) {
@@ -1512,7 +1676,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
 
 
-        if (switchNewRenew.isChecked()) {
+        if (switchNewRenew.isChecked() && isPolicyExist) {
             if (!isEmpty(etExpDate)) {
                 etExpDate.requestFocus();
                 etExpDate.setError("Enter Expiry Date");
@@ -1976,35 +2140,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                                 etRegDate.setTag(R.id.etRegDate, calendar);
                                 etRegDate.setError(null);
-                                /*Calendar calendar1 = Calendar.getInstance();
-                                calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
-                                String expDate = simpleDateFormat.format(calendar1.getTime());
-                                etExpDate.setText(expDate);*/
+
                             }
                         }
                     });
 
-                    /*DateTimePicker.testDatePicker(view.getContext(), (Calendar) view.getTag(R.id.etRegDate), new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-
-                            if (view1.isShown()) {
-                                Calendar calendar = Calendar.getInstance();
-                                Calendar calSetPrev = Calendar.getInstance();
-                                calendar.set(year, monthOfYear, dayOfMonth);
-                                calSetPrev.set(year, monthOfYear, dayOfMonth);
-                                String currentDay = displayFormat.format(calendar.getTime());
-                                etRegDate.setTag(R.id.etRegDate, calSetPrev);
-                                etRegDate.setText(currentDay);
-
-                                calendar.set(year, monthOfYear, 01);
-                                String currentDay1 = displayFormat.format(calendar.getTime());
-                                etMfgDate.setText(currentDay1);
-                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
-
-                            }
-                        }
-                    });*/
 
                     //endregion
                 } else {
@@ -2014,12 +2154,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         @Override
                         public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                             if (view1.isShown()) {
-                                /*Calendar calendar = Calendar.getInstance();
-                                calendar.set(year, monthOfYear, dayOfMonth);
-                                String currentDay = displayFormat.format(calendar.getTime());
-                                etRegDate.setText(currentDay);
-                                etMfgDate.setText(currentDay);
-                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));*/
 
                                 Calendar calendar = Calendar.getInstance();
                                 calendar.set(year, monthOfYear, dayOfMonth);
@@ -2058,23 +2192,63 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     }
                 }
 
-                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            spPrevIns.setEnabled(true);
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = displayFormat.format(calendar.getTime());
-                            etExpDate.setText(currentDay);
-                            etExpDate.setError(null);
-//                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
-//                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-//                                setSeekbarProgress(yearDiff);
-//                            }
+
+                //commented by Nilesh
+                //Break in case applied
+                InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+
+                //if 1-Year TP only back date disable
+                if (insuranceSubtypeEntity.getCode().equalsIgnoreCase("0CH_1TP")) {
+                    DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                            if (view.isShown()) {
+                                spPrevIns.setEnabled(true);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, month, dayOfMonth);
+                                String currentDay = displayFormat.format(calendar.getTime());
+                                etExpDate.setText(currentDay);
+                                etExpDate.setError(null);
+                            }
                         }
-                    }
-                });
+                    });
+                } else {
+
+                    // DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                    DateTimePicker.policyBreakInExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                spPrevIns.setEnabled(true);
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = displayFormat.format(calendar.getTime());
+                                etExpDate.setText(currentDay);
+                                etExpDate.setError(null);
+
+                                if (switchNewRenew.isChecked()) {
+                                    int day = dateDifferenceInDays(Calendar.getInstance().getTime(), calendar.getTime());
+
+                                    if (day > 90) {
+                                        llNoClaim.setVisibility(View.INVISIBLE);
+                                        cvNcb.setVisibility(View.GONE);
+                                    } else {
+
+                                        if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
+                                            llNoClaim.setVisibility(View.INVISIBLE);
+                                            cvNcb.setVisibility(View.GONE);
+                                        } else {
+                                            llNoClaim.setVisibility(View.VISIBLE);
+                                            cvNcb.setVisibility(View.VISIBLE);
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
             }
             //endregion
 
@@ -2118,8 +2292,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private void setInputParametersNewCAR() {
         // motorRequestEntity.setBirth_date("1992-01-01");
-
-
         motorRequestEntity.setProduct_id(1);
         varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
@@ -2138,7 +2310,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
         motorRequestEntity.setPolicy_expiry_date("");
         motorRequestEntity.setPrev_insurer_id(0);
-        motorRequestEntity.setVehicle_registration_type("individual");
+
+        if (swIndividual.isChecked()) {
+            motorRequestEntity.setVehicle_registration_type("individual");
+        } else {
+            motorRequestEntity.setVehicle_registration_type("company");
+        }
+        //motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setVehicle_ncb_current("0");
         motorRequestEntity.setIs_claim_exists("yes");
         motorRequestEntity.setMethod_type("Premium");
@@ -2151,11 +2329,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("");
+        motorRequestEntity.setPa_owner_driver_si("1500000");
         //motorRequestEntity.setPa_owner_driver_si("");
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
-        motorRequestEntity.setPa_paid_driver_si("0");
+        motorRequestEntity.setPa_paid_driver_si("");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
         motorRequestEntity.setMiddle_name(" ");
@@ -2192,8 +2370,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void setInputParametersReNewCar() {
         if (fastLaneResponseEntity != null) {
             try {
-                /*motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
-                motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
                 varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
                 motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
@@ -2201,8 +2377,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
-                //motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
-                //motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
                 motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
             } catch (Exception e) {
@@ -2212,10 +2386,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
             motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
-            //motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
             try {
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
-                //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
                 motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
             } catch (Exception e) {
@@ -2226,12 +2398,20 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 motorRequestEntity.setRegistration_no(getRegistrationNo());
         }
 
-        motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        if (spPrevIns.getSelectedItemPosition() == 0) {
+            motorRequestEntity.setPrev_insurer_id(0);
+        } else {
+            motorRequestEntity.setPrev_insurer_id(Integer.parseInt(dbController.getInsurerMasterID(spPrevIns.getSelectedItem().toString())));
+        }
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("renew");
-        motorRequestEntity.setVehicle_registration_type("individual");
+        if (swIndividual.isChecked()) {
+            motorRequestEntity.setVehicle_registration_type("individual");
+        } else {
+            motorRequestEntity.setVehicle_registration_type("company");
+        }
         motorRequestEntity.setMethod_type("Premium");
 
         if (isClaimExist) {
@@ -2249,16 +2429,19 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("");
+
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
-        motorRequestEntity.setPa_paid_driver_si("0");
+        motorRequestEntity.setPa_paid_driver_si("");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("finmarttest@gmail.com");
+        motorRequestEntity.setPa_owner_driver_si("1500000");
+
+
         if (sendOldCrn) {
 
         } else {
@@ -2316,10 +2499,32 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new PolicybossTrackingResponse((BikeUniqueResponse) response).execute();
-            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity);
+            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity,LeadId);
+        } else if (response instanceof SaveAddOnResponse) {
+            dialogBreakIn(((SaveAddOnResponse) response).getMessage());
         }
+
+    }
+
+    public void dialogBreakIn(String msg) {
+
+        AlertDialog.Builder build = new AlertDialog.Builder(getActivity());
+        build.setTitle("");
+        build.setMessage(msg);
+        build.setCancelable(false);
+
+        build.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        getActivity().finish();
+                    }
+                });
+        AlertDialog alertDialog = build.create();
+        alertDialog.show();
 
     }
 
@@ -2329,7 +2534,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (response instanceof FastLaneDataResponse) {
 
             cancelDialog();
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new PolicybossTrackingFastlnaeResponse((FastLaneDataResponse) response).execute();
             if (response.getStatusNo() == 0) {
                 if (!((FastLaneDataResponse) response).getMasterData().getVariant_Id().equals("0")) {
@@ -2382,7 +2587,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         try {
             newDate = displayFormat.parse(date);
         } catch (ParseException e) {
-            e.printStackTrace();
+            return "";
         }
 
         return policyBossDateFormat.format(newDate);
@@ -2440,15 +2645,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         sbNoClaimBonus.setProgress(progress);
         tvProgress.setText("Existing NCB (" + percent + "%)");
 
-         /*if (yearDiff >= 5) {
-            tvClaimNo.performClick();
-            sbNoClaimBonus.setProgress(5);
-            tvProgress.setText("Existing NCB (" + getPercentFromProgress(5) + "%)");
-        } else {
-            tvClaimNo.performClick();
-            sbNoClaimBonus.setProgress(yearDiff);
-            tvProgress.setText("Existing NCB (" + getPercentFromProgress(yearDiff) + "%)");
-        }*/
     }
 
     @Override
@@ -2457,9 +2653,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             if (b) {
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "RENEW_QUOTE", "Renew motor quote");
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
-                /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
-                        insuranceSubtypeEntities);
-                spInsSubTYpe.setAdapter(subTypeAdapter);*/
+
                 setSubTypeAdapterView(insuranceSubtypeEntities);
 
                 tvRenew.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -2468,6 +2662,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
                 llNoClaim.setVisibility(View.VISIBLE);
+                llExistingPolicy.setVisibility(View.VISIBLE);
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
             } else {
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "NEW_QUOTE", "new motor quote");
@@ -2479,6 +2674,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
                 etExpDate.setEnabled(false);
+                llExistingPolicy.setVisibility(View.GONE);
 //                spPrevIns.setSelection(0);
                 spPrevIns.setEnabled(false);
 
@@ -2492,8 +2688,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             if (!b) {
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "COMPANY", " motor quote");
                 //openPop up
-                swIndividual.setChecked(true);
-                openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
+                // swIndividual.setChecked(true);
+                // openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
                 //showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
             } else {
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "INDIVDUAL", " motor quote");
@@ -2669,6 +2865,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
 
+    //region tracking
+
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
         MotorRequestEntity motorRequestEntity;
         String requestJson = "";
@@ -2686,7 +2884,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         @Override
         protected void onPostExecute(String s) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_REQUEST), null);
 
 
@@ -2710,7 +2908,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         @Override
         protected void onPostExecute(String s) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_RESPONSE), null);
 
 
@@ -2734,14 +2932,104 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         @Override
         protected void onPostExecute(String s) {
-            if (constantEntity.getLogtracking().equals("0"))
+            if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_FASTLANE_RESPONSE), null);
         }
+
     }
+
+    //endregion
 
     @Override
     public void onPause() {
         super.onPause();
         sendOldCrn = true;
+    }
+
+    public void InfomationAlert(String Title, String strBody) {
+
+        if (infoDialog != null && infoDialog.isShowing()) {
+
+            return;
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.CustomDialog);
+
+
+            Button btnAllow, btnReject;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            View viewSeperator;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_insert_contact_popup, null);
+
+            builder.setView(dialogView);
+            infoDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+            viewSeperator = (View) dialogView.findViewById(R.id.viewSeperator);
+
+            btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+            btnReject = (Button) dialogView.findViewById(R.id.btnReject);
+            txtTile.setText(Title);
+            txtBody.setText(strBody);
+            btnAllow.setVisibility(View.GONE);
+            btnReject.setVisibility(View.GONE);
+            viewSeperator.setVisibility(View.GONE);
+
+
+            btnAllow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    infoDialog.dismiss();
+
+                    //  Toast.makeText(HomeActivity.this,"Contact Saved Successfully..",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            btnReject.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    infoDialog.dismiss();
+
+                }
+            });
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    infoDialog.dismiss();
+
+                }
+            });
+            infoDialog.setCancelable(true);
+            infoDialog.show();
+        }
+
+        class PolicybossTrackingFastlnaeResponse extends AsyncTask<Void, Void, String> {
+            FastLaneDataResponse fastLaneDataResponse;
+            String response = "";
+
+            public PolicybossTrackingFastlnaeResponse(FastLaneDataResponse fastLaneDataResponse) {
+                this.fastLaneDataResponse = fastLaneDataResponse;
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+
+                response = gson.toJson(fastLaneDataResponse);
+                return response;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                if (constantEntity.getLogtracking().equals("0"))
+                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.TWO_WHEELER_FASTLANE_RESPONSE), null);
+            }
+        }
     }
 }

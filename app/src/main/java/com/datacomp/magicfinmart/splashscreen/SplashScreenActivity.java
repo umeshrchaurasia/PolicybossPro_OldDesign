@@ -11,21 +11,23 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.introslider.WelcomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.utility.AsyncUserBehaviour;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.LoanCityFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
 
 public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber,
         magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber {
@@ -43,15 +45,23 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
-//        Utility.LOGIN_IP = Utility.getLocalIpAddress(this);
 
-        // By default set to 1.
-        //prefManager.updateMotorVersion("1");
+        new MasterController(this).getInsurerList();
+
+        if (new LoanCityFacade(this) != null) {
+            if (new LoanCityFacade(this).getLoanCity() == null) {
+                new ErpLoanController(this).getcityloan(null);
+            }
+        }
+
 
         // for user constant
         if (loginResponseEntity != null) {
+            //reset user behaviour flag to send data on every app launch
+            prefManager.saveUserbehaviourState(false);
             new MasterController(this).geUserConstant(0, this);
             new MasterController(this).getConstants(this);
+
         }
        /* if (userConstantEntity != null) {
             new MasterController(this).geUserConstant(0, this);
@@ -71,6 +81,10 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
             startActivity(new Intent(this, WelcomeActivity.class));
         } else {
+
+            //user behaviour data collection in Async
+            new AsyncUserBehaviour(this).execute();
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -82,6 +96,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
                     } else {
+
 
                         if (prefManager.IsBikeMasterUpdate())
                             new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
@@ -100,27 +115,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
                     }
-                   /* if (loginResponseEntity != null) {
-                        //Toast.makeText(SplashScreenActivity.this, "User exist!", Toast.LENGTH_SHORT).show();
-                        //TODO Redirect to homeactivity
-                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-                    } else {
-                        if (checkAllMastersIsUpdate()) {
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                        } else {
-                            if (prefManager.IsBikeMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
-                            if (prefManager.IsCarMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getCarMaster(SplashScreenActivity.this);
-                            if (prefManager.IsRtoMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getRTOMaster(SplashScreenActivity.this);
-                            if (prefManager.IsInsuranceMasterUpdate())
-                                new MasterController(SplashScreenActivity.this).getInsuranceMaster(SplashScreenActivity.this);
-                            if (prefManager.getIsRblCityMaster())
-                                new CreditCardController(SplashScreenActivity.this).getRblCityMaster(SplashScreenActivity.this);
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                        }
-                    }*/
+
                 }
             }, SPLASH_DISPLAY_LENGTH);
         }
@@ -157,6 +152,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             Log.d("Test", "success");
         }
     }
+
 
     @Override
     public void OnFailure(Throwable t) {

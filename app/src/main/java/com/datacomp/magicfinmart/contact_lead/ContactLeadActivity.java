@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.contact_lead;
 
+import android.app.AlertDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,6 +33,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactRequestE
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactlistEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.ContactLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 
 public class ContactLeadActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
@@ -91,8 +94,12 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View view) {
 
         if (view.getId() == R.id.btnSync) {
+
+            showDialog();
+            new RegisterController(ContactLeadActivity.this).sendSyncSms( this);
+
             // lySync.setVisibility(View.VISIBLE);
-            syncContactNumber();
+          //  syncContactNumber();
             /*try {
                 contactListDb = new DBPersistanceController(this).getContactList();
                 List<ContactlistEntity> temp = new ArrayList<>();
@@ -112,12 +119,19 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof SendSyncSmsResponse) {
+            if (response.getStatusNo() == 0) {
 
+                showAlert(response.getMessage());
+            }
+        }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
+        cancelDialog();
+        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
     }
 
     class LoadContactTaskA extends AsyncTask<Void, Integer, Void> {
@@ -237,7 +251,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showDialog("Syncing Contact..");
+            showDialog("Create Contact..");
             //Toast.makeText(ContactLeadActivity.this, "Syncing Contact..", Toast.LENGTH_SHORT).show();
         }
 

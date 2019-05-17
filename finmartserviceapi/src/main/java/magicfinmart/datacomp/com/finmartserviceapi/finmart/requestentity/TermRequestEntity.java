@@ -127,6 +127,7 @@ public class TermRequestEntity implements Parcelable {
     private String created_date;
     private String crn;
 
+    private String comment;
 
     public TermRequestEntity(Context context) {
         LoginResponseEntity loginResponseEntity = new DBPersistanceController(context).getUserData();
@@ -487,6 +488,13 @@ public class TermRequestEntity implements Parcelable {
         return 0;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.pincode);
@@ -533,6 +541,7 @@ public class TermRequestEntity implements Parcelable {
         dest.writeString(this.SupportsAgentID);
         dest.writeString(this.created_date);
         dest.writeString(this.crn);
+        dest.writeString(this.comment);
     }
 
     protected TermRequestEntity(Parcel in) {
@@ -580,6 +589,7 @@ public class TermRequestEntity implements Parcelable {
         this.SupportsAgentID = in.readString();
         this.created_date = in.readString();
         this.crn = in.readString();
+        this.comment = in.readString();
     }
 
     public static final Parcelable.Creator<TermRequestEntity> CREATOR = new Parcelable.Creator<TermRequestEntity>() {

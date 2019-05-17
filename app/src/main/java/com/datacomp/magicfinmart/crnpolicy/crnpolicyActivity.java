@@ -58,6 +58,12 @@ public class crnpolicyActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btncrn) {
+
+            if (etcrn.getText().toString().length() == 0) {
+                etcrn.setError("Enter CRN");
+                etcrn.setFocusable(true);
+                return;
+            }
             mobNumber=  ""+userConstantEntity.getCrnmobileno();
                 try {
                     mobNumber = mobNumber.replaceAll("\\s", "");

@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.offline_quotes;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,14 +25,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +51,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocumentEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UploadMotorEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputEntity;
@@ -58,17 +67,38 @@ import static com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotate
 
 public class AddOfflineQuotesActivity extends BaseActivity implements IResponseSubcriber, View.OnClickListener {
 
-    EditText etAllInput;
-    Spinner spProdTYpe;
-    Button btnGetQuote, btnHome;
+
+    Button  btnHome;
     ArrayAdapter<OfflineInputEntity> offlineTypeAdapter;
     List<OfflineInputEntity> offlineInputEntities;
     List<RequiredDocEntity> requiredDocEntities;
-    LinearLayout llInput, llDocumentUpload;
+    LinearLayout  llDocumentUpload;
     UploadDocumentsAdapter uploadDocumentsAdapter;
     RecyclerView rvDocUpload;
-    int reqId = 0;
-    int uplod_Type=0;
+
+
+    //OfflineQuoteEntity quoteEntity;
+    UploadMotorEntity uploadMotorEntity;
+    List<RequiredDocEntity> li;
+
+    String[] perms = {
+            "android.permission.CAMERA",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.READ_EXTERNAL_STORAGE"
+
+    };
+    HashMap<String, String> body;
+    MultipartBody.Part part;
+    File Docfile;
+    File file;
+    Uri imageUri;
+    private Uri cropImageUri;
+    InputStream inputStream;
+    ExifInterface ei;
+    private static final int CAMERA_REQUEST = 1888;
+    private static final int SELECT_PICTURE = 1800;
+
+    DocumentEntity documentEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,29 +109,19 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init_widgets();
 
-        setAdapterListener();
-        hideInput(false);
-        showDialog();
-        new OfflineQuotesController(this).getOfflineInput(this);
+
+        if (getIntent().getParcelableExtra(Constants.OFFLINE_DOC_DATA) != null) {
+            uploadMotorEntity = getIntent().getParcelableExtra(Constants.OFFLINE_DOC_DATA);
+
+
+            bindDocumentUpload(uploadMotorEntity.getDocument());
+
+
+        }
+
     }
 
-    private void setAdapterListener() {
 
-        //region Offline product adapter listener
-        spProdTYpe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //((TextView) parent.getChildAt(0)).setTextSize(10);
-                OfflineInputEntity offlineInputEntity = (OfflineInputEntity) spProdTYpe.getSelectedItem();
-                etAllInput.setText(offlineInputEntity.getDescription());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        //endregion
-    }
 
     private List<RequiredDocEntity> getRequiredDocEntities(int productId) {
         List<RequiredDocEntity> list = new ArrayList<>();
@@ -114,91 +134,57 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     }
 
     private void init_widgets() {
-        btnGetQuote = findViewById(R.id.btnGetQuote);
-        btnGetQuote.setOnClickListener(this);
 
         btnHome = findViewById(R.id.btnHome);
         btnHome.setOnClickListener(this);
-        spProdTYpe = findViewById(R.id.spProdTYpe);
-        etAllInput = findViewById(R.id.etAllInput);
+
         llDocumentUpload = findViewById(R.id.llDocumentUpload);
-        llInput = findViewById(R.id.llInput);
+
         rvDocUpload = findViewById(R.id.rvDocUpload);
         rvDocUpload.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-    private void bindAdapter(List<OfflineInputEntity> offlineInputEntities) {
-
-        offlineTypeAdapter = new ArrayAdapter<OfflineInputEntity>(this, android.R.layout.simple_list_item_1,
-                offlineInputEntities) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view = super.getView(position, convertView, parent);
-                view.setPadding(2, view.getPaddingTop(), 0, view.getPaddingBottom());
-                return view;
-            }
-        };
-        spProdTYpe.setAdapter(offlineTypeAdapter);
 
 
     }
 
-    private void bindDocumentUpload(List<RequiredDocEntity> list) {
+
+
+    private void bindDocumentUpload(List<DocumentEntity> list) {
         uploadDocumentsAdapter = new UploadDocumentsAdapter(this, list);
         rvDocUpload.setAdapter(uploadDocumentsAdapter);
     }
 
-    private void hideInput(boolean b) {
-        if (b) {
-            llInput.setVisibility(GONE);
-            llDocumentUpload.setVisibility(VISIBLE);
-            btnGetQuote.setVisibility(GONE);
-        } else {
-            llInput.setVisibility(VISIBLE);
-            llDocumentUpload.setVisibility(GONE);
-            btnGetQuote.setVisibility(VISIBLE);
-        }
-    }
+
 
     private void setDocumentUpload(String urlPath) {
 
-       if(requiredDocEntity != null)
-       {
-           requiredDocEntity.setUploaded(true);
-           uploadDocumentsAdapter.updateList(requiredDocEntity);
-       }
+        if (documentEntity != null) {
+            documentEntity.setDocpath(urlPath);
+            uploadDocumentsAdapter.updateList(documentEntity);
+        }
 
     }
+
+    private void checkDocUploade(List<CreateQuoteResponse.MasterDataBean.DocstatusBean> docstatus) {
+
+//        if (docstatus.size() > 0) {
+//            for (int i = 0; i < li.size(); i++) {
+//                requiredDocEntity = li.get(i);
+//                for (CreateQuoteResponse.UltraLakshaContainer.DocstatusBean objDoc : docstatus) {
+//                    if (requiredDocEntity.getDocname().toUpperCase().trim().equalsIgnoreCase(objDoc.getDocument_name().toUpperCase().trim())) {
+//                        requiredDocEntity.setUploaded(true);
+//                        li.set(i, requiredDocEntity);
+//                    }
+//                }
+//            }
+//        }
+    }
+
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        if (response instanceof OfflineInputResponse) {
-            cancelDialog();
+        cancelDialog();
+        if (response instanceof DocumentResponse) {
             if (response.getStatusNo() == 0) {
-                offlineInputEntities = ((OfflineInputResponse) response).getMasterData().getQuotematerail();
-                requiredDocEntities = ((OfflineInputResponse) response).getMasterData().getQuotedoc();
-                bindAdapter(offlineInputEntities);
-
-            }
-        } else if (response instanceof CreateQuoteResponse) {
-            cancelDialog();
-            if (response.getStatusNo() == 0) {
-
-                OfflineInputEntity offlineInputEntity = (OfflineInputEntity) spProdTYpe.getSelectedItem();
-                List<RequiredDocEntity> li = getRequiredDocEntities(offlineInputEntity.getId());
-                if (li != null && li.size() > 0) {
-                    reqId = ((CreateQuoteResponse) response).getMasterData().get(0).getReqid();
-                    hideInput(true);
-                    bindDocumentUpload(getRequiredDocEntities(offlineInputEntity.getId()));
-                } else {
-                    finish();
-                }
-
-            }
-        } else if (response instanceof DocumentResponse) {
-            if (response.getStatusNo() == 0) {
-
-                // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-                cancelDialog();
                 setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
             }
         }
@@ -213,12 +199,9 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnGetQuote:
-                if (validInput()) {
-                    getQuote();
-                }
-                break;
+
             case R.id.btnHome:
+                Toast.makeText(this, "Data Save Successfully...", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("MarkTYPE", "FROM_HOME");
@@ -254,35 +237,13 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean validInput() {
-        return true;
-    }
 
-    private void getQuote() {
-        showDialog();
-        new OfflineQuotesController(this).createQuote(spProdTYpe.getSelectedItem().toString(),
-                etAllInput.getText().toString(), this);
-    }
+
 
 
     //region  upload documents methods
 
-    String[] perms = {
-            "android.permission.CAMERA",
-            "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"
 
-    };
-    HashMap<String, String> body;
-    MultipartBody.Part part;
-    File Docfile;
-    File file;
-    Uri imageUri;
-    InputStream inputStream;
-    ExifInterface ei;
-    private static final int CAMERA_REQUEST = 1888;
-    private static final int SELECT_PICTURE = 1800;
-    RequiredDocEntity requiredDocEntity;
 
     private boolean checkPermission() {
 
@@ -296,8 +257,8 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
                 && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void galleryCamPopUp(RequiredDocEntity entity) {
-        this.requiredDocEntity = entity;
+    public void galleryCamPopUp(DocumentEntity entity) {
+        this.documentEntity = entity;
         if (!checkPermission()) {
 
             if (checkRationalePermission()) {
@@ -309,13 +270,13 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
                 // Redirect to Settings after showing Information about why you need the permission
 
                 //  permissionAlert(navigationView,"Need Call Permission","This app needs Call permission.");
-                openPopUp(btnGetQuote, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+                openPopUp(btnHome, "Need  Permission", "This app needs all permissions.", "GRANT", true);
 
 
             }
         } else {
 
-            showCamerGalleryPopUp(requiredDocEntity);
+            showCamerGalleryPopUp(documentEntity);
         }
     }
 
@@ -333,7 +294,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         ActivityCompat.requestPermissions(this, perms, Constants.PERMISSION_CAMERA_STORACGE_CONSTANT);
     }
 
-    private void showCamerGalleryPopUp(final RequiredDocEntity requiredDocEntity) {
+    private void showCamerGalleryPopUp(final DocumentEntity requiredDocEntity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery;
@@ -371,7 +332,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         // for user define height and width..
     }
 
-    private void launchCamera(RequiredDocEntity requiredDocEntity) {
+    private void launchCamera(DocumentEntity requiredDocEntity) {
 
 
         String FileName = requiredDocEntity.getDocname();
@@ -393,7 +354,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     }
 
 
-    private void openGallery(RequiredDocEntity requiredDocEntity) {
+    private void openGallery(DocumentEntity requiredDocEntity) {
 
         String FileName = requiredDocEntity.getDocname();
 
@@ -470,59 +431,124 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
     }
 
 
-    public HashMap<String, String> getBody(Context context, RequiredDocEntity requiredDocEntity) {
+    public HashMap<String, String> getBody(Context context, DocumentEntity requiredDocEntity, String ReqId) {
         HashMap<String, String> body = new HashMap<String, String>();
 
         body.put("FBAID", "" + new DBPersistanceController(context).getUserData().getFBAId());
-        body.put("DocType", String.valueOf(requiredDocEntity.getReqid()));
+        body.put("DocType",requiredDocEntity.getId());
         body.put("DocName", requiredDocEntity.getDocname());
-        body.put("quoteid", "" + reqId);
+        body.put("quoteid", "" + ReqId);
         return body;
     }
 
+    @Override
+    @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        // Below For Cropping The Camera Image
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap mphoto = null;
-            try {
-                mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                mphoto = getResizedBitmap(mphoto, 800);
-                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-            showDialog();
-            file = saveImageToStorage(mphoto, requiredDocEntity.getDocname());
-            part = Utility.getMultipartImage(file);
-            body = getBody(this, requiredDocEntity);
-            new OfflineQuotesController(this).uploadDocuments(part, body, this);
-
-        } else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            //extractTextFromImage();
+            startCropImageActivity(imageUri);
+        }
+        // Below For Cropping The Gallery Image
+        else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
-            Bitmap mphoto = null;
-            try {
-                mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 800);
-                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
+            startCropImageActivity(selectedImageUri);
+        }
+
+        // Below  handle result of CropImageActivity
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    cropImageUri = result.getUri();
+                    Bitmap mphoto = null;
+                    try {
+                        mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                        mphoto = getResizedBitmap(mphoto, 800);
 
 
-                showDialog();
-                file = saveImageToStorage(mphoto, requiredDocEntity.getDocname());
-                part = Utility.getMultipartImage(file);
-                body = getBody(this, requiredDocEntity);
-                new OfflineQuotesController(this).uploadDocuments(part, body, this);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                    showDialog();
+                    file = saveImageToStorage(mphoto, documentEntity.getDocname());
+                    part = Utility.getMultipartImage(file);
+                    body = getBody(this, documentEntity,uploadMotorEntity.getTransId());
+                    new OfflineQuotesController(this).uploadDocuments(part, body, this);
+
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
             }
-
-
         }
     }
 
 
+    /**
+     //TODO: Crop image activity to crop capture image.
+     * Start crop image activity for the given image.
+     */
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .start(this);
+    }
     //endregion
+
+
+    public void viewUploadFile(String url) {
+
+        if (url.equals("")) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
+
+        // TouchImageView ivDocFile;
+        ImageView ivDocFile;
+        Button btnClose;
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView;
+
+        dialogView = inflater.inflate(R.layout.layout_view_doc, null);
+
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        btnClose = (Button) dialogView.findViewById(R.id.btnClose);
+//        ivDocFile = (TouchImageView) dialogView.findViewById(R.id.ivDocFile);
+        ivDocFile = (ImageView) dialogView.findViewById(R.id.ivDocFile);
+
+        Glide.with(this)
+                .load(url)
+
+//                .skipMemoryCache(true)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(ivDocFile);
+
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.CustomDialogAnimation;
+        alertDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+
+    }
 }
