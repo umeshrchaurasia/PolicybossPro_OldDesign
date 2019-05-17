@@ -226,7 +226,7 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
     public void raiseticket(QuoteListEntity entity)
     {
         startActivity(new Intent(getActivity(), AddTicketActivity.class)
-                .putExtra("ProductType", "Bike")
+                .putExtra("ProductType", "TWO WHEELER")
                 .putExtra("crn",entity.getMotorRequestEntity().getCrn()));
     }
 }
