@@ -12,6 +12,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEnti
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.QuoteApplicationRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorViewLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
@@ -254,6 +256,118 @@ public class QuoteApplicationController implements IQuoteApp {
 
             @Override
             public void onFailure(Call<MotorViewLeadResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void EditLead(String VehicleRequestID, String LeadId, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("VehicleRequestID", VehicleRequestID);
+        body.put("LeadId", LeadId);
+        quoteApplicationNetworkService.modifyLeadEdit(body).enqueue(new Callback<MotorViewLeadResponse>() {
+            @Override
+            public void onResponse(Call<MotorViewLeadResponse> call, Response<MotorViewLeadResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MotorViewLeadResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getLeadDispositionMaster(final IResponseSubcriber iResponseSubcriber) {
+
+
+        quoteApplicationNetworkService.getLeadDispositionMaster().enqueue(new Callback<LeadDispositionResponse>() {
+            @Override
+            public void onResponse(Call<LeadDispositionResponse> call, Response<LeadDispositionResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LeadDispositionResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void saveLeadDisposition(String leadid, String dispositionid, String vehiclerequestid, String comment, final IResponseSubcriber iResponseSubcriber) {
+
+
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("leadid", leadid);
+        body.put("dispositionid", dispositionid);
+        body.put("vehiclerequestid", vehiclerequestid);
+        body.put("comment", comment);
+        quoteApplicationNetworkService.saveLeadDisposition(body).enqueue(new Callback<LeadDispositionSaveResponse>() {
+            @Override
+            public void onResponse(Call<LeadDispositionSaveResponse> call, Response<LeadDispositionSaveResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LeadDispositionSaveResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

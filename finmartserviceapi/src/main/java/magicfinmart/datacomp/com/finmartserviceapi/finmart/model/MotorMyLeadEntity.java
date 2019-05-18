@@ -7,17 +7,20 @@ import android.os.Parcelable;
  * Created by Rajeev Ranjan on 07/05/2019.
  */
 public class MotorMyLeadEntity implements Parcelable {
-
-
     /**
-     * Name : NA
-     * LeadId : 186
+     * Name : Mahesh
+     * LeadId : 194
      * FBAID : 1976
-     * CRN :
-     * ExpiryDate : 07/05/2019
+     * CRN : 895139
+     * ExpiryDate : 2019-05-31
      * Make : NA
      * Model : NA
-     * RegNo : WB12AG5379
+     * RegNo : MH01BG1324
+     * ss_id : 2335
+     * VehicleRequestID : 16888
+     * MobileNo : 9844556789
+     * hasDisposition : 1
+     * vehicle_registration_date :
      */
 
     private String Name;
@@ -29,9 +32,10 @@ public class MotorMyLeadEntity implements Parcelable {
     private String Model;
     private String RegNo;
     private String ss_id;
-    private  int leadtype;
     private String VehicleRequestID;
-
+    private String MobileNo;
+    private String hasDisposition;
+    private String vehicle_registration_date;
 
     protected MotorMyLeadEntity(Parcel in) {
         Name = in.readString();
@@ -43,8 +47,10 @@ public class MotorMyLeadEntity implements Parcelable {
         Model = in.readString();
         RegNo = in.readString();
         ss_id = in.readString();
-        leadtype = in.readInt();
         VehicleRequestID = in.readString();
+        MobileNo = in.readString();
+        hasDisposition = in.readString();
+        vehicle_registration_date = in.readString();
     }
 
     @Override
@@ -58,8 +64,10 @@ public class MotorMyLeadEntity implements Parcelable {
         dest.writeString(Model);
         dest.writeString(RegNo);
         dest.writeString(ss_id);
-        dest.writeInt(leadtype);
         dest.writeString(VehicleRequestID);
+        dest.writeString(MobileNo);
+        dest.writeString(hasDisposition);
+        dest.writeString(vehicle_registration_date);
     }
 
     @Override
@@ -83,16 +91,16 @@ public class MotorMyLeadEntity implements Parcelable {
         return Name;
     }
 
-    public void setName(String name) {
-        Name = name;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 
     public String getLeadId() {
         return LeadId;
     }
 
-    public void setLeadId(String leadId) {
-        LeadId = leadId;
+    public void setLeadId(String LeadId) {
+        this.LeadId = LeadId;
     }
 
     public int getFBAID() {
@@ -115,32 +123,32 @@ public class MotorMyLeadEntity implements Parcelable {
         return ExpiryDate;
     }
 
-    public void setExpiryDate(String expiryDate) {
-        ExpiryDate = expiryDate;
+    public void setExpiryDate(String ExpiryDate) {
+        this.ExpiryDate = ExpiryDate;
     }
 
     public String getMake() {
         return Make;
     }
 
-    public void setMake(String make) {
-        Make = make;
+    public void setMake(String Make) {
+        this.Make = Make;
     }
 
     public String getModel() {
         return Model;
     }
 
-    public void setModel(String model) {
-        Model = model;
+    public void setModel(String Model) {
+        this.Model = Model;
     }
 
     public String getRegNo() {
         return RegNo;
     }
 
-    public void setRegNo(String regNo) {
-        RegNo = regNo;
+    public void setRegNo(String RegNo) {
+        this.RegNo = RegNo;
     }
 
     public String getSs_id() {
@@ -151,24 +159,49 @@ public class MotorMyLeadEntity implements Parcelable {
         this.ss_id = ss_id;
     }
 
-    public int getLeadtype() {
-        return leadtype;
-    }
-
-    public void setLeadtype(int leadtype) {
-        this.leadtype = leadtype;
-    }
-
     public String getVehicleRequestID() {
         return VehicleRequestID;
     }
 
-    public void setVehicleRequestID(String vehicleRequestID) {
-        VehicleRequestID = vehicleRequestID;
+    public void setVehicleRequestID(String VehicleRequestID) {
+        this.VehicleRequestID = VehicleRequestID;
+    }
+
+    public String getMobileNo() {
+        return MobileNo;
+    }
+
+    public void setMobileNo(String MobileNo) {
+        this.MobileNo = MobileNo;
+    }
+
+    public String getHasDisposition() {
+        return hasDisposition;
+    }
+
+    public void setHasDisposition(String hasDisposition) {
+        this.hasDisposition = hasDisposition;
+    }
+
+    public String getVehicle_registration_date() {
+        return vehicle_registration_date;
+    }
+
+    public void setVehicle_registration_date(String vehicle_registration_date) {
+        this.vehicle_registration_date = vehicle_registration_date;
     }
 
 
-
+    /**
+     * Name : NA
+     * LeadId : 186
+     * FBAID : 1976
+     * CRN :
+     * ExpiryDate : 07/05/2019
+     * Make : NA
+     * Model : NA
+     * RegNo : WB12AG5379
+     */
 
 
 }

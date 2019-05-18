@@ -616,7 +616,7 @@
     <string name="title_activity_generate_lead">GENERATE LEAD</string>
     <string name="title_activity_income_potential">Income Calculator</string>
     <string name="title_activity_nav_transactionhistory">TRANSACTION HISTORY</string>
-    <string name="title_activity_contact_lead">Create Contact Lead</string>
+    <string name="title_activity_contact_lead">Create Lead from Contact</string>
     <string name="title_activity_scan_vehicle">SCAN VEHICLE</string>
     <string name="title_activity_vehicle_scan">SCAN VEHICLE</string>
     <string name="title_activity_offline_quotes_list">OFFLINE QUOTES</string>

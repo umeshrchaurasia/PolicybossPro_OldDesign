@@ -718,6 +718,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             etMobile.setText(motorRequestEntity.getMobile());
 
 
+        }else if(!LeadId.equalsIgnoreCase("0"))
+        {
+            etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
+            etMobile.setText(motorRequestEntity.getMobile());
+
         }
         try {
 

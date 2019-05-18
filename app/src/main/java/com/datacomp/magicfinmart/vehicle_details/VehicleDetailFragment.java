@@ -33,10 +33,10 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleMobileResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
@@ -129,13 +129,6 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
     private void init(View view) {
 
 
-        rvMobile = view.findViewById(R.id.rvMobile);
-        rvMobile.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        rvMobile.setLayoutManager(layoutManager);
-        mAdapter = new VehicleDetailsAdapter(VehicleDetailFragment.this, listCustDetails);
-        rvMobile.setAdapter(mAdapter);
-
         etVehicleExpiryDate = view.findViewById(R.id.etVehicleExpiryDate);
         etName = view.findViewById(R.id.etName);
         etMobileNo = view.findViewById(R.id.etMobileNo);
@@ -154,17 +147,25 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         txtAddress = view.findViewById(R.id.txtAddress);
         txtRegistrationNo = view.findViewById(R.id.txtRegistrationNo);
         txtCarDetail = view.findViewById(R.id.txtCarDetail);
-       // txtChasisNo = view.findViewById(R.id.txtChasisNo);
-       // txtEngineNo = view.findViewById(R.id.txtEngineNo);
-       // txtRTO = view.findViewById(R.id.txtRTO);
-       // txtFuel = view.findViewById(R.id.txtFuel);
-       // txtMfg = view.findViewById(R.id.txtMfg);
+        // txtChasisNo = view.findViewById(R.id.txtChasisNo);
+        // txtEngineNo = view.findViewById(R.id.txtEngineNo);
+        // txtRTO = view.findViewById(R.id.txtRTO);
+        // txtFuel = view.findViewById(R.id.txtFuel);
+        // txtMfg = view.findViewById(R.id.txtMfg);
 
         btnGenerateLead = view.findViewById(R.id.btnGenerateLead);
 
-       // txtClaimNo = view.findViewById(R.id.txtClaimNo);
-       // txtClaimSattlementType = view.findViewById(R.id.txtClaimSattlementType);
+        // txtClaimNo = view.findViewById(R.id.txtClaimNo);
+        // txtClaimSattlementType = view.findViewById(R.id.txtClaimSattlementType);
         txtClaimStatus = view.findViewById(R.id.txtClaimStatus);
+
+        rvMobile = view.findViewById(R.id.rvMobile);
+        rvMobile.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvMobile.setLayoutManager(layoutManager);
+        mAdapter = new VehicleDetailsAdapter(VehicleDetailFragment.this, listCustDetails);
+        rvMobile.setAdapter(mAdapter);
+
 
         btnVehicleDetails.setOnClickListener(this);
 
@@ -197,7 +198,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                     etVehicleDetail.setText("");
                     rvMobile.setVisibility(View.VISIBLE);
                     listCustDetails.clear();
-                    mAdapter.refreshAdapter(listCustDetails);
+                    mAdapter.refreshAdapter(listCustDetails, "");
                     cvVehicleDetail.setVisibility(View.GONE);
                 }
             }
@@ -306,7 +307,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                                 new PrefManager(getActivity()).setVehicleCarMobileLog();
                                 rvMobile.setVisibility(View.VISIBLE);
                                 cvVehicleDetail.setVisibility(View.GONE);
-                                mAdapter.refreshAdapter(((VehicleMobileResponse) response).getCustomerDetails());
+                                mAdapter.refreshAdapter(((VehicleMobileResponse) response).getCustomerDetails(), etVehicleDetail.getText().toString());
                             } else {
                                 rvMobile.setVisibility(View.GONE);
                             }

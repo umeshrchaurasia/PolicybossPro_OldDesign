@@ -32,6 +32,7 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
 
     Fragment mContex;
     List<VehicleMobileResponse.CustomerDetailsEntity> listCustDetails;
+    String mMobile="";
     SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     public VehicleDetailsAdapter(Fragment context, List<VehicleMobileResponse.CustomerDetailsEntity> list) {
@@ -58,7 +59,7 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         holder.etExpiryDate.setText("" + entity.getExpiryDate());
         holder.txtInsuranceName.setText(entity.getInsuranceName());
         if (entity.getMobileNo().toLowerCase().equalsIgnoreCase("na")) {
-            holder.etMobileNo.setText("");
+            holder.etMobileNo.setText("" + mMobile);
         } else {
             holder.etMobileNo.setText("" + entity.getMobileNo());
         }
@@ -213,8 +214,9 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
     }
 
 
-    public void refreshAdapter(List<VehicleMobileResponse.CustomerDetailsEntity> list) {
+    public void refreshAdapter(List<VehicleMobileResponse.CustomerDetailsEntity> list,String Mobile) {
         listCustDetails = list;
+        mMobile = Mobile;
         notifyDataSetChanged();
     }
 

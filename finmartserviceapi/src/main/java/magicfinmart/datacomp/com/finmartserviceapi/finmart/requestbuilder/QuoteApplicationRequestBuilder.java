@@ -6,6 +6,8 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorViewLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
@@ -57,6 +59,21 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/get-my-leads-view")
         Call<MotorViewLeadResponse> modifyLeadView(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-my-leads-edit")
+        Call<MotorViewLeadResponse> modifyLeadEdit(@Body HashMap<String, String> body);
+
+
+        @Headers("token:" + token)
+        @POST("/api/contact-lead-disposition-master")
+        Call<LeadDispositionResponse> getLeadDispositionMaster();
+
+        @Headers("token:" + token)
+        @POST("/api/insert-fba-contact-lead-disposition")
+        Call<LeadDispositionSaveResponse> saveLeadDisposition(@Body HashMap<String, String> body);
+
+
     }
 
 }

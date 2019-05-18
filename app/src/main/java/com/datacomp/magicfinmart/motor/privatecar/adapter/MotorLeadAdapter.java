@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorLeadFragment;
 
@@ -39,7 +41,7 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 
     public class LeadItem extends RecyclerView.ViewHolder {
 
-        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo, txtView, txtEdit;
+        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo, txtView, txtEdit, txtLost;
         LinearLayout llDetails, llViewLead, llEditLead, llNewLead;
 
 
@@ -51,7 +53,7 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 
             txtView = (TextView) itemView.findViewById(R.id.txtView);
             txtEdit = (TextView) itemView.findViewById(R.id.txtEdit);
-
+            txtLost = (TextView) itemView.findViewById(R.id.txtLost);
             txtCrnNo = (TextView) itemView.findViewById(R.id.txtCrnNo);
 
             llNewLead = (LinearLayout) itemView.findViewById(R.id.llNewLead);
@@ -92,6 +94,48 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 
             }
 
+//            textView1.setBackgroundResource(R.drawable.customeborder);
+//            textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+
+            if (entity.getHasDisposition() != null) {
+                if (entity.getHasDisposition().equals("0")) {
+                    holder.txtLost.setEnabled(true);
+                    holder.llNewLead.setEnabled(true);
+                    holder.llViewLead.setEnabled(true);
+                    holder.llEditLead.setEnabled(true);
+
+                    holder.txtLost.setBackgroundResource(R.drawable.blue_background);
+                    holder.txtLost.setTextColor(mFrament.getResources().getColor(R.color.white));
+
+
+                    holder.llNewLead.setBackgroundResource(0);
+                    holder.llViewLead.setBackgroundResource(0);
+                    holder.llEditLead.setBackgroundResource(0);
+
+                } else {
+                    holder.txtLost.setEnabled(false);
+                    holder.llNewLead.setEnabled(false);
+                    holder.llViewLead.setEnabled(false);
+                    holder.llEditLead.setEnabled(false);
+
+                    holder.txtLost.setBackgroundResource(R.drawable.gray_background);
+                    holder.txtLost.setTextColor(mFrament.getResources().getColor(R.color.header_light_text));
+
+                    //secondary_text_color
+
+                    holder.llNewLead.setBackgroundResource(R.color.bg2);
+                    holder.llViewLead.setBackgroundResource(R.color.bg2);
+                    holder.llEditLead.setBackgroundResource(R.color.bg2);
+
+                }
+            } else {
+                holder.txtLost.setEnabled(false);
+                holder.llNewLead.setEnabled(false);
+                holder.llViewLead.setEnabled(false);
+                holder.llEditLead.setEnabled(false);
+
+            }
+
             holder.txtPersonName.setText(entity.getName());
             holder.txtVehicleName.setText(entity.getMake() + "," + entity.getModel());
 
@@ -102,10 +146,12 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
             holder.llNewLead.setTag(R.id.llNewLead, entity);
             holder.llViewLead.setTag(R.id.llViewLead, entity);
             holder.llEditLead.setTag(R.id.llEditLead, entity);
+            holder.txtLost.setTag(R.id.txtLost, entity);
 
             holder.llNewLead.setOnClickListener(this);
             holder.llViewLead.setOnClickListener(this);
             holder.llEditLead.setOnClickListener(this);
+            holder.txtLost.setOnClickListener(this);
         }
 
 
@@ -131,21 +177,27 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
 
             case R.id.llNewLead:
                 MotorMyLeadEntity myLeadEntity1 = (MotorMyLeadEntity) view.getTag(view.getId());
-                myLeadEntity1.setLeadtype(1);
                 myLeadEntity1.setCRN("");
                 ((MotorLeadFragment) mFrament).redirectToInputQuote(myLeadEntity1);
                 break;
 
             case R.id.llEditLead:
                 MotorMyLeadEntity myLeadEntity2 = (MotorMyLeadEntity) view.getTag(view.getId());
-                myLeadEntity2.setLeadtype(2);
-                myLeadEntity2.setCRN("");
-                ((MotorLeadFragment) mFrament).redirectToInputQuote(myLeadEntity2);
+                ((MotorLeadFragment) mFrament).redirectEditToInputQuote(myLeadEntity2);
                 break;
             case R.id.llViewLead:
                 MotorMyLeadEntity myLeadEntity3 = (MotorMyLeadEntity) view.getTag(view.getId());
-                myLeadEntity3.setLeadtype(3);
+
                 ((MotorLeadFragment) mFrament).redirectViewToInputQuote(myLeadEntity3);
+                break;
+
+            case R.id.txtLost:
+                MotorMyLeadEntity entity = (MotorMyLeadEntity) view.getTag(view.getId());
+                if(entity.getVehicleRequestID().equalsIgnoreCase(""))
+                {
+                    entity.setVehicleRequestID("0");
+                }
+                ((MotorLeadFragment) mFrament).redirectToCommenttAlert(entity);
                 break;
 
 
@@ -196,5 +248,21 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
                 notifyDataSetChanged();
             }
         };
+    }
+
+
+    public void updateDispostion(MotorMyLeadEntity entity) {
+        for (MotorMyLeadEntity item : mLeadListFiltered) {
+
+            if (item.equals(entity)) {
+
+                int pos = mLeadListFiltered.indexOf(item);
+                mLeadListFiltered.get(pos).setHasDisposition("1");
+                break;
+            }
+
+        }
+        notifyDataSetChanged();
+
     }
 }

@@ -1,12 +1,20 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -15,6 +23,7 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -29,6 +38,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
     ActivityTabsPagerAdapter mAdapter;
     PrefManager prefManager;
     DBPersistanceController dbPersistanceController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +122,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
                     mAdapter = new ActivityTabsPagerAdapter(getSupportFragmentManager(),
                             ((QuoteApplicationResponse) response).getMasterData());
                     viewPager.setAdapter(mAdapter);
+                    viewPager.setCurrentItem(1);
                     mAdapter.notifyDataSetChanged();
                 } else {
                     finish();
@@ -169,4 +180,6 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         return false;
        // return super.onSupportNavigateUp();
     }
+
+
 }
