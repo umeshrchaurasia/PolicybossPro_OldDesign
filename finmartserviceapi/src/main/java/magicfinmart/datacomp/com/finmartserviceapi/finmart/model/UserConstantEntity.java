@@ -151,6 +151,9 @@ public class UserConstantEntity extends RealmObject {
     private  String ultralakshyaenabled;
 
 
+    private  String finperkurl;
+    private  String finboxurl;
+
     public String getUltralakshyaenabled() {
         return ultralakshyaenabled;
     }
@@ -798,4 +801,21 @@ public class UserConstantEntity extends RealmObject {
     public void setIsactive(int isactive) {
         this.isactive = isactive;
     }
+
+    public String getFinperkurl() {
+        return finperkurl;
+    }
+
+    public void setFinperkurl(String finperkurl) {
+        this.finperkurl = finperkurl;
+    }
+
+    public String getFinboxurl() {
+        return finboxurl;
+    }
+
+    public void setFinboxurl(String finboxurl) {
+        this.finboxurl = finboxurl;
+    }
+
 }

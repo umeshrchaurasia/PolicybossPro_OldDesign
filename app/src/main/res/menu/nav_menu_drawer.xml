@@ -11,6 +11,19 @@
             android:title="HOME" />
 
         <item
+            android:id="@+id/nav_finbox"
+            android:icon="@drawable/mps"
+            android:orderInCategory="100"
+            android:title="MY FINBOX" />
+
+
+        <item
+            android:id="@+id/nav_finperk"
+            android:icon="@drawable/ic_business_name"
+            android:orderInCategory="100"
+            android:title="FINPERK" />
+
+        <item
             android:id="@+id/nav_insert_contact"
             android:icon="@drawable/home"
             android:orderInCategory="105"
