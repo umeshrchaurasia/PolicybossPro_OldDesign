@@ -2,7 +2,6 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -51,7 +50,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
-import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -69,7 +67,6 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
-import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
@@ -211,7 +208,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
-                LeadId = getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID,"0");
+                LeadId = getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID, "0");
                 tvDontKnow.performClick();
                 bindInputsQuotes();
 
@@ -609,7 +606,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 }
             });
 
-            //endregion
+            //endregion`
 
             //region varient list
 
@@ -718,8 +715,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             etMobile.setText(motorRequestEntity.getMobile());
 
 
-        }else if(!LeadId.equalsIgnoreCase("0"))
-        {
+        } else if (!LeadId.equalsIgnoreCase("0")) {
             etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
             etMobile.setText(motorRequestEntity.getMobile());
 
@@ -728,17 +724,27 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
             //By Nilesh 12.10.2018
-            Date regDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(regDate);
-            setYearMonthAdapter(calendar);
+            //region Registration Date
+            if (motorRequestEntity.getVehicle_registration_date().toString().trim().equalsIgnoreCase("")) {
+                etRegDate.setText("");
+            } else {
+                Date regDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(regDate);
+                setYearMonthAdapter(calendar);
+                etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
+            }
+            //endregion
 
+            //region Manufacture Date
+            if (motorRequestEntity.getVehicle_manf_date().toString().trim().equalsIgnoreCase("")) {
+                etMfgDate.setText("");
+            } else {
+                etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
+            }
+            //endregion
 
-            etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
-
-            etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
-
-
+          //region Expiry Date
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
                 etExpDate.setEnabled(true);
                 etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
@@ -748,6 +754,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 //etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
                 spPrevIns.setEnabled(false);
             }
+            //endregion
 
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
                 int ncbPercent = 0;
@@ -2506,7 +2513,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (response instanceof BikeUniqueResponse) {
             if (constantEntity != null && constantEntity.getLogtracking().equals("0"))
                 new PolicybossTrackingResponse((BikeUniqueResponse) response).execute();
-            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity,LeadId);
+            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity, LeadId);
         } else if (response instanceof SaveAddOnResponse) {
             dialogBreakIn(((SaveAddOnResponse) response).getMessage());
         }
