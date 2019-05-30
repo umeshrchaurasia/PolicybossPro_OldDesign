@@ -1,29 +1,19 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -56,8 +46,10 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
             new MasterController(this).getCarMaster(this);
         }
         if (dbPersistanceController.getRTOListNames() != null && dbPersistanceController.getRTOListNames().size() <= 0) {
+            showDialog();
             new MasterController(this).getRTOMaster(this);
         }
+
         prefManager = new PrefManager(this);
        /* if (prefManager.IsCarMasterUpdate()) {
             new MasterController(this).getCarMaster(this);
@@ -117,14 +109,15 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
             if (((QuoteApplicationResponse) response).getMasterData() != null) {
 
                 if ((((QuoteApplicationResponse) response).getMasterData().getQuote().size() != 0)
-                        || ((QuoteApplicationResponse) response).getMasterData().getApplication().size() != 0) {
+                        || ((QuoteApplicationResponse) response).getMasterData().getApplication().size() != 0
+                        || ((QuoteApplicationResponse) response).getMasterData().getMyleads().size() != 0 ){
 
                     mAdapter = new ActivityTabsPagerAdapter(getSupportFragmentManager(),
                             ((QuoteApplicationResponse) response).getMasterData());
                     viewPager.setAdapter(mAdapter);
                     viewPager.setCurrentItem(1);
                     mAdapter.notifyDataSetChanged();
-                } else {
+                } else{
                     finish();
                     startActivity(new Intent(this, InputQuoteBottmActivity.class));
                 }
@@ -178,7 +171,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
     public boolean onSupportNavigateUp() {
         onBackPressed();
         return false;
-       // return super.onSupportNavigateUp();
+        // return super.onSupportNavigateUp();
     }
 
 

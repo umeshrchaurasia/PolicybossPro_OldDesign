@@ -226,7 +226,7 @@
 
             android:textColor="@color/white"
             android:background="@drawable/blue_background"
-            android:text="Lost" />
+            android:text="Update Status" />
     </RelativeLayout>
 
 

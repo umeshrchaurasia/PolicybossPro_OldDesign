@@ -378,7 +378,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
                     Bitmap mphoto = null;
                     try {
                         mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
-                        mphoto = getResizedBitmap(mphoto, 800);
+                      //  mphoto = getResizedBitmap(mphoto, 800);
 
 
                     } catch (Exception e) {
