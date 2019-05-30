@@ -1,18 +1,15 @@
 package com.datacomp.magicfinmart;
 
-import android.support.multidex.MultiDexApplication;
-
 import com.crashlytics.android.Crashlytics;
 import com.datacomp.magicfinmart.analytics.AnalyticsTrackers;
-import com.datacomp.magicfinmart.utility.RealmMigrationClass;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 
-
-import org.matomo.sdk.Matomo;
 import org.matomo.sdk.TrackerBuilder;
+import org.matomo.sdk.extra.DownloadTracker;
+import org.matomo.sdk.extra.MatomoApplication;
 import org.matomo.sdk.extra.TrackHelper;
 
 import io.fabric.sdk.android.Fabric;
@@ -21,7 +18,7 @@ import io.realm.RealmConfiguration;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
-public class MyApplication extends MultiDexApplication {
+public class MyApplication extends MatomoApplication {
 
     public static final String TAG = MyApplication.class
             .getSimpleName();
@@ -54,16 +51,7 @@ public class MyApplication extends MultiDexApplication {
 
         //endregion
 
-    }
 
-
-
-    public synchronized org.matomo.sdk.Tracker getTracker() {
-        if (mMamatoTracker == null) {
-            mMamatoTracker = TrackerBuilder.createDefault("http://domain.tld/matomo.php", 138).build(Matomo.getInstance(this));
-        }
-
-        return mMamatoTracker;
     }
 
 
@@ -130,14 +118,15 @@ public class MyApplication extends MultiDexApplication {
         t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).setValue(FBA_ID).build());
 
 
-        if (mMamatoTracker == null) {
-            mMamatoTracker = getTracker();
-        }
-
-        TrackHelper.track().event(category, action);
-
+        //first hive
+        getTracker().setUserId(String.valueOf(FBA_ID));
+        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
+        TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
 
     }
 
-
+    @Override
+    public TrackerBuilder onCreateTrackerConfig() {
+        return TrackerBuilder.createDefault("https://firsthive.com/engage/piwik/piwik.php", Integer.parseInt(BuildConfig.FIRSTHIVE));
+    }
 }
