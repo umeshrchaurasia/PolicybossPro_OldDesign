@@ -1411,19 +1411,19 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             case R.id.btnGo:
 
 
-                SearchBOFBAFragment mBottom = SearchBOFBAFragment.Companion.newInstance(new IBOFbaCallback() {
-                    @Override
-                    public void getBOFBA() {
-                        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                mBottom.show(getFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
+//                SearchBOFBAFragment mBottom = SearchBOFBAFragment.Companion.newInstance(new IBOFbaCallback() {
+//                    @Override
+//                    public void getBOFBA() {
+//                        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                mBottom.show(getFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
+//
 
 
 
 
-
-            /*if (etreg1.getText().toString().equals("")) {
+            if (etreg1.getText().toString().equals("")) {
                 etreg1.requestFocus();
                 etreg1.setError("Invalid vehicle Number");
                 return;
@@ -1458,7 +1458,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
                 new FastLaneController(getActivity()).getVechileDetails(regNo, this);
-            }*/
+            }
                 break;
             case R.id.imgInfo:
                 InfomationAlert("Information", getActivity().getResources().getString(R.string.motorInfo));
