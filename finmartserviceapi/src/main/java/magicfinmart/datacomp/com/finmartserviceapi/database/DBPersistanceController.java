@@ -748,10 +748,9 @@ public class DBPersistanceController {
         if (master != null) {
             for (int i = 0; i < master.getMasterData().size(); i++) {
 
-                if (insurerID.equalsIgnoreCase(
-                        master.getMasterData().get(i).getInsurer_id()
-                )) {
-                    return master.getMasterData().get(i).getInsurer_id();
+                if (insurerID.equalsIgnoreCase(master.getMasterData().get(i).getInsurer_id())) {
+                   // return master.getMasterData().get(i).getInsurer_id();
+                    return getInsurername(Integer.valueOf(master.getMasterData().get(i).getInsurer_id()));
                 }
             }
         } else {

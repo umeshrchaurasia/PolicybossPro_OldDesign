@@ -307,7 +307,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             rblCCRequest.setEmail(etEmail.getText().toString());
             rblCCRequest.setCreditCardApplied(String.valueOf(mCreditCardEntity.getCreditCardApplied()));
             rblCCRequest.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
-            rblCCRequest.setSource("");
+            rblCCRequest.setSource("finmart");
             rblCCRequest.setVersion("");
             rblCCRequest.setMiddleName("");
             if (rbSalaried.isChecked()) {

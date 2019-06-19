@@ -246,16 +246,26 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             txtExistingPolicyNo.setEnabled(true);
         }
 
-        try {
-            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+        if(motorRequestEntity.getVehicle_insurance_type().toLowerCase().equalsIgnoreCase("new")){
+            llNoClaim.setVisibility(View.GONE);
+            cvNcb.setVisibility(View.GONE);
+        }
 
-            if (day > 90) {
+        try {
+            if(!motorRequestEntity.getPolicy_expiry_date().trim().equalsIgnoreCase("")) {
+                int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+
+                if (day > 90) {
+                    llNoClaim.setVisibility(View.GONE);
+                    cvNcb.setVisibility(View.GONE);
+                } else {
+                    llNoClaim.setVisibility(View.VISIBLE);
+                    cvNcb.setVisibility(View.VISIBLE);
+
+                }
+            }else{
                 llNoClaim.setVisibility(View.GONE);
                 cvNcb.setVisibility(View.GONE);
-            } else {
-                llNoClaim.setVisibility(View.VISIBLE);
-                cvNcb.setVisibility(View.VISIBLE);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -719,6 +729,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
             etMobile.setText(motorRequestEntity.getMobile());
 
+
         }
         try {
 
@@ -744,7 +755,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
             //endregion
 
-          //region Expiry Date
+            //region Expiry Date
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
                 etExpDate.setEnabled(true);
                 etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
@@ -1551,7 +1562,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         }
 
                         //expiry date above 90 days
-                        if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
+
+                        if (etExpDate.getVisibility() == View.VISIBLE && (!etExpDate.getText().toString().equalsIgnoreCase(""))) {
+
+                            if ((dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90)) {
+                                motorRequestEntity.setIs_claim_exists("yes");
+                                motorRequestEntity.setVehicle_ncb_current("0");
+                            }
+                        } else {
                             motorRequestEntity.setIs_claim_exists("yes");
                             motorRequestEntity.setVehicle_ncb_current("0");
                         }

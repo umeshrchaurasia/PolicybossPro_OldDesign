@@ -236,12 +236,13 @@ public class ZohoController implements IZoho {
     }
 
     @Override
-    public void saveCommentOfTickets(String ticket_req_id, String comment, String docpath, final IResponseSubcriber iResponseSubcriber) {
+    public void saveCommentOfTickets(String ticket_req_id, String comment, String docpath, String statusId, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("ticket_req_id", ticket_req_id);
         body.put("comment", comment);
         body.put("docpath", docpath);
+        body.put("ticket_status_id", statusId);
         zohoNetworkService.saveTicketComment(body).enqueue(new Callback<RaiseTicketCommentResponse>() {
             @Override
             public void onResponse(Call<RaiseTicketCommentResponse> call, Response<RaiseTicketCommentResponse> response) {

@@ -144,7 +144,8 @@ public class MasterController implements IMasterFetch {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
                         if (response.body().getMasterData() != null && response.body().getMasterData().size() != 0)
-                            new AsyncCityMaster(mContext, response.body().getMasterData()).execute();
+                            //new AsyncCityMaster(mContext, response.body().getMasterData()).execute();
+                            new SyncCityMaster(mContext,response.body().getMasterData()).binCityMaster();
 
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {

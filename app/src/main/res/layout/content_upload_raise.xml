@@ -8,6 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".helpfeedback.raiseticket.UploadRaiseActivity"
     tools:showIn="@layout/activity_upload_raise">
+
     <ScrollView
         android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
@@ -46,10 +47,9 @@
                         android:padding="8dp"
                         android:text="My Comment"
 
-                        android:textSize="17sp"
                         android:textColor="@android:color/white"
+                        android:textSize="17sp"
                         android:textStyle="bold" />
-
 
 
                     <ImageView
@@ -75,20 +75,19 @@
                     android:paddingTop="10dp">
 
                     <TextView
-                        android:paddingLeft="2dp"
                         android:id="@+id/textView3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="Upload Image Document"
-                        />
+                        android:paddingLeft="2dp"
+                        android:text="Upload Image Document" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:visibility="visible"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="visible">
 
 
                         <ImageView
@@ -96,9 +95,8 @@
                             android:layout_width="120dp"
                             android:layout_height="120dp"
                             android:layout_centerInParent="true"
-                            android:transitionName="profileTransition"
                             android:background="@drawable/circle_placeholder"
-                            />
+                            android:transitionName="profileTransition" />
 
 
                         <ImageView
@@ -106,8 +104,8 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp"
 
-                            android:layout_alignParentBottom="true"
                             android:layout_alignStart="@+id/ivUser"
+                            android:layout_alignParentBottom="true"
                             android:layout_marginStart="90dp"
                             android:src="@drawable/camera_new"
                             android:visibility="visible" />
@@ -126,18 +124,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="5dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="5dp">
 
                     <TextView
                         android:id="@+id/textView1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Comment"
                         android:paddingLeft="2dp"
-                        />
+                        android:text="Comment" />
 
                     <EditText
                         android:id="@+id/et_Comment"
@@ -147,14 +144,11 @@
                         android:inputType="text"
                         android:maxLines="1"
 
-                        android:padding="10dp"    />
-
-
+                        android:padding="10dp" />
 
 
                 </LinearLayout>
             </LinearLayout>
-
 
 
         </android.support.v7.widget.CardView>

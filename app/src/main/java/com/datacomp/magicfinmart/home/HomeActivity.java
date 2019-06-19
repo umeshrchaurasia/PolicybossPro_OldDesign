@@ -46,7 +46,6 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
-import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
@@ -237,6 +236,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         // will be called once when ever app is opened
+
+        if (db.getRTOListNames() != null && db.getRTOListNames().size() <= 0) {
+            new MasterController(this).getRTOMaster(this);
+        }
 
         if (loginResponseEntity != null) {
 
@@ -506,7 +509,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_finbox:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL",  userConstantEntity.getFinboxurl())
+                                .putExtra("URL", userConstantEntity.getFinboxurl())
                                 .putExtra("NAME", "MY FINBOX")
                                 .putExtra("TITLE", "MY FINBOX"));
 
@@ -1964,7 +1967,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
-              //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+                    //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
                     startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
                 }
             });
