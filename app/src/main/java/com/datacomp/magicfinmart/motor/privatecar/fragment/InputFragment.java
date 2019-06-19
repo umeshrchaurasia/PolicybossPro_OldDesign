@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -51,6 +52,8 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
@@ -167,6 +170,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -246,13 +250,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             txtExistingPolicyNo.setEnabled(true);
         }
 
-        if(motorRequestEntity.getVehicle_insurance_type().toLowerCase().equalsIgnoreCase("new")){
+        if (motorRequestEntity.getVehicle_insurance_type().toLowerCase().equalsIgnoreCase("new")) {
             llNoClaim.setVisibility(View.GONE);
             cvNcb.setVisibility(View.GONE);
         }
 
         try {
-            if(!motorRequestEntity.getPolicy_expiry_date().trim().equalsIgnoreCase("")) {
+            if (!motorRequestEntity.getPolicy_expiry_date().trim().equalsIgnoreCase("")) {
                 int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
 
                 if (day > 90) {
@@ -263,7 +267,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     cvNcb.setVisibility(View.VISIBLE);
 
                 }
-            }else{
+            } else {
                 llNoClaim.setVisibility(View.GONE);
                 cvNcb.setVisibility(View.GONE);
             }
@@ -1406,42 +1410,55 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         switch (view.getId()) {
             case R.id.btnGo:
 
-                if (etreg1.getText().toString().equals("")) {
-                    etreg1.requestFocus();
-                    etreg1.setError("Invalid vehicle Number");
-                    return;
-                }
-                if (etreg2.getText().toString().equals("")) {
-                    etreg2.requestFocus();
-                    etreg2.setError("Invalid vehicle Number");
-                    return;
-                }
-                if (etreg3.getText().toString().equals("")) {
-                    etreg3.requestFocus();
-                    etreg3.setError("Invalid vehicle Number");
-                    return;
-                }
-                if (etreg4.getText().toString().equals("")) {
-                    etreg4.requestFocus();
-                    etreg4.setError("Invalid vehicle Number");
-                    return;
-                }
 
-                regNo = etreg1.getText().toString() + etreg2.getText().toString()
-                        + etreg3.getText().toString() + etreg4.getText().toString();
-                if (!regNo.equals("")) {
-                    llVerifyCarDetails.setVisibility(View.VISIBLE);
-                    tvCarNo.setText("" + regNo);
-                    Constants.hideKeyBoard(etreg4, getActivity());
-                    tvDontKnow.performClick();
-                    btnGetQuote.setVisibility(View.VISIBLE);
-                    showDialog("Fetching car details...");
-                    insertFastlaneLog();
+                SearchBOFBAFragment mBottom = SearchBOFBAFragment.Companion.newInstance(new IBOFbaCallback() {
+                    @Override
+                    public void getBOFBA() {
+                        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                mBottom.show(getFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
 
-                    motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
-                    new FastLaneController(getActivity()).getVechileDetails(regNo, this);
-                }
+
+
+
+            /*if (etreg1.getText().toString().equals("")) {
+                etreg1.requestFocus();
+                etreg1.setError("Invalid vehicle Number");
+                return;
+            }
+            if (etreg2.getText().toString().equals("")) {
+                etreg2.requestFocus();
+                etreg2.setError("Invalid vehicle Number");
+                return;
+            }
+            if (etreg3.getText().toString().equals("")) {
+                etreg3.requestFocus();
+                etreg3.setError("Invalid vehicle Number");
+                return;
+            }
+            if (etreg4.getText().toString().equals("")) {
+                etreg4.requestFocus();
+                etreg4.setError("Invalid vehicle Number");
+                return;
+            }
+
+            regNo = etreg1.getText().toString() + etreg2.getText().toString()
+                    + etreg3.getText().toString() + etreg4.getText().toString();
+            if (!regNo.equals("")) {
+                llVerifyCarDetails.setVisibility(View.VISIBLE);
+                tvCarNo.setText("" + regNo);
+                Constants.hideKeyBoard(etreg4, getActivity());
+                tvDontKnow.performClick();
+                btnGetQuote.setVisibility(View.VISIBLE);
+                showDialog("Fetching car details...");
+                insertFastlaneLog();
+
+                motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
+
+                new FastLaneController(getActivity()).getVechileDetails(regNo, this);
+            }*/
                 break;
             case R.id.imgInfo:
                 InfomationAlert("Information", getActivity().getResources().getString(R.string.motorInfo));
