@@ -21,6 +21,9 @@ public class TicketEntity {
     private String Status;
     private int FBAID;
     private int CategoryId;
+
+
+    private int StatusId;
     private int SubCategoryId;
     private int ClassificationId;
     private String DocPath;
@@ -144,4 +147,13 @@ public class TicketEntity {
     public void setCrnloan(String crnloan) {
         this.crnloan = crnloan;
     }
+
+    public int getStatusId() {
+        return StatusId;
+    }
+
+    public void setStatusId(int statusId) {
+        StatusId = statusId;
+    }
+
 }

@@ -74,6 +74,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
     int RequestID = 0;
+    int STATUS_ID = 0;
     String DOC_PATH = "";
 
     @Override
@@ -95,6 +96,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
 
         if (getIntent().hasExtra("REQ_ID")) {
             RequestID = getIntent().getIntExtra("REQ_ID", 0);
+            STATUS_ID  = getIntent().getIntExtra("STATUS_ID", 0);
         }
 
     }
@@ -472,7 +474,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
                     return ;
                 }
                 showDialog();
-                new ZohoController(this).saveCommentOfTickets(String.valueOf(RequestID), etComment.getText().toString(), DOC_PATH, this);
+                new ZohoController(this).saveCommentOfTickets(String.valueOf(RequestID), etComment.getText().toString(), DOC_PATH,String.valueOf(STATUS_ID), this);
 
 
                 break;

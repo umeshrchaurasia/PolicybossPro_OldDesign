@@ -183,6 +183,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
     public void redirectToUpload(TicketEntity entity) {
         Intent intent = new Intent(RaiseTicketActivity.this, UploadRaiseActivity.class);
         intent.putExtra("REQ_ID", entity.getTicketRequestId());
+        intent.putExtra("STATUS_ID", entity.getStatusId());
         startActivityForResult(intent, 2);
     }
 
