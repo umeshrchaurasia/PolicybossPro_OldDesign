@@ -73,7 +73,7 @@ android {
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
 
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
-            buildConfigField "String", "FIRSTHIVE", '"138"'
+            buildConfigField "String", "FIRSTHIVE", '"164"'
         }
         //preprodapiqa.mgfm.in
         uat {
