@@ -40,6 +40,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.fbaSearch.FbaSearchBottomDialogFragment;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.offline_quotes.AddOfflineQuotesActivity;
@@ -109,7 +110,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment, etfbaSearch;
     EditText etIDVAmount;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvProgress, tvClaimYes, tvClaimNo;
@@ -469,6 +470,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvClaimYes = (TextView) findViewById(R.id.tvClaimYes);
         etCC = (EditText) findViewById(R.id.etCC);
         etComment = findViewById(R.id.etComment);
+        etfbaSearch = findViewById(R.id.etfbaSearch);
 
 
         etreg1 = (EditText) findViewById(R.id.etreg1);
@@ -534,6 +536,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvClaimNo.setOnClickListener(this);
         btnSaveOffline.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
+        etfbaSearch.setOnClickListener(this);
 //        etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
 //        etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
 //        etreg3.addTextChangedListener(new GenericTextWatcher(etreg1, etreg3, this));
@@ -2039,6 +2042,13 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 llDontKnow.setVisibility(View.GONE);
                 btnSaveOffline.setVisibility(View.VISIBLE);
                 break;
+
+            case R.id.etfbaSearch:
+               // Toast.makeText(this, "Data PopUp", Toast.LENGTH_SHORT).show();
+//                FbaSearchBottomDialogFragment bottomSheetDialog = FbaSearchBottomDialogFragment.newInstance();
+//                bottomSheetDialog.show(getSupportFragmentManager(), "Custom Bottom Sheet");
+                break;
+
         }
 
     }
