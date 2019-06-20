@@ -43,6 +43,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.offline_quotes.AddOfflineQuotesActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
@@ -62,6 +64,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -83,7 +86,8 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 public class InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener,
         ILocationStateListener, RadioGroup.OnCheckedChangeListener,
         CompoundButton.OnCheckedChangeListener, View.OnClickListener,
-        IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+        IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber,
+        IBOFbaCallback {
 
     Gson gson = new Gson();
     private static final String TAG = "InputOfflineMotorActivity";
@@ -2043,13 +2047,21 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 break;
 
             case R.id.etfbaSearch:
-               // Toast.makeText(this, "Data PopUp", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "Data PopUp", Toast.LENGTH_SHORT).show();
 //                FbaSearchBottomDialogFragment bottomSheetDialog = FbaSearchBottomDialogFragment.newInstance();
 //                bottomSheetDialog.show(getSupportFragmentManager(), "Custom Bottom Sheet");
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
                 break;
 
         }
 
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        etfbaSearch.setText(entity.getFullName());
     }
 
     public String getFormattedRegNoFastlane() {

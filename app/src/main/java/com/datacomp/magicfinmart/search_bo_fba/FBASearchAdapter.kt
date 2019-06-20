@@ -9,7 +9,7 @@ import com.datacomp.magicfinmart.R
 import kotlinx.android.synthetic.main.layout_bo_fba_search_item.view.*
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity
 
-class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val context: Context) :
+class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val iboFbaCallback: IBOFbaCallback, val context: Context) :
         RecyclerView.Adapter<FBASearchAdapter.FBAItem>() {
 
 
@@ -19,6 +19,10 @@ class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val context: Context) :
 
     override fun onBindViewHolder(holder: FBAItem, position: Int) {
         holder.txtFBAName.text = fbaList.get(position).fullName
+
+        holder.llSearchFBA.setOnClickListener {
+            iboFbaCallback.getBOFBA(fbaList.get(position))
+        }
     }
 
 
@@ -32,5 +36,6 @@ class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val context: Context) :
 
     class FBAItem(v: View) : RecyclerView.ViewHolder(v) {
         var txtFBAName = v.txtFBAName
+        var llSearchFBA = v.llSearchFBA
     }
 }
