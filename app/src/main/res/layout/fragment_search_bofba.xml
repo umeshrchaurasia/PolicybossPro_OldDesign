@@ -24,9 +24,10 @@
             style="@style/Style.edittext"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:hint="Search"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white" />
+            android:hint="Search FBA/Mobile/Email"
+            android:text="Nilesh"
+            android:textColor="@color/header_dark_text"
+            android:textColorHint="@color/description_text" />
 
         <ImageView
             android:id="@+id/imgSearch"

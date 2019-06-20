@@ -6,6 +6,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BOFbaListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorLeadResponse;
@@ -72,6 +73,10 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/insert-fba-contact-lead-disposition")
         Call<LeadDispositionSaveResponse> saveLeadDisposition(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/search-fba-onbehalf")
+        Call<BOFbaListResponse> getBOFbaList(@Body HashMap<String, String> body);
 
 
     }
