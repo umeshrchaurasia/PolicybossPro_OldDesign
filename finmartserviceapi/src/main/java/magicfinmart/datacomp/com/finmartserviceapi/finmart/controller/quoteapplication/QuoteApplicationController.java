@@ -12,6 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MotorMyLeadEnti
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.QuoteApplicationRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BOFbaListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LeadDispositionSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MotorLeadResponse;
@@ -383,4 +384,47 @@ public class QuoteApplicationController implements IQuoteApp {
         });
     }
 
+
+    @Override
+    public void getBOFbaList(String fbaID, String searchKeyWord, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("fbaid", fbaID);
+        body.put("count", "0");
+        body.put("search", searchKeyWord);
+
+        quoteApplicationNetworkService.getBOFbaList(body).enqueue(new Callback<BOFbaListResponse>() {
+            @Override
+            public void onResponse(Call<BOFbaListResponse> call, Response<BOFbaListResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<BOFbaListResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
+    }
 }
