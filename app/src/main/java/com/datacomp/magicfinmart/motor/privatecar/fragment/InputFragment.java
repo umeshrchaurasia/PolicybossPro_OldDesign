@@ -1421,44 +1421,42 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 //
 
 
+                if (etreg1.getText().toString().equals("")) {
+                    etreg1.requestFocus();
+                    etreg1.setError("Invalid vehicle Number");
+                    return;
+                }
+                if (etreg2.getText().toString().equals("")) {
+                    etreg2.requestFocus();
+                    etreg2.setError("Invalid vehicle Number");
+                    return;
+                }
+                if (etreg3.getText().toString().equals("")) {
+                    etreg3.requestFocus();
+                    etreg3.setError("Invalid vehicle Number");
+                    return;
+                }
+                if (etreg4.getText().toString().equals("")) {
+                    etreg4.requestFocus();
+                    etreg4.setError("Invalid vehicle Number");
+                    return;
+                }
 
+                regNo = etreg1.getText().toString() + etreg2.getText().toString()
+                        + etreg3.getText().toString() + etreg4.getText().toString();
+                if (!regNo.equals("")) {
+                    llVerifyCarDetails.setVisibility(View.VISIBLE);
+                    tvCarNo.setText("" + regNo);
+                    Constants.hideKeyBoard(etreg4, getActivity());
+                    tvDontKnow.performClick();
+                    btnGetQuote.setVisibility(View.VISIBLE);
+                    showDialog("Fetching car details...");
+                    insertFastlaneLog();
 
-            if (etreg1.getText().toString().equals("")) {
-                etreg1.requestFocus();
-                etreg1.setError("Invalid vehicle Number");
-                return;
-            }
-            if (etreg2.getText().toString().equals("")) {
-                etreg2.requestFocus();
-                etreg2.setError("Invalid vehicle Number");
-                return;
-            }
-            if (etreg3.getText().toString().equals("")) {
-                etreg3.requestFocus();
-                etreg3.setError("Invalid vehicle Number");
-                return;
-            }
-            if (etreg4.getText().toString().equals("")) {
-                etreg4.requestFocus();
-                etreg4.setError("Invalid vehicle Number");
-                return;
-            }
+                    motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
-            regNo = etreg1.getText().toString() + etreg2.getText().toString()
-                    + etreg3.getText().toString() + etreg4.getText().toString();
-            if (!regNo.equals("")) {
-                llVerifyCarDetails.setVisibility(View.VISIBLE);
-                tvCarNo.setText("" + regNo);
-                Constants.hideKeyBoard(etreg4, getActivity());
-                tvDontKnow.performClick();
-                btnGetQuote.setVisibility(View.VISIBLE);
-                showDialog("Fetching car details...");
-                insertFastlaneLog();
-
-                motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
-
-                new FastLaneController(getActivity()).getVechileDetails(regNo, this);
-            }
+                    new FastLaneController(getActivity()).getVechileDetails(regNo, this);
+                }
                 break;
             case R.id.imgInfo:
                 InfomationAlert("Information", getActivity().getResources().getString(R.string.motorInfo));
@@ -1644,7 +1642,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
 
 
-        //added ny Nilesh 08/02/2019
+        //added by Nilesh 08/02/2019
         //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
 
         if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
