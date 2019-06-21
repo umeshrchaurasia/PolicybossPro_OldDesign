@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -37,6 +38,8 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter.OfflineHealthMemberDetailsViewAdapter;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter.OfflineHealthSumAssuredViewAdapter;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.SortbyAge;
 
@@ -49,18 +52,20 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveHealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
-public class InputOfflineHealthActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, View.OnTouchListener ,IResponseSubcriber {
+public class InputOfflineHealthActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, View.OnTouchListener ,IResponseSubcriber , IBOFbaCallback {
 
     private static final String TAG = "HealthInputFragment";
     public static final int REQUEST_MEMBER = 4444;
@@ -71,6 +76,8 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     Button btnSelf, btnFamily, btnParent;
     ImageView img1, img2, img3, img4, img5, img6;
     EditText et1, et2, et3, et4, et5, et6 ;
+    LinearLayout llfbaSearch;
+    EditText etfbaSearch;
     RecyclerView rvSumAssured;
     AutoCompleteTextView acCity;
     ArrayAdapter<String> cityAdapter;
@@ -99,6 +106,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     private PopupWindow mPopupWindow, mPopupWindowSelection;
     View customView, customViewSelection;
     AlertDialog alertDialog;
+    UserConstantEntity userConstantEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +127,7 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         cityBinding();
 
         db = new DBPersistanceController(this);
-
+        userConstantEntity = db.getUserConstantsData();
         loginEntity = db.getUserData();
         listSumAssured = db.getSumAssured();
 
@@ -131,6 +139,13 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
         disableAllInputs();
 
+        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
         if (getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT) != null) {
             healthQuote = getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT);
@@ -649,6 +664,8 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 //        et5.setOnFocusChangeListener(this);
 //        et6.setOnFocusChangeListener(this);
 
+        etfbaSearch.setOnClickListener(this);
+
         et1.setOnTouchListener(this);
         et2.setOnTouchListener(this);
         et3.setOnTouchListener(this);
@@ -757,6 +774,9 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         etComment = (EditText) findViewById(R.id.etComment);
         btnGetHealthQuote = (Button) findViewById(R.id.btnGetHealthQuote);
 
+        etfbaSearch = findViewById(R.id.etfbaSearch);
+        llfbaSearch  = findViewById(R.id.llfbaSearch);
+
 
     }
 
@@ -777,6 +797,13 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
         }
 
         switch (view.getId()) {
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
+                break;
+
             case R.id.btnSelf:
 
                 MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health Insurance Cover For : Self");
@@ -1863,5 +1890,11 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     public void OnFailure(Throwable t) {
 
         cancelDialog();
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+
+        etfbaSearch.setText(entity.getFullName());
     }
 }
