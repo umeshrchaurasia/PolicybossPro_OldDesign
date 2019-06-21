@@ -93,7 +93,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     private static final String TAG = "InputOfflineMotorActivity";
     TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb;
-    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
+    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow ,llfbaSearch;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
@@ -526,6 +526,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         rbBeyond = findViewById(R.id.rbBeyond);
 
         etIDVAmount = findViewById(R.id.etIDVAmount);
+        llfbaSearch  = findViewById(R.id.llfbaSearch);
 
     }
 
@@ -934,6 +935,12 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
+        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
     }
 

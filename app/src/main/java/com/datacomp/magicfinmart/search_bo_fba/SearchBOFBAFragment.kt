@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v7.widget.LinearLayoutManager
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,11 +34,15 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+
         return inflater?.inflate(R.layout.fragment_search_bofba, container, false)
+
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         rvFBAList.layoutManager = LinearLayoutManager(activity)
         imgSearch.setOnClickListener(this)
 

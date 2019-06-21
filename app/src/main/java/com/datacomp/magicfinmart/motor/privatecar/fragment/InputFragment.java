@@ -74,6 +74,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -98,7 +99,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
@@ -123,7 +124,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC , etfbaSearch;;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
     Switch swIndividual, swClaim;
@@ -164,7 +165,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
     TextView txtExistingPolicyYes, txtExistingPolicyNo;
-    LinearLayout llExistingPolicy, llExp;
+    LinearLayout llExistingPolicy, llExp ,llfbaSearch;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -1177,6 +1178,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
+        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
+
 
     }
 
@@ -1250,6 +1259,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         tvClaimNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
+        etfbaSearch.setOnClickListener(this);
         etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
         etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
         etreg3.addTextChangedListener(new GenericTextWatcher(etreg1, etreg3, this));
@@ -1350,6 +1360,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         tvClaimNo = (TextView) view.findViewById(R.id.tvClaimNo);
         tvClaimYes = (TextView) view.findViewById(R.id.tvClaimYes);
         etCC = (EditText) view.findViewById(R.id.etCC);
+        etfbaSearch = (EditText) view.findViewById(R.id.etfbaSearch);
+        llfbaSearch =  view.findViewById(R.id.llfbaSearch);
 
 
         etreg1 = (EditText) view.findViewById(R.id.etreg1);
@@ -1632,6 +1644,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 tvOr.setVisibility(View.GONE);
                 llDontKnow.setVisibility(View.GONE);
                 btnGetQuote.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getActivity().getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
                 break;
         }
     }
@@ -2909,6 +2927,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         // TODO Add your menu entries here
         inflater.inflate(R.menu.home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+
+        etfbaSearch.setText(entity.getFullName());
+
     }
 
 
