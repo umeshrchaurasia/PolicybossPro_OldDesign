@@ -2068,7 +2068,14 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
     @Override
     public void getBOFBA(BOFbaEntity entity) {
-        etfbaSearch.setText(entity.getFullName());
+        if (entity == null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+            etfbaSearch.setText("self");
+        } else {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+        }
+
     }
 
     public String getFormattedRegNoFastlane() {
@@ -2084,23 +2091,21 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
         motorRequestEntity.setApp_version(Utility.getVersionName(InputOfflineMotorActivity.this));
         motorRequestEntity.setDevice_id(Utility.getTokenId(InputOfflineMotorActivity.this));
-        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
         try {
             motorRequestEntity.setMac_address(Utility.getMacAddress(InputOfflineMotorActivity.this));
         } catch (IOException e) {
             motorRequestEntity.setMac_address("0");
         }
 
+
+        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
         if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
             int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
             motorRequestEntity.setSs_id(ssid);
         } else {
             motorRequestEntity.setSs_id(5);
         }
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(InputOfflineMotorActivity.this));
-        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
-        if (insuranceSubtypeEntity != null)
-            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+
     }
 
     //region set parameter

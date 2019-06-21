@@ -156,6 +156,7 @@ public class UserConstantEntity extends RealmObject {
 
     //added by nilesh 19.06.2019
     private String boempuid;
+    private String enableInsuranceBusiness;
 
 
     public String getUltralakshyaenabled() {
@@ -199,6 +200,14 @@ public class UserConstantEntity extends RealmObject {
     // added by Nilesh 17.04.2019
     private String paenable;
 
+
+    public String getEnableInsuranceBusiness() {
+        return enableInsuranceBusiness;
+    }
+
+    public void setEnableInsuranceBusiness(String enableInsuranceBusiness) {
+        this.enableInsuranceBusiness = enableInsuranceBusiness;
+    }
 
     public String getBoempuid() {
         return boempuid;
