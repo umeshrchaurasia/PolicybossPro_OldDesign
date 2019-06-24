@@ -89,18 +89,12 @@
 
 
 
-                    <!--<TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="VERIFY YOUR CAR DETAILS FOR "
-                        android:textAppearance="@style/TextStyle.TextMedium" />
--->
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="FBA/Name">
+                        android:hint="FBA/Name/Mobile">
 
                         <EditText
                             android:id="@+id/etfbaSearch"
