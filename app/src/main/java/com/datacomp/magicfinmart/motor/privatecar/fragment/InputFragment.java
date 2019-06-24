@@ -1410,17 +1410,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         switch (view.getId()) {
             case R.id.btnGo:
 
-
-//                SearchBOFBAFragment mBottom = SearchBOFBAFragment.Companion.newInstance(new IBOFbaCallback() {
-//                    @Override
-//                    public void getBOFBA() {
-//                        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                mBottom.show(getFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
-//
-
-
                 if (etreg1.getText().toString().equals("")) {
                     etreg1.requestFocus();
                     etreg1.setError("Invalid vehicle Number");
