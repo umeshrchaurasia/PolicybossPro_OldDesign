@@ -34,18 +34,13 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-
         return inflater?.inflate(R.layout.fragment_search_bofba, container, false)
-
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         rvFBAList.layoutManager = LinearLayoutManager(activity)
         imgSearch.setOnClickListener(this)
-
     }
 
     override fun onClick(v: View?) {
@@ -56,7 +51,8 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
                 Constants.hideKeyBoard(etSearch, activity)
                 //service hit fetch data
                 if (etSearch.text.toString().isEmpty()) {
-                    etSearch.error = "Invalid input"
+                    etSearch.isFocusable = true
+                    Toast.makeText(context, "Invalid Input", Toast.LENGTH_SHORT).show()
                     return
                 }
 
@@ -82,6 +78,7 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
                 rvFBAList.adapter = FBASearchAdapter(response.masterData!!, this, activity)
             } else {
                 rvFBAList.adapter = null
+                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
             }
         }
 
