@@ -124,7 +124,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC , etfbaSearch;;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etfbaSearch;
+    ;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
     Switch swIndividual, swClaim;
@@ -165,7 +166,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
     TextView txtExistingPolicyYes, txtExistingPolicyNo;
-    LinearLayout llExistingPolicy, llExp ,llfbaSearch;
+    LinearLayout llExistingPolicy, llExp, llfbaSearch;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -1178,11 +1179,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
-        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
-        {
+        if (userConstantEntity.getBoempuid() != null && userConstantEntity.getBoempuid().length() > 0) {
             llfbaSearch.setVisibility(View.VISIBLE);
             etfbaSearch.setText("Self");
-        }else{
+        } else {
             llfbaSearch.setVisibility(View.GONE);
         }
 
@@ -1361,7 +1361,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         tvClaimYes = (TextView) view.findViewById(R.id.tvClaimYes);
         etCC = (EditText) view.findViewById(R.id.etCC);
         etfbaSearch = (EditText) view.findViewById(R.id.etfbaSearch);
-        llfbaSearch =  view.findViewById(R.id.llfbaSearch);
+        llfbaSearch = view.findViewById(R.id.llfbaSearch);
 
 
         etreg1 = (EditText) view.findViewById(R.id.etreg1);
@@ -1421,17 +1421,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnGo:
-
-
-//                SearchBOFBAFragment mBottom = SearchBOFBAFragment.Companion.newInstance(new IBOFbaCallback() {
-//                    @Override
-//                    public void getBOFBA() {
-//                        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                mBottom.show(getFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
-//
-
 
                 if (etreg1.getText().toString().equals("")) {
                     etreg1.requestFocus();
@@ -1604,6 +1593,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         if (isBreakIn) {
                             SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
                             entity.setMotorRequestEntity(motorRequestEntity);
+                            //added for behalf of
+                            entity.setCreatedByUserFbaId(userConstantEntity.getFBAId());
+                            //end
                             entity.setSRN("");
                             entity.setComment("");
                             entity.setVehicleRequestID("");
@@ -1658,20 +1650,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
         motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
         motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
-
-
-        //added by Nilesh 08/02/2019
-        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
-
-        if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
-                && !userConstantEntity.getParentid().equals("0")) {
-            motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
-            motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
-        } else {
-            motorRequestEntity.setSub_fbaid("0");
-            motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
-        }
-
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
+        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+        if (insuranceSubtypeEntity != null)
+            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
 
         try {
             motorRequestEntity.setMac_address(Utility.getMacAddress(getActivity()));
@@ -1679,16 +1661,40 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             motorRequestEntity.setMac_address("0");
         }
 
-        if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
-            int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
-            motorRequestEntity.setSs_id(ssid);
+        //added by Nilesh 08/02/2019
+        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+        //added for behalf of
+
+        //self
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+            if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                    && !userConstantEntity.getParentid().equals("0")) {
+                motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
+            } else {
+                motorRequestEntity.setSub_fbaid("0");
+                motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+            }
+
+
+            if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
+                int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
+                motorRequestEntity.setSs_id(ssid);
+            } else {
+                motorRequestEntity.setSs_id(5);
+            }
         } else {
-            motorRequestEntity.setSs_id(5);
+
+            BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+
+            motorRequestEntity.setSub_fbaid(String.valueOf(entity.getFbaid()));
+            motorRequestEntity.setFba_id(Integer.parseInt(entity.getParentid()));
+            motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
         }
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
-        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
-        if (insuranceSubtypeEntity != null)
-            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+
+        //behalf of end
     }
 
 
@@ -2929,8 +2935,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     @Override
     public void getBOFBA(BOFbaEntity entity) {
-
-        etfbaSearch.setText(entity.getFullName());
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+        } else {
+            etfbaSearch.setText("Self");
+        }
 
     }
 
