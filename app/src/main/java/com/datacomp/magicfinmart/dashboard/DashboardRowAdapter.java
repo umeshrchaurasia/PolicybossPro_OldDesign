@@ -164,12 +164,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     new RecyclerItemClickListener(((InsuranceHolder) holder).rvDashboard,
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
-                                public void onItemClick(View view, int position) {   // temp 05 commented
-//                                    if (mReal.getUserConstantsData().getEnableInsuranceBusiness().equals("1")) {
-//                                        switchMenus(listIns.get(position));
-//                                    } else {
-//                                        Toast.makeText(mContext, "Your not authorize to sell Insurance..", Toast.LENGTH_SHORT).show();
-//                                    }
+                                public void onItemClick(View view, int position) {
+                                    if (mReal.getUserConstantsData().getEnableInsuranceBusiness().equals("1")) {
+                                        switchMenus(listIns.get(position));
+                                    } else {
+                                        Toast.makeText(mContext, "Your not authorize to sell Insurance..", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }));
 

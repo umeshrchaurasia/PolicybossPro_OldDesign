@@ -39,8 +39,10 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        txtFBAName.text = "Self"
         rvFBAList.layoutManager = LinearLayoutManager(activity)
         imgSearch.setOnClickListener(this)
+        txtFBAName.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -50,6 +52,8 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
 
                 Constants.hideKeyBoard(etSearch, activity)
                 //service hit fetch data
+
+
                 if (etSearch.text.toString().isEmpty()) {
                     etSearch.isFocusable = true
                     Toast.makeText(context, "Invalid Input", Toast.LENGTH_SHORT).show()
@@ -60,6 +64,12 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
                 QuoteApplicationController(activity).getBOFbaList(DBPersistanceController(activity).userConstantsData.fbaId,
                         etSearch.text.toString(), this)
 
+
+
+            }
+
+            R.id.txtFBAName -> {
+                Toast.makeText(context, "Self Clicked", Toast.LENGTH_SHORT).show()
             }
         }
     }
