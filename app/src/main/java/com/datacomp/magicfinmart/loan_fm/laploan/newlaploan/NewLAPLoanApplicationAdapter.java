@@ -1,40 +1,35 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan;
+package com.datacomp.magicfinmart.loan_fm.laploan.newlaploan;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.NewLoanApplicationEnity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
 /**
  * Created by IN-RB on 12-01-2018.
  */
 
-public class NewPersonalLoanApplicationAdapter extends RecyclerView.Adapter<NewPersonalLoanApplicationAdapter.ApplicationItem>implements Filterable {
+public class NewLAPLoanApplicationAdapter extends RecyclerView.Adapter<NewLAPLoanApplicationAdapter.ApplicationItem>implements Filterable {
     Activity mContext;
     List<NewLoanApplicationEnity> mApplicationList;
 
 
-    public NewPersonalLoanApplicationAdapter(Activity context, List<NewLoanApplicationEnity> mApplicationList) {
+    public NewLAPLoanApplicationAdapter(Activity context, List<NewLoanApplicationEnity> mApplicationList) {
         this.mContext = context;
         this.mApplicationList = mApplicationList;
     }
@@ -75,12 +70,10 @@ public class NewPersonalLoanApplicationAdapter extends RecyclerView.Adapter<NewP
             if (entity.getRBStatus() != null) {
 
                 holder.ivLeadInfo.setVisibility(View.VISIBLE);
-                holder.txtHistory.setVisibility(View.VISIBLE);
 
             } else {
 
                 holder.ivLeadInfo.setVisibility(View.GONE);
-                holder.txtHistory.setVisibility(View.GONE);
             }
 
             holder.lyParent.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +86,7 @@ public class NewPersonalLoanApplicationAdapter extends RecyclerView.Adapter<NewP
 
                     }else{
 
-                        ((NewPersonalApplicaionActivity) mContext).redirectPersonalLoanApply(entity);
+                        ((NewLAPApplicaionActivity) mContext).redirectPersonalLoanApply(entity);
 
                     }
 
@@ -113,11 +106,10 @@ public class NewPersonalLoanApplicationAdapter extends RecyclerView.Adapter<NewP
                 @Override
                 public void onClick(View v) {
                     try {
-                        ((NewPersonalApplicaionActivity) mContext).openLeadDetailPopUp_personal(entity.getLeadId());
+                        ((NewLAPApplicaionActivity) mContext).openLeadDetailPopUp_home(entity.getLeadId());
                     }catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
             });
 
@@ -147,13 +139,12 @@ public class NewPersonalLoanApplicationAdapter extends RecyclerView.Adapter<NewP
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName,txtHistory;
+        TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
         ImageView imgbankLogo,imgStatus,ivLeadInfo;
         LinearLayout lyParent;
 
         public ApplicationItem(View itemView) {
             super(itemView);
-            txtHistory = (TextView) itemView.findViewById(R.id.txtHistory);
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
             txtApplicationDate = (TextView) itemView.findViewById(R.id.txtApplicationDate);
             txtApplicationNumber = (TextView) itemView.findViewById(R.id.txtApplicationNumber);

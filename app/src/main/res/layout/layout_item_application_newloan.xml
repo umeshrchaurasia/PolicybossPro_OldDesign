@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="90"
+                android:layout_weight="50"
                 android:gravity="center"
                 android:lines="2"
                 android:text="cdcd"
@@ -40,6 +40,17 @@
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/txtHistory"
+                style="@style/TextStyle.TextMedium"
+                android:layout_weight="30"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:drawablePadding="0dp"
+                android:gravity="center"
+                android:text="Lead History"
+                android:textAllCaps="true"
+                android:textSize="11sp" />
             <ImageView
                 android:id="@+id/ivLeadInfo"
                 android:scaleType="centerInside"
@@ -48,7 +59,7 @@
                 android:layout_height="24dp"
                 android:layout_marginRight="25dp"
                 android:visibility="gone"
-                android:src="@drawable/history_icon"/>
+                android:src="@drawable/history_lead_ic"/>
             <TextView
                 android:id="@+id/txtOverflowMenu"
                 android:layout_width="0dp"
