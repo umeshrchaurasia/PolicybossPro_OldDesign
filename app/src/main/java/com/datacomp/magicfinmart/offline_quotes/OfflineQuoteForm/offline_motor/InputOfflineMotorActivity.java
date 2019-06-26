@@ -935,12 +935,12 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
-        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
-        {
-            llfbaSearch.setVisibility(View.VISIBLE);
-        }else{
-            llfbaSearch.setVisibility(View.GONE);
-        }
+//        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+//        {
+//            llfbaSearch.setVisibility(View.VISIBLE);
+//        }else{
+//            llfbaSearch.setVisibility(View.GONE);
+//        }
 
     }
 

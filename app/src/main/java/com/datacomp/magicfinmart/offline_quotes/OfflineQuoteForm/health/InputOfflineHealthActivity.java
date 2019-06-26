@@ -139,13 +139,13 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
         disableAllInputs();
 
-        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
-        {
-            llfbaSearch.setVisibility(View.VISIBLE);
-            etfbaSearch.setText("Self");
-        }else{
-            llfbaSearch.setVisibility(View.GONE);
-        }
+//        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+//        {
+//            llfbaSearch.setVisibility(View.VISIBLE);
+//            etfbaSearch.setText("Self");
+//        }else{
+//            llfbaSearch.setVisibility(View.GONE);
+//        }
 
         if (getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT) != null) {
             healthQuote = getIntent().getParcelableExtra(Constants.OFFLINE_HEALTH_EDIT);
