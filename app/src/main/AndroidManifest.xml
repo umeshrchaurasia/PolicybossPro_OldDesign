@@ -1322,6 +1322,41 @@
             android:label="@string/title_activity_upload_raise"
             android:theme="@style/DialogTheme" />
 
+
+        <activity
+            android:name=".loan_fm.laploan.newlaploan.city_selecton_laploan_Activity"
+            android:label="LAP Loan"
+            android:parentActivityName=".loan_fm.laploan.newlaploan.NewLAPApplicaionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity" />
+        </activity>
+        <activity
+            android:name=".loan_fm.laploan.newlaploan.bank_selection_laploanActivity"
+            android:label="LAP Loan"
+            android:parentActivityName=".loan_fm.laploan.newlaploan.city_selecton_laploan_Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
+        </activity>
+        <activity
+            android:name=".loan_fm.laploan.newlaploan.NewLAPApplicaionActivity"
+            android:label="LAP LOAN"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+
     </application>
 
 </manifest>

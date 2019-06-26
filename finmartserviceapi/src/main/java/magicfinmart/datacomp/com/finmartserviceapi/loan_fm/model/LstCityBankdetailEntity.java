@@ -40,6 +40,10 @@ public  class LstCityBankdetailEntity {
             private String Product_Type;
             private String Seqment;
             private String Tenure;
+             private String Per_Lac_EMI_outside;
+
+
+
 
             public String getAge() {
                 return Age;
@@ -169,5 +173,13 @@ public  class LstCityBankdetailEntity {
 
             public void setTenure(String Tenure) {
                 this.Tenure = Tenure;
+            }
+
+            public String getPer_Lac_EMI_outside() {
+                return Per_Lac_EMI_outside;
+            }
+
+            public void setPer_Lac_EMI_outside(String per_Lac_EMI_outside) {
+                Per_Lac_EMI_outside = per_Lac_EMI_outside;
             }
         }

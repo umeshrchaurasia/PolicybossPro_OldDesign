@@ -639,7 +639,7 @@ public class DBPersistanceController {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
         dashboardEntities.add(new DashboardEntity("LOANS", 4, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan));
         dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan));
-        //dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
+        dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer));
 

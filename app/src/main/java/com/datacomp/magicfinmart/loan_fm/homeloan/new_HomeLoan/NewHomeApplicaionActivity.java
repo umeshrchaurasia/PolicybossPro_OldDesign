@@ -128,31 +128,34 @@ public class NewHomeApplicaionActivity extends BaseActivity implements View.OnCl
 
         String url="";
         String Bankname="";
-        if(String.valueOf(entity.getBankId()).equals("33")){
-            Bankname="KOTAK MAHINDRA BANK";
-            url="https://www.rupeeboss.com/kotakmahindra-home-loan?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
+        Bankname = entity.getBankName();
+        url = entity.getBank_URL() + "?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
 
-        }else   if(String.valueOf(entity.getBankId()).equals("43")){
-            Bankname="RBL BANK";
-           // url="https://www.rupeeboss.com/rbl-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
-
-        }else  if(String.valueOf(entity.getBankId()).equals("51")){
-            Bankname="TATA CAPITAL";
-          //  url="https://www.rupeeboss.com/tatacapital-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
-
-        }else   if(String.valueOf(entity.getBankId()).equals("53")){
-            Bankname="YES BANK";
-         //   String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
-            url="https://www.rupeeboss.com/yes-bank-home-loan?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
-
-            //Utility.loadWebViewUrlInBrowser(NewHomeApplicaionActivity.this,url1);
-        }else   if(String.valueOf(entity.getBankId()).equals("20")){
-            Bankname="HDFC BANK";
-        //    url="https://www.rupeeboss.com/hdfc-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
-        }else  if(String.valueOf(entity.getBankId()).equals("2152")){
-            Bankname="CASHE";
-         //   url="https://www.rupeeboss.com/cashe-new?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
-        }
+//        if(String.valueOf(entity.getBankId()).equals("33")){
+//            Bankname="KOTAK MAHINDRA BANK";
+//            url="https://www.rupeeboss.com/kotakmahindra-home-loan?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
+//
+//        }else   if(String.valueOf(entity.getBankId()).equals("43")){
+//            Bankname="RBL BANK";
+//           // url="https://www.rupeeboss.com/rbl-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
+//
+//        }else  if(String.valueOf(entity.getBankId()).equals("51")){
+//            Bankname="TATA CAPITAL";
+//          //  url="https://www.rupeeboss.com/tatacapital-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
+//
+//        }else   if(String.valueOf(entity.getBankId()).equals("53")){
+//            Bankname="YES BANK";
+//         //   String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
+//            url="https://www.rupeeboss.com/yes-bank-home-loan?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
+//
+//            //Utility.loadWebViewUrlInBrowser(NewHomeApplicaionActivity.this,url1);
+//        }else   if(String.valueOf(entity.getBankId()).equals("20")){
+//            Bankname="HDFC BANK";
+//        //    url="https://www.rupeeboss.com/hdfc-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
+//        }else  if(String.valueOf(entity.getBankId()).equals("2152")){
+//            Bankname="CASHE";
+//         //   url="https://www.rupeeboss.com/cashe-new?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id="+entity.getLeadId()+"";
+//        }
 
 
             startActivity(new Intent(this, CommonWebViewActivity.class)
