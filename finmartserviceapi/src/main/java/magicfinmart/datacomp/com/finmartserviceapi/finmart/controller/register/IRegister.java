@@ -59,4 +59,7 @@ public interface IRegister {
     void getfieldsales(IResponseSubcriber iResponseSubcriber);
 
     void sendSyncSms(IResponseSubcriber iResponseSubcriber);
+
+    void getUserCallingDetail(String fbaid, IResponseSubcriber iResponseSubcriber);
+
 }

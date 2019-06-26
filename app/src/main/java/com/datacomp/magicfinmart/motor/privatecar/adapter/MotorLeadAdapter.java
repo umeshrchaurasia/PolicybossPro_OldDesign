@@ -104,13 +104,12 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
                     holder.llViewLead.setEnabled(true);
                     holder.llEditLead.setEnabled(true);
 
-                    holder.txtLost.setBackgroundResource(R.drawable.blue_background);
-                    holder.txtLost.setTextColor(mFrament.getResources().getColor(R.color.white));
+                    holder.txtLost.setText("Update Status");
 
-
-                    holder.llNewLead.setBackgroundResource(0);
-                    holder.llViewLead.setBackgroundResource(0);
-                    holder.llEditLead.setBackgroundResource(0);
+                    holder.txtLost.setAlpha(1f);
+                    holder.llNewLead.setAlpha(1f);
+                    holder.llViewLead.setAlpha(1f);
+                    holder.llEditLead.setAlpha(1f);
 
                 } else {
                     holder.txtLost.setEnabled(false);
@@ -118,14 +117,12 @@ public class MotorLeadAdapter extends RecyclerView.Adapter<MotorLeadAdapter.Lead
                     holder.llViewLead.setEnabled(false);
                     holder.llEditLead.setEnabled(false);
 
-                    holder.txtLost.setBackgroundResource(R.drawable.gray_background);
-                    holder.txtLost.setTextColor(mFrament.getResources().getColor(R.color.header_light_text));
+                    holder.txtLost.setText("Lost");
 
-                    //secondary_text_color
-
-                    holder.llNewLead.setBackgroundResource(R.color.bg2);
-                    holder.llViewLead.setBackgroundResource(R.color.bg2);
-                    holder.llEditLead.setBackgroundResource(R.color.bg2);
+                    holder.txtLost.setAlpha(0.6f);
+                    holder.llNewLead.setAlpha(0.6f);
+                    holder.llViewLead.setAlpha(0.6f);
+                    holder.llEditLead.setAlpha(0.6f);
 
                 }
             } else {

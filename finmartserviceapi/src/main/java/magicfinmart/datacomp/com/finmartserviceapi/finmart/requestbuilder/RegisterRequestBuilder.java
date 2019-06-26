@@ -23,6 +23,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSale
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import okhttp3.MultipartBody;
@@ -147,6 +148,13 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/sync-lead-data-send-sms")
         Call<SendSyncSmsResponse> sendSyncSms(@Body HashMap<String, String> body);
+
+    ///////////////////////////////// Home page ///////////////////////////////
+
+        @Headers("token:" + token)
+        @POST("/api/user-calling")
+        Call<UserCallingResponse> getUserCallingDetail(@Body HashMap<String, String> body);
+
     }
 
 

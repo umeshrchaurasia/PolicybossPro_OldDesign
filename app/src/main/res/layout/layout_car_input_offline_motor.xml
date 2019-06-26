@@ -76,6 +76,44 @@
                 android:gravity="bottom"
                 android:orientation="vertical">
 
+
+                <LinearLayout
+                    android:id="@+id/llfbaSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:visibility="visible">
+
+
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="FBA/Name/Mobile">
+
+                        <EditText
+                            android:id="@+id/etfbaSearch"
+                            style="@style/Style.edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:maxLines="1"
+                            android:minLines="1"
+                            android:singleLine="true"
+                            android:focusable="false"
+                            android:clickable="true"
+                            android:inputType="text"
+                            android:drawableRight="@drawable/custom_search"
+                            android:ellipsize="end"/>
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+
+
                 <LinearLayout
                     android:id="@+id/llVerifyCarDetails"
                     android:layout_width="match_parent"
@@ -85,6 +123,8 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:visibility="visible">
+
+
 
                     <!--<TextView
                         android:layout_width="wrap_content"

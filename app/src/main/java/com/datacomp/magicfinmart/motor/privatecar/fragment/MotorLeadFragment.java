@@ -4,7 +4,6 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,6 +70,7 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
     ArrayList<String> arrayLeadDisp;
 
     MotorMyLeadEntity myLeadEntityEdit;
+
     public MotorLeadFragment() {
         // Required empty public constructor
     }
@@ -192,7 +192,7 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
     public void redirectEditToInputQuote(MotorMyLeadEntity entity) {
 
         showDialog();
-        new QuoteApplicationController(getActivity()).EditLead(entity.getVehicleRequestID(),  String.valueOf(entity.getLeadId()), this);
+        new QuoteApplicationController(getActivity()).EditLead(entity.getVehicleRequestID(), String.valueOf(entity.getLeadId()), this);
 
     }
 
@@ -235,23 +235,19 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
             spDisp.setAdapter(leadDispositAdapter);
 
 
-
-
             btnAllow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     //map.get(spDisp.getSelectedItem().toString()
-                    if(map.get(spDisp.getSelectedItem().toString()).equals("0"))
-                    {
+                    if (map.get(spDisp.getSelectedItem().toString()).equals("0")) {
                         Toast.makeText(getActivity(), "Select Disposition..", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if(etRemark.getText().toString().trim().equalsIgnoreCase(""))
-                    {
+                    if (etRemark.getText().toString().trim().equalsIgnoreCase("")) {
                         Toast.makeText(getActivity(), "Enter Comment..", Toast.LENGTH_SHORT).show();
                         return;
-                    }else {
+                    } else {
                         finmartCommentDialog.dismiss();
                         showDialog();
                         new QuoteApplicationController(getActivity()).saveLeadDisposition(
@@ -313,6 +309,9 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
                         mLeadList.add(entity);
                     }
                 }
+
+
+
             }
             motorLeadAdapter.refreshAdapter(mLeadList);
             motorLeadAdapter.notifyDataSetChanged();
@@ -335,7 +334,6 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
             arrayLeadDisp = getLeadDispList(leadDispoList);
 
         } else if (response instanceof LeadDispositionSaveResponse) {
-
 
 
             motorLeadAdapter.updateDispostion(myLeadEntityEdit);
@@ -363,7 +361,6 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
         arrayLeadDisp = new ArrayList<String>(map.keySet());
         return arrayLeadDisp;
     }
-
 
 
 }

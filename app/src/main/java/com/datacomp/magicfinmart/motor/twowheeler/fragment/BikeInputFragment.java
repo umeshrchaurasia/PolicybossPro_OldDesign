@@ -49,6 +49,8 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
@@ -69,6 +71,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -91,11 +94,11 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber , IBOFbaCallback {
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
-    LinearLayout cvNcb, llNCB;
+    LinearLayout cvNcb, llNCB ,llfbaSearch;
     LinearLayout llVerifyCarDetails, llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvIndividual, cvRegNo;
@@ -113,7 +116,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC ,etfbaSearch;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
     Switch swIndividual, swClaim;
@@ -1025,6 +1028,15 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         llVerifyCarDetails.setVisibility(View.GONE);
 
         setSubTypeAdapter();
+
+        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
+
     }
 
     private void setSubTypeAdapter() {
@@ -1106,6 +1118,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         tvClaimYes.setOnClickListener(this);
         tvClaimNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
+        etfbaSearch.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
         etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
         etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
@@ -1200,7 +1213,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         tvClaimNo = (TextView) view.findViewById(R.id.tvClaimNo);
         tvClaimYes = (TextView) view.findViewById(R.id.tvClaimYes);
         etCC = (EditText) view.findViewById(R.id.etCC);
-
+        etfbaSearch = (EditText) view.findViewById(R.id.etfbaSearch);
+        llfbaSearch =  view.findViewById(R.id.llfbaSearch);
 
         etreg1 = (EditText) view.findViewById(R.id.etreg1);
         etreg1.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(2)});
@@ -1417,6 +1431,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 tvOr.setVisibility(View.GONE);
                 llDontKnow.setVisibility(View.GONE);
                 btnGetQuote.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getActivity().getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
                 break;
         }
     }
@@ -2529,6 +2549,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         // TODO Add your menu entries here
         inflater.inflate(R.menu.home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+
+        etfbaSearch.setText(entity.getFullName());
     }
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {

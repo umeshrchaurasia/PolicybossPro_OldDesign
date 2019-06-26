@@ -20,8 +20,17 @@ public class SaveMotorRequestEntity implements Parcelable {
     int isActive;
 
     String LeadId;
+    String CreatedByUserFbaId;
     private String vehicle_insurance_type;
 
+
+    public String getCreatedByUserFbaId() {
+        return CreatedByUserFbaId;
+    }
+
+    public void setCreatedByUserFbaId(String createdByUserFbaId) {
+        CreatedByUserFbaId = createdByUserFbaId;
+    }
 
     public String getIdvAmount() {
         return idvAmount;
@@ -122,10 +131,10 @@ public class SaveMotorRequestEntity implements Parcelable {
         this.VehicleRequestID = in.readString();
         this.fba_id = in.readString();
         this.comment = in.readString();
-        this.idvAmount =in.readString();
+        this.idvAmount = in.readString();
         this.isActive = in.readInt();
         this.vehicle_insurance_type = in.readString();
-        this.LeadId =in.readString();
+        this.LeadId = in.readString();
     }
 
     public static final Parcelable.Creator<SaveMotorRequestEntity> CREATOR = new Parcelable.Creator<SaveMotorRequestEntity>() {

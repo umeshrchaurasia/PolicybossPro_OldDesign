@@ -22,12 +22,15 @@ public interface IQuoteApp {
 
     void ModifyLead(MotorMyLeadEntity entity, IResponseSubcriber iResponseSubcriber);
 
-    void ViewLead(String VehicleRequestID, String LeadId,  IResponseSubcriber iResponseSubcriber);
+    void ViewLead(String VehicleRequestID, String LeadId, IResponseSubcriber iResponseSubcriber);
 
-    void EditLead(String VehicleRequestID, String LeadId,  IResponseSubcriber iResponseSubcriber);
+    void EditLead(String VehicleRequestID, String LeadId, IResponseSubcriber iResponseSubcriber);
 
-    void getLeadDispositionMaster(  IResponseSubcriber iResponseSubcriber);
+    void getLeadDispositionMaster(IResponseSubcriber iResponseSubcriber);
 
-    void saveLeadDisposition( String leadid,String dispositionid,String vehiclerequestid,String comment,  IResponseSubcriber iResponseSubcriber);
+    void saveLeadDisposition(String leadid, String dispositionid, String vehiclerequestid, String comment, IResponseSubcriber iResponseSubcriber);
+
+
+    void getBOFbaList(String fbaID, String searchKeyWord, IResponseSubcriber iResponseSubcriber);
 
 }

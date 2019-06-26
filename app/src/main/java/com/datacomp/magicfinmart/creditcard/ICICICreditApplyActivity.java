@@ -1367,7 +1367,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
                 requestEntity.setType_current(spResidenceType.getSelectedItem().toString());
                 requestEntity.setSame("on");
-                requestEntity.setType("DC");
+                requestEntity.setType("finmart");
                 requestEntity.setTerms("on");
 
                 //permanant

@@ -182,7 +182,8 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                 if (getIntent().getStringExtra("crn") != null) {
                     et_Crn_ticket = String.valueOf(getIntent().getStringExtra("crn"));
 
-                    etMessage.setText("CRN No : "+et_Crn_ticket);
+                  //  etMessage.setText("CRN No : "+et_Crn_ticket);
+                    etMessage.setHint("CRN No: "+et_Crn_ticket);
                 }
 
             }
@@ -487,7 +488,10 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                /* init_adapters();
                 etMessage.setText("");
                 etFileNAme.setText("No files attached");*/
+                Intent intent = new Intent();
+                setResult(2, intent);
                 finish();
+
             }
         }
     }

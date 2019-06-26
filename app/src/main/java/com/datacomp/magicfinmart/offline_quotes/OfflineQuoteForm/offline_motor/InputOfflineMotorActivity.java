@@ -43,6 +43,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.offline_quotes.AddOfflineQuotesActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
@@ -62,6 +64,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -83,13 +86,14 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 public class InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener,
         ILocationStateListener, RadioGroup.OnCheckedChangeListener,
         CompoundButton.OnCheckedChangeListener, View.OnClickListener,
-        IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+        IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber,
+        IBOFbaCallback {
 
     Gson gson = new Gson();
     private static final String TAG = "InputOfflineMotorActivity";
     TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb;
-    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
+    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow ,llfbaSearch;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
@@ -109,7 +113,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etComment, etfbaSearch;
     EditText etIDVAmount;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvProgress, tvClaimYes, tvClaimNo;
@@ -469,6 +473,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvClaimYes = (TextView) findViewById(R.id.tvClaimYes);
         etCC = (EditText) findViewById(R.id.etCC);
         etComment = findViewById(R.id.etComment);
+        etfbaSearch = findViewById(R.id.etfbaSearch);
 
 
         etreg1 = (EditText) findViewById(R.id.etreg1);
@@ -521,6 +526,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         rbBeyond = findViewById(R.id.rbBeyond);
 
         etIDVAmount = findViewById(R.id.etIDVAmount);
+        llfbaSearch  = findViewById(R.id.llfbaSearch);
 
     }
 
@@ -534,6 +540,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         tvClaimNo.setOnClickListener(this);
         btnSaveOffline.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
+        etfbaSearch.setOnClickListener(this);
 //        etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
 //        etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
 //        etreg3.addTextChangedListener(new GenericTextWatcher(etreg1, etreg3, this));
@@ -928,6 +935,12 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
+        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
     }
 
@@ -2039,6 +2052,28 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                 llDontKnow.setVisibility(View.GONE);
                 btnSaveOffline.setVisibility(View.VISIBLE);
                 break;
+
+            case R.id.etfbaSearch:
+                // Toast.makeText(this, "Data PopUp", Toast.LENGTH_SHORT).show();
+//                FbaSearchBottomDialogFragment bottomSheetDialog = FbaSearchBottomDialogFragment.newInstance();
+//                bottomSheetDialog.show(getSupportFragmentManager(), "Custom Bottom Sheet");
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        if (entity == null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+            etfbaSearch.setText("self");
+        } else {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
         }
 
     }
@@ -2056,23 +2091,21 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
         motorRequestEntity.setApp_version(Utility.getVersionName(InputOfflineMotorActivity.this));
         motorRequestEntity.setDevice_id(Utility.getTokenId(InputOfflineMotorActivity.this));
-        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
         try {
             motorRequestEntity.setMac_address(Utility.getMacAddress(InputOfflineMotorActivity.this));
         } catch (IOException e) {
             motorRequestEntity.setMac_address("0");
         }
 
+
+        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
         if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
             int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
             motorRequestEntity.setSs_id(ssid);
         } else {
             motorRequestEntity.setSs_id(5);
         }
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(InputOfflineMotorActivity.this));
-        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
-        if (insuranceSubtypeEntity != null)
-            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+
     }
 
     //region set parameter

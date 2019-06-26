@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
@@ -165,19 +166,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    switchMenus(listIns.get(position));
+                                    if (mReal.getUserConstantsData().getEnableInsuranceBusiness().equals("1")) {
+                                        switchMenus(listIns.get(position));
+                                    } else {
+                                        Toast.makeText(mContext, "Your not authorize to sell Insurance..", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             }));
 
-            /*((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
-                    ((InsuranceHolder) holder).rvDashboard, new ClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-
-
-            }));*/
 
         } else if (holder instanceof LoanHolder) {
             final List<DashboardEntity> listLoan = mReal.getLoanProductList();
@@ -196,40 +192,25 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 }
                             }));
 
-        /*    ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
-                    ((LoanHolder) holder).rvDashboard, new ClickListener() {
-                @Override
-                public void onClick(View view) {
-                    switchMenus(listLoan.get(position).getProductId());
-                }
-
-            }));*/
 
         } else if (holder instanceof MoreServiceHolder) {
 
             final List<DashboardEntity> listMore = mReal.getMoreProductList();
-//            if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
-//                    new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
-//                    && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
-//
-//            }
 
+            ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
+            ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
+            ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
+            ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
+            ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
 
-
-                ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
-                ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
-                ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
-                ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-                ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
-
-                ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
-                        new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
-                                new RecyclerItemClickListener.OnItemClickListener() {
-                                    @Override
-                                    public void onItemClick(View view, int position) {
-                                        switchMenus(listMore.get(position));
-                                    }
-                                }));
+            ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
+                    new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
+                            new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    switchMenus(listMore.get(position));
+                                }
+                            }));
 
         }
 
@@ -254,7 +235,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 //fin peace
                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
-                                + new DBPersistanceController(mContext).getUserData().getFBAId())
+                                + mReal.getUserData().getFBAId())
                         .putExtra("NAME", "FIN-PEACE")
                         .putExtra("TITLE", "FIN-PEACE"));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
@@ -266,11 +247,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
 
 
-                if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
+                if (mReal.getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
                     mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
                 } else {
 
-                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
+                    String healthUrl = mReal.getUserConstantsData().getHealthurl();
                     //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
 
                     String ipaddress = "0.0.0.0";
@@ -285,8 +266,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             + "&device_id=" + Utility.getDeviceId(mContext);
                     healthUrl = healthUrl + append;
 
-                    if (new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser() != null &&
-                            new DBPersistanceController(mContext).getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
+                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
                         Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
                     } else {
                         mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
@@ -327,7 +308,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 8:
                 //BT
-              //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
+                //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
                 mContext.startActivity(new Intent(mContext, NewbusinessApplicaionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");

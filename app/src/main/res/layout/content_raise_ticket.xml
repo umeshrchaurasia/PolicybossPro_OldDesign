@@ -41,9 +41,9 @@
                     android:drawablePadding="0dp"
                     android:gravity="center_vertical|left"
                     android:padding="2dp"
+                    android:text="ADD TICKET"
                     android:textColor="#474747"
-                    android:textStyle="bold"
-                    android:text="ADD TICKET" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -79,9 +79,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:gravity="center"
-                    android:textStyle="bold"
+                    android:text="SEARCH"
                     android:textColor="#474747"
-                    android:text="SEARCH" />
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 

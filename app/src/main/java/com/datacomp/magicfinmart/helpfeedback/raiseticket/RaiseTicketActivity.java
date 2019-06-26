@@ -142,7 +142,8 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
         switch (view.getId()) {
             case R.id.tvAdd:
             case R.id.btnAddTicket:
-                startActivity(new Intent(this, AddTicketActivity.class));
+                startActivityForResult(new Intent(this, AddTicketActivity.class),2);
+
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
@@ -182,6 +183,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
     public void redirectToUpload(TicketEntity entity) {
         Intent intent = new Intent(RaiseTicketActivity.this, UploadRaiseActivity.class);
         intent.putExtra("REQ_ID", entity.getTicketRequestId());
+        intent.putExtra("STATUS_ID", entity.getStatusId());
         startActivityForResult(intent, 2);
     }
 

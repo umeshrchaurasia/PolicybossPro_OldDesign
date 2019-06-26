@@ -1,24 +1,19 @@
 package com.datacomp.magicfinmart.helpfeedback.raiseticket.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.borjabravo.readmoretextview.ReadMoreTextView;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
-import com.datacomp.magicfinmart.helpfeedback.raiseticket.UploadRaiseActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -66,8 +61,24 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             holder.txtTicketCategory.setText(entity.getCateName());
             holder.txtTicketDesc.setText("" + entity.getMessage());
 
-            holder.txtproduct.setText("" + entity.getProductname());
-            holder.txtCRN.setText("CRN : " + entity.getCrnloan());
+
+            if(!entity.getProductname().trim().equalsIgnoreCase("")){
+                holder.txtproduct.setText("" + entity.getProductname());
+                holder.txtproduct.setVisibility(View.VISIBLE);
+            }else{
+                holder.txtproduct.setText("");
+                holder.txtproduct.setVisibility(View.GONE);
+            }
+
+            if (!entity.getCrnloan().trim().equalsIgnoreCase("")) {
+                holder.txtCRN.setVisibility(View.VISIBLE);
+                holder.txtCRN.setText("CRN : " + entity.getCrnloan());
+            } else {
+                holder.txtCRN.setText("");
+                holder.txtCRN.setVisibility(View.GONE);
+
+            }
+
 
             holder.llAddComment.setTag(entity);
             holder.llviewComment.setTag(entity);
@@ -140,10 +151,10 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
                 openPopUp(view, (QuoteListEntity) view.getTag(view.getId()));
                 break;
 */
-           case R.id.llviewComment:
-               ((RaiseTicketActivity) context).redirectToView((TicketEntity) view.getTag());
+            case R.id.llviewComment:
+                ((RaiseTicketActivity) context).redirectToView((TicketEntity) view.getTag());
 
-               break;
+                break;
             case R.id.llAddComment:
                 ((RaiseTicketActivity) context).redirectToUpload((TicketEntity) view.getTag());
 
@@ -155,18 +166,19 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
     public class RaiseTicketItem extends RecyclerView.ViewHolder {
 
         public ImageView ticketPhoto;
-        public TextView txtTicketId, txtTicketStatus, txtTicketCategory, txtTicketDesc,txtproduct,txtCRN;
-        public LinearLayout llviewComment,llAddComment;
+        public TextView txtTicketId, txtTicketStatus, txtTicketCategory,  txtproduct, txtCRN;
+        public LinearLayout llviewComment, llAddComment;
+        public ReadMoreTextView txtTicketDesc;
 
         public RaiseTicketItem(View itemView) {
             super(itemView);
             txtTicketId = (TextView) itemView.findViewById(R.id.txtTicketId);
             txtTicketStatus = (TextView) itemView.findViewById(R.id.txtTicketStatus);
             txtTicketCategory = (TextView) itemView.findViewById(R.id.txtTicketCategory);
-            txtTicketDesc = (TextView) itemView.findViewById(R.id.txtTicketDesc);
+            txtTicketDesc =    itemView.findViewById(R.id.txtTicketDesc);
             ticketPhoto = (ImageView) itemView.findViewById(R.id.ticketPhoto);
-            llAddComment =(LinearLayout)itemView.findViewById(R.id.llAddComment);
-            llviewComment =(LinearLayout)itemView.findViewById(R.id.llviewComment);
+            llAddComment = (LinearLayout) itemView.findViewById(R.id.llAddComment);
+            llviewComment = (LinearLayout) itemView.findViewById(R.id.llviewComment);
             txtproduct = (TextView) itemView.findViewById(R.id.txtproduct);
             txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
 

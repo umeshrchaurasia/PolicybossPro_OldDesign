@@ -98,6 +98,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     FloatingActionButton fabrefresh;
     boolean isSync = false;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -244,18 +245,23 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
     private void updateCrn() {
         if (bikePremiumResponse != null) {
+
+
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
 
 
+                String crn = "";
+
                 if (!bikePremiumResponse.getSummary().getPB_CRN().equals("")) {
                     motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
-                    tvCrn.setText("CRN :" + bikePremiumResponse.getSummary().getPB_CRN());
-                } else {
-                    if (!motorRequestEntity.getCrn().equalsIgnoreCase("")) {
-                        tvCrn.setText("CRN :" + motorRequestEntity.getCrn());
-                        motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
-                    }
+                    crn = bikePremiumResponse.getSummary().getPB_CRN();
+                } else if (bikePremiumResponse.getSummary().getRequest_Core() != null
+                        && !bikePremiumResponse.getSummary().getRequest_Core().getCrn().equalsIgnoreCase("")) {
+                    motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getRequest_Core().getCrn());
+                    crn = bikePremiumResponse.getSummary().getRequest_Core().getCrn();
                 }
+
+                tvCrn.setText("CRN :" + crn);
 
                 boolean isQuoteFetch = false;
                 if (webViewLoader.getVisibility() == View.GONE) {
@@ -324,7 +330,13 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         cancelDialog();
         if (response instanceof BikePremiumResponse) {
 
+
             bikePremiumResponse = (BikePremiumResponse) response;
+
+            if (!motorRequestEntity.getCrn().equalsIgnoreCase("")){
+                bikePremiumResponse.getSummary().setPB_CRN(motorRequestEntity.getCrn());
+            }
+
             rebindAdapter(bikePremiumResponse);
             updateCrn();
 

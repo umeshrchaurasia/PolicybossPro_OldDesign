@@ -22,9 +22,15 @@ import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.Te
 
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity;
 
-public class AddNewOfflineQuotesActivity extends BaseActivity implements View.OnClickListener {
-    CardView MotorPrivate, MotorGoods, MotorPassenger, Health, life,offlineQuote;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 
+public class AddNewOfflineQuotesActivity extends BaseActivity implements View.OnClickListener , IResponseSubcriber {
+    CardView MotorPrivate, MotorGoods, MotorPassenger, Health, life,offlineQuote;
+    DBPersistanceController dbPersistanceController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,8 +38,15 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dbPersistanceController = new DBPersistanceController(this);
         init_views();
         setListener();
+
+        if (dbPersistanceController.getRTOListNames() != null && dbPersistanceController.getRTOListNames().size() <= 0) {
+            showDialog();
+            new MasterController(this).getRTOMaster(this);
+        }
+
     }
 
     private void setListener() {
@@ -104,6 +117,19 @@ public class AddNewOfflineQuotesActivity extends BaseActivity implements View.On
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof CarMasterResponse) {
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+
     }
 //    @Override
 //    public void onBackPressed() {

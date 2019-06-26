@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -43,6 +42,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.offline_quotes.AddOfflineQuotesActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
@@ -62,6 +63,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -83,19 +85,19 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 public class Passenger_InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener,
         ILocationStateListener, RadioGroup.OnCheckedChangeListener,
         CompoundButton.OnCheckedChangeListener, View.OnClickListener,
-        IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+        IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
 
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb;
-    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
+    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow, llfbaSearch;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
     Button btnSaveOffline, btnGo;
     TextView tvDontKnow;
-    EditText etreg1, etreg2, etreg3, etreg4, etUsage, etGross, etseatingcapacity;
+    EditText etreg1, etreg2, etreg3, etreg4, etUsage, etGross, etseatingcapacity, etfbaSearch;
     String regNo = "";
     Switch switchNewRenew;
 
@@ -477,6 +479,8 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
         etComment = findViewById(R.id.etComment);
         etUsage = findViewById(R.id.etUsage);
         etseatingcapacity = findViewById(R.id.etseatingcapacity);
+        etfbaSearch = findViewById(R.id.etfbaSearch);
+        llfbaSearch = findViewById(R.id.llfbaSearch);
 
         etreg1 = (EditText) findViewById(R.id.etreg1);
         etreg1.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(2)});
@@ -543,6 +547,7 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
         tvClaimNo.setOnClickListener(this);
         btnSaveOffline.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
+        etfbaSearch.setOnClickListener(this);
 //        etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
 //        etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
 //        etreg3.addTextChangedListener(new GenericTextWatcher(etreg1, etreg3, this));
@@ -938,7 +943,12 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
-
+        if (userConstantEntity.getBoempuid() != null && userConstantEntity.getBoempuid().length() > 0) {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        } else {
+            llfbaSearch.setVisibility(View.GONE);
+        }
     }
 
     private void setSubTypeAdapter() {
@@ -2032,6 +2042,11 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
                 llDontKnow.setVisibility(View.GONE);
                 btnSaveOffline.setVisibility(View.VISIBLE);
                 break;
+
+            case R.id.etfbaSearch:
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
+                break;
         }
 
     }
@@ -2623,6 +2638,11 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
     @Override
     public void onConnectionFailed() {
         location = null;
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        etfbaSearch.setText(entity.getFullName());
     }
     //endregion
 

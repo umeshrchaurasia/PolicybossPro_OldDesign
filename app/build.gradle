@@ -35,9 +35,9 @@ android {
         applicationId "com.datacomp.magicfinmart"
         minSdkVersion 18
         targetSdkVersion 26
-        versionCode 46
+        versionCode 47
 
-        versionName "2.2.2"
+        versionName "2.2.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -56,6 +56,8 @@ android {
             buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
+            buildConfigField "String", "FIRSTHIVE", '"138"'
+
             signingConfig signingConfigs.release
         }
         debug {
@@ -71,7 +73,7 @@ android {
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
 
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
-
+            buildConfigField "String", "FIRSTHIVE", '"164"'
         }
         //preprodapiqa.mgfm.in
         uat {
@@ -86,6 +88,8 @@ android {
             buildConfigField "String", "NODE_URL", '"http://qa-horizon.policyboss.com:3000"'
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://qa.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
+            buildConfigField "String", "FIRSTHIVE", '"138"'
+
             signingConfig signingConfigs.debug
 
 //            buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
@@ -120,10 +124,9 @@ dependencies {
     implementation 'me.relex:circleindicator:1.2.2@aar'
     implementation 'com.google.android.gms:play-services-location:12.0.1'
     implementation 'com.google.android.gms:play-services-analytics:12.0.1'
-
     implementation 'com.google.firebase:firebase-messaging:12.0.1'
     implementation 'com.google.firebase:firebase-core:12.0.1'
-    implementation group: 'commons-io', name: 'commons-io', version: '2.0.1'
+    implementation 'commons-io:commons-io:2.0.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(path: ':finmartserviceapi')
@@ -140,5 +143,9 @@ dependencies {
     implementation 'org.matomo.sdk:tracker:4.0.2'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
 }
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

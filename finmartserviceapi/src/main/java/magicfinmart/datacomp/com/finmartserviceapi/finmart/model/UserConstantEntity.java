@@ -148,11 +148,16 @@ public class UserConstantEntity extends RealmObject {
     private String messagesender;
 
     private String enablencd;
-    private  String ultralakshyaenabled;
+    private String ultralakshyaenabled;
 
 
-    private  String finperkurl;
-    private  String finboxurl;
+    private String finperkurl;
+    private String finboxurl;
+
+    //added by nilesh 19.06.2019
+    private String boempuid;
+    private String enableInsuranceBusiness;
+
 
     public String getUltralakshyaenabled() {
         return ultralakshyaenabled;
@@ -194,6 +199,24 @@ public class UserConstantEntity extends RealmObject {
 
     // added by Nilesh 17.04.2019
     private String paenable;
+
+
+    public String getEnableInsuranceBusiness() {
+        return enableInsuranceBusiness;
+    }
+
+    public void setEnableInsuranceBusiness(String enableInsuranceBusiness) {
+        this.enableInsuranceBusiness = enableInsuranceBusiness;
+    }
+
+    public String getBoempuid() {
+        return boempuid;
+    }
+
+    public void setBoempuid(String boempuid) {
+        this.boempuid = boempuid;
+    }
+
 
     public String getPaenable() {
         return paenable;

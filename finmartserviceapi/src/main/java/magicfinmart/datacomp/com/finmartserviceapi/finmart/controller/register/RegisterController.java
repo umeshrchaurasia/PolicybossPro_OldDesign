@@ -31,6 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSale
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -859,6 +860,43 @@ public class RegisterController implements IRegister {
 
             @Override
             public void onFailure(Call<SendSyncSmsResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getUserCallingDetail(String fbaid, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+
+        registerQuotesNetworkService.getUserCallingDetail(body).enqueue(new Callback<UserCallingResponse>() {
+            @Override
+            public void onResponse(Call<UserCallingResponse> call, Response<UserCallingResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserCallingResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -51,6 +52,8 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
@@ -71,6 +74,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -95,7 +99,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
@@ -120,7 +124,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etfbaSearch;
+    ;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
     Switch swIndividual, swClaim;
@@ -161,12 +166,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
     TextView txtExistingPolicyYes, txtExistingPolicyNo;
-    LinearLayout llExistingPolicy, llExp;
+    LinearLayout llExistingPolicy, llExp, llfbaSearch;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -246,16 +252,26 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             txtExistingPolicyNo.setEnabled(true);
         }
 
-        try {
-            int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+        if (motorRequestEntity.getVehicle_insurance_type().toLowerCase().equalsIgnoreCase("new")) {
+            llNoClaim.setVisibility(View.GONE);
+            cvNcb.setVisibility(View.GONE);
+        }
 
-            if (day > 90) {
+        try {
+            if (!motorRequestEntity.getPolicy_expiry_date().trim().equalsIgnoreCase("")) {
+                int day = dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(motorRequestEntity.getPolicy_expiry_date().toString()));
+
+                if (day > 90) {
+                    llNoClaim.setVisibility(View.GONE);
+                    cvNcb.setVisibility(View.GONE);
+                } else {
+                    llNoClaim.setVisibility(View.VISIBLE);
+                    cvNcb.setVisibility(View.VISIBLE);
+
+                }
+            } else {
                 llNoClaim.setVisibility(View.GONE);
                 cvNcb.setVisibility(View.GONE);
-            } else {
-                llNoClaim.setVisibility(View.VISIBLE);
-                cvNcb.setVisibility(View.VISIBLE);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -719,6 +735,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
             etMobile.setText(motorRequestEntity.getMobile());
 
+
         }
         try {
 
@@ -744,7 +761,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
             //endregion
 
-          //region Expiry Date
+            //region Expiry Date
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
                 etExpDate.setEnabled(true);
                 etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
@@ -1162,6 +1179,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
+        if (userConstantEntity.getBoempuid() != null && userConstantEntity.getBoempuid().length() > 0) {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        } else {
+            llfbaSearch.setVisibility(View.GONE);
+        }
+
 
     }
 
@@ -1235,6 +1259,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         tvClaimNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
+        etfbaSearch.setOnClickListener(this);
         etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
         etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
         etreg3.addTextChangedListener(new GenericTextWatcher(etreg1, etreg3, this));
@@ -1335,6 +1360,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         tvClaimNo = (TextView) view.findViewById(R.id.tvClaimNo);
         tvClaimYes = (TextView) view.findViewById(R.id.tvClaimYes);
         etCC = (EditText) view.findViewById(R.id.etCC);
+        etfbaSearch = (EditText) view.findViewById(R.id.etfbaSearch);
+        llfbaSearch = view.findViewById(R.id.llfbaSearch);
 
 
         etreg1 = (EditText) view.findViewById(R.id.etreg1);
@@ -1551,7 +1578,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         }
 
                         //expiry date above 90 days
-                        if (dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90) {
+
+                        if (etExpDate.getVisibility() == View.VISIBLE && (!etExpDate.getText().toString().equalsIgnoreCase(""))) {
+
+                            if ((dateDifferenceInDays(Calendar.getInstance().getTime(), displayFormat.parse(etExpDate.getText().toString())) > 90)) {
+                                motorRequestEntity.setIs_claim_exists("yes");
+                                motorRequestEntity.setVehicle_ncb_current("0");
+                            }
+                        } else {
                             motorRequestEntity.setIs_claim_exists("yes");
                             motorRequestEntity.setVehicle_ncb_current("0");
                         }
@@ -1559,6 +1593,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         if (isBreakIn) {
                             SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
                             entity.setMotorRequestEntity(motorRequestEntity);
+                            //added for behalf of
+                            entity.setCreatedByUserFbaId(userConstantEntity.getFBAId());
+                            //end
                             entity.setSRN("");
                             entity.setComment("");
                             entity.setVehicleRequestID("");
@@ -1598,6 +1635,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 llDontKnow.setVisibility(View.GONE);
                 btnGetQuote.setVisibility(View.VISIBLE);
                 break;
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getActivity().getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
+                break;
         }
     }
 
@@ -1607,20 +1650,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
         motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
         motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
-
-
-        //added ny Nilesh 08/02/2019
-        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
-
-        if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
-                && !userConstantEntity.getParentid().equals("0")) {
-            motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
-            motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
-        } else {
-            motorRequestEntity.setSub_fbaid("0");
-            motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
-        }
-
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
+        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+        if (insuranceSubtypeEntity != null)
+            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
 
         try {
             motorRequestEntity.setMac_address(Utility.getMacAddress(getActivity()));
@@ -1628,16 +1661,40 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             motorRequestEntity.setMac_address("0");
         }
 
-        if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
-            int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
-            motorRequestEntity.setSs_id(ssid);
+        //added by Nilesh 08/02/2019
+        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+        //added for behalf of
+
+        //self
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+            if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                    && !userConstantEntity.getParentid().equals("0")) {
+                motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
+            } else {
+                motorRequestEntity.setSub_fbaid("0");
+                motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+            }
+
+
+            if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
+                int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
+                motorRequestEntity.setSs_id(ssid);
+            } else {
+                motorRequestEntity.setSs_id(5);
+            }
         } else {
-            motorRequestEntity.setSs_id(5);
+
+            BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+
+            motorRequestEntity.setSub_fbaid(String.valueOf(entity.getFbaid()));
+            motorRequestEntity.setFba_id(Integer.parseInt(entity.getParentid()));
+            motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
         }
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
-        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
-        if (insuranceSubtypeEntity != null)
-            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+
+        //behalf of end
     }
 
 
@@ -2874,6 +2931,17 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         // TODO Add your menu entries here
         inflater.inflate(R.menu.home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+        } else {
+            etfbaSearch.setText("Self");
+        }
+
     }
 
 
