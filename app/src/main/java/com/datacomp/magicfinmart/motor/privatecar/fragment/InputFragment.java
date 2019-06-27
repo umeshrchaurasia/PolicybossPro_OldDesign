@@ -80,6 +80,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
@@ -100,6 +101,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  */
 
 public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
+
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
@@ -125,7 +127,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     Spinner spFuel, spVarient, spPrevIns;
     TextInputLayout tilExt;
     EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etfbaSearch;
-    ;
+
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
     Switch swIndividual, swClaim;
@@ -213,13 +215,16 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
-                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
+
+                QuoteListEntity entity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
+                motorRequestEntity = entity.getMotorRequestEntity();
+
                 LeadId = getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID, "0");
                 tvDontKnow.performClick();
                 bindInputsQuotes();
 
                 //disable if crn exist
-                disableInputs();
+                disableInputs(entity);
             }
         }
 
@@ -231,7 +236,17 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     //region binding parameter
 
-    private void disableInputs() {
+    private void disableInputs(QuoteListEntity entity) {
+
+        //added for behalf of
+        if (entity.getCreatedByUserFbaId() == null && entity.getCreatedByUserFbaId().equals("0")) {
+            etfbaSearch.setText("Self");
+        } else {
+            etfbaSearch.setText(entity.getCreatedByUserFbaName());
+        }
+
+        etfbaSearch.setEnabled(false);
+
 
         if (motorRequestEntity != null
                 && motorRequestEntity.getCrn() != null
@@ -1594,18 +1609,26 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                             SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
                             entity.setMotorRequestEntity(motorRequestEntity);
                             //added for behalf of
-                            entity.setCreatedByUserFbaId(userConstantEntity.getFBAId());
+                            entity.setCreatedByUserFbaId("0");
                             //end
                             entity.setSRN("");
                             entity.setComment("");
                             entity.setVehicleRequestID("");
                             entity.setIsActive(1);
+                            if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+                                if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                                        && !userConstantEntity.getParentid().equals("0")) {
+                                    entity.setFba_id("" + Integer.parseInt(userConstantEntity.getParentid()));
+                                } else {
+                                    entity.setFba_id("" + userConstantEntity.getFBAId());
+                                }
 
-                            if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
-                                    && !userConstantEntity.getParentid().equals("0")) {
-                                entity.setFba_id("" + Integer.parseInt(userConstantEntity.getParentid()));
+                                motorRequestEntity.setBehalfOf(false);
                             } else {
-                                entity.setFba_id("" + userConstantEntity.getFBAId());
+                                BOFbaEntity bo = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+                                entity.setCreatedByUserFbaId(userConstantEntity.getFBAId());
+                                motorRequestEntity.setFba_id(bo.getFbaid());
+                                motorRequestEntity.setBehalfOf(true);
                             }
 
                             showDialog("Please wait...");
@@ -1689,8 +1712,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
             BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
 
-            motorRequestEntity.setSub_fbaid(String.valueOf(entity.getFbaid()));
-            motorRequestEntity.setFba_id(Integer.parseInt(entity.getParentid()));
+            motorRequestEntity.setSub_fbaid("0");
+            motorRequestEntity.setFba_id(entity.getFbaid());
             motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
         }
 
@@ -2938,14 +2961,21 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (entity != null) {
             etfbaSearch.setTag(R.id.etfbaSearch, entity);
             etfbaSearch.setText(entity.getFullName());
+            motorRequestEntity.setBehalfOf(true);
         } else {
             etfbaSearch.setText("Self");
+            motorRequestEntity.setBehalfOf(false);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
 
     }
 
 
     //region tracking
+
+    /*  srinivas@policyboss.com
+        123
+        */
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
         MotorRequestEntity motorRequestEntity;

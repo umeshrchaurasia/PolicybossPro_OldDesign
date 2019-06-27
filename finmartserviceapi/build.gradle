@@ -34,7 +34,7 @@ android {
         }
         debug {
             debuggable true
-            buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
+            buildConfigField "String", "FINMART_URL", '"http://qa.mgfm.in"'
             buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
             buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
             buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'

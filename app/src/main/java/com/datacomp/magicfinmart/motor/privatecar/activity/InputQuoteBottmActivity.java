@@ -107,7 +107,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
                 //2. create bundle
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity.getMotorRequestEntity());
+                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity);
 
                 quoteBundle = bundle;
 
@@ -116,11 +116,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 //send to Input
                 //modify
                 quoteBundle = new Bundle();
-                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity.getMotorRequestEntity());
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity);
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
-        }  else if (getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE) != null) {
+        } else if (getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE) != null) {
+
             QuoteListEntity entity = getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE);
             if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
 
@@ -135,24 +136,22 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
                 //2. create bundle
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity.getMotorRequestEntity());
+                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity);
                 bundle.putString(MOTOR_LEAD_ID, String.valueOf(entity.getLeadId()));
                 quoteBundle = bundle;
 
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
-            }else {
+            } else {
                 //send to Input
                 //modify
                 quoteBundle = new Bundle();
-                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity.getMotorRequestEntity());
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity);
                 quoteBundle.putString(MOTOR_LEAD_ID, String.valueOf(entity.getLeadId()));
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
-        }
-
-        else {
+        } else {
             //first input fragment load
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         }
@@ -313,7 +312,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
         motorRequestEntity = entity;
         quoteBundle = new Bundle();
         quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST, motorRequestEntity);
-        quoteBundle.putString(InputQuoteBottmActivity.MOTOR_LEAD_ID,MOTOR_LEAD_ID);
+        quoteBundle.putString(InputQuoteBottmActivity.MOTOR_LEAD_ID, MOTOR_LEAD_ID);
 
         if (motorRequestEntity == null)
             Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();

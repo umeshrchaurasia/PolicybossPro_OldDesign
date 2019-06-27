@@ -41,11 +41,16 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
         super.onViewCreated(view, savedInstanceState)
         rvFBAList.layoutManager = LinearLayoutManager(activity)
         imgSearch.setOnClickListener(this)
+        txtFBAName.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
 
         when (v?.id) {
+
+            R.id.txtFBAName -> {
+                getBOFBA(null)
+            }
             R.id.imgSearch -> {
 
                 Constants.hideKeyBoard(etSearch, activity)

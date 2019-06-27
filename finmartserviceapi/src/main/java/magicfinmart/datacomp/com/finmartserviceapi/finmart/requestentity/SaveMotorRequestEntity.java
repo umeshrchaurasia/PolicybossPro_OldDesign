@@ -21,8 +21,18 @@ public class SaveMotorRequestEntity implements Parcelable {
 
     String LeadId;
     String CreatedByUserFbaId;
+    String CreatedByUserFbaName;
+
     private String vehicle_insurance_type;
 
+
+    public String getCreatedByUserFbaName() {
+        return CreatedByUserFbaName;
+    }
+
+    public void setCreatedByUserFbaName(String createdByUserFbaName) {
+        CreatedByUserFbaName = createdByUserFbaName;
+    }
 
     public String getCreatedByUserFbaId() {
         return CreatedByUserFbaId;
