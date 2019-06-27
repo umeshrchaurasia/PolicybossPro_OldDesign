@@ -48,6 +48,10 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
     override fun onClick(v: View?) {
 
         when (v?.id) {
+
+            R.id.txtFBAName -> {
+                getBOFBA(null)
+            }
             R.id.imgSearch -> {
 
                 Constants.hideKeyBoard(etSearch, activity)

@@ -51,6 +51,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
@@ -121,7 +122,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         if (getArguments() != null) {
 
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
-                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
+
+                QuoteListEntity entity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
+                motorRequestEntity = entity.getMotorRequestEntity();
+
                 if (motorRequestEntity.getVehicleRequestID() != 0)
                     saveQuoteEntity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
                 initializeAdapters();
@@ -354,12 +358,17 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
         DBPersistanceController db = new DBPersistanceController(getActivity());
         //entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
-
-        if (db.getUserConstantsData().getParentid() != null && !db.getUserConstantsData().getParentid().equals("")
-                && !db.getUserConstantsData().getParentid().equals("0")) {
-            entity.setFba_id("" + Integer.parseInt(db.getUserConstantsData().getParentid()));
+        if (!motorRequestEntity.isBehalfOf()) {
+            entity.setCreatedByUserFbaId("0");
+            if (db.getUserConstantsData().getParentid() != null && !db.getUserConstantsData().getParentid().equals("")
+                    && !db.getUserConstantsData().getParentid().equals("0")) {
+                entity.setFba_id("" + Integer.parseInt(db.getUserConstantsData().getParentid()));
+            } else {
+                entity.setFba_id("" + db.getUserData().getFBAId());
+            }
         } else {
-            entity.setFba_id("" + db.getUserData().getFBAId());
+            entity.setCreatedByUserFbaId(String.valueOf(db.getUserData().getFBAId()));
+            entity.setFba_id(String.valueOf(motorRequestEntity.getFba_id()));
         }
 
         entity.setIsActive(1);

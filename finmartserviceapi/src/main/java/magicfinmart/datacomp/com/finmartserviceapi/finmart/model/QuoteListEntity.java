@@ -14,46 +14,26 @@ public class QuoteListEntity implements Parcelable {
     private int isActive;
     private int LeadId;
     private MotorRequestEntity motorRequestEntity;
-    public QuoteListEntity() {
+    private String CreatedByUserFbaId;
+    private String CreatedByUserFbaName;
+
+
+    public String getCreatedByUserFbaName() {
+        return CreatedByUserFbaName;
     }
 
-    protected QuoteListEntity(Parcel in) {
-        vehicle_insurance_type = in.readString();
-        SRN = in.readString();
-        VehicleRequestID = in.readInt();
-        fba_id = in.readInt();
-        isActive = in.readInt();
-        LeadId = in.readInt();
-        motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
+    public void setCreatedByUserFbaName(String createdByUserFbaName) {
+        CreatedByUserFbaName = createdByUserFbaName;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(vehicle_insurance_type);
-        dest.writeString(SRN);
-        dest.writeInt(VehicleRequestID);
-        dest.writeInt(fba_id);
-        dest.writeInt(isActive);
-        dest.writeInt(LeadId);
-        dest.writeParcelable(motorRequestEntity, flags);
+    public String getCreatedByUserFbaId() {
+        return CreatedByUserFbaId;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setCreatedByUserFbaId(String createdByUserFbaId) {
+        CreatedByUserFbaId = createdByUserFbaId;
     }
 
-    public static final Creator<QuoteListEntity> CREATOR = new Creator<QuoteListEntity>() {
-        @Override
-        public QuoteListEntity createFromParcel(Parcel in) {
-            return new QuoteListEntity(in);
-        }
-
-        @Override
-        public QuoteListEntity[] newArray(int size) {
-            return new QuoteListEntity[size];
-        }
-    };
 
     public String getVehicle_insurance_type() {
         return vehicle_insurance_type;
@@ -112,6 +92,46 @@ public class QuoteListEntity implements Parcelable {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.vehicle_insurance_type);
+        dest.writeString(this.SRN);
+        dest.writeInt(this.VehicleRequestID);
+        dest.writeInt(this.fba_id);
+        dest.writeInt(this.isActive);
+        dest.writeInt(this.LeadId);
+        dest.writeParcelable(this.motorRequestEntity, flags);
+        dest.writeString(this.CreatedByUserFbaId);
+    }
 
+    public QuoteListEntity() {
+    }
+
+    protected QuoteListEntity(Parcel in) {
+        this.vehicle_insurance_type = in.readString();
+        this.SRN = in.readString();
+        this.VehicleRequestID = in.readInt();
+        this.fba_id = in.readInt();
+        this.isActive = in.readInt();
+        this.LeadId = in.readInt();
+        this.motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
+        this.CreatedByUserFbaId = in.readString();
+    }
+
+    public static final Parcelable.Creator<QuoteListEntity> CREATOR = new Parcelable.Creator<QuoteListEntity>() {
+        @Override
+        public QuoteListEntity createFromParcel(Parcel source) {
+            return new QuoteListEntity(source);
+        }
+
+        @Override
+        public QuoteListEntity[] newArray(int size) {
+            return new QuoteListEntity[size];
+        }
+    };
 }

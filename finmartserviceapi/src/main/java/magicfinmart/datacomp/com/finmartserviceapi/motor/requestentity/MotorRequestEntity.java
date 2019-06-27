@@ -96,6 +96,17 @@ public class MotorRequestEntity implements Parcelable {
     private String needrsa;
     private String rsaplan;
 
+    private boolean isBehalfOf;
+
+
+    public boolean isBehalfOf() {
+        return isBehalfOf;
+    }
+
+    public void setBehalfOf(boolean behalfOf) {
+        isBehalfOf = behalfOf;
+    }
+
     public String getRsaplan() {
         return rsaplan;
     }
