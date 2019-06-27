@@ -2068,12 +2068,14 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
 
     @Override
     public void getBOFBA(BOFbaEntity entity) {
-        if (entity == null) {
-            etfbaSearch.setTag(R.id.etfbaSearch, null);
-            etfbaSearch.setText("self");
-        } else {
+        if (entity != null) {
             etfbaSearch.setTag(R.id.etfbaSearch, entity);
             etfbaSearch.setText(entity.getFullName());
+            motorRequestEntity.setBehalfOf(0);
+        } else {
+            etfbaSearch.setText("Self");
+            motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
 
     }

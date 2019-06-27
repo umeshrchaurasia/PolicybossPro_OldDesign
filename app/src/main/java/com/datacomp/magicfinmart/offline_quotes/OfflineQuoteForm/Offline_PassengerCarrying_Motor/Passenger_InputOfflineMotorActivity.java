@@ -2642,7 +2642,15 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
 
     @Override
     public void getBOFBA(BOFbaEntity entity) {
-        etfbaSearch.setText(entity.getFullName());
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+            motorRequestEntity.setBehalfOf(0);
+        } else {
+            etfbaSearch.setText("Self");
+            motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+        }
     }
     //endregion
 

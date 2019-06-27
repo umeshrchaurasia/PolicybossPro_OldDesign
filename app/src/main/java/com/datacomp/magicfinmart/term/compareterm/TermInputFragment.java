@@ -32,6 +32,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.term.compareterm.adapters.TermQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -49,6 +51,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
@@ -60,7 +63,7 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
+public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber, IBOFbaCallback {
 
     View layoutCompare;
     Button btnGetQuote;
@@ -70,7 +73,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     boolean isMale, isSmoker;
     EditText etDOB;
 
-    EditText etPincode, etSumAssured;
+    EditText etPincode, etSumAssured,etfbaSearch;
     List<String> policyYear;
     DBPersistanceController dbPersistanceController;
     Spinner spPolicyTerm, spPremTerm;
@@ -80,7 +83,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     NestedScrollView mainScroll;
-    LinearLayout llCompareAll;
+    LinearLayout llCompareAll ,llfbaSearch;
     RecyclerView rvTerm;
     CardView cvInputDetails;
     List<TermCompareResponseEntity> termCompareResponseEntities;
@@ -109,6 +112,14 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         init_adapters();
 
         adapter_listener();
+
+        if(dbPersistanceController.getUserConstantsData().getBoempuid()!= null &&  dbPersistanceController.getUserConstantsData().getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
         /*if (getArguments() != null) {
             if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null)
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
@@ -264,6 +275,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         tvNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
         etDOB.setOnClickListener(datePickerDialog);
+        etfbaSearch.setOnClickListener(this);
     }
 
     private void adapter_listener() {
@@ -330,6 +342,9 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         mainScroll = (NestedScrollView) view.findViewById(R.id.mainScroll);
         layoutCompare = (View) view.findViewById(R.id.layoutCompare);
 
+        etfbaSearch = (EditText)view.findViewById(R.id.etfbaSearch);
+        llfbaSearch  = (LinearLayout)view.findViewById(R.id.llfbaSearch);
+
     }
 
     @Override
@@ -380,6 +395,14 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                     ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 }*/
                 break;
+
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getActivity().getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
+                break;
+
         }
     }
 
@@ -703,5 +726,18 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
             ((CompareTermActivity) getActivity()).redirectToHdfcQuote(termCompareResponseEntity);
         else if (termCompareResponseEntity.getInsurerId() == 39)
             ((CompareTermActivity) getActivity()).redirectToIciciQuote(termCompareResponseEntity);
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+          //  motorRequestEntity.setBehalfOf(0);     // comment 05
+        } else {
+            etfbaSearch.setText("Self");
+           // motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+        }
     }
 }

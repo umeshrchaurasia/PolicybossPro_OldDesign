@@ -34,6 +34,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -51,6 +53,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
@@ -67,7 +70,7 @@ import static java.util.Calendar.YEAR;
  * Created by Rajeev Ranjan on 17/05/2018.
  */
 
-public class HdfcInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+public class HdfcInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber , IBOFbaCallback {
 
     //region variables
 
@@ -83,7 +86,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     ImageView ivEdit, ivInfo;
     TermCompareResponseEntity termCompareResponseEntity;
     CardView cvInputDetails, cvQuoteDetails;
-    LinearLayout layoutCompare;
+    LinearLayout layoutCompare,llfbaSearch;
     ScrollView mainScroll;
     TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
@@ -112,7 +115,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             minusIncDeath, plusIncDeath, minusIncPeriod, plusIncPeriod,
             minusINCREASING, plusINCREASING, minusAdb, plusAdb;
     EditText etICICISumAssured, etICICIPolicyTerm, etICICIPremiumTerm, etHDFCSAInc,
-            etIncDeath, etIncPeriod, etINCREASING, etAdb;
+            etIncDeath, etIncPeriod, etINCREASING, etAdb,etfbaSearch;
 
     long hfLumsumPayOutOnDeath, hfLumsumAmt;
     //endregion
@@ -139,6 +142,14 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         termFinmartRequest = new TermFinmartRequest();
         setDefaultValues();
         //init_adapters();
+
+        if(dbPersistanceController.getUserConstantsData().getBoempuid()!= null &&  dbPersistanceController.getUserConstantsData().getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
         //adapter_listener();
         if (getArguments() != null) {
@@ -754,6 +765,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         plusAdb = (Button) view.findViewById(R.id.plusAdb);
         etAdb = (EditText) view.findViewById(R.id.etAdb);
 
+        etfbaSearch = (EditText) view.findViewById(R.id.etfbaSearch);
+        llfbaSearch  = (LinearLayout) view.findViewById(R.id.llfbaSearch);
 
         //endregion
 
@@ -806,7 +819,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         etINCREASING.setOnFocusChangeListener(this);
         etIncDeath.setOnFocusChangeListener(this);
         etAdb.setOnFocusChangeListener(this);
-
+        etfbaSearch.setOnClickListener(this);
 
         spHDFCOptions.setOnItemSelectedListener(optionSelected);
         spHdfcPremFrq.setOnItemSelectedListener(optionSelected);
@@ -1000,6 +1013,12 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.plusAdb:
                 changeSAIncreasing(true, etAdb, 100);
+                break;
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getActivity().getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
                 break;
 
         }
@@ -1973,6 +1992,19 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         mPopupWindow.setTouchable(true);
         mPopupWindow.setFocusable(true);
 
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+          //  motorRequestEntity.setBehalfOf(0);
+        } else {
+            etfbaSearch.setText("Self");
+           // motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+        }
     }
 
 

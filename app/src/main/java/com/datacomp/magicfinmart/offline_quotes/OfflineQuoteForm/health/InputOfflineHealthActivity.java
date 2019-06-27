@@ -1823,7 +1823,15 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
                 alertDialog.dismiss();
 
                 SaveHealthRequestEntity saveHealthRequestEntity = new SaveHealthRequestEntity();
-                saveHealthRequestEntity.setFba_id(loginEntity.getFBAId());
+                if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+                    saveHealthRequestEntity.setFba_id(loginEntity.getFBAId());
+                    saveHealthRequestEntity.setCreatedByUserFbaId("0");
+                }else{
+                    saveHealthRequestEntity.setFba_id(((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
+                    saveHealthRequestEntity.setCreatedByUserFbaId(String.valueOf(loginEntity.getFBAId()));
+                }
+
                 saveHealthRequestEntity.setCrn(healthQuote.getCrn());
                 saveHealthRequestEntity.setAgent_source(healthQuote.getAgent_source());
                 saveHealthRequestEntity.setHealthRequestId(healthQuote.getHealthRequestId());
@@ -1895,6 +1903,14 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
     @Override
     public void getBOFBA(BOFbaEntity entity) {
 
-        etfbaSearch.setText(entity.getFullName());
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+          //  motorRequestEntity.setBehalfOf(0);
+        } else {
+            etfbaSearch.setText("Self");
+           // motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+        }
     }
 }

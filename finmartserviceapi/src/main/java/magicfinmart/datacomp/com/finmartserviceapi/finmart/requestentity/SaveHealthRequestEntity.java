@@ -27,6 +27,9 @@ public class SaveHealthRequestEntity {
     private String comment;
     private int fba_id;
 
+
+    private String CreatedByUserFbaId;
+
     public HealthRequestEntity getHealthRequest() {
         return HealthRequest;
     }
@@ -74,6 +77,15 @@ public class SaveHealthRequestEntity {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+    public String getCreatedByUserFbaId() {
+        return CreatedByUserFbaId;
+    }
+
+    public void setCreatedByUserFbaId(String createdByUserFbaId) {
+        CreatedByUserFbaId = createdByUserFbaId;
+    }
+
 
 
 }

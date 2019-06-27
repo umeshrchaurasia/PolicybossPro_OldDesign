@@ -38,6 +38,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -57,6 +59,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
@@ -69,7 +72,7 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, IResponseSubcriber {
+public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, IResponseSubcriber, IBOFbaCallback {
 
     private PopupWindow mPopupWindow, mPopupWindowSelection;
     View customView, customViewSelection;
@@ -85,7 +88,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
-    LinearLayout llAddon;
+    LinearLayout llAddon,llfbaSearch;
     RecyclerView rvAddOn;
 
     Button btnGetQuote;
@@ -114,7 +117,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     List<String> optionList, premiumTermList, frequenctList, premiumPaymentList;
     TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome, txtICICILumpSumRegular;
     EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm,
-            etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc;
+            etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc,etfbaSearch;
     Button minusICICISum, plusICICISum, minusICICIPTerm, plusICICIPTerm,
             minusICICIPreTerm, plusICICIPreTerm, minusICICICritical, plusICICICritical,
             minusICICIAcc, plusICICIAcc, minusICICILumpSumpPerc, plusICICILumpSumpPerc;
@@ -144,6 +147,14 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         adapter_listener();
         setDefaultsIcici();
+
+        if(dbPersistanceController.getUserConstantsData().getBoempuid()!= null &&  dbPersistanceController.getUserConstantsData().getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(IciciTermActivity.QUOTE_DATA) != null) {
@@ -609,6 +620,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         etSumICICIAssured.setOnFocusChangeListener(this);
         etICICIPolicyTerm.setOnFocusChangeListener(this);
         etICICIPremiumTerm.setOnFocusChangeListener(this);
+        etfbaSearch.setOnClickListener(this);
     }
 
     private void init_adapters() {
@@ -1148,6 +1160,9 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         plusICICILumpSumpPerc = (Button) view.findViewById(R.id.plusICICILumpSumpPerc);
         tilPremiumPayment = view.findViewById(R.id.tilPremiumPayment);
         spICICIPremiumPayment = view.findViewById(R.id.spICICIPremiumPayment);
+
+        etfbaSearch =  view.findViewById(R.id.etfbaSearch);
+        llfbaSearch  =  view.findViewById(R.id.llfbaSearch);
         //end region
     }
 
@@ -1269,6 +1284,12 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 break;
             case R.id.minusICICILumpSumpPerc:
                 changeLumpsumPercent(false);
+                break;
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getActivity().getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
                 break;
         }
     }
@@ -2227,6 +2248,19 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         if (premiumTerm <= minPremiumTerm) {
             etICICIPremiumTerm.setText("" + minPremiumTerm);
+        }
+    }
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+          //  motorRequestEntity.setBehalfOf(0);
+        } else {
+            etfbaSearch.setText("Self");
+         //  motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
     }
 }
