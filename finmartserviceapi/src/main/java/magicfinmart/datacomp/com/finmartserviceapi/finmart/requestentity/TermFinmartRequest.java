@@ -18,6 +18,36 @@ public class TermFinmartRequest implements Parcelable {
     int statusProgress;
     private String NetPremium;
 
+
+    private String CreatedByUserFbaId;
+
+
+    protected TermFinmartRequest(Parcel in) {
+        termRequestId = in.readInt();
+        insImage = in.readString();
+        statusProgress = in.readInt();
+        NetPremium = in.readString();
+        CreatedByUserFbaId = in.readString();
+        fba_id = in.readInt();
+        termRequestEntity = in.readParcelable(TermRequestEntity.class.getClassLoader());
+        quote = in.createTypedArrayList(OfflineQuoteListEntity.CREATOR);
+    }
+
+    public static final Creator<TermFinmartRequest> CREATOR = new Creator<TermFinmartRequest>() {
+        @Override
+        public TermFinmartRequest createFromParcel(Parcel in) {
+            return new TermFinmartRequest(in);
+        }
+
+        @Override
+        public TermFinmartRequest[] newArray(int size) {
+            return new TermFinmartRequest[size];
+        }
+    };
+
+    public TermFinmartRequest() {
+    }
+
     public int getStatusProgress() {
         return statusProgress;
     }
@@ -89,6 +119,13 @@ public class TermFinmartRequest implements Parcelable {
     public void setNetPremium(String NetPremium) {
         this.NetPremium = NetPremium;
     }
+    public String getCreatedByUserFbaId() {
+        return CreatedByUserFbaId;
+    }
+
+    public void setCreatedByUserFbaId(String createdByUserFbaId) {
+        CreatedByUserFbaId = createdByUserFbaId;
+    }
 
 
     @Override
@@ -98,37 +135,13 @@ public class TermFinmartRequest implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.termRequestId);
-        dest.writeString(this.insImage);
-        dest.writeInt(this.statusProgress);
-        dest.writeString(this.NetPremium);
-        dest.writeInt(this.fba_id);
-        dest.writeParcelable(this.termRequestEntity, flags);
-        dest.writeTypedList(this.quote);
+        dest.writeInt(termRequestId);
+        dest.writeString(insImage);
+        dest.writeInt(statusProgress);
+        dest.writeString(NetPremium);
+        dest.writeString(CreatedByUserFbaId);
+        dest.writeInt(fba_id);
+        dest.writeParcelable(termRequestEntity, flags);
+        dest.writeTypedList(quote);
     }
-
-    public TermFinmartRequest() {
-    }
-
-    protected TermFinmartRequest(Parcel in) {
-        this.termRequestId = in.readInt();
-        this.insImage = in.readString();
-        this.statusProgress = in.readInt();
-        this.NetPremium = in.readString();
-        this.fba_id = in.readInt();
-        this.termRequestEntity = in.readParcelable(TermRequestEntity.class.getClassLoader());
-        this.quote = in.createTypedArrayList(OfflineQuoteListEntity.CREATOR);
-    }
-
-    public static final Parcelable.Creator<TermFinmartRequest> CREATOR = new Parcelable.Creator<TermFinmartRequest>() {
-        @Override
-        public TermFinmartRequest createFromParcel(Parcel source) {
-            return new TermFinmartRequest(source);
-        }
-
-        @Override
-        public TermFinmartRequest[] newArray(int size) {
-            return new TermFinmartRequest[size];
-        }
-    };
 }

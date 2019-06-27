@@ -665,7 +665,16 @@ public class HdfcInputFragment_offline extends BaseFragment implements View.OnCl
             termFinmartRequest.setTermRequestId(termCompareQuoteResponse.getMasterData().getLifeTermRequestID());
         else
             termFinmartRequest.setTermRequestId(0);*/
-        termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+            termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+            termFinmartRequest.setCreatedByUserFbaId("0");
+        }else{
+            termFinmartRequest.setFba_id(((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
+            termFinmartRequest.setCreatedByUserFbaId(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
+        }
+
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 

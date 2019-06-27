@@ -2062,26 +2062,56 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
 
         motorRequestEntity.setSecret_key(Utility.SECRET_KEY);
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
-        motorRequestEntity.setApp_version(Utility.getVersionName(Passenger_InputOfflineMotorActivity.this));
-        motorRequestEntity.setDevice_id(Utility.getTokenId(Passenger_InputOfflineMotorActivity.this));
-        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+        motorRequestEntity.setApp_version(Utility.getVersionName(this));
+        motorRequestEntity.setDevice_id(Utility.getTokenId(this));
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(this));
+        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+        if (insuranceSubtypeEntity != null)
+            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+
         try {
-            motorRequestEntity.setMac_address(Utility.getMacAddress(Passenger_InputOfflineMotorActivity.this));
+            motorRequestEntity.setMac_address(Utility.getMacAddress(this));
         } catch (IOException e) {
             motorRequestEntity.setMac_address("0");
         }
 
-        if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
-            int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
-            motorRequestEntity.setSs_id(ssid);
+        //added by Nilesh 08/02/2019
+        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+        //added for behalf of
+
+        //self
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+            if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                    && !userConstantEntity.getParentid().equals("0")) {
+                motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
+            } else {
+                motorRequestEntity.setSub_fbaid("0");
+                motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+            }
+
+
+            if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
+                int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
+                motorRequestEntity.setSs_id(ssid);
+            } else {
+                motorRequestEntity.setSs_id(5);
+            }
         } else {
-            motorRequestEntity.setSs_id(5);
+
+            BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+
+            motorRequestEntity.setSub_fbaid("0");
+            motorRequestEntity.setFba_id(entity.getFbaid());
+            motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
         }
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(Passenger_InputOfflineMotorActivity.this));
-        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
-        if (insuranceSubtypeEntity != null)
-            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+
+        //behalf of end
     }
+
+
 
     //region set parameter
 

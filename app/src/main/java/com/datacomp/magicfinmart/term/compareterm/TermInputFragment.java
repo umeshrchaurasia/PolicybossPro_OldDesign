@@ -481,7 +481,15 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         //termRequestEntity.setSupportsAgentID("1682");
         termRequestEntity.setPincode(etPincode.getText().toString());
 
-        termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+            termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+            termFinmartRequest.setCreatedByUserFbaId("0");
+        }else{
+            termFinmartRequest.setFba_id(((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
+            termFinmartRequest.setCreatedByUserFbaId(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
+        }
+
         //termFinmartRequest.setTermRequestId(0);
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
