@@ -87,7 +87,7 @@
                     android:paddingRight="8dp"
                     android:gravity="center"
 
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextInputLayoutStyle"

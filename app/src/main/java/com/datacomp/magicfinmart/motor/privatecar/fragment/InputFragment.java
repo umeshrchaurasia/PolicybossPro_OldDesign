@@ -1194,12 +1194,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
-//        if (userConstantEntity.getBoempuid() != null && userConstantEntity.getBoempuid().length() > 0) {
-//            llfbaSearch.setVisibility(View.VISIBLE);
-//            etfbaSearch.setText("Self");
-//        } else {
-//            llfbaSearch.setVisibility(View.GONE);
-//        }
+        if (userConstantEntity.getBoempuid() != null && userConstantEntity.getBoempuid().length() > 0) {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        } else {
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
 
     }
