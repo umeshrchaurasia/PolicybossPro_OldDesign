@@ -55,7 +55,7 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
     SeekBar  sbMonthlyInc;
     LinearLayout llSalaried;
     int seekBarApplIncomeProgress = 50;
-    int tenureyears=1;
+    int tenureyears=5;
     int loanamount= 100000;
     TextView txtPendingDayshalf,txtPendingDays1,txtPendingDays2,txtPendingDays3,txtPendingDays4,txtPendingDays5;
     @Override
@@ -101,6 +101,9 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
         loginResponseEntity = dbPersistanceController.getUserData();
 
         setListener();
+        List<LstCitywiseBankLoanEntity> lst = new ArrayList<>();
+        mAdapter = new bank_display_personalloan_Adapter(bank_selection_personalloanActivity.this, lst);
+        rvQuotes.setAdapter(mAdapter);
         showDialog();
        new ErpLoanController(bank_selection_personalloanActivity.this).getCitywiseBankListloan(Cityid,"9",bank_selection_personalloanActivity.this);
     }
@@ -367,8 +370,9 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
                     llmessage.setVisibility(View.GONE);
                     quoteEntities = getpersonal_bank_list_response.getResult();
                     getupdatelist(quoteEntities,false);
-                    mAdapter = new bank_display_personalloan_Adapter(bank_selection_personalloanActivity.this, getpersonal_bank_list_response.getResult());
-                    rvQuotes.setAdapter(mAdapter);
+                    updateCalculatedList(tenureyears,loanamount);
+                    //mAdapter = new bank_display_personalloan_Adapter(bank_selection_personalloanActivity.this, getpersonal_bank_list_response.getResult());
+                    //rvQuotes.setAdapter(mAdapter);
                 }else {
                     //  Toast.makeText(this, "Data Not Found", Toast.LENGTH_LONG).show();
                     llmessage.setVisibility(View.VISIBLE);

@@ -21,7 +21,7 @@
             android:id="@+id/nav_finperk"
             android:icon="@drawable/ic_business_name"
             android:orderInCategory="100"
-            android:title="FINPERK" />
+            android:title="FINPERKS" />
 
         <item
             android:id="@+id/nav_insert_contact"
