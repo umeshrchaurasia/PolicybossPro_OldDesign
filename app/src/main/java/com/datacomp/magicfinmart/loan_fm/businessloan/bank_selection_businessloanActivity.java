@@ -95,6 +95,7 @@ public class bank_selection_businessloanActivity extends BaseActivity implements
         List<LstCitywiseBankLoanEntity> lst = new ArrayList<>();
         mAdapter = new bank_display_businessloan_Adapter(bank_selection_businessloanActivity.this,lst);
         rvQuotes.setAdapter(mAdapter);
+
         showDialog();
         new ErpLoanController(bank_selection_businessloanActivity.this).getCitywiseBankListloan(Cityid, "13", bank_selection_businessloanActivity.this);
     }

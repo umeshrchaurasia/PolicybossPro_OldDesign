@@ -311,11 +311,18 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
         DBPersistanceController db = new DBPersistanceController(getActivity());
         //entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
-        if (db.getUserConstantsData().getParentid() != null && !db.getUserConstantsData().getParentid().equals("")
-                && !db.getUserConstantsData().getParentid().equals("0")) {
-            entity.setFba_id("" + Integer.parseInt(db.getUserConstantsData().getParentid()));
+        if (motorRequestEntity.isBehalfOf() == 1) {
+            entity.setCreatedByUserFbaId("0");
+            if (db.getUserConstantsData().getParentid() != null && !db.getUserConstantsData().getParentid().equals("")
+                    && !db.getUserConstantsData().getParentid().equals("0")) {
+                entity.setFba_id("" + Integer.parseInt(db.getUserConstantsData().getParentid()));
+            } else {
+                entity.setFba_id("" + db.getUserData().getFBAId());
+            }
         } else {
-            entity.setFba_id("" + db.getUserData().getFBAId());
+            entity.setCreatedByUserFbaId(String.valueOf(db.getUserData().getFBAId()));
+            entity.setFba_id(String.valueOf(motorRequestEntity.getFba_id()));
+
         }
 
         if (saveQuoteEntity != null) {
@@ -333,7 +340,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
             bikePremiumResponse = (BikePremiumResponse) response;
 
-            if (!motorRequestEntity.getCrn().equalsIgnoreCase("")){
+            if (!motorRequestEntity.getCrn().equalsIgnoreCase("")) {
                 bikePremiumResponse.getSummary().setPB_CRN(motorRequestEntity.getCrn());
             }
 

@@ -25,6 +25,9 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
     var iboFbaCallback: IBOFbaCallback? = null
     internal var dialog: ProgressDialog? = null
 
+    var mAdapter: FBASearchAdapter? = null
+    var mList = mutableListOf<BOFbaEntity>()
+
     companion object {
         fun newInstance(iboFbaCallback: IBOFbaCallback): SearchBOFBAFragment =
                 SearchBOFBAFragment().apply {
@@ -39,19 +42,21 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        txtFBAName.text = "Self"
+
         rvFBAList.layoutManager = LinearLayoutManager(activity)
+
+        var boFbaEntity = BOFbaEntity()
+        boFbaEntity.fullName = "Self"
+        mList.add(0, boFbaEntity)
+        mAdapter = FBASearchAdapter(mList, this, activity)
+        rvFBAList.adapter = mAdapter
         imgSearch.setOnClickListener(this)
-        txtFBAName.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
 
         when (v?.id) {
 
-            R.id.txtFBAName -> {
-                getBOFBA(null)
-            }
             R.id.imgSearch -> {
 
                 Constants.hideKeyBoard(etSearch, activity)
@@ -67,7 +72,6 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
                 showDialog("loading...")
                 QuoteApplicationController(activity).getBOFbaList(DBPersistanceController(activity).userConstantsData.fbaId,
                         etSearch.text.toString(), this)
-
 
 
             }
@@ -88,12 +92,17 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
         cancelDialog()
 
         if (response is BOFbaListResponse) {
+
             if (response.masterData != null) {
-                rvFBAList.adapter = FBASearchAdapter(response.masterData!!, this, activity)
-            } else {
-                rvFBAList.adapter = null
-                Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+                mList.clear()
+                mList.addAll(response.masterData)
             }
+            var boFbaEntity = BOFbaEntity()
+            boFbaEntity.fullName = "Self"
+            mList.add(0, boFbaEntity)
+
+            mAdapter?.notifyDataSetChanged()
+
         }
 
     }

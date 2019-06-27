@@ -18,10 +18,17 @@ class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val iboFbaCallback: IBOFb
     }
 
     override fun onBindViewHolder(holder: FBAItem, position: Int) {
-        holder.txtFBAName.text = fbaList.get(position).fullName + " (FBA -" + fbaList.get(position).fbaid + ")"
+
+        if (position == 0)
+            holder.txtFBAName.text = fbaList.get(position).fullName
+        else
+            holder.txtFBAName.text = fbaList.get(position).fullName + " (FBA -" + fbaList.get(position).fbaid + ")"
 
         holder.llSearchFBA.setOnClickListener {
-            iboFbaCallback.getBOFBA(fbaList.get(position))
+            if (position == 0)
+                iboFbaCallback.getBOFBA(null)
+            else
+                iboFbaCallback.getBOFBA(fbaList.get(position))
         }
     }
 

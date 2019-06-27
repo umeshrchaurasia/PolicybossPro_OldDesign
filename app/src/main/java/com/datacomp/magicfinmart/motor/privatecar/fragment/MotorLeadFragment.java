@@ -49,7 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplica
  */
 public class MotorLeadFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
 
-    public static final String FROM_QUOTE = "from_lead";
+    public static final String FROM_LEAD = "from_lead";
 
     RecyclerView rvLeadList;
     MotorLeadAdapter motorLeadAdapter;
@@ -311,7 +311,6 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
                 }
 
 
-
             }
             motorLeadAdapter.refreshAdapter(mLeadList);
             motorLeadAdapter.notifyDataSetChanged();
@@ -321,12 +320,12 @@ public class MotorLeadFragment extends BaseFragment implements View.OnClickListe
             QuoteListEntity entity = ((MotorLeadResponse) response).getMasterData();
 
 
-            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
+            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_LEAD, entity));
         } else if (response instanceof MotorViewLeadResponse) {
 
             QuoteListEntity entity = ((MotorViewLeadResponse) response).getMasterData();
 
-            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
+            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_LEAD, entity));
         } else if (response instanceof LeadDispositionResponse) {
 
             leadDispoList = ((LeadDispositionResponse) response).getMasterData();

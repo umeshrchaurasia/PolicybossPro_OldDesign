@@ -216,15 +216,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
 
-                QuoteListEntity entity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
-                motorRequestEntity = entity.getMotorRequestEntity();
-
+                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
                 LeadId = getArguments().getString(InputQuoteBottmActivity.MOTOR_LEAD_ID, "0");
                 tvDontKnow.performClick();
                 bindInputsQuotes();
 
                 //disable if crn exist
-                disableInputs(entity);
+                disableInputs();
             }
         }
 
@@ -236,13 +234,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     //region binding parameter
 
-    private void disableInputs(QuoteListEntity entity) {
+    private void disableInputs() {
 
         //added for behalf of
-        if (entity.getCreatedByUserFbaId() == null && entity.getCreatedByUserFbaId().equals("0")) {
+        if (motorRequestEntity.isBehalfOf() == 1) {
             etfbaSearch.setText("Self");
-        } else {
-            etfbaSearch.setText(entity.getCreatedByUserFbaName());
         }
 
         etfbaSearch.setEnabled(false);
