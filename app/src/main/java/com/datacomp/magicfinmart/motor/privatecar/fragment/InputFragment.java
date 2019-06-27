@@ -1623,12 +1623,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                     entity.setFba_id("" + userConstantEntity.getFBAId());
                                 }
 
-                                motorRequestEntity.setBehalfOf(false);
+                                motorRequestEntity.setBehalfOf(1);
                             } else {
                                 BOFbaEntity bo = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
                                 entity.setCreatedByUserFbaId(userConstantEntity.getFBAId());
                                 motorRequestEntity.setFba_id(bo.getFbaid());
-                                motorRequestEntity.setBehalfOf(true);
+                                motorRequestEntity.setBehalfOf(0);
                             }
 
                             showDialog("Please wait...");
@@ -2961,10 +2961,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (entity != null) {
             etfbaSearch.setTag(R.id.etfbaSearch, entity);
             etfbaSearch.setText(entity.getFullName());
-            motorRequestEntity.setBehalfOf(true);
+            motorRequestEntity.setBehalfOf(0);
         } else {
             etfbaSearch.setText("Self");
-            motorRequestEntity.setBehalfOf(false);
+            motorRequestEntity.setBehalfOf(1);
             etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
 

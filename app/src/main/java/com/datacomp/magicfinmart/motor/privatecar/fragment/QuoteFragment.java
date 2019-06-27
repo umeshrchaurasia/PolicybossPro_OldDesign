@@ -358,7 +358,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
         DBPersistanceController db = new DBPersistanceController(getActivity());
         //entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
-        if (!motorRequestEntity.isBehalfOf()) {
+        if (motorRequestEntity.isBehalfOf() == 1) {
             entity.setCreatedByUserFbaId("0");
             if (db.getUserConstantsData().getParentid() != null && !db.getUserConstantsData().getParentid().equals("")
                     && !db.getUserConstantsData().getParentid().equals("0")) {

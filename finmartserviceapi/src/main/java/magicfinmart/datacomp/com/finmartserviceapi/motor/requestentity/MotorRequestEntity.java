@@ -96,14 +96,14 @@ public class MotorRequestEntity implements Parcelable {
     private String needrsa;
     private String rsaplan;
 
-    private boolean isBehalfOf;
+    private int isBehalfOf;
 
 
-    public boolean isBehalfOf() {
+    public int isBehalfOf() {
         return isBehalfOf;
     }
 
-    public void setBehalfOf(boolean behalfOf) {
+    public void setBehalfOf(int behalfOf) {
         isBehalfOf = behalfOf;
     }
 
@@ -888,7 +888,7 @@ public class MotorRequestEntity implements Parcelable {
         this.is_breakin = in.readString();
         this.is_policy_exist = in.readString();
         this.needrsa = in.readString();
-        this.rsaplan =in.readString();
+        this.rsaplan = in.readString();
     }
 
     public static final Parcelable.Creator<MotorRequestEntity> CREATOR = new Parcelable.Creator<MotorRequestEntity>() {
