@@ -26,6 +26,8 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -59,6 +61,7 @@ import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
+import com.datacomp.magicfinmart.home.adapter.CallingDetailAdapter;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
@@ -109,11 +112,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 
 public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener,
@@ -133,11 +138,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     int forceUpdate, checkfirstmsg_call, isContactFirstCall;
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
+    CallingDetailAdapter callingDetailAdapter;
 
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
-    AlertDialog finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
+    AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
 
 
     //region broadcast receiver
@@ -950,7 +956,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                     if (userConstantEntity.getManagName() != null) {
-                        ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        // ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+
+                        if (callingDetailDialog != null && callingDetailDialog.isShowing()) {
+
+                            return false;
+                        } else {
+                            showDialog();
+                            new RegisterController(this).getUserCallingDetail(String.valueOf(loginResponseEntity.getFBAId()), this);
+                        }
                     }
 
                 }
@@ -1097,6 +1111,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
                 //dashboardIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData());
                 LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
+            }
+        } else if (response instanceof UserCallingResponse) {
+            if (response.getStatusNo() == 0) {
+
+                CallingDetailsPopUp(((UserCallingResponse) response).getMasterData());
             }
         }
 
@@ -1374,6 +1393,49 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (Exception ex) {
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    public void CallingDetailsPopUp(List<UserCallingEntity> lstCallingDetail) {
+        if (callingDetailDialog != null && callingDetailDialog.isShowing()) {
+
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
+        TextView txtHdr, txtMessage;
+        ImageView ivCross;
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.calling_user_detail_dialog, null);
+
+        builder.setView(dialogView);
+        callingDetailDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        txtHdr = dialogView.findViewById(R.id.txtHdr);
+        txtMessage = dialogView.findViewById(R.id.txtMessage);
+        RecyclerView rvCalling = dialogView.findViewById(R.id.rvCalling);
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+        rvCalling.setLayoutManager(new LinearLayoutManager(this));
+        rvCalling.setHasFixedSize(true);
+        rvCalling.setNestedScrollingEnabled(false);
+        callingDetailAdapter = new CallingDetailAdapter(HomeActivity.this, lstCallingDetail);
+        rvCalling.setAdapter(callingDetailAdapter);
+        rvCalling.setVisibility(View.VISIBLE);
+        txtMessage.setText(getResources().getString(R.string.RM_Calling));
+
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                callingDetailDialog.dismiss();
+
+            }
+        });
+        callingDetailDialog.setCancelable(false);
+        callingDetailDialog.show();
+
     }
 
     //region mps dialog
@@ -2008,6 +2070,21 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             MyUtilitiesDialog.show();
         }
 
+
+    }
+
+    public void shareCallingData(UserCallingEntity userCallingEntity)
+    {
+        Intent intentCalling = new Intent(Intent.ACTION_DIAL);
+        intentCalling.setData(Uri.parse("tel:" + userCallingEntity.getMobileNo()));
+        startActivity(intentCalling);
+
+
+    }
+
+    public void shareEmailData(UserCallingEntity userCallingEntity)
+    {
+        shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userCallingEntity.getEmailId(), userCallingEntity.getMobileNo());
 
     }
 

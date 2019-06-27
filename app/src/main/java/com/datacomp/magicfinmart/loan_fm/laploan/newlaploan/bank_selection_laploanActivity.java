@@ -1,10 +1,7 @@
-
-package com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan;
+package com.datacomp.magicfinmart.loan_fm.laploan.newlaploan;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -23,26 +19,22 @@ import com.datacomp.magicfinmart.R;
 
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCityBankdetailEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCitywiseBankLoanEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.citywisebankloanResponse;
 
 
-public class bank_selection_personalloanActivity extends BaseActivity   implements View.OnClickListener, TextWatcher, SeekBar.OnSeekBarChangeListener, IResponseSubcriberERP {
+public class bank_selection_laploanActivity extends BaseActivity implements View.OnClickListener, TextWatcher, SeekBar.OnSeekBarChangeListener, IResponseSubcriberERP {
     RecyclerView rvQuotes;
-    bank_display_personalloan_Adapter  mAdapter;
-    List<LstCitywiseBankLoanEntity> quoteEntities;
+    bank_display_laploan_Adapter mAdapter;
+		    List<LstCitywiseBankLoanEntity> quoteEntities;
 
     citywisebankloanResponse getpersonal_bank_list_response;
     Toolbar toolbar;
@@ -51,17 +43,18 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
     LoginResponseEntity loginResponseEntity;
     LinearLayout llmessage;
     Button btnBack;
-    EditText etMonthlyInc;
+    EditText etMonthlyInc,etTenureInYear;
     SeekBar  sbMonthlyInc;
+
     LinearLayout llSalaried;
-    int seekBarApplIncomeProgress = 50;
-    int tenureyears=1;
-    int loanamount= 100000;
-    TextView txtPendingDayshalf,txtPendingDays1,txtPendingDays2,txtPendingDays3,txtPendingDays4,txtPendingDays5;
+    int seekBarApplIncomeProgress = 1;
+    int tenureyears=15;
+    int loanamount= 2500000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bank_selection_personalloan);
+        setContentView(R.layout.activity_bank_selection_laploan);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -73,84 +66,53 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
         llmessage.setVisibility(View.GONE);
         etMonthlyInc = (EditText) findViewById(R.id.etMonthlyInc);
         etMonthlyInc.addTextChangedListener(this);
-               sbMonthlyInc = (SeekBar) findViewById(R.id.sbMonthlyInc);
-        sbMonthlyInc.setMax(3000);
-        sbMonthlyInc.setProgress(2);
-        etMonthlyInc.setText("100000");
-
-
-        sbMonthlyInc.setOnSeekBarChangeListener(this);
-        txtPendingDayshalf= (TextView) findViewById(R.id.txtPendingDayshalf) ;
-        txtPendingDays1= (TextView) findViewById(R.id.txtPendingDays1) ;
-        txtPendingDays2= (TextView) findViewById(R.id.txtPendingDays2) ;
-        txtPendingDays3= (TextView) findViewById(R.id.txtPendingDays3) ;
-        txtPendingDays4= (TextView) findViewById(R.id.txtPendingDays4) ;
-        txtPendingDays5= (TextView) findViewById(R.id.txtPendingDays5) ;
-
-        txtPendingDays5.setBackgroundResource(R.drawable.circular_select);
-        txtPendingDays5.setTextColor(ContextCompat.getColor(bank_selection_personalloanActivity.this, R.color.white));
         btnBack= (Button) findViewById(R.id.btnBack) ;
+        etTenureInYear= (EditText) findViewById(R.id.etTenureInYear) ;
+        etTenureInYear.addTextChangedListener(this);
+        sbMonthlyInc = (SeekBar) findViewById(R.id.sbMonthlyInc);
+        sbMonthlyInc.setMax(20);
+        sbMonthlyInc.setProgress(15);
+        etMonthlyInc.setText("2500000");
+        sbMonthlyInc.setOnSeekBarChangeListener(this);
 
-
-
+        etTenureInYear.setText("15");
         rvQuotes = (RecyclerView)findViewById(R.id.rvQuotes);
-        rvQuotes.setLayoutManager(new LinearLayoutManager(bank_selection_personalloanActivity.this));
-    //getBankdetail_personalloan
+        rvQuotes.setLayoutManager(new LinearLayoutManager(bank_selection_laploanActivity.this));
+//getBankdetail_personalloan
         Cityid= getIntent().getStringExtra("city_id");
-        dbPersistanceController = new DBPersistanceController(bank_selection_personalloanActivity.this);
+        dbPersistanceController = new DBPersistanceController(bank_selection_laploanActivity.this);
         loginResponseEntity = dbPersistanceController.getUserData();
 
         setListener();
+        List<LstCitywiseBankLoanEntity> lst = new ArrayList<>();
+        mAdapter = new bank_display_laploan_Adapter(bank_selection_laploanActivity.this, lst);
+        rvQuotes.setAdapter(mAdapter);
         showDialog();
-       new ErpLoanController(bank_selection_personalloanActivity.this).getCitywiseBankListloan(Cityid,"9",bank_selection_personalloanActivity.this);
+       new ErpLoanController(bank_selection_laploanActivity.this).getCitywiseBankListloan(Cityid,"7", bank_selection_laploanActivity.this);
     }
 
-    private void setListener() {
+	     private void setListener() {
         btnBack.setOnClickListener(this);
-        txtPendingDayshalf.setOnClickListener(this);
-        txtPendingDays1.setOnClickListener(this);
-        txtPendingDays2.setOnClickListener(this);
-        txtPendingDays3.setOnClickListener(this);
-        txtPendingDays4.setOnClickListener(this);
-        txtPendingDays5.setOnClickListener(this);
+
+
+
     }
     @Override
     public void onClick(View view) {
        // Constants.hideKeyBoard(view, this);
         switch (view.getId()) {
             case R.id.btnBack:
-                startActivity(new Intent(bank_selection_personalloanActivity.this, city_selecton_personalloan_Activity.class));
+                startActivity(new Intent(bank_selection_laploanActivity.this, city_selecton_laploan_Activity.class));
                 break;
-            case R.id.txtPendingDayshalf:
-                managePL_Common("half", txtPendingDayshalf, txtPendingDays1, txtPendingDays2, txtPendingDays3, txtPendingDays4,txtPendingDays5);
-                updateCalculatedList_cash(loanamount);
-                break;
-            case R.id.txtPendingDays1:
-                managePL_Common("one", txtPendingDays1,txtPendingDayshalf,  txtPendingDays2, txtPendingDays3, txtPendingDays4,txtPendingDays5);
-                tenureyears=1;
-                updateCalculatedList(tenureyears,loanamount);
-                break;
-            case R.id.txtPendingDays2:
-                managePL_Common("two", txtPendingDays2, txtPendingDayshalf, txtPendingDays1, txtPendingDays3, txtPendingDays4,txtPendingDays5);
-                tenureyears=2;
-                updateCalculatedList(tenureyears,loanamount);
-                break;
-            case R.id.txtPendingDays3:
-                managePL_Common("three",  txtPendingDays3,txtPendingDayshalf, txtPendingDays1, txtPendingDays2, txtPendingDays4,txtPendingDays5);
-                tenureyears=3;
-                updateCalculatedList(tenureyears,loanamount);
-                break;
-            case R.id.txtPendingDays4:
-                managePL_Common("four", txtPendingDays4,txtPendingDayshalf, txtPendingDays1, txtPendingDays2, txtPendingDays3, txtPendingDays5);
-                tenureyears=4;
-                updateCalculatedList(tenureyears,loanamount);
-                break;
-            case R.id.txtPendingDays5:
-                managePL_Common("five", txtPendingDays5,txtPendingDayshalf, txtPendingDays1, txtPendingDays2, txtPendingDays3, txtPendingDays4);
-                tenureyears=5;
-                updateCalculatedList(tenureyears,loanamount);
-                break;
-            //endregion
+
+
+//
+//            case R.id.txtPendingDays3:
+//                managePL_Common("three",  txtPendingDays3,txtPendingDays1, txtPendingDays2);
+//                tenureyears=3;
+//                updateCalculatedList(tenureyears,loanamount);
+//                break;
+
 
         }
     }
@@ -276,83 +238,44 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
         return monthlyPayment;
     }
 
-    private void managePL_Common(String Value, TextView clickedText, TextView textView1, TextView textView2, TextView textView3, TextView textView4,TextView textView5) {
-
-//
-//        if (Type == 1) {
-//            PL_STATUS = Value;
-//        } else if (Type == 2) {
-//            PL_CATEGORY = Value;
-//        }
-//        if (Type == 3) {
-//            PL_EDUCATION = Value;
-//        }
-        clickedText.setBackgroundResource(R.drawable.circular_select);
-        clickedText.setTextColor(ContextCompat.getColor(bank_selection_personalloanActivity.this, R.color.white));
-
-        textView1.setBackgroundResource(R.drawable.circular_shape);
-        textView1.setTextColor(ContextCompat.getColor(bank_selection_personalloanActivity.this, R.color.black));
-
-        textView2.setBackgroundResource(R.drawable.circular_shape);
-        textView2.setTextColor(ContextCompat.getColor(bank_selection_personalloanActivity.this, R.color.black));
-
-        textView3.setBackgroundResource(R.drawable.circular_shape);
-        textView3.setTextColor(ContextCompat.getColor(bank_selection_personalloanActivity.this, R.color.black));
-
-        textView4.setBackgroundResource(R.drawable.circular_shape);
-        textView4.setTextColor(ContextCompat.getColor(bank_selection_personalloanActivity.this, R.color.black));
-
-
-        textView5.setBackgroundResource(R.drawable.circular_shape);
-        textView5.setTextColor(ContextCompat.getColor(bank_selection_personalloanActivity.this, R.color.black));
-
-    }
-
-
-    public void redirectToApplyBank(LstCitywiseBankLoanEntity entity) {
+  public void redirectToApplyBankHL(LstCitywiseBankLoanEntity entity) {
         String url="";
         String Bankname="";
-
         Bankname = entity.getBank_Name();
         url= entity.getBank_Form_URL() + "?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 
-//        if(entity.getBank_Id().equals("33")){
-//            Bankname="KOTAK MAHINDRA BANK";
-//            url="https://www.rupeeboss.com/kotakmahindra-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+
+//        if (entity.getBank_Id().equals("33")) {
+//            Bankname = "KOTAK MAHINDRA BANK";
+//            //   url="https://www.rupeeboss.com/kotakmahindra-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 //
-//        }else  if(entity.getBank_Id().equals("43")){
-//            Bankname="RBL BANK";
-//            url="https://www.rupeeboss.com/rbl-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+//        } else if (entity.getBank_Id().equals("43")) {
+//            Bankname = "RBL BANK";
+//            //  url="https://www.rupeeboss.com/rbl-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 //
-//        }else  if(entity.getBank_Id().equals("51")){
-//            Bankname="TATA CAPITAL";
-//            url="https://www.rupeeboss.com/tatacapital-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+//        } else if (entity.getBank_Id().equals("51")) {
+//            Bankname = "TATA CAPITAL";
+//            // url="https://www.rupeeboss.com/tatacapital-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 //
-//        }else  if(entity.getBank_Id().equals("53")){
-//            Bankname="YES BANK";
-//            String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
+//        } else if (entity.getBank_Id().equals("53")) {
+//            Bankname = "YES BANK";
+//            //  String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
 //
-//            Utility.loadWebViewUrlInBrowser(bank_selection_personalloanActivity.this,url1);
-//        }else  if(entity.getBank_Id().equals("20")){
-//            Bankname="HDFC BANK";
-//            url="https://www.rupeeboss.com/hdfc-pl?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
-//        }else  if(entity.getBank_Id().equals("2152")){
-//            Bankname="CASHE";
-//            url="https://www.rupeeboss.com/cashe-new?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+//            // Utility.loadWebViewUrlInBrowser(bank_selection_businessloanActivity.this,url1);
+//        } else if (entity.getBank_Id().equals("20")) {
+//            Bankname = "HDFC BANK";
+//            url = "https://www.rupeeboss.com/hdfc-bl?BrokerId=" + loginResponseEntity.getLoanId() + "&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
+//        } else if (entity.getBank_Id().equals("2152")) {
+//            Bankname = "CASHE";
+//            //   url="https://www.rupeeboss.com/cashe-new?BrokerId=" + loginResponseEntity.getLoanId()+"&FBAId=" + loginResponseEntity.getFBAId() + "&client_source=finmart&lead_id=";
 //        }
 
-        if(!entity.getBank_Id().equals("53")) {
+
             startActivity(new Intent(this, CommonWebViewActivity.class)
                     .putExtra("URL", url)
                     .putExtra("NAME", "" + Bankname)
                     .putExtra("TITLE", "" + Bankname));
-        }else
-        {
-            Bankname="YES BANK";
-            String url1 = "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + loginResponseEntity.getFBAId()+ "&usertype=finmart&vkey=b34f02e9-8f1c";
 
-            Utility.loadWebViewUrlInBrowser(bank_selection_personalloanActivity.this,url1);
-        }
         //  setFmBankRequest(entity);
     }
 
@@ -367,10 +290,11 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
                     llmessage.setVisibility(View.GONE);
                     quoteEntities = getpersonal_bank_list_response.getResult();
                     getupdatelist(quoteEntities,false);
-                    mAdapter = new bank_display_personalloan_Adapter(bank_selection_personalloanActivity.this, getpersonal_bank_list_response.getResult());
-                    rvQuotes.setAdapter(mAdapter);
+                    updateCalculatedList(tenureyears,loanamount);
+//                    mAdapter = new bank_display_homeloan_Adapter(bank_selection_homeloanActivity.this, getpersonal_bank_list_response.getResult());
+//                    rvQuotes.setAdapter(mAdapter);
                 }else {
-                    //  Toast.makeText(this, "Data Not Found", Toast.LENGTH_LONG).show();
+                  //  Toast.makeText(this, "Data Not Found", Toast.LENGTH_LONG).show();
                     llmessage.setVisibility(View.VISIBLE);
                 }
             }else
@@ -396,22 +320,30 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
         if (etMonthlyInc.getText().hashCode() == s.hashCode()) {
 
             if (!etMonthlyInc.getText().toString().equals("") && !etMonthlyInc.getText().toString().equals(null)) {
-                int monthlyInc = Integer.parseInt(etMonthlyInc.getText().toString());
-//                if (monthlyInc == 50000)
-//                {
-//
-//                }
-//                else
-                    if (monthlyInc > 50000) {
-                    sbMonthlyInc.setProgress(monthlyInc / 1000);
-                    //etMonthlyInc.setText("500000");
-                }
-                else {
-                    sbMonthlyInc.setProgress(1);
-                    etMonthlyInc.setSelection(etMonthlyInc.getText().length());
-                }
+             // int monthlyInc = Integer.parseInt(etMonthlyInc.getText().toString());
 
+              etMonthlyInc.setSelection(etMonthlyInc.getText().length());
+
+               // tenureyears = Integer.parseInt(etTenureInYear.getText().toString());
                 loanamount = Integer.parseInt(etMonthlyInc.getText().toString());
+                updateCalculatedList(tenureyears,loanamount);
+            }
+
+        }
+        if (etTenureInYear.getText().hashCode() == s.hashCode()) {
+            if (!etTenureInYear.getText().toString().equals("") && !etTenureInYear.getText().toString().equals(null)) {
+                 int TenurelyInc = Integer.parseInt(etTenureInYear.getText().toString());
+                if (TenurelyInc > 1) {
+                    sbMonthlyInc.setProgress(TenurelyInc);
+                }
+                else
+                {
+                    sbMonthlyInc.setProgress(1);
+                    etTenureInYear.setSelection(etTenureInYear.getText().length());
+                }
+              
+
+                tenureyears = Integer.parseInt(etTenureInYear.getText().toString());
                 updateCalculatedList(tenureyears,loanamount);
             }
 
@@ -425,21 +357,24 @@ public class bank_selection_personalloanActivity extends BaseActivity   implemen
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+        String progr="";
         if(fromUser) {
             switch (seekBar.getId()) {
 
                 case R.id.sbMonthlyInc:
                     if (progress >= seekBarApplIncomeProgress) {
                         if (fromUser) {
-                            //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
-                            etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
+                            progr =  String.valueOf(progress);
+                            tenureyears = progress;
+                            etTenureInYear.setText(progr);
                         }
                     } else {
-                        etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
+                        progr= String.valueOf((long) seekBarApplIncomeProgress);
+                        tenureyears= seekBarApplIncomeProgress;
+                        etTenureInYear.setText(progr);
                     }
-                    break;
 
+                    break;
 
             }
         }

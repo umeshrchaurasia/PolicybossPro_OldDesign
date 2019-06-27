@@ -44,6 +44,15 @@ public  class NewLoanApplicationEnity {
 
 
        private String progress_image;
+    private String   Bank_URL;
+    public String getBank_URL() {
+        return Bank_URL;
+    }
+
+    public void setBank_URL(String bank_URL) {
+        Bank_URL = bank_URL;
+    }
+
 
     public int getId() {
         return Id;

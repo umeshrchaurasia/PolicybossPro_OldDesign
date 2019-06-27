@@ -1,6 +1,7 @@
-package com.datacomp.magicfinmart.loan_fm.businessloan;
+package com.datacomp.magicfinmart.loan_fm.laploan.newlaploan;
 
 import android.app.Activity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity;
+
 
 import java.util.List;
 
@@ -22,31 +23,31 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCitywiseBank
  * Created by IN-RB on 13-03-2019.
  */
 
-public class bank_display_businessloan_Adapter extends RecyclerView.Adapter<bank_display_businessloan_Adapter.PLQuotesItem>{
+public class bank_display_laploan_Adapter extends RecyclerView.Adapter<bank_display_laploan_Adapter.PLQuotesItem>{
     Activity mContext;
     List<LstCitywiseBankLoanEntity> quoteEntities;
     boolean isclick = false;
+    bank_display_laploanChild_Adapter mAdapter;
 
     //bank_display_personalloan.xml
-    public bank_display_businessloan_Adapter(Activity mContext, List<LstCitywiseBankLoanEntity> quoteEntities) {
+    public bank_display_laploan_Adapter(Activity mContext, List<LstCitywiseBankLoanEntity> quoteEntities) {
         this.mContext = mContext;
         this.quoteEntities = quoteEntities;
     }
 
     @Override
-    public bank_display_businessloan_Adapter.PLQuotesItem onCreateViewHolder(ViewGroup parent, int viewType) {
+    public bank_display_laploan_Adapter.PLQuotesItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.bank_display_businessloan,parent,false);
-        return  new bank_display_businessloan_Adapter.PLQuotesItem(view);
+                R.layout.bank_display_homeloan,parent,false);
+        return  new bank_display_laploan_Adapter.PLQuotesItem(view);
     }
 
     @Override
-    public void onBindViewHolder(final bank_display_businessloan_Adapter.PLQuotesItem holder, final int position) {
-        final LstCitywiseBankLoanEntity quoteEntity1 = quoteEntities.get(position);
+    public void onBindViewHolder(final bank_display_laploan_Adapter.PLQuotesItem holder, final int position) {
+         final LstCitywiseBankLoanEntity quoteEntity1 = quoteEntities.get(position);
         LstCityBankdetailEntity quoteEntity;
         quoteEntity=quoteEntity1.getLstCityProdBank().get(0);
-           //     = quoteEntity1.getLstCityProdBank();
 
         if(quoteEntity.getPer_Lac_EMI_outside() == null ||quoteEntity.getPer_Lac_EMI_outside().equals(""))
         {
@@ -63,25 +64,10 @@ public class bank_display_businessloan_Adapter extends RecyclerView.Adapter<bank
         }else {
             holder.tvdet_Emi.setText("" + quoteEntity.getPer_Lac_EMI_outside());
         }
-        // holder.tvBankName.setText(""+quoteEntity1.getBank_Name());
+
         holder.tvdet_ROI.setText(""+quoteEntity.getBest_ROI());
         holder.tvdet_ProcessingFee.setText(""+quoteEntity.getProcessing_Fees());
 
-
-        holder.tvsegment.setText(""+quoteEntity.getSeqment());
-        holder.tvroi.setText(""+quoteEntity.getBest_ROI());
-        holder.tvPer_Lac_EMI.setText(""+quoteEntity.getPer_Lac_EMI());
-        holder.tvLoanAmount.setText(""+quoteEntity.getLoan_Amt());
-        holder.tvTenure.setText(""+quoteEntity.getTenure());
-        holder.tvAge.setText(""+quoteEntity.getAge());
-
-        holder.tvminSalary.setText(""+quoteEntity.getMin_Salary());
-        holder.tvWorkExperence.setText(""+quoteEntity.getMin_Work_Exp());
-        holder.tvProcessingFees.setText(""+quoteEntity.getProcessing_Fees());
-        holder.tvPrepayment.setText(""+quoteEntity.getPrepayment_charges());
-
-        holder.tvCibilscore.setText(""+quoteEntity.getMin_Cibil_Score());
-        holder.tvForeclosure.setText(""+quoteEntity.getForeclosure_charges());
 
         Glide.with(mContext)
                 .load(quoteEntity1.getBank_URL())
@@ -95,7 +81,7 @@ public class bank_display_businessloan_Adapter extends RecyclerView.Adapter<bank
             @Override
             public void onClick(View v) {
 
-                ((bank_selection_businessloanActivity)mContext).redirectToApplyBankBL(quoteEntity1);
+                ((bank_selection_laploanActivity)mContext).redirectToApplyBankHL(quoteEntity1);
             }
         });
         holder.ivArrow.setOnClickListener(new View.OnClickListener() {
@@ -105,11 +91,9 @@ public class bank_display_businessloan_Adapter extends RecyclerView.Adapter<bank
                 if(isclick)
                 {
                     isclick=false;
-                    // holder.ivArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down_arrow));
-                    // holder.ivcloseArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down_arrow));
-
                     holder.ivArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.downarrowread));
                     holder.ivcloseArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.down_arrow));
+
                     holder.rvhlknowmore.setVisibility(View.GONE);
                 }else {
                     isclick=true;
@@ -133,6 +117,12 @@ public class bank_display_businessloan_Adapter extends RecyclerView.Adapter<bank
                 holder.ivArrow.performClick();
             }
         });
+
+        if(quoteEntity1.getLstCityProdBank().size() > 0) {
+            holder.rvhomeloanQuotes.setLayoutManager(new LinearLayoutManager(mContext));
+            mAdapter = new bank_display_laploanChild_Adapter(mContext, quoteEntity1.getLstCityProdBank());
+            holder.rvhomeloanQuotes.setAdapter(mAdapter);
+        }
     }
 
     @Override
@@ -141,52 +131,38 @@ public class bank_display_businessloan_Adapter extends RecyclerView.Adapter<bank
     }
 
     public class PLQuotesItem   extends RecyclerView.ViewHolder {
-        TextView tvBankName, btnreadterm, btnApply,
-                tvsegment, tvroi, tvPer_Lac_EMI,tvLoanAmount,
-                tvTenure,tvAge,tvminSalary,tvWorkExperence,
-                tvProcessingFees,tvPrepayment,tvCibilscore,tvForeclosure
-                ,tvdet_Emi,tvdet_ROI,tvdet_ProcessingFee;
-        ImageView ivBankLogo,ivArrow,ivcloseArrow;
-        LinearLayout llbtnreadterms,llbtnApply,rvhlknowmore,llbacklist;
+        TextView   btnApply
 
+
+                ,tvdet_Emi,tvdet_ROI,tvdet_ProcessingFee;
+        ImageView ivBankLogo,ivArrow,ivcloseArrow,ivbtnApply;
+        LinearLayout llbtnreadterms,llbtnApply,rvhlknowmore,llbacklist,lyParent;
+
+        RecyclerView rvhomeloanQuotes;
         public PLQuotesItem(View itemView) {
             super(itemView);
+
+            rvhomeloanQuotes = (RecyclerView) itemView.findViewById(R.id.rvhomeloanQuotes);
 
             tvdet_Emi = (TextView) itemView.findViewById(R.id.tvdet_Emi);
             tvdet_ProcessingFee = (TextView) itemView.findViewById(R.id.tvdet_ProcessingFee);
             tvdet_ROI = (TextView) itemView.findViewById(R.id.tvdet_ROI);
 
-            tvCibilscore = (TextView) itemView.findViewById(R.id.tvCibilscore);
-            tvForeclosure = (TextView) itemView.findViewById(R.id.tvForeclosure);
-            tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
-         //   btnreadterm = (TextView) itemView.findViewById(R.id.btnreadterm);
-            tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
-            btnApply = (TextView) itemView.findViewById(R.id.btnApply);
-            tvsegment = (TextView) itemView.findViewById(R.id.tvsegment);
-            tvroi = (TextView) itemView.findViewById(R.id.tvroi);
-            tvPer_Lac_EMI = (TextView) itemView.findViewById(R.id.tvPer_Lac_EMI);
 
-            tvLoanAmount =(TextView)itemView.findViewById(R.id.tvLoanAmount);
-            tvTenure = (TextView) itemView.findViewById(R.id.tvTenure);
-            tvAge = (TextView) itemView.findViewById(R.id.tvAge);
-            tvminSalary = (TextView) itemView.findViewById(R.id.tvminSalary);
-            tvWorkExperence = (TextView) itemView.findViewById(R.id.tvWorkExperence);
-            tvProcessingFees = (TextView) itemView.findViewById(R.id.tvProcessingFees);
-            tvPrepayment = (TextView) itemView.findViewById(R.id.tvPrepayment);
+            btnApply = (TextView) itemView.findViewById(R.id.btnApply);
+
 
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
             ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
             ivcloseArrow = (ImageView) itemView.findViewById(R.id.ivcloseArrow);
-
+            btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             rvhlknowmore = (LinearLayout) itemView.findViewById(R.id.rvhlknowmore);
-
-
             llbtnreadterms = (LinearLayout) itemView.findViewById(R.id.llbtnreadterms);
             llbtnApply=(LinearLayout) itemView.findViewById(R.id.llbtnApply);
             llbacklist=(LinearLayout) itemView.findViewById(R.id.llbacklist);
+            lyParent=(LinearLayout) itemView.findViewById(R.id.lyParent);
         }
     }
-
     public void  updateAdapter(List<LstCitywiseBankLoanEntity> tempquoteEntities){
         quoteEntities = tempquoteEntities;
         notifyDataSetChanged();

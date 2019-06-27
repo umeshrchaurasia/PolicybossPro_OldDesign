@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan;
+package com.datacomp.magicfinmart.loan_fm.laploan.newlaploan;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
@@ -9,39 +9,37 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCityBankdetailEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCitywiseBankLoanEntity;
 
 /**
  * Created by IN-RB on 13-03-2019.
  */
 
-public class bank_display_homeloanChild_Adapter extends RecyclerView.Adapter<bank_display_homeloanChild_Adapter.PLQuotesItem>{
+public class bank_display_laploanChild_Adapter extends RecyclerView.Adapter<bank_display_laploanChild_Adapter.PLQuotesItem>{
     Activity mContext;
     List<LstCityBankdetailEntity> quoteEntities;
     boolean isclick = false;
 
     //bank_display_personalloan.xml
-    public bank_display_homeloanChild_Adapter(Activity mContext, List<LstCityBankdetailEntity> quoteEntities) {
+    public bank_display_laploanChild_Adapter(Activity mContext, List<LstCityBankdetailEntity> quoteEntities) {
         this.mContext = mContext;
         this.quoteEntities = quoteEntities;
     }
 
     @Override
-    public bank_display_homeloanChild_Adapter.PLQuotesItem onCreateViewHolder(ViewGroup parent, int viewType) {
+    public bank_display_laploanChild_Adapter.PLQuotesItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.bank_display_homeloan_child,parent,false);
-        return  new bank_display_homeloanChild_Adapter.PLQuotesItem(view);
+        return  new bank_display_laploanChild_Adapter.PLQuotesItem(view);
     }
 
     @Override
-    public void onBindViewHolder(final bank_display_homeloanChild_Adapter.PLQuotesItem holder, final int position) {
+    public void onBindViewHolder(final bank_display_laploanChild_Adapter.PLQuotesItem holder, final int position) {
          final LstCityBankdetailEntity quoteEntity = quoteEntities.get(position);
 
 

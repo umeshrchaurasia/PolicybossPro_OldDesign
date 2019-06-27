@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:visibility="visible">
+            android:visibility="gone">
             <!--All inputs-->
 
 
@@ -87,7 +87,7 @@
                     android:paddingRight="8dp"
                     android:gravity="center"
 
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextInputLayoutStyle"
