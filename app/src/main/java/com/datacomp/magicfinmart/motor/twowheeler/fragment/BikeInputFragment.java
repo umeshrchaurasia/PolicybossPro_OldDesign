@@ -1029,13 +1029,13 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         setSubTypeAdapter();
 
-//        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
-//        {
-//            llfbaSearch.setVisibility(View.VISIBLE);
-//            etfbaSearch.setText("Self");
-//        }else{
-//            llfbaSearch.setVisibility(View.GONE);
-//        }
+        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+            etfbaSearch.setText("Self");
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
     }
 

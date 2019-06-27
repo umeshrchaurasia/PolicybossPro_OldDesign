@@ -948,12 +948,12 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
         tilExt.setVisibility(View.GONE);
 
 
-//        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
-//        {
-//            llfbaSearch.setVisibility(View.VISIBLE);
-//        }else{
-//            llfbaSearch.setVisibility(View.GONE);
-//        }
+        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
+        {
+            llfbaSearch.setVisibility(View.VISIBLE);
+        }else{
+            llfbaSearch.setVisibility(View.GONE);
+        }
 
     }
 
