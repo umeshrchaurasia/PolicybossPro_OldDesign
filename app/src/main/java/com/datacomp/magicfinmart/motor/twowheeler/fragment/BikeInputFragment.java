@@ -94,11 +94,11 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber , IBOFbaCallback {
+public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
-    LinearLayout cvNcb, llNCB ,llfbaSearch;
+    LinearLayout cvNcb, llNCB, llfbaSearch;
     LinearLayout llVerifyCarDetails, llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvIndividual, cvRegNo;
@@ -116,7 +116,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC ,etfbaSearch;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC, etfbaSearch;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
     Switch swIndividual, swClaim;
@@ -1029,11 +1029,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         setSubTypeAdapter();
 
-        if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
-        {
+        if (userConstantEntity.getBoempuid() != null && userConstantEntity.getBoempuid().length() > 0) {
             llfbaSearch.setVisibility(View.VISIBLE);
             etfbaSearch.setText("Self");
-        }else{
+        } else {
             llfbaSearch.setVisibility(View.GONE);
         }
 
@@ -1214,7 +1213,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         tvClaimYes = (TextView) view.findViewById(R.id.tvClaimYes);
         etCC = (EditText) view.findViewById(R.id.etCC);
         etfbaSearch = (EditText) view.findViewById(R.id.etfbaSearch);
-        llfbaSearch =  view.findViewById(R.id.llfbaSearch);
+        llfbaSearch = view.findViewById(R.id.llfbaSearch);
 
         etreg1 = (EditText) view.findViewById(R.id.etreg1);
         etreg1.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(2)});
@@ -1955,36 +1954,48 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
         motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
 
-        //added ny Nilesh 08/02/2019
-        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
-
-        if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
-                && !userConstantEntity.getParentid().equals("0")) {
-            motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
-            motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
-        } else {
-            motorRequestEntity.setSub_fbaid("0");
-            motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
-        }
-
-
         try {
             motorRequestEntity.setMac_address(Utility.getMacAddress(getActivity()));
         } catch (IOException e) {
             motorRequestEntity.setMac_address("0");
         }
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
 
-        if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
-            int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
-            motorRequestEntity.setSs_id(ssid);
-        } else {
-            motorRequestEntity.setSs_id(5);
-        }
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
-        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
+
         InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
         if (insuranceSubtypeEntity != null)
             motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+
+        //added ny Nilesh 08/02/2019
+        //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+            if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
+                    && !userConstantEntity.getParentid().equals("0")) {
+                motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
+                motorRequestEntity.setFba_id(Integer.parseInt(userConstantEntity.getParentid()));
+            } else {
+                motorRequestEntity.setSub_fbaid("0");
+                motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+            }
+
+
+            if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
+                int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
+                motorRequestEntity.setSs_id(ssid);
+            } else {
+                motorRequestEntity.setSs_id(5);
+            }
+        } else {
+
+            BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+
+            motorRequestEntity.setSub_fbaid("0");
+            motorRequestEntity.setFba_id(entity.getFbaid());
+            motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
+
+        }
+
     }
 
     private void setInputParametersNewCAR() {
@@ -2553,8 +2564,15 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     @Override
     public void getBOFBA(BOFbaEntity entity) {
-
-        etfbaSearch.setText(entity.getFullName());
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+            motorRequestEntity.setBehalfOf(0);
+        } else {
+            etfbaSearch.setText("Self");
+            motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+        }
     }
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {

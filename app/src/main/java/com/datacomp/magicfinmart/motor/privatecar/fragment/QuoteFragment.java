@@ -123,11 +123,11 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
 
-                QuoteListEntity entity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
-                motorRequestEntity = entity.getMotorRequestEntity();
+                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
 
                 if (motorRequestEntity.getVehicleRequestID() != 0)
                     saveQuoteEntity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
+
                 initializeAdapters();
                 setListener();
                 updateHeader();

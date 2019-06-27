@@ -92,9 +92,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
             }
 
         }  // Note : when we click on Lead tab
+
         else if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
-            QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
-            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
+
+            QuoteListEntity mQuoteListEntity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
+
+            if (mQuoteListEntity.getMotorRequestEntity().getIsTwentyfour() == 0) {
 
                 //update counetr to hit  two times only to manage multiple hits
                 Utility.getSharedPreferenceEditor(this).putInt(Utility.QUOTE_COUNTER,
@@ -102,12 +105,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
                         .commit();
                 //1. update srn in preference
                 Utility.getSharedPreferenceEditor(this).
-                        putString(Utility.CARQUOTE_UNIQUEID, entity.getSRN()).commit();
+                        putString(Utility.CARQUOTE_UNIQUEID, mQuoteListEntity.getSRN()).commit();
 
 
                 //2. create bundle
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity);
+                bundle.putParcelable(MOTOR_QUOTE_REQUEST, mQuoteListEntity.getMotorRequestEntity());
 
                 quoteBundle = bundle;
 
@@ -116,13 +119,14 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 //send to Input
                 //modify
                 quoteBundle = new Bundle();
-                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity);
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, mQuoteListEntity);
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
-        } else if (getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE) != null) {
 
-            QuoteListEntity entity = getIntent().getParcelableExtra(MotorLeadFragment.FROM_QUOTE);
+        } else if (getIntent().getParcelableExtra(MotorLeadFragment.FROM_LEAD) != null) {
+
+            QuoteListEntity entity = getIntent().getParcelableExtra(MotorLeadFragment.FROM_LEAD);
             if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
 
                 //update counetr to hit  two times only to manage multiple hits
@@ -268,16 +272,6 @@ public class InputQuoteBottmActivity extends BaseActivity {
     }
 
 
-    /* @Override
-     public void startActivityForResult(Intent intent, int requestCode) {
-         super.startActivityForResult(intent, requestCode);
-         if (requestCode == 1000) {
-             if (intent.getParcelableExtra("MODIFY") != null) {
-                 getQuoteParameterBundle((MotorRequestEntity) intent.getParcelableExtra("MODIFY"));
-             }
-         }
-     }
- */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -302,6 +296,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
             else
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+
         } else {
             Toast.makeText(InputQuoteBottmActivity.this, "Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
@@ -338,13 +333,6 @@ public class InputQuoteBottmActivity extends BaseActivity {
                     return false;
                 }
 
-//            case R.id.action_home:
-//
-//                Intent intent = new Intent(this, HomeActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                startActivity(intent);
-//                finish();
-//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -391,12 +379,6 @@ public class InputQuoteBottmActivity extends BaseActivity {
     }
 
     //endregion
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.home_menu, menu);
-//        return true;
-//    }
 
 
 }
