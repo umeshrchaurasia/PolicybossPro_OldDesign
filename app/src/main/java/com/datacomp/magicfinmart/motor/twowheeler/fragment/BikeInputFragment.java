@@ -1969,7 +1969,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         //added ny Nilesh 08/02/2019
         //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
 
-        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null && motorRequestEntity.isBehalfOf() == 1) {
             if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
                     && !userConstantEntity.getParentid().equals("0")) {
                 motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
@@ -1988,11 +1988,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
         } else {
 
-            BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+            if ((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch) != null) {
 
-            motorRequestEntity.setSub_fbaid("0");
-            motorRequestEntity.setFba_id(entity.getFbaid());
-            motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
+                BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+
+                motorRequestEntity.setSub_fbaid("0");
+                motorRequestEntity.setFba_id(entity.getFbaid());
+                motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
+            }
 
         }
 
