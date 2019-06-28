@@ -42,6 +42,8 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.search_bo_fba.IBOFbaCallback;
+import com.datacomp.magicfinmart.search_bo_fba.SearchBOFBAFragment;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 
 import com.datacomp.magicfinmart.utility.Constants;
@@ -62,6 +64,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
@@ -74,7 +77,7 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-public class HdfcTermActivity_offline extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+public class HdfcTermActivity_offline extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber, IBOFbaCallback {
 
     private static String INPUT_FRAGMENT = "input_term_hdfc";
     private static String QUOTE_FRAGMENT = "quote_term_hdfc";
@@ -119,13 +122,13 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
     //endregion
 
     //region hdfc specific
-    LinearLayout llHDFCSAInc, llIncDeath, llIncPeriod, llINCREASING, llAdb;
+    LinearLayout llHDFCSAInc, llIncDeath, llIncPeriod, llINCREASING, llAdb,llfbaSearch;
     Button minusICICISum, plusICICISum, minusICICIPTerm, plusICICIPTerm,
             minusICICIPreTerm, plusICICIPreTerm, minusHDFCSAInc, plusHDFCSAInc,
             minusIncDeath, plusIncDeath, minusIncPeriod, plusIncPeriod,
             minusINCREASING, plusINCREASING, minusAdb, plusAdb;
     EditText etICICISumAssured, etICICIPolicyTerm, etICICIPremiumTerm, etHDFCSAInc,
-            etIncDeath, etIncPeriod, etINCREASING, etAdb;
+            etIncDeath, etIncPeriod, etINCREASING, etAdb,etfbaSearch;
 
     long hfLumsumPayOutOnDeath, hfLumsumAmt;
     //endregion
@@ -686,7 +689,16 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             termFinmartRequest.setTermRequestId(termCompareQuoteResponse.getMasterData().getLifeTermRequestID());
         else
             termFinmartRequest.setTermRequestId(0);*/
-        termFinmartRequest.setFba_id(new DBPersistanceController(HdfcTermActivity_offline.this).getUserData().getFBAId());
+
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+            termFinmartRequest.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
+            termFinmartRequest.setCreatedByUserFbaId("0");
+        }else{
+            termFinmartRequest.setFba_id(((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
+            termFinmartRequest.setCreatedByUserFbaId(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
+        }
+
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
@@ -788,6 +800,10 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         plusAdb = (Button) findViewById(R.id.plusAdb);
         etAdb = (EditText) findViewById(R.id.etAdb);
 
+        etfbaSearch = (EditText)findViewById(R.id.etfbaSearch);
+        llfbaSearch  = (LinearLayout)findViewById(R.id.llfbaSearch);
+
+
 
         //endregion
 
@@ -840,6 +856,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         etINCREASING.setOnFocusChangeListener(this);
         etIncDeath.setOnFocusChangeListener(this);
         etAdb.setOnFocusChangeListener(this);
+        etfbaSearch.setOnClickListener(this);
 
 
         spHDFCOptions.setOnItemSelectedListener(optionSelected);
@@ -1035,6 +1052,12 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
                 break;
             case R.id.plusAdb:
                 changeSAIncreasing(true, etAdb, 100);
+                break;
+
+            case R.id.etfbaSearch:
+
+                SearchBOFBAFragment searchBOFBAFragment = SearchBOFBAFragment.Companion.newInstance(this);
+                searchBOFBAFragment.show(getSupportFragmentManager(), SearchBOFBAFragment.class.getSimpleName());
                 break;
 
         }
@@ -2026,6 +2049,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
     }
 
 
+
     class AsyncShareJson_off extends AsyncTask<Void, Void, String> {
 
         @Override
@@ -2102,5 +2126,18 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    public void getBOFBA(BOFbaEntity entity) {
+        if (entity != null) {
+            etfbaSearch.setTag(R.id.etfbaSearch, entity);
+            etfbaSearch.setText(entity.getFullName());
+            // motorRequestEntity.setBehalfOf(0);
+        } else {
+            etfbaSearch.setText("Self");
+            //  motorRequestEntity.setBehalfOf(1);
+            etfbaSearch.setTag(R.id.etfbaSearch, null);
+        }
+    }
 
 }
