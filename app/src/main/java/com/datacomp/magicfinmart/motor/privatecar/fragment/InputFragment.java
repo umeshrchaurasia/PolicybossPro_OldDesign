@@ -212,6 +212,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         initialize_views();
 
+        setRetainInstance(true);
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
@@ -1686,7 +1687,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         //added for behalf of
 
         //self
-        if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+        if (etfbaSearch.getTag(R.id.etfbaSearch) == null && motorRequestEntity.isBehalfOf() == 1) {
 
             if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
                     && !userConstantEntity.getParentid().equals("0")) {
@@ -1706,11 +1707,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         } else {
 
-            BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+            if ((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch) != null) {
+                BOFbaEntity entity = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
 
-            motorRequestEntity.setSub_fbaid("0");
-            motorRequestEntity.setFba_id(entity.getFbaid());
-            motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
+                motorRequestEntity.setSub_fbaid("0");
+                motorRequestEntity.setFba_id(entity.getFbaid());
+                motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
+            }
         }
 
         //behalf of end
