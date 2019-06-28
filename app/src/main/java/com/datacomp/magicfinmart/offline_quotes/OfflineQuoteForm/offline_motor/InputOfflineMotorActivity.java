@@ -2032,6 +2032,15 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
                     //if (constantEntity.getLogtracking().equals("0"))
                     //     new InputFragment.PolicybossTrackingRequest(motorRequestEntity).execute();
 
+                    if (etfbaSearch.getTag(R.id.etfbaSearch) == null) {
+
+                        saveMotorRequestEntity.setFba_id(dbController.getUserConstantsData().getFBAId());
+                        saveMotorRequestEntity.setCreatedByUserFbaId("0");
+                    }else{
+                        saveMotorRequestEntity.setFba_id(""+((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
+                        saveMotorRequestEntity.setCreatedByUserFbaId(String.valueOf(dbController.getUserConstantsData().getFBAId()));
+                    }
+
                     MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "OFFLINE MOTOR", "OFFLINE MOTOR");
 
                     //TODO: Offline motor save
