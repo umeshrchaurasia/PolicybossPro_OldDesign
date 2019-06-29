@@ -25,7 +25,7 @@
             style="@style/Style.edittext"
             android:layout_width="280dp"
             android:layout_height="wrap_content"
-            android:hint="Search FBA/Name/Mobile"
+            android:hint="Search FBA Id/Name/Mobile"
             android:textColor="@color/header_dark_text"
             android:textColorHint="@color/description_text" />
 

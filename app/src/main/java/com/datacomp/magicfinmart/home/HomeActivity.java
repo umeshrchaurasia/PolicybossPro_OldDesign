@@ -523,8 +523,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_finperk:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                 .putExtra("URL", userConstantEntity.getFinperkurl())
-                                .putExtra("NAME", "FINPERK")
-                                .putExtra("TITLE", "FINPERK"));
+                                .putExtra("NAME", "FINPERKS")
+                                .putExtra("TITLE", "FINPERKS"));
 
                         break;
                     default:

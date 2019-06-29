@@ -214,6 +214,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         setRetainInstance(true);
 
+        setSelfFba();
+
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
 
@@ -2969,6 +2971,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
+    private void setSelfFba()
+    {
+        etfbaSearch.setText("Self");
+        motorRequestEntity.setBehalfOf(1);
+        etfbaSearch.setTag(R.id.etfbaSearch, null);
+    }
 
     //region tracking
 
