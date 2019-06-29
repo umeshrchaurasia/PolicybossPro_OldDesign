@@ -54,7 +54,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
         if (holder instanceof QuoteItem) {
             final TermFinmartRequest quote = mQuoteListFiltered.get(position);
             holder.txtPersonName.setText(quote.getTermRequestEntity().getContactName());
-            holder.txtCustRefNo.setText(quote.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
+            holder.txtCustRefNo.setText(quote.getTermRequestEntity().getCrn());
             holder.txtQuoteDate.setText(quote.getTermRequestEntity().getCreated_date());
             holder.llDetails.setTag(R.id.llDetails, quote);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, quote);
