@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
@@ -80,7 +79,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
@@ -245,6 +243,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
 
         etfbaSearch.setEnabled(false);
+        etfbaSearch.setText(motorRequestEntity.getCreatedByUserFbaName());
 
 
         if (motorRequestEntity != null
@@ -1691,6 +1690,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         //self
         if (etfbaSearch.getTag(R.id.etfbaSearch) == null && motorRequestEntity.isBehalfOf() == 1) {
 
+            motorRequestEntity.setCreatedByUserFbaName("Self");
             if (userConstantEntity != null && userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
                     && !userConstantEntity.getParentid().equals("0")) {
                 motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
@@ -1715,6 +1715,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 motorRequestEntity.setSub_fbaid("0");
                 motorRequestEntity.setFba_id(entity.getFbaid());
                 motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
+                motorRequestEntity.setCreatedByUserFbaName(entity.getFullName());
             }
         }
 
@@ -2971,10 +2972,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
-    private void setSelfFba()
-    {
+    private void setSelfFba() {
         etfbaSearch.setText("Self");
-        motorRequestEntity.setBehalfOf(1);
+        motorRequestEntity.setBehalfOf(0);
         etfbaSearch.setTag(R.id.etfbaSearch, null);
     }
 

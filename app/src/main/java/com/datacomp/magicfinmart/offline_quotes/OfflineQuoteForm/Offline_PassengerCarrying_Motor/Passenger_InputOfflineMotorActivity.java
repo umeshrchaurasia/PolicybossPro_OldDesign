@@ -189,6 +189,7 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
 
         initialize_views();
 
+        setSelfFba();
 
         if (getIntent().getParcelableExtra(Passenger_OfflineMotorListActivity.OFFLINE_MOTOR) != null) {
             saveMotorRequestEntity = getIntent().getParcelableExtra(Passenger_OfflineMotorListActivity.OFFLINE_MOTOR);
@@ -2692,6 +2693,14 @@ public class Passenger_InputOfflineMotorActivity extends BaseActivity implements
             etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
     }
+
+    private void setSelfFba()
+    {
+        etfbaSearch.setText("Self");
+        motorRequestEntity.setBehalfOf(1);
+        etfbaSearch.setTag(R.id.etfbaSearch, null);
+    }
+
     //endregion
 
 

@@ -151,6 +151,7 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
         init_view();
         setListener();
         setPopUpInfo();
+        setSelfFba();
         // set initial values
         dbPersistanceController = new DBPersistanceController(HdfcTermActivity_offline.this);
         termRequestEntity = new TermRequestEntity(HdfcTermActivity_offline.this);
@@ -2139,5 +2140,13 @@ public class HdfcTermActivity_offline extends BaseActivity implements View.OnCli
             etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
     }
+
+    private void setSelfFba()
+    {
+        etfbaSearch.setText("Self");
+        etfbaSearch.setTag(R.id.etfbaSearch, null);
+    }
+
+
 
 }

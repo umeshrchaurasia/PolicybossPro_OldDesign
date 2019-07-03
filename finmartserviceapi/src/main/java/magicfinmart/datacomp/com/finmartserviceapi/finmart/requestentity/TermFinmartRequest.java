@@ -20,6 +20,11 @@ public class TermFinmartRequest implements Parcelable {
 
 
     private String CreatedByUserFbaId;
+    private String CreatedByUserFbaName;
+    int fba_id;
+
+    public TermFinmartRequest() {
+    }
 
 
     protected TermFinmartRequest(Parcel in) {
@@ -28,6 +33,7 @@ public class TermFinmartRequest implements Parcelable {
         statusProgress = in.readInt();
         NetPremium = in.readString();
         CreatedByUserFbaId = in.readString();
+        CreatedByUserFbaName = in.readString();
         fba_id = in.readInt();
         termRequestEntity = in.readParcelable(TermRequestEntity.class.getClassLoader());
         quote = in.createTypedArrayList(OfflineQuoteListEntity.CREATOR);
@@ -45,9 +51,6 @@ public class TermFinmartRequest implements Parcelable {
         }
     };
 
-    public TermFinmartRequest() {
-    }
-
     public int getStatusProgress() {
         return statusProgress;
     }
@@ -64,7 +67,6 @@ public class TermFinmartRequest implements Parcelable {
         this.fba_id = fba_id;
     }
 
-    int fba_id;
 
     TermRequestEntity termRequestEntity;
 
@@ -119,12 +121,21 @@ public class TermFinmartRequest implements Parcelable {
     public void setNetPremium(String NetPremium) {
         this.NetPremium = NetPremium;
     }
+
     public String getCreatedByUserFbaId() {
         return CreatedByUserFbaId;
     }
 
     public void setCreatedByUserFbaId(String createdByUserFbaId) {
         CreatedByUserFbaId = createdByUserFbaId;
+    }
+
+    public String getCreatedByUserFbaName() {
+        return CreatedByUserFbaName;
+    }
+
+    public void setCreatedByUserFbaName(String createdByUserFbaName) {
+        CreatedByUserFbaName = createdByUserFbaName;
     }
 
 
@@ -140,6 +151,7 @@ public class TermFinmartRequest implements Parcelable {
         dest.writeInt(statusProgress);
         dest.writeString(NetPremium);
         dest.writeString(CreatedByUserFbaId);
+        dest.writeString(CreatedByUserFbaName);
         dest.writeInt(fba_id);
         dest.writeParcelable(termRequestEntity, flags);
         dest.writeTypedList(quote);

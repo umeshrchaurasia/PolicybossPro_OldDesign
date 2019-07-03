@@ -73,7 +73,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     boolean isMale, isSmoker;
     EditText etDOB;
 
-    EditText etPincode, etSumAssured,etfbaSearch;
+    EditText etPincode, etSumAssured, etfbaSearch;
     List<String> policyYear;
     DBPersistanceController dbPersistanceController;
     Spinner spPolicyTerm, spPremTerm;
@@ -83,7 +83,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     NestedScrollView mainScroll;
-    LinearLayout llCompareAll ,llfbaSearch;
+    LinearLayout llCompareAll, llfbaSearch;
     RecyclerView rvTerm;
     CardView cvInputDetails;
     List<TermCompareResponseEntity> termCompareResponseEntities;
@@ -95,6 +95,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
     ImageView ivEdit, ivInfo;
     boolean isEdit = false;
+    BOFbaEntity boFbaEntity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -113,11 +114,10 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
         adapter_listener();
 
-        if(dbPersistanceController.getUserConstantsData().getBoempuid()!= null &&  dbPersistanceController.getUserConstantsData().getBoempuid().length()>0)
-        {
+        if (dbPersistanceController.getUserConstantsData().getBoempuid() != null && dbPersistanceController.getUserConstantsData().getBoempuid().length() > 0) {
             llfbaSearch.setVisibility(View.VISIBLE);
             etfbaSearch.setText("Self");
-        }else{
+        } else {
             llfbaSearch.setVisibility(View.GONE);
         }
         /*if (getArguments() != null) {
@@ -133,6 +133,10 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
                 changeInputQuote(true);
+                etfbaSearch.setEnabled(false);
+                 etfbaSearch.setText(termFinmartRequest.getCreatedByUserFbaName());
+
+
             } else if (getArguments().getParcelable(CompareTermActivity.QUOTE_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.QUOTE_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
@@ -342,8 +346,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         mainScroll = (NestedScrollView) view.findViewById(R.id.mainScroll);
         layoutCompare = (View) view.findViewById(R.id.layoutCompare);
 
-        etfbaSearch = (EditText)view.findViewById(R.id.etfbaSearch);
-        llfbaSearch  = (LinearLayout)view.findViewById(R.id.llfbaSearch);
+        etfbaSearch = (EditText) view.findViewById(R.id.etfbaSearch);
+        llfbaSearch = (LinearLayout) view.findViewById(R.id.llfbaSearch);
 
     }
 
@@ -485,12 +489,16 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
             termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
             termFinmartRequest.setCreatedByUserFbaId("0");
-        }else{
-            termFinmartRequest.setFba_id(((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
+            termFinmartRequest.setCreatedByUserFbaName("Self");
+
+        } else {
+            termFinmartRequest.setFba_id(((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
             termFinmartRequest.setCreatedByUserFbaId(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
+            termFinmartRequest.setCreatedByUserFbaName(((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch)).getFullName());
         }
 
         //termFinmartRequest.setTermRequestId(0);
+
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
@@ -741,10 +749,12 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         if (entity != null) {
             etfbaSearch.setTag(R.id.etfbaSearch, entity);
             etfbaSearch.setText(entity.getFullName());
-          //  motorRequestEntity.setBehalfOf(0);     // comment 05
+            boFbaEntity = entity;
+            //  motorRequestEntity.setBehalfOf(0);     // comment 05
         } else {
+            boFbaEntity = null;
             etfbaSearch.setText("Self");
-           // motorRequestEntity.setBehalfOf(1);
+            // motorRequestEntity.setBehalfOf(1);
             etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
     }

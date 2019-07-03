@@ -99,8 +99,18 @@ public class MotorRequestEntity implements Parcelable {
     private int isBehalfOf;
 
 
+    private String CreatedByUserFbaName;
+
     public int isBehalfOf() {
         return isBehalfOf;
+    }
+
+    public String getCreatedByUserFbaName() {
+        return CreatedByUserFbaName;
+    }
+
+    public void setCreatedByUserFbaName(String createdByUserFbaName) {
+        CreatedByUserFbaName = createdByUserFbaName;
     }
 
     public void setBehalfOf(int behalfOf) {
@@ -286,6 +296,7 @@ public class MotorRequestEntity implements Parcelable {
         this.modeloffline = "";
         this.fueloffline = "";
         this.varientoffline = "";
+        this.CreatedByUserFbaName = "";
     }
 
 
@@ -816,6 +827,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.is_policy_exist);
         dest.writeString(this.needrsa);
         dest.writeString(this.rsaplan);
+        dest.writeString(this.CreatedByUserFbaName);
     }
 
     protected MotorRequestEntity(Parcel in) {
@@ -889,6 +901,7 @@ public class MotorRequestEntity implements Parcelable {
         this.is_policy_exist = in.readString();
         this.needrsa = in.readString();
         this.rsaplan = in.readString();
+        this.CreatedByUserFbaName = in.readString();
     }
 
     public static final Parcelable.Creator<MotorRequestEntity> CREATOR = new Parcelable.Creator<MotorRequestEntity>() {

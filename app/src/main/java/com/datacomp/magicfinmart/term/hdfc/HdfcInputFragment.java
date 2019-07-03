@@ -165,6 +165,9 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
                 changeInputQuote(true);
+                etfbaSearch.setEnabled(false);
+                etfbaSearch.setText(termFinmartRequest.getCreatedByUserFbaName());
+
             } else if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null) {
                 termCompareResponseEntity = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA_RESPONSE);
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA);
@@ -668,9 +671,11 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
             termFinmartRequest.setCreatedByUserFbaId("0");
+            termFinmartRequest.setCreatedByUserFbaName("Self");
         }else{
             termFinmartRequest.setFba_id(((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
             termFinmartRequest.setCreatedByUserFbaId(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
+            termFinmartRequest.setCreatedByUserFbaName(((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch)).getFullName());
         }
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }

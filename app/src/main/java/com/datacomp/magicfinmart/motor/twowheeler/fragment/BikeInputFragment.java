@@ -36,7 +36,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -198,6 +197,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         bind_init_binders();
 
+        setSelfFba();
         adapter_listeners();
 
         if (getArguments() != null) {
@@ -217,6 +217,13 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     //region binding parameter
 
     private void disableInputs() {
+
+        if (motorRequestEntity.isBehalfOf() == 1) {
+            etfbaSearch.setText("Self");
+        }
+
+        etfbaSearch.setEnabled(false);
+        etfbaSearch.setText(motorRequestEntity.getCreatedByUserFbaName());
 
         if (motorRequestEntity != null
                 && motorRequestEntity.getCrn() != null
@@ -1970,6 +1977,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         //motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
 
         if (etfbaSearch.getTag(R.id.etfbaSearch) == null && motorRequestEntity.isBehalfOf() == 1) {
+             motorRequestEntity.setCreatedByUserFbaName("Self");
             if (userConstantEntity.getParentid() != null && !userConstantEntity.getParentid().equals("")
                     && !userConstantEntity.getParentid().equals("0")) {
                 motorRequestEntity.setSub_fbaid(String.valueOf(loginResponseEntity.getFBAId()));
@@ -1995,6 +2003,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 motorRequestEntity.setSub_fbaid("0");
                 motorRequestEntity.setFba_id(entity.getFbaid());
                 motorRequestEntity.setSs_id(Integer.parseInt(entity.getPospsendid()));
+                motorRequestEntity.setCreatedByUserFbaName(entity.getFullName());
             }
 
         }
@@ -2576,6 +2585,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             motorRequestEntity.setBehalfOf(1);
             etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
+    }
+
+    private void setSelfFba() {
+        etfbaSearch.setText("Self");
+        motorRequestEntity.setBehalfOf(1);
+        etfbaSearch.setTag(R.id.etfbaSearch, null);
     }
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {

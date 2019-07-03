@@ -189,7 +189,7 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         bind_init_binders();
 
         initialize_views();
-
+        setSelfFba();
 
         if (getIntent().getParcelableExtra(OfflineMotorListActivity.OFFLINE_MOTOR) != null) {
             saveMotorRequestEntity = getIntent().getParcelableExtra(OfflineMotorListActivity.OFFLINE_MOTOR);
@@ -2088,6 +2088,16 @@ public class InputOfflineMotorActivity extends BaseActivity implements BaseActiv
         }
 
     }
+
+    private void setSelfFba()
+    {
+        etfbaSearch.setText("Self");
+        motorRequestEntity.setBehalfOf(1);
+        etfbaSearch.setTag(R.id.etfbaSearch, null);
+    }
+
+
+
 
     public String getFormattedRegNoFastlane() {
         return etreg1.getText().toString() + "-"

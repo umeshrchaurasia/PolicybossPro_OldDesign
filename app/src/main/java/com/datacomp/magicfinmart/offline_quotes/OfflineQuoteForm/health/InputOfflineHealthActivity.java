@@ -139,6 +139,9 @@ public class InputOfflineHealthActivity extends BaseActivity implements View.OnC
 
         disableAllInputs();
 
+        etfbaSearch.setText("Self");
+        etfbaSearch.setTag(R.id.etfbaSearch, null);
+
         if(userConstantEntity.getBoempuid()!= null &&  userConstantEntity.getBoempuid().length()>0)
         {
             llfbaSearch.setVisibility(View.VISIBLE);
