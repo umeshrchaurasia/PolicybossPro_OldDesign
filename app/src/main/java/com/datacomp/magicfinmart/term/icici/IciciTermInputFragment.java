@@ -778,6 +778,9 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         if (spICICIPremiumTerm.getSelectedItemPosition() == 2) { // limited pay
             policyTerm = 60 - age;
             switch (spICICIPremiumPayment.getSelectedItem().toString()) {
+//                case "PT minus 5":
+//                    premiumTerm = 55 - age;//60 - age - 5;
+//                    break;
                 case "PAY TILL AGE 60":
                     premiumTerm = 60 - age;
                     break;
@@ -1650,8 +1653,56 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             termFinmartRequest.setCreatedByUserFbaId(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
             termFinmartRequest.setCreatedByUserFbaName(((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch)).getFullName());
         }
+
+//3 july Changes
+        if(spICICIPremiumTerm.getSelectedItemPosition()==0)
+        {
+            termRequestEntity.setPremiumPaymentOption("Regular Whole life");
+
+        }else  if(spICICIPremiumTerm.getSelectedItemPosition()==1){
+            termRequestEntity.setPremiumPaymentOption("Single Pay");
+        }
+        else  if(spICICIPremiumTerm.getSelectedItemPosition()==2){
+            switch (spICICIPremiumPayment.getSelectedItem().toString()) {
+//                case "PT minus 5":
+//                    premiumTerm = 55 - age;//60 - age - 5;
+//                    break;
+                case "PAY TILL AGE 60":
+                    termRequestEntity.setPremiumPaymentOption("Limited Pay 60");
+                    break;
+                case "10 PAY":
+                    termRequestEntity.setPremiumPaymentOption("Limited Pay 10");
+                    break;
+                case "7 PAY":
+                    termRequestEntity.setPremiumPaymentOption("Limited Pay 7");
+                    break;
+                case "5 PAY":
+                    termRequestEntity.setPremiumPaymentOption("Limited Pay 5");
+                    break;
+            }
+
+        }
+        else  if(spICICIPremiumTerm.getSelectedItemPosition()==3){
+            switch (spICICIPremiumPayment.getSelectedItem().toString()) {
+
+                case "PAY TILL AGE 99":
+                    termRequestEntity.setPremiumPaymentOption("Regular Whole life");
+                    break;
+                case "PAY TILL AGE 60":
+                    termRequestEntity.setPremiumPaymentOption("Limited Whole life");
+                    break;
+                case "10 PAY":
+                    termRequestEntity.setPremiumPaymentOption("Limited Whole life 10");
+                    break;
+
+            }
+
+        }
+
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
+
+
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
