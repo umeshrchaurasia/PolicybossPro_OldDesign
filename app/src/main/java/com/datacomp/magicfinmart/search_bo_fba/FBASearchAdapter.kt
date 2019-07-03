@@ -34,10 +34,9 @@ class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val iboFbaCallback: IBOFb
 
 
     override fun getItemCount(): Int {
-        if (fbaList != null)
-            return fbaList.size
-        else
-            return 0
+
+        return fbaList.size
+
     }
 
 
