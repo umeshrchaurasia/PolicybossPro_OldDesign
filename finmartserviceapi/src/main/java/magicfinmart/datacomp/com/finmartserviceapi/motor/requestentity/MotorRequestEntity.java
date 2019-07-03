@@ -297,6 +297,7 @@ public class MotorRequestEntity implements Parcelable {
         this.fueloffline = "";
         this.varientoffline = "";
         this.CreatedByUserFbaName = "";
+        this.isBehalfOf = 1;
     }
 
 

@@ -197,7 +197,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         bind_init_binders();
 
-        setSelfFba();
+
         adapter_listeners();
 
         if (getArguments() != null) {
@@ -2587,11 +2587,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         }
     }
 
-    private void setSelfFba() {
-        etfbaSearch.setText("Self");
-        motorRequestEntity.setBehalfOf(1);
-        etfbaSearch.setTag(R.id.etfbaSearch, null);
-    }
+
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
         MotorRequestEntity motorRequestEntity;
