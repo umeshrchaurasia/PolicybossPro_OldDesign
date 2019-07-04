@@ -88,7 +88,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
-    LinearLayout llAddon,llfbaSearch;
+    LinearLayout llAddon, llfbaSearch;
     RecyclerView rvAddOn;
 
     Button btnGetQuote;
@@ -117,7 +117,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     List<String> optionList, premiumTermList, frequenctList, premiumPaymentList;
     TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome, txtICICILumpSumRegular;
     EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm,
-            etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc,etfbaSearch;
+            etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc, etfbaSearch;
     Button minusICICISum, plusICICISum, minusICICIPTerm, plusICICIPTerm,
             minusICICIPreTerm, plusICICIPreTerm, minusICICICritical, plusICICICritical,
             minusICICIAcc, plusICICIAcc, minusICICILumpSumpPerc, plusICICILumpSumpPerc;
@@ -148,11 +148,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         adapter_listener();
         setDefaultsIcici();
 
-        if(dbPersistanceController.getUserConstantsData().getBoempuid()!= null &&  dbPersistanceController.getUserConstantsData().getBoempuid().length()>0)
-        {
+        if (dbPersistanceController.getUserConstantsData().getBoempuid() != null && dbPersistanceController.getUserConstantsData().getBoempuid().length() > 0) {
             llfbaSearch.setVisibility(View.VISIBLE);
             etfbaSearch.setText("Self");
-        }else{
+        } else {
             llfbaSearch.setVisibility(View.GONE);
         }
 
@@ -1166,8 +1165,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         tilPremiumPayment = view.findViewById(R.id.tilPremiumPayment);
         spICICIPremiumPayment = view.findViewById(R.id.spICICIPremiumPayment);
 
-        etfbaSearch =  view.findViewById(R.id.etfbaSearch);
-        llfbaSearch  =  view.findViewById(R.id.llfbaSearch);
+        etfbaSearch = view.findViewById(R.id.etfbaSearch);
+        llfbaSearch = view.findViewById(R.id.llfbaSearch);
         //end region
     }
 
@@ -1648,21 +1647,19 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
             termFinmartRequest.setCreatedByUserFbaId("0");
             termFinmartRequest.setCreatedByUserFbaName("Self");
-        }else{
-            termFinmartRequest.setFba_id(((BOFbaEntity)etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
+        } else {
+            termFinmartRequest.setFba_id(((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch)).getFbaid());
             termFinmartRequest.setCreatedByUserFbaId(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
             termFinmartRequest.setCreatedByUserFbaName(((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch)).getFullName());
         }
 
 //3 july Changes
-        if(spICICIPremiumTerm.getSelectedItemPosition()==0)
-        {
+        if (spICICIPremiumTerm.getSelectedItemPosition() == 0) {
             termRequestEntity.setPremiumPaymentOption("Regular Whole life");
 
-        }else  if(spICICIPremiumTerm.getSelectedItemPosition()==1){
+        } else if (spICICIPremiumTerm.getSelectedItemPosition() == 1) {
             termRequestEntity.setPremiumPaymentOption("Single Pay");
-        }
-        else  if(spICICIPremiumTerm.getSelectedItemPosition()==2){
+        } else if (spICICIPremiumTerm.getSelectedItemPosition() == 2) {
             switch (spICICIPremiumPayment.getSelectedItem().toString()) {
 //                case "PT minus 5":
 //                    premiumTerm = 55 - age;//60 - age - 5;
@@ -1671,18 +1668,14 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     termRequestEntity.setPremiumPaymentOption("Limited Pay 60");
                     break;
                 case "10 PAY":
-                    termRequestEntity.setPremiumPaymentOption("Limited Pay 10");
-                    break;
                 case "7 PAY":
-                    termRequestEntity.setPremiumPaymentOption("Limited Pay 7");
-                    break;
                 case "5 PAY":
-                    termRequestEntity.setPremiumPaymentOption("Limited Pay 5");
+                    termRequestEntity.setPremiumPaymentOption("Limited Pay");
                     break;
+
             }
 
-        }
-        else  if(spICICIPremiumTerm.getSelectedItemPosition()==3){
+        } else if (spICICIPremiumTerm.getSelectedItemPosition() == 3) {
             switch (spICICIPremiumPayment.getSelectedItem().toString()) {
 
                 case "PAY TILL AGE 99":
@@ -1701,7 +1694,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
-
 
 
     @Override
@@ -2318,10 +2310,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         if (entity != null) {
             etfbaSearch.setTag(R.id.etfbaSearch, entity);
             etfbaSearch.setText(entity.getFullName());
-          //  motorRequestEntity.setBehalfOf(0);
+            //  motorRequestEntity.setBehalfOf(0);
         } else {
             etfbaSearch.setText("Self");
-         //  motorRequestEntity.setBehalfOf(1);
+            //  motorRequestEntity.setBehalfOf(1);
             etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
     }

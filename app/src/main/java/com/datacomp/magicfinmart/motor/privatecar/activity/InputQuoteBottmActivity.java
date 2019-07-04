@@ -119,7 +119,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 //send to Input
                 //modify
                 quoteBundle = new Bundle();
-                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, mQuoteListEntity);
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, mQuoteListEntity.getMotorRequestEntity());
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
@@ -150,7 +150,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 //send to Input
                 //modify
                 quoteBundle = new Bundle();
-                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity);
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity.getMotorRequestEntity());
                 quoteBundle.putString(MOTOR_LEAD_ID, String.valueOf(entity.getLeadId()));
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
