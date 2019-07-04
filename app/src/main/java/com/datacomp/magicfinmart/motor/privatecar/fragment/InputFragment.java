@@ -213,7 +213,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         setRetainInstance(true);
 
 
-
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
 
@@ -1623,10 +1622,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                                 motorRequestEntity.setBehalfOf(1);
                             } else {
-                                BOFbaEntity bo = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
-                                entity.setCreatedByUserFbaId(userConstantEntity.getFBAId());
-                                motorRequestEntity.setFba_id(bo.getFbaid());
-                                motorRequestEntity.setBehalfOf(0);
+                                if ((BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch) != null) {
+                                    BOFbaEntity bo = (BOFbaEntity) etfbaSearch.getTag(R.id.etfbaSearch);
+                                    entity.setCreatedByUserFbaId(userConstantEntity.getFBAId());
+                                    motorRequestEntity.setFba_id(bo.getFbaid());
+                                    motorRequestEntity.setBehalfOf(0);
+                                }
                             }
 
                             showDialog("Please wait...");
@@ -2971,7 +2972,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
 
     }
-
 
 
     //region tracking
