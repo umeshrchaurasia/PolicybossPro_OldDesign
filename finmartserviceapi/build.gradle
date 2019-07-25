@@ -13,8 +13,8 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 47
-        versionName "2.2.3"
+        versionCode 48
+        versionName "2.2.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
