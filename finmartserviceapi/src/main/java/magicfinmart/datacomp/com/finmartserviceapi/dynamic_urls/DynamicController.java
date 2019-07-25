@@ -313,7 +313,7 @@ public class DynamicController implements IDynamic {
         genericUrlNetworkService.sendUserBehaviour(entity).enqueue(new Callback<UserBehaviourResponse>() {
             @Override
             public void onResponse(Call<UserBehaviourResponse> call, Response<UserBehaviourResponse> response) {
-                    new PrefManager(mContext).saveUserbehaviourState(true);
+                new PrefManager(mContext).saveUserbehaviourState(true);
             }
 
             @Override
@@ -330,7 +330,18 @@ public class DynamicController implements IDynamic {
         String url = "http://49.50.95.141:2001/LeadCollection.svc/GetEncryptedErpId";
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("Id", new DBPersistanceController(mContext).getUserConstantsData().getERPID());
+
+        DBPersistanceController dbPersistanceController = new DBPersistanceController(mContext);
+        String fba_uid = dbPersistanceController.getUserConstantsData().getFba_uid();
+        String erp_id = dbPersistanceController.getUserConstantsData().getERPID();
+        String fba_campaign_name = dbPersistanceController.getUserConstantsData().getFba_campaign_name();
+        String fba_campaign_id = dbPersistanceController.getUserConstantsData().getFba_campaign_id();
+
+
+        body.put("erp_id", erp_id);
+        body.put("fba_uid", fba_uid);
+        body.put("fba_campaign_name", fba_campaign_name);
+        body.put("fba_campaign_id", fba_campaign_id);
 
         genericUrlNetworkService.getMyBusiness(url, body).enqueue(new Callback<mybusinessResponse>() {
             @Override
@@ -361,8 +372,8 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getBankdetail_personalloan(final String cityid,String Productid, final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid+"&Product_Id="+Productid;
+    public void getBankdetail_personalloan(final String cityid, String Productid, final IResponseSubcriber iResponseSubcriber) {
+        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid + "&Product_Id=" + Productid;
 
 
         genericUrlNetworkService.getBankdetail_personalloan(url).enqueue(new Callback<personal_bank_list_Response>() {
@@ -396,8 +407,8 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getBankdetail_homeloan(final String cityid,String Productid, final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid+"&Product_Id="+Productid;
+    public void getBankdetail_homeloan(final String cityid, String Productid, final IResponseSubcriber iResponseSubcriber) {
+        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid + "&Product_Id=" + Productid;
 
 
         genericUrlNetworkService.getBankdetail_homeloan(url).enqueue(new Callback<home_bank_list_Response>() {

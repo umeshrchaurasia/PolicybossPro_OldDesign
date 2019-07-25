@@ -159,6 +159,35 @@ public class UserConstantEntity extends RealmObject {
     private String enableInsuranceBusiness;
 
 
+    //25.07.2019 by nilesh
+    private String fba_uid;
+    private String fba_campaign_name;
+    private String fba_campaign_id;
+
+    public String getFba_campaign_id() {
+        return fba_campaign_id;
+    }
+
+    public void setFba_campaign_id(String fba_campaign_id) {
+        this.fba_campaign_id = fba_campaign_id;
+    }
+
+    public String getFba_uid() {
+        return fba_uid;
+    }
+
+    public void setFba_uid(String fba_uid) {
+        this.fba_uid = fba_uid;
+    }
+
+    public String getFba_campaign_name() {
+        return fba_campaign_name;
+    }
+
+    public void setFba_campaign_name(String fba_campaign) {
+        this.fba_campaign_name = fba_campaign;
+    }
+
     public String getUltralakshyaenabled() {
         return ultralakshyaenabled;
     }

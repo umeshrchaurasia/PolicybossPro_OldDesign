@@ -1655,7 +1655,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
 //3 july Changes
         if (spICICIPremiumTerm.getSelectedItemPosition() == 0) {
-            termRequestEntity.setPremiumPaymentOption("Regular Whole life");
+            termRequestEntity.setPremiumPaymentOption("Regular Pay");
 
         } else if (spICICIPremiumTerm.getSelectedItemPosition() == 1) {
             termRequestEntity.setPremiumPaymentOption("Single Pay");
