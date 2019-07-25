@@ -163,6 +163,15 @@ public class UserConstantEntity extends RealmObject {
     private String fba_uid;
     private String fba_campaign_name;
     private String fba_campaign_id;
+    private String showmyinsurancebusiness;
+
+    public String getShowmyinsurancebusiness() {
+        return showmyinsurancebusiness;
+    }
+
+    public void setShowmyinsurancebusiness(String showmyinsurancebusiness) {
+        this.showmyinsurancebusiness = showmyinsurancebusiness;
+    }
 
     public String getFba_campaign_id() {
         return fba_campaign_id;

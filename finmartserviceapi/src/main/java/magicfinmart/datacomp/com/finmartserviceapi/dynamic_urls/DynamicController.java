@@ -338,7 +338,7 @@ public class DynamicController implements IDynamic {
         String fba_campaign_id = dbPersistanceController.getUserConstantsData().getFba_campaign_id();
 
 
-        body.put("erp_id", erp_id);
+        body.put("Id", erp_id);
         body.put("fba_uid", fba_uid);
         body.put("fba_campaign_name", fba_campaign_name);
         body.put("fba_campaign_id", fba_campaign_id);
