@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BuildConfig;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
@@ -231,6 +232,20 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     String motorUrl = mReal.getUserConstantsData().getFourWheelerUrl();
 
+                    String ipaddress = "0.0.0.0";
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
+
+                    //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                    String append = "&ip_address=" + ipaddress + "&mac_address="
+                            + "&app_version=" + BuildConfig.VERSION_NAME
+                            + "&device_id=" + Utility.getDeviceId(mContext)
+                            + "&product_id=1";
+                    motorUrl = motorUrl + append;
+
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
                             .putExtra("NAME", "Motor Insurance")
@@ -341,6 +356,19 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 } else {
 
                     String motorUrl = mReal.getUserConstantsData().getTwoWheelerUrl();
+
+                    String ipaddress = "0.0.0.0";
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
+
+                    String append = "&ip_address=" + ipaddress + "&mac_address="
+                            + "&app_version=" + BuildConfig.VERSION_NAME
+                            + "&device_id=" + Utility.getDeviceId(mContext)
+                            + "&product_id=10";
+
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
                             .putExtra("NAME", "Two Wheeler Insurance")
