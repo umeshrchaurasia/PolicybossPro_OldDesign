@@ -225,7 +225,20 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 1:
 
                 //car
-                mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
+                if (mReal.getConstantsData().getFourWheelerEnabled().equalsIgnoreCase("1")) {
+                    mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
+                } else {
+
+                    String motorUrl = mReal.getConstantsData().getFourWheelerUrl();
+
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", motorUrl)
+                            .putExtra("NAME", "Motor Insurance")
+                            .putExtra("TITLE", "Motor Insurance"));
+
+                }
+
+                //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
@@ -322,8 +335,22 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 10:
                 //bike
+
+                if (mReal.getConstantsData().getTwoWheelerEnabled().equalsIgnoreCase("1")) {
+                    mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
+                } else {
+
+                    String motorUrl = mReal.getConstantsData().getTwoWheelerUrl();
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", motorUrl)
+                            .putExtra("NAME", "Two Wheeler Insurance")
+                            .putExtra("TITLE", "Two Wheeler Insurance"));
+
+                }
+
+
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
-                mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
+                //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
                 MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;
