@@ -53,44 +53,6 @@ public class ConstantEntity extends RealmObject {
     private String HealthThrowBrowser;
 
 
-    //added by nilesh 26.07.19
-    private String TwoWheelerEnabled;
-    private String TwoWheelerUrl;
-    private String FourWheelerEnabled;
-    private String FourWheelerUrl;
-
-
-    public String getTwoWheelerEnabled() {
-        return TwoWheelerEnabled;
-    }
-
-    public void setTwoWheelerEnabled(String twoWheelerEnabled) {
-        TwoWheelerEnabled = twoWheelerEnabled;
-    }
-
-    public String getTwoWheelerUrl() {
-        return TwoWheelerUrl;
-    }
-
-    public void setTwoWheelerUrl(String twoWheelerUrl) {
-        TwoWheelerUrl = twoWheelerUrl;
-    }
-
-    public String getFourWheelerEnabled() {
-        return FourWheelerEnabled;
-    }
-
-    public void setFourWheelerEnabled(String fourWheelerEnabled) {
-        FourWheelerEnabled = fourWheelerEnabled;
-    }
-
-    public String getFourWheelerUrl() {
-        return FourWheelerUrl;
-    }
-
-    public void setFourWheelerUrl(String fourWheelerUrl) {
-        FourWheelerUrl = fourWheelerUrl;
-    }
 
     public String getHealthappenable() {
         return healthappenable;

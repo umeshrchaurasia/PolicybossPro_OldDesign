@@ -225,11 +225,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 1:
 
                 //car
-                if (mReal.getConstantsData().getFourWheelerEnabled().equalsIgnoreCase("1")) {
+                if (mReal.getUserConstantsData().getFourWheelerEnabled().equalsIgnoreCase("1")) {
                     mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
                 } else {
 
-                    String motorUrl = mReal.getConstantsData().getFourWheelerUrl();
+                    String motorUrl = mReal.getUserConstantsData().getFourWheelerUrl();
 
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
@@ -336,11 +336,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 10:
                 //bike
 
-                if (mReal.getConstantsData().getTwoWheelerEnabled().equalsIgnoreCase("1")) {
+                if (mReal.getUserConstantsData().getTwoWheelerEnabled().equalsIgnoreCase("1")) {
                     mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
                 } else {
 
-                    String motorUrl = mReal.getConstantsData().getTwoWheelerUrl();
+                    String motorUrl = mReal.getUserConstantsData().getTwoWheelerUrl();
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
                             .putExtra("NAME", "Two Wheeler Insurance")
