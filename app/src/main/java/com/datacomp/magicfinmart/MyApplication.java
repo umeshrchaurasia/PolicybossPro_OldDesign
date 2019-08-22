@@ -1,11 +1,14 @@
 package com.datacomp.magicfinmart;
 
+import android.os.Bundle;
+
 import com.crashlytics.android.Crashlytics;
 import com.datacomp.magicfinmart.analytics.AnalyticsTrackers;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.matomo.sdk.TrackerBuilder;
 import org.matomo.sdk.extra.DownloadTracker;
@@ -25,6 +28,8 @@ public class MyApplication extends MatomoApplication {
     private static MyApplication mInstance;
 
     private org.matomo.sdk.Tracker mMamatoTracker;
+
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {
@@ -48,6 +53,9 @@ public class MyApplication extends MatomoApplication {
         mInstance = this;
         AnalyticsTrackers.initialize(this);
         AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //endregion
 
@@ -107,22 +115,46 @@ public class MyApplication extends MatomoApplication {
      * @param action   action of the event
      * @param label    label
      */
+//    public void trackEvent(String category, String action, String label) {
+//        Tracker t = getGoogleAnalyticsTracker();
+//        int FBA_ID = 0;
+//        DBPersistanceController dbPersistanceController = new DBPersistanceController(this);
+//
+//        if (dbPersistanceController.getUserData() != null)
+//            FBA_ID = dbPersistanceController.getUserData().getFBAId();
+//        // Build and send an Event.
+//        t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).setValue(FBA_ID).build());
+//
+//
+//        //first hive
+//        getTracker().setUserId(String.valueOf(FBA_ID));
+//        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
+//        TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
+//
+//    }
+
+
     public void trackEvent(String category, String action, String label) {
-        Tracker t = getGoogleAnalyticsTracker();
         int FBA_ID = 0;
         DBPersistanceController dbPersistanceController = new DBPersistanceController(this);
 
-        if (dbPersistanceController.getUserData() != null)
+        if (dbPersistanceController.getUserData() != null) {
             FBA_ID = dbPersistanceController.getUserData().getFBAId();
-        // Build and send an Event.
-        t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).setValue(FBA_ID).build());
+        }
 
 
-        //first hive
+        Bundle bundle = new Bundle();
+        bundle.putString("category", category);
+        bundle.putString("action", action);
+        bundle.putString("label", label);
+        bundle.putString("User", ""+FBA_ID);
+
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+
+                //first hive
         getTracker().setUserId(String.valueOf(FBA_ID));
         TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
         TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
-
     }
 
     @Override
