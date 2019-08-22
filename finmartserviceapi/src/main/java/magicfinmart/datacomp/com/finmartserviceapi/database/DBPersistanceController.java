@@ -2053,7 +2053,7 @@ public class DBPersistanceController {
         hashmapPremTerm.put("38 YEARS", 38);
         hashmapPremTerm.put("39 YEARS", 39);
         hashmapPremTerm.put("40 YEARS", 40);
-        hashmapPremTerm.put("Max Policy Term", 41);
+        hashmapPremTerm.put("Max Policy Term", 50);
 
 
     }

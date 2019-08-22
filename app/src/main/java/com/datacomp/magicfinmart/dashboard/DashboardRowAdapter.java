@@ -368,7 +368,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             + "&app_version=" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext)
                             + "&product_id=10";
-
+                    motorUrl = motorUrl + append;
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
                             .putExtra("NAME", "Two Wheeler Insurance")
