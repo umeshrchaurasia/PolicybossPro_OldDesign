@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BuildConfig;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
@@ -225,7 +226,34 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 1:
 
                 //car
-                mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
+                if (mReal.getUserConstantsData().getFourWheelerEnabled().equalsIgnoreCase("1")) {
+                    mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
+                } else {
+
+                    String motorUrl = mReal.getUserConstantsData().getFourWheelerUrl();
+
+                    String ipaddress = "0.0.0.0";
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
+
+                    //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                    String append = "&ip_address=" + ipaddress + "&mac_address="
+                            + "&app_version=" + BuildConfig.VERSION_NAME
+                            + "&device_id=" + Utility.getDeviceId(mContext)
+                            + "&product_id=1";
+                    motorUrl = motorUrl + append;
+
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", motorUrl)
+                            .putExtra("NAME", "Motor Insurance")
+                            .putExtra("TITLE", "Motor Insurance"));
+
+                }
+
+                //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
@@ -322,8 +350,35 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 10:
                 //bike
+
+                if (mReal.getUserConstantsData().getTwoWheelerEnabled().equalsIgnoreCase("1")) {
+                    mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
+                } else {
+
+                    String motorUrl = mReal.getUserConstantsData().getTwoWheelerUrl();
+
+                    String ipaddress = "0.0.0.0";
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
+
+                    String append = "&ip_address=" + ipaddress + "&mac_address="
+                            + "&app_version=" + BuildConfig.VERSION_NAME
+                            + "&device_id=" + Utility.getDeviceId(mContext)
+                            + "&product_id=10";
+                    motorUrl = motorUrl + append;
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", motorUrl)
+                            .putExtra("NAME", "Two Wheeler Insurance")
+                            .putExtra("TITLE", "Two Wheeler Insurance"));
+
+                }
+
+
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
-                mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
+                //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
                 MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;

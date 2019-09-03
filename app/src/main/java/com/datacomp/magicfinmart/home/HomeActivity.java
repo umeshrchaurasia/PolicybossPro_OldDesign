@@ -1307,8 +1307,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         //todo : check key from userconstant to hide my business
-        if (userConstantEntity != null && userConstantEntity.getERPID() != null && !userConstantEntity.getERPID().equals("")) {
-            int visibility = Integer.parseInt(userConstantEntity.getERPID());
+        if (userConstantEntity != null) {
+            int visibility = Integer.parseInt(userConstantEntity.getShowmyinsurancebusiness());
             if (visibility > 0)
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
             else

@@ -159,6 +159,44 @@ public class UserConstantEntity extends RealmObject {
     private String enableInsuranceBusiness;
 
 
+    //25.07.2019 by nilesh
+    private String fba_uid;
+    private String fba_campaign_name;
+    private String fba_campaign_id;
+    private String showmyinsurancebusiness;
+
+    public String getShowmyinsurancebusiness() {
+        return showmyinsurancebusiness;
+    }
+
+    public void setShowmyinsurancebusiness(String showmyinsurancebusiness) {
+        this.showmyinsurancebusiness = showmyinsurancebusiness;
+    }
+
+    public String getFba_campaign_id() {
+        return fba_campaign_id;
+    }
+
+    public void setFba_campaign_id(String fba_campaign_id) {
+        this.fba_campaign_id = fba_campaign_id;
+    }
+
+    public String getFba_uid() {
+        return fba_uid;
+    }
+
+    public void setFba_uid(String fba_uid) {
+        this.fba_uid = fba_uid;
+    }
+
+    public String getFba_campaign_name() {
+        return fba_campaign_name;
+    }
+
+    public void setFba_campaign_name(String fba_campaign) {
+        this.fba_campaign_name = fba_campaign;
+    }
+
     public String getUltralakshyaenabled() {
         return ultralakshyaenabled;
     }
@@ -199,6 +237,47 @@ public class UserConstantEntity extends RealmObject {
 
     // added by Nilesh 17.04.2019
     private String paenable;
+
+
+    //added by nilesh 26.07.19
+    private String TwoWheelerEnabled;
+    private String TwoWheelerUrl;
+    private String FourWheelerEnabled;
+    private String FourWheelerUrl;
+
+
+    public String getTwoWheelerEnabled() {
+        return TwoWheelerEnabled;
+    }
+
+    public void setTwoWheelerEnabled(String twoWheelerEnabled) {
+        TwoWheelerEnabled = twoWheelerEnabled;
+    }
+
+    public String getTwoWheelerUrl() {
+        return TwoWheelerUrl;
+    }
+
+    public void setTwoWheelerUrl(String twoWheelerUrl) {
+        TwoWheelerUrl = twoWheelerUrl;
+    }
+
+    public String getFourWheelerEnabled() {
+        return FourWheelerEnabled;
+    }
+
+    public void setFourWheelerEnabled(String fourWheelerEnabled) {
+        FourWheelerEnabled = fourWheelerEnabled;
+    }
+
+    public String getFourWheelerUrl() {
+        return FourWheelerUrl;
+    }
+
+    public void setFourWheelerUrl(String fourWheelerUrl) {
+        FourWheelerUrl = fourWheelerUrl;
+    }
+
 
 
     public String getEnableInsuranceBusiness() {

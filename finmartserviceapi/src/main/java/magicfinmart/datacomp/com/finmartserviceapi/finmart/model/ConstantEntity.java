@@ -31,8 +31,6 @@ public class ConstantEntity extends RealmObject {
     private String healthappenable;
 
 
-
-
     /**
      * POSPTraining : 1
      */
@@ -53,6 +51,7 @@ public class ConstantEntity extends RealmObject {
 
     private String HorizonVersion;
     private String HealthThrowBrowser;
+
 
 
     public String getHealthappenable() {

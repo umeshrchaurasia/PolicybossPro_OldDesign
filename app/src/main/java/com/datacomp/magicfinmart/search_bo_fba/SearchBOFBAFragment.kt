@@ -36,11 +36,12 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater?.inflate(R.layout.fragment_search_bofba, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         rvFBAList.layoutManager = LinearLayoutManager(activity)
@@ -48,7 +49,7 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
         var boFbaEntity = BOFbaEntity()
         boFbaEntity.fullName = "Self"
         mList.add(0, boFbaEntity)
-        mAdapter = FBASearchAdapter(mList, this, activity)
+        mAdapter = FBASearchAdapter(mList, this, activity!!.baseContext)
         rvFBAList.adapter = mAdapter
         imgSearch.setOnClickListener(this)
     }
