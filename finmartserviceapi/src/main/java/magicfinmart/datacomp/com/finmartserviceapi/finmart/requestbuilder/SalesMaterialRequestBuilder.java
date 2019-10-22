@@ -5,6 +5,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.festivelinkResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -30,5 +31,9 @@ public class SalesMaterialRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/sales-material-product-details")
         Call<SalesPromotionResponse> getProductPromotions(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/getfincampaign")
+        Call<festivelinkResponse> getfincampaign(@Body HashMap<String, String> body);
     }
 }
