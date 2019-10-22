@@ -1,6 +1,9 @@
 package com.datacomp.magicfinmart.festivelink;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +18,7 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
+import butterknife.internal.Utils;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FestivalCompaignEntity;
 
 
@@ -22,7 +26,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
 
     Context mContext;
     List<FestivalCompaignEntity> lstShareMessageEntities;
-
+  //  private static   Uri imageUri = null;
     public festivelinkAdapter(Context mContext, List<FestivalCompaignEntity> lstShareMessageEntities) {
         this.mContext = mContext;
         this.lstShareMessageEntities = lstShareMessageEntities;
@@ -46,16 +50,24 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
 
         if (lstShareMessageEntity.getImagelink() != null) {
 
-            Glide.with(mContext)
+                        Glide.with(mContext)
                     .load(lstShareMessageEntity.getImagelink())
-                    .into(holder.imglink);
+                    .into(holder.imageView);
 
         }
         holder.btnCallshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  datashareList(lstShareMessageEntity.getTitle(), lstShareMessageEntity.getMsgBody(), lstShareMessageEntity.getLink());
-            }
+                String whatsAppMessage = lstShareMessageEntity.getShorturl();
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, whatsAppMessage);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_STREAM,lstShareMessageEntity.getImagelink());
+                intent.setType("image/jpeg");
+                intent.setPackage("com.whatsapp");
+                mContext.startActivity(intent);
+           }
         });
 
         holder.btnsms.setOnClickListener(new View.OnClickListener() {
@@ -65,12 +77,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
             }
         });
 
-        holder.btnemail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //  datashareList(lstShareMessageEntity.getTitle(), lstShareMessageEntity.getMsgBody(), lstShareMessageEntity.getLink());
-            }
-        });
+
     }
 
     @Override
@@ -81,7 +88,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtName, txttitle,txtshorturl;
-        ImageView btnCallshare, imglink, btnsms, btnemail;
+        ImageView btnCallshare, imageView, btnsms, btnemail;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
@@ -91,7 +98,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
             btnsms = (ImageView) itemView.findViewById(R.id.btnsms);
             btnCallshare = (ImageView) itemView.findViewById(R.id.btnCallshare);
             btnemail = (ImageView) itemView.findViewById(R.id.btnemail);
-            imglink = (ImageView) itemView.findViewById(R.id.imglink);
+            imageView = (ImageView) itemView.findViewById(R.id.imglink);
         }
     }
 }
