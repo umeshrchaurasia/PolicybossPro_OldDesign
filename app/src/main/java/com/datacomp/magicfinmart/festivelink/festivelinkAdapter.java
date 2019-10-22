@@ -42,6 +42,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
         final FestivalCompaignEntity lstShareMessageEntity = lstShareMessageEntities.get(position);
         holder.txtName.setText(lstShareMessageEntity.getName());
         holder.txttitle.setText(lstShareMessageEntity.getTitle());
+        holder.txtshorturl.setText(lstShareMessageEntity.getShorturl());
 
         if (lstShareMessageEntity.getImagelink() != null) {
 
@@ -78,13 +79,13 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtName, txttitle;
+        public TextView txtName, txttitle,txtshorturl;
         ImageView btnCallshare, imglink, btnsms, btnemail;
 
         public MyViewHolder(@NonNull View view) {
             super(view);
             txtName = (TextView) itemView.findViewById(R.id.txtname);
-
+            txtshorturl = (TextView) itemView.findViewById(R.id.txtname);
             txttitle = (TextView) itemView.findViewById(R.id.txttitle);
             btnsms = (ImageView) itemView.findViewById(R.id.btnsms);
             btnCallshare = (ImageView) itemView.findViewById(R.id.btnCallshare);

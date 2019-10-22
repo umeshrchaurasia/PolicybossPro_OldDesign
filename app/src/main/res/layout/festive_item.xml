@@ -61,7 +61,13 @@
                     android:gravity="center_vertical|center_horizontal"
                     android:scaleType="fitCenter"
                     android:src="@drawable/vector_share_grey" />
-
+                <TextView
+                    android:id="@+id/txtshorturl"
+                    android:layout_marginTop="10dp"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left" />
             </LinearLayout>
 
             <LinearLayout
