@@ -55,6 +55,7 @@ import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+import com.datacomp.magicfinmart.festivelink.festivelinkActivity;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
@@ -96,8 +97,11 @@ import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import io.cobrowse.CobrowseIO;
+import io.cobrowse.ui.CobrowseActivity;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -231,6 +235,21 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         prefManager = new PrefManager(this);
 
 
+        //region Co Browser
+        CobrowseIO.instance().license("CDnlHTvbPugChw");
+        Log.i("App", "Cobrowse device id: " + CobrowseIO.instance().deviceId(this.getApplication()));
+
+        HashMap<String, Object> customData = new HashMap<>();
+        customData.put("user_id", loginResponseEntity.getFBAId());
+        customData.put("user_name", loginResponseEntity.getUserName());
+        customData.put("user_email", loginResponseEntity.getEmailID());
+        customData.put("device_id",  CobrowseIO.instance().deviceId(this.getApplication()));
+        customData.put("device_name", "Android");
+        CobrowseIO.instance().customData(customData);
+
+        CobrowseIO.instance().start(this);
+        Log.i("App", "id: " + loginResponseEntity.getFBAId());
+        //endregion
         getNotificationAction();
 
         init_headers();
@@ -447,6 +466,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
                         break;
+
+                    case R.id.nav_cobrowser:
+
+                        Intent intent = new Intent(HomeActivity.this, CobrowseActivity.class);
+                        startActivity(intent);
+                        //startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
+                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                        break;
                     case R.id.nav_franchise:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                 .putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf")
@@ -525,6 +552,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 .putExtra("URL", userConstantEntity.getFinperkurl())
                                 .putExtra("NAME", "FINPERKS")
                                 .putExtra("TITLE", "FINPERKS"));
+
+                        break;
+                    case R.id.nav_festivelink:
+                        startActivity(new Intent(HomeActivity.this, festivelinkActivity.class)
+                                .putExtra("URL", userConstantEntity.getFinperkurl())
+                                .putExtra("NAME", "FESTIVE LINKS")
+                                .putExtra("TITLE", "FESTIVE LINKS"));
 
                         break;
                     default:

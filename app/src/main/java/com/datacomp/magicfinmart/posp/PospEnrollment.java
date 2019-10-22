@@ -1051,7 +1051,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                             llMain.setVisibility(View.GONE);
                             openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
                         } else {
-                            if (isPospNoAvailable) {
+                            if (false) {
 
                                 if (isPaymentLinkAvailable) {
                                     openWebView(loginResponseEntity.getPaymentUrl());
@@ -1069,7 +1069,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         if (isPaymentDone) {
                             openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
                         } else {
-                            if (isPospNoAvailable) {
+                            if (false) {
 
                                 if (isPaymentLinkAvailable) {
                                     openWebView(loginResponseEntity.getPaymentUrl());
@@ -1480,7 +1480,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 llMain.setVisibility(View.GONE);
                 openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
             } else {
-                if (isPospNoAvailable) {
+                if (true) {
                     bindInputFromeServer(pospDetailsEntity);
                     if (isPaymentLinkAvailable) {
                         openWebView(loginResponseEntity.getPaymentUrl());
@@ -1498,7 +1498,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 bindInputFromeServer(pospDetailsEntity);
                 openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
             } else {
-                if (isPospNoAvailable) {
+                if (true) {
                     bindInputFromeServer(pospDetailsEntity);
                 } else {
                     setInputParameters();
