@@ -49,6 +49,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
             Glide.with(mContext)
                     .load(lstShareMessageEntity.getImagelink())
                     .into(holder.imglink);
+
         }
         holder.btnCallshare.setOnClickListener(new View.OnClickListener() {
             @Override
