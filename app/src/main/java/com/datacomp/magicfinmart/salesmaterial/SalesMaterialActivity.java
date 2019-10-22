@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.festivelink.festivelinkActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
@@ -186,15 +187,24 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
     public void redirectToApplyMain(SalesProductEntity entity, int pos) {
 
-        if (entity.getCount() > entity.getOldCount()) {
-            alertCount(entity, pos);
-        } else {
-
-            Intent intent = new Intent(SalesMaterialActivity.this, SalesDetailActivity.class);
-            intent.putExtra(Constants.PRODUCT_ID, entity);
+        if(entity.getProduct_Id() == 7)
+        {
+            Intent intent = new Intent(SalesMaterialActivity.this, festivelinkActivity.class);
             startActivity(intent);
 
+        }else {
+
+            if (entity.getCount() > entity.getOldCount()) {
+                alertCount(entity, pos);
+            } else {
+
+                Intent intent = new Intent(SalesMaterialActivity.this, SalesDetailActivity.class);
+                intent.putExtra(Constants.PRODUCT_ID, entity);
+                startActivity(intent);
+
+            }
         }
+
 
 
     }

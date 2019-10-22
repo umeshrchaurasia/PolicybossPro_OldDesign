@@ -1,14 +1,24 @@
 package com.datacomp.magicfinmart.festivelink;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.salesmaterial.SalesShareActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -86,7 +96,68 @@ public class festivelinkActivity extends BaseActivity implements IResponseSubcri
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(this, getfestivelinkResponse.getMessage(), Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, getfestivelinkResponse.getMessage(), Toast.LENGTH_LONG).show();
 
     }
+
+    public void shareData(String strURL, String strSub , String strDetail)
+    {
+
+        new createBitmapFromURL(strURL,strSub,strDetail).execute();
+    }
+
+
+    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
+        URL NotifyPhotoUrl;
+        String imgURL,strSub,strDetail;
+        public createBitmapFromURL(String imgURL,String strSub , String strDetail) {
+            this.imgURL = imgURL;
+            this.strSub = strSub;
+            this.strDetail = strDetail;
+
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showDialog();
+        }
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+            try {
+                NotifyPhotoUrl = new URL(imgURL);
+                networkBitmap = BitmapFactory.decodeStream(
+                        NotifyPhotoUrl.openConnection().getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + NotifyPhotoUrl);
+            }
+            return networkBitmap;
+        }
+        protected void onPostExecute(Bitmap result) {
+            cancelDialog();
+          //  bitmap_image = result;
+            datashareList(festivelinkActivity.this, result, strSub ,strDetail);
+        }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
+
 }

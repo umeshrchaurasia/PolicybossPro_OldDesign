@@ -18,6 +18,7 @@
         <TextView
             android:id="@+id/txttitle"
             style="@style/TextStyle.Title"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|left"
@@ -43,12 +44,6 @@
                 android:orientation="vertical">
 
 
-                <TextView
-                    android:id="@+id/txtname"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="left" />
 
 
 
@@ -61,22 +56,25 @@
                     android:gravity="center_vertical|center_horizontal"
                     android:scaleType="fitXY"
                     android:src="@drawable/vector_share_grey" />
+
                 <TextView
                     android:id="@+id/txtshorturl"
                     android:layout_marginTop="10dp"
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:gravity="left" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="center_horizontal|right"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
             <ImageView
+                android:tint="@color/dark_blue"
                 android:id="@+id/btnCallshare"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -84,21 +82,6 @@
                 android:layout_gravity="right"
                 android:src="@drawable/vector_share_grey" />
 
-                <ImageView
-                    android:id="@+id/btnsms"
-                    android:layout_width="42dp"
-                    android:layout_height="37dp"
-                    android:layout_gravity="right"
-                    android:layout_marginLeft="30dp"
-                    android:src="@drawable/sms" />
-
-                <ImageView
-                    android:layout_marginLeft="30dp"
-                    android:id="@+id/btnemail"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_gravity="right"
-                    android:src="@drawable/mps" />
 
 
             </LinearLayout>

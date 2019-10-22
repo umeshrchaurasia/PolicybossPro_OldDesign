@@ -26,7 +26,8 @@
             android:id="@+id/nav_festivelink"
             android:icon="@drawable/share_data"
             android:orderInCategory="100"
-            android:title="FESTIVE LINKS" />
+            android:title="FESTIVE LINKS"
+            android:visible="false"/>
 
 
         <item
