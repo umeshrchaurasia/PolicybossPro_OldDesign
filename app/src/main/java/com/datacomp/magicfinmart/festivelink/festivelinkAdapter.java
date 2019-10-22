@@ -15,15 +15,15 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.festivelinkEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FestivalCompaignEntity;
 
 
-public class festivelinkAdapter  extends RecyclerView.Adapter<festivelinkAdapter.MyViewHolder>{
+public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.MyViewHolder> {
 
     Context mContext;
-    List<festivelinkEntity> lstShareMessageEntities;
+    List<FestivalCompaignEntity> lstShareMessageEntities;
 
-    public festivelinkAdapter(Context mContext, List<festivelinkEntity> lstShareMessageEntities) {
+    public festivelinkAdapter(Context mContext, List<FestivalCompaignEntity> lstShareMessageEntities) {
         this.mContext = mContext;
         this.lstShareMessageEntities = lstShareMessageEntities;
     }
@@ -39,11 +39,11 @@ public class festivelinkAdapter  extends RecyclerView.Adapter<festivelinkAdapter
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-    final festivelinkEntity lstShareMessageEntity = lstShareMessageEntities.get(position);
+        final FestivalCompaignEntity lstShareMessageEntity = lstShareMessageEntities.get(position);
         holder.txtName.setText(lstShareMessageEntity.getName());
         holder.txttitle.setText(lstShareMessageEntity.getTitle());
 
-        if (lstShareMessageEntity.getImagelink()!= null) {
+        if (lstShareMessageEntity.getImagelink() != null) {
 
             Glide.with(mContext)
                     .load(lstShareMessageEntity.getImagelink())
@@ -52,7 +52,7 @@ public class festivelinkAdapter  extends RecyclerView.Adapter<festivelinkAdapter
         holder.btnCallshare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  datashareList(lstShareMessageEntity.getTitle(), lstShareMessageEntity.getMsgBody(), lstShareMessageEntity.getLink());
+                //  datashareList(lstShareMessageEntity.getTitle(), lstShareMessageEntity.getMsgBody(), lstShareMessageEntity.getLink());
             }
         });
 
@@ -79,10 +79,11 @@ public class festivelinkAdapter  extends RecyclerView.Adapter<festivelinkAdapter
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtName, txttitle;
-        ImageView btnCallshare,imglink,btnsms,btnemail;
+        ImageView btnCallshare, imglink, btnsms, btnemail;
+
         public MyViewHolder(@NonNull View view) {
             super(view);
-            txtName = (TextView) itemView.findViewById(R.id.txtFollowupName);
+            txtName = (TextView) itemView.findViewById(R.id.txtname);
 
             txttitle = (TextView) itemView.findViewById(R.id.txttitle);
             btnsms = (ImageView) itemView.findViewById(R.id.btnsms);

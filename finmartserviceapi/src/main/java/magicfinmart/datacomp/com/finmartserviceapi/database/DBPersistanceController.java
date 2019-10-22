@@ -46,9 +46,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 
-/**
- * Created by Rajeev Ranjan on 04/01/2018.
- */
+
 
 public class DBPersistanceController {
 

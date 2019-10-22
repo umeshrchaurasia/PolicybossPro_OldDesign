@@ -12,7 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.SalesMaterialRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.festivelinkResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FestivalCampaignResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -124,9 +124,9 @@ public class SalesMaterialController implements ISalesMaterial {
         body.put("LoanId",LoanId);
         body.put("Source",Source);
 
-        salesMaterialNetworkService.getfincampaign(body).enqueue(new Callback<festivelinkResponse>() {
+        salesMaterialNetworkService.getfincampaign(body).enqueue(new Callback<FestivalCampaignResponse>() {
             @Override
-            public void onResponse(Call<festivelinkResponse> call, Response<festivelinkResponse> response) {
+            public void onResponse(Call<FestivalCampaignResponse> call, Response<FestivalCampaignResponse> response) {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
@@ -142,7 +142,7 @@ public class SalesMaterialController implements ISalesMaterial {
             }
 
             @Override
-            public void onFailure(Call<festivelinkResponse> call, Throwable t) {
+            public void onFailure(Call<FestivalCampaignResponse> call, Throwable t) {
 
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);

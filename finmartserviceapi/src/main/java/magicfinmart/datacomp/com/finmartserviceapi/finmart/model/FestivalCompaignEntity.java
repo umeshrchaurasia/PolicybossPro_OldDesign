@@ -1,7 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-public  class festivelinkEntity {
-
+public class FestivalCompaignEntity {
         /**
          * campaignid : 1
          * name : test name
@@ -85,6 +84,4 @@ public  class festivelinkEntity {
         public void setBaseurl(String baseurl) {
             this.baseurl = baseurl;
         }
-
-
     }

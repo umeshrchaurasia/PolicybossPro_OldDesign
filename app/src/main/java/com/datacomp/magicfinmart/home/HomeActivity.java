@@ -234,7 +234,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
 
-        setUpCoBrowser();
+        if (userConstantEntity != null && !userConstantEntity.getCobrowserlicensecode().equals("")) {
+            setUpCoBrowser();
+        }
 
         getNotificationAction();
 
