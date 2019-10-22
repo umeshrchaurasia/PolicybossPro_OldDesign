@@ -234,22 +234,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
 
+        setUpCoBrowser();
 
-        //region Co Browser
-        CobrowseIO.instance().license("CDnlHTvbPugChw");
-        Log.i("App", "Cobrowse device id: " + CobrowseIO.instance().deviceId(this.getApplication()));
-
-        HashMap<String, Object> customData = new HashMap<>();
-        customData.put("user_id", loginResponseEntity.getFBAId());
-        customData.put("user_name", loginResponseEntity.getUserName());
-        customData.put("user_email", loginResponseEntity.getEmailID());
-        customData.put("device_id",  CobrowseIO.instance().deviceId(this.getApplication()));
-        customData.put("device_name", "Android");
-        CobrowseIO.instance().customData(customData);
-
-        CobrowseIO.instance().start(this);
-        Log.i("App", "id: " + loginResponseEntity.getFBAId());
-        //endregion
         getNotificationAction();
 
         init_headers();
@@ -468,11 +454,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_cobrowser:
-
-                        Intent intent = new Intent(HomeActivity.this, CobrowseActivity.class);
-                        startActivity(intent);
-                        //startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
-                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                        dialogCoBrowser();
                         break;
                     case R.id.nav_franchise:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
@@ -601,6 +583,23 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    private void setUpCoBrowser() {
+        //region Co Browser
+        CobrowseIO.instance().license(userConstantEntity.getCobrowserlicensecode());
+        Log.i("App", "Cobrowse device id: " + CobrowseIO.instance().deviceId(this.getApplication()));
+        HashMap<String, Object> customData = new HashMap<>();
+        customData.put("user_id", loginResponseEntity.getFBAId());
+        customData.put("user_name", loginResponseEntity.getUserName());
+        customData.put("user_email", loginResponseEntity.getEmailID());
+        customData.put("device_id", CobrowseIO.instance().deviceId(this.getApplication()));
+        customData.put("device_name", "Android");
+        CobrowseIO.instance().customData(customData);
+
+        CobrowseIO.instance().start(this);
+        Log.i("App", "id: " + loginResponseEntity.getFBAId());
+        //endregion
     }
 
 
@@ -1362,6 +1361,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
         }
 
+        if (userConstantEntity != null && userConstantEntity.getCobrowserisactive() != null
+                && !userConstantEntity.getCobrowserisactive().equals("")) {
+            int visibility = Integer.parseInt(userConstantEntity.getCobrowserisactive());
+
+            if (visibility == 1)
+                nav_Menu.findItem(R.id.nav_cobrowser).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
+
+        } else {
+            nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
+        }
+
 
     }
 
@@ -2107,8 +2119,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
-    public void shareCallingData(UserCallingEntity userCallingEntity)
-    {
+    public void shareCallingData(UserCallingEntity userCallingEntity) {
         Intent intentCalling = new Intent(Intent.ACTION_DIAL);
         intentCalling.setData(Uri.parse("tel:" + userCallingEntity.getMobileNo()));
         startActivity(intentCalling);
@@ -2116,11 +2127,41 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
-    public void shareEmailData(UserCallingEntity userCallingEntity)
-    {
+    public void shareEmailData(UserCallingEntity userCallingEntity) {
         shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userCallingEntity.getEmailId(), userCallingEntity.getMobileNo());
 
     }
 
+    public void dialogCoBrowser() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("Share Screen..!");
+        builder.setMessage("Are you sure you want to share screen?");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(
+                "SHARE",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        Intent intent = new Intent(HomeActivity.this, CobrowseActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+        builder.setNegativeButton(
+                "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        android.support.v7.app.AlertDialog exitdialog = builder.create();
+        exitdialog.show();
+
+        Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button positive = exitdialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        negative.setTextColor(getResources().getColor(R.color.header_light_text));
+        positive.setTextColor(getResources().getColor(R.color.black));
+    }
 
 }
