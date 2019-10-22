@@ -57,9 +57,9 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="142dp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical|center_horizontal"
-                    android:scaleType="fitCenter"
+                    android:scaleType="fitXY"
                     android:src="@drawable/vector_share_grey" />
                 <TextView
                     android:id="@+id/txtshorturl"
@@ -80,6 +80,7 @@
                 android:id="@+id/btnCallshare"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+
                 android:layout_gravity="right"
                 android:src="@drawable/vector_share_grey" />
 
