@@ -165,6 +165,28 @@ public class UserConstantEntity extends RealmObject {
     private String fba_campaign_id;
     private String showmyinsurancebusiness;
 
+
+    //22.10.2019
+    private String cobrowserisactive;
+    private String cobrowserlicensecode;
+
+
+    public String getCobrowserisactive() {
+        return cobrowserisactive;
+    }
+
+    public void setCobrowserisactive(String cobrowserisactive) {
+        this.cobrowserisactive = cobrowserisactive;
+    }
+
+    public String getCobrowserlicensecode() {
+        return cobrowserlicensecode;
+    }
+
+    public void setCobrowserlicensecode(String cobrowserlicensecode) {
+        this.cobrowserlicensecode = cobrowserlicensecode;
+    }
+
     public String getShowmyinsurancebusiness() {
         return showmyinsurancebusiness;
     }
@@ -277,7 +299,6 @@ public class UserConstantEntity extends RealmObject {
     public void setFourWheelerUrl(String fourWheelerUrl) {
         FourWheelerUrl = fourWheelerUrl;
     }
-
 
 
     public String getEnableInsuranceBusiness() {
