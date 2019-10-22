@@ -44,6 +44,7 @@ public class festivelinkActivity extends BaseActivity implements IResponseSubcri
 
         init_widgets();
 
+
         dbPersistanceController = new DBPersistanceController(festivelinkActivity.this);
         loginResponseEntity = dbPersistanceController.getUserData();
         showDialog();
