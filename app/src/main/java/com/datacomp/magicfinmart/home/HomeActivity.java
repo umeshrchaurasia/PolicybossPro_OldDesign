@@ -361,7 +361,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_changepassword:
                         fragment = new ChangePasswordFragment();
-                        getSupportActionBar().setTitle("CHANGE PASSWORD");
+                        getSupportActionBar().setTitle("Change Password");
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount:
@@ -2137,7 +2137,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public void dialogCoBrowser() {
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("Share Screen..!");
-        builder.setMessage("Are you sure you want to share screen?");
+        builder.setMessage("Do you want to share your screen?");
         builder.setCancelable(false);
 
         builder.setPositiveButton(
