@@ -669,4 +669,5 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Comprehensive (1 Yr) + T.P. (4 Yrs)</item>
         <item>Comprehensive Plan (5 Yrs)</item>
     </string-array>
+    <string name="title_activity_credit_card_swipe_wishes">CreditCardSwipeWishesActivity</string>
 </resources>
