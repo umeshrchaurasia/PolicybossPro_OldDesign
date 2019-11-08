@@ -669,4 +669,22 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Comprehensive (1 Yr) + T.P. (4 Yrs)</item>
         <item>Comprehensive Plan (5 Yrs)</item>
     </string-array>
+
+    <string-array name="CCHolder">
+        <item>Are you Credit Card Holder? </item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="CCExistingLoan">
+        <item>Do you have existing loan? </item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="CCTakenLoan">
+        <item>Have you taken loan in the past? </item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 </resources>

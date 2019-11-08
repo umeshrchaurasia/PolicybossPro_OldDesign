@@ -1757,7 +1757,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         dialog.cancel();
     }
 
-
     //region permission
 
 //    private boolean checkPermission() {

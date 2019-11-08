@@ -571,7 +571,6 @@ public class DBPersistanceController {
 
     //endregion
 
-
     //region Dashboard list
 
     public List<DashboardEntity> getInsurProductList() {
@@ -940,6 +939,7 @@ public class DBPersistanceController {
     //endregion
 
     //region myAccount data
+
     public void updateMyAccountData(AccountDtlEntity accountDtlEntity) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(accountDtlEntity);
@@ -1790,6 +1790,7 @@ public class DBPersistanceController {
 
 
     //endregion
+
     //region LOan City Data
 
     public List<String> getLoanCity() {
@@ -1814,6 +1815,7 @@ public class DBPersistanceController {
     //endregion
 
     //region health checkup plans
+
     public HealthPackDEntity getHealthCheckUPPlans() {
         HealthPackDEntity entity = realm.where(HealthPackDEntity.class).findFirst();
         if (entity != null)
@@ -1836,6 +1838,7 @@ public class DBPersistanceController {
     //endregion
 
     //region Zoho masters
+
     public ZohoTicketCategoryEntity getZohoCategoryList() {
         ZohoTicketCategoryEntity entity = realm.where(ZohoTicketCategoryEntity.class).findFirst();
         if (entity != null)
@@ -1935,6 +1938,7 @@ public class DBPersistanceController {
     //endregion
 
     //region constants data
+
     public ConstantEntity getConstantsData() {
         ConstantEntity entity = realm.where(ConstantEntity.class).findFirst();
         if (entity != null)
@@ -1944,8 +1948,8 @@ public class DBPersistanceController {
     }
     //endregion
 
-
     //region User constants data
+
     public UserConstantEntity getUserConstantsData() {
         UserConstantEntity entity = realm.where(UserConstantEntity.class).findFirst();
         if (entity != null)
@@ -2114,7 +2118,6 @@ public class DBPersistanceController {
 
     //region HDFC personal loan bank
 
-
     public String gethdfcplbankbranchrList(String addonName) {
         hdfcpersonalloanbankbranch = new LinkedHashMap<String, String>();
         Maphdfcpersonalloanbankbranch();
@@ -2175,6 +2178,7 @@ public class DBPersistanceController {
     //endregion
 
     //region kotak pl employer namer
+
     public List<String> getEmplyerNAmeList() {
         List<String> listCity = new ArrayList<>();
         // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
@@ -2200,7 +2204,6 @@ public class DBPersistanceController {
 
     //endregion
 
-
     //region Insurance subtype
 
     public List<InsuranceSubtypeEntity> getInsuranceSubTypeList(int vehicle_id, String neworrenew) {
@@ -2216,7 +2219,6 @@ public class DBPersistanceController {
 
 
     //endregion
-
 
     //region Insurance subtype
 
