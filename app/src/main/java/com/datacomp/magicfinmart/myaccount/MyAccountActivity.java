@@ -164,12 +164,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         if (dbPersistanceController.getUserConstantsData() != null) {
             bindAboutMe();
-
         } else {
-
             new MasterController(this).geUserConstant(1, this);
         }
-
 
         showDialog("Fetching Detail...");
         new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
@@ -782,7 +779,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         if (clickedLayout.getVisibility() == View.GONE) {
 
-           downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
 
             upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
@@ -793,10 +790,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             upImage6.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
 
-
         } else {
 
-             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
 
             upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
@@ -807,7 +803,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
         }
-
 
 
     }
@@ -1494,6 +1489,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 .setMultiTouchEnabled(true)
                 .start(this);
     }
+
     @Override
     @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

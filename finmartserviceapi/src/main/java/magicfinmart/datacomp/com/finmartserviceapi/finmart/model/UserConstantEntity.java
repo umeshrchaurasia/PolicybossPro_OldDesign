@@ -99,10 +99,8 @@ public class UserConstantEntity extends RealmObject {
     private String LoginID;
     private String ManagName;
 
-
     private String finmartwhatsappno;
     private int isactive;
-
 
     /**
      * plbanner : http://api.magicfinmart.com/images/plbanner.gif
@@ -115,14 +113,9 @@ public class UserConstantEntity extends RealmObject {
     private String plactive;
     private String addposplimit;
     private String serviceurl;
-
     private String healthurl;
-
     private String AddPospVisible;
-
-
     private String PBByCrnSearch;
-
 
     private String ERPID;
     /**

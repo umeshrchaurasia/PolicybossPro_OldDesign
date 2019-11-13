@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.creditcard.newcreditcard.CreditCardInputActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,8 @@ public class AppliedCreditListActivity extends BaseActivity implements View.OnCl
         switch (view.getId()) {
             case R.id.tvAdd:
             case R.id.fbAddCreditCard:
-                startActivity(new Intent(this, CreditCardActivity.class));
+               // startActivity(new Intent(this, CreditCardActivity.class));
+                startActivity(new Intent(this, CreditCardInputActivity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:

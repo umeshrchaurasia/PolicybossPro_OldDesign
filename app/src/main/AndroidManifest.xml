@@ -26,8 +26,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".creditcard.newcreditcardSwipe.CreditCardSwipeWishesActivity"
-            android:label="@string/title_activity_credit_card_swipe_wishes"
+            android:name=".switchuser.SwitchUserActivity"
+            android:label="@string/title_activity_switch_user"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".festivelink.festivelinkActivity"

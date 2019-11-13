@@ -5,6 +5,8 @@
             android:shape="rectangle">
             <solid android:color="@color/white" />
         </shape>
+
+
     </item>
     <item
         android:bottom="100dp"
@@ -23,5 +25,8 @@
 <!--         android:centerColor="#4197c8"-->
 
         </shape>
+
     </item>
+
+
 </layer-list>

@@ -10,24 +10,29 @@
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
         android:background="@drawable/semicircle"
+        android:theme="@style/AppTheme.AppBarOverlay"
         app:elevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="@drawable/balance_transfer" />
+
+        </LinearLayout>
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextColor="@color/white"/>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            >
-        </RelativeLayout>
+            app:titleTextColor="@color/white" />
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_credit_card_input" />

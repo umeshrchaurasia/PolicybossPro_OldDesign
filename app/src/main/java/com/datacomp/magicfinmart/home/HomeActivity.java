@@ -88,6 +88,7 @@ import com.datacomp.magicfinmart.scan_vehicle.VehicleScanActivity;
 import com.datacomp.magicfinmart.sendTemplateSms.SendTemplateSmsActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
+import com.datacomp.magicfinmart.switchuser.SwitchUserActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
@@ -132,7 +133,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour , txtswitchuser;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -746,6 +747,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtFbaID = (TextView) headerView.findViewById(R.id.txtFbaID);
         txtPospNo = (TextView) headerView.findViewById(R.id.txtPospNo);
         txtErpID = (TextView) headerView.findViewById(R.id.txtErpID);
+
+        txtswitchuser = (TextView) headerView.findViewById(R.id.txtswitchuser);
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -774,6 +777,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             }
         });
+
+        txtswitchuser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, SwitchUserActivity.class));
+            }
+        });
+
         txtEntityName.setText("Ver." + versionNAme);
 
         if (loginResponseEntity != null) {
@@ -1756,7 +1767,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public void onCancelClick(Dialog dialog, View view) {
         dialog.cancel();
     }
-
 
     //region permission
 
