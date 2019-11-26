@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtName, txtStatus, txtRemark;
-        ImageView btnCall;
+        ImageView btnCall, imgIcon;
         //LinearLayout linearLayout;
 
 
@@ -45,6 +46,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
             txtStatus = (TextView) itemView.findViewById(R.id.txtFollowupStatus);
             txtRemark = (TextView) itemView.findViewById(R.id.txtFollowupRemark);
             btnCall = (ImageView) itemView.findViewById(R.id.btnCall);
+            imgIcon = (ImageView) itemView.findViewById(R.id.imgIcon);
             //linearLayout = (LinearLayout) itemView.findViewById(R.id.ll_followup_item);
 
         }
@@ -73,6 +75,9 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
             }
         });
 
+        Glide.with(mContext)
+                .load(lstShareMessageEntity.getLinklogo())
+                .into(holder.imgIcon);
 
     }
 

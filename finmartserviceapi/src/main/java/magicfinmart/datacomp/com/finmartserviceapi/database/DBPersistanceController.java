@@ -46,8 +46,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 
-
-
 public class DBPersistanceController {
 
     public static final String EXTERNAL_LPG = "External LPG";
@@ -586,8 +584,10 @@ public class DBPersistanceController {
 
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle));
+
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
 
 
@@ -642,9 +642,9 @@ public class DBPersistanceController {
 
         dashboardEntities.add(new DashboardEntity("LOANS", 4, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
 
-         dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan));
-         dashboardEntities.add(new DashboardEntity("LOANS", 6, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer));
-         dashboardEntities.add(new DashboardEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 6, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer));
+        dashboardEntities.add(new DashboardEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan));
 
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
 
@@ -754,7 +754,7 @@ public class DBPersistanceController {
             for (int i = 0; i < master.getMasterData().size(); i++) {
 
                 if (insurerID.equalsIgnoreCase(master.getMasterData().get(i).getInsurer_id())) {
-                   // return master.getMasterData().get(i).getInsurer_id();
+                    // return master.getMasterData().get(i).getInsurer_id();
                     return getInsurername(Integer.valueOf(master.getMasterData().get(i).getInsurer_id()));
                 }
             }
@@ -909,13 +909,13 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
-    public void clearUserData()
-    {
+    public void clearUserData() {
         realm.beginTransaction();
         realm.delete(LoginResponseEntity.class);
         realm.delete(UserConstantEntity.class);
         realm.commitTransaction();
     }
+
     public void logout() {
         realm.beginTransaction();
         realm.delete(LoginResponseEntity.class);
