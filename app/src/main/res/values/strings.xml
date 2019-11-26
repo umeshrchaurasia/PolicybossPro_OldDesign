@@ -687,4 +687,5 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Yes</item>
         <item>No</item>
     </string-array>
+    <string name="title_activity_switch_user">SwitchUserActivity</string>
 </resources>
