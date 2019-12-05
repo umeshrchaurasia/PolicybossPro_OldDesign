@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/lyParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="2dp"
+
+            android:gravity="left|center_vertical"
+
+            android:src="@drawable/vector_person" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtTitle"
+                style="@style/TextViewStyle.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+
+                android:text="Edfewdww dwdw"
+                android:textSize="15dp"></TextView>
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:visibility="gone"
+                style="@style/TextViewStyle.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+
+                android:text="Test@gmail.com"
+                android:textSize="15dp"></TextView>
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.7dp"
+        android:layout_below="@+id/txtTitle"
+        android:background="@color/lightGrey" />
+
+</LinearLayout>

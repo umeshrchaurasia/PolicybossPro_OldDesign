@@ -291,4 +291,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             bitmap_image = result;
         }
     }
+
+
 }

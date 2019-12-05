@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultilanguageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
@@ -767,7 +768,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getEmailTemplate( String URL, String Type, final IResponseSubcriber iResponseSubcriber) {
+    public void getEmailTemplate(String URL, String Type, final IResponseSubcriber iResponseSubcriber) {
 
 
         HashMap<String, String> body = new HashMap<>();
@@ -806,7 +807,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getfieldsales( final IResponseSubcriber iResponseSubcriber) {
+    public void getfieldsales(final IResponseSubcriber iResponseSubcriber) {
 
         registerQuotesNetworkService.getfieldsales().enqueue(new Callback<RegisterSaleResponse>() {
             @Override
@@ -910,6 +911,44 @@ public class RegisterController implements IRegister {
                 }
             }
         });
+    }
+
+    @Override
+    public void getMultiLanguageDetail() {
+
+
+        registerQuotesNetworkService.getMultiLanguageDetail().enqueue(new Callback<MultilanguageResponse>() {
+            @Override
+            public void onResponse(Call<MultilanguageResponse> call, Response<MultilanguageResponse> response) {
+
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MultilanguageResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
     }
 
 }

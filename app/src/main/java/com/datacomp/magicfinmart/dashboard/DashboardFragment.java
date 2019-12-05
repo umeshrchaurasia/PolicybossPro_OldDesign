@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
@@ -66,6 +68,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     //LocationTracker locationTracker;
     //Location location;
     TextView tvKnowledge, tvPendingCAses, tvSalesMat;
+    String LangType = "";
 
 
     WifiManager mainWifi;
@@ -92,9 +95,17 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initialise(view);
 
+        if (getArguments() != null) {
+
+            LangType = getArguments().getString("LangType");
+            Toast.makeText(getActivity(), "Language Type" + LangType, Toast.LENGTH_SHORT);
+            //   setLanguage(LangType);
+
+        }
         setListener();
         receiverWifi = new WifiReceiver();
         wifiArrayList = new ArrayList<>();
@@ -218,8 +229,16 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         } else if (response instanceof UserConstatntResponse) {
             if (response.getStatusNo() == 0) {
 
-                mAdapter = new DashboardRowAdapter(DashboardFragment.this);
-                this.rvHome.setAdapter(mAdapter);
+
+                if (LangType == "") {
+                    mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+                    this.rvHome.setAdapter(mAdapter);
+                }else{
+                    mAdapter = new DashboardRowAdapter(DashboardFragment.this,LangType);
+                    this.rvHome.setAdapter(mAdapter);
+                }
+
+
             }
         }
 
@@ -330,4 +349,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     };
 
     //endregion
+
+
+
 }

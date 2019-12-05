@@ -1,5 +1,7 @@
 package com.datacomp.magicfinmart.dashboard;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 
@@ -22,10 +25,12 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     List<DashboardEntity> listInsur;
     DBPersistanceController dbPersistanceController;
     int fbaId = 0;
+    String LangType;
 
-    public DashboardItemAdapter(Fragment context, List<DashboardEntity> list) {
+    public DashboardItemAdapter(Fragment context, List<DashboardEntity> list,String langType) {
         mContext = context;
         listInsur = list;
+        LangType = langType;
         dbPersistanceController = new DBPersistanceController(mContext.getActivity());
         if (dbPersistanceController.getUserData().getFBAId() != 0) {
             fbaId = dbPersistanceController.getUserData().getFBAId();
@@ -68,8 +73,22 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((DashboardItemHolder) holder).imgIcon.setImageResource(listInsur.get(position).getIcon());
             }
 
-            ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
-            ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
+
+            if(LangType != "") {
+
+                ((DashboardItemHolder) holder).txtProductName.setText(dbPersistanceController.getLanguageData(LangType,listInsur.get(position).getProductName()));
+                ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLanguageData(LangType,listInsur.get(position).getProductDetails()));
+
+                setLanguage(mContext,LangType,  ((DashboardItemHolder) holder).txtProductName);
+                setLanguage(mContext,LangType,  ((DashboardItemHolder) holder).txtProductDesc);
+            }else{
+
+                ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
+                ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
+
+            }
+
+
 
             if (listInsur.get(position).getProductId() == 17) {
                 ((DashboardItemHolder) holder).imgNew.setVisibility(View.VISIBLE);
@@ -94,5 +113,35 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         return listInsur.size();
     }
 
+
+    public void setLanguage(Fragment mcontext, String langType, TextView tv) {
+
+        Typeface typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                "fonts/english.ttf");
+        if (langType.equals("EN")) {
+
+            // English
+            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                    "fonts/english.ttf");
+            //tv.setTypeface(fontHindi);
+        } else if (langType.equals("HI")) {
+            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                    "fonts/hindi.ttf");
+        } else if (langType.equals("MA")) {
+            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                    "fonts/marathi.ttf");
+        } else if (langType.equals("GU")) {
+            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                    "fonts/gujrati.ttf");
+        }
+
+        tv.setTypeface(typeface);
+
+//        for (int i = 0; i < viewList.size(); i++) {
+//            viewList.get(i).setTypeface(typeface);
+//        }
+
+
+    }
 
 }

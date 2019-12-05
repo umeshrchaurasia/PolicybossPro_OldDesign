@@ -13,11 +13,13 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -100,6 +102,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import io.cobrowse.CobrowseIO;
 import io.cobrowse.ui.CobrowseActivity;
@@ -133,7 +136,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour , txtswitchuser;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour, txtswitchuser;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -149,7 +152,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     MenuMasterResponse menuMasterResponse;
     AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
+    int selectedLang = -1;
+    String LANGUAGE;
 
+
+    List<TextView> textViewList;
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -198,6 +205,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
         registerPopUp(this);
         registerPermission(this);
@@ -234,6 +242,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
+
+        textViewList = new ArrayList<>();
 
         if (userConstantEntity != null && !userConstantEntity.getCobrowserlicensecode().equals("")) {
             setUpCoBrowser();
@@ -351,6 +361,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
 
+
+                    case R.id.nav_language:
+
+//                        lstMultLang = db.getMultiLangList();
+//                        if (lstMultLang.size() == 0) {
+//                            showDialog();
+//                            new RegisterController(HomeActivity.this).getMultiLanguageDetail();
+//                        } else {
+//                            showMultiLanguage();
+//                        }
+                        break;
 
                     case R.id.nav_insert_contact:
                         //  startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
@@ -1164,6 +1185,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 CallingDetailsPopUp(((UserCallingResponse) response).getMasterData());
             }
         }
+//        else if (response instanceof MultiLanguageResponse) {
+////
+////            if (response.getStatusNo() == 0) {
+////
+////                showMultiLanguage();
+////            }
+////        }
 
 
     }
@@ -2175,5 +2203,89 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         negative.setTextColor(getResources().getColor(R.color.header_light_text));
         positive.setTextColor(getResources().getColor(R.color.black));
     }
+
+
+    private void showMultiLanguage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Language...");// add a radio button list
+        String[] animals = {"English", "Hindi","Marathi","Gujrati"};
+        int checkedItem = -1; // Nothing Selected
+        selectedLang = -1;
+        LANGUAGE = "";
+        builder.setSingleChoiceItems(animals, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int lang) {
+
+                selectedLang = lang;
+                //Toast.makeText(HomeActivity.this, " Language Selected " + lang, Toast.LENGTH_LONG).show();
+            }
+        });// add OK and Cancel buttons
+        builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int lang) {
+                // user clicked OK
+                if (selectedLang != -1) {
+
+
+                    if(selectedLang == 0){
+                        LANGUAGE = "English";
+                    }else if(selectedLang == 1){
+                        LANGUAGE = "Hindi";
+                    }else if(selectedLang == 2){
+                        LANGUAGE = "Marathi";
+                    }else if(selectedLang == 3){
+                        LANGUAGE = "Gujrathi";
+                    }
+
+                    setTextViewForLang(LANGUAGE);
+
+                }
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);// create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setLocal(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.locale = locale;
+
+        this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
+        ///////////////////////////////
+
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+
+    }
+
+
+    private void setTextViewForLang( String langType)
+    {
+
+        Fragment fragment = null;
+        fragment = new DashboardFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("LangType",langType);
+        fragment.setArguments(bundle);
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment);
+        fragmentTransaction.commit();
+
+
+
+
+    }
+
 
 }

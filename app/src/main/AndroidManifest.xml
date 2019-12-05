@@ -1105,17 +1105,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-        <activity
-            android:name=".insert_contact.InsertContactActivity"
-            android:label="@string/title_activity_insert_contact"
-            android:parentActivityName=".home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
-        </activity>
+<!--        <activity-->
+<!--            android:name=".insert_contact.InsertContactActivity"-->
+<!--            android:label="@string/title_activity_insert_contact"-->
+<!--            android:parentActivityName=".home.HomeActivity"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@style/AppTheme"-->
+<!--            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">-->
+<!--            <meta-data-->
+<!--                android:name="android.support.PARENT_ACTIVITY"-->
+<!--                android:value="com.datacomp.magicfinmart.home.HomeActivity" />-->
+<!--        </activity>-->
         <activity
             android:name=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
             android:label="FINMART EXCLUSIVES"

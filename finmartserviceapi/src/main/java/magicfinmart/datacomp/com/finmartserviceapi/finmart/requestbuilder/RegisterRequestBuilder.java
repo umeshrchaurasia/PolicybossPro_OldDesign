@@ -11,6 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultilanguageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
@@ -154,6 +155,11 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/user-calling")
         Call<UserCallingResponse> getUserCallingDetail(@Body HashMap<String, String> body);
+
+        ///////////////////////////////// Multi Language Calling ///////////////////////////////
+        @Headers("token:" + token)
+        @POST("/api/GetLangData")
+        Call<MultilanguageResponse> getMultiLanguageDetail();
 
     }
 

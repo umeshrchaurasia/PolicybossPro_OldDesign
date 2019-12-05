@@ -62,4 +62,6 @@ public interface IRegister {
 
     void getUserCallingDetail(String fbaid, IResponseSubcriber iResponseSubcriber);
 
+    void getMultiLanguageDetail();
+
 }
