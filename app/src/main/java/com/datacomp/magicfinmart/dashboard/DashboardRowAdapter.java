@@ -249,7 +249,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
 
                     //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                    String append = "&ip_address=" + ipaddress + "&mac_address="
+                    String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext)
                             + "&product_id=1";
@@ -373,7 +373,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         ipaddress = "0.0.0.0";
                     }
 
-                    String append = "&ip_address=" + ipaddress + "&mac_address="
+                    String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext)
                             + "&product_id=10";
@@ -401,10 +401,29 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
 
             case 12:
-                //Life Insurance
-                mContext.startActivity(new Intent(mContext, TermSelectionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
-                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
+                //Commercial vehicle
+
+                String cvUrl = mReal.getUserConstantsData().getCVUrl();
+
+                String ipaddress = "0.0.0.0";
+                try {
+                    ipaddress = Utility.getMacAddress(mContext);
+                } catch (Exception io) {
+                    ipaddress = "0.0.0.0";
+                }
+
+                String append = "&ip_address=" + ipaddress + "&mac_address="
+                        + "&app_version=" + BuildConfig.VERSION_NAME
+                        + "&device_id=" + Utility.getDeviceId(mContext)
+                        + "&product_id=12";
+                cvUrl = cvUrl + append;
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", cvUrl)
+                        .putExtra("NAME", "Commercial Vehicle Insurance")
+                        .putExtra("TITLE", "Commercial Vehicle Insurance"));
+
+
+                MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
                 break;
 
             case 13:
@@ -442,6 +461,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHYA");
                 break;
 
+            case 18:
+                //Life Insurance
+                mContext.startActivity(new Intent(mContext, TermSelectionActivity.class));
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
+                break;
 
         }
 

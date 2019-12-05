@@ -58,6 +58,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     NotifyEntity notifyEntity;
     PrefManager prefManager;
 
+
+
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -266,7 +269,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         @Override
         protected void onPreExecute() {
-
             super.onPreExecute();
         }
 

@@ -95,8 +95,10 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.FirebaseIDService;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -790,6 +792,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             }
         });
+
+
 
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -260,6 +260,17 @@ public class UserConstantEntity extends RealmObject {
     private String FourWheelerEnabled;
     private String FourWheelerUrl;
 
+    //added by nilesh 25.11.2019
+    private String CVUrl;
+
+    public String getCVUrl() {
+        return CVUrl;
+    }
+
+    public void setCVUrl(String CVUrl) {
+        this.CVUrl = CVUrl;
+    }
+
 
     public String getTwoWheelerEnabled() {
         return TwoWheelerEnabled;

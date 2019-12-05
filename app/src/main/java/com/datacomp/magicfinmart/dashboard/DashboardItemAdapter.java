@@ -90,7 +90,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
 
-            if (listInsur.get(position).getProductId() == 17) {
+            //changed product id 17 to 12 for Commercial vehicle
+            //date : 26/11/2019
+            if (listInsur.get(position).getProductId() == 12) {
                 ((DashboardItemHolder) holder).imgNew.setVisibility(View.VISIBLE);
                 Glide.with(mContext).
                         load(R.drawable.newicon)
