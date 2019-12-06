@@ -439,19 +439,32 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Business Loan</item>
         <item>Car Loan</item>
         <item>Car Refinance</item>
+        <item>Credit Card</item>
         <item>Home Loan BT</item>
+        <item>Home Loan</item>
         <item>Lap BT</item>
+        <item>LAP</item>
         <item>LRD</item>
         <item>Merchant Business</item>
-        <!--<item>LAP</item>-->
-        <!--<item>Personal Loan</item>-->
-        <!--<item>Credit Card</item>-->
+        <item>Personal Loan</item>
+        <item>Term Loan</item>
         <item>Used Car Loan</item>
         <item>Working Capital</item>
-
-        <!--<item>Home Loan</item>-->
-        <!--<item>Term Loan</item>-->
-
+    </string-array>
+    <string-array name="quicklead_Company_Type">
+        <item>Company Type</item>
+        <item>Proprietorship</item>
+        <item>Partnership</item>
+        <item>PVT Ltd</item>
+        <item>Limited</item>
+        <item>Individual</item>
+        <item>Govt Entity</item>
+    </string-array>
+    <string-array name="quicklead_Profile">
+        <item>Profile</item>
+        <item>Salaried</item>
+        <item>Self Employed</item>
+        <item>Self Employed Professional</item>
     </string-array>
     <string-array name="icici_options">
         <item>LIFE</item>

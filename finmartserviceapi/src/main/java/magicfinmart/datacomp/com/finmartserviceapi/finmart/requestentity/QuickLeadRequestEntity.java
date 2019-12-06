@@ -18,6 +18,17 @@ public class QuickLeadRequestEntity {
      * Remark : Okae
      * followupDate : 03-08-2018
      */
+    /**
+     * Status : 43
+     * DOB : 1985-10-18
+     * PAN : CBHPS3919J
+     * CompanyName : Rupeeboss
+     * CompanyType : Pvt. Ltd.
+     * Profile : Self Employed
+     * Pincode : 4000070
+     * City : Mumbai
+     * State : Maharashtra
+     */
 
     private String brokerId;
     private String Name;
@@ -29,6 +40,16 @@ public class QuickLeadRequestEntity {
     private String Monthly_income;
     private String Remark;
     private String followupDate;
+
+    private String Status;
+    private String DOB;
+    private String PAN;
+    private String CompanyName;
+    private String CompanyType;
+    private String Profile;
+    private String Pincode;
+    private String City;
+    private String State;
 
     public String getBrokerId() {
         return brokerId;
@@ -108,5 +129,77 @@ public class QuickLeadRequestEntity {
 
     public void setFollowupDate(String followupDate) {
         this.followupDate = followupDate;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String Status) {
+        this.Status = Status;
+    }
+
+    public String getDOB() {
+        return DOB;
+    }
+
+    public void setDOB(String DOB) {
+        this.DOB = DOB;
+    }
+
+    public String getPAN() {
+        return PAN;
+    }
+
+    public void setPAN(String PAN) {
+        this.PAN = PAN;
+    }
+
+    public String getCompanyName() {
+        return CompanyName;
+    }
+
+    public void setCompanyName(String CompanyName) {
+        this.CompanyName = CompanyName;
+    }
+
+    public String getCompanyType() {
+        return CompanyType;
+    }
+
+    public void setCompanyType(String CompanyType) {
+        this.CompanyType = CompanyType;
+    }
+
+    public String getProfile() {
+        return Profile;
+    }
+
+    public void setProfile(String Profile) {
+        this.Profile = Profile;
+    }
+
+    public String getPincode() {
+        return Pincode;
+    }
+
+    public void setPincode(String Pincode) {
+        this.Pincode = Pincode;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String City) {
+        this.City = City;
+    }
+
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String State) {
+        this.State = State;
     }
 }

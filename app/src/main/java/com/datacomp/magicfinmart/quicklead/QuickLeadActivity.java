@@ -4,15 +4,19 @@ import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,17 +26,20 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -43,19 +50,30 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quicklead.QuickLeadController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.QuickLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuickLeadResponse;
 
 public class QuickLeadActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
-    EditText etName, etEmail, etMobile, etFollowupDate, etMonthlyIncome, etLoanAmount, etRemark;
-    Spinner spProduct;
+    EditText etFirstName,etLastName, etEmail, etMobile, etFollowupDate,  etLoanAmount, etRemark,
+            etPincode, etCity, etState,etdob,etPAN,etCompanyName,etMonthlyIncomeITR,
+            etyealyIncomeITR;
+    Spinner spProduct,spCompanyType,spprofile;
+    TableRow tbl_monthly,tbl_yearly;
     Button btnSubmit;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+    SimpleDateFormat simpleDateFormat_dob = new SimpleDateFormat("yyyy-MM-dd");
     ArrayAdapter<String> productTypeAdapter;
+    ArrayAdapter<String> CompanyTypeAdapter;
+    ArrayAdapter<String> profileAdapter;
+
     WebView webView;
     String url = "";
-
+    Boolean isDataUploaded = true;
+    QuickLeadRequestEntity requestEntity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,27 +81,59 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        requestEntity = new QuickLeadRequestEntity();
         init();
         spinnerProductBinding();
+
+
     }
 
     private void init() {
-        etName = (EditText) findViewById(R.id.etName);
+        etFirstName = (EditText) findViewById(R.id.etFirstName);
+        etLastName = (EditText) findViewById(R.id.etLastName);
+
+        etdob = (EditText) findViewById(R.id.etdob);
+        etPAN = (EditText) findViewById(R.id.etPAN);
+        etCompanyName = (EditText) findViewById(R.id.etCompanyName);
+
+        etMonthlyIncomeITR = (EditText) findViewById(R.id.etMonthlyIncomeITR);
+
+
+        etyealyIncomeITR = (EditText) findViewById(R.id.etyealyIncomeITR);
+
         etEmail = (EditText) findViewById(R.id.etEmail);
         etMobile = (EditText) findViewById(R.id.etMobile);
         etFollowupDate = (EditText) findViewById(R.id.etFollowupDate);
-        etMonthlyIncome = (EditText) findViewById(R.id.etMonthlyIncome);
-        etLoanAmount = (EditText) findViewById(R.id.etLoanAmount);
+         etLoanAmount = (EditText) findViewById(R.id.etLoanAmount);
         etRemark = (EditText) findViewById(R.id.etRemark);
 
+        tbl_monthly = (TableRow) findViewById(R.id.tbl_monthly);
+        tbl_yearly = (TableRow) findViewById(R.id.tbl_yearly);
+        tbl_monthly.setVisibility(View.GONE);
+        tbl_yearly.setVisibility(View.GONE);
+
         spProduct = (Spinner) findViewById(R.id.spProduct);
+        spCompanyType = (Spinner) findViewById(R.id.spCompanyType);
+        spprofile = (Spinner) findViewById(R.id.spprofile);
+
+        etPincode = (EditText) findViewById(R.id.etPincode);
+        etPincode.addTextChangedListener(pincodeTextWatcher);
+
+        etCity = (EditText) findViewById(R.id.etCity);
+        etState = (EditText) findViewById(R.id.etState);
+
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(this);
+
         etFollowupDate.setOnClickListener(datePicker);
+        etdob.setOnClickListener(datePickerdob);
+
+
         webView = findViewById(R.id.webView);
         url = "http://erp.rupeeboss.com/loansrepository/Loans-repository.html";
         settingWebview();
+
+
     }
 
     private void spinnerProductBinding() {
@@ -129,6 +179,43 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             }
         };
         spProduct.setAdapter(productTypeAdapter);
+
+        CompanyTypeAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.quicklead_Company_Type));
+        CompanyTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCompanyType.setAdapter(CompanyTypeAdapter);
+
+        profileAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.quicklead_Profile));
+        profileAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spprofile.setAdapter(profileAdapter);
+
+
+        spprofile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(position ==0)
+                {
+                    tbl_monthly.setVisibility(View.GONE);
+                    tbl_yearly.setVisibility(View.GONE);
+                }
+                else if(position ==1)
+                {
+                    tbl_monthly.setVisibility(View.VISIBLE);
+                    tbl_yearly.setVisibility(View.GONE);
+                }else if(position ==2 || position==3)
+                {
+                    tbl_monthly.setVisibility(View.GONE);
+                    tbl_yearly.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     protected View.OnClickListener datePicker = new View.OnClickListener() {
@@ -149,17 +236,50 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
+    protected View.OnClickListener datePickerdob = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Constants.hideKeyBoard(view, QuickLeadActivity.this);
+            DateTimePicker.openDatePicker(QuickLeadActivity.this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                    if (datePicker.isShown()) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        String currentDay = simpleDateFormat_dob.format(calendar.getTime());
+                        etdob.setText(currentDay);
+                    }
+                }
+            });
+        }
+    };
+
     @Override
     public void onClick(View view) {
 
         if (view.getId() == R.id.btnSubmit) {
 
-            if (!isEmpty(etName)) {
-                etName.setError("Enter Name");
-                etName.setFocusable(true);
+            if (!isEmpty(etFirstName)) {
+                etFirstName.setError("Enter First Name");
+                etFirstName.setFocusable(true);
                 return;
             } else {
-                etName.setError(null);
+                etFirstName.setError(null);
+            }
+            if (!isEmpty(etLastName)) {
+                etLastName.setError("Enter Last Name");
+                etLastName.setFocusable(true);
+                return;
+            } else {
+                etLastName.setError(null);
+            }
+
+            if (!isValidePhoneNumber(etMobile)) {
+                etMobile.setError("Enter Mobile Number");
+                etMobile.setFocusable(true);
+                return;
+            } else {
+                etMobile.setError(null);
             }
 
             if (!isValideEmailID(etEmail)) {
@@ -167,13 +287,12 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                 etEmail.setFocusable(true);
                 return;
             }
-
-            if (!isEmpty(etMobile)) {
-                etMobile.setError("Enter Mobile Number");
-                etMobile.setFocusable(true);
+            if (!isEmpty(etdob)) {
+                etdob.setError("Invalid Dob  date");
+                etdob.setFocusable(true);
                 return;
             } else {
-                etMobile.setError(null);
+                etdob.setError(null);
             }
             if (!isEmpty(etFollowupDate)) {
                 etFollowupDate.setError("Invalid Follow up date");
@@ -182,13 +301,29 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             } else {
                 etFollowupDate.setError(null);
             }
-
-            if (!isEmpty(etMonthlyIncome)) {
-                etMonthlyIncome.setError("Enter Monthly income");
-                etMonthlyIncome.setFocusable(true);
+            if (!isEmpty(etPAN)) {
+                etPAN.setError("Enter PAN Number");
+                etPAN.setFocusable(true);
                 return;
             } else {
-                etMonthlyIncome.setError(null);
+                etPAN.setError(null);
+            }
+            if (!isValidPan(etPAN)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                    etPAN.setError("Invalid PAN No.");
+                    etPAN.setFocusable(true);
+                 //   etPAN.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    return;
+                } else {
+                    etPAN.setError("Invalid PAN No.");
+                    etPAN.setFocusable(true);
+                    return;
+                }
+            }
+            if (spProduct.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "Select product", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             if (!isEmpty(etLoanAmount)) {
@@ -198,7 +333,70 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             } else {
                 etLoanAmount.setError(null);
             }
+            if (!isEmpty(etCompanyName)) {
+                etCompanyName.setError("Enter Company Name");
+                etCompanyName.setFocusable(true);
+                return;
+            } else {
+                etCompanyName.setError(null);
+            }
+            if (spCompanyType.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "Select Company Type", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (spprofile.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "Select Profile", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (spprofile.getSelectedItem().toString().equals("Salaried"))
+            {
+//                if (!isEmpty(etMonthlyIncome)) {
+//                    etMonthlyIncome.setError("Enter Monthly Obligation");
+//                    etMonthlyIncome.setFocusable(true);
+//                    return;
+//                } else {
+//                    etMonthlyIncome.setError(null);
+//                }
 
+                if (!isEmpty(etMonthlyIncomeITR)) {
+                    etMonthlyIncomeITR.setError("Enter Monthly Income ITR");
+                    etMonthlyIncomeITR.setFocusable(true);
+                    return;
+                } else {
+                    etMonthlyIncomeITR.setError(null);
+                }
+
+            }else {
+//                if (!isEmpty(etMonthlyIncomeYealy)) {
+//                    etMonthlyIncomeYealy.setError("Enter Yealy Obligation");
+//                    etMonthlyIncomeYealy.setFocusable(true);
+//                    return;
+//                } else {
+//                    etMonthlyIncomeYealy.setError(null);
+//                }
+
+                if (!isEmpty(etyealyIncomeITR)) {
+                    etyealyIncomeITR.setError("Enter Yealy Income ITR");
+                    etyealyIncomeITR.setFocusable(true);
+                    return;
+                } else {
+                    etyealyIncomeITR.setError(null);
+                }
+            }
+            if (!isEmpty(etPincode)) {
+                etPincode.setError("Enter Pincode");
+                etPincode.setFocusable(true);
+                return;
+            } else {
+                etPincode.setError(null);
+            }
+            if (etPincode.getText().length() == 6) {
+            }else
+            {
+                etPincode.setError("Enter Six Digit Pincode");
+                etPincode.setFocusable(true);
+                return;
+            }
             if (!isEmpty(etRemark)) {
                 etRemark.setError("Enter Remark");
                 etRemark.setFocusable(true);
@@ -207,23 +405,35 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                 etRemark.setError(null);
             }
 
-            if (spProduct.getSelectedItemPosition() == 0) {
-                Toast.makeText(this, "Select product", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
-            QuickLeadRequestEntity requestEntity = new QuickLeadRequestEntity();
+
+            requestEntity.setName("" +etFirstName.getText().toString() + etLastName.getText().toString());
             requestEntity.setBrokerId(new DBPersistanceController(this).getUserData().getLoanId());
             requestEntity.setEMail(etEmail.getText().toString());
             requestEntity.setFBA_Id(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
             requestEntity.setFollowupDate(etFollowupDate.getText().toString());
+            requestEntity.setDOB(etdob.getText().toString());
+            requestEntity.setStatus("43");
+            requestEntity.setPAN(etPAN.getText().toString());
             requestEntity.setLoan_amt(etLoanAmount.getText().toString());
             requestEntity.setMobile(etMobile.getText().toString());
-            requestEntity.setMonthly_income(etMonthlyIncome.getText().toString());
-            requestEntity.setProductId(String.valueOf(spProduct.getSelectedItemPosition()));
-            requestEntity.setRemark(etRemark.getText().toString());
-            requestEntity.setName(etName.getText().toString());
+            if (spprofile.getSelectedItem().toString()=="1")
+            {
+                requestEntity.setMonthly_income(etMonthlyIncomeITR.getText().toString());
+            }else
+            {
+                requestEntity.setMonthly_income(etyealyIncomeITR.getText().toString());
+            }
 
+            requestEntity.setProductId(String.valueOf(spProduct.getSelectedItemPosition()));
+            requestEntity.setCompanyName(etCompanyName.getText().toString());
+            requestEntity.setCompanyType(String.valueOf(spCompanyType.getSelectedItem()));
+            requestEntity.setProfile(String.valueOf(spprofile.getSelectedItem()));
+            requestEntity.setRemark(etRemark.getText().toString());
+
+            requestEntity.setPincode("" + etPincode.getText().toString());
+            requestEntity.setCity("" + etCity.getText().toString());
+            requestEntity.setState("" + etState.getText().toString());
             showDialog();
             new QuickLeadController(this).saveQuickLead(requestEntity, this);
         }
@@ -232,7 +442,26 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
-        if (response instanceof QuickLeadResponse) {
+        if (response instanceof PincodeResponse) {
+            if (response.getStatusNo() == 0) {
+                etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
+                etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+
+              //  requestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+              //  requestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
+              //  requestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
+
+            } else {
+
+                etState.setText("");
+                etCity.setText("");
+
+             //   requestEntity.setCity("");
+            //    requestEntity.setState("");
+              //  requestEntity.setStateID("0");
+
+            }
+        }else if (response instanceof QuickLeadResponse) {
             dialogMessage(true, ((QuickLeadResponse) response).getMasterData().getLead_Id(), response.getMessage());
         }
     }
@@ -300,6 +529,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
 
@@ -362,4 +592,30 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         webView.loadUrl(url);
     }
 
+
+    //region textwatcher
+    TextWatcher pincodeTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 5) {
+                etCity.setText("");
+                etState.setText("");
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if ((s.length() == 6) && (isDataUploaded)) {
+                showDialog("Fetching City...");
+                Toast.makeText(QuickLeadActivity.this, "Fetching City...Data", Toast.LENGTH_LONG).show();
+                new RegisterController(QuickLeadActivity.this).getCityState(etPincode.getText().toString(), QuickLeadActivity.this);
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 }

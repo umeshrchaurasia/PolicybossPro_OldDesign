@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -39,6 +40,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,10 +98,14 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import io.cobrowse.CobrowseIO;
 import io.cobrowse.ui.CobrowseActivity;
@@ -130,6 +136,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
 
     final String TAG = "HOME";
+    final String mapKey = "map_switchuser";
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
@@ -150,6 +157,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     MenuMasterResponse menuMasterResponse;
     AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
 
+    LinearLayout lstswitchuser,lstswitchuser_cancel;
+    TextView txtparentuser,txtchilduser;
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -586,9 +595,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+
     }
 
+    private Map<String, String> loadMap() {
+        Map<String, String> outputMap = new HashMap<>();
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
+                Context.MODE_PRIVATE);
+        try {
+            if (pSharedPref != null) {
+                String jsonString = pSharedPref.getString(mapKey, (new JSONObject()).toString());
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Iterator<String> keysItr = jsonObject.keys();
+                while (keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    outputMap.put(key, jsonObject.get(key).toString());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outputMap;
+    }
     private void setUpCoBrowser() {
+
         //region Co Browser
         CobrowseIO.instance().license(userConstantEntity.getCobrowserlicensecode());
         Log.i("App", "Cobrowse device id: " + CobrowseIO.instance().deviceId(this.getApplication()));
@@ -748,7 +778,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtPospNo = (TextView) headerView.findViewById(R.id.txtPospNo);
         txtErpID = (TextView) headerView.findViewById(R.id.txtErpID);
 
-        txtswitchuser = (TextView) headerView.findViewById(R.id.txtswitchuser);
+        txtparentuser = (TextView) headerView.findViewById(R.id.txtparentuser);
+        txtchilduser = (TextView) headerView.findViewById(R.id.txtchilduser);
+        lstswitchuser = (LinearLayout) headerView.findViewById(R.id.lstswitchuser);
+        lstswitchuser_cancel = (LinearLayout) headerView.findViewById(R.id.lstswitchuser_cancel);
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -778,7 +811,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
-        txtswitchuser.setOnClickListener(new View.OnClickListener() {
+        lstswitchuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this, SwitchUserActivity.class));
@@ -792,6 +825,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtDetails.setText("" + loginResponseEntity.getFullName());
             txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
             txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
+
+            //region Switch user Binding
+            Map<String, String> outputMap = loadMap();
+            if (outputMap != null && outputMap.size() > 0) {
+
+                txtDetails.setText("" + loginResponseEntity.getFullName());
+            }else
+            {
+                lstswitchuser.setVisibility(View.GONE);
+                lstswitchuser_cancel.setVisibility(View.GONE);
+            }
+            //endregion
+
         } else {
             txtDetails.setText("");
             txtFbaID.setText("Fba Id - ");

@@ -21,6 +21,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/llswitchuser"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="240dp"

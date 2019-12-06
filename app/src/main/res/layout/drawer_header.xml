@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="210dp"
     android:layout_marginTop="16dp"
     android:background="@color/colorAccent"
 
@@ -183,6 +183,53 @@
             android:text="Switch User"
             android:textColor="@android:color/white"
             />
+        <ImageView
+            android:id="@+id/ivAdd"
+            android:layout_width="24dp"
+
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/file_add" />
+
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:id="@+id/lstswitchuser_cancel">
+        <TextView
+            android:id="@+id/txtparentuser"
+            style="@style/TextViewStyle.Medium"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Child Name"
+            android:textColor="@android:color/white"
+
+            />
+        <TextView
+            android:id="@+id/txtchilduser"
+            style="@style/TextViewStyle.Medium"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Child Name"
+            android:textColor="@android:color/white"
+            />
+        <ImageView
+            android:id="@+id/ivCancel"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/cross" />
 
 
 

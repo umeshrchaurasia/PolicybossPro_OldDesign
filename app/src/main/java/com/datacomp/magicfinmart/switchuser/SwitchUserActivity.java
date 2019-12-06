@@ -43,7 +43,7 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
     Button btnswitchuser;
     PrefManager prefManager;
     LoginRequestEntity loginRequestEntity;
-    final String mapKey = "map";
+    final String mapKey = "map_switchuser";
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     @Override
@@ -62,6 +62,11 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
                 db = new DBPersistanceController(SwitchUserActivity.this);
                 loginResponseEntity = db.getUserData();
 
+                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+
                 Map<String, String> inputMap = new HashMap<String, String>();
                 inputMap.put("Parent_email", loginResponseEntity.getEmailID());
                 inputMap.put("Parent_name", loginResponseEntity.getUserName());
@@ -69,8 +74,8 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
                 inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
 
                 inputMap.put("Child_email", "finmart2016@gmail.com");
-                inputMap.put("Child_name", "val2");
-                inputMap.put("Child_UID", "val1");
+                inputMap.put("Child_name", "finmart2016");
+                inputMap.put("Child_UID", "");
                 inputMap.put("Child_Fbaid", "val2");
                 saveMap(inputMap);
 
@@ -79,10 +84,10 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
                 new DBPersistanceController(SwitchUserActivity.this).logout();
 
                 loginRequestEntity.setUserName("finmart2016@gmail.com");
-                loginRequestEntity.setPassword("12345");
+                loginRequestEntity.setPassword("");
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(SwitchUserActivity.this).getAndroidID());
                 loginRequestEntity.setTokenId("");
-
+                loginRequestEntity.setIsChildLogin("Y");
 
                 Map<String, String> outputMap = loadMap();
                 if (outputMap.containsKey("Parent_email")) {
@@ -130,7 +135,7 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
     }
 
     private void saveMap(Map<String, String> inputMap) {
-        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences("MyVariables",
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
                 Context.MODE_PRIVATE);
         if (pSharedPref != null) {
             JSONObject jsonObject = new JSONObject(inputMap);
@@ -144,7 +149,7 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
 
     private Map<String, String> loadMap() {
         Map<String, String> outputMap = new HashMap<>();
-        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences("MyVariables",
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
                 Context.MODE_PRIVATE);
         try {
             if (pSharedPref != null) {
