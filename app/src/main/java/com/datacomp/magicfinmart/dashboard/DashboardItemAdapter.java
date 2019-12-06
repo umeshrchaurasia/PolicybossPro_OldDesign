@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.dashboard;
 
-import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -16,18 +15,17 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
 public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Fragment mContext;
-    List<DashboardEntity> listInsur;
+    List<DashboardMultiLangEntity> listInsur;
     DBPersistanceController dbPersistanceController;
     int fbaId = 0;
     String LangType;
 
-    public DashboardItemAdapter(Fragment context, List<DashboardEntity> list,String langType) {
+    public DashboardItemAdapter(Fragment context, List<DashboardMultiLangEntity> list, String langType) {
         mContext = context;
         listInsur = list;
         LangType = langType;
@@ -74,20 +72,24 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
 
-            if(LangType != "") {
+            if ((!LangType.isEmpty()) && (!dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductNameKey()).trim().equals("")))
+            {
 
-                ((DashboardItemHolder) holder).txtProductName.setText(dbPersistanceController.getLanguageData(LangType,listInsur.get(position).getProductName()));
-                ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLanguageData(LangType,listInsur.get(position).getProductDetails()));
 
-                setLanguage(mContext,LangType,  ((DashboardItemHolder) holder).txtProductName);
-                setLanguage(mContext,LangType,  ((DashboardItemHolder) holder).txtProductDesc);
+                ((DashboardItemHolder) holder).txtProductName.setText(dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductNameKey()));
+                ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductDetailsKey()));
+
+
+                setLanguage(mContext, LangType, ((DashboardItemHolder) holder).txtProductName);
+                setLanguage(mContext, LangType, ((DashboardItemHolder) holder).txtProductDesc);
+
+
             }else{
 
                 ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
                 ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
 
             }
-
 
 
             //changed product id 17 to 12 for Commercial vehicle
@@ -120,29 +122,41 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         Typeface typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
                 "fonts/english.ttf");
-        if (langType.equals("EN")) {
 
-            // English
-            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                    "fonts/english.ttf");
-            //tv.setTypeface(fontHindi);
-        } else if (langType.equals("HI")) {
-            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                    "fonts/hindi.ttf");
-        } else if (langType.equals("MA")) {
-            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                    "fonts/marathi.ttf");
-        } else if (langType.equals("GU")) {
-            typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                    "fonts/gujrati.ttf");
+
+        switch (langType) {
+
+            case "English":
+                // English
+                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                        "fonts/english.ttf");
+                break;
+
+            case "Hindi":
+                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                        "fonts/hindi.ttf");
+                break;
+
+            case "Marathi":
+                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                        "fonts/marathi.ttf");
+                break;
+
+            case "Gujrathi":
+                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                        "fonts/gujrati.ttf");
+                break;
+
+
+            default:
+                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+                        "fonts/english.ttf");
         }
+
 
         tv.setTypeface(typeface);
 
-//        for (int i = 0; i < viewList.size(); i++) {
-//            viewList.get(i).setTypeface(typeface);
-//        }
-
+        /////////////////////////////////////////////////////////////////////////////////////////////
 
     }
 

@@ -101,7 +101,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         if (getArguments() != null) {
 
-            LangType = getArguments().getString("LangType");
+            LangType = getArguments().getString("LangType","");
             Toast.makeText(getActivity(), "Language Type" + LangType, Toast.LENGTH_SHORT);
             //   setLanguage(LangType);
 

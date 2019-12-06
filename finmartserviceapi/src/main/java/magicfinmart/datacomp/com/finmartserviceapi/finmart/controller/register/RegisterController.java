@@ -10,6 +10,8 @@ import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.AsyncBikeMaster;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.AsyncMultiLangOldMaster;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.RegisterRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.ContactLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
@@ -19,12 +21,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultiLangResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultilanguageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
@@ -914,7 +918,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getMultiLanguageDetail() {
+    public void getMultiLanguageDetail( final IResponseSubcriber iResponseSubcriber) {
 
 
         registerQuotesNetworkService.getMultiLanguageDetail().enqueue(new Callback<MultilanguageResponse>() {
@@ -950,5 +954,47 @@ public class RegisterController implements IRegister {
         });
 
     }
+
+
+    @Override
+    public void getMultiLanguageDetailOld( final IResponseSubcriber iResponseSubcriber) {
+
+
+        registerQuotesNetworkService.getMultiLanguageDetailOld().enqueue(new Callback<MultiLangResponse>() {
+            @Override
+            public void onResponse(Call<MultiLangResponse> call, Response<MultiLangResponse> response) {
+
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    new AsyncMultiLangOldMaster(mContext, response.body().getMasterData()).execute();
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MultiLangResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+
 
 }

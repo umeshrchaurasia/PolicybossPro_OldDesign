@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChangePasswordResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -171,6 +172,44 @@ public class LoginController implements ILogin {
 
             @Override
             public void onFailure(Call<ReferFriendResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getPospAgentData(String UID, String Name, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("UID", UID);
+        body.put("Name", Name);
+
+        loginNetworkService.getPospAgentData(body).enqueue(new Callback<PospAgentResponse>() {
+            @Override
+            public void onResponse(Call<PospAgentResponse> call, Response<PospAgentResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PospAgentResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

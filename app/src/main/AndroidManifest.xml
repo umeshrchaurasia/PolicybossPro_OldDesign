@@ -27,7 +27,8 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".switchuser.SwitchUserActivity"
-            android:label="@string/title_activity_switch_user"
+            android:label="Switch User"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".festivelink.festivelinkActivity"

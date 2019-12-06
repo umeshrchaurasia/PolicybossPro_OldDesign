@@ -48,6 +48,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
 
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -164,7 +165,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof InsuranceHolder) {
 
-            final List<DashboardEntity> listIns = mReal.getInsurProductList("");
+           // final List<DashboardEntity> listIns = mReal.getInsurProductList();
+            final List<DashboardMultiLangEntity> listIns = mReal.getInsurProductLangList();
 
             ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
             ((InsuranceHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_policyboss1));
@@ -186,7 +188,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         } else if (holder instanceof LoanHolder) {
-            final List<DashboardEntity> listLoan = mReal.getLoanProductList();
+         //   final List<DashboardEntity> listLoan = mReal.getLoanProductList();
+            final List<DashboardMultiLangEntity> listLoan = mReal.getLoanProductLangList();
             ((LoanHolder) holder).txtTypeName.setText("LOANS");
             ((LoanHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_rupeeboss1));
 
@@ -205,7 +208,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof MoreServiceHolder) {
 
-            final List<DashboardEntity> listMore = mReal.getMoreProductList();
+         //   final List<DashboardEntity> listMore = mReal.getMoreProductList();
+            final List<DashboardMultiLangEntity> listMore = mReal.getMoreProductLangList();
 
             ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
             ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
@@ -226,7 +230,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    private void switchMenus(DashboardEntity dashboardEntity) {
+    private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
 
         switch (productID) {

@@ -41,6 +41,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,10 +96,8 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.utility.FirebaseIDService;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -127,6 +126,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEnt
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultiLangResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
@@ -138,7 +138,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour, txtswitchuser;
+    LinearLayout lySwitchUser;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -366,13 +367,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_language:
 
-//                        lstMultLang = db.getMultiLangList();
-//                        if (lstMultLang.size() == 0) {
-//                            showDialog();
-//                            new RegisterController(HomeActivity.this).getMultiLanguageDetail();
-//                        } else {
-//                            showMultiLanguage();
-//                        }
+
+                        if (db.isMultiLangExist() == false) {
+                            showDialog();
+                            new RegisterController(HomeActivity.this).getMultiLanguageDetailOld(HomeActivity.this);
+                        } else {
+                            showMultiLanguage();
+                        }
                         break;
 
                     case R.id.nav_insert_contact:
@@ -771,7 +772,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtPospNo = (TextView) headerView.findViewById(R.id.txtPospNo);
         txtErpID = (TextView) headerView.findViewById(R.id.txtErpID);
 
-        txtswitchuser = (TextView) headerView.findViewById(R.id.txtswitchuser);
+        lySwitchUser = (LinearLayout) headerView.findViewById(R.id.lySwitchUser);
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -794,7 +795,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         });
 
 
-
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -803,10 +803,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
-        txtswitchuser.setOnClickListener(new View.OnClickListener() {
+        lySwitchUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, SwitchUserActivity.class));
+
+                startActivityForResult(new Intent(HomeActivity.this, SwitchUserActivity.class), 10);
             }
         });
 
@@ -1188,14 +1189,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 CallingDetailsPopUp(((UserCallingResponse) response).getMasterData());
             }
+        } else if (response instanceof MultiLangResponse) {
+
+            if (response.getStatusNo() == 0) {
+
+                showMultiLanguage();
+            }
         }
-//        else if (response instanceof MultiLanguageResponse) {
-////
-////            if (response.getStatusNo() == 0) {
-////
-////                showMultiLanguage();
-////            }
-////        }
 
 
     }
@@ -2212,7 +2212,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private void showMultiLanguage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choose Language...");// add a radio button list
-        String[] animals = {"English", "Hindi","Marathi","Gujrati"};
+        String[] animals = {"English", "Hindi", "Marathi", "Gujrati"};
         int checkedItem = -1; // Nothing Selected
         selectedLang = -1;
         LANGUAGE = "";
@@ -2231,13 +2231,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (selectedLang != -1) {
 
 
-                    if(selectedLang == 0){
+                    if (selectedLang == 0) {
                         LANGUAGE = "English";
-                    }else if(selectedLang == 1){
+                    } else if (selectedLang == 1) {
                         LANGUAGE = "Hindi";
-                    }else if(selectedLang == 2){
+                    } else if (selectedLang == 2) {
                         LANGUAGE = "Marathi";
-                    }else if(selectedLang == 3){
+                    } else if (selectedLang == 3) {
                         LANGUAGE = "Gujrathi";
                     }
 
@@ -2273,20 +2273,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    private void setTextViewForLang( String langType)
-    {
+    private void setTextViewForLang(String langType) {
 
         Fragment fragment = null;
         fragment = new DashboardFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("LangType",langType);
+        bundle.putString("LangType", langType);
         fragment.setArguments(bundle);
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
-
-
 
 
     }
