@@ -45,6 +45,7 @@ public class ShareMessageResponse extends APIResponse {
         private String MsgBody;
         private String link;
         private String title;
+        private String linklogo;
 
         public String getMsgBody() {
             return MsgBody;
@@ -68,6 +69,14 @@ public class ShareMessageResponse extends APIResponse {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public String getLinklogo() {
+            return linklogo;
+        }
+
+        public void setLinklogo(String linklogo) {
+            this.linklogo = linklogo;
         }
     }
 }
