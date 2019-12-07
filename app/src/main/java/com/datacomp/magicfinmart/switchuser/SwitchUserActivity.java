@@ -55,12 +55,15 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
         loginRequestEntity = new LoginRequestEntity();
         btnswitchuser = (Button) findViewById(R.id.btnswitchuser);
 
+        prefManager = new PrefManager(SwitchUserActivity.this);
+        db = new DBPersistanceController(SwitchUserActivity.this);
+        loginResponseEntity = db.getUserData();
+
         btnswitchuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                db = new DBPersistanceController(SwitchUserActivity.this);
-                loginResponseEntity = db.getUserData();
+
 
                 SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -68,25 +71,26 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
                 editor.commit();
 
                 Map<String, String> inputMap = new HashMap<String, String>();
-                inputMap.put("Parent_email", loginResponseEntity.getEmailID());
-                inputMap.put("Parent_name", loginResponseEntity.getUserName());
+                inputMap.put("Parent_email", loginResponseEntity.getEmailID());//
+                inputMap.put("Parent_name", loginResponseEntity.getFullName());
                 inputMap.put("Parent_UID", "");
                 inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
 
                 inputMap.put("Child_email", "finmart2016@gmail.com");
                 inputMap.put("Child_name", "finmart2016");
                 inputMap.put("Child_UID", "");
-                inputMap.put("Child_Fbaid", "val2");
+                inputMap.put("Child_Fbaid", "122");
                 saveMap(inputMap);
 
+                // Clear the Dta
+                prefManager.clearAll();
+                db.logout();
 
-                new PrefManager(SwitchUserActivity.this).clearAll();
-                new DBPersistanceController(SwitchUserActivity.this).logout();
-
+                // Set the Data
                 loginRequestEntity.setUserName("finmart2016@gmail.com");
                 loginRequestEntity.setPassword("");
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(SwitchUserActivity.this).getAndroidID());
-                loginRequestEntity.setTokenId("");
+                loginRequestEntity.setTokenId(prefManager.getToken());
                 loginRequestEntity.setIsChildLogin("Y");
 
                 Map<String, String> outputMap = loadMap();
@@ -102,8 +106,7 @@ public class SwitchUserActivity extends BaseActivity  implements IResponseSubcri
                     String s4 = outputMap.get("Parent_Fbaid").toString();
                 }
 
-                new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this
-                );
+                new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
 
 
             }

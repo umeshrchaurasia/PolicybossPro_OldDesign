@@ -96,6 +96,7 @@ import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivi
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.FirebaseIDService;
+import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -116,6 +117,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -127,8 +129,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
@@ -143,7 +147,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour , txtswitchuser;
-    ImageView ivProfile;
+    ImageView ivProfile,ivCancel;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     String versionNAme;
@@ -159,7 +163,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     MenuMasterResponse menuMasterResponse;
     AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
 
-    LinearLayout lstswitchuser,lstswitchuser_cancel;
+    LinearLayout lstswitchuser,lstswitchChild_user;
     TextView txtparentuser,txtchilduser;
 
     //region broadcast receiver
@@ -498,6 +502,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, SendTemplateSmsActivity.class));
                         break;
                     case R.id.nav_logout:
+                        //switch user clear
+                        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.commit();
+
                         dialogLogout(HomeActivity.this);
                         break;
 
@@ -783,7 +793,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtparentuser = (TextView) headerView.findViewById(R.id.txtparentuser);
         txtchilduser = (TextView) headerView.findViewById(R.id.txtchilduser);
         lstswitchuser = (LinearLayout) headerView.findViewById(R.id.lstswitchuser);
-        lstswitchuser_cancel = (LinearLayout) headerView.findViewById(R.id.lstswitchuser_cancel);
+        lstswitchChild_user = (LinearLayout) headerView.findViewById(R.id.lstswitchChild_user);
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -805,7 +815,32 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
+        ivCancel= (ImageView) headerView.findViewById(R.id.ivCancel);
+        lstswitchChild_user.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v){
+                 new PrefManager(HomeActivity.this).clearAll();
+                 new DBPersistanceController(HomeActivity.this).logout();
+                 LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
+                 Map<String, String> outputMap = loadMap();
+                 if (outputMap != null && outputMap.size() > 0) {
 
+                     loginRequestEntity.setUserName(outputMap.get("Parent_email").toString());
+                 }
+
+                 SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                 SharedPreferences.Editor editor = preferences.edit();
+                 editor.clear();
+                 editor.commit();
+
+                 loginRequestEntity.setPassword("");
+                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
+                 loginRequestEntity.setTokenId(prefManager.getToken());
+                 loginRequestEntity.setIsChildLogin("Y");
+
+                 new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
+             }
+         });
 
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -833,12 +868,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             //region Switch user Binding
             Map<String, String> outputMap = loadMap();
             if (outputMap != null && outputMap.size() > 0) {
+                lstswitchuser.setVisibility(View.GONE);
+                lstswitchChild_user.setVisibility(View.VISIBLE);
+             //   txtDetails.setText("" + loginResponseEntity.getFullName());
+                txtparentuser.setText("" + outputMap.get("Parent_name"));
+                txtchilduser.setText("  " + outputMap.get("Child_name"));
 
-                txtDetails.setText("" + loginResponseEntity.getFullName());
             }else
             {
-                lstswitchuser.setVisibility(View.GONE);
-                lstswitchuser_cancel.setVisibility(View.GONE);
+                lstswitchuser.setVisibility(View.VISIBLE);
+                lstswitchChild_user.setVisibility(View.GONE);
             }
             //endregion
 
@@ -1081,7 +1120,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
-        if (response instanceof MpsResponse) {
+        if (response instanceof LoginResponse) {
+            if (response.getStatusNo() == 0) {
+
+                // prefManager.setIsUserLogin(true);
+
+                Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+
+            } else {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }else if (response instanceof MpsResponse) {
 
             if (response.getStatusNo() == 0) {
 

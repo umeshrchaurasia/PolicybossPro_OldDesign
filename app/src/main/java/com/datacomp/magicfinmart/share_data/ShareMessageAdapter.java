@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.datacomp.magicfinmart.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
 
 public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapter.MyViewHolder> {
@@ -78,6 +80,16 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
         Glide.with(mContext)
                 .load(lstShareMessageEntity.getLinklogo())
                 .into(holder.imgIcon);
+
+
+        holder.imgIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.loadWebViewUrlInBrowser(mContext.getContext(),  lstShareMessageEntity.getLink());
+
+            }
+        });
+      
 
     }
 

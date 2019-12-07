@@ -1,7 +1,9 @@
 package com.datacomp.magicfinmart.login;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
 import io.realm.Realm;
@@ -203,6 +206,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
+                //switch user clear
+                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+
                 loginRequestEntity.setUserName(etEmail.getText().toString());
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
