@@ -6,6 +6,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChangePasswordResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
@@ -42,5 +43,10 @@ public class LoginRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/validate-refer-code")
         Call<ReferFriendResponse> referFriend(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/GetChildUsersApi")
+        Call<PospAgentResponse> getPospAgentData(@Body HashMap<String, String> body);
+
     }
 }
