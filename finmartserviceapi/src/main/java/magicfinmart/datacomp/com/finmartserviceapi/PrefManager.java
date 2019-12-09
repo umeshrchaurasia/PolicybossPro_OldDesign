@@ -26,6 +26,7 @@ public class PrefManager {
     private static final String MOTOR_VERSION = "motor_master_version";
     private static final String POPUP_COUNTER = "popup_counter_value";
     private static final String POPUP_ID = "popup_id";
+    private static final String IS_USER_PASSWORD = "user_password";
     private static final String NotificationTypeEnable = "NotificationType_Enable";
     private static final String MsgFirst_Check = "msgfirst_check";
     private static final String ContactFirst_Check = "Contactfirst_check";
@@ -67,6 +68,17 @@ public class PrefManager {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+
+
+    public void setUserPassword(String pwd) {
+
+        editor.putString(IS_USER_PASSWORD, pwd);
+        editor.commit();
+    }
+
+    public String getUserPassword() {
+        return pref.getString(IS_USER_PASSWORD, "");
     }
 
     //region vehicle detail

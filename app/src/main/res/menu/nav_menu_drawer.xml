@@ -14,7 +14,7 @@
             android:id="@+id/nav_language"
             android:icon="@drawable/logout"
             android:orderInCategory="100"
-            android:title="SWITCH LANGUAGE" />
+            android:title="Switch Language" />
 
         <item
             android:id="@+id/nav_finbox"

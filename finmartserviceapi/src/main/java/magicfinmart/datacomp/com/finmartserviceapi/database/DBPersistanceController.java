@@ -1031,6 +1031,16 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
+    public void clearSwitchUser() {
+        realm.beginTransaction();
+        realm.delete(LoginResponseEntity.class);
+        realm.delete(AccountDtlEntity.class);
+        realm.delete(DocsEntity.class);
+        realm.delete(UserConstantEntity.class);
+        realm.commitTransaction();
+    }
+
+
     public LoginResponseEntity getUserData() {
         LoginResponseEntity entity = realm.where(LoginResponseEntity.class).findFirst();
         if (entity != null)

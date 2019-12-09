@@ -49,7 +49,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static int PERMISSION_DENIED = 0;
 
 
-
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.ACCESS_FINE_LOCATION",
@@ -84,8 +83,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     //region permission
 
     private boolean checkPermission() {
-
-
 
 
         int camera = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
@@ -273,6 +270,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
+                prefManager.setUserPassword("" + etPassword.getText().toString());
                 // prefManager.setIsUserLogin(true);
                 if (!prefManager.getSharePushType().equals("")) {
 
@@ -302,4 +300,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Failure : " + t.getMessage()), "Login"), null);
     }
+
+
 }

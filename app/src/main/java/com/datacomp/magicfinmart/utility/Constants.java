@@ -116,6 +116,7 @@ public class Constants {
     public static String PASSWORD = "password";
     public static String WEB_URL = "WEBURL";
     public static int REQUEST_CODE = 22;
+    public static int SWITCH_USER_REQUEST_CODE = 10;
     public static String PRODUCT_ID = "salesProductID";
     public static String DOC_DATA = "docData";
     public static String SHARE_ACTIVITY_NAME = "shareactivityname";

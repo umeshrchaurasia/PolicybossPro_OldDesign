@@ -97,7 +97,6 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.utility.FirebaseIDService;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
@@ -109,8 +108,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Locale;
+import java.util.Map;
 
 import io.cobrowse.CobrowseIO;
 import io.cobrowse.ui.CobrowseActivity;
@@ -149,8 +148,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour , txtswitchuser;
-    ImageView ivProfile,ivCancel;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour, txtswitchuser;
+    ImageView ivProfile, ivCancel;
     LinearLayout lySwitchUser;
 
     LoginResponseEntity loginResponseEntity;
@@ -170,10 +169,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     int selectedLang = -1;
     String LANGUAGE;
 
-    LinearLayout lstswitchuser,lstswitchChild_user;
-    TextView txtparentuser,txtchilduser;
+    LinearLayout lstswitchuser, lstswitchChild_user;
+    TextView txtparentuser, txtchilduser;
 
     List<TextView> textViewList;
+
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -269,6 +269,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         getNotificationAction();
 
         init_headers();
+
+        setNavigationMenu();    // Set Navigation Drawer
 
 
         if (savedInstanceState == null) {
@@ -630,6 +632,109 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+
+    private void setNavigationMenu() {
+        MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink,
+                nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment,
+                nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,
+
+                nav_AppointmentLetter, nav_Certificate, nav_TRANSACTIONS, nav_mybusiness_insurance,
+                nav_transactionhistory, nav_MessageCentre, nav_crnpolicy,
+                nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail,
+                nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew,
+                nav_cobrowser, nav_logout;
+
+
+        Menu menu = navigationView.getMenu();
+
+        nav_home = menu.findItem(R.id.nav_home);
+        nav_language = menu.findItem(R.id.nav_language);
+        nav_finbox = menu.findItem(R.id.nav_finbox);
+        nav_finperk = menu.findItem(R.id.nav_finperk);
+        nav_festivelink = menu.findItem(R.id.nav_festivelink);
+
+        nav_insert_contact = menu.findItem(R.id.nav_insert_contact);
+        nav_myaccount_pro = menu.findItem(R.id.nav_myaccount_pro);
+        nav_myaccount = menu.findItem(R.id.nav_myaccount);
+        nav_pospenrollment = menu.findItem(R.id.nav_pospenrollment);
+
+        nav_addposp = menu.findItem(R.id.nav_addposp);
+        nav_raiseTicket = menu.findItem(R.id.nav_raiseTicket);
+        nav_changepassword = menu.findItem(R.id.nav_changepassword);
+        nav_Doc = menu.findItem(R.id.nav_Doc);
+
+        nav_franchise = menu.findItem(R.id.nav_franchise);
+        nav_AppointmentLetter = menu.findItem(R.id.nav_AppointmentLetter);
+        nav_Certificate = menu.findItem(R.id.nav_Certificate);
+        nav_TRANSACTIONS = menu.findItem(R.id.nav_TRANSACTIONS);
+
+        nav_mybusiness_insurance = menu.findItem(R.id.nav_mybusiness_insurance);
+        nav_transactionhistory = menu.findItem(R.id.nav_transactionhistory);
+        nav_MessageCentre = menu.findItem(R.id.nav_MessageCentre);
+        nav_crnpolicy = menu.findItem(R.id.nav_crnpolicy);
+
+        nav_LEADS = menu.findItem(R.id.nav_LEADS);
+        nav_contact = menu.findItem(R.id.nav_contact);
+        nav_generateLead = menu.findItem(R.id.nav_generateLead);
+        nav_scan_vehicle = menu.findItem(R.id.nav_scan_vehicle);
+        nav_sharedata = menu.findItem(R.id.nav_sharedata);
+
+        nav_leaddetail = menu.findItem(R.id.nav_leaddetail);
+        nav_sendSmsTemplate = menu.findItem(R.id.nav_sendSmsTemplate);
+        nav_OtherLoan = menu.findItem(R.id.nav_OtherLoan);
+        nav_REQUEST = menu.findItem(R.id.nav_REQUEST);
+
+        nav_MYUtilities = menu.findItem(R.id.nav_MYUtilities);
+        nav_whatsnew = menu.findItem(R.id.nav_whatsnew);
+        nav_cobrowser = menu.findItem(R.id.nav_cobrowser);
+        nav_logout = menu.findItem(R.id.nav_logout);
+
+
+        nav_home.setTitle("Home");
+        nav_language.setTitle("Switch Language");
+        nav_finbox.setTitle("MY FINBOX");
+        nav_finperk.setTitle("FINPERKS");
+        nav_festivelink.setTitle("FESTIVE LINKS");
+
+        nav_insert_contact.setTitle("Finmart Business Contact");
+        nav_myaccount_pro.setTitle("MY ACCOUNT");
+        nav_myaccount.setTitle("My Profile");
+        nav_pospenrollment.setTitle("Enrol as POSP");
+
+
+        nav_addposp.setTitle("Add Sub User");
+        nav_raiseTicket.setTitle("Raise a Ticket");
+        nav_changepassword.setTitle("Change Password");
+        nav_Doc.setTitle("My DOCUMENTS");
+        nav_franchise.setTitle("Loan Agreement");
+
+        nav_AppointmentLetter.setTitle("POSP Appointment Letter");
+        nav_Certificate.setTitle("POSP Application Form");
+        nav_TRANSACTIONS.setTitle("MY TRANSACTIONS");
+        nav_mybusiness_insurance.setTitle("My Insurance Business");
+        nav_transactionhistory.setTitle("My Transactions");
+
+
+        nav_MessageCentre.setTitle("My Messages");
+        nav_crnpolicy.setTitle("Get Policy by CRN");
+        nav_LEADS.setTitle("MY LEADS");
+        nav_contact.setTitle("Create Lead from Contact");
+        nav_generateLead.setTitle("Generate Motor Leads");
+
+
+        nav_scan_vehicle.setTitle("Scan Vehicle");
+        nav_sharedata.setTitle("Generate Loan Leads");
+        nav_leaddetail.setTitle("Lead Dashboard");
+        nav_sendSmsTemplate.setTitle("Sms Templates");
+        nav_OtherLoan.setTitle("OTHER LOAN PRODUCTS");
+
+
+        nav_REQUEST.setTitle("MORE SERVICES");
+        nav_MYUtilities.setTitle("MY UTILITIES");
+        nav_whatsnew.setTitle("WHAT'S NEW");
+        nav_cobrowser.setTitle("Co Browser User");
 
     }
 
@@ -652,8 +757,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         return outputMap;
     }
-    private void setUpCoBrowser() {
 
+    private void setUpCoBrowser() {
         //region Co Browser
         CobrowseIO.instance().license(userConstantEntity.getCobrowserlicensecode());
         Log.i("App", "Cobrowse device id: " + CobrowseIO.instance().deviceId(this.getApplication()));
@@ -839,32 +944,38 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
-        ivCancel= (ImageView) headerView.findViewById(R.id.ivCancel);
+        ivCancel = (ImageView) headerView.findViewById(R.id.ivCancel);
         lstswitchChild_user.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v){
-                 new PrefManager(HomeActivity.this).clearAll();
-                 new DBPersistanceController(HomeActivity.this).logout();
-                 LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
-                 Map<String, String> outputMap = loadMap();
-                 if (outputMap != null && outputMap.size() > 0) {
+            @Override
+            public void onClick(View v) {
 
-                     loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
-                 }
+                LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
+                Map<String, String> outputMap = loadMap();
+                if (outputMap != null && outputMap.size() > 0) {
 
-                 SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
-                 SharedPreferences.Editor editor = preferences.edit();
-                 editor.clear();
-                 editor.commit();
+                    loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
+                    loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
+                }
 
-                 loginRequestEntity.setPassword("");
-                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
-                 loginRequestEntity.setTokenId(prefManager.getToken());
-                 loginRequestEntity.setIsChildLogin("Y");
 
-                 new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
-             }
-         });
+
+
+                loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
+                loginRequestEntity.setTokenId(prefManager.getToken());
+                loginRequestEntity.setIsChildLogin("Y");
+
+                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+
+                new PrefManager(HomeActivity.this).clearAll();
+
+                new DBPersistanceController(HomeActivity.this).clearSwitchUser();
+
+                new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
+            }
+        });
 
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -896,12 +1007,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (outputMap != null && outputMap.size() > 0) {
                 lstswitchuser.setVisibility(View.GONE);
                 lstswitchChild_user.setVisibility(View.VISIBLE);
-             //   txtDetails.setText("" + loginResponseEntity.getFullName());
+                //   txtDetails.setText("" + loginResponseEntity.getFullName());
                 txtparentuser.setText("" + outputMap.get("Parent_name"));
                 txtchilduser.setText("  " + outputMap.get("Child_name"));
 
-            }else
-            {
+            } else {
                 lstswitchuser.setVisibility(View.VISIBLE);
                 lstswitchChild_user.setVisibility(View.GONE);
             }
@@ -1151,7 +1261,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 // prefManager.setIsUserLogin(true);
 
-                Intent intent = new Intent(HomeActivity.this,HomeActivity.class);
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
@@ -1159,7 +1269,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }else if (response instanceof MpsResponse) {
+        } else if (response instanceof MpsResponse) {
 
             if (response.getStatusNo() == 0) {
 
@@ -1426,6 +1536,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.onResume();
 
         // will be upadte everytyime user comes on dashboard
+
         if (loginResponseEntity != null) {
             new MasterController(this).getConstants(this);
             new MasterController(this).geUserConstant(1, this);
@@ -1458,6 +1569,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 int Counter = prefManager.getNotificationCounter();
                 textNotifyItemCount.setText("" + Counter);
                 textNotifyItemCount.setVisibility(View.GONE);
+
+            }
+
+        } else if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
+            if (data != null) {
+
+
+                Map<String, String> outputMap = loadMap();
+                if (outputMap != null && outputMap.size() > 0) {
+                    lstswitchuser.setVisibility(View.GONE);
+                    lstswitchChild_user.setVisibility(View.VISIBLE);
+                    //   txtDetails.setText("" + loginResponseEntity.getFullName());
+                    txtparentuser.setText("" + outputMap.get("Parent_name"));
+                    txtchilduser.setText("  " + outputMap.get("Child_name"));
+
+                } else {
+                    lstswitchuser.setVisibility(View.VISIBLE);
+                    lstswitchChild_user.setVisibility(View.GONE);
+                }
+
+
+                db = new DBPersistanceController(this);
+                loginResponseEntity = db.getUserData();
+
 
             }
 

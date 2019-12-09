@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
@@ -30,15 +28,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospAgentEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
@@ -102,7 +96,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
     }
 
     private void saveMap(Map<String, String> inputMap) {
-        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences("MyVariables",
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
                 Context.MODE_PRIVATE);
         if (pSharedPref != null) {
             JSONObject jsonObject = new JSONObject(inputMap);
@@ -142,15 +136,12 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
-                // prefManager.setIsUserLogin(true);
 
-
-                Intent intent = new Intent(SwitchUserActivity.this, HomeActivity.class);
-                // intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-
+                Intent intent = new Intent();
+                intent.putExtra("POSP_USER", "True");
+                setResult(Constants.SWITCH_USER_REQUEST_CODE, intent);
                 finish();
+                // prefManager.setIsUserLogin(true);
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -213,6 +204,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         inputMap.put("Parent_email", loginResponseEntity.getEmailID());
         inputMap.put("Parent_name", loginResponseEntity.getFullName());
         inputMap.put("Parent_UID", userConstantEntity.getUserid());
+        inputMap.put("Parent_PWD", prefManager.getUserPassword());
         inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
 
         inputMap.put("Child_email", pospAgentEntity.getEmailId());
@@ -230,8 +222,12 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
 
         //   dialogLogout(SwitchUserActivity.this);
         new PrefManager(SwitchUserActivity.this).clearAll();
-        new clearFromDb().execute();
-        //  new DBPersistanceController(SwitchUserActivity.this).logout();
+
+        new DBPersistanceController(SwitchUserActivity.this).clearSwitchUser();
+
+        showDialog();
+        new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
+
 
     }
 
@@ -258,10 +254,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
                         public void onClick(DialogInterface dialog, int which) {
 
                             getUserSwitchData(pospAgentEntity);
-                            Intent intent = new Intent();
-                            intent.putExtra("POSP_USER", "Data");
-                            setResult(10, intent);
-                            finish();
+
                             Toast.makeText(SwitchUserActivity.this, "User Switched Successfully...", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -283,50 +276,4 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
     }
 
 
-    public class clearFromDb extends AsyncTask<Void, Void, Void> {
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            Realm realm = null;
-            try {
-                realm = Realm.getDefaultInstance();
-                realm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        realm.delete(LoginResponseEntity.class);
-                        realm.delete(AccountDtlEntity.class);
-                        realm.delete(DocsEntity.class);
-                        realm.delete(UserConstantEntity.class);
-
-
-                    }
-                });
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                if (realm != null) {
-                    realm.close();
-                }
-            }
-            return null;
-
-        }
-
-        protected void onPostExecute() {
-
-            showDialog();
-
-            new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
-
-        }
-    }
 }
