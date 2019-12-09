@@ -49,7 +49,7 @@
                 style="@style/Style.edittext"
                 android:drawableRight="@drawable/vector_email_white"
                 android:inputType="textEmailAddress"
-                android:text="testfl@gmail.com"
+                android:text="100072"
                 android:textColor="@color/white" />
         </android.support.design.widget.TextInputLayout>
 
@@ -67,7 +67,7 @@
                 style="@style/Style.edittext"
                 android:drawableRight="@drawable/vector_password"
                 android:inputType="textPassword"
-                android:text="01011980"
+                android:text="100072"
                 android:textColor="@color/white" />
         </android.support.design.widget.TextInputLayout>
 

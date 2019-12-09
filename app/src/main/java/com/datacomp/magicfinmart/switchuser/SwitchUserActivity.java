@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +20,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
+import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
 import org.json.JSONObject;
 
@@ -29,13 +30,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospAgentEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
@@ -44,13 +50,14 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
     Button btnswitchuser;
     PrefManager prefManager;
     LoginRequestEntity loginRequestEntity;
-    final String mapKey = "map";
+    final String mapKey = "map_switchuser";
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     RecyclerView rvSwitchUser;
     SwitchUserAdapter mAdapter;
     List<PospAgentEntity> switchUserLst;
     EditText etSearch;
+    UserConstantEntity userConstantEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +68,16 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         loginRequestEntity = new LoginRequestEntity();
+        prefManager = new PrefManager(this);
         db = new DBPersistanceController(SwitchUserActivity.this);
         loginResponseEntity = db.getUserData();
-
+        userConstantEntity = db.getUserConstantsData();
 
         initialize();
         setTextWatcher();
         showDialog();
 
-        new LoginController(SwitchUserActivity.this).getPospAgentData("0", "", SwitchUserActivity.this);
+        new LoginController(SwitchUserActivity.this).getPospAgentData(userConstantEntity.getUserid(), "", SwitchUserActivity.this);
 
         etSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,6 +147,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
 
                 Intent intent = new Intent(SwitchUserActivity.this, HomeActivity.class);
                 // intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
                 finish();
@@ -193,58 +202,46 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         });
     }
 
-    private void getUserSwitchData(PospAgentEntity pospAgentEntity)
-    {
-        //        Map<String, String> inputMap = new HashMap<String, String>();
-//        inputMap.put("Parent_email", loginResponseEntity.getEmailID());
-//        inputMap.put("Parent_name", loginResponseEntity.getUserName());
-//        inputMap.put("Parent_UID", "");
-//        inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
-//
-//        inputMap.put("Child_email", "finmart2016@gmail.com");
-//        inputMap.put("Child_name", "val2");
-//        inputMap.put("Child_UID", "val1");
-//        inputMap.put("Child_Fbaid", "val2");
-//        saveMap(inputMap);
-//
-//
-//        new PrefManager(SwitchUserActivity.this).clearAll();
-//        new DBPersistanceController(SwitchUserActivity.this).logout();
-//
-//        loginRequestEntity.setUserName("finmart2016@gmail.com");
-//        loginRequestEntity.setPassword("12345");
-//        loginRequestEntity.setDeviceId("" + new ReadDeviceID(SwitchUserActivity.this).getAndroidID());
-//        loginRequestEntity.setTokenId("");
-//
-//
-//        Map<String, String> outputMap = loadMap();
-//        if (outputMap.containsKey("Parent_email")) {
-//            String s1 = outputMap.get("Parent_email").toString();
-//        }
-//        if (outputMap.containsKey("Parent_name")) {
-//            String s2 = outputMap.get("Parent_name").toString();
-//        }
-//        if (outputMap.containsKey("Parent_UID")) {
-//            String s3 = outputMap.get("Parent_UID").toString();
-//        }
-//        if (outputMap.containsKey("Parent_Fbaid")) {
-//            String s4 = outputMap.get("Parent_Fbaid").toString();
-//        }
-//
-//        new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
+    private void getUserSwitchData(PospAgentEntity pospAgentEntity) {
+        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+
+
+        Map<String, String> inputMap = new HashMap<String, String>();
+        inputMap.put("Parent_email", loginResponseEntity.getEmailID());
+        inputMap.put("Parent_name", loginResponseEntity.getFullName());
+        inputMap.put("Parent_UID", userConstantEntity.getUserid());
+        inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
+
+        inputMap.put("Child_email", pospAgentEntity.getEmailId());
+        inputMap.put("Child_name", pospAgentEntity.getName());
+        inputMap.put("Child_UID", "");
+        inputMap.put("Child_Fbaid", pospAgentEntity.getFBAID());
+        saveMap(inputMap);
+
+
+        loginRequestEntity.setUserName(pospAgentEntity.getEmailId());
+        loginRequestEntity.setPassword("");
+        loginRequestEntity.setDeviceId("" + new ReadDeviceID(SwitchUserActivity.this).getAndroidID());
+        loginRequestEntity.setTokenId(prefManager.getToken());
+        loginRequestEntity.setIsChildLogin("Y");
+
+        //   dialogLogout(SwitchUserActivity.this);
+        new PrefManager(SwitchUserActivity.this).clearAll();
+        new clearFromDb().execute();
+        //  new DBPersistanceController(SwitchUserActivity.this).logout();
 
     }
 
     public void redirectToSwitchUser(PospAgentEntity pospAgentEntity) {
 
 
-
         ConfirmSwitchUser(pospAgentEntity);
 
 
-
     }
-
 
 
     public void ConfirmSwitchUser(PospAgentEntity pospAgentEntity) {
@@ -252,7 +249,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
             AlertDialog.Builder builder = new AlertDialog.Builder(SwitchUserActivity.this);
             builder.setTitle("Switch User");
 
-            builder.setMessage("Do you want to swith your account on: " +pospAgentEntity.getName());
+            builder.setMessage("Do you want to swith your account on: " + pospAgentEntity.getName());
             String positiveText = "Submit";
             String NegativeText = "Cancel";
             builder.setPositiveButton(positiveText,
@@ -282,6 +279,54 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
             dialog.show();
         } catch (Exception ex) {
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    public class clearFromDb extends AsyncTask<Void, Void, Void> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            Realm realm = null;
+            try {
+                realm = Realm.getDefaultInstance();
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        realm.delete(LoginResponseEntity.class);
+                        realm.delete(AccountDtlEntity.class);
+                        realm.delete(DocsEntity.class);
+                        realm.delete(UserConstantEntity.class);
+
+
+                    }
+                });
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                if (realm != null) {
+                    realm.close();
+                }
+            }
+            return null;
+
+        }
+
+        protected void onPostExecute() {
+
+            showDialog();
+
+            new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
+
         }
     }
 }

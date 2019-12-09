@@ -152,8 +152,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour , txtswitchuser;
     ImageView ivProfile,ivCancel;
     LinearLayout lySwitchUser;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour;
-    ImageView ivProfile;
+
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     String versionNAme;
@@ -818,7 +817,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtchilduser = (TextView) headerView.findViewById(R.id.txtchilduser);
         lstswitchuser = (LinearLayout) headerView.findViewById(R.id.lstswitchuser);
         lstswitchChild_user = (LinearLayout) headerView.findViewById(R.id.lstswitchChild_user);
-        lySwitchUser = (LinearLayout) headerView.findViewById(R.id.lySwitchUser);
+
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -850,7 +849,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                  Map<String, String> outputMap = loadMap();
                  if (outputMap != null && outputMap.size() > 0) {
 
-                     loginRequestEntity.setUserName(outputMap.get("Parent_email").toString());
+                     loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
                  }
 
                  SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
@@ -875,7 +874,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
-        lySwitchUser.setOnClickListener(new View.OnClickListener() {
+
         lstswitchuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

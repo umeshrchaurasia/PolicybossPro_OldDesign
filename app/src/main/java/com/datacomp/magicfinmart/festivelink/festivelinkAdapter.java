@@ -46,7 +46,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         final FestivalCompaignEntity lstShareMessageEntity = lstShareMessageEntities.get(position);
     //    holder.txtName.setText(lstShareMessageEntity.getName());
-        holder.txttitle.setText(lstShareMessageEntity.getTitle());
+        holder.txttitle.setText(lstShareMessageEntity.getDescription());
         holder.txtshorturl.setText(lstShareMessageEntity.getShorturl());
 
         if (lstShareMessageEntity.getImagelink() != null) {
@@ -71,7 +71,7 @@ public class festivelinkAdapter extends RecyclerView.Adapter<festivelinkAdapter.
 
 
 
-                        ((festivelinkActivity) mContext).shareData(lstShareMessageEntity.getImagelink(),lstShareMessageEntity.getTitle(),lstShareMessageEntity.getTitle()+ "\n"+"Click on this link :- " +lstShareMessageEntity.getShorturl());
+              ((festivelinkActivity) mContext).shareData(lstShareMessageEntity.getImagelink(),lstShareMessageEntity.getTitle(),lstShareMessageEntity.getTitle()+ "\n"+"Click on this link :- " +lstShareMessageEntity.getShorturl());
            }
         });
 
