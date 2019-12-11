@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-public class FestivalCompaignEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class FestivalCompaignEntity implements Parcelable {
         /**
          * campaignid : 1
          * name : test name
@@ -21,7 +24,30 @@ public class FestivalCompaignEntity {
         private String url;
         private String baseurl;
 
-        public int getCampaignid() {
+    protected FestivalCompaignEntity(Parcel in) {
+        campaignid = in.readInt();
+        name = in.readString();
+        imagelink = in.readString();
+        title = in.readString();
+        description = in.readString();
+        shorturl = in.readString();
+        url = in.readString();
+        baseurl = in.readString();
+    }
+
+    public static final Creator<FestivalCompaignEntity> CREATOR = new Creator<FestivalCompaignEntity>() {
+        @Override
+        public FestivalCompaignEntity createFromParcel(Parcel in) {
+            return new FestivalCompaignEntity(in);
+        }
+
+        @Override
+        public FestivalCompaignEntity[] newArray(int size) {
+            return new FestivalCompaignEntity[size];
+        }
+    };
+
+    public int getCampaignid() {
             return campaignid;
         }
 
@@ -84,4 +110,21 @@ public class FestivalCompaignEntity {
         public void setBaseurl(String baseurl) {
             this.baseurl = baseurl;
         }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(campaignid);
+        dest.writeString(name);
+        dest.writeString(imagelink);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(shorturl);
+        dest.writeString(url);
+        dest.writeString(baseurl);
+    }
+}

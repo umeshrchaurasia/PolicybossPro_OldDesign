@@ -51,10 +51,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Name">
+                            android:hint="First Name">
 
                             <EditText
-                                android:id="@+id/etName"
+                                android:id="@+id/etFirstName"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="1" />
@@ -65,22 +65,21 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Email">
+                            android:hint="Last Name">
 
                             <EditText
-                                android:id="@+id/etEmail"
+                                android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
-                                android:inputType="textEmailAddress"
+                                android:inputType="text"
                                 android:maxLines="1" />
 
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
-
                     <TableRow
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginTop="4dp">
+                        android:layout_height="fill_parent">
+
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="0dp"
@@ -92,8 +91,41 @@
                                 android:id="@+id/etMobile"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
+                                android:maxLength="10"
                                 android:maxLines="1" />
 
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Email ID">
+
+                            <EditText
+                                android:id="@+id/etEmail"
+                                style="@style/Style.edittext"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="DOB">
+
+                            <EditText
+                                android:id="@+id/etdob"
+                                style="@style/Style.edittext"
+                                android:focusable="false" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -135,14 +167,17 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Monthly Income">
+                            android:hint="PAN">
 
                             <EditText
-                                android:id="@+id/etMonthlyIncome"
+                                android:id="@+id/etPAN"
                                 style="@style/Style.edittext"
-                                android:inputType="number"
-                                android:maxLength="9"
+
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                                android:inputType="textCapCharacters"
+                                android:maxLength="10"
                                 android:maxLines="1" />
+
                         </android.support.design.widget.TextInputLayout>
                     </TableRow>
 
@@ -178,6 +213,175 @@
                     </TableRow>
 
                     <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        >
+
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Company Name">
+
+                            <EditText
+                                android:id="@+id/etCompanyName"
+                                style="@style/Style.edittext"
+                                android:inputType="text"
+                                android:maxLines="1" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+
+
+                            <Spinner
+                                android:id="@+id/spCompanyType"
+                                style="@style/SpinnerStyle.Underlined"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:entries="@array/quicklead_Company_Type"
+                                android:gravity="center" />
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+
+                        <Spinner
+                            android:id="@+id/spprofile"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:entries="@array/quicklead_Profile"
+                            android:gravity="center"
+
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tbl_monthly"
+                        android:visibility="gone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Monthly Income as per ITR">
+
+                            <EditText
+                                android:id="@+id/etMonthlyIncomeITR"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+
+                                android:maxLength="9"
+                                android:maxLines="1" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                     android:id="@+id/tbl_yearly"
+                        android:visibility="gone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+
+
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Yealy Income as per ITR">
+
+                            <EditText
+
+                                android:id="@+id/etyealyIncomeITR"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+                                android:maxLength="9"
+                                android:maxLines="1" />
+                        </android.support.design.widget.TextInputLayout>
+                    </TableRow>
+                    <TableRow
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="PINCODE">
+
+                            <EditText
+                                android:id="@+id/etPincode"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+                                android:digits="0123456789"
+                                android:maxLength="6" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="CITY">
+
+                            <EditText
+                                android:id="@+id/etCity"
+                                style="@style/Style.edittext"
+                                android:enabled="false" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+                    </TableRow>
+                    <TableRow
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="STATE">
+
+                            <EditText
+                                android:id="@+id/etState"
+                                style="@style/Style.edittext"
+                                android:enabled="false" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    </TableRow>
+                    <TableRow
+
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_marginTop="4dp">

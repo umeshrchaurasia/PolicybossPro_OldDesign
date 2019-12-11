@@ -69,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="2dp"
                         android:gravity="left"
+                        android:visibility="gone"
                         android:maxLines="3"></TextView>
 
                 </LinearLayout>

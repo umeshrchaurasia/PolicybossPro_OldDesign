@@ -218,7 +218,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         } else if (response instanceof UserConstatntResponse) {
             if (response.getStatusNo() == 0) {
 
-                mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+                mAdapter = new DashboardRowAdapter(DashboardFragment.this,0,1);
                 this.rvHome.setAdapter(mAdapter);
             }
         }
@@ -256,20 +256,6 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
     }
 
-    /*@Override
-    public void onLocationChanged(Location location) {
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnected() {
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnectionFailed() {
-        location = null;
-    }*/
 
     @Override
     public void onClick(View v) {
@@ -296,7 +282,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void refreshAdapter() {
-        mAdapter = new DashboardRowAdapter(this);
+        mAdapter = new DashboardRowAdapter(this,0,1);
         rvHome.setAdapter(mAdapter);
     }
 

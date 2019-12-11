@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg1"
-    android:orientation="vertical"
-    tools:context=".festivelink.festivelinkActivity">
+
+    tools:context=".festivelink.festivalShareActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -23,22 +21,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <TextView
-        style="@style/TextViewStyle.Large"
-        android:background="@color/header_dark_text"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="CONCEPT BROCHURES"
-
-        android:textColor="@color/white"
-        android:textStyle="bold" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerShareMSG"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+    <include layout="@layout/content_festival_share" />
 
 
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -6,19 +6,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
 public class QuickLeadRequestEntity {
 
-    /**
-     * brokerId : 163
-     * Name : Test
-     * EMail : joeljangam146@gmail.com
-     * Mobile : 9789678678
-     * ProductId : 9
-     * Loan_amt : 500000
-     * FBA_Id : 1234
-     * Monthly_income : 50000
-     * Remark : Okae
-     * followupDate : 03-08-2018
-     */
-
     private String brokerId;
     private String Name;
     private String EMail;
@@ -29,6 +16,16 @@ public class QuickLeadRequestEntity {
     private String Monthly_income;
     private String Remark;
     private String followupDate;
+
+    private String Status;
+    private String DOB;
+    private String PAN;
+    private String CompanyName;
+    private String CompanyType;
+    private String Profile;
+    private String Pincode;
+    private String City;
+    private String State;
 
     public String getBrokerId() {
         return brokerId;
@@ -109,4 +106,77 @@ public class QuickLeadRequestEntity {
     public void setFollowupDate(String followupDate) {
         this.followupDate = followupDate;
     }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String Status) {
+        this.Status = Status;
+    }
+
+    public String getDOB() {
+        return DOB;
+    }
+
+    public void setDOB(String DOB) {
+        this.DOB = DOB;
+    }
+
+    public String getPAN() {
+        return PAN;
+    }
+
+    public void setPAN(String PAN) {
+        this.PAN = PAN;
+    }
+
+    public String getCompanyName() {
+        return CompanyName;
+    }
+
+    public void setCompanyName(String CompanyName) {
+        this.CompanyName = CompanyName;
+    }
+
+    public String getCompanyType() {
+        return CompanyType;
+    }
+
+    public void setCompanyType(String CompanyType) {
+        this.CompanyType = CompanyType;
+    }
+
+    public String getProfile() {
+        return Profile;
+    }
+
+    public void setProfile(String Profile) {
+        this.Profile = Profile;
+    }
+
+    public String getPincode() {
+        return Pincode;
+    }
+
+    public void setPincode(String Pincode) {
+        this.Pincode = Pincode;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String City) {
+        this.City = City;
+    }
+
+    public String getState() {
+        return State;
+    }
+
+    public void setState(String State) {
+        this.State = State;
+    }
+
 }

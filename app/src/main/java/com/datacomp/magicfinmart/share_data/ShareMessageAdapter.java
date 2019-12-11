@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.datacomp.magicfinmart.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
 
 public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapter.MyViewHolder> {
@@ -62,7 +64,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
 
 
     @Override
-    public void onBindViewHolder(ShareMessageAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         final ShareMessageResponse.LstShareMessageEntity lstShareMessageEntity = lstShareMessageEntities.get(position);
         // lnk = "http://staging.rupeeboss.com/balance-transfer?empcode="+ Utility.EmpCode;
         holder.txtName.setText(lstShareMessageEntity.getTitle());
@@ -78,6 +80,16 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
         Glide.with(mContext)
                 .load(lstShareMessageEntity.getLinklogo())
                 .into(holder.imgIcon);
+
+
+        holder.imgIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.loadWebViewUrlInBrowser(mContext.getContext(),  lstShareMessageEntity.getLink());
+
+            }
+        });
+      
 
     }
 
@@ -123,17 +135,17 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
 
                     if (packageName.contains("android.email")) {
 
-                        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
                         shareIntent.setPackage(packageName);
 
                     } else if (packageName.contains("twitter")) {
 
-                        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
                         shareIntent.setPackage(packageName);
 
                     } else if (packageName.contains("facebook.katana")) {
 
-                        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
                         shareIntent.setType("text/plain");
                         shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
                         shareIntent.setPackage("com.facebook.katana");
@@ -158,7 +170,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
                     } else if (packageName.contains("messaging")) {
                         shareIntent.setPackage(packageName);
                     } else if (packageName.contains("com.google.android.apps.plus")) {
-                        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
                         shareIntent.setPackage(packageName);
 
                     }
@@ -176,7 +188,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
                         }
 
                     } else if (packageName.contains("android.gm")) {
-                        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
                         shareIntent.setPackage(packageName);
 
                     }

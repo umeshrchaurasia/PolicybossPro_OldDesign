@@ -117,6 +117,7 @@ public class Constants {
     public static int REQUEST_CODE = 22;
     public static String PRODUCT_ID = "salesProductID";
     public static String DOC_DATA = "docData";
+    public static String FESTIVAL_DATA = "festivalData";
     public static String SHARE_ACTIVITY_NAME = "shareactivityname";
     public static final int PERMISSION_CALLBACK_CONSTANT = 100;
     public static final int REQUEST_PERMISSION_SETTING = 101;
