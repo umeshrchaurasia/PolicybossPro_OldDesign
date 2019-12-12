@@ -236,7 +236,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
-        toolbar.setTitle("MAGIC FIN-MART");
+
 
 
         try {
@@ -262,6 +262,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         textViewList = new ArrayList<>();
 
+        toolbar.setTitle("MAGIC FIN-MART");
+
+
         if (userConstantEntity != null && !userConstantEntity.getCobrowserlicensecode().equals("")) {
             setUpCoBrowser();
         }
@@ -270,7 +273,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         init_headers();
 
-        setNavigationMenu();    // Set Navigation Drawer
+
+        setNavigationMenu( prefManager.getLanguage());    // Set Navigation Drawer
 
 
         if (savedInstanceState == null) {
@@ -376,7 +380,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        break;
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
-                        getSupportActionBar().setTitle("MAGIC FIN-MART");
+                       // getSupportActionBar().setTitle("MAGIC FIN-MART");
+                        if(prefManager.getLanguage().equals(""))
+                        {
+                            getSupportActionBar().setTitle("MAGIC FIN-MART");
+                        }else{
+                            getSupportActionBar().setTitle(db.getLangData( prefManager.getLanguage(), "Title"));
+                        }
+
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
 
@@ -635,7 +646,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    private void setNavigationMenu() {
+    private void setNavigationMenu(String language) {
+
+        getSupportActionBar().setTitle(db.getLangData(language, "Title"));   // setTitle
+
         MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink,
                 nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment,
                 nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,
@@ -648,6 +662,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         Menu menu = navigationView.getMenu();
+
 
         nav_home = menu.findItem(R.id.nav_home);
         nav_language = menu.findItem(R.id.nav_language);
@@ -692,49 +707,118 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         nav_logout = menu.findItem(R.id.nav_logout);
 
 
-        nav_home.setTitle("Home");
-        nav_language.setTitle("Switch Language");
-        nav_finbox.setTitle("MY FINBOX");
-        nav_finperk.setTitle("FINPERKS");
-        nav_festivelink.setTitle("FESTIVE LINKS");
+        // region comment
+//        nav_home.setTitle("Home");
+//        nav_language.setTitle("Switch Language");
+//        nav_finbox.setTitle("MY FINBOX");
+//        nav_finperk.setTitle("FINPERKS");
+//        nav_festivelink.setTitle("FESTIVE LINKS");
+//
+//        nav_insert_contact.setTitle("Finmart Business Contact");
+//        nav_myaccount_pro.setTitle("MY ACCOUNT");
+//        nav_myaccount.setTitle("My Profile");
+//        nav_pospenrollment.setTitle("Enrol as POSP");
+//
+//
+//        nav_addposp.setTitle("Add Sub User");
+//        nav_raiseTicket.setTitle("Raise a Ticket");
+//        nav_changepassword.setTitle("Change Password");
+//        nav_Doc.setTitle("My DOCUMENTS");
+//        nav_franchise.setTitle("Loan Agreement");
+//
+//        nav_AppointmentLetter.setTitle("POSP Appointment Letter");
+//        nav_Certificate.setTitle("POSP Application Form");
+//        nav_TRANSACTIONS.setTitle("MY TRANSACTIONS");
+//        nav_mybusiness_insurance.setTitle("My Insurance Business");
+//        nav_transactionhistory.setTitle("My Transactions");
+//
+//
+//        nav_MessageCentre.setTitle("My Messages");
+//        nav_crnpolicy.setTitle("Get Policy by CRN");
+//        nav_LEADS.setTitle("MY LEADS");
+//        nav_contact.setTitle("Create Lead from Contact");
+//        nav_generateLead.setTitle("Generate Motor Leads");
+//
+//
+//        nav_scan_vehicle.setTitle("Scan Vehicle");
+//        nav_sharedata.setTitle("Generate Loan Leads");
+//        nav_leaddetail.setTitle("Lead Dashboard");
+//        nav_sendSmsTemplate.setTitle("Sms Templates");
+//        nav_OtherLoan.setTitle("OTHER LOAN PRODUCTS");
+//
+//
+//        nav_REQUEST.setTitle("MORE SERVICES");
+//        nav_MYUtilities.setTitle("MY UTILITIES");
+//        nav_whatsnew.setTitle("WHAT'S NEW");
+//        nav_cobrowser.setTitle("Co Browser User");
+//        nav_logout.setTitle("LOG-OUT");
 
-        nav_insert_contact.setTitle("Finmart Business Contact");
-        nav_myaccount_pro.setTitle("MY ACCOUNT");
-        nav_myaccount.setTitle("My Profile");
-        nav_pospenrollment.setTitle("Enrol as POSP");
+        //endregion
+
+        if (!language.isEmpty()) {
+
+            HashMap<String, MenuItem> menuItems = new HashMap<String, MenuItem>();
+            menuItems.put("MenuHome", nav_home);
+            menuItems.put("Switch Language", nav_language);
+            menuItems.put("MenuMyFinbox", nav_finbox);
+            menuItems.put("MenuFinperks", nav_finperk);
+            menuItems.put("FESTIVE LINKS", nav_festivelink);
+
+            menuItems.put("Finmart Business Contact", nav_insert_contact);
+            menuItems.put("MenuMyAccount", nav_myaccount_pro);
+            menuItems.put("MenuMyProfile", nav_myaccount);
+            menuItems.put("Enrol as POSP", nav_pospenrollment);
+
+            menuItems.put("", nav_addposp);
+            menuItems.put("MenuRaiseTicket", nav_raiseTicket);
+            menuItems.put("MenuChangePwd", nav_changepassword);
+            menuItems.put("MenuMyDocs", nav_Doc);
+
+            menuItems.put("MenuLoanAgr", nav_franchise);
+            menuItems.put("MenuPospAppLtr", nav_AppointmentLetter);
+            menuItems.put("MenuPospAppForm", nav_Certificate);
+            menuItems.put("MenuMyTranTitle", nav_TRANSACTIONS);
 
 
-        nav_addposp.setTitle("Add Sub User");
-        nav_raiseTicket.setTitle("Raise a Ticket");
-        nav_changepassword.setTitle("Change Password");
-        nav_Doc.setTitle("My DOCUMENTS");
-        nav_franchise.setTitle("Loan Agreement");
+            menuItems.put("MenuInsBus", nav_mybusiness_insurance);
+            menuItems.put("MenuMyTransItm", nav_transactionhistory);
+            menuItems.put("MenuMyMsgs", nav_MessageCentre);
+            menuItems.put("MenuPolicyByCRN", nav_crnpolicy);
 
-        nav_AppointmentLetter.setTitle("POSP Appointment Letter");
-        nav_Certificate.setTitle("POSP Application Form");
-        nav_TRANSACTIONS.setTitle("MY TRANSACTIONS");
-        nav_mybusiness_insurance.setTitle("My Insurance Business");
-        nav_transactionhistory.setTitle("My Transactions");
-
-
-        nav_MessageCentre.setTitle("My Messages");
-        nav_crnpolicy.setTitle("Get Policy by CRN");
-        nav_LEADS.setTitle("MY LEADS");
-        nav_contact.setTitle("Create Lead from Contact");
-        nav_generateLead.setTitle("Generate Motor Leads");
+            menuItems.put("MenuMyLeads", nav_LEADS);
+            menuItems.put("MenuLeadfromCont", nav_contact);
+            menuItems.put("MenuMotLeads", nav_generateLead);
+            menuItems.put("", nav_scan_vehicle);
+            menuItems.put("MenuLoanLeads", nav_sharedata);
 
 
-        nav_scan_vehicle.setTitle("Scan Vehicle");
-        nav_sharedata.setTitle("Generate Loan Leads");
-        nav_leaddetail.setTitle("Lead Dashboard");
-        nav_sendSmsTemplate.setTitle("Sms Templates");
-        nav_OtherLoan.setTitle("OTHER LOAN PRODUCTS");
+            menuItems.put("MenuLeadDash", nav_leaddetail);
+            menuItems.put("MenuSms", nav_sendSmsTemplate);
+            menuItems.put("MenuOthLoanProds", nav_OtherLoan);
+            menuItems.put("MenuMorServ", nav_REQUEST);
+
+            menuItems.put("MenuUtil", nav_MYUtilities);
+            menuItems.put("Menuwtsnew", nav_whatsnew);
+            menuItems.put("", nav_cobrowser);
+            menuItems.put("MenuLogOut", nav_logout);
 
 
-        nav_REQUEST.setTitle("MORE SERVICES");
-        nav_MYUtilities.setTitle("MY UTILITIES");
-        nav_whatsnew.setTitle("WHAT'S NEW");
-        nav_cobrowser.setTitle("Co Browser User");
+            for (String key : menuItems.keySet()) {
+
+
+                //  String strTitle = db.getLangData(language, key.toString());
+
+                if (!db.getLangData(language, key).equals("")) {
+
+                    //   Log.d("Menu Data", "" + menuItems.get(key).getTitle());
+
+                    menuItems.get(key).setTitle(db.getLangData(language, key));
+                    setLanguageFont(this, language, menuItems.get(key));
+                }
+            }
+
+        }
+
 
     }
 
@@ -899,7 +983,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     public void selectHome() {
-        getSupportActionBar().setTitle("MAGIC FIN-MART");
+
+        if(prefManager.getLanguage().equals(""))
+        {
+            getSupportActionBar().setTitle("MAGIC FIN-MART");
+        }else{
+            getSupportActionBar().setTitle(db.getLangData( prefManager.getLanguage(), "Title"));
+        }
         Fragment fragment = new DashboardFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
     }
@@ -956,8 +1046,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
                     loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
                 }
-
-
 
 
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
@@ -2478,7 +2566,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         LANGUAGE = "Gujrathi";
                     }
 
+                    prefManager.setLanguage(LANGUAGE);
+
                     setTextViewForLang(LANGUAGE);
+
+                    setNavigationMenu(LANGUAGE);
 
                 }
 
@@ -2512,6 +2604,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     private void setTextViewForLang(String langType) {
 
+      //  getSupportActionBar().setTitle(db.getLangData(langType, "Title"));
         Fragment fragment = null;
         fragment = new DashboardFragment();
         Bundle bundle = new Bundle();

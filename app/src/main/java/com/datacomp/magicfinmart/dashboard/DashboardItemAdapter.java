@@ -5,12 +5,14 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;
@@ -80,8 +82,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductDetailsKey()));
 
 
-                setLanguage(mContext, LangType, ((DashboardItemHolder) holder).txtProductName);
-                setLanguage(mContext, LangType, ((DashboardItemHolder) holder).txtProductDesc);
+                ((BaseFragment)mContext).setLanguage( LangType, ((DashboardItemHolder) holder).txtProductName);
+                ((BaseFragment)mContext).setLanguage( LangType, ((DashboardItemHolder) holder).txtProductDesc);
 
 
             }else{
@@ -118,46 +120,87 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
-    public void setLanguage(Fragment mcontext, String langType, TextView tv) {
+//    public void setLanguage(Fragment mcontext, String langType, TextView tv) {
+//
+//        Typeface typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                "fonts/english.ttf");
+//
+//
+//        switch (langType) {
+//
+//            case "English":
+//                // English
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/english.ttf");
+//                break;
+//
+//            case "Hindi":
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/hindi.ttf");
+//                break;
+//
+//            case "Marathi":
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/marathi.ttf");
+//                break;
+//
+//            case "Gujrathi":
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/gujrati.ttf");
+//                break;
+//
+//
+//            default:
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/english.ttf");
+//        }
+//
+//
+//        tv.setTypeface(typeface);
+//
+//
+//    }
 
-        Typeface typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                "fonts/english.ttf");
-
-
-        switch (langType) {
-
-            case "English":
-                // English
-                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                        "fonts/english.ttf");
-                break;
-
-            case "Hindi":
-                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                        "fonts/hindi.ttf");
-                break;
-
-            case "Marathi":
-                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                        "fonts/marathi.ttf");
-                break;
-
-            case "Gujrathi":
-                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                        "fonts/gujrati.ttf");
-                break;
-
-
-            default:
-                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
-                        "fonts/english.ttf");
-        }
-
-
-        tv.setTypeface(typeface);
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-
-    }
+//    public void setMenuLanguage( String langType, MenuItem tv) {
+//
+//        Typeface typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                "fonts/english.ttf");
+//
+//
+//        switch (langType) {
+//
+//            case "English":
+//                // English
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/english.ttf");
+//                break;
+//
+//            case "Hindi":
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/hindi.ttf");
+//                break;
+//
+//            case "Marathi":
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/marathi.ttf");
+//                break;
+//
+//            case "Gujrathi":
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/gujrati.ttf");
+//                break;
+//
+//
+//            default:
+//                typeface = Typeface.createFromAsset(mContext.getActivity().getAssets(),
+//                        "fonts/english.ttf");
+//        }
+//
+//
+//      //  tv.setTypeface(typeface);
+//
+//        /////////////////////////////////////////////////////////////////////////////////////////////
+//
+//    }
 
 }
