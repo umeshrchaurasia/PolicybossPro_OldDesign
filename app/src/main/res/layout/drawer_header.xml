@@ -199,7 +199,7 @@
             android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:src="@drawable/file_add" />
+            android:src="@drawable/ic_add_white" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -224,10 +224,10 @@
             <TextView
                 android:id="@+id/txtchilduser"
                 style="@style/TextViewStyle.Medium"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:visibility="gone"
                 android:text="Child Name"
                 android:textColor="@android:color/white"
                 />
@@ -236,8 +236,9 @@
                 android:layout_width="18dp"
                 android:layout_height="18dp"
                 android:layout_marginLeft="5dp"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/cross" />
+                android:src="@drawable/close" />
 
 
 

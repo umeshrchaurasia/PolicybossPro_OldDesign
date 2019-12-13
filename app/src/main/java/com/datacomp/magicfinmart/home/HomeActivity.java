@@ -22,7 +22,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -45,6 +47,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.style.UnderlineSpan;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -110,6 +113,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
 
 import io.cobrowse.CobrowseIO;
 import io.cobrowse.ui.CobrowseActivity;
@@ -945,10 +949,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         });
 
         ivCancel = (ImageView) headerView.findViewById(R.id.ivCancel);
-        lstswitchChild_user.setOnClickListener(new View.OnClickListener() {
+      /*  lstswitchChild_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (isNavDrawerOpen()) {
+                    closeNavDrawer();
+                }
                 LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
                 Map<String, String> outputMap = loadMap();
                 if (outputMap != null && outputMap.size() > 0) {
@@ -956,9 +962,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
                     loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
                 }
-
-
-
 
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
                 loginRequestEntity.setTokenId(prefManager.getToken());
@@ -969,13 +972,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 editor.clear();
                 editor.commit();
 
-                new PrefManager(HomeActivity.this).clearAll();
+                //  new PrefManager(HomeActivity.this).clearAll();
 
                 new DBPersistanceController(HomeActivity.this).clearSwitchUser();
-
+                showDialog();
                 new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
             }
-        });
+        });*/
 
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1003,18 +1006,70 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
             //region Switch user Binding
+
             Map<String, String> outputMap = loadMap();
             if (outputMap != null && outputMap.size() > 0) {
                 lstswitchuser.setVisibility(View.GONE);
                 lstswitchChild_user.setVisibility(View.VISIBLE);
-                //   txtDetails.setText("" + loginResponseEntity.getFullName());
-                txtparentuser.setText("" + outputMap.get("Parent_name"));
-                txtchilduser.setText("  " + outputMap.get("Child_name"));
+
+                String mystring = new String("Parent :- " + outputMap.get("Parent_name"));
+                SpannableString content = new SpannableString(mystring);
+                content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+                txtparentuser.setText(content);
+
+                String currentChild = outputMap.get("Child_name");
+
+                txtchilduser.setText(currentChild);
+
+                Snackbar snackbar = Snackbar.make(navigationView, "Logged in with " + currentChild, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction("Log-Out", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (isNavDrawerOpen()) {
+                            closeNavDrawer();
+                        }
+
+                        LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
+                        Map<String, String> outputMap = loadMap();
+                        if (outputMap != null && outputMap.size() > 0) {
+
+                            loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
+                            loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
+                        }
+
+                        loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
+                        loginRequestEntity.setTokenId(prefManager.getToken());
+                        loginRequestEntity.setIsChildLogin("Y");
+
+                        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        //  new PrefManager(HomeActivity.this).clearAll();
+
+                        new DBPersistanceController(HomeActivity.this).clearSwitchUser();
+                        showDialog();
+                        new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
+                    }
+                });
+                View view = snackbar.getView();
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+                snackbar.show();
+
 
             } else {
-                lstswitchuser.setVisibility(View.VISIBLE);
-                lstswitchChild_user.setVisibility(View.GONE);
+                if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+                    lstswitchuser.setVisibility(View.VISIBLE);
+                    lstswitchChild_user.setVisibility(View.GONE);
+                } else {
+                    lstswitchuser.setVisibility(View.GONE);
+                    lstswitchChild_user.setVisibility(View.GONE);
+                }
+
             }
+
             //endregion
 
         } else {
@@ -1581,8 +1636,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     lstswitchuser.setVisibility(View.GONE);
                     lstswitchChild_user.setVisibility(View.VISIBLE);
                     //   txtDetails.setText("" + loginResponseEntity.getFullName());
-                    txtparentuser.setText("" + outputMap.get("Parent_name"));
-                    txtchilduser.setText("  " + outputMap.get("Child_name"));
+                    txtparentuser.setText("Parent :- " + outputMap.get("Parent_name"));
+                  //  txtchilduser.setText("  " + outputMap.get("Child_name"));
 
                 } else {
                     lstswitchuser.setVisibility(View.VISIBLE);
