@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
@@ -39,6 +38,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -75,6 +75,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     WifiReceiver receiverWifi;
     List<ScanResult> wifiList;
     ArrayList<String> wifiArrayList;
+    DBPersistanceController db;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -98,14 +99,9 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initialise(view);
+        db = new DBPersistanceController(getActivity());
 
-        if (getArguments() != null) {
 
-            LangType = getArguments().getString("LangType","");
-            Toast.makeText(getActivity(), "Language Type" + LangType, Toast.LENGTH_SHORT);
-            //   setLanguage(LangType);
-
-        }
         setListener();
         receiverWifi = new WifiReceiver();
         wifiArrayList = new ArrayList<>();
@@ -116,13 +112,30 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
+        LangType = prefManager.getLanguage();
+        Toast.makeText(getActivity(), "1 Language Type" + LangType, Toast.LENGTH_LONG);
         try {
             pinfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-//        mAdapter = new DashboardRowAdapter(DashboardFragment.this);
-//        this.rvHome.setAdapter(mAdapter);
+
+
+        if (getArguments() != null) {
+
+            LangType = getArguments().getString("LangType", "");
+            Toast.makeText(getActivity(), "2 Language Type" + LangType, Toast.LENGTH_LONG);
+
+
+        }
+
+        if (!LangType.equals("")) {
+            tvSalesMat.setText(db.getLangData(LangType, "SalesMaterial"));
+            tvKnowledge.setText(db.getLangData(LangType, "KnowledgeGuru"));
+            tvPendingCAses.setText(db.getLangData(LangType, "PendingCases"));
+
+        }
+
 
         showDialog();
         new MasterController(getActivity()).geUserConstantSync(this);
@@ -165,6 +178,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         rvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
         navigation = (BottomNavigationView) view.findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
     }
 
@@ -233,8 +247,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 if (LangType == "") {
                     mAdapter = new DashboardRowAdapter(DashboardFragment.this);
                     this.rvHome.setAdapter(mAdapter);
-                }else{
-                    mAdapter = new DashboardRowAdapter(DashboardFragment.this,LangType);
+                } else {
+                    mAdapter = new DashboardRowAdapter(DashboardFragment.this, LangType);
                     this.rvHome.setAdapter(mAdapter);
                 }
 
@@ -349,7 +363,6 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     };
 
     //endregion
-
 
 
 }
