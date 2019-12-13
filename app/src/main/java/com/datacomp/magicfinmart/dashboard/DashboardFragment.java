@@ -23,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
@@ -113,21 +112,14 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
         LangType = prefManager.getLanguage();
-        Toast.makeText(getActivity(), "1 Language Type" + LangType, Toast.LENGTH_LONG);
+
+        bindDashboardhAdapter();
         try {
             pinfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
 
-
-        if (getArguments() != null) {
-
-            LangType = getArguments().getString("LangType", "");
-            Toast.makeText(getActivity(), "2 Language Type" + LangType, Toast.LENGTH_LONG);
-
-
-        }
 
         if (!LangType.equals("")) {
             tvSalesMat.setText(db.getLangData(LangType, "SalesMaterial"));
@@ -244,13 +236,13 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
             if (response.getStatusNo() == 0) {
 
 
-                if (LangType == "") {
-                    mAdapter = new DashboardRowAdapter(DashboardFragment.this);
-                    this.rvHome.setAdapter(mAdapter);
-                } else {
-                    mAdapter = new DashboardRowAdapter(DashboardFragment.this, LangType);
-                    this.rvHome.setAdapter(mAdapter);
-                }
+//                if (LangType == "") {
+//                    mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+//                    this.rvHome.setAdapter(mAdapter);
+//                } else {
+//                    mAdapter = new DashboardRowAdapter(DashboardFragment.this, LangType);
+//                    this.rvHome.setAdapter(mAdapter);
+//                }
 
 
             }
@@ -329,9 +321,28 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void refreshAdapter() {
+
+        if (!prefManager.getLanguage().isEmpty()) {
+
+            tvSalesMat.setText(db.getLangData(prefManager.getLanguage(), "SalesMaterial"));
+            tvKnowledge.setText(db.getLangData(prefManager.getLanguage(), "KnowledgeGuru"));
+            tvPendingCAses.setText(db.getLangData(prefManager.getLanguage(), "PendingCases"));
+
+        }
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+
+    public void bindDashboardhAdapter() {
+
+
         mAdapter = new DashboardRowAdapter(this);
         rvHome.setAdapter(mAdapter);
     }
+
 
     @Override
     public void onStart() {

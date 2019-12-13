@@ -277,6 +277,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         setNavigationMenu( prefManager.getLanguage());    // Set Navigation Drawer
 
 
+
         if (savedInstanceState == null) {
             selectHome();
         }
@@ -643,6 +644,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+
+
     }
 
 
@@ -2568,9 +2571,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     prefManager.setLanguage(LANGUAGE);
 
-                    setTextViewForLang(LANGUAGE);
+//                    setTextViewForLang(LANGUAGE);
 
                     setNavigationMenu(LANGUAGE);
+                    Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
+                    LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
 
                 }
 
@@ -2602,21 +2607,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    private void setTextViewForLang(String langType) {
-
-      //  getSupportActionBar().setTitle(db.getLangData(langType, "Title"));
-        Fragment fragment = null;
-        fragment = new DashboardFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString("LangType", langType);
-        fragment.setArguments(bundle);
-
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment);
-        fragmentTransaction.commit();
-
-
-    }
 
 
 }

@@ -403,8 +403,11 @@ public class BaseFragment extends Fragment {
                 break;
 
             case "Hindi":
+//                typeface = Typeface.createFromAsset(getActivity().getAssets(),
+//                        "fonts/hindi.ttf");
+
                 typeface = Typeface.createFromAsset(getActivity().getAssets(),
-                        "fonts/hindi.ttf");
+                        "fonts/aparaj.ttf");
                 break;
 
             case "Marathi":
