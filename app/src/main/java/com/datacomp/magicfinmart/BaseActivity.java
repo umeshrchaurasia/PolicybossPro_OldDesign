@@ -806,8 +806,11 @@ public class BaseActivity extends AppCompatActivity {
                 break;
 
             case "Hindi":
+//                typeface = Typeface.createFromAsset(mContext.getAssets(),
+//                        "fonts/hindi.ttf");
+
                 typeface = Typeface.createFromAsset(mContext.getAssets(),
-                        "fonts/hindi.ttf");
+                        "fonts/aparaj.ttf");
                 break;
 
             case "Marathi":

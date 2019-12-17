@@ -36,7 +36,7 @@ public class SwitchUserAdapter extends RecyclerView.Adapter<SwitchUserAdapter.Sw
 
     public class SwitchUserItem extends RecyclerView.ViewHolder {
 
-        public TextView txtTitle, txtEmail;
+        public TextView txtTitle, txtEmail, txtSSID, txtFBAID;
         public LinearLayout lyParent;
 
         public SwitchUserItem(@NonNull View itemView) {
@@ -44,6 +44,8 @@ public class SwitchUserAdapter extends RecyclerView.Adapter<SwitchUserAdapter.Sw
 
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             txtEmail = (TextView) itemView.findViewById(R.id.txtEmail);
+            txtSSID = (TextView) itemView.findViewById(R.id.txtSSID);
+            txtFBAID = (TextView) itemView.findViewById(R.id.txtFBAID);
             lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
         }
     }
@@ -61,10 +63,12 @@ public class SwitchUserAdapter extends RecyclerView.Adapter<SwitchUserAdapter.Sw
     @Override
     public void onBindViewHolder(SwitchUserItem holder, int position) {
 
-         PospAgentEntity pospAgentEntity = switchUserLstFiltered.get(position);
+        PospAgentEntity pospAgentEntity = switchUserLstFiltered.get(position);
 
         holder.txtTitle.setText("" + pospAgentEntity.getName());
         holder.txtEmail.setText("" + pospAgentEntity.getEmailId());
+        holder.txtSSID.setText("SSID: " + pospAgentEntity.getSSID());
+        holder.txtFBAID.setText("FBAID:" + pospAgentEntity.getFBAID());
         holder.lyParent.setTag(R.id.lyParent, pospAgentEntity);
         holder.lyParent.setOnClickListener(this);
 
@@ -85,9 +89,10 @@ public class SwitchUserAdapter extends RecyclerView.Adapter<SwitchUserAdapter.Sw
 
     public void findAll(List<PospAgentEntity> tempswitchUserLst) {
         switchUserLst = tempswitchUserLst;
-        switchUserLstFiltered   = tempswitchUserLst;
+        switchUserLstFiltered = tempswitchUserLst;
         notifyDataSetChanged();
     }
+
     @Override
     public void onClick(View view) {
 
@@ -116,7 +121,10 @@ public class SwitchUserAdapter extends RecyclerView.Adapter<SwitchUserAdapter.Sw
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getName().toLowerCase().contains(charString.toLowerCase())) {
+                        if (row.getName().toLowerCase().contains(charString.toLowerCase())
+                          || row.getFBAID().toLowerCase().contains(charString.toLowerCase())
+                          || row.getSSID().toLowerCase().contains(charString.toLowerCase()) )
+                        {
                             filteredList.add(row);
                         }
                     }

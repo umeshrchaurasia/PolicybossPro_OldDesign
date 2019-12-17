@@ -37,6 +37,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -56,20 +57,16 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     DBPersistanceController mReal;
     Context mContext;
     String LangType;
+    PrefManager prefManager;
 
     public DashboardRowAdapter(Fragment fragment) {
         mFragment = fragment;
         mContext = mFragment.getActivity();
         mReal = new DBPersistanceController(mFragment.getActivity());
-        LangType = "";
+        prefManager = new PrefManager(mFragment.getActivity());
+
     }
 
-    public DashboardRowAdapter(Fragment fragment, String langType) {
-        mFragment = fragment;
-        mContext = mFragment.getActivity();
-        mReal = new DBPersistanceController(mFragment.getActivity());
-        LangType = langType;
-    }
 
     public class HeaderRow extends RecyclerView.ViewHolder {
         public HeaderRow(View view) {
@@ -156,6 +153,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
+        LangType = prefManager.getLanguage();
         if (holder instanceof HeaderRow) {
 
         } else if (holder instanceof InsuranceHolder) {

@@ -177,11 +177,16 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (s.length() > 2) {
-                    mAdapter.getFilter().filter(s);
+                if (s.length() > 1) {
+                    if (mAdapter != null) {
+                        mAdapter.getFilter().filter(s);
+                    }
+
                 } else {
-                    mAdapter.findAll(switchUserLst);
-                    etSearch.setCursorVisible(false);
+                    if (mAdapter != null) {
+                        mAdapter.findAll(switchUserLst);
+                        etSearch.setCursorVisible(false);
+                    }
                 }
 
             }

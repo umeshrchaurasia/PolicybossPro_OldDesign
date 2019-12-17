@@ -12,7 +12,7 @@ public  class PospAgentEntity  {
 
         private String Name;
         private String EmailId;
-        private int SSID;
+        private String SSID;
         private String FBAID;
         private String UserType;
         private String ERPID;
@@ -33,11 +33,11 @@ public  class PospAgentEntity  {
             this.EmailId = EmailId;
         }
 
-        public int getSSID() {
+        public String getSSID() {
             return SSID;
         }
 
-        public void setSSID(int SSID) {
+        public void setSSID(String SSID) {
             this.SSID = SSID;
         }
 
