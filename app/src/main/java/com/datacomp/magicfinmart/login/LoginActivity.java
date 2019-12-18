@@ -1,7 +1,9 @@
 package com.datacomp.magicfinmart.login;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
 import io.realm.Realm;
@@ -44,7 +47,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
     DBPersistanceController dbPersistanceController;
     private static int PERMISSION_DENIED = 0;
-
 
 
     String[] perms = {
@@ -81,8 +83,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     //region permission
 
     private boolean checkPermission() {
-
-
 
 
         int camera = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
@@ -203,10 +203,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     return;
                 }
                 //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
+                //switch user clear
+                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+
                 loginRequestEntity.setUserName(etEmail.getText().toString());
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
                 loginRequestEntity.setTokenId(prefManager.getToken());
+                loginRequestEntity.setIsChildLogin("");
                 showDialog();
                 new LoginController(this).login(loginRequestEntity, this);
                 break;
@@ -263,6 +270,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
+                prefManager.setUserPassword("" + etPassword.getText().toString());
                 // prefManager.setIsUserLogin(true);
                 if (!prefManager.getSharePushType().equals("")) {
 
@@ -292,4 +300,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Failure : " + t.getMessage()), "Login"), null);
     }
+
+
 }

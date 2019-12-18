@@ -9,15 +9,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -39,6 +42,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,15 +97,19 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.utility.FirebaseIDService;
+import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
-import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import io.cobrowse.CobrowseIO;
 import io.cobrowse.ui.CobrowseActivity;
@@ -110,6 +118,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -121,9 +130,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultiLangResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
@@ -132,11 +144,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
 
     final String TAG = "HOME";
+    final String mapKey = "map_switchuser";
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour , txtswitchuser;
-    ImageView ivProfile;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo, txtErpID, txtknwyour, txtswitchuser;
+    ImageView ivProfile, ivCancel;
+    LinearLayout lySwitchUser;
+
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     String versionNAme;
@@ -151,6 +166,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     MenuMasterResponse menuMasterResponse;
     AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
+    int selectedLang = -1;
+    String LANGUAGE;
+
+    LinearLayout lstswitchuser, lstswitchChild_user;
+    TextView txtparentuser, txtchilduser;
+
+    List<TextView> textViewList;
 
 
     //region broadcast receiver
@@ -200,6 +222,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
         registerPopUp(this);
         registerPermission(this);
@@ -213,7 +236,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
-        toolbar.setTitle("MAGIC FIN-MART");
+
 
 
         try {
@@ -237,6 +260,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
 
+        textViewList = new ArrayList<>();
+
+        toolbar.setTitle("MAGIC FIN-MART");
+
+
         if (userConstantEntity != null && !userConstantEntity.getCobrowserlicensecode().equals("")) {
             setUpCoBrowser();
         }
@@ -244,6 +272,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         getNotificationAction();
 
         init_headers();
+
+
+        setNavigationMenu( prefManager.getLanguage());    // Set Navigation Drawer
+
 
 
         if (savedInstanceState == null) {
@@ -349,10 +381,28 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        break;
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
-                        getSupportActionBar().setTitle("MAGIC FIN-MART");
+                       // getSupportActionBar().setTitle("MAGIC FIN-MART");
+                        if(prefManager.getLanguage().equals(""))
+                        {
+                            getSupportActionBar().setTitle("MAGIC FIN-MART");
+                        }else{
+                            getSupportActionBar().setTitle(db.getLangData( prefManager.getLanguage(), "Title"));
+                        }
+
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
 
+
+                    case R.id.nav_language:
+
+
+                        if (db.isMultiLangExist() == false) {
+                            showDialog();
+                            new RegisterController(HomeActivity.this).getMultiLanguageDetailOld(HomeActivity.this);
+                        } else {
+                            showMultiLanguage();
+                        }
+                        break;
 
                     case R.id.nav_insert_contact:
                         //  startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
@@ -489,6 +539,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, SendTemplateSmsActivity.class));
                         break;
                     case R.id.nav_logout:
+                        //switch user clear
+                        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.clear();
+                        editor.commit();
+
                         dialogLogout(HomeActivity.this);
                         break;
 
@@ -588,6 +644,205 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+
+
+    }
+
+
+    private void setNavigationMenu(String language) {
+
+        getSupportActionBar().setTitle(db.getLangData(language, "Title"));   // setTitle
+
+        MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink,
+                nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment,
+                nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,
+
+                nav_AppointmentLetter, nav_Certificate, nav_TRANSACTIONS, nav_mybusiness_insurance,
+                nav_transactionhistory, nav_MessageCentre, nav_crnpolicy,
+                nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail,
+                nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew,
+                nav_cobrowser, nav_logout;
+
+
+        Menu menu = navigationView.getMenu();
+
+
+        nav_home = menu.findItem(R.id.nav_home);
+        nav_language = menu.findItem(R.id.nav_language);
+        nav_finbox = menu.findItem(R.id.nav_finbox);
+        nav_finperk = menu.findItem(R.id.nav_finperk);
+        nav_festivelink = menu.findItem(R.id.nav_festivelink);
+
+        nav_insert_contact = menu.findItem(R.id.nav_insert_contact);
+        nav_myaccount_pro = menu.findItem(R.id.nav_myaccount_pro);
+        nav_myaccount = menu.findItem(R.id.nav_myaccount);
+        nav_pospenrollment = menu.findItem(R.id.nav_pospenrollment);
+
+        nav_addposp = menu.findItem(R.id.nav_addposp);
+        nav_raiseTicket = menu.findItem(R.id.nav_raiseTicket);
+        nav_changepassword = menu.findItem(R.id.nav_changepassword);
+        nav_Doc = menu.findItem(R.id.nav_Doc);
+
+        nav_franchise = menu.findItem(R.id.nav_franchise);
+        nav_AppointmentLetter = menu.findItem(R.id.nav_AppointmentLetter);
+        nav_Certificate = menu.findItem(R.id.nav_Certificate);
+        nav_TRANSACTIONS = menu.findItem(R.id.nav_TRANSACTIONS);
+
+        nav_mybusiness_insurance = menu.findItem(R.id.nav_mybusiness_insurance);
+        nav_transactionhistory = menu.findItem(R.id.nav_transactionhistory);
+        nav_MessageCentre = menu.findItem(R.id.nav_MessageCentre);
+        nav_crnpolicy = menu.findItem(R.id.nav_crnpolicy);
+
+        nav_LEADS = menu.findItem(R.id.nav_LEADS);
+        nav_contact = menu.findItem(R.id.nav_contact);
+        nav_generateLead = menu.findItem(R.id.nav_generateLead);
+        nav_scan_vehicle = menu.findItem(R.id.nav_scan_vehicle);
+        nav_sharedata = menu.findItem(R.id.nav_sharedata);
+
+        nav_leaddetail = menu.findItem(R.id.nav_leaddetail);
+        nav_sendSmsTemplate = menu.findItem(R.id.nav_sendSmsTemplate);
+        nav_OtherLoan = menu.findItem(R.id.nav_OtherLoan);
+        nav_REQUEST = menu.findItem(R.id.nav_REQUEST);
+
+        nav_MYUtilities = menu.findItem(R.id.nav_MYUtilities);
+        nav_whatsnew = menu.findItem(R.id.nav_whatsnew);
+        nav_cobrowser = menu.findItem(R.id.nav_cobrowser);
+        nav_logout = menu.findItem(R.id.nav_logout);
+
+
+        // region comment
+//        nav_home.setTitle("Home");
+//        nav_language.setTitle("Switch Language");
+//        nav_finbox.setTitle("MY FINBOX");
+//        nav_finperk.setTitle("FINPERKS");
+//        nav_festivelink.setTitle("FESTIVE LINKS");
+//
+//        nav_insert_contact.setTitle("Finmart Business Contact");
+//        nav_myaccount_pro.setTitle("MY ACCOUNT");
+//        nav_myaccount.setTitle("My Profile");
+//        nav_pospenrollment.setTitle("Enrol as POSP");
+//
+//
+//        nav_addposp.setTitle("Add Sub User");
+//        nav_raiseTicket.setTitle("Raise a Ticket");
+//        nav_changepassword.setTitle("Change Password");
+//        nav_Doc.setTitle("My DOCUMENTS");
+//        nav_franchise.setTitle("Loan Agreement");
+//
+//        nav_AppointmentLetter.setTitle("POSP Appointment Letter");
+//        nav_Certificate.setTitle("POSP Application Form");
+//        nav_TRANSACTIONS.setTitle("MY TRANSACTIONS");
+//        nav_mybusiness_insurance.setTitle("My Insurance Business");
+//        nav_transactionhistory.setTitle("My Transactions");
+//
+//
+//        nav_MessageCentre.setTitle("My Messages");
+//        nav_crnpolicy.setTitle("Get Policy by CRN");
+//        nav_LEADS.setTitle("MY LEADS");
+//        nav_contact.setTitle("Create Lead from Contact");
+//        nav_generateLead.setTitle("Generate Motor Leads");
+//
+//
+//        nav_scan_vehicle.setTitle("Scan Vehicle");
+//        nav_sharedata.setTitle("Generate Loan Leads");
+//        nav_leaddetail.setTitle("Lead Dashboard");
+//        nav_sendSmsTemplate.setTitle("Sms Templates");
+//        nav_OtherLoan.setTitle("OTHER LOAN PRODUCTS");
+//
+//
+//        nav_REQUEST.setTitle("MORE SERVICES");
+//        nav_MYUtilities.setTitle("MY UTILITIES");
+//        nav_whatsnew.setTitle("WHAT'S NEW");
+//        nav_cobrowser.setTitle("Co Browser User");
+//        nav_logout.setTitle("LOG-OUT");
+
+        //endregion
+
+        if (!language.isEmpty()) {
+
+            HashMap<String, MenuItem> menuItems = new HashMap<String, MenuItem>();
+            menuItems.put("MenuHome", nav_home);
+            menuItems.put("Switch Language", nav_language);
+            menuItems.put("MenuMyFinbox", nav_finbox);
+            menuItems.put("MenuFinperks", nav_finperk);
+            menuItems.put("FESTIVE LINKS", nav_festivelink);
+
+            menuItems.put("Finmart Business Contact", nav_insert_contact);
+            menuItems.put("MenuMyAccount", nav_myaccount_pro);
+            menuItems.put("MenuMyProfile", nav_myaccount);
+            menuItems.put("Enrol as POSP", nav_pospenrollment);
+
+            menuItems.put("", nav_addposp);
+            menuItems.put("MenuRaiseTicket", nav_raiseTicket);
+            menuItems.put("MenuChangePwd", nav_changepassword);
+            menuItems.put("MenuMyDocs", nav_Doc);
+
+            menuItems.put("MenuLoanAgr", nav_franchise);
+            menuItems.put("MenuPospAppLtr", nav_AppointmentLetter);
+            menuItems.put("MenuPospAppForm", nav_Certificate);
+            menuItems.put("MenuMyTranTitle", nav_TRANSACTIONS);
+
+
+            menuItems.put("MenuInsBus", nav_mybusiness_insurance);
+            menuItems.put("MenuMyTransItm", nav_transactionhistory);
+            menuItems.put("MenuMyMsgs", nav_MessageCentre);
+            menuItems.put("MenuPolicyByCRN", nav_crnpolicy);
+
+            menuItems.put("MenuMyLeads", nav_LEADS);
+            menuItems.put("MenuLeadfromCont", nav_contact);
+            menuItems.put("MenuMotLeads", nav_generateLead);
+            menuItems.put("", nav_scan_vehicle);
+            menuItems.put("MenuLoanLeads", nav_sharedata);
+
+
+            menuItems.put("MenuLeadDash", nav_leaddetail);
+            menuItems.put("MenuSms", nav_sendSmsTemplate);
+            menuItems.put("MenuOthLoanProds", nav_OtherLoan);
+            menuItems.put("MenuMorServ", nav_REQUEST);
+
+            menuItems.put("MenuUtil", nav_MYUtilities);
+            menuItems.put("Menuwtsnew", nav_whatsnew);
+            menuItems.put("", nav_cobrowser);
+            menuItems.put("MenuLogOut", nav_logout);
+
+
+            for (String key : menuItems.keySet()) {
+
+
+                //  String strTitle = db.getLangData(language, key.toString());
+
+                if (!db.getLangData(language, key).equals("")) {
+
+                    //   Log.d("Menu Data", "" + menuItems.get(key).getTitle());
+
+                    menuItems.get(key).setTitle(db.getLangData(language, key));
+                    setLanguageFont(this, language, menuItems.get(key));
+                }
+            }
+
+        }
+
+
+    }
+
+    private Map<String, String> loadMap() {
+        Map<String, String> outputMap = new HashMap<>();
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
+                Context.MODE_PRIVATE);
+        try {
+            if (pSharedPref != null) {
+                String jsonString = pSharedPref.getString(mapKey, (new JSONObject()).toString());
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Iterator<String> keysItr = jsonObject.keys();
+                while (keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    outputMap.put(key, jsonObject.get(key).toString());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outputMap;
     }
 
     private void setUpCoBrowser() {
@@ -731,7 +986,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     public void selectHome() {
-        getSupportActionBar().setTitle("MAGIC FIN-MART");
+
+        if(prefManager.getLanguage().equals(""))
+        {
+            getSupportActionBar().setTitle("MAGIC FIN-MART");
+        }else{
+            getSupportActionBar().setTitle(db.getLangData( prefManager.getLanguage(), "Title"));
+        }
         Fragment fragment = new DashboardFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
     }
@@ -750,7 +1011,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtPospNo = (TextView) headerView.findViewById(R.id.txtPospNo);
         txtErpID = (TextView) headerView.findViewById(R.id.txtErpID);
 
-        txtswitchuser = (TextView) headerView.findViewById(R.id.txtswitchuser);
+        txtparentuser = (TextView) headerView.findViewById(R.id.txtparentuser);
+        txtchilduser = (TextView) headerView.findViewById(R.id.txtchilduser);
+        lstswitchuser = (LinearLayout) headerView.findViewById(R.id.lstswitchuser);
+        lstswitchChild_user = (LinearLayout) headerView.findViewById(R.id.lstswitchChild_user);
+
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -772,7 +1037,36 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
+        ivCancel = (ImageView) headerView.findViewById(R.id.ivCancel);
+        lstswitchChild_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
+                Map<String, String> outputMap = loadMap();
+                if (outputMap != null && outputMap.size() > 0) {
+
+                    loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
+                    loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
+                }
+
+
+                loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
+                loginRequestEntity.setTokenId(prefManager.getToken());
+                loginRequestEntity.setIsChildLogin("Y");
+
+                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
+
+                new PrefManager(HomeActivity.this).clearAll();
+
+                new DBPersistanceController(HomeActivity.this).clearSwitchUser();
+
+                new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
+            }
+        });
 
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -782,10 +1076,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         });
 
-        txtswitchuser.setOnClickListener(new View.OnClickListener() {
+
+        lstswitchuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, SwitchUserActivity.class));
+
+                startActivityForResult(new Intent(HomeActivity.this, SwitchUserActivity.class), 10);
             }
         });
 
@@ -796,6 +1092,22 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtDetails.setText("" + loginResponseEntity.getFullName());
             txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
             txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
+
+            //region Switch user Binding
+            Map<String, String> outputMap = loadMap();
+            if (outputMap != null && outputMap.size() > 0) {
+                lstswitchuser.setVisibility(View.GONE);
+                lstswitchChild_user.setVisibility(View.VISIBLE);
+                //   txtDetails.setText("" + loginResponseEntity.getFullName());
+                txtparentuser.setText("" + outputMap.get("Parent_name"));
+                txtchilduser.setText("  " + outputMap.get("Child_name"));
+
+            } else {
+                lstswitchuser.setVisibility(View.VISIBLE);
+                lstswitchChild_user.setVisibility(View.GONE);
+            }
+            //endregion
+
         } else {
             txtDetails.setText("");
             txtFbaID.setText("Fba Id - ");
@@ -1035,7 +1347,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
-        if (response instanceof MpsResponse) {
+        if (response instanceof LoginResponse) {
+            if (response.getStatusNo() == 0) {
+
+                // prefManager.setIsUserLogin(true);
+
+                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+
+            } else {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else if (response instanceof MpsResponse) {
 
             if (response.getStatusNo() == 0) {
 
@@ -1167,6 +1492,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 CallingDetailsPopUp(((UserCallingResponse) response).getMasterData());
             }
+        } else if (response instanceof MultiLangResponse) {
+
+            if (response.getStatusNo() == 0) {
+
+                showMultiLanguage();
+            }
         }
 
 
@@ -1296,6 +1627,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.onResume();
 
         // will be upadte everytyime user comes on dashboard
+
         if (loginResponseEntity != null) {
             new MasterController(this).getConstants(this);
             new MasterController(this).geUserConstant(1, this);
@@ -1328,6 +1660,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 int Counter = prefManager.getNotificationCounter();
                 textNotifyItemCount.setText("" + Counter);
                 textNotifyItemCount.setVisibility(View.GONE);
+
+            }
+
+        } else if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
+            if (data != null) {
+
+
+                Map<String, String> outputMap = loadMap();
+                if (outputMap != null && outputMap.size() > 0) {
+                    lstswitchuser.setVisibility(View.GONE);
+                    lstswitchChild_user.setVisibility(View.VISIBLE);
+                    //   txtDetails.setText("" + loginResponseEntity.getFullName());
+                    txtparentuser.setText("" + outputMap.get("Parent_name"));
+                    txtchilduser.setText("  " + outputMap.get("Child_name"));
+
+                } else {
+                    lstswitchuser.setVisibility(View.VISIBLE);
+                    lstswitchChild_user.setVisibility(View.GONE);
+                }
+
+
+                db = new DBPersistanceController(this);
+                loginResponseEntity = db.getUserData();
+
 
             }
 
@@ -2179,5 +2535,78 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         negative.setTextColor(getResources().getColor(R.color.header_light_text));
         positive.setTextColor(getResources().getColor(R.color.black));
     }
+
+
+    private void showMultiLanguage() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Choose Language...");// add a radio button list
+        String[] animals = {"English", "Hindi", "Marathi", "Gujrati"};
+        int checkedItem = -1; // Nothing Selected
+        selectedLang = -1;
+        LANGUAGE = "";
+        builder.setSingleChoiceItems(animals, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int lang) {
+
+                selectedLang = lang;
+                //Toast.makeText(HomeActivity.this, " Language Selected " + lang, Toast.LENGTH_LONG).show();
+            }
+        });// add OK and Cancel buttons
+        builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int lang) {
+                // user clicked OK
+                if (selectedLang != -1) {
+
+
+                    if (selectedLang == 0) {
+                        LANGUAGE = "English";
+                    } else if (selectedLang == 1) {
+                        LANGUAGE = "Hindi";
+                    } else if (selectedLang == 2) {
+                        LANGUAGE = "Marathi";
+                    } else if (selectedLang == 3) {
+                        LANGUAGE = "Gujrathi";
+                    }
+
+                    prefManager.setLanguage(LANGUAGE);
+
+//                    setTextViewForLang(LANGUAGE);
+
+                    setNavigationMenu(LANGUAGE);
+                    Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
+                    LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
+
+                }
+
+            }
+        });
+        builder.setNegativeButton("Cancel", null);// create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void setLocal(String lang) {
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration();
+        config.locale = locale;
+
+        this.getResources().updateConfiguration(config, this.getResources().getDisplayMetrics());
+        ///////////////////////////////
+
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+
+    }
+
+
+
 
 }

@@ -11,11 +11,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultiLangResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultilanguageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
@@ -154,6 +157,19 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/user-calling")
         Call<UserCallingResponse> getUserCallingDetail(@Body HashMap<String, String> body);
+
+        ///////////////////////////////// Multi Language Calling ///////////////////////////////
+        @Headers("token:" + token)
+        @POST("/api/GetLangData")
+        Call<MultilanguageResponse> getMultiLanguageDetail();
+
+
+        @Headers("token:" + token)
+        @POST("/api/GetLangDataOld")
+        Call<MultiLangResponse> getMultiLanguageDetailOld();
+
+
+
 
     }
 

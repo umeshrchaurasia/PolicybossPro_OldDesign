@@ -37,6 +37,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -66,12 +67,14 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     //LocationTracker locationTracker;
     //Location location;
     TextView tvKnowledge, tvPendingCAses, tvSalesMat;
+    String LangType = "";
 
 
     WifiManager mainWifi;
     WifiReceiver receiverWifi;
     List<ScanResult> wifiList;
     ArrayList<String> wifiArrayList;
+    DBPersistanceController db;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -92,8 +95,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initialise(view);
+        db = new DBPersistanceController(getActivity());
+
 
         setListener();
         receiverWifi = new WifiReceiver();
@@ -105,13 +111,23 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
+        LangType = prefManager.getLanguage();
+
+        bindDashboardhAdapter();
         try {
             pinfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-//        mAdapter = new DashboardRowAdapter(DashboardFragment.this);
-//        this.rvHome.setAdapter(mAdapter);
+
+
+        if (!LangType.equals("")) {
+            tvSalesMat.setText(db.getLangData(LangType, "SalesMaterial"));
+            tvKnowledge.setText(db.getLangData(LangType, "KnowledgeGuru"));
+            tvPendingCAses.setText(db.getLangData(LangType, "PendingCases"));
+
+        }
+
 
         showDialog();
         new MasterController(getActivity()).geUserConstantSync(this);
@@ -154,6 +170,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         rvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
         navigation = (BottomNavigationView) view.findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
     }
 
@@ -218,8 +235,16 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         } else if (response instanceof UserConstatntResponse) {
             if (response.getStatusNo() == 0) {
 
-                mAdapter = new DashboardRowAdapter(DashboardFragment.this,0,1);
-                this.rvHome.setAdapter(mAdapter);
+
+//                if (LangType == "") {
+//                    mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+//                    this.rvHome.setAdapter(mAdapter);
+//                } else {
+//                    mAdapter = new DashboardRowAdapter(DashboardFragment.this, LangType);
+//                    this.rvHome.setAdapter(mAdapter);
+//                }
+
+
             }
         }
 
@@ -256,6 +281,20 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
     }
 
+    /*@Override
+    public void onLocationChanged(Location location) {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnected() {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        location = null;
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -282,7 +321,25 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void refreshAdapter() {
-        mAdapter = new DashboardRowAdapter(this,0,1);
+
+        if (!prefManager.getLanguage().isEmpty()) {
+
+            tvSalesMat.setText(db.getLangData(prefManager.getLanguage(), "SalesMaterial"));
+            tvKnowledge.setText(db.getLangData(prefManager.getLanguage(), "KnowledgeGuru"));
+            tvPendingCAses.setText(db.getLangData(prefManager.getLanguage(), "PendingCases"));
+
+        }
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+
+    public void bindDashboardhAdapter() {
+
+
+        mAdapter = new DashboardRowAdapter(this);
         rvHome.setAdapter(mAdapter);
     }
 

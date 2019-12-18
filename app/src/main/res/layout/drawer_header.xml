@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="160dp"
+    android:layout_height="170dp"
     android:layout_marginTop="16dp"
     android:background="@color/colorAccent"
+
     android:fitsSystemWindows="false"
     android:orientation="vertical">
 
@@ -11,8 +12,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="vertical"
+        android:gravity="center_vertical"
+
         android:paddingTop="18dp">
 
         <RelativeLayout
@@ -30,19 +32,22 @@
                 android:layout_height="72dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:transitionName="profileTransition"
                 android:background="@drawable/circle_placeholder"
-                android:transitionName="profileTransition" />
+                />
 
 
             <LinearLayout
-                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/ivProfile"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="4dp"
-                android:layout_toRightOf="@+id/ivProfile"
-                android:orientation="vertical">
+
+               android:layout_centerVertical="true"
+                android:orientation="vertical"
+                android:id="@+id/linearLayout">
+
 
 
                 <TextView
@@ -50,10 +55,10 @@
                     style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:ellipsize="end"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_marginTop="2dp"
                     android:text="TEST USER "
                     android:textAllCaps="true"
                     android:textColor="@android:color/white" />
@@ -78,10 +83,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:ellipsize="end"
+                    android:text="Referal Code "
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:text="Referal Code "
+                    android:ellipsize="end"
                     android:textColor="@android:color/white"
                     android:visibility="visible" />
 
@@ -90,11 +95,11 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/linearLayout"
-                    android:layout_alignBottom="@+id/ivProfile"
-                    android:ellipsize="end"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_alignBottom="@+id/ivProfile"
+                    android:layout_alignStart="@+id/linearLayout"
                     android:text="Posp No."
                     android:textColor="@android:color/white"
                     android:visibility="visible" />
@@ -104,16 +109,17 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/linearLayout"
-                    android:layout_alignBottom="@+id/ivProfile"
-                    android:ellipsize="end"
                     android:maxLines="1"
                     android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_alignBottom="@+id/ivProfile"
+                    android:layout_alignStart="@+id/linearLayout"
                     android:text="Erp ID"
                     android:textColor="@android:color/white"
                     android:visibility="visible" />
 
             </LinearLayout>
+
 
 
         </RelativeLayout>
@@ -129,10 +135,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginLeft="12dp"
-            android:layout_marginTop="5dp"
             android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/txtknwyour"
                 style="@style/TextViewStyle.Medium"
@@ -141,7 +146,8 @@
                 android:layout_height="wrap_content"
 
                 android:text="@string/Finmart_underline"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                />
 
             <TextView
                 android:id="@+id/txtEntityName"
@@ -158,26 +164,85 @@
 
 
     </LinearLayout>
-
     <LinearLayout
-        android:id="@+id/lstswitchuser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="left|center_vertical"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="5dp"
         android:layout_marginRight="2dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
+        android:layout_marginTop="5dp"
 
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/lstswitchuser">
         <TextView
             android:id="@+id/txtswitchuser"
             style="@style/TextViewStyle.Medium"
+
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Switch User"
+            android:textColor="@android:color/white"
+            />
+        <ImageView
+            android:id="@+id/ivAdd"
+            android:layout_width="24dp"
+            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:src="@drawable/file_add" />
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Switch User"
-            android:textColor="@android:color/white" />
+            android:layout_gravity="left"
 
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:id="@+id/lstswitchChild_user">
+            <TextView
+                android:id="@+id/txtparentuser"
+                style="@style/TextViewStyle.Medium"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Parent Name"
+                android:textColor="@android:color/white"
+
+                />
+            <TextView
+                android:id="@+id/txtchilduser"
+                style="@style/TextViewStyle.Medium"
+                android:layout_marginLeft="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Child Name"
+                android:textColor="@android:color/white"
+                />
+            <ImageView
+                android:id="@+id/ivCancel"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/cross" />
+
+
+
+        </LinearLayout>
 
     </LinearLayout>
+
 </LinearLayout>

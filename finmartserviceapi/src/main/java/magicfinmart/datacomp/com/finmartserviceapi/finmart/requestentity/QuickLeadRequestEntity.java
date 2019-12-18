@@ -6,6 +6,30 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
 public class QuickLeadRequestEntity {
 
+    /**
+     * brokerId : 163
+     * Name : Test
+     * EMail : joeljangam146@gmail.com
+     * Mobile : 9789678678
+     * ProductId : 9
+     * Loan_amt : 500000
+     * FBA_Id : 1234
+     * Monthly_income : 50000
+     * Remark : Okae
+     * followupDate : 03-08-2018
+     */
+    /**
+     * Status : 43
+     * DOB : 1985-10-18
+     * PAN : CBHPS3919J
+     * CompanyName : Rupeeboss
+     * CompanyType : Pvt. Ltd.
+     * Profile : Self Employed
+     * Pincode : 4000070
+     * City : Mumbai
+     * State : Maharashtra
+     */
+
     private String brokerId;
     private String Name;
     private String EMail;
@@ -16,7 +40,6 @@ public class QuickLeadRequestEntity {
     private String Monthly_income;
     private String Remark;
     private String followupDate;
-
     private String Status;
     private String DOB;
     private String PAN;
@@ -178,5 +201,4 @@ public class QuickLeadRequestEntity {
     public void setState(String State) {
         this.State = State;
     }
-
 }

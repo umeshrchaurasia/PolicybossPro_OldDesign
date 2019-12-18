@@ -13,26 +13,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.BuildConfig;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
-import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity;
-import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.datacomp.magicfinmart.ncd.NCDActivity;
 import com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.ultralaksha.ultra_selection.UltraLakshaSelectionActivity;
@@ -42,12 +37,13 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
 
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -60,6 +56,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     Fragment mFragment;
     DBPersistanceController mReal;
     Context mContext;
+    String LangType;
+    PrefManager prefManager;
 
 
     public DashboardRowAdapter(Fragment fragment, int InsurancePosition, int loanPosition) {
@@ -68,7 +66,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ROW_INSURANCE = InsurancePosition;
         ROW_LOAN = loanPosition;
         mReal = new DBPersistanceController(mFragment.getActivity());
+        prefManager = new PrefManager(mFragment.getActivity());
+
     }
+
 
     public class HeaderRow extends RecyclerView.ViewHolder {
         public HeaderRow(View view) {
@@ -155,15 +156,26 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
+        LangType = prefManager.getLanguage();
         if (holder instanceof HeaderRow) {
 
         } else if (holder instanceof InsuranceHolder) {
 
-            final List<DashboardEntity> listIns = mReal.getInsurProductList();
-            ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
+            // final List<DashboardEntity> listIns = mReal.getInsurProductList();
+            final List<DashboardMultiLangEntity> listIns = mReal.getInsurProductLangList();
+
+            if (LangType.equals("")) {
+                ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
+            } else {
+                ((InsuranceHolder) holder).txtTypeName.setText(mReal.getLangData(LangType, "Insurance"));
+            }
+
+
+            ((BaseFragment) mFragment).setLanguage(LangType, ((InsuranceHolder) holder).txtTypeName);
+
             ((InsuranceHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_policyboss1));
             ((InsuranceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-            ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listIns));
+            ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listIns, LangType));
 
             ((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(
                     new RecyclerItemClickListener(((InsuranceHolder) holder).rvDashboard,
@@ -180,12 +192,20 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         } else if (holder instanceof LoanHolder) {
-            final List<DashboardEntity> listLoan = mReal.getLoanProductList();
-            ((LoanHolder) holder).txtTypeName.setText("LOANS");
-            ((LoanHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_rupeeboss1));
+            //   final List<DashboardEntity> listLoan = mReal.getLoanProductList();
+            final List<DashboardMultiLangEntity> listLoan = mReal.getLoanProductLangList();
 
+            if (LangType.equals("")) {
+                ((LoanHolder) holder).txtTypeName.setText("LOANS");
+            } else {
+                ((LoanHolder) holder).txtTypeName.setText(mReal.getLangData(LangType, "Loans"));
+            }
+
+            ((BaseFragment) mFragment).setLanguage(LangType, ((LoanHolder) holder).txtTypeName);
+
+            ((LoanHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_rupeeboss1));
             ((LoanHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-            ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan));
+            ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan, LangType));
 
             ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(
                     new RecyclerItemClickListener(((LoanHolder) holder).rvDashboard,
@@ -199,13 +219,20 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof MoreServiceHolder) {
 
-            final List<DashboardEntity> listMore = mReal.getMoreProductList();
+            //   final List<DashboardEntity> listMore = mReal.getMoreProductList();
+            final List<DashboardMultiLangEntity> listMore = mReal.getMoreProductLangList();
 
-            ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
+            if (LangType.equals("")) {
+                ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
+            } else {
+                ((MoreServiceHolder) holder).txtTypeName.setText(mReal.getLangData(LangType, "MoreServices"));
+            }
+            ((BaseFragment) mFragment).setLanguage(LangType, ((MoreServiceHolder) holder).txtTypeName);
+
             ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
             ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
             ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-            ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
+            ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore, LangType));
 
             ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
                     new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
@@ -220,7 +247,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    private void switchMenus(DashboardEntity dashboardEntity) {
+    private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
 
         switch (productID) {

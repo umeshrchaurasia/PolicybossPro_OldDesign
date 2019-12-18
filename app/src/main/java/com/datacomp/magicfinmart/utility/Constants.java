@@ -92,6 +92,7 @@ public class Constants {
 
     public static final Double GST = 0.18;
     public static final String SHARED_PREFERENCE_FINMART = "shared_finmart";
+    public static final String SWITCh_ParentDeatils_FINMART = "switch_ParentDeatils_finmart";
    /* public static final String EXTERNAL_LPG = "External LPG";
     public static final String EXTERNAL_CNG = "External CNG";*/
     public static String PERSONAL_LOAN_QUOTES = "personalloanquotes";
@@ -115,6 +116,7 @@ public class Constants {
     public static String PASSWORD = "password";
     public static String WEB_URL = "WEBURL";
     public static int REQUEST_CODE = 22;
+    public static int SWITCH_USER_REQUEST_CODE = 10;
     public static String PRODUCT_ID = "salesProductID";
     public static String DOC_DATA = "docData";
     public static String FESTIVAL_DATA = "festivalData";

@@ -18,13 +18,14 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,10 +39,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.CustomTypefaceSpan;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.io.File;
@@ -790,6 +791,53 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void setLanguageFont(Context mContext, String langType, MenuItem mi) {
+
+        Typeface typeface = Typeface.createFromAsset(mContext.getAssets(), "fonts/english.ttf");
+        SpannableString mNewTitle = new SpannableString(mi.getTitle());
+
+
+        switch (langType) {
+
+            case "English":
+                // English
+                typeface = Typeface.createFromAsset(mContext.getAssets(),
+                        "fonts/english.ttf");
+                break;
+
+            case "Hindi":
+//                typeface = Typeface.createFromAsset(mContext.getAssets(),
+//                        "fonts/hindi.ttf");
+
+                typeface = Typeface.createFromAsset(mContext.getAssets(),
+                        "fonts/aparaj.ttf");
+                break;
+
+            case "Marathi":
+                typeface = Typeface.createFromAsset(mContext.getAssets(),
+                        "fonts/marathi.ttf");
+                break;
+
+            case "Gujrathi":
+                typeface = Typeface.createFromAsset(mContext.getAssets(),
+                        "fonts/gujrati.ttf");
+                break;
+
+
+            default:
+                typeface = Typeface.createFromAsset(mContext.getAssets(),
+                        "fonts/english.ttf");
+        }
+
+
+        mNewTitle.setSpan(new CustomTypefaceSpan("", typeface), 0, mNewTitle.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        mi.setTitle(mNewTitle);
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
+    }
+
 
     public void permissionAlert(final View view, String Title, String strBody) {
         try {
@@ -974,8 +1022,6 @@ public class BaseActivity extends AppCompatActivity {
 
 
     //endregion
-
-
 
 
 }

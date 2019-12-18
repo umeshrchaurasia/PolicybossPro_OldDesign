@@ -8,20 +8,26 @@
             android:id="@+id/nav_home"
             android:icon="@drawable/home"
             android:orderInCategory="100"
-            android:title="HOME" />
+            android:title="@string/nav_home" />
+
+        <item
+            android:id="@+id/nav_language"
+            android:icon="@drawable/logout"
+            android:orderInCategory="100"
+            android:title="Switch Language" />
 
         <item
             android:id="@+id/nav_finbox"
             android:icon="@drawable/mps"
             android:orderInCategory="100"
-            android:title="MY FINBOX" />
+            android:title="@string/nav_finbox"/>
 
 
         <item
             android:id="@+id/nav_finperk"
             android:icon="@drawable/ic_business_name"
             android:orderInCategory="100"
-            android:title="FINPERKS" />
+            android:title="@string/nav_finperks" />
         <item
             android:id="@+id/nav_festivelink"
             android:icon="@drawable/share_data"

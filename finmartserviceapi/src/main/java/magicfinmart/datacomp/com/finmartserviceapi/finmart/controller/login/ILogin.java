@@ -15,4 +15,6 @@ public interface ILogin {
     void changePassword(String oldPass, String newPass, IResponseSubcriber iResponseSubcriber);
 
     void referFriend(String refType, String refCode, IResponseSubcriber iResponseSubcriber);
+
+    void getPospAgentData (String UID, String Name, IResponseSubcriber iResponseSubcriber);
 }

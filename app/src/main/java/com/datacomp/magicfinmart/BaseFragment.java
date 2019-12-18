@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -385,5 +386,49 @@ public class BaseFragment extends Fragment {
 
     public int dateDifferenceInDays(Date startDate, Date endDate) {
         return (int) ((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24));
+    }
+
+    public void setLanguage( String langType, TextView tv) {
+
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(),
+                "fonts/english.ttf");
+
+
+        switch (langType) {
+
+            case "English":
+                // English
+                typeface = Typeface.createFromAsset(getActivity().getAssets(),
+                        "fonts/english.ttf");
+                break;
+
+            case "Hindi":
+//                typeface = Typeface.createFromAsset(getActivity().getAssets(),
+//                        "fonts/hindi.ttf");
+
+                typeface = Typeface.createFromAsset(getActivity().getAssets(),
+                        "fonts/aparaj.ttf");
+                break;
+
+            case "Marathi":
+                typeface = Typeface.createFromAsset(getActivity().getAssets(),
+                        "fonts/marathi.ttf");
+                break;
+
+            case "Gujrathi":
+                typeface = Typeface.createFromAsset(getActivity().getAssets(),
+                        "fonts/gujrati.ttf");
+                break;
+
+
+            default:
+                typeface = Typeface.createFromAsset(getActivity().getAssets(),
+                        "fonts/english.ttf");
+        }
+
+
+        tv.setTypeface(typeface);
+
+
     }
 }

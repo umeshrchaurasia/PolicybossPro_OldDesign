@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -105,7 +107,7 @@ public class Utility {
         return currentDateandTime;
     }
 
-    public static MultipartBody.Part getMultipartImage(File file) {
+    public static MultipartBody.Part  getMultipartImage(File file) {
         RequestBody imgBody = RequestBody.create(MediaType.parse("image/*"), file);
         MultipartBody.Part imgFile = MultipartBody.Part.createFormData("DocFile", file.getName(), imgBody);
         return imgFile;
@@ -531,4 +533,7 @@ public class Utility {
 
         return false;
     }
+
+
+
 }

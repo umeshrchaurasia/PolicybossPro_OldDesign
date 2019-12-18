@@ -1,7 +1,13 @@
 package magicfinmart.datacomp.com.finmartserviceapi.database;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -30,6 +36,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.Healthinsurance
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MultiLangEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
@@ -38,9 +45,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificat
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultilanguageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
@@ -697,6 +706,107 @@ public class DBPersistanceController {
 
     //endregion
 
+
+    //region Dashboard MultilangEntity list
+
+    public List<DashboardMultiLangEntity> getInsurProductLangList() {
+        List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
+
+
+        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+                new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled() != null
+                && new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
+            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 17, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive, "FinmartExclutitle", "FinmartExcludesc"));
+
+        }
+
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car, "PrivateCartitle", "PrivateCardesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler, "TwoWheelertitle", "TwoWheelerdesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle, "CommVehtitle", "CommVehdesc"));
+
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance, "HealthInsTitle", "HealthInsdesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
+
+
+        if (prefManager.getMenuDashBoard() != null) {
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardMultiLangEntity dashboardEntity = new DashboardMultiLangEntity("INSURANCE", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1, "Insurance", "");
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
+
+        return dashboardEntities;
+    }
+
+
+    public List<DashboardMultiLangEntity> getLoanProductLangList() {
+        List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
+
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 4, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card, "CCTitle", "CCdesc"));
+
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 6, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer, "BLTitle", "BLdesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan, "HlTitle", "Hldesc"));
+
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 8, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property, "LAPTitle", "LAPdesc"));
+
+        if (prefManager.getMenuDashBoard() != null) {
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 2 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardMultiLangEntity dashboardEntity = new DashboardMultiLangEntity("LOANS", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1, "Loans", "");
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
+
+        return dashboardEntities;
+    }
+
+    public List<DashboardMultiLangEntity> getMoreProductLangList() {
+        List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
+
+        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
+                new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
+                && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
+            dashboardEntities.add(new DashboardMultiLangEntity("MORE SERVICES", 15,
+                    "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)",
+                    R.drawable.investment_icon, "OtherInvProTitle", "OtherInvProdesc"));
+        }
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
+        // dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
+
+        if (prefManager.getMenuDashBoard() != null) {
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 3 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardMultiLangEntity dashboardEntity = new DashboardMultiLangEntity("MORE SERVICES", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1, "MoreServices", "");
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
+
+        return dashboardEntities;
+    }
+
+    //endregion
+
     //region previous insurer
 
     public boolean storeInsurerMaster(InsurerResponse insurerResponse) {
@@ -926,6 +1036,16 @@ public class DBPersistanceController {
         realm.deleteAll();
         realm.commitTransaction();
     }
+
+    public void clearSwitchUser() {
+        realm.beginTransaction();
+        realm.delete(LoginResponseEntity.class);
+        realm.delete(AccountDtlEntity.class);
+        realm.delete(DocsEntity.class);
+        realm.delete(UserConstantEntity.class);
+        realm.commitTransaction();
+    }
+
 
     public LoginResponseEntity getUserData() {
         LoginResponseEntity entity = realm.where(LoginResponseEntity.class).findFirst();
@@ -2229,6 +2349,162 @@ public class DBPersistanceController {
         return list;
     }
 
+
+    //endregion
+
+
+    //region MultoLanguage
+
+    public List<MultiLangEntity> getMultiLangList() {
+
+        List<MultiLangEntity> list = new ArrayList<>();
+        list = realm.where(MultiLangEntity.class).findAll();
+        return list;
+    }
+
+    public boolean isMultiLangExist() {
+
+        MultiLangEntity multiLangEntity = realm.where(MultiLangEntity.class).findFirst();
+        if (multiLangEntity != null) {
+            return true;
+        }
+        return false;
+
+    }
+
+    public String getLangData(String langCode, String prodKey) {
+
+        MultiLangEntity entity = realm.where(MultiLangEntity.class).equalTo("Keyname", prodKey).findFirst();
+
+        if (entity == null) {
+            return "";
+        }
+
+        if (!langCode.isEmpty()) {
+
+            switch (langCode) {
+
+                case "English":
+                    // English
+                    return entity.getEnglish();
+
+
+                case "Hindi":
+
+                    return entity.getHindi();
+
+                case "Marathi":
+                    return entity.getMarathi();
+
+                case "Gujrathi":
+
+                    return entity.getGujrathi();
+
+
+                default:
+                    return entity.getEnglish();
+
+            }
+
+        }
+
+        return "";
+    }
+
+
+
+//    public String getLanguageData(String langCode, String langKey) {
+//
+//        // RblCityEntity entity = realm.where(RblCityEntity.class).equalTo("CityName", RblCityName).findFirst();
+//        if (!langCode.isEmpty()) {
+//
+//            DashboardEntity entity = realm.where(DashboardEntity.class).equalTo("Kname", langKey).findFirst();
+//
+//            if (entity != null) {
+//
+//                if (langCode.equals("En")) {
+//
+//                    return entity.getETitle();
+//                } else if (langCode.equals("Hi")) {
+//
+//                    return entity.getHTitle();
+//                }
+//                if (langCode.equals("Ma")) {
+//
+//                    return entity.getMTitle();
+//                }
+//                if (langCode.equals("Gu")) {
+//
+//                    return entity.getGTitle();
+//                }
+//
+//            }
+//        }
+//
+//        return "";
+//    }
+//
+//
+//    public boolean saveMultiLanguage(MultilanguageResponse response) {
+//
+//
+//        if (response != null && response.getMasterData() != null) {
+//
+//            List<MultilanguageResponse.MasterDataBean.DashboardLanguageEntity> list = response.getMasterData().getDashboard();
+//
+//            List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
+//
+//            for (int i = 0; i < list.size(); i++) {
+//
+//                MultilanguageResponse.MasterDataBean.DashboardLanguageEntity mItem = list.get(i);
+//
+//                String type = "";
+//                if (mItem.getKname().equals("FinmartExclutitle") || mItem.getKname().equals("PrivateCartitle")
+//                        || mItem.getKname().equals("TwoWheelertitle") || mItem.getKname().equals("CommVehtitle")) {
+//                    type = "INSURANCE";
+//                }
+//
+//
+////                dashboardEntities.add(new DashboardEntity("INSURANCE", 1, mContext.getResources().getString(R.string.dash_private_car), "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
+////                dashboardEntities.add(new DashboardEntity("INSURANCE", 10, mContext.getResources().getString(R.string.dash_two_wheeler), "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
+////                dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance));
+////                dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
+////                dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
+////
+//
+//                int productID = 0;
+//
+//                switch (mItem.getKname()) {
+//
+//                    case "FinmartExclutitle":
+//                        productID = 17;
+//                        break;
+//                    case "PrivateCartitle":
+//                        productID = 1;
+//                        break;
+//                    case "TwoWheelertitle":
+//                        productID = 10;
+//                        break;
+//                    case "CommVehtitle":
+//                        productID = 12;
+//                        break;
+//
+//                }
+//
+//
+//                DashboardEntity entity = new DashboardEntity(type, productID, mItem.getETitle(), mItem.getEDesc(),
+//                        R.drawable.private_car, mItem.getKname(), mItem.getETitle(), mItem.getHTitle(),
+//                        mItem.getMTitle(), mItem.getGTitle(), mItem.getEDesc(), mItem.getHDesc(),
+//                        mItem.getMDesc(), mItem.getGDesc());
+//
+//                dashboardEntities.add(entity);
+//
+//            }
+//
+//        }
+//
+//        return false;
+//    }
 
     //endregion
 }

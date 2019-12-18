@@ -36,6 +36,7 @@ public class LoginRequestEntity {
     private String DeviceName;
     private String IpAdd;
 
+
     public LoginRequestEntity() {
         UserName = "";
         Password = "";
@@ -55,6 +56,7 @@ public class LoginRequestEntity {
         AppID = "";
         AppUSERID = "";
         AppPASSWORD = "";
+        IsChildLogin = "";
     }
 
     private String LastLog;
@@ -67,6 +69,8 @@ public class LoginRequestEntity {
     private String AppID;
     private String AppUSERID;
     private String AppPASSWORD;
+
+    private String IsChildLogin;
 
     public String getUserName() {
         return UserName;
@@ -210,5 +214,13 @@ public class LoginRequestEntity {
 
     public void setAppPASSWORD(String AppPASSWORD) {
         this.AppPASSWORD = AppPASSWORD;
+    }
+
+    public String getIsChildLogin() {
+        return IsChildLogin;
+    }
+
+    public void setIsChildLogin(String isChildLogin) {
+        IsChildLogin = isChildLogin;
     }
 }
