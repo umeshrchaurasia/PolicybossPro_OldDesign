@@ -27,7 +27,7 @@
             android:icon="@drawable/share_data"
             android:orderInCategory="100"
             android:title="FESTIVE LINKS"
-            android:visible="false"/>
+            android:visible="false" />
 
 
         <item
@@ -246,7 +246,9 @@
         android:id="@+id/nav_cobrowser"
         android:icon="@drawable/whats_new"
         android:orderInCategory="910"
-        android:title="Co Browser User" />
+        android:visible="false"
+        android:title="Co Browser User"
+         />
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/logout"
