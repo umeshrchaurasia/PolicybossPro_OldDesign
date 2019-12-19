@@ -123,6 +123,8 @@ public class LoginResponseEntity extends RealmObject {
     private String FBAProfileUrl;
     private String referer_code;
 
+    private String  IsUidLogin;
+
     public int getFBAId() {
         return FBAId;
     }
@@ -481,5 +483,13 @@ public class LoginResponseEntity extends RealmObject {
 
     public void setFBAProfileUrl(String FBAProfileUrl) {
         this.FBAProfileUrl = FBAProfileUrl;
+    }
+
+    public String getIsUidLogin() {
+        return IsUidLogin;
+    }
+
+    public void setIsUidLogin(String isUidLogin) {
+        IsUidLogin = isUidLogin;
     }
 }

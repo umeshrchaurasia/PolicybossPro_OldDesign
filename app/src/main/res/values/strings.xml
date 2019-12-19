@@ -448,8 +448,6 @@ The system is configured to monitor the number of leads generated, to the conver
 
     </string-array>
 
-
-
     <string-array name="icici_options">
         <item>LIFE</item>
         <item>LIFE PLUS</item>

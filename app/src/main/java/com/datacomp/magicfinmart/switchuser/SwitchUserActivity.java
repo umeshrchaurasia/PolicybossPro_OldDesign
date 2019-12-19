@@ -226,7 +226,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         loginRequestEntity.setIsChildLogin("Y");
 
         //   dialogLogout(SwitchUserActivity.this);
-        new PrefManager(SwitchUserActivity.this).clearAll();
+    //    new PrefManager(SwitchUserActivity.this).clearAll();
 
         new DBPersistanceController(SwitchUserActivity.this).clearSwitchUser();
 

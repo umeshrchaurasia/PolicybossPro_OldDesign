@@ -240,7 +240,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, QuickLeadActivity.this);
-            DateTimePicker.openDatePicker(QuickLeadActivity.this, new DatePickerDialog.OnDateSetListener() {
+            DateTimePicker.showHealthAgeDatePicker(QuickLeadActivity.this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                     if (datePicker.isShown()) {
@@ -414,7 +414,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             requestEntity.setFollowupDate(etFollowupDate.getText().toString());
             requestEntity.setLoan_amt(etLoanAmount.getText().toString());
             requestEntity.setMobile(etMobile.getText().toString());
-            if (spprofile.getSelectedItem().toString()=="1")
+            if (spprofile.getSelectedItem().equals("Salaried"))
             {
                 requestEntity.setMonthly_income(etMonthlyIncomeITR.getText().toString());
             }else
