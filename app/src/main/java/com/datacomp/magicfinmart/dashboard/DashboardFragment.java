@@ -339,7 +339,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     public void bindDashboardhAdapter() {
 
 
-        mAdapter = new DashboardRowAdapter(this);
+        mAdapter = new DashboardRowAdapter(this, 0, 1);
         rvHome.setAdapter(mAdapter);
     }
 

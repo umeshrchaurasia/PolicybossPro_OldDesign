@@ -24,7 +24,8 @@ class AttendanceFragment : BaseFragment() {
 
     private fun getUID(): String {
 
-        DBPersistanceController(activity).userConstantsData.ui
+        // DBPersistanceController(activity).userConstantsData.
+        return ""
     }
 
 
