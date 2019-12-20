@@ -9,11 +9,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.home_bank_
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.personal_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UserBehaviourRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckAppAccessResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.SwipeDetailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UserBehaviourResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.mybusinessResponse;
@@ -84,6 +87,11 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         @GET
         Call<home_bank_list_Response> getBankdetail_homeloan(@Url String strUrl);
 
+        @POST
+        Call<CheckAppAccessResponse> checkAppAccess(@Url String url, @Body HashMap<String, String> body);
+
+        @POST
+        Call<SwipeDetailResponse> indoorAttendance(@Url String url, @Body RegisterRequestEntity entity);
 
     }
 }

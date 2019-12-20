@@ -17,10 +17,16 @@
             android:title="Switch Language" />
 
         <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/logout"
+            android:orderInCategory="100"
+            android:title="My Attendance" />
+
+        <item
             android:id="@+id/nav_finbox"
             android:icon="@drawable/mps"
             android:orderInCategory="100"
-            android:title="@string/nav_finbox"/>
+            android:title="@string/nav_finbox" />
 
 
         <item
@@ -252,9 +258,8 @@
         android:id="@+id/nav_cobrowser"
         android:icon="@drawable/whats_new"
         android:orderInCategory="910"
-        android:visible="false"
         android:title="Co Browser User"
-         />
+        android:visible="false" />
     <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/logout"
