@@ -2,8 +2,10 @@ package com.datacomp.magicfinmart.attendance
 
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -26,6 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.CheckAppAc
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckAppAccessResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber
+import java.util.*
 
 
 class AttendanceFragment : BaseFragment(), IResponseSubcriber, ILocationStateListener, View.OnClickListener {
@@ -101,36 +104,20 @@ class AttendanceFragment : BaseFragment(), IResponseSubcriber, ILocationStateLis
 
     override fun onLocationChanged(location: Location?) {
 
-        if (mLocation == null)
-            Toast.makeText(activity, "Location is Null", Toast.LENGTH_LONG).show()
-
-//        mLocation?.let {
-//            if (!it.isFromMockProvider) {
-//                Toast.makeText(activity, "Location is " + mLocation.latitude + " : "
-//                        + mLocation.longitude, Toast.LENGTH_LONG).show()
-//            } else {
-//                Toast.makeText(activity, "Fake GPS Location Detected", Toast.LENGTH_LONG).show()
-//            }
-//        }
+        if (mLocation == null) {
+            showGoogleMap()
+            return
+        }
     }
 
     override fun onConnected() {
 
         mLocation = mLocationTracker.mLocation
 
-        if (mLocation == null)
-            Toast.makeText(activity, "Location is Null", Toast.LENGTH_LONG).show()
-
-//        mLocation?.let {
-//            if (!it.isFromMockProvider) {
-//                Toast.makeText(activity, "Location is " + mLocation.latitude + " : "
-//                        + mLocation.longitude, Toast.LENGTH_LONG).show()
-//            } else {
-//                Toast.makeText(activity, "Fake GPS Location Detected", Toast.LENGTH_LONG).show()
-//            }
-//        }
-
-        //Toast.makeText(activity, "Location Connected", Toast.LENGTH_LONG).show()
+        if (mLocation == null) {
+            showGoogleMap()
+            return
+        }
     }
 
     override fun onConnectionFailed() {
@@ -155,18 +142,46 @@ class AttendanceFragment : BaseFragment(), IResponseSubcriber, ILocationStateLis
 
         if (v?.id == R.id.btnAttendance) {
 
-            if (distance(mLocation.latitude,
-                            mLocation.longitude,
-                            checkAppAccessEntity.lat.toDouble(),
-                            checkAppAccessEntity.lng.toDouble()) < 0.3) {
-                //indoor
-                showDialog("Please wait..")
-                DynamicController(activity).markAttendance(attendanceRequest("Indoor"), this)
-            } else {
-                //outdoor
-                showOutdoorAlertDialog()
+            if (mLocation == null) {
+                showGoogleMap()
+                return
             }
 
+            mLocation?.let {
+                if (distance(mLocation.latitude,
+                                mLocation.longitude,
+                                checkAppAccessEntity.lat.toDouble(),
+                                checkAppAccessEntity.lng.toDouble()) < 0.3) {
+                    //indoor
+                    showDialog("Please wait..")
+                    DynamicController(activity).indoorAttendance(attendanceRequest("Indoor"), this)
+                } else {
+                    //outdoor
+                    showOutdoorAlertDialog()
+                }
+            }
+
+        }
+    }
+
+    private fun showGoogleMap() {
+        try {
+            val builder = AlertDialog.Builder(context!!)
+            builder.setTitle("Oops! Your location not found.")
+            builder.setMessage("Kindly go to google map , set your current location and try again.")
+            val positiveText = "OK"
+            builder.setPositiveButton(positiveText
+            ) { dialog, which ->
+                val uri = String.format(Locale.ENGLISH, "geo:%f,%f", 19.0857745, 72.8883218)
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                startActivity(intent)
+            }
+            val dialog = builder.create()
+            dialog.setCancelable(false)
+            dialog.setCanceledOnTouchOutside(false)
+            dialog.show()
+        } catch (ex: Exception) {
+            Toast.makeText(activity, "Please try again..", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -177,7 +192,7 @@ class AttendanceFragment : BaseFragment(), IResponseSubcriber, ILocationStateLis
         alertDialog.setPositiveButton("YES", DialogInterface.OnClickListener { dialog, which ->
             dialog.dismiss()
             showDialog("Please wait..")
-            DynamicController(activity).markAttendance(attendanceRequest("Outdoor"), this)
+            DynamicController(activity).outdoorAttendance(attendanceRequest("Outdoor"), this)
         })
 
         alertDialog.setNegativeButton("CANCEL", DialogInterface.OnClickListener { dialog, which ->

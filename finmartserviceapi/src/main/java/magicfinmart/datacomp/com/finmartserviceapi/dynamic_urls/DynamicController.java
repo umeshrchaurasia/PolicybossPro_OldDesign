@@ -93,9 +93,46 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void markAttendance(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+    public void indoorAttendance(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
 
         String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipe";
+
+        genericUrlNetworkService.indoorAttendance(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
+            @Override
+            public void onResponse(Call<SwipeDetailResponse> call, Response<SwipeDetailResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SwipeDetailResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void outdoorAttendance(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeOutdoorSwipe";
 
         genericUrlNetworkService.indoorAttendance(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
             @Override
