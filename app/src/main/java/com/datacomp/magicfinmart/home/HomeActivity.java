@@ -58,6 +58,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.attendance.AttendanceFragment;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
@@ -242,7 +243,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         getSupportActionBar().setElevation(0);
 
 
-
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionNAme = pinfo.versionName;
@@ -278,8 +278,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         init_headers();
 
 
-        setNavigationMenu( prefManager.getLanguage());    // Set Navigation Drawer
-
+        setNavigationMenu(prefManager.getLanguage());    // Set Navigation Drawer
 
 
         if (savedInstanceState == null) {
@@ -362,6 +361,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 switch (menuItem.getItemId()) {
 
+                    case R.id.nav_attendance:
+                        fragment = new AttendanceFragment();
+                        getSupportActionBar().setTitle("My Attendance");
+                        break;
+
                     case R.id.nav_generateLead:
                         startActivity(new Intent(HomeActivity.this, GenerateLeadActivity.class));
                         break;
@@ -385,12 +389,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        break;
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
-                       // getSupportActionBar().setTitle("MAGIC FIN-MART");
-                        if(prefManager.getLanguage().equals(""))
-                        {
+                        // getSupportActionBar().setTitle("MAGIC FIN-MART");
+                        if (prefManager.getLanguage().equals("")) {
                             getSupportActionBar().setTitle("MAGIC FIN-MART");
-                        }else{
-                            getSupportActionBar().setTitle(db.getLangData( prefManager.getLanguage(), "Title"));
+                        } else {
+                            getSupportActionBar().setTitle(db.getLangData(prefManager.getLanguage(), "Title"));
                         }
 
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
@@ -991,11 +994,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     public void selectHome() {
 
-        if(prefManager.getLanguage().equals(""))
-        {
+        if (prefManager.getLanguage().equals("")) {
             getSupportActionBar().setTitle("MAGIC FIN-MART");
-        }else{
-            getSupportActionBar().setTitle(db.getLangData( prefManager.getLanguage(), "Title"));
+        } else {
+            getSupportActionBar().setTitle(db.getLangData(prefManager.getLanguage(), "Title"));
         }
         Fragment fragment = new DashboardFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
@@ -1731,7 +1733,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     lstswitchChild_user.setVisibility(View.VISIBLE);
                     //   txtDetails.setText("" + loginResponseEntity.getFullName());
                     txtparentuser.setText("Parent :- " + outputMap.get("Parent_name"));
-                  //  txtchilduser.setText("  " + outputMap.get("Child_name"));
+                    //  txtchilduser.setText("  " + outputMap.get("Child_name"));
 
                 } else {
                     lstswitchuser.setVisibility(View.VISIBLE);
@@ -1803,6 +1805,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         } else {
             nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
+        }
+
+
+        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+            //visible attendance
+            nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
+        } else {
+            //hide attendance
+            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
         }
 
 
@@ -2663,8 +2674,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.attachBaseContext(newBase);
 
     }
-
-
 
 
 }

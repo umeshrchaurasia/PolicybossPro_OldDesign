@@ -2866,6 +2866,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     @Override
     public void onLocationChanged(Location location) {
+
         location = locationTracker.mLocation;
     }
 

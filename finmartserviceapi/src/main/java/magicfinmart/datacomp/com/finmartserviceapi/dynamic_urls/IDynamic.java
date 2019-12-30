@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import okhttp3.MultipartBody;
@@ -33,11 +34,17 @@ public interface IDynamic {
     void sendUserBehaviour();
 
     //My Business
-    void getMyBusiness(String id,IResponseSubcriber iResponseSubcriber);
+    void getMyBusiness(String id, IResponseSubcriber iResponseSubcriber);
 
     //Personal loan
-    void getBankdetail_personalloan(String cityid,String Productid,IResponseSubcriber iResponseSubcriber);
+    void getBankdetail_personalloan(String cityid, String Productid, IResponseSubcriber iResponseSubcriber);
 
     //Personal loan
-    void getBankdetail_homeloan(String cityid,String Productid,IResponseSubcriber iResponseSubcriber);
+    void getBankdetail_homeloan(String cityid, String Productid, IResponseSubcriber iResponseSubcriber);
+
+    void checkAppAccess(String deviceID, String deviceToken, String uid, IResponseSubcriber iResponseSubcriber);
+
+    void indoorAttendance(RegisterRequestEntity entity, IResponseSubcriber iResponseSubcriber);
+
+    void outdoorAttendance(RegisterRequestEntity entity,IResponseSubcriber iResponseSubcriber);
 }

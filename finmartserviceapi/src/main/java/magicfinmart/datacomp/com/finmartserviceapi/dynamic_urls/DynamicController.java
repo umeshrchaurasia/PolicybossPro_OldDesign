@@ -18,11 +18,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.home_bank_
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.personal_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UploadNCDRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UserBehaviourRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckAppAccessResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.SwipeDetailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UserBehaviourResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.mybusinessResponse;
@@ -46,6 +49,121 @@ public class DynamicController implements IDynamic {
     public DynamicController(Context context) {
         genericUrlNetworkService = new DynamicUrlBuilder().getService();
         mContext = context;
+    }
+
+
+    @Override
+    public void checkAppAccess(String deviceID, String deviceToken, String uid, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://49.50.95.141:191/AttendanceDetails.svc/CheckAppAccess";
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("DeviceId", deviceID);
+        body.put("DeviceToken", deviceToken);
+        body.put("uid", uid);
+
+        genericUrlNetworkService.checkAppAccess(url, body).enqueue(new Callback<CheckAppAccessResponse>() {
+            @Override
+            public void onResponse(Call<CheckAppAccessResponse> call, Response<CheckAppAccessResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckAppAccessResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void indoorAttendance(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipe";
+
+        genericUrlNetworkService.indoorAttendance(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
+            @Override
+            public void onResponse(Call<SwipeDetailResponse> call, Response<SwipeDetailResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SwipeDetailResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void outdoorAttendance(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeOutdoorSwipe";
+
+        genericUrlNetworkService.indoorAttendance(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
+            @Override
+            public void onResponse(Call<SwipeDetailResponse> call, Response<SwipeDetailResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SwipeDetailResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
     }
 
     @Override

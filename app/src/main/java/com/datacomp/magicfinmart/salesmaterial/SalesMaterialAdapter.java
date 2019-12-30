@@ -28,7 +28,7 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
 
     DBPersistanceController dbPersistanceController;
 
-    public SalesMaterialAdapter(Context context, List<SalesProductEntity> list ) {
+    public SalesMaterialAdapter(Context context, List<SalesProductEntity> list) {
         this.mContex = context;
         mlistSalesProduct = list;
 
@@ -47,24 +47,19 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
         SalesMaterialItem item = (SalesMaterialItem) holder;
         final SalesProductEntity entity = mlistSalesProduct.get(position);
 
-        if(entity.getCount() == entity.getOldCount())
-        {
+        if (entity.getCount() == entity.getOldCount()) {
             item.txtCount.setVisibility(View.INVISIBLE);
-        }else{
+        } else {
             item.txtCount.setVisibility(View.VISIBLE);
             item.txtCount.setText(String.valueOf(entity.getCount() - entity.getOldCount()));
         }
         item.txtProductName.setText(entity.getProduct_Name());
-
         Glide.with(mContex).load(entity.getProduct_image()).into(item.imgProduct);
 
         holder.lyParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                ((SalesMaterialActivity) mContex).redirectToApplyMain(entity,position);
-
-
+                ((SalesMaterialActivity) mContex).redirectToApplyMain(entity, position);
             }
 
         });

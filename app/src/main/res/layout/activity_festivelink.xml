@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg1"
     android:orientation="vertical"
     tools:context=".festivelink.festivelinkActivity">
 
@@ -21,6 +22,17 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        style="@style/TextViewStyle.Large"
+        android:background="@color/header_dark_text"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="CONCEPT BROCHURES"
+
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerShareMSG"
         android:layout_width="match_parent"

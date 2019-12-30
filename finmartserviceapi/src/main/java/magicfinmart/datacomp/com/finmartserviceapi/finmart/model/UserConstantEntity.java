@@ -164,6 +164,8 @@ public class UserConstantEntity extends RealmObject {
     private String cobrowserlicensecode;
 
 
+
+
     public String getCobrowserisactive() {
         return cobrowserisactive;
     }

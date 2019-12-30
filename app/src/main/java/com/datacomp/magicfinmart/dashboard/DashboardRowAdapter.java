@@ -49,19 +49,22 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntit
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //private static final int ROW_HEADER = 5;
-    private static final int ROW_INSURANCE = 0;
-    private static final int ROW_LOAN = 1;
-    private static final int ROW_MORE_SERVICES = 2;
-    private static int TOTAL_ROW = 3;
+    private int ROW_INSURANCE = 0;
+    private int ROW_LOAN = 1;
+    private int ROW_MORE_SERVICES = 2;
+    private int TOTAL_ROW = 3;
     Fragment mFragment;
     DBPersistanceController mReal;
     Context mContext;
     String LangType;
     PrefManager prefManager;
 
-    public DashboardRowAdapter(Fragment fragment) {
+
+    public DashboardRowAdapter(Fragment fragment, int InsurancePosition, int loanPosition) {
         mFragment = fragment;
         mContext = mFragment.getActivity();
+        ROW_INSURANCE = InsurancePosition;
+        ROW_LOAN = loanPosition;
         mReal = new DBPersistanceController(mFragment.getActivity());
         prefManager = new PrefManager(mFragment.getActivity());
 
@@ -128,17 +131,17 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //                        R.layout.layout_dashboard_header, parent, false);
 //                return new HeaderRow(view);
 
-            case ROW_INSURANCE:
+            case 0:
                 view = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.layout_dashboard_recycler, parent, false);
                 return new InsuranceHolder(view);
 
-            case ROW_LOAN:
+            case 1:
                 view = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.layout_dashboard_recycler, parent, false);
                 return new LoanHolder(view);
 
-            case ROW_MORE_SERVICES:
+            case 2:
                 view = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.layout_dashboard_recycler, parent, false);
                 return new MoreServiceHolder(view);
@@ -506,11 +509,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         switch (position) {
             //  case ROW_HEADER:
             //      return ROW_HEADER;
-            case ROW_INSURANCE:
+            case 0:
                 return ROW_INSURANCE;
-            case ROW_LOAN:
+            case 1:
                 return ROW_LOAN;
-            case ROW_MORE_SERVICES:
+            case 2:
                 return ROW_MORE_SERVICES;
             default:
                 break;

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FestivalCompaignEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FestivalCampaignResponse;
@@ -38,7 +40,7 @@ public class festivelinkActivity extends BaseActivity implements IResponseSubcri
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
     FestivalCampaignResponse getfestivelinkResponse;
-
+    int numberOfColumns = 2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +55,8 @@ public class festivelinkActivity extends BaseActivity implements IResponseSubcri
         dbPersistanceController = new DBPersistanceController(festivelinkActivity.this);
         loginResponseEntity = dbPersistanceController.getUserData();
         showDialog();
-        new SalesMaterialController(festivelinkActivity.this).getfestivelink(String.valueOf(loginResponseEntity.getFBAId()), String.valueOf(loginResponseEntity.getLoanId()), "Finmart", festivelinkActivity.this);
+        new SalesMaterialController(festivelinkActivity.this)
+                .getfestivelink(String.valueOf(loginResponseEntity.getFBAId()), String.valueOf(loginResponseEntity.getLoanId()), "Finmart", festivelinkActivity.this);
 
 
     }
@@ -63,7 +66,7 @@ public class festivelinkActivity extends BaseActivity implements IResponseSubcri
         recyclerShareMessage = (RecyclerView) findViewById(R.id.recyclerShareMSG);
         recyclerShareMessage.setHasFixedSize(true);
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,numberOfColumns);
         recyclerShareMessage.setLayoutManager(mLayoutManager);
 
 
@@ -98,6 +101,14 @@ public class festivelinkActivity extends BaseActivity implements IResponseSubcri
         cancelDialog();
        // Toast.makeText(this, getfestivelinkResponse.getMessage(), Toast.LENGTH_LONG).show();
 
+    }
+
+    public void redirectToApplyMain(FestivalCompaignEntity festivalCompaignEntity) {
+
+        Intent intent = new Intent(this, festivalShareActivity.class);
+        intent.putExtra(Constants.FESTIVAL_DATA, festivalCompaignEntity);
+
+        startActivity(intent);
     }
 
     public void shareData(String strURL, String strSub , String strDetail)

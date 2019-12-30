@@ -11,7 +11,7 @@
 
     <com.datacomp.magicfinmart.utility.TouchImageView
         android:id="@+id/ivProduct"
-        android:src="@drawable/drop_down_arrow"
+        android:src="@drawable/finmart_user_icon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"/>

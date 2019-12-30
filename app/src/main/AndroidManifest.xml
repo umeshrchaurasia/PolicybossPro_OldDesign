@@ -26,6 +26,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".festivelink.festivalShareActivity"
+            android:label="SALES MATERIAL"
+            android:parentActivityName=".festivelink.festivelinkActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
+        <activity
             android:name=".switchuser.SwitchUserActivity"
             android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
@@ -34,11 +41,13 @@
             android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".festivelink.festivelinkActivity"
-            android:label="@string/title_activity_festivelink"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="SALES MATERIAL"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".creditcard.newcreditcard.CreditCardInputActivity"
             android:label="@string/title_activity_credit_card_input"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".splashscreen.SplashScreenActivity"

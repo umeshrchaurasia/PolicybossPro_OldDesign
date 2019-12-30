@@ -40,7 +40,6 @@ public class QuickLeadRequestEntity {
     private String Monthly_income;
     private String Remark;
     private String followupDate;
-
     private String Status;
     private String DOB;
     private String PAN;

@@ -412,9 +412,6 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             requestEntity.setEMail(etEmail.getText().toString());
             requestEntity.setFBA_Id(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
             requestEntity.setFollowupDate(etFollowupDate.getText().toString());
-            requestEntity.setDOB(etdob.getText().toString());
-            requestEntity.setStatus("43");
-            requestEntity.setPAN(etPAN.getText().toString());
             requestEntity.setLoan_amt(etLoanAmount.getText().toString());
             requestEntity.setMobile(etMobile.getText().toString());
             if (spprofile.getSelectedItem().equals("Salaried"))
