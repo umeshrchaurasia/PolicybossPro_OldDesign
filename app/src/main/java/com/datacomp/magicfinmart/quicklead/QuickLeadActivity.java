@@ -461,7 +461,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
               //  requestEntity.setStateID("0");
 
             }
-        }else if (response instanceof QuickLeadResponse) {
+            }else if (response instanceof QuickLeadResponse) {
             dialogMessage(true, ((QuickLeadResponse) response).getMasterData().getLead_Id(), response.getMessage());
         }
     }
