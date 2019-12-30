@@ -211,6 +211,8 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         inputMap.put("Parent_UID", userConstantEntity.getUserid());
         inputMap.put("Parent_PWD", prefManager.getUserPassword());
         inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
+        inputMap.put("Parent_POSPNo", userConstantEntity.getPOSPNo());
+
 
         inputMap.put("Child_email", pospAgentEntity.getEmailId());
         inputMap.put("Child_name", pospAgentEntity.getName());
