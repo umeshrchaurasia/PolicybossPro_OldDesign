@@ -163,8 +163,26 @@ public class UserConstantEntity extends RealmObject {
     private String cobrowserisactive;
     private String cobrowserlicensecode;
 
+    //30.12.2019
+    private String RaiseTickitEnabled;
+    private String RaiseTickitUrl;
 
 
+    public String getRaiseTickitEnabled() {
+        return RaiseTickitEnabled;
+    }
+
+    public void setRaiseTickitEnabled(String raiseTickitEnabled) {
+        RaiseTickitEnabled = raiseTickitEnabled;
+    }
+
+    public String getRaiseTickitUrl() {
+        return RaiseTickitUrl;
+    }
+
+    public void setRaiseTickitUrl(String raiseTickitUrl) {
+        RaiseTickitUrl = raiseTickitUrl;
+    }
 
     public String getCobrowserisactive() {
         return cobrowserisactive;

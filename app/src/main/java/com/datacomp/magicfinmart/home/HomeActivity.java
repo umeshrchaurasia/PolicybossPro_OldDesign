@@ -475,32 +475,32 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 .putExtra("NAME", "" + "Gift Voucher")
                                 .putExtra("TITLE", "" + "Gift Voucher"));
                         break;
+/*
+                    case R.id.nav_offlineQuotes:
+                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
+                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
+                        break;
+                    case R.id.nav_myBusiness:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My Business : My Business button in menu "), Constants.MY_BUSINESS), null);
+                        break;
+                    case R.id.nav_referFriend:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
+                        break;
+                    case R.id.nav_mps:
+                        // DialogMPS();
+                        showDialog();
+                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
 
-//                    case R.id.nav_offlineQuotes:
-//                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
-//                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
-//                        break;
-//                    case R.id.nav_myBusiness:
-//                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My Business : My Business button in menu "), Constants.MY_BUSINESS), null);
-//                        break;
-//                    case R.id.nav_referFriend:
-//                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
-//                        break;
-//                    case R.id.nav_mps:
-//                        // DialogMPS();
-//                        showDialog();
-//                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-//
-//                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-//                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-//                        break;
-//                    case R.id.nav_helpfeedback:
-//                        startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
-//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
-//                        break;
-                    /*case R.id.nav_posptraining:
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        break;
+                    case R.id.nav_helpfeedback:
+                        startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+                        break;
+                    case R.id.nav_posptraining:
                         startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.login.LoginActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("POPS TRAINING : POPS TRAINING button in menu "), Constants.POSP_TRAINING), null);
                         break;
@@ -527,7 +527,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         break;
                     case R.id.nav_raiseTicket:
-                        startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+
+                        if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
+                            startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+                        } else {
+
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
+                                            + "&UDID=" + userConstantEntity.getUserid())
+                                    .putExtra("NAME", "RAISE_TICKET")
+                                    .putExtra("TITLE", "RAISE TICKET"));
+                        }
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
 
                         break;
 //                    case R.id.nav_IncomePotential:
