@@ -52,6 +52,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
     List<PospAgentEntity> switchUserLst;
     EditText etSearch;
     UserConstantEntity userConstantEntity;
+    private PospAgentEntity pospAgentEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +70,8 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
 
         initialize();
         setTextWatcher();
-        showDialog();
 
+        showDialog();
         new LoginController(SwitchUserActivity.this).getPospAgentData(userConstantEntity.getUserid(), "", SwitchUserActivity.this);
 
         etSearch.setOnClickListener(new View.OnClickListener() {
@@ -134,13 +135,50 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
 
         cancelDialog();
         if (response instanceof LoginResponse) {
+
+
             if (response.getStatusNo() == 0) {
 
+                //region clear parent data and add new user.
+                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.commit();
 
-                Intent intent = new Intent();
-                intent.putExtra("POSP_USER", "True");
-                setResult(Constants.SWITCH_USER_REQUEST_CODE, intent);
-                finish();
+
+                //endregion
+
+                if (message.equals("SWITCH_USER")) {
+                    new DBPersistanceController(this).clearSwitchUser();
+                    showDialog();
+                    new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
+
+                }
+                if (!message.equals("SWITCH_USER")) {
+
+                    Map<String, String> inputMap = new HashMap<String, String>();
+                    inputMap.put("Parent_email", loginResponseEntity.getEmailID());
+                    inputMap.put("Parent_name", loginResponseEntity.getFullName());
+                    inputMap.put("Parent_UID", userConstantEntity.getUserid());
+                    inputMap.put("Parent_PWD", prefManager.getUserPassword());
+                    inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
+                    inputMap.put("Parent_POSPNo", userConstantEntity.getPOSPNo());
+
+
+                    inputMap.put("Child_email", pospAgentEntity.getEmailId());
+                    inputMap.put("Child_name", pospAgentEntity.getName());
+                    inputMap.put("Child_UID", "");
+                    inputMap.put("Child_Fbaid", pospAgentEntity.getFBAID());
+                    saveMap(inputMap);
+
+                    Intent intent = new Intent();
+                    intent.putExtra("POSP_USER", "True");
+                    setResult(Constants.SWITCH_USER_REQUEST_CODE, intent);
+
+                    Toast.makeText(SwitchUserActivity.this, "User Switched Successfully...", Toast.LENGTH_SHORT).show();
+
+                    finish();
+                }
                 // prefManager.setIsUserLogin(true);
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
@@ -162,6 +200,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
 
     @Override
     public void OnFailure(Throwable t) {
+        cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
@@ -199,27 +238,6 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
     }
 
     private void getUserSwitchData(PospAgentEntity pospAgentEntity) {
-        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.commit();
-
-
-        Map<String, String> inputMap = new HashMap<String, String>();
-        inputMap.put("Parent_email", loginResponseEntity.getEmailID());
-        inputMap.put("Parent_name", loginResponseEntity.getFullName());
-        inputMap.put("Parent_UID", userConstantEntity.getUserid());
-        inputMap.put("Parent_PWD", prefManager.getUserPassword());
-        inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
-        inputMap.put("Parent_POSPNo", userConstantEntity.getPOSPNo());
-
-
-        inputMap.put("Child_email", pospAgentEntity.getEmailId());
-        inputMap.put("Child_name", pospAgentEntity.getName());
-        inputMap.put("Child_UID", "");
-        inputMap.put("Child_Fbaid", pospAgentEntity.getFBAID());
-        saveMap(inputMap);
-
 
         loginRequestEntity.setUserName(pospAgentEntity.getEmailId());
         loginRequestEntity.setPassword("");
@@ -227,23 +245,15 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         loginRequestEntity.setTokenId(prefManager.getToken());
         loginRequestEntity.setIsChildLogin("Y");
 
-        //   dialogLogout(SwitchUserActivity.this);
-    //    new PrefManager(SwitchUserActivity.this).clearAll();
-
-        new DBPersistanceController(SwitchUserActivity.this).clearSwitchUser();
-
         showDialog();
-        new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
+        new LoginController(SwitchUserActivity.this).checkLoginSwitchUser(loginRequestEntity, SwitchUserActivity.this);
 
 
     }
 
     public void redirectToSwitchUser(PospAgentEntity pospAgentEntity) {
-
-
+        this.pospAgentEntity = pospAgentEntity;
         ConfirmSwitchUser(pospAgentEntity);
-
-
     }
 
 
@@ -259,10 +269,8 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                             getUserSwitchData(pospAgentEntity);
 
-                            Toast.makeText(SwitchUserActivity.this, "User Switched Successfully...", Toast.LENGTH_SHORT).show();
                         }
                     });
 

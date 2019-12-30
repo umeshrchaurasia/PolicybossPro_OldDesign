@@ -20,6 +20,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity;
@@ -35,7 +36,9 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -249,9 +252,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
+        //fetching parent ss_id in case of switch user
+        Map<String, String> map = ((HomeActivity) mContext).loadMap();
+        String parent_ssid = "";
+        if (map.size() > 0) {
+            parent_ssid = map.get("Parent_POSPNo");
+        }
 
         switch (productID) {
-
 
             case 1:
 
@@ -269,11 +277,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         ipaddress = "0.0.0.0";
                     }
 
+
                     //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
                     String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext)
-                            + "&product_id=1";
+                            + "&product_id=1&login_ssid=" + parent_ssid;
                     motorUrl = motorUrl + append;
 
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
@@ -321,7 +330,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     String append = "&ip_address=" + ipaddress
                             + "&app_version=" + Utility.getVersionName(mContext)
-                            + "&device_id=" + Utility.getDeviceId(mContext);
+                            + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
+                    ;
                     healthUrl = healthUrl + append;
 
                     if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
@@ -397,7 +407,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext)
-                            + "&product_id=10";
+                            + "&product_id=10&login_ssid=" + parent_ssid;
                     motorUrl = motorUrl + append;
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
@@ -436,7 +446,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String append = "&ip_address=" + ipaddress + "&mac_address="
                         + "&app_version=" + BuildConfig.VERSION_NAME
                         + "&device_id=" + Utility.getDeviceId(mContext)
-                        + "&product_id=12";
+                        + "&product_id=12&login_ssid=" + parent_ssid;
                 cvUrl = cvUrl + append;
                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", cvUrl)
