@@ -12,6 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChangePasswordResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CheckLoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
@@ -39,14 +40,14 @@ public class LoginController implements ILogin {
     @Override
     public void checkLoginSwitchUser(LoginRequestEntity loginRequestEntity, final IResponseSubcriber iResponseSubcriber) {
 
-        loginNetworkService.login(loginRequestEntity).enqueue(new Callback<LoginResponse>() {
+        loginNetworkService.chklogin(loginRequestEntity).enqueue(new Callback<CheckLoginResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+            public void onResponse(Call<CheckLoginResponse> call, Response<CheckLoginResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
 
                       //  dbPersistanceController.storeUserData(response.body().getMasterData());
-                        iResponseSubcriber.OnSuccess(response.body(), "SWITCH_USER");
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
@@ -56,7 +57,7 @@ public class LoginController implements ILogin {
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<CheckLoginResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

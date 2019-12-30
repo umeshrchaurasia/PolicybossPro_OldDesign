@@ -37,6 +37,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEn
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospAgentEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CheckLoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 
@@ -134,42 +135,51 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
     public void OnSuccess(APIResponse response, String message) {
 
         cancelDialog();
-        if (response instanceof LoginResponse) {
-
-
+        if(response instanceof CheckLoginResponse)
+        {
             if (response.getStatusNo() == 0) {
-
                 //region clear parent data and add new user.
                 SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.clear();
                 editor.commit();
 
+                Map<String, String> inputMap = new HashMap<String, String>();
+                inputMap.put("Parent_email", loginResponseEntity.getEmailID());
+                inputMap.put("Parent_name", loginResponseEntity.getFullName());
+                inputMap.put("Parent_UID", userConstantEntity.getUserid());
+                inputMap.put("Parent_PWD", prefManager.getUserPassword());
+                inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
+                inputMap.put("Parent_POSPNo", userConstantEntity.getPOSPNo());
+
+
+                inputMap.put("Child_email", pospAgentEntity.getEmailId());
+                inputMap.put("Child_name", pospAgentEntity.getName());
+                inputMap.put("Child_UID", "");
+                inputMap.put("Child_Fbaid", pospAgentEntity.getFBAID());
+                saveMap(inputMap);
+
+                loginRequestEntity.setUserName(pospAgentEntity.getEmailId());
+                loginRequestEntity.setPassword("");
+                loginRequestEntity.setDeviceId("" + new ReadDeviceID(SwitchUserActivity.this).getAndroidID());
+                loginRequestEntity.setTokenId(prefManager.getToken());
+                loginRequestEntity.setIsChildLogin("Y");
+
+                new DBPersistanceController(this).clearSwitchUser();
+                showDialog();
+                new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
 
                 //endregion
 
-                if (message.equals("SWITCH_USER")) {
-                    new DBPersistanceController(this).clearSwitchUser();
-                    showDialog();
-                    new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
-
-                }
-                if (!message.equals("SWITCH_USER")) {
-
-                    Map<String, String> inputMap = new HashMap<String, String>();
-                    inputMap.put("Parent_email", loginResponseEntity.getEmailID());
-                    inputMap.put("Parent_name", loginResponseEntity.getFullName());
-                    inputMap.put("Parent_UID", userConstantEntity.getUserid());
-                    inputMap.put("Parent_PWD", prefManager.getUserPassword());
-                    inputMap.put("Parent_Fbaid", String.valueOf(loginResponseEntity.getFBAId()));
-                    inputMap.put("Parent_POSPNo", userConstantEntity.getPOSPNo());
+            }else {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (response instanceof LoginResponse) {
 
 
-                    inputMap.put("Child_email", pospAgentEntity.getEmailId());
-                    inputMap.put("Child_name", pospAgentEntity.getName());
-                    inputMap.put("Child_UID", "");
-                    inputMap.put("Child_Fbaid", pospAgentEntity.getFBAID());
-                    saveMap(inputMap);
+            if (response.getStatusNo() == 0) {
+
 
                     Intent intent = new Intent();
                     intent.putExtra("POSP_USER", "True");
@@ -178,12 +188,13 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
                     Toast.makeText(SwitchUserActivity.this, "User Switched Successfully...", Toast.LENGTH_SHORT).show();
 
                     finish();
-                }
+
                 // prefManager.setIsUserLogin(true);
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        } else if (response instanceof PospAgentResponse) {
+        }
+        else if (response instanceof PospAgentResponse) {
             if (response.getStatusNo() == 0) {
 
                 switchUserLst = ((PospAgentResponse) response).getMasterData();

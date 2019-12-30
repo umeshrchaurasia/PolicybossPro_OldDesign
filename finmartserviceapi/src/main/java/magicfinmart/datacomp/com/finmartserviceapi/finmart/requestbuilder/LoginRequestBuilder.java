@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChangePasswordResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CheckLoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
@@ -30,6 +31,10 @@ public class LoginRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/login")
         Call<LoginResponse> login(@Body LoginRequestEntity body);
+
+        @Headers("token:" + token)
+        @POST("/api/login")
+        Call<CheckLoginResponse> chklogin(@Body LoginRequestEntity body);
 
         @Headers("token:" + token)
         @POST("/api/forgotPassword")
