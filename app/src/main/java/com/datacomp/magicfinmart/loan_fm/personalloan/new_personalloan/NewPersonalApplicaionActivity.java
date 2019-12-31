@@ -55,7 +55,7 @@ public class NewPersonalApplicaionActivity extends BaseActivity implements View.
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
         tvAdd = (TextView) findViewById(R.id.tvAdd);
         tvAdd.setOnClickListener(this);
         loanAddlist = (FloatingActionButton) findViewById(R.id.loanAddlist);

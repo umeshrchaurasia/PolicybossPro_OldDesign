@@ -74,12 +74,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
 
-            if ((!LangType.isEmpty()) && (!dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductNameKey()).trim().equals("")))
+            if ((!LangType.isEmpty()) && (!dbPersistanceController.getLangData(LangType,
+                    listInsur.get(position).getProductNameKey()).trim().equals("")))
             {
-
-
-                ((DashboardItemHolder) holder).txtProductName.setText(dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductNameKey()));
-                ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductDetailsKey()));
+                ((DashboardItemHolder) holder).txtProductName.setText(dbPersistanceController.getLangData(LangType,
+                        listInsur.get(position).getProductNameKey()));
+                ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLangData(LangType,
+                        listInsur.get(position).getProductDetailsKey()));
 
 
                 ((BaseFragment)mContext).setLanguage( LangType, ((DashboardItemHolder) holder).txtProductName);
