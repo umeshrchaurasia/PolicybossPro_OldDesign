@@ -1554,9 +1554,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //refreshDashboard();
 
 
-                Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
+                //Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
                 //dashboardIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData());
-                LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
+                //LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
             }
         } else if (response instanceof UserCallingResponse) {
             if (response.getStatusNo() == 0) {
