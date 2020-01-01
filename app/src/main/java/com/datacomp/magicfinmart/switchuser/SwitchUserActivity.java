@@ -256,7 +256,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         loginRequestEntity.setTokenId(prefManager.getToken());
         loginRequestEntity.setIsChildLogin("Y");
 
-        showDialog();
+     //   showDialog();
         new LoginController(SwitchUserActivity.this).checkLoginSwitchUser(loginRequestEntity, SwitchUserActivity.this);
 
 
