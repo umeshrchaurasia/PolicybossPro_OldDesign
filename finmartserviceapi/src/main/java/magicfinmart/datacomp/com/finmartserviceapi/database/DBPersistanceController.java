@@ -729,7 +729,7 @@ public class DBPersistanceController {
 
         if (db.getUserConstantsData() != null
                 && db.getUserConstantsData().getInvestmentEnabled().equals("Y")) {
-            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 19, "INVESTMENT", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "InvestInsTitle", "InvestInsdesc"));
+            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "InvestInsTitle", "InvestInsdesc"));
         }
 
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
@@ -759,7 +759,7 @@ public class DBPersistanceController {
 
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 4, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card, "CCTitle", "CCdesc"));
 
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 19, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 6, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer, "BLTitle", "BLdesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan, "HlTitle", "Hldesc"));
 
