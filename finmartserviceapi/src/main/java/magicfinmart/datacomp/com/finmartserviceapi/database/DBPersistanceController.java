@@ -712,10 +712,11 @@ public class DBPersistanceController {
     public List<DashboardMultiLangEntity> getInsurProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
 
+        DBPersistanceController db = new DBPersistanceController(mContext);
 
-        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
-                new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled() != null
-                && new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
+        if (db.getUserConstantsData() != null &&
+                db.getUserConstantsData().getUltralakshyaenabled() != null
+                && db.getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
             dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 17, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive, "FinmartExclutitle", "FinmartExcludesc"));
 
         }
@@ -725,6 +726,12 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle, "CommVehtitle", "CommVehdesc"));
 
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance, "HealthInsTitle", "HealthInsdesc"));
+
+        if (db.getUserConstantsData() != null
+                && db.getUserConstantsData().getInvestmentEnabled().equals("Y")) {
+            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 19, "INVESTMENT", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "InvestInsTitle", "InvestInsdesc"));
+        }
+
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
 
@@ -777,10 +784,11 @@ public class DBPersistanceController {
 
     public List<DashboardMultiLangEntity> getMoreProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
+        DBPersistanceController db = new DBPersistanceController(mContext);
 
-        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
-                new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
-                && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
+        if (db.getUserConstantsData() != null &&
+                db.getUserConstantsData().getEnablencd() != null
+                && db.getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
             dashboardEntities.add(new DashboardMultiLangEntity("MORE SERVICES", 15,
                     "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)",
                     R.drawable.investment_icon, "OtherInvProTitle", "OtherInvProdesc"));
@@ -2410,7 +2418,6 @@ public class DBPersistanceController {
 
         return "";
     }
-
 
 
 //    public String getLanguageData(String langCode, String langKey) {

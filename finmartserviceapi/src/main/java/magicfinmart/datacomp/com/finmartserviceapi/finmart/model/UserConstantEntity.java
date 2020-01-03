@@ -167,6 +167,25 @@ public class UserConstantEntity extends RealmObject {
     private String RaiseTickitEnabled;
     private String RaiseTickitUrl;
 
+    //03.01.2020
+    private String InvestmentUrl;
+    private String InvestmentEnabled;
+
+    public String getInvestmentEnabled() {
+        return InvestmentEnabled;
+    }
+
+    public void setInvestmentEnabled(String investmentEnabled) {
+        InvestmentEnabled = investmentEnabled;
+    }
+
+    public String getInvestmentUrl() {
+        return InvestmentUrl;
+    }
+
+    public void setInvestmentUrl(String investmentUrl) {
+        InvestmentUrl = investmentUrl;
+    }
 
     public String getRaiseTickitEnabled() {
         return RaiseTickitEnabled;

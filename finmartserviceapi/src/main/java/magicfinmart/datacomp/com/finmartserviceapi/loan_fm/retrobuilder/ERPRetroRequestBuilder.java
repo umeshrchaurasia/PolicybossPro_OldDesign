@@ -24,6 +24,11 @@ public class ERPRetroRequestBuilder {
     //public static String URL = "http://erp.rupeeboss.com:8063/LoginDtls.svc/";
 
 
+//    @Override
+//    protected Object clone() throws CloneNotSupportedException {
+//        return restAdapter;
+//    }
+
     protected Retrofit build() {
         if (restAdapter == null) {
 

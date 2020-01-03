@@ -1827,7 +1827,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
         }
 
-
     }
 
 
