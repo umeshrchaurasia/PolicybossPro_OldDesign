@@ -87,6 +87,7 @@ public class Constants {
     public static String QUICK_LEAD = "QUICK LEAD";
     public static String FIN_PEACE = "FIN PEACE";
     public static String HEALTH_CHECKUP = "HEALTH CHECKUP PLANS";
+    public static String CV = "COMMERSIAL VEHICLE";
     public static String ULTRALAKSHA_COMBO =  "ULTRA LAKSHYA COMBO";
 
 

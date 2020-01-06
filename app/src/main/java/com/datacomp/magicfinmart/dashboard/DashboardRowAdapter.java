@@ -457,7 +457,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .putExtra("TITLE", "Commercial Vehicle Insurance"));
 
 
-                MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.CV, "Clicked", "Health CheckUp tab on home page");
                 break;
 
             case 13:
@@ -504,33 +504,33 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 5: //investment
 
-                if (mReal.getUserConstantsData().getInvestmentEnabled().equals("Y")) {
-                    String invUrl = mReal.getUserConstantsData().getInvestmentUrl();
-                    //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+                // if (mReal.getUserConstantsData().getInvestmentEnabled().equals("1")) {
+                String invUrl = mReal.getUserConstantsData().getInvestmentUrl();
 
-
-                    try {
-                        ipaddress = Utility.getMacAddress(mContext);
-                    } catch (Exception io) {
-                        ipaddress = "0.0.0.0";
-                    }
-
-                    append = "&ip_address=" + ipaddress
-                            + "&app_version=" + Utility.getVersionName(mContext)
-                            + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
-                    ;
-                    invUrl = invUrl + append;
-
-                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
-                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
-                        Utility.loadWebViewUrlInBrowser(mContext, invUrl);
-                    } else {
-                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                .putExtra("URL", invUrl)
-                                .putExtra("NAME", "Health Insurance")
-                                .putExtra("TITLE", "Health Insurance"));
-                    }
+                try {
+                    ipaddress = Utility.getMacAddress(mContext);
+                } catch (Exception io) {
+                    ipaddress = "0.0.0.0";
                 }
+
+                append = "&ip_address=" + ipaddress
+                        + "&app_version=" + Utility.getVersionName(mContext)
+                        + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
+                ;
+                invUrl = invUrl + append;
+
+                if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
+                        mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+                    Utility.loadWebViewUrlInBrowser(mContext, invUrl);
+                } else {
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", invUrl)
+                            .putExtra("NAME", "INVESTMENT PLANS")
+                            .putExtra("TITLE", "INVESTMENT PLANS"));
+                }
+                //} else {
+                //     Toast.makeText(mContext, "Your not authorise to sell Investment.", Toast.LENGTH_SHORT).show();
+                //  }
                 break;
 
         }

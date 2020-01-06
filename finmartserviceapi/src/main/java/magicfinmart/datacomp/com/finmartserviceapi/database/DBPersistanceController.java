@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -596,7 +597,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle));
 
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
 
 
@@ -727,12 +728,12 @@ public class DBPersistanceController {
 
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance, "HealthInsTitle", "HealthInsdesc"));
 
-        if (db.getUserConstantsData() != null
-                && db.getUserConstantsData().getInvestmentEnabled().equals("Y")) {
-            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "InvestInsTitle", "InvestInsdesc"));
-        }
+        //if (db.getUserConstantsData() != null
+        //        && db.getUserConstantsData().getInvestmentEnabled().equalsIgnoreCase("1")) {
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT PLANS", "Get investment options offering  returns as per end needs, financial security, tax benefits & more.", R.drawable.invest, "InvestInsTitle", "InvestInsdesc"));
+        // }
 
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
 
 

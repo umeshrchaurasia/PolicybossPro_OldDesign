@@ -142,7 +142,7 @@
       Personal Loan - Balance Transfer  Activity
     </string>
     <string name="title_activity_term_quote_application">Life Insurance</string>
-    <string name="title_activity_term_selection">LIFE INSURANCE</string>
+    <string name="title_activity_term_selection">TERM INSURANCE</string>
     <string name="title_activity_term_icici">ICICI PRUDENTIAL</string>
     <string name="forgot_password"><u><i>Forgot Password?</i></u></string>
     <string name="title_activity_bank_loan_list">Bank Loan</string>
@@ -255,7 +255,7 @@ The system is configured to monitor the number of leads generated, to the conver
 
     <string name="title_activity_festivelink">Campaign</string>
 
-<!--    // Navigation Menu -->
+    <!--    // Navigation Menu -->
 
     <string name="nav_home">Home</string>
     <string name="nav_finbox">MY FINBOX</string>
@@ -266,7 +266,6 @@ The system is configured to monitor the number of leads generated, to the conver
     <string name="dash_finmart_exclusive">FINMART EXCLUSIVES</string>
     <string name="dash_private_car">PRIVATE CAR</string>
     <string name="dash_two_wheeler">TWO WHEELER</string>
-
 
 
     <string-array name="ncb_percent">

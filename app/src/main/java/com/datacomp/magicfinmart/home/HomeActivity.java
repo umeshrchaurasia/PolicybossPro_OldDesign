@@ -1055,37 +1055,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         });
 
         ivCancel = (ImageView) headerView.findViewById(R.id.ivCancel);
-      /*  lstswitchChild_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isNavDrawerOpen()) {
-                    closeNavDrawer();
-                }
-                LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
-                Map<String, String> outputMap = loadMap();
-                if (outputMap != null && outputMap.size() > 0) {
 
-                    loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
-                    loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
-                }
-
-
-                loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
-                loginRequestEntity.setTokenId(prefManager.getToken());
-                loginRequestEntity.setIsChildLogin("Y");
-
-                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.commit();
-
-                //  new PrefManager(HomeActivity.this).clearAll();
-
-                new DBPersistanceController(HomeActivity.this).clearSwitchUser();
-                showDialog();
-                new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
-            }
-        });*/
 
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1112,72 +1082,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
             txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
-            //region Switch user Binding
-
-            Map<String, String> outputMap = loadMap();
-            if (outputMap != null && outputMap.size() > 0) {
-                lstswitchuser.setVisibility(View.GONE);
-                lstswitchChild_user.setVisibility(View.VISIBLE);
-
-                String mystring = new String("Parent :- " + outputMap.get("Parent_name"));
-                SpannableString content = new SpannableString(mystring);
-                content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
-                txtparentuser.setText(content);
-
-                String currentChild = outputMap.get("Child_name");
-
-                txtchilduser.setText(currentChild);
-
-                Snackbar snackbar = Snackbar.make(navigationView, "Logged in with " + currentChild, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("Log-Out", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (isNavDrawerOpen()) {
-                            closeNavDrawer();
-                        }
-
-                        LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
-                        Map<String, String> outputMap = loadMap();
-                        if (outputMap != null && outputMap.size() > 0) {
-
-                            loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
-                            loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
-                        }
-
-                        loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
-                        loginRequestEntity.setTokenId(prefManager.getToken());
-                        loginRequestEntity.setIsChildLogin("Y");
-
-                        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.clear();
-                        editor.commit();
-
-                        //  new PrefManager(HomeActivity.this).clearAll();
-
-                        new DBPersistanceController(HomeActivity.this).clearSwitchUser();
-                        showDialog();
-                        new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
-                    }
-                });
-                View view = snackbar.getView();
-                view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-                snackbar.show();
-
-
-            } else {
-                if (loginResponseEntity.getIsUidLogin().equals("Y")) {
-                    lstswitchuser.setVisibility(View.VISIBLE);
-                    lstswitchChild_user.setVisibility(View.GONE);
-                } else {
-                    lstswitchuser.setVisibility(View.GONE);
-                    lstswitchChild_user.setVisibility(View.GONE);
-                }
-
-            }
-
-            //endregion
+            switchUserBinding();
 
         } else {
             txtDetails.setText("");
@@ -1186,32 +1091,111 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         if (userConstantEntity != null) {
 
+            try {
+                txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
+                txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
+                Glide.with(HomeActivity.this)
+                        .load(userConstantEntity.getLoansendphoto())
+                        .placeholder(R.drawable.circle_placeholder)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .override(64, 64)
+                        .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                        .into(ivProfile);
+            } catch (Exception e) {
 
-            txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
-            txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
-            Glide.with(HomeActivity.this)
-                    .load(userConstantEntity.getLoansendphoto())
-                    .placeholder(R.drawable.circle_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .override(64, 64)
-                    .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
-                    .into(ivProfile);
+            }
+
         } else {
-            txtPospNo.setText("");
-            txtErpID.setText("");
-            Glide.with(HomeActivity.this)
-                    .load(R.drawable.finmart_user_icon)
-                    .placeholder(R.drawable.circle_placeholder)
-                    .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .override(64, 64)
-                    .into(ivProfile);
+            try {
+                txtPospNo.setText("");
+                txtErpID.setText("");
+                Glide.with(HomeActivity.this)
+                        .load(R.drawable.finmart_user_icon)
+                        .placeholder(R.drawable.circle_placeholder)
+                        .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .override(64, 64)
+                        .into(ivProfile);
+            } catch (Exception e) {
+
+            }
+
         }
 
 
     }
+
+    private void switchUserBinding() {
+        //region Switch user Binding
+
+        Map<String, String> outputMap = loadMap();
+        if (outputMap != null && outputMap.size() > 0) {
+            lstswitchuser.setVisibility(View.GONE);
+            lstswitchChild_user.setVisibility(View.VISIBLE);
+
+            String mystring = new String("Parent :- " + outputMap.get("Parent_name"));
+            SpannableString content = new SpannableString(mystring);
+            content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+            txtparentuser.setText(content);
+
+            String currentChild = outputMap.get("Child_name");
+
+            txtchilduser.setText(currentChild);
+
+            Snackbar snackbar = Snackbar.make(navigationView, "Logged in with " + currentChild, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction("Log-Out", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (isNavDrawerOpen()) {
+                        closeNavDrawer();
+                    }
+
+                    LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
+                    Map<String, String> outputMap = loadMap();
+                    if (outputMap != null && outputMap.size() > 0) {
+
+                        loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
+                        loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
+                    }
+
+                    loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
+                    loginRequestEntity.setTokenId(prefManager.getToken());
+                    loginRequestEntity.setIsChildLogin("Y");
+
+                    SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.clear();
+                    editor.commit();
+
+                    //  new PrefManager(HomeActivity.this).clearAll();
+
+                    new DBPersistanceController(HomeActivity.this).clearSwitchUser();
+                    showDialog();
+                    new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
+                }
+            });
+            View view = snackbar.getView();
+            view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+            snackbar.show();
+
+
+        } else {
+            if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+                lstswitchuser.setVisibility(View.VISIBLE);
+                lstswitchChild_user.setVisibility(View.GONE);
+            } else {
+                lstswitchuser.setVisibility(View.GONE);
+                lstswitchChild_user.setVisibility(View.GONE);
+            }
+
+        }
+
+        //endregion
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -1455,17 +1439,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (((UserConstatntResponse) response).getMasterData() != null) {
                     //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
-                    init_headers();
-//                    if (!checkPermission()) {
-//                        if (checkRationalePermission()) {
-//                            requestPermission();
-//                        } else {
-//                            openPopUp(drawerLayout, "Need  Permission", "Required Contact Permission", "GRANT", true);
-//                        }
-//                    } else {
-//                        addFinmartContact();
-//
-//                    }
+//                    init_headers();
+
                     if (prefManager.getPopUpCounter().equals("0")) {
                         showMArketingPopup();
                     }
@@ -1736,26 +1711,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         } else if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
             if (data != null) {
-
-
-                Map<String, String> outputMap = loadMap();
-                if (outputMap != null && outputMap.size() > 0) {
-                    lstswitchuser.setVisibility(View.GONE);
-                    lstswitchChild_user.setVisibility(View.VISIBLE);
-                    //   txtDetails.setText("" + loginResponseEntity.getFullName());
-                    txtparentuser.setText("Parent :- " + outputMap.get("Parent_name"));
-                    //  txtchilduser.setText("  " + outputMap.get("Child_name"));
-
-                } else {
-                    lstswitchuser.setVisibility(View.VISIBLE);
-                    lstswitchChild_user.setVisibility(View.GONE);
-                }
-
-
+                switchUserBinding();
                 db = new DBPersistanceController(this);
                 loginResponseEntity = db.getUserData();
-
-
             }
 
         }
