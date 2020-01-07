@@ -1039,7 +1039,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onClick(View v) {
 
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Intent shareIntent = new Intent(HomeActivity.this, MyAccountActivity.class);
                     Pair[] pairs = new Pair[1];
@@ -1049,7 +1048,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 } else {
                     startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                 }
-
 
             }
         });
@@ -1439,7 +1437,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (((UserConstatntResponse) response).getMasterData() != null) {
                     //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
-//                    init_headers();
+                    init_headers();
 
                     if (prefManager.getPopUpCounter().equals("0")) {
                         showMArketingPopup();
@@ -1711,9 +1709,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         } else if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
             if (data != null) {
-                switchUserBinding();
+                //switchUserBinding();
                 db = new DBPersistanceController(this);
                 loginResponseEntity = db.getUserData();
+                // init_headers();
             }
 
         }
@@ -1776,15 +1775,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
         }
 
+        //Attendance
+//        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+//            //visible attendance
+//            nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
+//        } else {
+//            //hide attendance
+//            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
+//        }
 
-        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
-            //visible attendance
-            nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
-        } else {
-            //hide attendance
-            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
-        }
-
+        //init_headers();
     }
 
 

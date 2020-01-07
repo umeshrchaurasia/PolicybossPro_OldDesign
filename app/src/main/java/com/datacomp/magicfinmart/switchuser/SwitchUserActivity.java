@@ -134,10 +134,11 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
-        cancelDialog();
-        if(response instanceof CheckLoginResponse)
-        {
+
+        if (response instanceof CheckLoginResponse) {
             if (response.getStatusNo() == 0) {
+
+
                 //region clear parent data and add new user.
                 SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -165,36 +166,35 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
                 loginRequestEntity.setTokenId(prefManager.getToken());
                 loginRequestEntity.setIsChildLogin("Y");
 
-                new DBPersistanceController(this).clearSwitchUser();
                 showDialog();
+                new DBPersistanceController(this).clearSwitchUser();
                 new LoginController(SwitchUserActivity.this).login(loginRequestEntity, SwitchUserActivity.this);
 
                 //endregion
 
-            }else {
+            } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }
-        else if (response instanceof LoginResponse) {
+        } else if (response instanceof LoginResponse) {
 
-
+            cancelDialog();
             if (response.getStatusNo() == 0) {
 
 
-                    Intent intent = new Intent();
-                    intent.putExtra("POSP_USER", "True");
-                    setResult(Constants.SWITCH_USER_REQUEST_CODE, intent);
+                Intent intent = new Intent();
+                intent.putExtra("POSP_USER", true);
+                setResult(Constants.SWITCH_USER_REQUEST_CODE, intent);
 
-                    Toast.makeText(SwitchUserActivity.this, "User Switched Successfully...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SwitchUserActivity.this, "User Switched Successfully...", Toast.LENGTH_SHORT).show();
 
-                    finish();
+                finish();
 
                 // prefManager.setIsUserLogin(true);
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }
-        else if (response instanceof PospAgentResponse) {
+        } else if (response instanceof PospAgentResponse) {
+            cancelDialog();
             if (response.getStatusNo() == 0) {
 
                 switchUserLst = ((PospAgentResponse) response).getMasterData();
@@ -256,7 +256,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         loginRequestEntity.setTokenId(prefManager.getToken());
         loginRequestEntity.setIsChildLogin("Y");
 
-     //   showDialog();
+        showDialog();
         new LoginController(SwitchUserActivity.this).checkLoginSwitchUser(loginRequestEntity, SwitchUserActivity.this);
 
 

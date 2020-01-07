@@ -728,10 +728,10 @@ public class DBPersistanceController {
 
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance, "HealthInsTitle", "HealthInsdesc"));
 
-        //if (db.getUserConstantsData() != null
-        //        && db.getUserConstantsData().getInvestmentEnabled().equalsIgnoreCase("1")) {
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT PLANS", "Get investment options offering  returns as per end needs, financial security, tax benefits & more.", R.drawable.invest, "InvestInsTitle", "InvestInsdesc"));
-        // }
+        if (db.getUserConstantsData() != null
+                && db.getUserConstantsData().getInvestmentEnabled().equalsIgnoreCase("1")) {
+            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT PLANS", "Get investment options offering returns as per end needs, financial security, tax benefits & more.", R.drawable.invest, "InvestInsTitle", "InvestInsdesc"));
+        }
 
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));

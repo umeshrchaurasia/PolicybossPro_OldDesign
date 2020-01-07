@@ -504,33 +504,33 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 5: //investment
 
-                // if (mReal.getUserConstantsData().getInvestmentEnabled().equals("1")) {
-                String invUrl = mReal.getUserConstantsData().getInvestmentUrl();
+                if (mReal.getUserConstantsData().getInvestmentEnabled().equals("1")) {
+                    String invUrl = mReal.getUserConstantsData().getInvestmentUrl();
 
-                try {
-                    ipaddress = Utility.getMacAddress(mContext);
-                } catch (Exception io) {
-                    ipaddress = "0.0.0.0";
-                }
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
 
-                append = "&ip_address=" + ipaddress
-                        + "&app_version=" + Utility.getVersionName(mContext)
-                        + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
-                ;
-                invUrl = invUrl + append;
+                    append = "&ip_address=" + ipaddress
+                            + "&app_version=" + Utility.getVersionName(mContext)
+                            + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
 
-                if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
-                        mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
-                    Utility.loadWebViewUrlInBrowser(mContext, invUrl);
+                    invUrl = invUrl + append;
+
+                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
+                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+                        Utility.loadWebViewUrlInBrowser(mContext, invUrl);
+                    } else {
+                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                .putExtra("URL", invUrl)
+                                .putExtra("NAME", "INVESTMENT PLANS")
+                                .putExtra("TITLE", "INVESTMENT PLANS"));
+                    }
                 } else {
-                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                            .putExtra("URL", invUrl)
-                            .putExtra("NAME", "INVESTMENT PLANS")
-                            .putExtra("TITLE", "INVESTMENT PLANS"));
+                    Toast.makeText(mContext, "You'r not authorize to sell Investment.", Toast.LENGTH_SHORT).show();
                 }
-                //} else {
-                //     Toast.makeText(mContext, "Your not authorise to sell Investment.", Toast.LENGTH_SHORT).show();
-                //  }
                 break;
 
         }
