@@ -48,6 +48,7 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
     boolean isSecondImageToShow = false;
 
     FestivalCompaignEntity festivalCompaignEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,13 +117,25 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
         }
         return super.onOptionsItemSelected(item);
     }
+//
+//    public void showShareProduct() {
+//        if (combinedImage != null) {
+//            datashareList(festivalShareActivity.this, combinedImage, festivalCompaignEntity.getTitle(),  festivalCompaignEntity.getDescription() +"\n" + festivalCompaignEntity.getShorturl());
+//        }
+//    }
 
     public void showShareProduct() {
         if (combinedImage != null) {
-            datashareList(festivalShareActivity.this, combinedImage, festivalCompaignEntity.getTitle(),  festivalCompaignEntity.getDescription() +"\n" + festivalCompaignEntity.getShorturl());
+            String desc = "";
+            if (!festivalCompaignEntity.getShorturl().isEmpty()) {
+                desc = festivalCompaignEntity.getDescription() + "\n" + festivalCompaignEntity.getShorturl();
+            } else {
+                desc = festivalCompaignEntity.getDescription();
+            }
+
+            datashareList(festivalShareActivity.this, combinedImage, festivalCompaignEntity.getTitle(), desc);
         }
     }
-
 
 
     @Override
@@ -156,8 +169,8 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
 
             if (isSecondImageToShow) {
                 try {
-                   // create User Detail Image
-                   combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
+                    // create User Detail Image
+                    combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
 
                 } catch (Exception e) {
 
@@ -165,7 +178,6 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
             } else {
                 combinedImage = null;
             }
-
 
 
             try {
@@ -181,7 +193,6 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
 
             return combinedImage;

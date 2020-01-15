@@ -67,7 +67,7 @@ public class HomeLoanController implements IHomeLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }
@@ -75,7 +75,7 @@ public class HomeLoanController implements IHomeLoan {
     }
 
     @Override
-    public void getRBCustomerData(String QuoteID,final IResponseSubcriber iResponseSubcriber) {
+    public void getRBCustomerData(String QuoteID, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("ID", QuoteID);
@@ -105,7 +105,7 @@ public class HomeLoanController implements IHomeLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }

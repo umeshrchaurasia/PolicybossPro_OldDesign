@@ -179,6 +179,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     List<TextView> textViewList;
 
+    LinearLayout llSwitchUser;
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -233,6 +234,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         registerPermission(this);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        llSwitchUser = findViewById(R.id.llSwitchUser);
+
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         // Initializing Drawer Layout and ActionBarToggle
@@ -1067,7 +1071,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         lstswitchuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (isNavDrawerOpen()) closeNavDrawer();
                 startActivityForResult(new Intent(HomeActivity.this, SwitchUserActivity.class), 10);
             }
         });
@@ -1125,6 +1129,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
+
+    private void addSwitchUserView() {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.layout_switch_user, null);
+        TextView txtUserName = view.findViewById(R.id.txtSwitchUserName);
+        Button btnSwitchLogout = view.findViewById(R.id.btnSwitchLogout);
+        llSwitchUser.addView(view);
+
+    }
+
     private void switchUserBinding() {
         //region Switch user Binding
 
@@ -1142,11 +1157,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             txtchilduser.setText(currentChild);
 
-            Snackbar snackbar = Snackbar.make(navigationView, "Logged in with " + currentChild, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction("Log-Out", new View.OnClickListener() {
+            //region add view for switch user
+            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.layout_switch_user, null);
+            TextView txtUserName = view.findViewById(R.id.txtSwitchUserName);
+            Button btnSwitchLogout = view.findViewById(R.id.btnSwitchLogout);
+
+            txtUserName.setText("Logged in with " + currentChild);
+            btnSwitchLogout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     if (isNavDrawerOpen()) {
                         closeNavDrawer();
                     }
@@ -1175,9 +1195,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
                 }
             });
-            View view = snackbar.getView();
-            view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-            snackbar.show();
+
+            llSwitchUser.removeAllViews();
+            llSwitchUser.addView(view);
+
+            //endregion
 
 
         } else {
