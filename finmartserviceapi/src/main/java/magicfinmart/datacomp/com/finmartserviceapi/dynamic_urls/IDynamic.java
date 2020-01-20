@@ -44,7 +44,13 @@ public interface IDynamic {
 
     void checkAppAccess(String deviceID, String deviceToken, String uid, IResponseSubcriber iResponseSubcriber);
 
+    void swipeDetailsTop(String deviceID, String deviceToken, String uid, IResponseSubcriber iResponseSubcriber);
+
     void indoorAttendance(RegisterRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
     void outdoorAttendance(RegisterRequestEntity entity,IResponseSubcriber iResponseSubcriber);
+
+    void attendanceRegister(RegisterRequestEntity entity,IResponseSubcriber iResponseSubcriber);
+
+    void getAttendanceReport(String uid,long fdate, long tdate, IResponseSubcriber iResponseSubcriber);
 }

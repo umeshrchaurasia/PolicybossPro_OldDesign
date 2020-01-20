@@ -13,7 +13,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.database.UserBehaviourFacade;
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.Personal_bankdetailEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.home_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.personal_bank_list_Response;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.CertificateEntity;
@@ -165,6 +164,124 @@ public class DynamicController implements IDynamic {
             }
         });
     }
+
+    @Override
+    public void attendanceRegister(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://49.50.95.141:191/AttendanceDetails.svc/UpdateEmployeeProfile";
+
+        genericUrlNetworkService.saveNewRegestration(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
+            @Override
+            public void onResponse(Call<SwipeDetailResponse> call, Response<SwipeDetailResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<SwipeDetailResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void getAttendanceReport(String uid, long fdate, long tdate,final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipeDetails";
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("uid", uid);
+        body.put("fromdate",String.valueOf(fdate));
+        body.put("todate",String.valueOf(tdate));
+
+        genericUrlNetworkService.attendanceReport(url, body).enqueue(new Callback<SwipeDetailResponse>() {
+            @Override
+            public void onResponse(Call<SwipeDetailResponse> call, Response<SwipeDetailResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SwipeDetailResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void swipeDetailsTop(String deviceID, String deviceToken, String uid, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipeDetails";
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("DeviceId", deviceID);
+        body.put("DeviceToken", deviceToken);
+        body.put("uid", uid);
+
+        genericUrlNetworkService.SwipeDetailsTop(url, body).enqueue(new Callback<SwipeDetailResponse>() {
+            @Override
+            public void onResponse(Call<SwipeDetailResponse> call, Response<SwipeDetailResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SwipeDetailResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+
 
     @Override
     public void getNCD(final IResponseSubcriber iResponseSubcriber) {

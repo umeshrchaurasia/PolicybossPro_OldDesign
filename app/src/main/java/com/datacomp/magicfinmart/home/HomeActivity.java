@@ -36,6 +36,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -47,7 +48,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.text.style.UnderlineSpan;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -59,6 +59,7 @@ import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.attendance.AttendanceFragment;
+import com.datacomp.magicfinmart.attendance.AttendanceRegistraionActivity;
 import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
@@ -115,12 +116,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
 import io.cobrowse.CobrowseIO;
 import io.cobrowse.ui.CobrowseActivity;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckAppAccessResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -364,6 +366,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_attendance:
                         fragment = new AttendanceFragment();
                         getSupportActionBar().setTitle("My Attendance");
+
                         break;
 
                     case R.id.nav_generateLead:
@@ -1560,7 +1563,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         }
 
-
     }
 
 
@@ -2673,6 +2675,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
 
+    }
+
+    private String getDeviceID() {
+        return new ReadDeviceID(this).getAndroidID();
     }
 
 

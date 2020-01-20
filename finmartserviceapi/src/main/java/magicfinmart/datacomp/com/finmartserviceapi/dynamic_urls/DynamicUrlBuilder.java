@@ -91,7 +91,20 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         Call<CheckAppAccessResponse> checkAppAccess(@Url String url, @Body HashMap<String, String> body);
 
         @POST
+        Call<SwipeDetailResponse> SwipeDetailsTop(@Url String url, @Body HashMap<String, String> body);
+
+        @POST
         Call<SwipeDetailResponse> indoorAttendance(@Url String url, @Body RegisterRequestEntity entity);
+
+        @POST
+        Call<SwipeDetailResponse> saveNewRegestration(@Url String url, @Body RegisterRequestEntity entity);
+
+
+        @POST
+        Call<SwipeDetailResponse>attendanceReport(@Url String url, @Body HashMap<String, String> body);
+
+
+
 
     }
 }
