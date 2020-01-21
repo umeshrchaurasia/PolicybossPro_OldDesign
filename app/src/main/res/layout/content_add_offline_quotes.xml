@@ -45,11 +45,11 @@
                     android:textColor="@color/white"
                     android:textStyle="normal" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvDocUpload"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"></android.support.v7.widget.RecyclerView>
+                    android:nestedScrollingEnabled="false"></androidx.recyclerview.widget.RecyclerView>
 
                 <Button
                     android:id="@+id/btnHome"

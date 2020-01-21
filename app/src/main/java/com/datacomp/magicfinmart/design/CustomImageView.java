@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 
-public class CustomImageView extends android.support.v7.widget.AppCompatImageView {
+public class CustomImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     /**
      * @param context

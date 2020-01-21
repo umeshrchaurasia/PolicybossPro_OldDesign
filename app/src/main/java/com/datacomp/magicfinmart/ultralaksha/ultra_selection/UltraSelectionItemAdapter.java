@@ -1,9 +1,9 @@
 package com.datacomp.magicfinmart.ultralaksha.ultra_selection;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.quoteapp.TermQuoteApplicationActivity;
-import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 public class UltraSelectionItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

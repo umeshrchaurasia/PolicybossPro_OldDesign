@@ -4,10 +4,10 @@ package com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -23,7 +23,6 @@ import com.datacomp.magicfinmart.R;
 
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +33,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEn
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCityBankdetailEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LstCitywiseBankLoanEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.citywisebankloanResponse;
 

@@ -2,7 +2,7 @@ package com.datacomp.magicfinmart.creditcard.newcreditcard
 
 import android.os.Bundle
 
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.datacomp.magicfinmart.BaseActivity
 import com.datacomp.magicfinmart.R
 

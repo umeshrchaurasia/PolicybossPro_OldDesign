@@ -2,9 +2,9 @@ package com.datacomp.magicfinmart.loan_fm.balancetransfer;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.application.BL_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.quote.BL_QuoteFragment;

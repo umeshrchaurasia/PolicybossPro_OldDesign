@@ -2,15 +2,14 @@ package com.datacomp.magicfinmart.knowledgeguru;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 

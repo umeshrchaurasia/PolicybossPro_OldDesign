@@ -2,17 +2,14 @@ package com.datacomp.magicfinmart.ultralaksha.ultra_selection;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.quoteapp.TermQuoteApplicationActivity;
-import com.datacomp.magicfinmart.term.termselection.TermSelectionItemAdapter;
-import com.datacomp.magicfinmart.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.ultra_quotes_appln.activity.UltraLakshyaDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 

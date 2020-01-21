@@ -3,7 +3,7 @@ package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.health.fragment.HealthMemberDetailsDialogActivity;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.InputOfflineHealthActivity;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 

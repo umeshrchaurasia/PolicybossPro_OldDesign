@@ -1,7 +1,7 @@
 package com.datacomp.magicfinmart.motor.twowheeler.adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**

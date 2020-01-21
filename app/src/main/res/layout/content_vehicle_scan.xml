@@ -32,7 +32,7 @@
         android:layout_margin="4dp">
 
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/view_spacing_small"
@@ -45,7 +45,7 @@
                 style="@style/Style.edittext"
                 android:drawableRight="@drawable/vector_email_white"
                 android:text="" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
@@ -64,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/cvVehicleDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -216,6 +216,6 @@
 
             </TableLayout>
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </ScrollView>
 </LinearLayout>

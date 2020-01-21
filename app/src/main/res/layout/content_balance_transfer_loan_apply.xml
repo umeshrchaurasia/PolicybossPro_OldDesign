@@ -109,7 +109,7 @@
                             android:gravity="center" />
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="35"
@@ -123,10 +123,10 @@
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLines="1" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="35"
@@ -140,7 +140,7 @@
                                 android:maxLength="20"
                                 android:maxLines="1" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -150,7 +150,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -161,9 +161,9 @@
                                 style="@style/Style.edittext"
                                 android:focusable="false"
                                 android:drawableRight="@drawable/vector_date" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
@@ -178,7 +178,7 @@
                                 android:maxLength="20"
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -268,7 +268,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInpLaySpouseName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -282,9 +282,9 @@
                                 android:maxLength="20"
                                 style="@style/Style.edittext"
                                 />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -298,7 +298,7 @@
                                 android:inputType="number"
                                 android:maxLength="2"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -307,7 +307,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -320,9 +320,9 @@
                                 android:inputType="textCapCharacters"
 
                                 android:maxLength="10" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -336,7 +336,7 @@
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:maxLines="1"
                                 android:text="INDIAN" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -601,7 +601,7 @@
                                 android:layout_marginTop="10dp"
                                 android:weightSum="1">
 
-                                <android.support.design.widget.TextInputLayout
+                                <com.google.android.material.textfield.TextInputLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
@@ -616,7 +616,7 @@
                                         android:inputType="text"
                                         android:maxLength="25"
                                         android:maxLines="1" />
-                                </android.support.design.widget.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -730,7 +730,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -743,9 +743,9 @@
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLength="50"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -758,7 +758,7 @@
                                 android:inputType="text"
                                 android:maxLength="25"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -838,7 +838,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -850,9 +850,9 @@
                                 android:inputType="textEmailAddress"
                                 android:maxLength="100"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -865,7 +865,7 @@
                                 android:inputType="textEmailAddress"
                                 android:maxLength="100"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -874,7 +874,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -887,9 +887,9 @@
                                 android:inputType="phone"
                                 android:maxLength="10"
                                 />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -901,7 +901,7 @@
                                 android:digits="0123456789"
                                 android:inputType="phone"
                                 android:maxLength="10" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -923,7 +923,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -935,7 +935,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -945,7 +945,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -957,7 +957,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -967,7 +967,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -979,7 +979,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -989,7 +989,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1001,7 +1001,7 @@
                                 android:inputType="text"
                                 android:maxLength="150"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1011,7 +1011,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1023,9 +1023,9 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="6" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1037,7 +1037,7 @@
                                 android:focusable="false"
                                 style="@style/Style.edittext"
                                 />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1047,7 +1047,7 @@
                         android:layout_marginTop="4dp">
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1058,9 +1058,9 @@
                                 android:focusable="false"
                                 style="@style/Style.edittext"
                                 android:text="" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1071,7 +1071,7 @@
                                 style="@style/Style.edittext"
                                 android:maxLength="50"
                                 android:text="India" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1081,7 +1081,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1093,9 +1093,9 @@
                                 android:digits="0123456789"
                                 android:inputType="phone"
                                 android:maxLength="13" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1107,7 +1107,7 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1190,7 +1190,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1202,7 +1202,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1212,7 +1212,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1224,7 +1224,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1234,7 +1234,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1246,7 +1246,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1256,7 +1256,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1268,7 +1268,7 @@
                                 android:inputType="text"
                                 android:maxLength="150"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1278,7 +1278,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1290,9 +1290,9 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="6" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1303,7 +1303,7 @@
                                 android:id="@+id/etCityContInfoPA"
                                 style="@style/Style.edittext"
                                 android:focusable="false" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1312,7 +1312,7 @@
                         android:layout_height="match_parent">
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1323,9 +1323,9 @@
                                 style="@style/Style.edittext"
                                 android:focusable="false"
                                 android:text="" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1335,7 +1335,7 @@
                                 android:id="@+id/etCountryPA"
                                 style="@style/Style.edittext"
                                 android:text="India" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1345,7 +1345,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1357,9 +1357,9 @@
                                 android:digits="0123456789"
                                 android:inputType="phone"
                                 android:maxLength="13" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1371,7 +1371,7 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1603,7 +1603,7 @@
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
 
-                                    <android.support.design.widget.TextInputLayout
+                                    <com.google.android.material.textfield.TextInputLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="2dp"
@@ -1616,7 +1616,7 @@
                                             android:inputType="text"
                                             android:maxLength="25"
                                             android:maxLines="1" />
-                                    </android.support.design.widget.TextInputLayout>
+                                    </com.google.android.material.textfield.TextInputLayout>
 
                                 </LinearLayout>
                             </LinearLayout>
@@ -1629,7 +1629,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInpLayCurrJob"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1642,9 +1642,9 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInpLayTotalExp"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1658,7 +1658,7 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1667,7 +1667,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1678,7 +1678,7 @@
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1688,7 +1688,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInpLayTurnOver"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1701,9 +1701,9 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="10" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInpLayDepreciation"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1717,7 +1717,7 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="10" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1726,7 +1726,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInpLayDirRem"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1739,9 +1739,9 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="10" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/textInpLayProfAftTax"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -1755,7 +1755,7 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="10" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1764,7 +1764,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1776,7 +1776,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1786,7 +1786,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1798,7 +1798,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1808,7 +1808,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1820,7 +1820,7 @@
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1830,7 +1830,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1842,7 +1842,7 @@
                                 android:inputType="text"
                                 android:maxLength="150"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1852,7 +1852,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1864,9 +1864,9 @@
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="6" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1877,7 +1877,7 @@
                                 android:id="@+id/etCityED"
                                 style="@style/Style.edittext"
                                 android:focusable="false" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -1887,7 +1887,7 @@
                         android:layout_marginTop="4dp">
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1898,9 +1898,9 @@
                                 style="@style/Style.edittext"
                                 android:focusable="false"
                                 android:text="" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1912,7 +1912,7 @@
                                 android:inputType="text"
                                 android:maxLines="1"
                                 android:text="India" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -1922,7 +1922,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginTop="4dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1934,7 +1934,7 @@
                                 android:digits="0123456789"
                                 android:inputType="phone"
                                 android:maxLength="13" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
                 </TableLayout>
@@ -2031,7 +2031,7 @@
                         android:weightSum="100">
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
@@ -2045,9 +2045,9 @@
                                 android:inputType="number"
                                 android:maxLength="10" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
@@ -2060,7 +2060,7 @@
                                 android:inputType="number"
                                 android:maxLength="10" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 
@@ -2071,7 +2071,7 @@
                         android:weightSum="100">
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
@@ -2086,9 +2086,9 @@
 
                                 />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
@@ -2102,7 +2102,7 @@
                                 android:inputType="number"
                                 android:maxLength="10" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </TableRow>
 

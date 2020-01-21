@@ -3,8 +3,8 @@ package com.datacomp.magicfinmart.search_bo_fba
 
 import android.app.ProgressDialog
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.v7.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -44,7 +44,7 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvFBAList.layoutManager = LinearLayoutManager(activity)
+        rvFBAList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
 
         var boFbaEntity = BOFbaEntity()
         boFbaEntity.fullName = "Self"

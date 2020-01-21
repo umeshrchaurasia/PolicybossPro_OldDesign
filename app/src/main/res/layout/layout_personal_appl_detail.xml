@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
@@ -37,7 +37,7 @@
                         android:drawableRight="@drawable/vector_person"
                         android:inputType="textCapWords"
                         style="@style/Style.edittext" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <LinearLayout
@@ -97,7 +97,7 @@
                 android:orientation="horizontal">
 
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
@@ -109,7 +109,7 @@
                         style="@style/Style.edittext"
                         android:drawableRight="@drawable/vector_date"
                         android:focusable="false" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -156,7 +156,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
@@ -172,9 +172,9 @@
                         android:inputType="phone"
                         android:maxLength="9"
                         android:text="" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
@@ -188,7 +188,7 @@
                         android:ems="10"
                         android:inputType="phone"
                         android:maxLength="9" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -196,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
@@ -209,9 +209,9 @@
                         android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                         android:inputType="textCapCharacters"
                         android:maxLength="10" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
@@ -225,7 +225,7 @@
                         android:ems="10"
                         android:inputType="number"
                         android:maxLength="10" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
@@ -234,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
@@ -248,7 +248,7 @@
                         android:inputType="number"
                         android:maxLength="10"
                         android:text="" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </LinearLayout>
@@ -378,7 +378,7 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
@@ -394,7 +394,7 @@
                         android:gravity="center_horizontal"
                         android:inputType="number"
                         android:maxLength="6" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
@@ -405,7 +405,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
@@ -418,9 +418,9 @@
                     android:text=""
                         android:enabled="false"
                        />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
@@ -432,7 +432,7 @@
                         style="@style/Style.edittext"
                         android:text=""
                         />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
@@ -441,7 +441,7 @@
                 android:id="@+id/llemail"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
@@ -454,7 +454,7 @@
                         android:text=""
 
                         />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
             <LinearLayout
@@ -462,7 +462,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
@@ -476,7 +476,7 @@
 
                         android:layout_height="32dp"
                         android:text="" />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </LinearLayout>

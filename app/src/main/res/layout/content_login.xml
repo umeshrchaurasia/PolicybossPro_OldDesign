@@ -36,7 +36,7 @@
             android:text="ONE STOP FINANCIAL SOLUTION"
             android:textAppearance="@style/TextStyle.Title" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -50,9 +50,9 @@
                 android:drawableRight="@drawable/vector_email_white"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -67,7 +67,7 @@
                 android:drawableRight="@drawable/vector_password"
                 android:inputType="textPassword"
                 android:textColor="@color/white" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnSignIn"

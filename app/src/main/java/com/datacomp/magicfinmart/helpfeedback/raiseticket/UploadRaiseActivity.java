@@ -13,8 +13,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.FileProvider;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -195,7 +195,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
 
 
     private void showCamerGalleryPopUp() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.CustomDialog);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery;
         LayoutInflater inflater = this.getLayoutInflater();
@@ -203,7 +203,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
         final View dialogView = inflater.inflate(R.layout.layout_cam_gallery, null);
 
         builder.setView(dialogView);
-        final android.support.v7.app.AlertDialog alertDialog = builder.create();
+        final androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         // set the custom dialog components - text, image and button
         lyCamera = (LinearLayout) dialogView.findViewById(R.id.lyCamera);
         lyGallery = (LinearLayout) dialogView.findViewById(R.id.lyGallery);

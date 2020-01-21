@@ -100,7 +100,7 @@
                     android:text="Female" />
             </RadioGroup>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -116,12 +116,12 @@
                     android:entries="@array/health_relationship"
                     android:paddingBottom="12dp"
                     android:paddingTop="12dp" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
 
         </LinearLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,7 +135,7 @@
                 android:drawableRight="@drawable/vector_date"
                 android:focusable="false" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
 

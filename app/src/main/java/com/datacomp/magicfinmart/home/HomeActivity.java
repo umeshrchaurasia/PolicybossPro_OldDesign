@@ -20,20 +20,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.RequiresApi;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
@@ -631,7 +631,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
 
                 if (fragment != null) {
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, fragment);
                     fragmentTransaction.commit();
 
@@ -1970,7 +1970,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             switch (v.getId()) {
                 case R.id.txtKnowMore:
                     ((AlertDialog) v.getTag(R.id.txtKnowMore)).dismiss();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, new KnowMoreMPSFragment());
                     fragmentTransaction.commit();
                     break;
@@ -1988,7 +1988,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     };
 
     public void redirectMPS() {
-        android.support.v4.app.FragmentTransaction fragmentTransaction;
+        FragmentTransaction fragmentTransaction;
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, new MPSFragment());
         fragmentTransaction.commit();
@@ -2564,7 +2564,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     public void dialogCoBrowser() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle("Share Screen..!");
         builder.setMessage("Do you want to share your screen?");
         builder.setCancelable(false);
@@ -2586,7 +2586,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         dialog.cancel();
                     }
                 });
-        android.support.v7.app.AlertDialog exitdialog = builder.create();
+        androidx.appcompat.app.AlertDialog exitdialog = builder.create();
         exitdialog.show();
 
         Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);

@@ -68,7 +68,7 @@
         android:layout_height="1dp"
         android:background="@color/black" />
 
-    <android.support.design.widget.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
         android:visibility="gone"
         app:menu="@menu/dashboard_header_menu" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

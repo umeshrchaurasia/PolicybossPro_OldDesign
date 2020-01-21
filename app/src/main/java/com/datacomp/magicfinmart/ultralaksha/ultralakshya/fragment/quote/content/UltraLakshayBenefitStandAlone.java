@@ -2,8 +2,8 @@ package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.conten
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +13,6 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageoneUnmatchedList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**

@@ -1,7 +1,7 @@
 package com.datacomp.magicfinmart.loan_fm.businessloan;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity;
 
 import java.util.List;
 

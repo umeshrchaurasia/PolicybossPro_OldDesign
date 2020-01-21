@@ -145,7 +145,7 @@
             android:orientation="horizontal"
             android:visibility="gone">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="80"
@@ -157,7 +157,7 @@
                     android:inputType="number"
                     android:maxLines="1" />
 
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnApplyPromo"

@@ -2,7 +2,7 @@ package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Passen
 
 import android.app.Activity;
 import android.graphics.Paint;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

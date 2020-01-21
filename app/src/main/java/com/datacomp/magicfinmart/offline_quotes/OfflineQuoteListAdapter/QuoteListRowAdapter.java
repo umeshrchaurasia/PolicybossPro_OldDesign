@@ -1,22 +1,18 @@
 package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteListAdapter;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.dashboard.DashboardRowAdapter;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
-import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.util.List;
 

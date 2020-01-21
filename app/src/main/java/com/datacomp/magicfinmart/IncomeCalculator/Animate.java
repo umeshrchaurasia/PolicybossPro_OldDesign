@@ -1,6 +1,6 @@
 package com.datacomp.magicfinmart.IncomeCalculator;
 
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;

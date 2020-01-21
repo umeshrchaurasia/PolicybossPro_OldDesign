@@ -2,12 +2,11 @@ package com.datacomp.magicfinmart.loan_fm.personalloan;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
-import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
 
 import java.util.ArrayList;
 
