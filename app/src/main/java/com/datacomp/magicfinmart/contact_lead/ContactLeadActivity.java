@@ -1,14 +1,13 @@
 package com.datacomp.magicfinmart.contact_lead;
 
-import android.app.AlertDialog;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +32,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactRequestE
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ContactlistEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.ContactLeadRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 
 public class ContactLeadActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {

@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginRight="1dp"
@@ -107,9 +107,9 @@
                 style="@style/Style.edittext" />
 
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
@@ -124,7 +124,7 @@
                 android:maxLength="10"
                 android:ems="10"
                 android:inputType="number" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 
@@ -134,7 +134,7 @@
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginRight="1dp"
@@ -151,9 +151,9 @@
 
                 android:inputType="number"
                 android:maxLength="9" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
@@ -168,7 +168,7 @@
                 android:maxLength="5"
                 android:digits="0123456789."
                 android:inputType="numberDecimal"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -179,7 +179,7 @@
 
 
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
@@ -196,7 +196,7 @@
                 android:maxLength="2"
                 android:digits="0123456789"
                 android:inputType="number"/>
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
 

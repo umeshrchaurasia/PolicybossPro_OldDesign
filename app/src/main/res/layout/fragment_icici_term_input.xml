@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="90">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -22,7 +22,7 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cvInputDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,9 +130,9 @@
                     </LinearLayout>
 
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cvQuoteDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -393,7 +393,7 @@
                             android:orientation="vertical"
                             android:visibility="gone">
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rvAddOn"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -402,7 +402,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <include
                     android:id="@+id/layoutCompare"
@@ -418,7 +418,7 @@
                     android:gravity="bottom"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -441,9 +441,9 @@
                             android:dropDownWidth="200dp"
                             android:entries="@array/icici_payment_term" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -466,7 +466,7 @@
                             android:dropDownWidth="200dp"
                             android:entries="@array/icici_premium_frequency" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
@@ -478,7 +478,7 @@
                     android:gravity="bottom"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -501,9 +501,9 @@
                             android:dropDownWidth="200dp"
                             android:entries="@array/icici_options" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilPremiumPayment"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -527,7 +527,7 @@
                             android:dropDownWidth="200dp"
                             android:entries="@array/icici_premium_payment_whole_life" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
@@ -540,7 +540,7 @@
                     android:orientation="horizontal">
 
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilPincode"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -554,7 +554,7 @@
                             android:inputType="number"
                             android:maxLength="6" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
 
@@ -935,7 +935,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
     </ScrollView>

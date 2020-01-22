@@ -272,7 +272,7 @@
                     android:text="Cover required"
                     android:textAllCaps="true" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvSumAssured"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -289,7 +289,7 @@
                     android:gravity="center"
                     android:visibility="visible">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -309,7 +309,7 @@
                             android:maxLines="1"
                             android:minLines="1"
                             android:singleLine="true" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
 
@@ -321,7 +321,7 @@
                     android:layout_marginRight="@dimen/view_spacing_small"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -333,9 +333,9 @@
                             style="@style/Style.edittext"
                             android:enabled="true"
                             android:inputType="number" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -347,7 +347,7 @@
                             style="@style/Style.edittext"
                             android:inputType="number"
                             android:maxLength="6" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
                 </LinearLayout>
@@ -359,7 +359,7 @@
                     android:layout_marginRight="@dimen/view_spacing_small"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -375,9 +375,9 @@
                             android:maxLines="1"
                             android:minLines="1" />
                         <!--android:inputType="textCapWords"-->
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -389,7 +389,7 @@
                             style="@style/Style.edittext"
                             android:inputType="number"
                             android:maxLength="10" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -398,7 +398,7 @@
                     android:orientation="horizontal"
                     android:visibility="visible">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -412,9 +412,9 @@
                             android:dropDownWidth="250dp"
                             android:imeOptions="actionNext"
                             android:inputType="text" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -426,7 +426,7 @@
                             style="@style/Style.edittext"
                             android:inputType="number"
                             android:maxLength="10" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -436,7 +436,7 @@
                     android:layout_marginRight="@dimen/view_spacing_small"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -451,7 +451,7 @@
                             android:maxLines="1"
                             android:minLines="1" />
                         <!--android:inputType="textCapWords"-->
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
                 </LinearLayout>

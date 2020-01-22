@@ -36,7 +36,7 @@
             android:text="ONE STOP FINANCIAL SOLUTION"
             android:textAppearance="@style/TextStyle.Title" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -49,27 +49,25 @@
                 style="@style/Style.edittext"
                 android:drawableRight="@drawable/vector_email_white"
                 android:inputType="textEmailAddress"
-                android:text="100072"
                 android:textColor="@color/white" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:textColorHint="@color/white"
-            app:hintTextAppearance="@style/TextLabel"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            app:passwordToggleTint="@color/white"
-            app:passwordToggleEnabled="true">
+            android:textColorHint="@color/white"
+            app:hintTextAppearance="@style/TextLabel"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/white">
 
             <EditText
                 android:id="@+id/etPassword"
                 style="@style/Style.edittext"
                 android:drawableRight="@drawable/vector_password"
                 android:inputType="textPassword"
-                android:text="100072"
                 android:textColor="@color/white" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btnSignIn"
@@ -88,7 +86,6 @@
             android:padding="4dp">
 
             <TextView
-                android:visibility="visible"
                 android:id="@+id/tvSignUp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -97,7 +94,8 @@
                 android:gravity="left"
                 android:text="@string/signup"
                 android:textAppearance="@style/TextStyle.TextMedium"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvForgotPass"

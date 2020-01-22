@@ -2,9 +2,9 @@ package com.datacomp.magicfinmart.loan_fm.laploan;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.loan_fm.laploan.application.LAP_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.laploan.quote.LAP_QuoteFragment;

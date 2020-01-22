@@ -7,12 +7,12 @@
     android:orientation="vertical"
     android:background="@color/white"
     tools:context="com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity">
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -21,7 +21,7 @@
             app:titleTextAppearance="@style/TextStyle.Toolbar"
             app:titleTextColor="@color/white"/>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:id="@+id/llSalaried"
@@ -206,11 +206,11 @@
             android:textAllCaps="true"
             android:textColor="@color/black" />
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvQuotes"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
     <LinearLayout
         android:id="@+id/llmessage"
         android:layout_width="match_parent"

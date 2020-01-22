@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@ tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity">
 
 
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -33,7 +33,7 @@ tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity">
 
 
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -61,7 +61,7 @@ tools:context=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity">
         android:visibility="gone"
         android:layout_below="@+id/viewHeader">
 
-        <android.support.design.widget.BottomNavigationView
+        <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,8 +1,8 @@
 package com.datacomp.magicfinmart.creditcard.newcreditcardSwipe
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
 import com.datacomp.magicfinmart.R
 
 import kotlinx.android.synthetic.main.activity_credit_card_swipe_wishes.*

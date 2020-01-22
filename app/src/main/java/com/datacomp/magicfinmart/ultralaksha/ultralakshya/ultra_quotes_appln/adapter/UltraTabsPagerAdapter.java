@@ -2,18 +2,16 @@ package com.datacomp.magicfinmart.ultralaksha.ultralakshya.ultra_quotes_appln.ad
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.ultra_quotes_appln.fragment.UltraApplicationDetailFragment;
 import com.datacomp.magicfinmart.ultralaksha.ultralakshya.ultra_quotes_appln.fragment.UltraQuoteDetailFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UltraMainEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HomeLoanRequestMainEntity;
 
 /**
  * Created by Rajeev Ranjan on 19/02/2019.

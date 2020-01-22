@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -596,7 +597,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle));
 
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
 
 
@@ -712,10 +713,11 @@ public class DBPersistanceController {
     public List<DashboardMultiLangEntity> getInsurProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
 
+        DBPersistanceController db = new DBPersistanceController(mContext);
 
-        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
-                new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled() != null
-                && new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
+        if (db.getUserConstantsData() != null &&
+                db.getUserConstantsData().getUltralakshyaenabled() != null
+                && db.getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
             dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 17, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive, "FinmartExclutitle", "FinmartExcludesc"));
 
         }
@@ -725,7 +727,13 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle, "CommVehtitle", "CommVehdesc"));
 
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance, "HealthInsTitle", "HealthInsdesc"));
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "LIFE INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
+
+        if (db.getUserConstantsData() != null
+                && db.getUserConstantsData().getInvestmentEnabled().equalsIgnoreCase("1")) {
+            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT PLANS", "Get investment options offering returns as per end needs, financial security, tax benefits & more.", R.drawable.invest, "InvestInsTitle", "InvestInsdesc"));
+        }
+
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
 
 
@@ -752,7 +760,7 @@ public class DBPersistanceController {
 
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 4, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card, "CCTitle", "CCdesc"));
 
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 19, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 6, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer, "BLTitle", "BLdesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan, "HlTitle", "Hldesc"));
 
@@ -777,10 +785,11 @@ public class DBPersistanceController {
 
     public List<DashboardMultiLangEntity> getMoreProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
+        DBPersistanceController db = new DBPersistanceController(mContext);
 
-        if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
-                new DBPersistanceController(mContext).getUserConstantsData().getEnablencd() != null
-                && new DBPersistanceController(mContext).getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
+        if (db.getUserConstantsData() != null &&
+                db.getUserConstantsData().getEnablencd() != null
+                && db.getUserConstantsData().getEnablencd().equalsIgnoreCase("1")) {
             dashboardEntities.add(new DashboardMultiLangEntity("MORE SERVICES", 15,
                     "OTHER INVESTMENT PRODUCTS", " NCDs (Secured/unsecured Debentures)",
                     R.drawable.investment_icon, "OtherInvProTitle", "OtherInvProdesc"));
@@ -2410,7 +2419,6 @@ public class DBPersistanceController {
 
         return "";
     }
-
 
 
 //    public String getLanguageData(String langCode, String langKey) {

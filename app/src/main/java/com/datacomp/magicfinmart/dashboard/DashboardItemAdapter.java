@@ -1,11 +1,9 @@
 package com.datacomp.magicfinmart.dashboard;
 
-import android.graphics.Typeface;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -74,12 +72,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
 
-            if ((!LangType.isEmpty()) && (!dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductNameKey()).trim().equals("")))
+            if ((!LangType.isEmpty()) && (!dbPersistanceController.getLangData(LangType,
+                    listInsur.get(position).getProductNameKey()).trim().equals("")))
             {
-
-
-                ((DashboardItemHolder) holder).txtProductName.setText(dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductNameKey()));
-                ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLangData(LangType, listInsur.get(position).getProductDetailsKey()));
+                ((DashboardItemHolder) holder).txtProductName.setText(dbPersistanceController.getLangData(LangType,
+                        listInsur.get(position).getProductNameKey()));
+                ((DashboardItemHolder) holder).txtProductDesc.setText(dbPersistanceController.getLangData(LangType,
+                        listInsur.get(position).getProductDetailsKey()));
 
 
                 ((BaseFragment)mContext).setLanguage( LangType, ((DashboardItemHolder) holder).txtProductName);

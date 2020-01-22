@@ -16,5 +16,7 @@ public interface ILogin {
 
     void referFriend(String refType, String refCode, IResponseSubcriber iResponseSubcriber);
 
-    void getPospAgentData (String UID, String Name, IResponseSubcriber iResponseSubcriber);
+    void getPospAgentData(String UID, String Name, IResponseSubcriber iResponseSubcriber);
+
+    void checkLoginSwitchUser(LoginRequestEntity loginRequestEntity, IResponseSubcriber iResponseSubcriber);
 }

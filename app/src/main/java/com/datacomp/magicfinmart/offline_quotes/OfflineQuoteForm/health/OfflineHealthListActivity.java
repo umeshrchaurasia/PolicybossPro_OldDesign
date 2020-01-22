@@ -2,20 +2,17 @@ package com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.adapter.OfflineHealthListItemAdapter;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.InputOfflineMotorActivity;
-import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListItemAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.ArrayList;
@@ -27,9 +24,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_quotes.OfflineQuotesController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineMotorListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineHealthResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineMotorListResponse;
 
 public class OfflineHealthListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 

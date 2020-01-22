@@ -6,10 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,19 +17,16 @@ import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.salesmaterial.SalesShareActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.TouchImageView;
 
 import java.io.FileInputStream;
 import java.net.URL;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FestivalCompaignEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 
 public class festivalShareActivity extends BaseActivity implements BaseActivity.PopUpListener {
@@ -48,6 +44,7 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
     boolean isSecondImageToShow = false;
 
     FestivalCompaignEntity festivalCompaignEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,13 +113,25 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
         }
         return super.onOptionsItemSelected(item);
     }
+//
+//    public void showShareProduct() {
+//        if (combinedImage != null) {
+//            datashareList(festivalShareActivity.this, combinedImage, festivalCompaignEntity.getTitle(),  festivalCompaignEntity.getDescription() +"\n" + festivalCompaignEntity.getShorturl());
+//        }
+//    }
 
     public void showShareProduct() {
         if (combinedImage != null) {
-            datashareList(festivalShareActivity.this, combinedImage, festivalCompaignEntity.getTitle(),  festivalCompaignEntity.getDescription() +"\n" + festivalCompaignEntity.getShorturl());
+            String desc = "";
+            if (!festivalCompaignEntity.getShorturl().isEmpty()) {
+                desc = festivalCompaignEntity.getDescription() + "\n" + festivalCompaignEntity.getShorturl();
+            } else {
+                desc = festivalCompaignEntity.getDescription();
+            }
+
+            datashareList(festivalShareActivity.this, combinedImage, festivalCompaignEntity.getTitle(), desc);
         }
     }
-
 
 
     @Override
@@ -156,8 +165,8 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
 
             if (isSecondImageToShow) {
                 try {
-                   // create User Detail Image
-                   combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
+                    // create User Detail Image
+                    combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
 
                 } catch (Exception e) {
 
@@ -165,7 +174,6 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
             } else {
                 combinedImage = null;
             }
-
 
 
             try {
@@ -181,7 +189,6 @@ public class festivalShareActivity extends BaseActivity implements BaseActivity.
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
 
 
             return combinedImage;

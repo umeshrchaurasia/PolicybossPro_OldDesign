@@ -2,22 +2,20 @@ package com.datacomp.magicfinmart.offline_quotes;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.offline_quotes.OfflineQuoteListAdapter.QuoteListRowAdapter;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -25,7 +23,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.offline_qu
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocumentsOfflineEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.OfflineQuoteEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
 
 public class OfflineQuotesListActivity extends BaseActivity implements IResponseSubcriber {

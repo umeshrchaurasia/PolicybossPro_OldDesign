@@ -2,10 +2,11 @@ package com.datacomp.magicfinmart.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity;
@@ -36,6 +38,7 @@ import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -177,6 +180,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((InsuranceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listIns, LangType));
 
+
             ((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(
                     new RecyclerItemClickListener(((InsuranceHolder) holder).rvDashboard,
                             new RecyclerItemClickListener.OnItemClickListener() {
@@ -249,9 +253,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
+        //fetching parent ss_id in case of switch user
+        Map<String, String> map = ((HomeActivity) mContext).loadMap();
+        String parent_ssid = "";
+        if (map.size() > 0) {
+            parent_ssid = map.get("Parent_POSPNo");
+        }
 
         switch (productID) {
-
 
             case 1:
 
@@ -269,11 +278,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         ipaddress = "0.0.0.0";
                     }
 
+
                     //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
                     String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext)
-                            + "&product_id=1";
+                            + "&product_id=1&login_ssid=" + parent_ssid;
                     motorUrl = motorUrl + append;
 
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
@@ -321,7 +331,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     String append = "&ip_address=" + ipaddress
                             + "&app_version=" + Utility.getVersionName(mContext)
-                            + "&device_id=" + Utility.getDeviceId(mContext);
+                            + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
+                    ;
                     healthUrl = healthUrl + append;
 
                     if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
@@ -345,7 +356,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;
-            case 5:
+            case 19:
                 //personal loan
                 mContext.startActivity(new Intent(mContext, NewPersonalApplicaionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
@@ -397,7 +408,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext)
-                            + "&product_id=10";
+                            + "&product_id=10&login_ssid=" + parent_ssid;
                     motorUrl = motorUrl + append;
                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
@@ -436,7 +447,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 String append = "&ip_address=" + ipaddress + "&mac_address="
                         + "&app_version=" + BuildConfig.VERSION_NAME
                         + "&device_id=" + Utility.getDeviceId(mContext)
-                        + "&product_id=12";
+                        + "&product_id=12&login_ssid=" + parent_ssid;
                 cvUrl = cvUrl + append;
                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", cvUrl)
@@ -444,7 +455,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .putExtra("TITLE", "Commercial Vehicle Insurance"));
 
 
-                MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.CV, "Clicked", "Health CheckUp tab on home page");
                 break;
 
             case 13:
@@ -487,6 +498,37 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 mContext.startActivity(new Intent(mContext, TermSelectionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
+                break;
+
+            case 5: //investment
+
+                if (mReal.getUserConstantsData().getInvestmentEnabled().equals("1")) {
+                    String invUrl = mReal.getUserConstantsData().getInvestmentUrl();
+
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
+
+                    append = "&ip_address=" + ipaddress
+                            + "&app_version=" + Utility.getVersionName(mContext)
+                            + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
+
+                    invUrl = invUrl + append;
+
+                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
+                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+                        Utility.loadWebViewUrlInBrowser(mContext, invUrl);
+                    } else {
+                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                .putExtra("URL", invUrl)
+                                .putExtra("NAME", "INVESTMENT PLANS")
+                                .putExtra("TITLE", "INVESTMENT PLANS"));
+                    }
+                } else {
+                    Toast.makeText(mContext, "You'r not authorize to sell Investment.", Toast.LENGTH_SHORT).show();
+                }
                 break;
 
         }

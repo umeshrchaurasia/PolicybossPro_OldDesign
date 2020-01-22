@@ -10,7 +10,7 @@
     tools:context="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity"
     tools:showIn="@layout/activity_help_feed_back">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvContactUs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,9 +27,9 @@
             android:padding="@dimen/fab_margin"
             android:text="CONTACT US"
             android:textSize="15sp" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvRaiseTicket"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,9 +47,9 @@
             android:padding="@dimen/fab_margin"
             android:text="RAISE A TICKET"
             android:textSize="15sp" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:visibility="gone"
         android:id="@+id/cvAboutUs"
         android:layout_width="match_parent"
@@ -67,9 +67,9 @@
             android:padding="@dimen/fab_margin"
             android:text="ABOUT US"
             android:textSize="15sp" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvDisclosure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,10 +86,10 @@
             android:padding="@dimen/fab_margin"
             android:text="DISCLOSURE"
             android:textSize="15sp" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -107,5 +107,5 @@
             android:text="FINMART WHATSAPP CHAT"
             android:visibility="gone"
             android:textSize="15sp" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

@@ -11,12 +11,12 @@
     tools:context="com.datacomp.magicfinmart.onlineexpressloan.HdfcpersonalloanActivity">
 
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -25,7 +25,7 @@
             app:titleTextAppearance="@style/TextStyle.Toolbar"
             app:titleTextColor="@color/white"/>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/ccPersonal"
                 style="@style/CardStyle.Home"
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
 
 
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.3"
@@ -89,7 +89,7 @@
                                 style="@style/Style.edittext"
                                  android:inputType="text"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
                     </TableRow>
 
 
@@ -99,7 +99,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -113,9 +113,9 @@
                                 android:inputType="textCapWords"
                                 android:maxLength="30"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -129,7 +129,7 @@
                                 android:drawableRight="@drawable/vector_date"
                                 android:focusable="false" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
 
@@ -139,7 +139,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -151,7 +151,7 @@
                                 android:inputType="textEmailAddress"
                                 android:maxLength="100"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -161,7 +161,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -173,7 +173,7 @@
                                 android:inputType="number"
                                 android:maxLength="7"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                         <Spinner
                             android:id="@+id/speducationList"
@@ -191,7 +191,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -205,7 +205,7 @@
                             android:inputType="textCapCharacters"
                             android:maxLength="10"
                             android:maxLines="1" />
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                         <Spinner
                             android:id="@+id/spIncomeSource"
@@ -224,7 +224,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="8dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -237,8 +237,8 @@
                                 android:maxLength="30"
                                 android:maxLines="1" />
 
-                        </android.support.design.widget.TextInputLayout>
-                        <android.support.design.widget.TextInputLayout
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -250,7 +250,7 @@
                             android:inputType="number"
                             android:maxLength="9"
                             android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
                     </TableRow>
 
                     <TableRow
@@ -258,7 +258,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -270,9 +270,9 @@
                                 android:inputType="number"
                                 android:maxLength="10"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -284,7 +284,7 @@
                                 android:inputType="number"
                                 android:maxLength="10"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -295,7 +295,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -307,9 +307,9 @@
                                 android:inputType="number"
                                 android:maxLength="15"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -322,7 +322,7 @@
                                 android:inputType="number"
                                 android:maxLength="15"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -333,7 +333,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -345,9 +345,9 @@
                                 android:inputType="number"
                                 android:maxLength="6"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -360,7 +360,7 @@
                                 android:inputType="number"
                                 android:maxLength="9"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -370,7 +370,7 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -382,17 +382,17 @@
                                 android:inputType="number"
                                 android:maxLength="2"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
 
                     </TableRow>
                 </TableLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:id="@+id/ccCurrentAddress"
                 style="@style/CardStyle.Home"
                 android:layout_width="match_parent"
@@ -428,7 +428,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -441,7 +441,7 @@
                                 android:inputType="textEmailAddress"
                                 android:maxLength="200"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
                     </TableRow>
@@ -473,7 +473,7 @@
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:layout_marginTop="0dp">
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -485,12 +485,12 @@
                                 android:inputType="textEmailAddress"
                                 android:maxLength="200"
                                 android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
                         </TableRow>
 
                     </TableLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
             <CheckBox

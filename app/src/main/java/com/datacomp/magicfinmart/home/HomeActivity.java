@@ -20,20 +20,20 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.RequiresApi;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
@@ -181,6 +181,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     List<TextView> textViewList;
 
+    LinearLayout llSwitchUser;
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -235,6 +236,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         registerPermission(this);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        llSwitchUser = findViewById(R.id.llSwitchUser);
+
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         // Initializing Drawer Layout and ActionBarToggle
@@ -478,32 +482,32 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 .putExtra("NAME", "" + "Gift Voucher")
                                 .putExtra("TITLE", "" + "Gift Voucher"));
                         break;
+/*
+                    case R.id.nav_offlineQuotes:
+                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
+                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
+                        break;
+                    case R.id.nav_myBusiness:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My Business : My Business button in menu "), Constants.MY_BUSINESS), null);
+                        break;
+                    case R.id.nav_referFriend:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
+                        break;
+                    case R.id.nav_mps:
+                        // DialogMPS();
+                        showDialog();
+                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
 
-//                    case R.id.nav_offlineQuotes:
-//                        //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
-//                        //   new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
-//                        break;
-//                    case R.id.nav_myBusiness:
-//                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My Business : My Business button in menu "), Constants.MY_BUSINESS), null);
-//                        break;
-//                    case R.id.nav_referFriend:
-//                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
-//                        break;
-//                    case R.id.nav_mps:
-//                        // DialogMPS();
-//                        showDialog();
-//                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-//
-//                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-//                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-//                        break;
-//                    case R.id.nav_helpfeedback:
-//                        startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
-//                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
-//                        break;
-                    /*case R.id.nav_posptraining:
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        break;
+                    case R.id.nav_helpfeedback:
+                        startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+                        break;
+                    case R.id.nav_posptraining:
                         startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.login.LoginActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("POPS TRAINING : POPS TRAINING button in menu "), Constants.POSP_TRAINING), null);
                         break;
@@ -530,7 +534,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         break;
                     case R.id.nav_raiseTicket:
-                        startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+
+                        if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
+                            startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+                        } else {
+
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
+                                            + "&UDID=" + userConstantEntity.getUserid())
+                                    .putExtra("NAME", "RAISE_TICKET")
+                                    .putExtra("TITLE", "RAISE TICKET"));
+                        }
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
 
                         break;
 //                    case R.id.nav_IncomePotential:
@@ -619,7 +634,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
 
                 if (fragment != null) {
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, fragment);
                     fragmentTransaction.commit();
 
@@ -835,7 +850,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
-    private Map<String, String> loadMap() {
+    public Map<String, String> loadMap() {
         Map<String, String> outputMap = new HashMap<>();
         SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
                 Context.MODE_PRIVATE);
@@ -1031,7 +1046,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onClick(View v) {
 
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Intent shareIntent = new Intent(HomeActivity.this, MyAccountActivity.class);
                     Pair[] pairs = new Pair[1];
@@ -1042,42 +1056,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                 }
 
-
             }
         });
 
         ivCancel = (ImageView) headerView.findViewById(R.id.ivCancel);
-      /*  lstswitchChild_user.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isNavDrawerOpen()) {
-                    closeNavDrawer();
-                }
-                LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
-                Map<String, String> outputMap = loadMap();
-                if (outputMap != null && outputMap.size() > 0) {
 
-                    loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
-                    loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
-                }
-
-
-                loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
-                loginRequestEntity.setTokenId(prefManager.getToken());
-                loginRequestEntity.setIsChildLogin("Y");
-
-                SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.clear();
-                editor.commit();
-
-                //  new PrefManager(HomeActivity.this).clearAll();
-
-                new DBPersistanceController(HomeActivity.this).clearSwitchUser();
-                showDialog();
-                new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
-            }
-        });*/
 
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1091,7 +1074,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         lstswitchuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (isNavDrawerOpen()) closeNavDrawer();
                 startActivityForResult(new Intent(HomeActivity.this, SwitchUserActivity.class), 10);
             }
         });
@@ -1104,72 +1087,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
             txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
-            //region Switch user Binding
-
-            Map<String, String> outputMap = loadMap();
-            if (outputMap != null && outputMap.size() > 0) {
-                lstswitchuser.setVisibility(View.GONE);
-                lstswitchChild_user.setVisibility(View.VISIBLE);
-
-                String mystring = new String("Parent :- " + outputMap.get("Parent_name"));
-                SpannableString content = new SpannableString(mystring);
-                content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
-                txtparentuser.setText(content);
-
-                String currentChild = outputMap.get("Child_name");
-
-                txtchilduser.setText(currentChild);
-
-                Snackbar snackbar = Snackbar.make(navigationView, "Logged in with " + currentChild, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction("Log-Out", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (isNavDrawerOpen()) {
-                            closeNavDrawer();
-                        }
-
-                        LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
-                        Map<String, String> outputMap = loadMap();
-                        if (outputMap != null && outputMap.size() > 0) {
-
-                            loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
-                            loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
-                        }
-
-                        loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
-                        loginRequestEntity.setTokenId(prefManager.getToken());
-                        loginRequestEntity.setIsChildLogin("Y");
-
-                        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.clear();
-                        editor.commit();
-
-                        //  new PrefManager(HomeActivity.this).clearAll();
-
-                        new DBPersistanceController(HomeActivity.this).clearSwitchUser();
-                        showDialog();
-                        new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
-                    }
-                });
-                View view = snackbar.getView();
-                view.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-                snackbar.show();
-
-
-            } else {
-                if (loginResponseEntity.getIsUidLogin().equals("Y")) {
-                    lstswitchuser.setVisibility(View.VISIBLE);
-                    lstswitchChild_user.setVisibility(View.GONE);
-                } else {
-                    lstswitchuser.setVisibility(View.GONE);
-                    lstswitchChild_user.setVisibility(View.GONE);
-                }
-
-            }
-
-            //endregion
+            switchUserBinding();
 
         } else {
             txtDetails.setText("");
@@ -1178,32 +1096,129 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         if (userConstantEntity != null) {
 
+            try {
+                txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
+                txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
+                Glide.with(HomeActivity.this)
+                        .load(userConstantEntity.getLoansendphoto())
+                        .placeholder(R.drawable.circle_placeholder)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .override(64, 64)
+                        .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                        .into(ivProfile);
+            } catch (Exception e) {
 
-            txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
-            txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
-            Glide.with(HomeActivity.this)
-                    .load(userConstantEntity.getLoansendphoto())
-                    .placeholder(R.drawable.circle_placeholder)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .override(64, 64)
-                    .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
-                    .into(ivProfile);
+            }
+
         } else {
-            txtPospNo.setText("");
-            txtErpID.setText("");
-            Glide.with(HomeActivity.this)
-                    .load(R.drawable.finmart_user_icon)
-                    .placeholder(R.drawable.circle_placeholder)
-                    .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
-                    .override(64, 64)
-                    .into(ivProfile);
+            try {
+                txtPospNo.setText("");
+                txtErpID.setText("");
+                Glide.with(HomeActivity.this)
+                        .load(R.drawable.finmart_user_icon)
+                        .placeholder(R.drawable.circle_placeholder)
+                        .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .override(64, 64)
+                        .into(ivProfile);
+            } catch (Exception e) {
+
+            }
+
         }
 
 
     }
+
+
+    private void addSwitchUserView() {
+
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = layoutInflater.inflate(R.layout.layout_switch_user, null);
+        TextView txtUserName = view.findViewById(R.id.txtSwitchUserName);
+        Button btnSwitchLogout = view.findViewById(R.id.btnSwitchLogout);
+        llSwitchUser.addView(view);
+
+    }
+
+    private void switchUserBinding() {
+        //region Switch user Binding
+
+        Map<String, String> outputMap = loadMap();
+        if (outputMap != null && outputMap.size() > 0) {
+            lstswitchuser.setVisibility(View.GONE);
+            lstswitchChild_user.setVisibility(View.VISIBLE);
+
+            String mystring = new String("Parent :- " + outputMap.get("Parent_name"));
+            SpannableString content = new SpannableString(mystring);
+            content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+            txtparentuser.setText(content);
+
+            String currentChild = outputMap.get("Child_name");
+
+            txtchilduser.setText(currentChild);
+
+            //region add view for switch user
+            LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.layout_switch_user, null);
+            TextView txtUserName = view.findViewById(R.id.txtSwitchUserName);
+            Button btnSwitchLogout = view.findViewById(R.id.btnSwitchLogout);
+
+            txtUserName.setText("Logged in with " + currentChild);
+            btnSwitchLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isNavDrawerOpen()) {
+                        closeNavDrawer();
+                    }
+
+                    LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
+                    Map<String, String> outputMap = loadMap();
+                    if (outputMap != null && outputMap.size() > 0) {
+
+                        loginRequestEntity.setUserName(outputMap.get("Parent_UID"));
+                        loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
+                    }
+
+                    loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
+                    loginRequestEntity.setTokenId(prefManager.getToken());
+                    loginRequestEntity.setIsChildLogin("Y");
+
+                    SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.clear();
+                    editor.commit();
+
+                    //  new PrefManager(HomeActivity.this).clearAll();
+
+                    new DBPersistanceController(HomeActivity.this).clearSwitchUser();
+                    showDialog();
+                    new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
+                }
+            });
+
+            llSwitchUser.removeAllViews();
+            llSwitchUser.addView(view);
+
+            //endregion
+
+
+        } else {
+            if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+                lstswitchuser.setVisibility(View.VISIBLE);
+                lstswitchChild_user.setVisibility(View.GONE);
+            } else {
+                lstswitchuser.setVisibility(View.GONE);
+                lstswitchChild_user.setVisibility(View.GONE);
+            }
+
+        }
+
+        //endregion
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -1448,16 +1463,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
                     init_headers();
-//                    if (!checkPermission()) {
-//                        if (checkRationalePermission()) {
-//                            requestPermission();
-//                        } else {
-//                            openPopUp(drawerLayout, "Need  Permission", "Required Contact Permission", "GRANT", true);
-//                        }
-//                    } else {
-//                        addFinmartContact();
-//
-//                    }
+
                     if (prefManager.getPopUpCounter().equals("0")) {
                         showMArketingPopup();
                     }
@@ -1546,9 +1552,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //refreshDashboard();
 
 
-                Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
+                //Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
                 //dashboardIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData());
-                LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
+                //LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
             }
         } else if (response instanceof UserCallingResponse) {
             if (response.getStatusNo() == 0) {
@@ -1727,26 +1733,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         } else if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
             if (data != null) {
-
-
-                Map<String, String> outputMap = loadMap();
-                if (outputMap != null && outputMap.size() > 0) {
-                    lstswitchuser.setVisibility(View.GONE);
-                    lstswitchChild_user.setVisibility(View.VISIBLE);
-                    //   txtDetails.setText("" + loginResponseEntity.getFullName());
-                    txtparentuser.setText("Parent :- " + outputMap.get("Parent_name"));
-                    //  txtchilduser.setText("  " + outputMap.get("Child_name"));
-
-                } else {
-                    lstswitchuser.setVisibility(View.VISIBLE);
-                    lstswitchChild_user.setVisibility(View.GONE);
-                }
-
-
+                //switchUserBinding();
                 db = new DBPersistanceController(this);
                 loginResponseEntity = db.getUserData();
-
-
+                // init_headers();
             }
 
         }
@@ -1809,16 +1799,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
         }
 
+        //Attendance
+//        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+//            //visible attendance
+//            nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
+//        } else {
+//            //hide attendance
+//            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
+//        }
 
-        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
-            //visible attendance
-            nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
-        } else {
-            //hide attendance
-            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
-        }
-
-
+        //init_headers();
     }
 
 
@@ -1982,7 +1972,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             switch (v.getId()) {
                 case R.id.txtKnowMore:
                     ((AlertDialog) v.getTag(R.id.txtKnowMore)).dismiss();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, new KnowMoreMPSFragment());
                     fragmentTransaction.commit();
                     break;
@@ -2000,7 +1990,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     };
 
     public void redirectMPS() {
-        android.support.v4.app.FragmentTransaction fragmentTransaction;
+        FragmentTransaction fragmentTransaction;
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, new MPSFragment());
         fragmentTransaction.commit();
@@ -2576,7 +2566,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     public void dialogCoBrowser() {
-        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
         builder.setTitle("Share Screen..!");
         builder.setMessage("Do you want to share your screen?");
         builder.setCancelable(false);
@@ -2598,7 +2588,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         dialog.cancel();
                     }
                 });
-        android.support.v7.app.AlertDialog exitdialog = builder.create();
+        androidx.appcompat.app.AlertDialog exitdialog = builder.create();
         exitdialog.show();
 
         Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);

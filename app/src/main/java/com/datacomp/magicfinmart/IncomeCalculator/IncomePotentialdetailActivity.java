@@ -1,13 +1,12 @@
 package com.datacomp.magicfinmart.IncomeCalculator;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 
 import java.text.DecimalFormat;
@@ -57,7 +56,7 @@ public class IncomePotentialdetailActivity extends BaseActivity implements View.
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_income_potentialdetail);
-        android.support.v7.widget.Toolbar toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
+        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initialize();

@@ -1,33 +1,25 @@
 package com.datacomp.magicfinmart.festivelink;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.support.annotation.NonNull;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.design.CustomImageView;
-import com.datacomp.magicfinmart.salesmaterial.SalesDetailActivity;
-import com.datacomp.magicfinmart.salesmaterial.SalesDocAdapter;
-import com.datacomp.magicfinmart.salesmaterial.SalesShareActivity;
 
 import java.util.List;
 
-import butterknife.internal.Utils;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FestivalCompaignEntity;
 
 

@@ -3,8 +3,8 @@ package com.datacomp.magicfinmart.ultralaksha.ultralakshya.fragment.quote.conten
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +14,10 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.UltraLakshaFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HDFCEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PageTwoStandAloneList;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ProductComboList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UltraLakshaIllustrationResponseNew;
 
 /**

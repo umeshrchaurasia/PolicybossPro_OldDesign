@@ -12,6 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChangePasswordResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CheckLoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
@@ -37,6 +38,43 @@ public class LoginController implements ILogin {
     }
 
     @Override
+    public void checkLoginSwitchUser(LoginRequestEntity loginRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+
+        loginNetworkService.chklogin(loginRequestEntity).enqueue(new Callback<CheckLoginResponse>() {
+            @Override
+            public void onResponse(Call<CheckLoginResponse> call, Response<CheckLoginResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+
+                      //  dbPersistanceController.storeUserData(response.body().getMasterData());
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CheckLoginResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+
+    @Override
     public void login(LoginRequestEntity loginRequestEntity, final IResponseSubcriber iResponseSubcriber) {
 
         loginNetworkService.login(loginRequestEntity).enqueue(new Callback<LoginResponse>() {
@@ -44,6 +82,7 @@ public class LoginController implements ILogin {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
+
                         dbPersistanceController.storeUserData(response.body().getMasterData());
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
@@ -158,7 +197,7 @@ public class LoginController implements ILogin {
             @Override
             public void onResponse(Call<ReferFriendResponse> call, Response<ReferFriendResponse> response) {
 
-                if (response != null && response.body()!=null) {
+                if (response != null && response.body() != null) {
                     iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     /*if (response.body().getStatusNo() == 0) {
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());

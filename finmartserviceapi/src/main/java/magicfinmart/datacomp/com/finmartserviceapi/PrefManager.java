@@ -70,6 +70,7 @@ public class PrefManager {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
+
     public void setLanguage(String language) {
 
         editor.putString(IS_LANGUAGE, language);
@@ -562,8 +563,9 @@ public class PrefManager {
             return pref.getBoolean(IS_SEASONAL, true);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
+
     }
 
     //endregion
@@ -580,10 +582,7 @@ public class PrefManager {
     }
 
 
-
-
     //endregion
-
 
 
 }

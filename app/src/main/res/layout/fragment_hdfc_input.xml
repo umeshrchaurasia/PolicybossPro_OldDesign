@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="92">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -22,7 +22,7 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cvInputDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -130,9 +130,9 @@
                     </LinearLayout>
 
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cvQuoteDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -386,7 +386,7 @@
                             android:orientation="vertical"
                             android:visibility="gone">
 
-                            <android.support.v7.widget.RecyclerView
+                            <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/rvAddOn"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -395,7 +395,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
                 <LinearLayout
                     android:id="@+id/layoutCompare"
@@ -414,7 +414,7 @@
 
                         android:visibility="visible">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputLayoutStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -434,7 +434,7 @@
                                 android:maxLines="1"
                                 android:minLines="1"
                                 android:singleLine="true" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
 
@@ -443,7 +443,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputLayoutStyle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -457,9 +457,9 @@
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputLayoutStyle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -472,7 +472,7 @@
                                 android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -483,7 +483,7 @@
                         android:orientation="horizontal"
                         android:weightSum="100">
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
@@ -524,9 +524,9 @@
                                         android:text="Female" />
                                 </RadioGroup>
                             </LinearLayout>
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputLayoutStyle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -540,9 +540,9 @@
                                 android:inputType="number"
                                 android:maxLength="10" />
 
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                        <android.support.design.widget.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
                             style="@style/TextInputLayoutStyle"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -554,7 +554,7 @@
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_date"
                                 android:focusable="false" />
-                        </android.support.design.widget.TextInputLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
 
@@ -571,7 +571,7 @@
                     android:orientation="horizontal">
 
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -612,7 +612,7 @@
                                     android:text="NO" />
                             </RadioGroup>
                         </LinearLayout>
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
                         android:id="@+id/llGender"
@@ -729,7 +729,7 @@
                     android:gravity="bottom"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -753,9 +753,9 @@
                             android:dropDownWidth="200dp"
                             android:entries="@array/icici_payment_term" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -778,9 +778,9 @@
                             android:dropDownWidth="wrap_content"
                             android:entries="@array/hdfc_premium_frequency" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilPincode"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -794,7 +794,7 @@
                             android:inputType="number"
                             android:maxLength="6" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -805,7 +805,7 @@
                     android:gravity="bottom"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -828,7 +828,7 @@
                             android:dropDownWidth="300dp"
                             android:entries="@array/hdfc_options" />
 
-                    </android.support.design.widget.TextInputLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
 
 
                 </LinearLayout>
@@ -1231,7 +1231,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
     </ScrollView>
