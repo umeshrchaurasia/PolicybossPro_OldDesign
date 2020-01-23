@@ -6,12 +6,19 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.introslider.WelcomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.utility.AsyncUserBehaviour;
+import com.datacomp.magicfinmart.utility.FirebaseIDService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -32,7 +39,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.Er
 public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber,
         magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber {
 
-    private static final String TAG = "Splashscreen";
+    private static final String TAG = "TOKEN";
     private final int SPLASH_DISPLAY_LENGTH = 1000;
     PrefManager prefManager;
     DBPersistanceController dbPersistanceController;
@@ -45,6 +52,22 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
+
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+
+                        if(task.isSuccessful()){
+                            prefManager.setToken(task.getResult().getToken());
+                            Log.d(TAG, "Refreshed token: " + task.getResult().getToken());
+                        }
+                    }
+
+
+                });
+
 
         new MasterController(this).getInsurerList();
 

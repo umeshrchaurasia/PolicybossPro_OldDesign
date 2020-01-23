@@ -6,10 +6,9 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.widget.Toast;
 
+
+import androidx.core.app.ActivityCompat;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -81,7 +80,7 @@ public class LocationService {
 
         task.addOnFailureListener(mContext, new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure( Exception e) {
                // Toast.makeText(mContext, "addOnFailureListener", Toast.LENGTH_SHORT).show();
                 if (e instanceof ResolvableApiException) {
                     // Location settings are not satisfied, but this can be fixed

@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.attendance
 
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -9,15 +10,14 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.LinearLayoutManager
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.datacomp.magicfinmart.BaseFragment
 import com.datacomp.magicfinmart.R
 import com.datacomp.magicfinmart.home.HomeActivity
@@ -26,10 +26,12 @@ import com.datacomp.magicfinmart.location.LocationTracker
 import com.datacomp.magicfinmart.utility.Constants
 import com.datacomp.magicfinmart.utility.DateTimePicker
 import com.datacomp.magicfinmart.utility.ReadDeviceID
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_attendance.*
 import kotlinx.android.synthetic.main.layout_attendance_report.*
 import kotlinx.android.synthetic.main.layout_location_of_attendance.*
 import kotlinx.android.synthetic.main.layout_mark_attendance.*
+
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController
@@ -138,6 +140,8 @@ class AttendanceFragment : BaseFragment(), IResponseSubcriber, View.OnClickListe
 
         etFrom.setOnClickListener(datePickerDialogFrom)
         etTo.setOnClickListener(datePickerDialogTo)
+
+
 
         rvAttendace.layoutManager = LinearLayoutManager(activity)
         rvAttendace.setHasFixedSize(true)

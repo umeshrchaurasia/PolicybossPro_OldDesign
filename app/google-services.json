@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "580970645956",
-    "firebase_url": "https://magicfinmart-ed660.firebaseio.com",
-    "project_id": "magicfinmart-ed660",
-    "storage_bucket": "magicfinmart-ed660.appspot.com"
+    "project_number": "903850695394",
+    "firebase_url": "https://magicfinmart-8f192.firebaseio.com",
+    "project_id": "magicfinmart-8f192",
+    "storage_bucket": "magicfinmart-8f192.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:580970645956:android:beb7f7defdc51d7144bc91",
+        "mobilesdk_app_id": "1:903850695394:android:e75dd8d7d7b8d02e",
         "android_client_info": {
           "package_name": "com.datacomp.magicfinmart"
         }
       },
       "oauth_client": [
         {
-          "client_id": "580970645956-073la3hgpthboehca04277nh2ijc1kl8.apps.googleusercontent.com",
+          "client_id": "903850695394-oegf732elt9kusau4dp5o1jnu022u00f.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCe17CVu27s06XM_EKPpA3qfdtzhgwSZb8"
+          "current_key": "AIzaSyAYn1OkQqOX9BBAgexEiDhJljIwvkGosFo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "580970645956-073la3hgpthboehca04277nh2ijc1kl8.apps.googleusercontent.com",
+              "client_id": "903850695394-oegf732elt9kusau4dp5o1jnu022u00f.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -8,11 +8,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,12 +16,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.location.LocationService;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 import java.util.Locale;
@@ -249,7 +251,7 @@ public class AttendanceRegistraionActivity extends BaseActivity implements View.
     private void showGoogleMap() {
 
         try {
-            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(AttendanceRegistraionActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(AttendanceRegistraionActivity.this);
             builder.setTitle("Oops! Your location not found.");
 
             builder.setMessage("Kindly go to google map , set your current location and try again.");
@@ -268,7 +270,7 @@ public class AttendanceRegistraionActivity extends BaseActivity implements View.
                     });
 
 
-            final android.support.v7.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
