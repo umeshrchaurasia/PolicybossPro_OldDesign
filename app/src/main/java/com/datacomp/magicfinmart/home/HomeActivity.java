@@ -20,22 +20,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import androidx.annotation.RequiresApi;
-import com.google.android.material.navigation.NavigationView;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -47,7 +34,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.text.style.UnderlineSpan;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -104,6 +103,7 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 
@@ -114,7 +114,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 
 import io.cobrowse.CobrowseIO;
 import io.cobrowse.ui.CobrowseActivity;
@@ -318,12 +317,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             String type = "";
             Bundle bundle = getIntent().getExtras();
-            if (bundle != null) {
 
-                type = bundle.getString("MarkTYPE");
-                if (!type.equals("FROM_HOME")) {
-                    showMArketingPopup();
+            if (bundle != null) {
+                if (bundle.getString("MarkTYPE") != null) {
+                    type = bundle.getString("MarkTYPE");
+                    if (!type.equals("FROM_HOME")) {
+                        showMArketingPopup();
+                    }
                 }
+
             } else {
                 prefManager.updateCheckMsgFirst("" + 1);
                 showMArketingPopup();
@@ -368,6 +370,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_attendance:
                         fragment = new AttendanceFragment();
                         getSupportActionBar().setTitle("My Attendance");
+
                         break;
 
                     case R.id.nav_generateLead:
@@ -1566,7 +1569,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         }
 
-
     }
 
 
@@ -2663,6 +2665,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
 
+    }
+
+    private String getDeviceID() {
+        return new ReadDeviceID(this).getAndroidID();
     }
 
 

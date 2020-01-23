@@ -24,21 +24,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".attendance.AttendanceRegistraionActivity"
+            android:label="@string/title_activity_attendance_registraion"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
+
         <activity
             android:name=".festivelink.festivalShareActivity"
             android:label="SALES MATERIAL"
             android:parentActivityName=".festivelink.festivelinkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".switchuser.SwitchUserActivity"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".home.HomeActivity"
             android:label="Switch User"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
-            android:theme="@style/AppTheme"></activity>
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".festivelink.festivelinkActivity"
             android:label="SALES MATERIAL"
@@ -1116,18 +1124,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
-        </activity>
-<!--        <activity-->
-<!--            android:name=".insert_contact.InsertContactActivity"-->
-<!--            android:label="@string/title_activity_insert_contact"-->
-<!--            android:parentActivityName=".home.HomeActivity"-->
-<!--            android:screenOrientation="portrait"-->
-<!--            android:theme="@style/AppTheme"-->
-<!--            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.PARENT_ACTIVITY"-->
-<!--                android:value="com.datacomp.magicfinmart.home.HomeActivity" />-->
-<!--        </activity>-->
+        </activity> <!-- <activity -->
+        <!-- android:name=".insert_contact.InsertContactActivity" -->
+        <!-- android:label="@string/title_activity_insert_contact" -->
+        <!-- android:parentActivityName=".home.HomeActivity" -->
+        <!-- android:screenOrientation="portrait" -->
+        <!-- android:theme="@style/AppTheme" -->
+        <!-- android:windowSoftInputMode="stateAlwaysHidden|stateHidden"> -->
+        <!-- <meta-data -->
+        <!-- android:name="android.support.PARENT_ACTIVITY" -->
+        <!-- android:value="com.datacomp.magicfinmart.home.HomeActivity" /> -->
+        <!-- </activity> -->
         <activity
             android:name=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
             android:label="FINMART EXCLUSIVES"

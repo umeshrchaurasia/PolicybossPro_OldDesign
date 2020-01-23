@@ -175,7 +175,7 @@
     <string name="title_activity_nav_transactionhistory">TRANSACTION HISTORY</string>
     <string name="title_activity_contact_lead">Create Lead from Contact</string>
 
-
+    <string name="title_activity_attendance_registraion">Registration</string>
     <!-- region posp-->
     <string name="title_activity_scan_vehicle">SCAN VEHICLE</string>
     <!-- <string name="app_name">POSP Training</string>-->
@@ -719,4 +719,5 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Self Employed</item>
         <item>Self Employed Professional</item>
     </string-array>
+
 </resources>

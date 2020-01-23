@@ -39,9 +39,9 @@ import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 public class CommonWebViewActivity extends BaseActivity {
 
     WebView webView;
-    String url;
-    String name;
-    String title;
+    String url = "";
+    String name = "";
+    String title = "";
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
 
@@ -50,6 +50,7 @@ public class CommonWebViewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common_web_view);
         webView = (WebView) findViewById(R.id.webView);
+
         url = getIntent().getStringExtra("URL");
         name = getIntent().getStringExtra("NAME");
         title = getIntent().getStringExtra("TITLE");
