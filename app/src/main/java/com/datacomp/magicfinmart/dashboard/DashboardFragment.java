@@ -330,7 +330,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         }
         if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
+
+
+          //  mAdapter.notifyDataSetChanged();
+            mAdapter = new DashboardRowAdapter(this, 0, 1);
+            rvHome.setAdapter(mAdapter);
         }
 
     }

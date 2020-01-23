@@ -208,9 +208,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                             .into(ivProfile);
 
-                } else if (intent.getAction().equalsIgnoreCase(Utility.USER_DASHBOARD)) {
-
                 }
+//                else if (intent.getAction().equalsIgnoreCase(Utility.USER_DASHBOARD)) {
+//
+//                }
             }
 
         }
@@ -1706,9 +1707,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         LocalBroadcastManager.getInstance(HomeActivity.this)
                 .registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
 
-        LocalBroadcastManager.getInstance(HomeActivity.this)
-                .registerReceiver(mHandleMessageReceiver,
-                        new IntentFilter(Utility.USER_DASHBOARD));
+//        LocalBroadcastManager.getInstance(HomeActivity.this)
+//                .registerReceiver(mHandleMessageReceiver,
+//                        new IntentFilter(Utility.USER_DASHBOARD));
 
     }
 
@@ -2638,7 +2639,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
                     LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
 
-                }
+               }
 
             }
         });
