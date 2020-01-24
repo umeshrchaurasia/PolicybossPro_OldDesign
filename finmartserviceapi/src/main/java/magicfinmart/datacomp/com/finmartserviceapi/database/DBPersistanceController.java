@@ -736,7 +736,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
         dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
 
-
+        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 49, "DISCLOSURE", "", R.drawable.disclosure, "LifeInsTitle", "LifeInsdesc"));
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
             if (dashboardEntities != null && dashboardEntities.size() > 0) {

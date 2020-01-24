@@ -19,6 +19,7 @@
     <string name="signup">Not a Member? <b><u>Sign up now!</u></b></string>
 
     <string name="threedots">&#8942;</string>
+    <string name="disclosure"><b><u>DISCLOSURE</u></b></string>
 
     <string name="file_provider_authority" translatable="false">com.datacomp.magicfinmart.fileprovider</string>
 

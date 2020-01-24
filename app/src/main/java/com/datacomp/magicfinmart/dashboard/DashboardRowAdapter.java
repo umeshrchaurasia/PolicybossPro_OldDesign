@@ -2,17 +2,17 @@ package com.datacomp.magicfinmart.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
-
-import androidx.fragment.app.Fragment;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.BuildConfig;
@@ -85,12 +85,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         TextView txtTypeName, tvPoweredBy;
         ImageView ivLogo;
 
+
         public InsuranceHolder(View view) {
             super(view);
             rvDashboard = (RecyclerView) view.findViewById(R.id.rvDashboard);
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
             ivLogo = view.findViewById(R.id.ivLogo);
             tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
+
         }
     }
 
@@ -531,9 +533,16 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 break;
 
+
+            case 49: //
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", "file:///android_asset/Disclosure.html")
+                        .putExtra("NAME", "DISCLOSURE")
+                        .putExtra("TITLE", "DISCLOSURE"));
+                break;
         }
 
-        if (productID >= 20) {
+        if (productID >= 50) {
             mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                     .putExtra("URL", "" + dashboardEntity.getLink())
                     .putExtra("NAME", "" + dashboardEntity.getProductName())
@@ -562,7 +571,6 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         return position;
     }
-
 
 
 }
