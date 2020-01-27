@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,9 +54,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     //private static final int ROW_HEADER = 5;
     private int ROW_INSURANCE = 0;
-    private int ROW_LOAN = 1;
-    private int ROW_MORE_SERVICES = 2;
-    private int TOTAL_ROW = 3;
+    private int ROW_DISCLOSURE = 1;
+    private int ROW_LOAN = 2;
+    private int ROW_MORE_SERVICES = 3;
+    private int TOTAL_ROW = 4;
     Fragment mFragment;
     DBPersistanceController mReal;
     Context mContext;
@@ -63,10 +65,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     PrefManager prefManager;
 
 
-    public DashboardRowAdapter(Fragment fragment, int InsurancePosition, int loanPosition) {
+    public DashboardRowAdapter(Fragment fragment, int InsurancePosition,int DisclosurePosition, int loanPosition) {
         mFragment = fragment;
         mContext = mFragment.getActivity();
         ROW_INSURANCE = InsurancePosition;
+        ROW_DISCLOSURE = DisclosurePosition;
         ROW_LOAN = loanPosition;
         mReal = new DBPersistanceController(mFragment.getActivity());
         prefManager = new PrefManager(mFragment.getActivity());
@@ -92,6 +95,22 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
             ivLogo = view.findViewById(R.id.ivLogo);
             tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
+
+        }
+    }
+
+
+    public class DisclosureHolder extends RecyclerView.ViewHolder {
+
+        TextView txtDisclosure;
+        LinearLayout lyDisclosure;
+
+
+        public DisclosureHolder(View view) {
+            super(view);
+            txtDisclosure = (TextView) view.findViewById(R.id.txtDisclosure);
+            lyDisclosure = (LinearLayout) view.findViewById(R.id.lyDisclosure);
+
 
         }
     }
@@ -143,10 +162,15 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 1:
                 view = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.layout_dashboard_disclosure, parent, false);
+                return new DisclosureHolder(view);
+
+            case 2:
+                view = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.layout_dashboard_recycler, parent, false);
                 return new LoanHolder(view);
 
-            case 2:
+            case 3:
                 view = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.layout_dashboard_recycler, parent, false);
                 return new MoreServiceHolder(view);
@@ -162,6 +186,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         LangType = prefManager.getLanguage();
+
         if (holder instanceof HeaderRow) {
 
         } else if (holder instanceof InsuranceHolder) {
@@ -196,6 +221,20 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 }
                             }));
 
+
+        } else if (holder instanceof DisclosureHolder) {
+
+            ((DisclosureHolder) holder).lyDisclosure.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", "file:///android_asset/Disclosure.html")
+                            .putExtra("NAME", "DISCLOSURE")
+                            .putExtra("TITLE", "DISCLOSURE"));
+
+                }
+            });
 
         } else if (holder instanceof LoanHolder) {
             //   final List<DashboardEntity> listLoan = mReal.getLoanProductList();
@@ -533,13 +572,6 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
                 break;
 
-
-            case 49: //
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "file:///android_asset/Disclosure.html")
-                        .putExtra("NAME", "DISCLOSURE")
-                        .putExtra("TITLE", "DISCLOSURE"));
-                break;
         }
 
         if (productID >= 50) {
@@ -563,8 +595,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 0:
                 return ROW_INSURANCE;
             case 1:
-                return ROW_LOAN;
+                return ROW_DISCLOSURE;
             case 2:
+                return ROW_LOAN;
+            case 3:
                 return ROW_MORE_SERVICES;
             default:
                 break;

@@ -40,6 +40,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView txtProductName, txtProductDesc;
         CardView card_view;
 
+
         public DashboardItemHolder(View view) {
             super(view);
             card_view = (CardView) view.findViewById(R.id.card_view);
@@ -47,6 +48,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             imgNew = (ImageView) view.findViewById(R.id.imgNew);
             txtProductName = (TextView) view.findViewById(R.id.txtProductName);
             txtProductDesc = (TextView) view.findViewById(R.id.txtProductDesc);
+
         }
     }
 
@@ -109,6 +111,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((DashboardItemHolder) holder).imgNew.setVisibility(View.GONE);
                 ((DashboardItemHolder) holder).card_view.setBackgroundResource(R.drawable.customeborder_grey_thin);
             }
+
 
         }
     }
