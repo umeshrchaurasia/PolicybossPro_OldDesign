@@ -67,7 +67,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         if (holder instanceof DashboardItemHolder) {
             if (listInsur.get(position).getIcon() == -1) {
-                Glide.with(mContext).load(listInsur.get(position).getServerIcon())
+                Glide.with(mContext.getActivity()).load(listInsur.get(position).getServerIcon())
                         .into(((DashboardItemHolder) holder).imgIcon);
             } else {
                 ((DashboardItemHolder) holder).imgIcon.setImageResource(listInsur.get(position).getIcon());
@@ -99,7 +99,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             //date : 26/11/2019
             if (listInsur.get(position).getProductId() == 12) {
                 ((DashboardItemHolder) holder).imgNew.setVisibility(View.VISIBLE);
-                Glide.with(mContext).
+                Glide.with(mContext.getActivity()).
                         load(R.drawable.newicon)
                         .asGif()
                         .crossFade()
