@@ -1,15 +1,23 @@
 package com.datacomp.magicfinmart.creditcard;
 
 import android.content.Context;
+
+import com.datacomp.magicfinmart.R;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.bumptech.glide.Glide;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +61,31 @@ public class AppliedCreditCardsAdapter extends RecyclerView.Adapter<AppliedCredi
         hold.txtName.setText(entity.getFullName());
         hold.txtMobile.setText(entity.getMobileNo());
         hold.txtStatus.setText(entity.getStatusX());
+
+
+        if (!entity.getLeadId().isEmpty() && Integer.parseInt(entity.getLeadId()) > 0) {
+
+            hold.view_lead.setVisibility(View.VISIBLE);
+            hold.ll_lead.setVisibility(View.VISIBLE);
+            hold.txtleadId.setText(entity.getLeadId());
+            try {
+                Glide.with(mContext)
+                        .load(entity.getProgress_image())
+                        .into(holder.imgStatus);
+
+//            Glide.with(mContext)
+//                    .load(entity.getProgress_image())
+//                    .into(holder.imgStatus);
+                //change Fresco
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            hold.view_lead.setVisibility(View.GONE);
+            hold.ll_lead.setVisibility(View.GONE);
+
+        }
     }
 
     public void refreshAdapter(List<AppliedCreditCardEntity> list) {
@@ -108,7 +141,10 @@ public class AppliedCreditCardsAdapter extends RecyclerView.Adapter<AppliedCredi
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtEmail, txtMobile, txtBankName, txtCreditType, txtAppNo, txtStatus;
+        TextView txtName, txtEmail, txtMobile, txtBankName, txtCreditType, txtAppNo, txtStatus, txtleadId;
+        ImageView imgStatus;
+        LinearLayout ll_lead;
+        View view_lead;
 
         ViewHolder(View v) {
             super(v);
@@ -119,6 +155,10 @@ public class AppliedCreditCardsAdapter extends RecyclerView.Adapter<AppliedCredi
             txtCreditType = (TextView) v.findViewById(R.id.txtCreditType);
             txtAppNo = (TextView) v.findViewById(R.id.txtAppNo);
             txtStatus = (TextView) v.findViewById(R.id.txtStatus);
+            ll_lead = (LinearLayout) itemView.findViewById(R.id.ll_lead);
+            imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+
+            view_lead = (View) itemView.findViewById(R.id.view_lead);
         }
     }
 

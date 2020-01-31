@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:padding="5dp"
             android:weightSum="100">
 
             <LinearLayout
@@ -90,15 +90,15 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1.2dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
             android:background="@color/divider" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:padding="5dp"
             android:weightSum="100">
 
             <LinearLayout
@@ -119,7 +119,7 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="55555"
+                    android:text="0"
                     android:textColor="@color/black" />
 
             </LinearLayout>
@@ -149,6 +149,74 @@
             </LinearLayout>
         </LinearLayout>
 
+        <View
+            android:id="@+id/view_lead"
+            android:layout_width="match_parent"
+            android:layout_height="1.2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:id="@+id/ll_lead"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="100">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lead Id"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/txtleadId"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:layout_marginLeft="4dp"
+                android:orientation="vertical">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="App Status"
+                    style="@style/TextViewStyle.Small"
+                    android:textColor="@color/header_light_text"
+                    android:textSize="9sp"
+                    android:textAllCaps="true" />
+
+                <ImageView
+                    android:id="@+id/imgStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ten_percent"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
