@@ -12,17 +12,17 @@ import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
@@ -31,6 +31,7 @@ import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -330,7 +331,9 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         }
         if (mAdapter != null) {
-            mAdapter.notifyDataSetChanged();
+
+            bindDashboardhAdapter();
+
         }
 
     }
@@ -339,7 +342,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     public void bindDashboardhAdapter() {
 
 
-        mAdapter = new DashboardRowAdapter(this, 0, 1);
+        mAdapter = new DashboardRowAdapter(this, 0, 1, 2);
         rvHome.setAdapter(mAdapter);
     }
 
