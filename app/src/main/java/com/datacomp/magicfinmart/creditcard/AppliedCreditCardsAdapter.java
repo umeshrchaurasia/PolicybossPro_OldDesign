@@ -157,7 +157,7 @@ public class AppliedCreditCardsAdapter extends RecyclerView.Adapter<AppliedCredi
             txtStatus = (TextView) v.findViewById(R.id.txtStatus);
             ll_lead = (LinearLayout) itemView.findViewById(R.id.ll_lead);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
-
+            txtleadId = (TextView) v.findViewById(R.id.txtleadId);
             view_lead = (View) itemView.findViewById(R.id.view_lead);
         }
     }

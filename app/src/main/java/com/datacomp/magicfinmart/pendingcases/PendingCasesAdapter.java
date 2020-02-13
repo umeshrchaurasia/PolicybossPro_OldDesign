@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.pendingcases;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,19 +52,18 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             item.txtCustName.setText(entity.getCustomerName());
             item.txtCategory.setText(entity.getCategory());
             item.txtPendingDays.setText(String.valueOf(entity.getPendingdays()));
-            if(entity.getCategory().equals("Quick Lead"))
-            {
+            if (entity.getCategory().equals("Quick Lead") || entity.getCategory().equals("Credit Card")) {
                 item.txtquickType.setText(entity.getQatype());
                 item.txtType.setVisibility(View.GONE);
                 item.txtquickType.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 item.txtType.setText(entity.getQatype());
                 item.txtType.setVisibility(View.VISIBLE);
                 item.txtquickType.setVisibility(View.GONE);
             }
 
 
-            Glide.with(mContex).load(entity.getBankImage())
+            Glide.with(mContex.getActivity()).load(entity.getBankImage())
                     .into(item.imgInsurerLogo);
 
             item.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
@@ -93,15 +93,13 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
             try {
 
-                if(entity.getQatype().equals("Q"))
-                {
-                    if(entity.getLead_Id().equals("")) {
+                if (entity.getQatype().equals("Q")) {
+                    if (entity.getLead_Id().equals("")) {
                         holder.llHistory.setVisibility(View.INVISIBLE);
-                    }else {
+                    } else {
                         holder.llHistory.setVisibility(View.VISIBLE);
                     }
-                }else
-                {
+                } else {
                     holder.llHistory.setVisibility(View.VISIBLE);
                 }
                 /*if (Integer.parseInt(entity.getApplnStatus()) == 0) {
@@ -219,7 +217,12 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
                 break;
             case R.id.llHistory:
                 entity = (PendingCasesEntity) view.getTag(R.id.llHistory);
-                ((PendingCaseFragment) mContex).openLeadDetailPopUp("" + entity.getApplicationNo());
+                if(entity.getCategory().equals("Credit Card"))
+                {
+                    ((PendingCaseFragment) mContex).openLeadDetailPopUp("" + entity.getQatype());
+                }else {
+                    ((PendingCaseFragment) mContex).openLeadDetailPopUp("" + entity.getApplicationNo());
+                }
                 break;
 
             case R.id.llInfo:
@@ -237,7 +240,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        TextView txtOverflowMenu, txtCustName, txtType,txtquickType, txtCategory, txtPendingDays;
+        TextView txtOverflowMenu, txtCustName, txtType, txtquickType, txtCategory, txtPendingDays;
         ImageView imgStatus, imgInsurerLogo, ivMsg, ivCall, ivDelete;
         LinearLayout llHistory, llType, llDays, llInfo;
 

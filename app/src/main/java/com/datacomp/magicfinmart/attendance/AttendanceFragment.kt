@@ -347,8 +347,9 @@ class AttendanceFragment : BaseFragment(), IResponseSubcriber, View.OnClickListe
 
     override fun onResume() {
         super.onResume()
-
+        
     }
+
 
     private fun initialiseAndRetriveLocation() {
 //        mLocationTracker = LocationTracker(activity)
