@@ -9,10 +9,12 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -55,11 +57,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuickLeadRes
 
 public class QuickLeadActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
-    EditText etFirstName,etLastName, etEmail, etMobile, etFollowupDate,  etLoanAmount, etRemark,
-            etPincode, etCity, etState,etdob,etPAN,etCompanyName,etMonthlyIncomeITR,
+    EditText etFirstName, etLastName, etEmail, etMobile, etFollowupDate, etLoanAmount, etRemark,
+            etPincode, etCity, etState, etdob, etPAN, etCompanyName, etMonthlyIncomeITR,
             etyealyIncomeITR;
-    Spinner spProduct,spCompanyType,spprofile;
-    TableRow tbl_monthly,tbl_yearly;
+    Spinner spProduct, spCompanyType, spprofile;
+    TableRow tbl_monthly, tbl_yearly;
     Button btnSubmit;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
 
@@ -72,6 +74,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
     String url = "";
     Boolean isDataUploaded = true;
     QuickLeadRequestEntity requestEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,7 +105,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         etEmail = (EditText) findViewById(R.id.etEmail);
         etMobile = (EditText) findViewById(R.id.etMobile);
         etFollowupDate = (EditText) findViewById(R.id.etFollowupDate);
-         etLoanAmount = (EditText) findViewById(R.id.etLoanAmount);
+        etLoanAmount = (EditText) findViewById(R.id.etLoanAmount);
         etRemark = (EditText) findViewById(R.id.etRemark);
 
         tbl_monthly = (TableRow) findViewById(R.id.tbl_monthly);
@@ -193,17 +196,13 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if(position ==0)
-                {
+                if (position == 0) {
                     tbl_monthly.setVisibility(View.GONE);
                     tbl_yearly.setVisibility(View.GONE);
-                }
-                else if(position ==1)
-                {
+                } else if (position == 1) {
                     tbl_monthly.setVisibility(View.VISIBLE);
                     tbl_yearly.setVisibility(View.GONE);
-                }else if(position ==2 || position==3)
-                {
+                } else if (position == 2 || position == 3) {
                     tbl_monthly.setVisibility(View.GONE);
                     tbl_yearly.setVisibility(View.VISIBLE);
                 }
@@ -299,26 +298,24 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             } else {
                 etFollowupDate.setError(null);
             }
-            if (!isEmpty(etPAN)) {
-                etPAN.setError("Enter PAN Number");
-                etPAN.setFocusable(true);
-                return;
+            if (isEmpty(etPAN)) {
+                if (!isValidPan(etPAN)) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                        etPAN.setError("Invalid PAN No.");
+                        etPAN.setFocusable(true);
+                        //   etPAN.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        return;
+                    } else {
+                        etPAN.setError("Invalid PAN No.");
+                        etPAN.setFocusable(true);
+                        return;
+                    }
+                }
             } else {
                 etPAN.setError(null);
             }
-            if (!isValidPan(etPAN)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                    etPAN.setError("Invalid PAN No.");
-                    etPAN.setFocusable(true);
-                 //   etPAN.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                    return;
-                } else {
-                    etPAN.setError("Invalid PAN No.");
-                    etPAN.setFocusable(true);
-                    return;
-                }
-            }
             if (spProduct.getSelectedItemPosition() == 0) {
                 Toast.makeText(this, "Select product", Toast.LENGTH_SHORT).show();
                 return;
@@ -346,8 +343,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                 Toast.makeText(this, "Select Profile", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (spprofile.getSelectedItem().toString().equals("Salaried"))
-            {
+            if (spprofile.getSelectedItem().toString().equals("Salaried")) {
 //                if (!isEmpty(etMonthlyIncome)) {
 //                    etMonthlyIncome.setError("Enter Monthly Obligation");
 //                    etMonthlyIncome.setFocusable(true);
@@ -364,7 +360,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                     etMonthlyIncomeITR.setError(null);
                 }
 
-            }else {
+            } else {
 //                if (!isEmpty(etMonthlyIncomeYealy)) {
 //                    etMonthlyIncomeYealy.setError("Enter Yealy Obligation");
 //                    etMonthlyIncomeYealy.setFocusable(true);
@@ -389,8 +385,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                 etPincode.setError(null);
             }
             if (etPincode.getText().length() == 6) {
-            }else
-            {
+            } else {
                 etPincode.setError("Enter Six Digit Pincode");
                 etPincode.setFocusable(true);
                 return;
@@ -404,19 +399,16 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             }
 
 
-
-            requestEntity.setName("" +etFirstName.getText().toString() + etLastName.getText().toString());
+            requestEntity.setName("" + etFirstName.getText().toString() + " " + etLastName.getText().toString());
             requestEntity.setBrokerId(new DBPersistanceController(this).getUserData().getLoanId());
             requestEntity.setEMail(etEmail.getText().toString());
             requestEntity.setFBA_Id(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
             requestEntity.setFollowupDate(etFollowupDate.getText().toString());
             requestEntity.setLoan_amt(etLoanAmount.getText().toString());
             requestEntity.setMobile(etMobile.getText().toString());
-            if (spprofile.getSelectedItem().equals("Salaried"))
-            {
+            if (spprofile.getSelectedItem().equals("Salaried")) {
                 requestEntity.setMonthly_income(etMonthlyIncomeITR.getText().toString());
-            }else
-            {
+            } else {
                 requestEntity.setMonthly_income(etyealyIncomeITR.getText().toString());
             }
 
@@ -425,7 +417,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
             requestEntity.setCompanyType(String.valueOf(spCompanyType.getSelectedItem()));
             requestEntity.setProfile(String.valueOf(spprofile.getSelectedItem()));
             requestEntity.setRemark(etRemark.getText().toString());
-
+            requestEntity.setPAN("" + etPAN.getText().toString());
             requestEntity.setPincode("" + etPincode.getText().toString());
             requestEntity.setCity("" + etCity.getText().toString());
             requestEntity.setState("" + etState.getText().toString());
@@ -442,21 +434,21 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
-              //  requestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
-              //  requestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
-              //  requestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
+                //  requestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+                //  requestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
+                //  requestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
 
             } else {
 
                 etState.setText("");
                 etCity.setText("");
 
-             //   requestEntity.setCity("");
-            //    requestEntity.setState("");
-              //  requestEntity.setStateID("0");
+                //   requestEntity.setCity("");
+                //    requestEntity.setState("");
+                //  requestEntity.setStateID("0");
 
             }
-            }else if (response instanceof QuickLeadResponse) {
+        } else if (response instanceof QuickLeadResponse) {
             dialogMessage(true, ((QuickLeadResponse) response).getMasterData().getLead_Id(), response.getMessage());
         }
     }

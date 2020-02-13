@@ -11,8 +11,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+
+import com.datacomp.magicfinmart.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -123,14 +127,12 @@ public class CommonWebViewActivity extends BaseActivity {
 
         settings.setBuiltInZoomControls(true);
         settings.setUseWideViewPort(false);
-        settings.setJavaScriptEnabled(true);
         settings.setSupportMultipleWindows(false);
 
         settings.setLoadsImagesAutomatically(true);
         settings.setLightTouchEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setLoadWithOverviewMode(true);
-        settings.setJavaScriptEnabled(true);
 
 
       /*  MyWebViewClient webViewClient = new MyWebViewClient(this);
@@ -156,7 +158,10 @@ public class CommonWebViewActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url.endsWith(".pdf")) {
+                if (url != null && url.startsWith("whatsapp://")) {
+                    view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                    return true;
+                } else if (url.endsWith(".pdf")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(url), "application/pdf");
                     try {
@@ -167,6 +172,7 @@ public class CommonWebViewActivity extends BaseActivity {
                         webView.loadUrl(googleDocs + url);
                     }
                 }
+
                 /*qacamp@gmail.com/01011980
                 download policy QA user
                 878769 crn
@@ -248,6 +254,19 @@ public class CommonWebViewActivity extends BaseActivity {
     }
 
     class MyJavaScriptInterface {
+
+        @JavascriptInterface
+        public void SendShareQuotePdf(String url, String shareHtml) {
+
+            Intent intent = new Intent(CommonWebViewActivity.this, ShareQuoteActivity.class);
+            intent.putExtra(Constants.SHARE_WHATSAPP, "SHARE_WHATSAPP");
+            intent.putExtra("HTML", shareHtml);
+            intent.putExtra("URL", url);
+            startActivity(intent);
+
+
+        }
+
         @JavascriptInterface
         public void AddNewMotorQuote() { //Android.AddNewMotorQuote();
             Intent intent;

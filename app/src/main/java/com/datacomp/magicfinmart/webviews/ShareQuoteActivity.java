@@ -15,8 +15,11 @@ import android.os.Environment;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -62,10 +65,10 @@ import static magicfinmart.datacomp.com.finmartserviceapi.Utility.createShareDir
 
 public class ShareQuoteActivity extends BaseActivity implements IResponseSubcriber {
     WebView webView;
-    String url;
-    String name;
-    String title;
-    Bitmap bmp;
+    String url = "";
+    String name = "";
+    String title = "";
+    Bitmap bmp = null;
     int count = 0;
     BikePremiumResponse bikePremiumResponse;
     BikeMasterEntity bikeMasterEntity;
@@ -84,6 +87,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
     GetBLDispalyResponse getblDispalyResponse;
     GetPersonalLoanResponse getPersonalLoanResponse;
     JSONObject userJson = new JSONObject();
+    String urlShareOnWhatsapp = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +115,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         if (getIntent().hasExtra(Constants.SHARE_ACTIVITY_NAME)) {
             from = getIntent().getExtras().getString(Constants.SHARE_ACTIVITY_NAME);
             switch (from) {
+
                 case "CAR_ALL_QUOTE":
                     CarAllQuote();
                     createJson();
@@ -175,13 +180,15 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
                     break;
 
             }
+            userReponse = userJson.toString();
+            settingWebview(url, "", false);
+        } else if (getIntent().hasExtra(Constants.SHARE_WHATSAPP)) {
+            String html = getIntent().getExtras().getString("HTML");
+            urlShareOnWhatsapp = getIntent().getExtras().getString("URL");
+            settingWebview(html, urlShareOnWhatsapp, true);
         }
         //endregion
 
-        //region user  details
-
-        userReponse = userJson.toString();
-        //endregion
 
         //region floatingbutton
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -193,7 +200,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
                 //downloadPdf(url, name);
                 bmp = getBitmapFromWebView(webView);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-                    new shareQuote(webView).execute();
+                    new shareQuote(webView, urlShareOnWhatsapp).execute();
                 else
                     Toast.makeText(ShareQuoteActivity.this, "Update Android Os for this feature ", Toast.LENGTH_SHORT).show();
 
@@ -201,8 +208,6 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
             }
         });
         //endregion
-
-        settingWebview();
     }
 
     private void setPospDetails() {
@@ -594,15 +599,11 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         }
     }
 
-    private void settingWebview() {
+    private void settingWebview(String loadHTMLinWebView, String utlToShare, boolean isHTML) {
         WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-
         settings.setBuiltInZoomControls(true);
         settings.setUseWideViewPort(false);
-        settings.setJavaScriptEnabled(true);
         settings.setSupportMultipleWindows(false);
-
         settings.setLoadsImagesAutomatically(true);
         settings.setLightTouchEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -625,11 +626,10 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-                Log.d("sharelog", respone);
-                Log.d("sharelog", userReponse);
-                Log.d("sharelog", otherData);
-                webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
-                //webView.loadUrl("javascript:window.HTMLOUT.processHTML('<head>umesh</head><body><h1>Rajeev</h1></body>');");
+
+                if (!isHTML)
+                    webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
+
             }
 
             @Override
@@ -642,8 +642,14 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         //webView.loadUrl("file:///android_asset/VechicleInsurance.html");
-        webView.loadUrl(url);
+        if (!isHTML)
+            webView.loadUrl(url);
+        else
+            webView.loadDataWithBaseURL("", loadHTMLinWebView, "text/html", "UTF-8", "");
     }
+
+    //Android.SendShareQuotePdf(result['Url'],result['Htmldata']);
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -732,7 +738,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         sharePdfTowhatsApp(fileName);*/
     }
 
-    private void createPdf(Bitmap bitmap) {
+    private void createPdf(Bitmap bitmap, String urlToshare) {
 
 
         PdfDocument document = new PdfDocument();
@@ -779,7 +785,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
 
         // close the document.
         document.close();
-        sharePdfTowhatsApp(fileName);
+        sharePdfTowhatsApp(fileName, urlToshare);
     }
 
     @Override
@@ -815,14 +821,18 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
             //Get the string value to process
             //shareQuote();
         }
+
+
     }
 
 
     public class shareQuote extends AsyncTask<Void, Void, Void> {
         WebView webView;
+        String urlToShare;
 
-        public shareQuote(WebView web) {
+        public shareQuote(WebView web, String urlToShare) {
             webView = web;
+            this.urlToShare = urlToShare;
         }
 
         @Override
@@ -839,7 +849,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
                 //bmp = getBitmapFromWebView(webView);
                 // SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
                 //SimplePDFTable(bmp);
-                createPdf(bmp);
+                createPdf(bmp, urlToShare);
             } catch (Exception e) {
                 e.printStackTrace();
             }
