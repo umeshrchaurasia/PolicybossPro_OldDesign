@@ -680,7 +680,7 @@ public class BaseActivity extends AppCompatActivity {
 
             Intent share = new Intent();
             share.setAction(Intent.ACTION_SEND);
-            share.setType("image/*");
+            share.setType("application/pdf");
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
             share.putExtra(Intent.EXTRA_TEXT, urlToShare);

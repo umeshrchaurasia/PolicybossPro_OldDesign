@@ -158,10 +158,12 @@ public class CommonWebViewActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (url != null && url.startsWith("whatsapp://")) {
-                    view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-                    return true;
-                } else if (url.endsWith(".pdf")) {
+                //whatsapp plugin call.. via WEB
+//                if (url != null && url.startsWith("whatsapp://")) {
+//                    view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+//                    return true;
+//                } else
+                if (url.endsWith(".pdf")) {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse(url), "application/pdf");
                     try {
