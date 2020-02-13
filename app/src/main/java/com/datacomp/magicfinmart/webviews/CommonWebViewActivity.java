@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 
+import com.datacomp.magicfinmart.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
@@ -253,6 +254,19 @@ public class CommonWebViewActivity extends BaseActivity {
     }
 
     class MyJavaScriptInterface {
+
+        @JavascriptInterface
+        public void SendShareQuotePdf(String url, String shareHtml) {
+
+            Intent intent = new Intent(CommonWebViewActivity.this, ShareQuoteActivity.class);
+            intent.putExtra(Constants.SHARE_WHATSAPP, "SHARE_WHATSAPP");
+            intent.putExtra("HTML", shareHtml);
+            intent.putExtra("URL", url);
+            startActivity(intent);
+
+
+        }
+
         @JavascriptInterface
         public void AddNewMotorQuote() { //Android.AddNewMotorQuote();
             Intent intent;

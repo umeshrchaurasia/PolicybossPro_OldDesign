@@ -18,10 +18,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
@@ -667,7 +669,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void sharePdfTowhatsApp(String pdfFileName) {
+    public void sharePdfTowhatsApp(String pdfFileName, String urlToShare) {
         try {
             File outputFile = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES/" + pdfFileName + ".pdf");
 
@@ -678,9 +680,10 @@ public class BaseActivity extends AppCompatActivity {
 
             Intent share = new Intent();
             share.setAction(Intent.ACTION_SEND);
-            share.setType("application/pdf");
+            share.setType("image/*");
             share.putExtra(Intent.EXTRA_STREAM, uri);
             share.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            share.putExtra(Intent.EXTRA_TEXT, urlToShare);
             //share.setPackage("com.whatsapp");
             Intent intent = Intent.createChooser(share, "Share Quote");
             startActivity(intent);
