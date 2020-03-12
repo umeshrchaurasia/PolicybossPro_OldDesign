@@ -298,7 +298,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (loginResponseEntity != null) {
 
-            new MasterController(this).getMenuMaster(this);
+
             new MasterController(this).getInsuranceSubType(this);
             new MasterController(this).getInsurerList();
         }
@@ -981,7 +981,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //endregion
     }
 
-    private void addDynamicMenu(List<MenuItemEntity> list) {
+    public void addDynamicMenu(List<MenuItemEntity> list) {
         Menu menu = navigationView.getMenu();
 
         for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
@@ -999,6 +999,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         }
+
+
 
         /*final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, R.id.nav_myaccount, 0, "itemid");
         Glide.with(this)
@@ -1550,12 +1552,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 menuMasterResponse = (MenuMasterResponse) response;
                 prefManager.storeMenuDashboard(menuMasterResponse);
                 addDynamicMenu(menuMasterResponse.getMasterData().getMenu());
-                //refreshDashboard();
 
 
-                //Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
-                //dashboardIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData());
-                //LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
             }
         } else if (response instanceof UserCallingResponse) {
             if (response.getStatusNo() == 0) {
@@ -1573,13 +1571,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    private void refreshDashboard() {
-        /*Intent profileIntent = new Intent(Utility.USER_DASHBOARD);
-        profileIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData().get(0).getPrv_file());
 
-        LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(profileIntent);*/
-
-    }
 
     @Override
     public void OnFailure(Throwable t) {
@@ -1593,7 +1585,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (view.getId() == navigationView.getId()) {
             openAppMarketPlace();
         } else if (view.getId() == ivProfile.getId()) {
-            redirectToActivity();
+           redirectToActivity();
             dialog.cancel();
         } else if (view.getId() == drawerLayout.getId()) {
             dialog.cancel();
@@ -1644,7 +1636,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     startActivity(new Intent(this, PendingCasesActivity.class));
                     break;
                 case 12:
-                    startActivity(new Intent(this, RaiseTicketActivity.class));
+                   // startActivity(new Intent(this, RaiseTicketActivity.class));
+                    if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
+                        startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+                    } else {
+
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
+                                        + "&UDID=" + userConstantEntity.getUserid())
+                                .putExtra("NAME", "RAISE_TICKET")
+                                .putExtra("TITLE", "RAISE TICKET"));
+                    }
                     break;
                 case 13:
                     startActivity(new Intent(this, PospEnrollment.class));

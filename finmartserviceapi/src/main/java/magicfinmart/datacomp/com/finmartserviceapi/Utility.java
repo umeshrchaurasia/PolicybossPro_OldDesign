@@ -1,5 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi;
 
+import android.app.Activity;
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
 import android.content.ContentResolver;
@@ -113,6 +114,28 @@ public class Utility {
         return imgFile;
     }
 
+    public static MultipartBody.Part getMultipartImage(File file,String serverkey) {
+        RequestBody imgBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part imgFile = MultipartBody.Part.createFormData(serverkey, file.getName(), imgBody);
+        return imgFile;
+    }
+
+    public static MultipartBody.Part  getMultipartPdf(File file,String serverkey) {
+        RequestBody imgBody = RequestBody.create(MediaType.parse("file/*"), file);
+        MultipartBody.Part imgFile = MultipartBody.Part.createFormData(serverkey, file.getName(), imgBody);
+        //MediaType.parse(getContentResolver().getType(fileUri)),
+        return imgFile;
+    }
+
+    public static MultipartBody.Part  getMultipartPdfUsingURI(Context context,File file, Uri fileUri, String serverkey) {
+        RequestBody imgBody =  RequestBody.create(
+                MediaType.parse(context.getContentResolver().getType(fileUri)),
+                file
+        );
+        MultipartBody.Part imgFile = MultipartBody.Part.createFormData(serverkey, "RaiseTicket", imgBody);
+
+        return imgFile;
+    }
     public static MultipartBody.Part getMultipartVideo(File file) {
         RequestBody imgBody = RequestBody.create(MediaType.parse("video/*"), file);
         MultipartBody.Part imgFile = MultipartBody.Part.createFormData("video", file.getName(), imgBody);

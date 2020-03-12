@@ -46,6 +46,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
@@ -114,7 +115,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         prefManager = new PrefManager(getActivity());
         LangType = prefManager.getLanguage();
 
-        bindDashboardhAdapter();
+     //   bindDashboardhAdapter();
         try {
             pinfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
@@ -132,6 +133,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         showDialog();
         new MasterController(getActivity()).geUserConstantSync(this);
+        new MasterController(getActivity()).getMenuMaster(this);
 
         //send user behaviour
 
@@ -246,6 +248,13 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 //                }
 
 
+            }
+        } else if (response instanceof MenuMasterResponse) {
+            if (response.getStatusNo() == 0) {
+
+                // ((HomeActivity)getActivity()).addDynamicMenu(((MenuMasterResponse) response).getMasterData().getMenu());
+
+                bindDashboardhAdapter();
             }
         }
 
@@ -376,4 +385,6 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     };
 
     //endregion
+
+
 }

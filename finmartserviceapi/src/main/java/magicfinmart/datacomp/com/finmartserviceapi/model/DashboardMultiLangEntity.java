@@ -19,6 +19,15 @@ public class DashboardMultiLangEntity extends RealmObject {
     private String productDetailsKey;
 
 
+    private String ProductNameFontColor;
+
+    private String ProductDetailsFontColor;
+    private String ProductBackgroundColor;
+
+    private String IsExclusive;
+    private String IsNewprdClickable;
+
+
 
     public DashboardMultiLangEntity(String type, int productId, String productName, String productDetails, int icon, String productNameKey, String productDetailsKey) {
         this.type = type;
@@ -28,6 +37,14 @@ public class DashboardMultiLangEntity extends RealmObject {
         this.icon = icon;
         this.productNameKey = productNameKey;
         this.productDetailsKey = productDetailsKey;
+
+
+        this.ProductNameFontColor = "";
+        this.ProductBackgroundColor = "";
+        this.IsExclusive = "";
+        this.IsNewprdClickable = "";
+        this.ProductDetailsFontColor = "";
+
 
     }
 
@@ -112,4 +129,48 @@ public class DashboardMultiLangEntity extends RealmObject {
     }
 
     private int icon;
+
+
+    public String getProductNameFontColor() {
+        return ProductNameFontColor;
+    }
+
+    public void setProductNameFontColor(String productNameFontColor) {
+        ProductNameFontColor = productNameFontColor;
+    }
+
+    public String getProductDetailsFontColor() {
+        return ProductDetailsFontColor;
+    }
+
+    public void setProductDetailsFontColor(String productDetailsFontColor) {
+        ProductDetailsFontColor = productDetailsFontColor;
+    }
+
+    public String getProductBackgroundColor() {
+        return ProductBackgroundColor;
+    }
+
+    public void setProductBackgroundColor(String productBackgroundColor) {
+        ProductBackgroundColor = productBackgroundColor;
+    }
+
+    public String getIsExclusive() {
+        return IsExclusive;
+    }
+
+    public void setIsExclusive(String isExclusive) {
+        IsExclusive = isExclusive;
+    }
+
+    public String getIsNewprdClickable() {
+        return IsNewprdClickable;
+    }
+
+    public void setIsNewprdClickable(String isNewprdClickable) {
+        IsNewprdClickable = isNewprdClickable;
+    }
+
+
+
 }

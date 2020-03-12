@@ -22,4 +22,7 @@ public interface IZoho {
     void  viewCommentOfTickets(String ticket_req_id, IResponseSubcriber iResponseSubcriber);
 
     void  saveCommentOfTickets(String ticket_req_id,String comment , String docpath ,String StatusID , IResponseSubcriber iResponseSubcriber);
+
+    void uploadRaiseTicketDocWeb(MultipartBody.Part document, final IResponseSubcriber iResponseSubcriber);
+
 }

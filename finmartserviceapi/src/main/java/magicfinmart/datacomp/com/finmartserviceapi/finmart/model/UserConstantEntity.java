@@ -1,5 +1,8 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
+import java.util.List;
+
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -170,6 +173,11 @@ public class UserConstantEntity extends RealmObject {
     //03.01.2020
     private String InvestmentUrl;
     private String InvestmentEnabled;
+    private RealmList<DashboardarrayEntity> dashboardarray;
+
+
+    //////////////////////////
+
 
     public String getInvestmentEnabled() {
         return InvestmentEnabled;
@@ -983,5 +991,14 @@ public class UserConstantEntity extends RealmObject {
     public void setFinboxurl(String finboxurl) {
         this.finboxurl = finboxurl;
     }
+
+    public RealmList<DashboardarrayEntity> getDashboardarray() {
+        return dashboardarray;
+    }
+
+    public void setDashboardarray(RealmList<DashboardarrayEntity> dashboardarray) {
+        this.dashboardarray = dashboardarray;
+    }
+
 
 }

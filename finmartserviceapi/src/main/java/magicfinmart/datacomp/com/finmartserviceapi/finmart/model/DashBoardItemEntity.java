@@ -28,6 +28,15 @@ public class DashBoardItemEntity implements Parcelable {
     private int dashboard_type;
     private String sequence;
 
+
+    private int ProdId;
+    private String ProductNameFontColor;
+    private String ProductDetailsFontColor;
+    private String ProductBackgroundColor;
+
+    private String IsExclusive;
+    private String IsNewprdClickable;
+
     public String getSequence() {
         return sequence;
     }
@@ -100,6 +109,55 @@ public class DashBoardItemEntity implements Parcelable {
         this.dashboard_type = dashboard_type;
     }
 
+    public int getProdId() {
+        return ProdId;
+    }
+
+    public void setProdId(int prodId) {
+        ProdId = prodId;
+    }
+
+    public String getProductNameFontColor() {
+        return ProductNameFontColor;
+    }
+
+    public void setProductNameFontColor(String productNameFontColor) {
+        ProductNameFontColor = productNameFontColor;
+    }
+
+    public String getProductDetailsFontColor() {
+        return ProductDetailsFontColor;
+    }
+
+    public void setProductDetailsFontColor(String productDetailsFontColor) {
+        ProductDetailsFontColor = productDetailsFontColor;
+    }
+
+    public String getProductBackgroundColor() {
+        return ProductBackgroundColor;
+    }
+
+    public void setProductBackgroundColor(String productBackgroundColor) {
+        ProductBackgroundColor = productBackgroundColor;
+    }
+
+    public String getIsExclusive() {
+        return IsExclusive;
+    }
+
+    public void setIsExclusive(String isExclusive) {
+        IsExclusive = isExclusive;
+    }
+
+    public String getIsNewprdClickable() {
+        return IsNewprdClickable;
+    }
+
+    public void setIsNewprdClickable(String isNewprdClickable) {
+        IsNewprdClickable = isNewprdClickable;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -116,6 +174,16 @@ public class DashBoardItemEntity implements Parcelable {
         dest.writeInt(this.type);
         dest.writeInt(this.dashboard_type);
         dest.writeString(this.sequence);
+
+        dest.writeInt(this.ProdId);
+        dest.writeString(this.ProductNameFontColor);
+        dest.writeString(this.ProductDetailsFontColor);
+        dest.writeString(this.ProductBackgroundColor);
+
+        dest.writeString(this.IsExclusive);
+        dest.writeString(this.IsNewprdClickable);
+
+
     }
 
     public DashBoardItemEntity() {
@@ -131,6 +199,14 @@ public class DashBoardItemEntity implements Parcelable {
         this.type = in.readInt();
         this.dashboard_type = in.readInt();
         this.sequence = in.readString();
+
+        this.ProdId = in.readInt();
+        this.ProductNameFontColor = in.readString();
+        this.ProductDetailsFontColor = in.readString();
+        this.ProductBackgroundColor = in.readString();
+
+        this.IsExclusive = in.readString();
+        this.IsNewprdClickable = in.readString();
     }
 
     public static final Parcelable.Creator<DashBoardItemEntity> CREATOR = new Parcelable.Creator<DashBoardItemEntity>() {

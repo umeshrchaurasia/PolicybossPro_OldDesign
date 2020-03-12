@@ -414,6 +414,7 @@ public class PrefManager {
     public boolean storeMenuDashboard(MenuMasterResponse menuMasterResponse) {
         try {
             Gson gson = new Gson();
+            editor.remove(MENU_DASHBOARD);
             editor.putString(MENU_DASHBOARD, gson.toJson(menuMasterResponse));
             return editor.commit();
         } catch (Exception e) {

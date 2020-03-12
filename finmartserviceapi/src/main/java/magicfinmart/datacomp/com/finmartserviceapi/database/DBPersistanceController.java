@@ -584,11 +584,12 @@ public class DBPersistanceController {
     public List<DashboardEntity> getInsurProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
+        //region Now Insurance Dashboard Dynamically added from server
 
         if (new DBPersistanceController(mContext).getUserConstantsData() != null &&
                 new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled() != null
                 && new DBPersistanceController(mContext).getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
-            dashboardEntities.add(new DashboardEntity("INSURANCE", 17, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive));
+            dashboardEntities.add(new DashboardEntity("INSURANCE", 49, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive));
 
         }
 
@@ -600,6 +601,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal));
 
+        //endregion
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
@@ -713,41 +715,50 @@ public class DBPersistanceController {
     public List<DashboardMultiLangEntity> getInsurProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
 
-        DBPersistanceController db = new DBPersistanceController(mContext);
 
-        if (db.getUserConstantsData() != null &&
-                db.getUserConstantsData().getUltralakshyaenabled() != null
-                && db.getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
-            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 17, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive, "FinmartExclutitle", "FinmartExcludesc"));
+      //  DBPersistanceController db = new DBPersistanceController(mContext);
 
-        }
 
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car, "PrivateCartitle", "PrivateCardesc"));
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler, "TwoWheelertitle", "TwoWheelerdesc"));
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle, "CommVehtitle", "CommVehdesc"));
+//        if (db.getUserConstantsData() != null &&
+//                db.getUserConstantsData().getUltralakshyaenabled() != null
+//                && db.getUserConstantsData().getUltralakshyaenabled().equalsIgnoreCase("1")) {
+//            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 17, "FINMART EXCLUSIVES", "Unique innovative solutions to help you grow your business rapidly.", R.drawable.finmart_exclusive, "FinmartExclutitle", "FinmartExcludesc"));
+//
+//        }
 
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance, "HealthInsTitle", "HealthInsdesc"));
-
-        if (db.getUserConstantsData() != null
-                && db.getUserConstantsData().getInvestmentEnabled().equalsIgnoreCase("1")) {
-            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT PLANS", "Get investment options offering returns as per end needs, financial security, tax benefits & more.", R.drawable.invest, "InvestInsTitle", "InvestInsdesc"));
-        }
-
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
-        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
+//        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car, "PrivateCartitle", "PrivateCardesc"));
+//        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler, "TwoWheelertitle", "TwoWheelerdesc"));
+//        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 12, "COMMERCIAL VEHICLE", "Best quotes for CV Insurance of your customers with instant policy.", R.drawable.commercial_vehicle, "CommVehtitle", "CommVehdesc"));
+//
+//        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes, compare benefits and buy online from top Health Insurance companies.", R.drawable.health_insurance, "HealthInsTitle", "HealthInsdesc"));
+//
+//        if (db.getUserConstantsData() != null
+//                && db.getUserConstantsData().getInvestmentEnabled().equalsIgnoreCase("1")) {
+//            dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 5, "INVESTMENT PLANS", "Get investment options offering returns as per end needs, financial security, tax benefits & more.", R.drawable.invest, "InvestInsTitle", "InvestInsdesc"));
+//        }
+//
+//        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
+//        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
-            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+       //     if (dashboardEntities != null && dashboardEntities.size() > 0) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
                     if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
                         DashboardMultiLangEntity dashboardEntity = new DashboardMultiLangEntity("INSURANCE", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1, "Insurance", "");
                         dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
                         dashboardEntity.setLink(dashBoardItemEntity.getLink());
+
+                        dashboardEntity.setProductNameFontColor(dashBoardItemEntity.getProductNameFontColor());
+                        dashboardEntity.setProductDetailsFontColor(dashBoardItemEntity.getProductDetailsFontColor());
+                        dashboardEntity.setProductBackgroundColor(dashBoardItemEntity.getProductBackgroundColor());
+
+                        dashboardEntity.setIsExclusive(dashBoardItemEntity.getIsExclusive());
+                        dashboardEntity.setIsNewprdClickable(dashBoardItemEntity.getIsNewprdClickable());
                         dashboardEntities.add(dashboardEntity);
                     }
                 }
-            }
+       //     }
         }
 
         return dashboardEntities;

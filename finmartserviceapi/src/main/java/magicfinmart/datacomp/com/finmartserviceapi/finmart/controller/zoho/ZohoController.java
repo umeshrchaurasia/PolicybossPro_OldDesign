@@ -7,6 +7,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.ZohoRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CreateTicketrequest;
@@ -14,6 +15,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateTicket
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketCommentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketViewResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketWebDocResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketCategoryResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketListResponse;
 import okhttp3.MultipartBody;
@@ -278,5 +280,44 @@ public class ZohoController implements IZoho {
             }
         });
 
+    }
+
+    @Override
+    public void uploadRaiseTicketDocWeb(MultipartBody.Part document, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = BuildConfig.NODE_URL + "/mobile_raiseticket_doc";
+        zohoNetworkService.uploadDocumentRaiseTicketWeb(url,document).enqueue(new Callback<RaiseTicketWebDocResponse>() {
+            @Override
+            public void onResponse(Call<RaiseTicketWebDocResponse> call, Response<RaiseTicketWebDocResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        //callback of data
+                        iResponseSubcriber.OnSuccess(response.body(), "");
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RaiseTicketWebDocResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
     }
 }

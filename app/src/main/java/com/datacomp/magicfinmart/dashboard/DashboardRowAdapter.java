@@ -45,6 +45,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashboardarrayEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
@@ -65,7 +66,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     PrefManager prefManager;
 
 
-    public DashboardRowAdapter(Fragment fragment, int InsurancePosition,int DisclosurePosition, int loanPosition) {
+    public DashboardRowAdapter(Fragment fragment, int InsurancePosition, int DisclosurePosition, int loanPosition) {
         mFragment = fragment;
         mContext = mFragment.getActivity();
         ROW_INSURANCE = InsurancePosition;
@@ -294,12 +295,15 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
+
+
         //fetching parent ss_id in case of switch user
         Map<String, String> map = ((HomeActivity) mContext).loadMap();
         String parent_ssid = "";
         if (map.size() > 0) {
             parent_ssid = map.get("Parent_POSPNo");
         }
+
 
         switch (productID) {
 
@@ -528,7 +532,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
                 break;
 
-            case 17: // added by Nilesh 13.02.2019 -- Ultra laksh
+            case 49: // added by Nilesh 13.02.2019 -- Ultra laksh
                 mContext.startActivity(new Intent(mContext, UltraLakshaSelectionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Ultra lakshya"), Constants.CAMPAIGN), null);
                 MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHYA");
@@ -574,7 +578,52 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         }
 
-        if (productID >= 50) {
+        if (productID < 100) {
+            if (dashboardEntity.getIsNewprdClickable() != null) {
+                if (dashboardEntity.getIsNewprdClickable().equals("Y")) {
+                    //   region Getting Dynamic Product and Clickable action Using UserConstatnt Data
+
+                    String dynamicUrl = "";
+                    for (DashboardarrayEntity entity : mReal.getUserConstantsData().getDashboardarray()) {
+
+                        if (Integer.valueOf(entity.getProdId()) == productID) {
+
+                            dynamicUrl = entity.getUrl();
+                            break;
+
+                        }
+
+                    }
+
+
+
+                    if(!dynamicUrl.isEmpty()){
+                        String ipaddress = "0.0.0.0";
+                        try {
+                            ipaddress = Utility.getMacAddress(mContext);
+                        } catch (Exception io) {
+                            ipaddress = "0.0.0.0";
+                        }
+
+
+                        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                        String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                                + "&app_version=" + BuildConfig.VERSION_NAME
+                                + "&device_id=" + Utility.getDeviceId(mContext)
+                                + "&product_id= "+productID +"&login_ssid=" + parent_ssid;
+                        dynamicUrl = dynamicUrl + append;
+
+                        mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                .putExtra("URL", dynamicUrl)
+                                .putExtra("NAME", dashboardEntity.getProductName())
+                                .putExtra("TITLE",  dashboardEntity.getProductName()));
+
+                    }
+
+                    //endregion
+                }
+            }
+        } else if (productID >= 100) {
             mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                     .putExtra("URL", "" + dashboardEntity.getLink())
                     .putExtra("NAME", "" + dashboardEntity.getProductName())

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/dashboard_bg"
+
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -18,6 +19,7 @@
         app:cardElevation="2dp">
 
         <LinearLayout
+            android:id="@+id/lyParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

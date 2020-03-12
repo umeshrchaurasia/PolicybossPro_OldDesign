@@ -514,7 +514,7 @@ public class MasterController implements IMasterFetch {
             public void onResponse(Call<MenuMasterResponse> call, Response<MenuMasterResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-
+                       new PrefManager(mContext).storeMenuDashboard(response.body());
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
 
                     } else {

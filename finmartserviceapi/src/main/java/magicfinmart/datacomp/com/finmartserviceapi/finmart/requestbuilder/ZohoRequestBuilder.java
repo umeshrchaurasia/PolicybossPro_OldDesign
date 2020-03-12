@@ -7,6 +7,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CreateT
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateTicketResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketViewResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketWebDocResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketCategoryResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketCommentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketListResponse;
@@ -19,6 +20,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Url;
 
 /**
  * Created by Rajeev Ranjan on 23/01/2018.
@@ -64,5 +66,11 @@ public class ZohoRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/upload-doc-ticket-comment")
         Call<DocumentResponse> uploadDocumentRaiseTicket(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
 
+
+
+
+        @Multipart
+        @POST
+        Call<RaiseTicketWebDocResponse> uploadDocumentRaiseTicketWeb(@Url String url, @Part() MultipartBody.Part doc);
     }
 }
