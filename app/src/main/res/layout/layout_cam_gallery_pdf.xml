@@ -148,6 +148,7 @@
             android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="Note: Choose file from file Manager.">
 
         </TextView>

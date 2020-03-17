@@ -40,11 +40,20 @@ public class FileUtilNew {
     public static final String DOCUMENTS_DIR = "documents";
     // configured android:authorities in AndroidManifest (https://developer.android.com/reference/android/support/v4/content/FileProvider)
     public static final String AUTHORITY =  "com.datacomp.magicfinmart.fileprovider";
+  //  public static final String AUTHORITY =  "account.rb.com.elite_agent.documents";
     public static final String HIDDEN_PREFIX = ".";
     /**
      * TAG for log messages.
      */
     static final String TAG = "FileUtils";
+
+    public static final String DOC = "application/msword";
+    public static final String DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    public static final String IMAGE = "image/*";
+    public static final String AUDIO = "audio/*";
+    public static final String TEXT = "text/*";
+    public static final String PDF = "application/pdf";
+    public static final String XLS = "application/vnd.ms-excel";
     private static final boolean DEBUG = false; // Set to true to enable logging
     /**
      * File and folder comparator. TODO Expose sorting option method
@@ -444,9 +453,17 @@ public class FileUtilNew {
         // Implicitly allow the user to select a particular kind of data
         final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         // The MIME data type filter
-        intent.setType("*/*");
-        // Only return URIs that can be opened with ContentResolver
+        intent.setType("application/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
+        return intent;
+    }
+
+    public static Intent getCustomFileChooserIntent(String ...types){
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        // Filter to only show results that can be "opened"
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, types);
         return intent;
     }
 

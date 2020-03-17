@@ -7,15 +7,16 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -214,6 +215,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
                 loginRequestEntity.setTokenId(prefManager.getToken());
                 loginRequestEntity.setIsChildLogin("");
+
+                prefManager.setFirstTimeLaunch(false);
+
                 showDialog();
                 new LoginController(this).login(loginRequestEntity, this);
                 break;

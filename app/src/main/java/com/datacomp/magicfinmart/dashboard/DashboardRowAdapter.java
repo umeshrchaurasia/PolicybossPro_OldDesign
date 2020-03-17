@@ -610,7 +610,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                                 + "&app_version=" + BuildConfig.VERSION_NAME
                                 + "&device_id=" + Utility.getDeviceId(mContext)
-                                + "&product_id= "+productID +"&login_ssid=" + parent_ssid;
+                                + "&product_id="+productID+"&login_ssid=" + parent_ssid;
                         dynamicUrl = dynamicUrl + append;
 
                         mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)

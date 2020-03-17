@@ -1,14 +1,8 @@
 package magicfinmart.datacomp.com.finmartserviceapi.database;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.util.Log;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 
@@ -46,7 +40,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificat
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultilanguageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -716,7 +709,7 @@ public class DBPersistanceController {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
 
 
-      //  DBPersistanceController db = new DBPersistanceController(mContext);
+        //  DBPersistanceController db = new DBPersistanceController(mContext);
 
 
 //        if (db.getUserConstantsData() != null &&
@@ -742,23 +735,23 @@ public class DBPersistanceController {
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
-       //     if (dashboardEntities != null && dashboardEntities.size() > 0) {
-                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
-                    if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
-                        DashboardMultiLangEntity dashboardEntity = new DashboardMultiLangEntity("INSURANCE", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1, "Insurance", "");
-                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
-                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+            //     if (dashboardEntities != null && dashboardEntities.size() > 0) {
+            for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
+                    DashboardMultiLangEntity dashboardEntity = new DashboardMultiLangEntity("INSURANCE", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1, "Insurance", "");
+                    dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                    dashboardEntity.setLink(dashBoardItemEntity.getLink());
 
-                        dashboardEntity.setProductNameFontColor(dashBoardItemEntity.getProductNameFontColor());
-                        dashboardEntity.setProductDetailsFontColor(dashBoardItemEntity.getProductDetailsFontColor());
-                        dashboardEntity.setProductBackgroundColor(dashBoardItemEntity.getProductBackgroundColor());
+                    dashboardEntity.setProductNameFontColor(dashBoardItemEntity.getProductNameFontColor());
+                    dashboardEntity.setProductDetailsFontColor(dashBoardItemEntity.getProductDetailsFontColor());
+                    dashboardEntity.setProductBackgroundColor(dashBoardItemEntity.getProductBackgroundColor());
 
-                        dashboardEntity.setIsExclusive(dashBoardItemEntity.getIsExclusive());
-                        dashboardEntity.setIsNewprdClickable(dashBoardItemEntity.getIsNewprdClickable());
-                        dashboardEntities.add(dashboardEntity);
-                    }
+                    dashboardEntity.setIsExclusive(dashBoardItemEntity.getIsExclusive());
+                    dashboardEntity.setIsNewprdClickable(dashBoardItemEntity.getIsNewprdClickable());
+                    dashboardEntities.add(dashboardEntity);
                 }
-       //     }
+            }
+            //     }
         }
 
         return dashboardEntities;
@@ -1036,6 +1029,7 @@ public class DBPersistanceController {
         realm.delete(LoginResponseEntity.class);
         realm.copyToRealmOrUpdate(loginResponseEntity);
         realm.commitTransaction();
+        Log.d("---Log", "User Stored");
     }
 
     public void clearUserData() {
@@ -1068,9 +1062,11 @@ public class DBPersistanceController {
 
     public LoginResponseEntity getUserData() {
         LoginResponseEntity entity = realm.where(LoginResponseEntity.class).findFirst();
-        if (entity != null)
+
+        if (entity != null) {
+            Log.d("---Log", entity.getCustID());
             return entity;
-        else
+        } else
             return null;
     }
 

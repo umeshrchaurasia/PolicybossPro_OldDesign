@@ -43,7 +43,6 @@ import androidx.core.content.FileProvider;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.file_chooser.utils.FileUtilNew;
-import com.datacomp.magicfinmart.file_chooser.utils.FileUtils;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity;
@@ -102,7 +101,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     //    InputStream inputStream;
 //    ExifInterface ei;
 //    Bitmap bitmapPhoto = null;
-    private String PHOTO_File = "fm_img";
+    private String PHOTO_File = "";
     MultipartBody.Part part;
     //HashMap<String, String> body;
 
@@ -324,7 +323,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         // region Raise Ticket
         @JavascriptInterface
         public void Upload_doc(String randomID) {
-            PHOTO_File = PHOTO_File + "_" + randomID;
+            PHOTO_File = "";
+            PHOTO_File = "fm_file" + "_" + randomID;
+            Log.i("RAISE_TICKET Uploding ", PHOTO_File);
             galleryCamPopUp();
 
 
@@ -332,7 +333,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
         @JavascriptInterface
         public void Upload_doc_view(String randomID) {
-            PHOTO_File = PHOTO_File + "_" + randomID;
+            PHOTO_File = "";
+            PHOTO_File = "fm_file" + "_" + randomID;
+            Log.i("RAISE_TICKET Uploding", PHOTO_File);
             galleryCamPopUp();
 
 
@@ -589,10 +592,14 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     private void showFileChooser() {
         // Create the ACTION_GET_CONTENT Intent
-        Intent getContentIntent = FileUtils.createGetContentIntent();    // Only For PDF Pls check createGetContentIntent() method
+        Intent getContentIntent = FileUtilNew.createGetContentIntent();    // Only For PDF Pls check createGetContentIntent() method
         Intent intent = Intent.createChooser(getContentIntent, "Select a file");
-        // intent.putExtra(Intent.EXTRA_LOCAL_ONLY,true);
         startActivityForResult(intent, PICK_PDF_REQUEST);
+
+//        Intent intent = FileUtilNew.getCustomFileChooserIntent(FileUtilNew.DOC, FileUtilNew.PDF, FileUtilNew.XLS,FileUtilNew.TEXT,FileUtilNew.DOCX);
+//
+//        startActivityForResult(intent, PICK_PDF_REQUEST);
+
     }
 
 
@@ -657,7 +664,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     //endregion
 
 
-    public  String getFileFromDownload(Context context,Uri uri){
+    public String getFileFromDownload(Context context, Uri uri) {
         final String id = DocumentsContract.getDocumentId(uri);
 
         if (id != null && id.startsWith("raw:")) {
@@ -677,7 +684,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 if (path != null) {
                     return path;
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
 
         // path could not be retrieved using ContentResolver, therefore copy file to accessible cache using streams
@@ -692,39 +700,56 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
         return destinationPath;
     }
+
     // region Event
     @Override
     @SuppressLint("NewApi")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-         // Only For Pdf
+        // Only For Pdf
         if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             final Uri uri = data.getData();
             // Get the File path from the Uri
             try {
-//                String path = FileUtils.getPath(this, uri);
-//                File pdfFile = new File(path);
+
 
                 String path = FileUtilNew.getPath(this, uri);
-                File pdfFile = new File(path);
 
-                showDialog();
+                if (!path.contains(".")) {
+
+                    showAlert("Only file type allowed to be uploaded are\n(Image,Docs,PDF,Excel & Text.)");
+                    return;
+                }
+                String extension = path.substring(path.lastIndexOf(".")).toLowerCase();
+                if (extension.contains("pdf") || extension.contains("xls") || extension.contains("xlsx") || extension.contains("txt") || extension.contains("doc")
+                        || extension.contains("docs")  || extension.contains("jpeg") || extension.contains("jpg")  || extension.contains("png")) {
 
 
-               // file = saveImageToStorage(mphoto, PHOTO_File);
+                    File pdfFile = new File(path);
+                    if (pdfFile.exists()) {
+                        showDialog();
 
-              //  part = Utility.getMultipartPdfUsingURI(CommonWebViewActivity.this,pdfFile,uri, "doc_type");
-                part = Utility.getMultipartPdf(pdfFile, "doc_type");
-                new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+
+
+                        part = Utility.getMultipartPdf(pdfFile, PHOTO_File,"doc_type");
+                        new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+
+                    } else {
+                        showAlert("Select file from File Manager.");
+                    }
+                } else {
+
+                    showAlert("Only file type allowed to be uploaded are\n(Image,Docs,PDF,Excel & Text.)");
+                }
 
 
             } catch (Exception ex) {
 
-                showAlert( "Select file from File Manager.");
+                showAlert("Select file from File Manager.");
             }
-        }else {
+        } else {
 
             // Below For Cropping The Camera Image
             if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
@@ -795,7 +820,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
                 String jsonResponse = ((RaiseTicketWebDocResponse) response).getMasterData().getFile_name() + "|" +
                         ((RaiseTicketWebDocResponse) response).getMasterData().getFile_path();
-                Log.i("RAISE_TICKET", jsonResponse);
+                Log.i("RAISE_TICKET RESPONSE", jsonResponse);
 
                 // Sending Data to Web Using evaluateJavascript
                 webView.evaluateJavascript("javascript: " +

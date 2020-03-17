@@ -24,6 +24,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.database.LoanCityFacade;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
@@ -118,40 +119,40 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 public void run() {
 
                     //region comment
-                    //                    if (checkAllMastersIsUpdate()) {
-//                        if (loginResponseEntity != null) {
-//                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-//                        } else {
-//                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-//                        }
-//                    }
-//                    else {
-//
-//
-//                        if (prefManager.IsBikeMasterUpdate())
-//                            new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
-//                        if (prefManager.IsCarMasterUpdate())
-//                            new MasterController(SplashScreenActivity.this).getCarMaster(SplashScreenActivity.this);
-//                        if (prefManager.IsRtoMasterUpdate())
-//                            new MasterController(SplashScreenActivity.this).getRTOMaster(SplashScreenActivity.this);
-//                        if (prefManager.IsInsuranceMasterUpdate())
-//                            new MasterController(SplashScreenActivity.this).getInsuranceMaster(SplashScreenActivity.this);
-//                        if (prefManager.getIsRblCityMaster())
-//                            new CreditCardController(SplashScreenActivity.this).getRblCityMaster(SplashScreenActivity.this);
-//
-//                        if (loginResponseEntity != null) {
-//                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-//                        } else {
-//                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-//                        }
-//                    }
+                                        if (checkAllMastersIsUpdate()) {
+                        if (loginResponseEntity != null) {
+                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                        } else {
+                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                        }
+                    }
+                    else {
+
+
+                        if (prefManager.IsBikeMasterUpdate())
+                            new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
+                        if (prefManager.IsCarMasterUpdate())
+                            new MasterController(SplashScreenActivity.this).getCarMaster(SplashScreenActivity.this);
+                        if (prefManager.IsRtoMasterUpdate())
+                            new MasterController(SplashScreenActivity.this).getRTOMaster(SplashScreenActivity.this);
+                        if (prefManager.IsInsuranceMasterUpdate())
+                            new MasterController(SplashScreenActivity.this).getInsuranceMaster(SplashScreenActivity.this);
+                        if (prefManager.getIsRblCityMaster())
+                            new CreditCardController(SplashScreenActivity.this).getRblCityMaster(SplashScreenActivity.this);
+
+                        if (loginResponseEntity != null) {
+                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                        } else {
+                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                        }
+                    }
                     //endregion
 
-                    if (loginResponseEntity != null) {
-                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-                    } else {
-                        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                    }
+//                    if (loginResponseEntity != null) {
+//                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+//                    } else {
+//                        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//                    }
                 }
             }, SPLASH_DISPLAY_LENGTH);
         }

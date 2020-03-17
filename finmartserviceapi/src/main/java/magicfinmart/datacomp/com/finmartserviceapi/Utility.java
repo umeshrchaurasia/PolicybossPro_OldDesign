@@ -120,9 +120,9 @@ public class Utility {
         return imgFile;
     }
 
-    public static MultipartBody.Part  getMultipartPdf(File file,String serverkey) {
+    public static MultipartBody.Part  getMultipartPdf(File file,String fileName,String serverkey) {
         RequestBody imgBody = RequestBody.create(MediaType.parse("file/*"), file);
-        MultipartBody.Part imgFile = MultipartBody.Part.createFormData(serverkey, file.getName(), imgBody);
+        MultipartBody.Part imgFile = MultipartBody.Part.createFormData(serverkey,file.getName(), imgBody);
         //MediaType.parse(getContentResolver().getType(fileUri)),
         return imgFile;
     }
