@@ -669,6 +669,128 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    public void datashareList(Context context, String prdSubject,String Bodymsg, String link) {
+
+
+        String Deeplink;
+        //"Look! This can make you look gorgeous from Nykaa";
+        Deeplink = Bodymsg + "\n" + link;
+        if(prdSubject.isEmpty()){
+            prdSubject = "Magic Finmart";
+        }
+
+        String prdDetail = Deeplink;
+
+
+        try {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+            shareIntent.setType("text/plain");
+
+            PackageManager pm = context.getPackageManager();
+
+
+
+            List<ResolveInfo> resInfo = pm.queryIntentActivities(shareIntent, 0);
+            List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
+            ///////////
+            for (int i = 0; i < resInfo.size(); i++) {
+                // Extract the label, append it, and repackage it in a LabeledIntent
+                ResolveInfo ri = resInfo.get(i);
+                String packageName = ri.activityInfo.packageName;
+                String processName = ri.activityInfo.processName;
+                String AppName = ri.activityInfo.name;
+
+                if ((packageName.contains("android.email") || packageName.contains("mms") || packageName.contains("twitter") || (packageName.contains("whatsapp")) || (packageName.contains("facebook.katana")) || (packageName.contains("facebook.orca")) || packageName.contains("messaging") || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus")) || (packageName.contains("apps.docs")) && processName.contains("android.apps.docs:Clipboard") || (packageName.contains("android.talk")) && AppName.contains("hangouts")) {
+
+                    shareIntent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+
+                    if (packageName.contains("android.email")) {
+
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("twitter")) {
+
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("facebook.katana")) {
+
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage("com.facebook.katana");
+
+                    } else if (packageName.contains("facebook.orca")) {
+
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage("com.facebook.orca");
+
+                    } else if (packageName.contains("mms")) {
+
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("whatsapp")) {
+
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+
+                    } else if (packageName.contains("messaging")) {
+                        shareIntent.setPackage(packageName);
+                    } else if (packageName.contains("com.google.android.apps.plus")) {
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.setPackage(packageName);
+
+                    }
+//                    else if (packageName.contains("android.talk")) {
+//                        if (AppName.contains("hangouts")) {
+//
+//                            shareIntent.setPackage(packageName);
+//                        }
+//
+//                    }
+                    else if (packageName.contains("apps.docs")) {
+                        if (processName.contains("android.apps.docs:Clipboard")) {
+
+                            shareIntent.setPackage(packageName);
+                        }
+
+                    } else if (packageName.contains("android.gm")) {
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.setPackage(packageName);
+
+                    }
+
+                    intentList.add(new LabeledIntent(shareIntent, packageName, ri.loadLabel(pm), ri.icon));
+
+                }
+            }
+
+
+            if (intentList.size() > 1) {
+                intentList.remove(intentList.size() - 1);
+            }
+
+            Intent openInChooser = Intent.createChooser(shareIntent, "Share Via");
+
+            // convert intentList to array
+            LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
+            openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+
+            context.startActivity(openInChooser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void sharePdfTowhatsApp(String pdfFileName, String urlToShare) {
         try {
             File outputFile = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES/" + pdfFileName + ".pdf");

@@ -77,7 +77,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
             }
         });
 
-        Glide.with(mContext)
+        Glide.with(mContext.getActivity())
                 .load(lstShareMessageEntity.getLinklogo())
                 .into(holder.imgIcon);
 

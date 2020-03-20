@@ -209,18 +209,18 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listIns, LangType));
 
 
-            ((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(
-                    new RecyclerItemClickListener(((InsuranceHolder) holder).rvDashboard,
-                            new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    if (mReal.getUserConstantsData().getEnableInsuranceBusiness().equals("1")) {
-                                        switchMenus(listIns.get(position));
-                                    } else {
-                                        Toast.makeText(mContext, "Your not authorize to sell Insurance..", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            }));
+//            ((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(
+//                    new RecyclerItemClickListener(((InsuranceHolder) holder).rvDashboard,
+//                            new RecyclerItemClickListener.OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(View view, int position) {
+//                                    if (mReal.getUserConstantsData().getEnableInsuranceBusiness().equals("1")) {
+//                                        switchMenus(listIns.get(position));
+//                                    } else {
+//                                        Toast.makeText(mContext, "Your not authorize to sell Insurance..", Toast.LENGTH_SHORT).show();
+//                                    }
+//                                }
+//                            }));
 
 
         } else if (holder instanceof DisclosureHolder) {
@@ -253,14 +253,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((LoanHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan, LangType));
 
-            ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(
-                    new RecyclerItemClickListener(((LoanHolder) holder).rvDashboard,
-                            new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    switchMenus(listLoan.get(position));
-                                }
-                            }));
+//            ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(
+//                    new RecyclerItemClickListener(((LoanHolder) holder).rvDashboard,
+//                            new RecyclerItemClickListener.OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(View view, int position) {
+//                                    switchMenus(listLoan.get(position));
+//                                }
+//                            }));
 
 
         } else if (holder instanceof MoreServiceHolder) {
@@ -280,14 +280,14 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore, LangType));
 
-            ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
-                    new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
-                            new RecyclerItemClickListener.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    switchMenus(listMore.get(position));
-                                }
-                            }));
+//            ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
+//                    new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
+//                            new RecyclerItemClickListener.OnItemClickListener() {
+//                                @Override
+//                                public void onItemClick(View view, int position) {
+//                                    switchMenus(listMore.get(position));
+//                                }
+//                            }));
 
         }
 

@@ -31,6 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeRespo
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
@@ -995,6 +996,45 @@ public class RegisterController implements IRegister {
 
     }
 
+    @Override
+    public void getProductShareUrl( int fba_id, int ss_id, int product_id, int sub_fba_id, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, Integer> body = new HashMap<>();
+        body.put("fba_id",fba_id);
+        body.put("ss_id",ss_id);
+        body.put("product_id",product_id);
+        body.put("sub_fba_id",sub_fba_id);
+
+        registerQuotesNetworkService.getProductShareURL(body).enqueue(new Callback<ProductURLShareResponse>() {
+            @Override
+            public void onResponse(Call<ProductURLShareResponse> call, Response<ProductURLShareResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ProductURLShareResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
 
 
 }

@@ -15,8 +15,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -108,6 +111,7 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -131,6 +135,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEn
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ProductURLShareEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
@@ -141,6 +146,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginRespons
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultiLangResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 
@@ -1566,6 +1572,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 showMultiLanguage();
             }
+        }else if (response instanceof ProductURLShareResponse) {
+
+            if (response.getStatusNo() == 0) {
+
+                if(((ProductURLShareResponse)response).getMasterData() != null){
+                    ProductURLShareEntity shareEntity = ((ProductURLShareResponse)response).getMasterData();
+                    datashareList(HomeActivity.this,  "Finmart" ,shareEntity.getMsg(),shareEntity.getUrl());
+
+
+                }
+
+            }
         }
 
     }
@@ -2672,6 +2690,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     private String getDeviceID() {
         return new ReadDeviceID(this).getAndroidID();
+    }
+
+    public void shareDashbordProduct(int ProdID)
+    {
+
+        showDialog();
+        //loginResponseEntity.getFBAId()
+        new RegisterController(this).getProductShareUrl(
+                loginResponseEntity.getFBAId(),
+                Integer.valueOf(loginResponseEntity.getPOSPNo()),
+                ProdID,
+                0,
+                this);
     }
 
 

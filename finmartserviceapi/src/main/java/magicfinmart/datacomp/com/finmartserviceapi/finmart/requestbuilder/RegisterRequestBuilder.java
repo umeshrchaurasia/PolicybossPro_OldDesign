@@ -21,6 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeRespo
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
@@ -167,6 +168,10 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/GetLangDataOld")
         Call<MultiLangResponse> getMultiLanguageDetailOld();
+
+        @Headers("token:" + token)
+        @POST("/api/GetShareUrl")
+        Call<ProductURLShareResponse> getProductShareURL(@Body HashMap<String, Integer> body);
 
 
 

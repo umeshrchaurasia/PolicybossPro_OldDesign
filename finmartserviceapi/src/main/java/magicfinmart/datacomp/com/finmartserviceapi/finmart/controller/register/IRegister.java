@@ -66,6 +66,8 @@ public interface IRegister {
 
     void getMultiLanguageDetailOld(IResponseSubcriber iResponseSubcriber);
 
+    void getProductShareUrl(int fba_id,int ss_id,int product_id,int sub_fba_id, IResponseSubcriber iResponseSubcriber);
+
 
 
 
