@@ -204,7 +204,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
 
-                    ((HomeActivity) mContext.getActivity()).shareDashbordProduct(listInsur.get(position).getProductId());
+                    ((HomeActivity) mContext.getActivity()).shareDashbordProduct(listInsur.get(position));
 
 
                 }

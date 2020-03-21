@@ -253,6 +253,11 @@
         <item name="android:windowAnimationStyle">@style/CustomDialogAnimation</item>
     </style>
 
+    <style name="CustomTransLucent" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+
+    </style>
+
     <style name="CustomDialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_left</item>
         <item name="android:windowExitAnimation">@anim/slide_right</item>

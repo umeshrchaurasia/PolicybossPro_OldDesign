@@ -149,6 +149,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
 public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener,
         BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
@@ -170,6 +171,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     int forceUpdate, checkfirstmsg_call, isContactFirstCall;
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
+    androidx.appcompat.app.AlertDialog shareProdDialog;
     CallingDetailAdapter callingDetailAdapter;
 
     UserConstantEntity userConstantEntity;
@@ -185,6 +187,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     List<TextView> textViewList;
 
     LinearLayout llSwitchUser;
+    DashboardMultiLangEntity dashboardShareEntity;
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -1572,14 +1575,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 showMultiLanguage();
             }
-        }else if (response instanceof ProductURLShareResponse) {
+        } else if (response instanceof ProductURLShareResponse) {
 
             if (response.getStatusNo() == 0) {
 
-                if(((ProductURLShareResponse)response).getMasterData() != null){
-                    ProductURLShareEntity shareEntity = ((ProductURLShareResponse)response).getMasterData();
-                    datashareList(HomeActivity.this,  "Finmart" ,shareEntity.getMsg(),shareEntity.getUrl());
+                if (((ProductURLShareResponse) response).getMasterData() != null) {
+                    ProductURLShareEntity shareEntity = ((ProductURLShareResponse) response).getMasterData();
+                    //
 
+                    if (dashboardShareEntity != null) {
+                        shareProductPopUp(dashboardShareEntity.getTitle(), dashboardShareEntity.getPopupmsg(), shareEntity);
+                    }
 
                 }
 
@@ -1587,8 +1593,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
     }
-
-
 
 
     @Override
@@ -1603,7 +1607,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (view.getId() == navigationView.getId()) {
             openAppMarketPlace();
         } else if (view.getId() == ivProfile.getId()) {
-           redirectToActivity();
+            redirectToActivity();
             dialog.cancel();
         } else if (view.getId() == drawerLayout.getId()) {
             dialog.cancel();
@@ -1654,7 +1658,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     startActivity(new Intent(this, PendingCasesActivity.class));
                     break;
                 case 12:
-                   // startActivity(new Intent(this, RaiseTicketActivity.class));
+                    // startActivity(new Intent(this, RaiseTicketActivity.class));
                     if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
                         startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
                     } else {
@@ -2659,7 +2663,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
                     LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
 
-               }
+                }
 
             }
         });
@@ -2692,17 +2696,67 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         return new ReadDeviceID(this).getAndroidID();
     }
 
-    public void shareDashbordProduct(int ProdID)
-    {
+    public void shareDashbordProduct(DashboardMultiLangEntity dashboardMultiLangEntity) {
 
+        dashboardShareEntity = dashboardMultiLangEntity;
         showDialog();
         //loginResponseEntity.getFBAId()
         new RegisterController(this).getProductShareUrl(
                 loginResponseEntity.getFBAId(),
                 Integer.valueOf(loginResponseEntity.getPOSPNo()),
-                ProdID,
+                dashboardMultiLangEntity.getProductId(),
                 0,
                 this);
+    }
+
+    private void shareProductPopUp(String title, String msg, ProductURLShareEntity shareEntity) {
+
+        if (shareProdDialog != null && shareProdDialog.isShowing()) {
+
+            return;
+        }
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this);
+        TextView txtTitle, txtMessage;
+        Button btnShare;
+        ImageView ivCross;
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_share_popup, null);
+
+        builder.setView(dialogView);
+        shareProdDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
+        txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);
+        btnShare = (Button) dialogView.findViewById(R.id.btnShare);
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+        txtTitle.setText("" + title);
+        txtMessage.setText("" + msg);
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datashareList(HomeActivity.this, title, shareEntity.getMsg(), shareEntity.getUrl());
+                shareProdDialog.dismiss();
+
+            }
+        });
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                shareProdDialog.dismiss();
+
+            }
+        });
+
+        shareProdDialog.setCancelable(true);
+        shareProdDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+        // for user define height and width..
     }
 
 

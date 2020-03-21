@@ -18,28 +18,39 @@ public class DashBoardItemEntity implements Parcelable {
     private int menuid;
     private String menuname;
     private String link;
-    private String iconimage;
-    private int isActive;
-    private String description;
-    private int type;
-    /**
-     * dashboard_type : 0
-     */
 
-    private int dashboard_type;
-    private String sequence;
+    protected DashBoardItemEntity(Parcel in) {
+        menuid = in.readInt();
+        menuname = in.readString();
+        link = in.readString();
+        iconimage = in.readString();
+        isActive = in.readInt();
+        description = in.readString();
+        type = in.readInt();
+        dashboard_type = in.readInt();
+        sequence = in.readString();
+        ProdId = in.readInt();
+        ProductNameFontColor = in.readString();
+        ProductDetailsFontColor = in.readString();
+        ProductBackgroundColor = in.readString();
+        IsExclusive = in.readString();
+        IsNewprdClickable = in.readString();
+        IsSharable = in.readString();
+        popupmsg = in.readString();
+        title = in.readString();
+    }
 
+    public static final Creator<DashBoardItemEntity> CREATOR = new Creator<DashBoardItemEntity>() {
+        @Override
+        public DashBoardItemEntity createFromParcel(Parcel in) {
+            return new DashBoardItemEntity(in);
+        }
 
-    private int ProdId;
-    private String ProductNameFontColor;
-    private String ProductDetailsFontColor;
-    private String ProductBackgroundColor;
-
-    private String IsExclusive;
-    private String IsNewprdClickable;
-    private String IsSharable;
-
-
+        @Override
+        public DashBoardItemEntity[] newArray(int size) {
+            return new DashBoardItemEntity[size];
+        }
+    };
 
     public int getMenuid() {
         return menuid;
@@ -169,25 +180,44 @@ public class DashBoardItemEntity implements Parcelable {
         IsSharable = isSharable;
     }
 
+    public String getPopupmsg() {
+        return popupmsg;
+    }
+
+    public void setPopupmsg(String popupmsg) {
+        this.popupmsg = popupmsg;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String iconimage;
+    private int isActive;
+    private String description;
+
+    private int type;
+    private int dashboard_type;
+    private String sequence;
+    private int ProdId;
+    private String ProductNameFontColor;
+    private String ProductDetailsFontColor;
+    private String ProductBackgroundColor;
+
+    private String IsExclusive;
+    private String IsNewprdClickable;
+    private String IsSharable;
+    private String popupmsg;
+    private String title;
 
 
-    protected DashBoardItemEntity(Parcel in) {
-        menuid = in.readInt();
-        menuname = in.readString();
-        link = in.readString();
-        iconimage = in.readString();
-        isActive = in.readInt();
-        description = in.readString();
-        type = in.readInt();
-        dashboard_type = in.readInt();
-        sequence = in.readString();
-        ProdId = in.readInt();
-        ProductNameFontColor = in.readString();
-        ProductDetailsFontColor = in.readString();
-        ProductBackgroundColor = in.readString();
-        IsExclusive = in.readString();
-        IsNewprdClickable = in.readString();
-        IsSharable = in.readString();
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     @Override
@@ -208,22 +238,7 @@ public class DashBoardItemEntity implements Parcelable {
         dest.writeString(IsExclusive);
         dest.writeString(IsNewprdClickable);
         dest.writeString(IsSharable);
+        dest.writeString(popupmsg);
+        dest.writeString(title);
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<DashBoardItemEntity> CREATOR = new Creator<DashBoardItemEntity>() {
-        @Override
-        public DashBoardItemEntity createFromParcel(Parcel in) {
-            return new DashBoardItemEntity(in);
-        }
-
-        @Override
-        public DashBoardItemEntity[] newArray(int size) {
-            return new DashBoardItemEntity[size];
-        }
-    };
 }
