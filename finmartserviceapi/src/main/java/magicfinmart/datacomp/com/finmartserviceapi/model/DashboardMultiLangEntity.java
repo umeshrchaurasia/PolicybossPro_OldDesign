@@ -27,6 +27,8 @@ public class DashboardMultiLangEntity extends RealmObject {
     private String IsExclusive;
     private String IsNewprdClickable;
 
+    private String IsSharable;
+
 
 
     public DashboardMultiLangEntity(String type, int productId, String productName, String productDetails, int icon, String productNameKey, String productDetailsKey) {
@@ -41,9 +43,11 @@ public class DashboardMultiLangEntity extends RealmObject {
 
         this.ProductNameFontColor = "";
         this.ProductBackgroundColor = "";
+        this.ProductDetailsFontColor = "";
         this.IsExclusive = "";
         this.IsNewprdClickable = "";
-        this.ProductDetailsFontColor = "";
+
+        this.IsSharable = "";
 
 
     }
@@ -172,5 +176,11 @@ public class DashboardMultiLangEntity extends RealmObject {
     }
 
 
+    public String getIsSharable() {
+        return IsSharable;
+    }
 
+    public void setIsSharable(String isSharable) {
+        IsSharable = isSharable;
+    }
 }

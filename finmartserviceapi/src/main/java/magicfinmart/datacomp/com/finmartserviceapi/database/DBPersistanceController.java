@@ -748,6 +748,7 @@ public class DBPersistanceController {
 
                     dashboardEntity.setIsExclusive(dashBoardItemEntity.getIsExclusive());
                     dashboardEntity.setIsNewprdClickable(dashBoardItemEntity.getIsNewprdClickable());
+                    dashboardEntity.setIsSharable(dashBoardItemEntity.getIsSharable());
                     dashboardEntities.add(dashboardEntity);
                 }
             }

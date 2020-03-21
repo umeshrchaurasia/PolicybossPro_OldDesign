@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class DashBoardItemEntity implements Parcelable {
+
     /**
      * menuid : 6
      * menuname : Dashboard 1
@@ -36,14 +37,9 @@ public class DashBoardItemEntity implements Parcelable {
 
     private String IsExclusive;
     private String IsNewprdClickable;
+    private String IsSharable;
 
-    public String getSequence() {
-        return sequence;
-    }
 
-    public void setSequence(String sequence) {
-        this.sequence = sequence;
-    }
 
     public int getMenuid() {
         return menuid;
@@ -109,6 +105,14 @@ public class DashBoardItemEntity implements Parcelable {
         this.dashboard_type = dashboard_type;
     }
 
+    public String getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
+
     public int getProdId() {
         return ProdId;
     }
@@ -157,62 +161,64 @@ public class DashBoardItemEntity implements Parcelable {
         IsNewprdClickable = isNewprdClickable;
     }
 
+    public String getIsSharable() {
+        return IsSharable;
+    }
+
+    public void setIsSharable(String isSharable) {
+        IsSharable = isSharable;
+    }
+
+
+
+    protected DashBoardItemEntity(Parcel in) {
+        menuid = in.readInt();
+        menuname = in.readString();
+        link = in.readString();
+        iconimage = in.readString();
+        isActive = in.readInt();
+        description = in.readString();
+        type = in.readInt();
+        dashboard_type = in.readInt();
+        sequence = in.readString();
+        ProdId = in.readInt();
+        ProductNameFontColor = in.readString();
+        ProductDetailsFontColor = in.readString();
+        ProductBackgroundColor = in.readString();
+        IsExclusive = in.readString();
+        IsNewprdClickable = in.readString();
+        IsSharable = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(menuid);
+        dest.writeString(menuname);
+        dest.writeString(link);
+        dest.writeString(iconimage);
+        dest.writeInt(isActive);
+        dest.writeString(description);
+        dest.writeInt(type);
+        dest.writeInt(dashboard_type);
+        dest.writeString(sequence);
+        dest.writeInt(ProdId);
+        dest.writeString(ProductNameFontColor);
+        dest.writeString(ProductDetailsFontColor);
+        dest.writeString(ProductBackgroundColor);
+        dest.writeString(IsExclusive);
+        dest.writeString(IsNewprdClickable);
+        dest.writeString(IsSharable);
+    }
 
     @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.menuid);
-        dest.writeString(this.menuname);
-        dest.writeString(this.link);
-        dest.writeString(this.iconimage);
-        dest.writeInt(this.isActive);
-        dest.writeString(this.description);
-        dest.writeInt(this.type);
-        dest.writeInt(this.dashboard_type);
-        dest.writeString(this.sequence);
-
-        dest.writeInt(this.ProdId);
-        dest.writeString(this.ProductNameFontColor);
-        dest.writeString(this.ProductDetailsFontColor);
-        dest.writeString(this.ProductBackgroundColor);
-
-        dest.writeString(this.IsExclusive);
-        dest.writeString(this.IsNewprdClickable);
-
-
-    }
-
-    public DashBoardItemEntity() {
-    }
-
-    protected DashBoardItemEntity(Parcel in) {
-        this.menuid = in.readInt();
-        this.menuname = in.readString();
-        this.link = in.readString();
-        this.iconimage = in.readString();
-        this.isActive = in.readInt();
-        this.description = in.readString();
-        this.type = in.readInt();
-        this.dashboard_type = in.readInt();
-        this.sequence = in.readString();
-
-        this.ProdId = in.readInt();
-        this.ProductNameFontColor = in.readString();
-        this.ProductDetailsFontColor = in.readString();
-        this.ProductBackgroundColor = in.readString();
-
-        this.IsExclusive = in.readString();
-        this.IsNewprdClickable = in.readString();
-    }
-
-    public static final Parcelable.Creator<DashBoardItemEntity> CREATOR = new Parcelable.Creator<DashBoardItemEntity>() {
+    public static final Creator<DashBoardItemEntity> CREATOR = new Creator<DashBoardItemEntity>() {
         @Override
-        public DashBoardItemEntity createFromParcel(Parcel source) {
-            return new DashBoardItemEntity(source);
+        public DashBoardItemEntity createFromParcel(Parcel in) {
+            return new DashBoardItemEntity(in);
         }
 
         @Override

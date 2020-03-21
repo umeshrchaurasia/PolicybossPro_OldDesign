@@ -133,6 +133,15 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             if (listInsur.get(position).getIsExclusive() != null) {
 
+                // region for Sharing Insurance Prod
+                if (listInsur.get(position).getIsSharable().equals("Y")) {
+
+                    ((DashboardItemHolder) holder).imgShare.setVisibility(View.VISIBLE);
+                } else {
+                    ((DashboardItemHolder) holder).imgShare.setVisibility(View.GONE);
+                }
+
+                //endregion
 
                 if (!listInsur.get(position).getProductBackgroundColor().isEmpty()) {
 
