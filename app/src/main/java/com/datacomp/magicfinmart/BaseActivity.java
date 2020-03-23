@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -43,9 +44,14 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
+import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
+import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.CustomTypefaceSpan;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -54,7 +60,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -77,6 +86,12 @@ public class BaseActivity extends AppCompatActivity {
     PermissionListener permissionListener;
     String[] permissionsRequired = new String[]{android.Manifest.permission.CALL_PHONE};
 
+    //
+
+    DBPersistanceController mReal;
+    String parent_ssid = "";
+    final String mapKey = "map_switchuser";
+    public static final String TERM_FOR_INPUT_FRAGMENT = "for_term_input";
 
     public String getDateFromAge(int age) {
         Calendar cal = Calendar.getInstance();
@@ -1005,6 +1020,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void openWebViewPopUp(final View view, String url, boolean isCancelable, final WebViewPopUpListener webViewPopUpListener) {
         try {
+
             final Dialog dialog;
             dialog = new Dialog(BaseActivity.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -1086,6 +1102,190 @@ public class BaseActivity extends AppCompatActivity {
                     .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
         }
 
+
+        @JavascriptInterface
+        public void showcar() {//Android.RedirectToHomepage();
+
+            if(mReal==null)
+            {  mReal = new DBPersistanceController(BaseActivity.this);  }
+
+            String motorUrl = mReal.getUserConstantsData().getFourWheelerUrl();
+
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(BaseActivity.this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+            //fetching parent ss_id in case of switch user
+            Map<String, String> map = (BaseActivity.this).loadMap();
+            String parent_ssid = "";
+            if (map.size() > 0) {
+                parent_ssid = map.get("Parent_POSPNo");
+            }
+
+
+            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+            String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    + "&app_version=" + BuildConfig.VERSION_NAME
+                    + "&device_id=" + Utility.getDeviceId(BaseActivity.this)
+                    + "&product_id=1&login_ssid=" + parent_ssid;
+            motorUrl = motorUrl + append;
+
+
+
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", motorUrl)
+                    .putExtra("NAME", "Motor Insurance")
+                    .putExtra("TITLE", "Motor Insurance"));
+        }
+
+        @JavascriptInterface
+        public void showtw() {//Android.RedirectToHomepage();
+
+            if(mReal==null)
+            {  mReal = new DBPersistanceController(BaseActivity.this);  }
+
+            String motorUrl = mReal.getUserConstantsData().getTwoWheelerUrl();
+
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(BaseActivity.this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+            //fetching parent ss_id in case of switch user
+            Map<String, String> map = (BaseActivity.this).loadMap();
+            String parent_ssid = "";
+            if (map.size() > 0) {
+                parent_ssid = map.get("Parent_POSPNo");
+            }
+
+
+            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+            String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    + "&app_version=" + BuildConfig.VERSION_NAME
+                    + "&device_id=" + Utility.getDeviceId(BaseActivity.this)
+                    + "&product_id=10&login_ssid=" + parent_ssid;
+            motorUrl = motorUrl + append;
+
+
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", motorUrl)
+                    .putExtra("NAME", "Two Wheeler Insurance")
+                    .putExtra("TITLE", "Two Wheeler Insurance"));
+
+        }
+
+        @JavascriptInterface
+        public void showcv() {//Android.RedirectToHomepage();
+
+
+            if(mReal==null)
+            {  mReal = new DBPersistanceController(BaseActivity.this);  }
+
+            String cvUrl = mReal.getUserConstantsData().getCVUrl();
+
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(BaseActivity.this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+            //fetching parent ss_id in case of switch user
+            Map<String, String> map = (BaseActivity.this).loadMap();
+            String parent_ssid = "";
+            if (map.size() > 0) {
+                parent_ssid = map.get("Parent_POSPNo");
+            }
+
+
+            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+            String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    + "&app_version=" + BuildConfig.VERSION_NAME
+                    + "&device_id=" + Utility.getDeviceId(BaseActivity.this)
+                    + "&product_id=12&login_ssid=" + parent_ssid;
+            cvUrl = cvUrl + append;
+
+
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", cvUrl)
+                    .putExtra("NAME", "Commercial Vehicle Insurance")
+                    .putExtra("TITLE", "Commercial Vehicle Insurance"));
+
+        }
+
+        @JavascriptInterface
+        public void showhealth() {//Android.RedirectToHomepage();
+
+
+            if(mReal==null)
+            {  mReal = new DBPersistanceController(BaseActivity.this);  }
+
+
+            String healthUrl = mReal.getUserConstantsData().getHealthurl();
+
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(BaseActivity.this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+            //fetching parent ss_id in case of switch user
+            Map<String, String> map = (BaseActivity.this).loadMap();
+            String parent_ssid = "";
+            if (map.size() > 0) {
+                parent_ssid = map.get("Parent_POSPNo");
+            }
+
+
+            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+
+            String append = "&ip_address=" + ipaddress
+                    + "&app_version=" + Utility.getVersionName(BaseActivity.this)
+                    + "&device_id=" + Utility.getDeviceId(BaseActivity.this) + "&login_ssid=" + parent_ssid;
+
+            healthUrl = healthUrl + append;
+
+
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", healthUrl)
+                    .putExtra("NAME", "Health Insurance")
+                    .putExtra("TITLE", "Health Insurance"));
+
+        }
+        @JavascriptInterface
+        public void showicici() {
+
+            Intent intent = new Intent(BaseActivity.this, IciciTermActivity.class);
+            intent.putExtra(TERM_FOR_INPUT_FRAGMENT, 39);
+            //intent.putExtra(TERM_INPUT_FRAGMENT, null);
+            startActivity(intent);
+        }
+        @JavascriptInterface
+        public void showhdfc() {
+            Intent intent = new Intent(BaseActivity.this, HdfcTermActivity.class);
+            intent.putExtra(TERM_FOR_INPUT_FRAGMENT, 28);
+            //intent.putExtra(TERM_INPUT_FRAGMENT, null);
+            startActivity(intent);
+        }
+        @JavascriptInterface
+        public void showtermcomp() {
+            //Life Insurance
+            // mContext.startActivity(new Intent(mContext, TermSelectionActivity.class));
+            startActivity(new Intent(BaseActivity.this, TermSelectionActivity.class));
+        }
+        @JavascriptInterface
+        public void userdefurl(String url) {
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "Fimart")
+                    .putExtra("TITLE", "Fimart"));
+        }
     }
 
     private void settingWebview(WebView webView, String url) {
@@ -1145,7 +1345,25 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-
+    public Map<String, String> loadMap() {
+        Map<String, String> outputMap = new HashMap<>();
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
+                Context.MODE_PRIVATE);
+        try {
+            if (pSharedPref != null) {
+                String jsonString = pSharedPref.getString(mapKey, (new JSONObject()).toString());
+                JSONObject jsonObject = new JSONObject(jsonString);
+                Iterator<String> keysItr = jsonObject.keys();
+                while (keysItr.hasNext()) {
+                    String key = keysItr.next();
+                    outputMap.put(key, jsonObject.get(key).toString());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outputMap;
+    }
     //endregion
 
 

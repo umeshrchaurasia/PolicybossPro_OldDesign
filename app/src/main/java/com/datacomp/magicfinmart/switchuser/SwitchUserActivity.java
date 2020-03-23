@@ -110,7 +110,7 @@ public class SwitchUserActivity extends BaseActivity implements IResponseSubcrib
         }
     }
 
-    private Map<String, String> loadMap() {
+    public Map<String, String> loadMap() {
         Map<String, String> outputMap = new HashMap<>();
         SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences("MyVariables",
                 Context.MODE_PRIVATE);

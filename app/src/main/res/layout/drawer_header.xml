@@ -138,6 +138,7 @@
             android:layout_marginRight="2dp"
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/txtknwyour"
                 style="@style/TextViewStyle.Medium"
@@ -146,8 +147,7 @@
                 android:layout_height="wrap_content"
 
                 android:text="@string/Finmart_underline"
-                android:textColor="@android:color/white"
-                />
+                android:textColor="@android:color/white" />
 
             <TextView
                 android:id="@+id/txtEntityName"

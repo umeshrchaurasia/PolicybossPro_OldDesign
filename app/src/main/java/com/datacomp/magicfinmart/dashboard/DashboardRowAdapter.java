@@ -344,7 +344,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
 
 
-            case 2:
+            case 24:
                 //fin peace
                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
@@ -354,7 +354,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                 MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
-            case 3:
+            case 2:
                 //health
 
                 // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
@@ -377,7 +377,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     String append = "&ip_address=" + ipaddress
                             + "&app_version=" + Utility.getVersionName(mContext)
                             + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid;
-                    ;
+
                     healthUrl = healthUrl + append;
 
                     if (mReal.getConstantsData().getHealthThrowBrowser() != null &&

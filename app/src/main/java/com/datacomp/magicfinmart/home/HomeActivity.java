@@ -1077,8 +1077,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
-
+            //    openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+                openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
 
