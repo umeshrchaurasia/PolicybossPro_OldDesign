@@ -178,6 +178,25 @@ public class UserConstantEntity extends RealmObject {
 
     //////////////////////////
 
+    public String getTermPopup() {
+        return TermPopup;
+    }
+
+    public void setTermPopup(String termPopup) {
+        TermPopup = termPopup;
+    }
+
+    public String getTermPopupurl() {
+        return TermPopupurl;
+    }
+
+    public void setTermPopupurl(String termPopupurl) {
+        TermPopupurl = termPopupurl;
+    }
+
+    //for term
+    private String TermPopup;
+    private String TermPopupurl;
 
     public String getInvestmentEnabled() {
         return InvestmentEnabled;

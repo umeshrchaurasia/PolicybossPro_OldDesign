@@ -2,19 +2,31 @@ package com.datacomp.magicfinmart;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,6 +44,11 @@ public class BaseFragment extends Fragment {
 
     }
 
+    public interface WebViewPopUpListener {
+
+
+        void onCancelClick(Dialog dialog, View view);
+    }
     public static Date stringToDate(SimpleDateFormat pattern, String dateToconvert) {
         Date date = new Date();
         try {
@@ -358,6 +375,145 @@ public class BaseFragment extends Fragment {
         }
     }
 
+    public void openWebViewPopUp(Context mcontext, final View view, String url, boolean isCancelable, final WebViewPopUpListener webViewPopUpListener) {
+        try {
+            final Dialog dialog;
+            dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.layout_common_webview_popup);
+            dialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            WebView webView = dialog.findViewById(R.id.webView);
+            settingWebview(mcontext,webView, url);
+            ImageView ivCross = (ImageView) dialog.findViewById(R.id.ivCross);
+
+            dialog.setCancelable(isCancelable);
+            dialog.setCanceledOnTouchOutside(isCancelable);
+
+            Window dialogWindow = dialog.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = lp.MATCH_PARENT;  // Width
+            lp.height = lp.WRAP_CONTENT; // Height
+            dialogWindow.setAttributes(lp);
+
+            dialog.show();
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    if (webViewPopUpListener != null)
+                        webViewPopUpListener.onCancelClick(dialog, view);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class MyJavaScriptInterface {
+        Context mContext;
+        String data;
+
+        MyJavaScriptInterface(Context ctx) {
+            this.mContext = ctx;
+        }
+
+
+        @JavascriptInterface
+        public void incomePotential() {
+            //Get the string value to process
+            //shareQuote();
+            startActivity(new Intent(mContext, IncomePotentialActivity.class));
+        }
+
+        @JavascriptInterface
+        public void incomeCalculator() {
+            //Get the string value to process
+            //shareQuote();
+            startActivity(new Intent(mContext, IncomePotentialActivity.class));
+            // startActivity(new Intent(BaseActivity.this, IncomeCalculatorActivity.class));
+        }
+
+        @JavascriptInterface
+        public void processComplete() {
+            //Get the string value to process
+            //shareQuote();
+        }
+
+        @JavascriptInterface
+        public void callPDF(String url) {
+            startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "LIC Business")
+                    .putExtra("TITLE", "LIC Business"));
+        }
+
+        @JavascriptInterface
+        public void callPDFCREDIT(String url) {
+            startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "FREE CREDIT REPORT")
+                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
+        }
+
+    }
+    private void settingWebview(Context mcontext,WebView webView, String url) {
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setUseWideViewPort(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportMultipleWindows(false);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setLightTouchEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                // TODO show you progress image
+
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // TODO hide your progress image
+                super.onPageFinished(view, url);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                /*if (url.endsWith(".pdf")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        //user does not have a pdf viewer installed
+                        String googleDocs = "https://docs.google.com/viewer?url=";
+                        webView.loadUrl(googleDocs + url);
+                    }
+                }*/
+                return false;
+            }
+        });
+        webView.getSettings().setBuiltInZoomControls(true);
+
+        webView.addJavascriptInterface(new MyJavaScriptInterface(mcontext.getApplicationContext()), "Android");
+
+        Log.d("URL", url);
+        if (url.endsWith(".pdf")) {
+
+            webView.loadUrl("https://docs.google.com/viewer?url=" + url);
+            //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+        } else {
+            webView.loadUrl(url);
+        }
+    }
     public void showAlert(String strBody) {
         try {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());

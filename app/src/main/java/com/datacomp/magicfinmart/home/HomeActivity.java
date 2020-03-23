@@ -1428,6 +1428,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 startActivityForResult(intent, Constants.REQUEST_CODE);
                 break;
 
+            case R.id.action_new:
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
