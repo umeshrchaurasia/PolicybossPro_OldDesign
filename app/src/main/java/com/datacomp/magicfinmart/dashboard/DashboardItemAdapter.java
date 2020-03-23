@@ -248,6 +248,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         //fetching parent ss_id in case of switch user
         Map<String, String> map = ((HomeActivity) mContext.getActivity()).loadMap();
         String parent_ssid = "";
+
         if (map.size() > 0) {
             parent_ssid = map.get("Parent_POSPNo");
         }
