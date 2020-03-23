@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -62,6 +64,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
@@ -72,7 +75,8 @@ import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, IResponseSubcriber, IBOFbaCallback {
+public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, BaseFragment.PopUpListener, IResponseSubcriber, IBOFbaCallback,
+        BaseFragment.WebViewPopUpListener{
 
     private PopupWindow mPopupWindow, mPopupWindowSelection;
     View customView, customViewSelection;
@@ -128,7 +132,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     boolean isEdit = false, canChangePremiumTerm = true, canChangePolicyTerm = true;
     int termRequestId = 0, insurerID, age = 0;
     String crn = "";
-
+  UserConstantEntity userConstantEntity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,6 +144,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         setPopUpInfo();
         // set initial values
         dbPersistanceController = new DBPersistanceController(getActivity());
+        userConstantEntity = dbPersistanceController.getUserConstantsData();
         policyYear = dbPersistanceController.getPremYearList();
         termRequestEntity = new TermRequestEntity(getActivity());
         termFinmartRequest = new TermFinmartRequest();
@@ -153,6 +158,13 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             etfbaSearch.setText("Self");
         } else {
             llfbaSearch.setVisibility(View.GONE);
+        }
+        if ((userConstantEntity != null )) {
+            if(userConstantEntity.getTermPopup().equals("1") && !userConstantEntity.getTermPopupurl().isEmpty()){
+                openWebViewPopUp(getActivity(),spICICIOptions, userConstantEntity.getTermPopupurl(), true, this);
+            }
+
+
         }
 
         if (getArguments() != null) {
@@ -190,6 +202,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null && getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) == null)
                 bindInput(termFinmartRequest);
         }
+
+
 
 
         return view;
@@ -2316,6 +2330,14 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             //  motorRequestEntity.setBehalfOf(1);
             etfbaSearch.setTag(R.id.etfbaSearch, null);
         }
+    }
+
+
+
+    @Override
+    public void onCancelClick(Dialog dialog, View view) {
+
+        dialog.dismiss();
     }
 }
 

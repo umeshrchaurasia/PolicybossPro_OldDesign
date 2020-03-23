@@ -1428,6 +1428,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 startActivityForResult(intent, Constants.REQUEST_CODE);
                 break;
 
+            case R.id.action_new:
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+                break;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -1581,10 +1585,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 if (((ProductURLShareResponse) response).getMasterData() != null) {
                     ProductURLShareEntity shareEntity = ((ProductURLShareResponse) response).getMasterData();
-                    //
+
 
                     if (dashboardShareEntity != null) {
-                        shareProductPopUp(dashboardShareEntity.getTitle(), dashboardShareEntity.getPopupmsg(), shareEntity);
+                        datashareList(HomeActivity.this, dashboardShareEntity.getTitle(), shareEntity.getMsg(), shareEntity.getUrl());
+
                     }
 
                 }
@@ -2709,7 +2714,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 this);
     }
 
-    private void shareProductPopUp(String title, String msg, ProductURLShareEntity shareEntity) {
+    public void shareProductPopUp(DashboardMultiLangEntity shareEntity ) {
 
         if (shareProdDialog != null && shareProdDialog.isShowing()) {
 
@@ -2732,12 +2737,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         btnShare = (Button) dialogView.findViewById(R.id.btnShare);
         ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
 
-        txtTitle.setText("" + title);
-        txtMessage.setText("" + msg);
+        txtTitle.setText("" + shareEntity.getTitle());
+        txtMessage.setText("" + shareEntity.getPopupmsg());
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datashareList(HomeActivity.this, title, shareEntity.getMsg(), shareEntity.getUrl());
+
+                shareDashbordProduct(shareEntity);
                 shareProdDialog.dismiss();
 
             }

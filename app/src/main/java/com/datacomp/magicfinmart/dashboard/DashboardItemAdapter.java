@@ -193,6 +193,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //            });
 
             //txtProductDesc
+
             ((DashboardItemHolder)holder).lyParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,11 +201,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
+
             ((DashboardItemHolder) holder).imgShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    ((HomeActivity) mContext.getActivity()).shareDashbordProduct(listInsur.get(position));
+                   // ((HomeActivity) mContext.getActivity()).shareDashbordProduct(listInsur.get(position));
+                    ((HomeActivity) mContext.getActivity()).shareProductPopUp(listInsur.get(position));
 
 
                 }
@@ -241,7 +244,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
 
-
+       //Toast.makeText(mContext.getActivity(),"Produvt ID" + productID,Toast.LENGTH_LONG).show();
         //fetching parent ss_id in case of switch user
         Map<String, String> map = ((HomeActivity) mContext.getActivity()).loadMap();
         String parent_ssid = "";
@@ -289,7 +292,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
 
 
-            case 2:
+            case 24:
                 //fin peace
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
@@ -299,7 +302,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                 MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
-            case 3:
+            case 2:
                 //health
 
                 // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));

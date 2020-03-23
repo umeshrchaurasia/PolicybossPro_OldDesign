@@ -29,10 +29,14 @@
                 android:layout_gravity="center"
                 android:background="?attr/colorPrimary"
                 android:gravity="center"
+                app:contentInsetLeft="0dp"
+                app:contentInsetStart="0dp"
+
+                app:contentInsetStartWithNavigation="0dp"
                 app:layout_scrollFlags="enterAlwaysCollapsed|enterAlways|snap"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:title="@string/app_name"
-                app:titleTextAppearance="@style/TextStyle.Toolbar"
+                app:titleTextAppearance="@style/TextStyle.ToolbarNormal"
                 app:titleTextColor="@color/white" />
 
         </com.google.android.material.appbar.AppBarLayout>
