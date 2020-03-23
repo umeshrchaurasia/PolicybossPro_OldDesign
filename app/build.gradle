@@ -40,9 +40,9 @@ android {
         applicationId "com.datacomp.magicfinmart"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 61
+        versionCode 62
 
-        versionName "2.3.6"
+        versionName "2.3.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

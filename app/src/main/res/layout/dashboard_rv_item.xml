@@ -99,11 +99,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top"
-                    android:inputType="textMultiLine"
                     android:paddingTop="5dp"
                     android:paddingBottom="8dp"
                     android:textAppearance="@style/TextStyle.TextMedium" />
-<!--                //  android:inputType="textMultiLine|textNoSuggestions"-->
+
             </LinearLayout>
         </LinearLayout>
 

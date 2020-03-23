@@ -193,6 +193,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //            });
 
             //txtProductDesc
+
             ((DashboardItemHolder)holder).lyParent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -200,11 +201,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
 
+
             ((DashboardItemHolder) holder).imgShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    ((HomeActivity) mContext.getActivity()).shareDashbordProduct(listInsur.get(position));
+                   // ((HomeActivity) mContext.getActivity()).shareDashbordProduct(listInsur.get(position));
+                    ((HomeActivity) mContext.getActivity()).shareProductPopUp(listInsur.get(position));
 
 
                 }
