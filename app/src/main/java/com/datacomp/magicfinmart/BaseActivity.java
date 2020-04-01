@@ -92,6 +92,7 @@ public class BaseActivity extends AppCompatActivity {
     String parent_ssid = "";
     final String mapKey = "map_switchuser";
     public static final String TERM_FOR_INPUT_FRAGMENT = "for_term_input";
+    Dialog webviewDialog;
 
     public String getDateFromAge(int age) {
         Calendar cal = Calendar.getInstance();
@@ -1021,33 +1022,33 @@ public class BaseActivity extends AppCompatActivity {
     public void openWebViewPopUp(final View view, String url, boolean isCancelable, final WebViewPopUpListener webViewPopUpListener) {
         try {
 
-            final Dialog dialog;
-            dialog = new Dialog(BaseActivity.this);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.layout_common_webview_popup);
-            dialog.getWindow().setBackgroundDrawable(
+
+            webviewDialog = new Dialog(BaseActivity.this);
+            webviewDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            webviewDialog.setContentView(R.layout.layout_common_webview_popup);
+            webviewDialog.getWindow().setBackgroundDrawable(
                     new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            WebView webView = dialog.findViewById(R.id.webView);
+            WebView webView = webviewDialog.findViewById(R.id.webView);
             settingWebview(webView, url);
-            ImageView ivCross = (ImageView) dialog.findViewById(R.id.ivCross);
+            ImageView ivCross = (ImageView) webviewDialog.findViewById(R.id.ivCross);
 
-            dialog.setCancelable(isCancelable);
-            dialog.setCanceledOnTouchOutside(isCancelable);
+            webviewDialog.setCancelable(isCancelable);
+            webviewDialog.setCanceledOnTouchOutside(isCancelable);
 
-            Window dialogWindow = dialog.getWindow();
+            Window dialogWindow = webviewDialog.getWindow();
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
             lp.width = lp.MATCH_PARENT;  // Width
             lp.height = lp.WRAP_CONTENT; // Height
             dialogWindow.setAttributes(lp);
 
-            dialog.show();
+            webviewDialog.show();
 
             ivCross.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Close dialog
                     if (webViewPopUpListener != null)
-                        webViewPopUpListener.onCancelClick(dialog, view);
+                        webViewPopUpListener.onCancelClick(webviewDialog, view);
                 }
             });
         } catch (Exception e) {
@@ -1106,6 +1107,10 @@ public class BaseActivity extends AppCompatActivity {
         @JavascriptInterface
         public void showcar() {//Android.RedirectToHomepage();
 
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
+
             if(mReal==null)
             {  mReal = new DBPersistanceController(BaseActivity.this);  }
 
@@ -1144,6 +1149,9 @@ public class BaseActivity extends AppCompatActivity {
         @JavascriptInterface
         public void showtw() {//Android.RedirectToHomepage();
 
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
             if(mReal==null)
             {  mReal = new DBPersistanceController(BaseActivity.this);  }
 
@@ -1182,7 +1190,9 @@ public class BaseActivity extends AppCompatActivity {
         @JavascriptInterface
         public void showcv() {//Android.RedirectToHomepage();
 
-
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
             if(mReal==null)
             {  mReal = new DBPersistanceController(BaseActivity.this);  }
 
@@ -1221,6 +1231,9 @@ public class BaseActivity extends AppCompatActivity {
         @JavascriptInterface
         public void showhealth() {//Android.RedirectToHomepage();
 
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
 
             if(mReal==null)
             {  mReal = new DBPersistanceController(BaseActivity.this);  }
@@ -1260,7 +1273,9 @@ public class BaseActivity extends AppCompatActivity {
         }
         @JavascriptInterface
         public void showicici() {
-
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
             Intent intent = new Intent(BaseActivity.this, IciciTermActivity.class);
             intent.putExtra(TERM_FOR_INPUT_FRAGMENT, 39);
             //intent.putExtra(TERM_INPUT_FRAGMENT, null);
@@ -1268,6 +1283,9 @@ public class BaseActivity extends AppCompatActivity {
         }
         @JavascriptInterface
         public void showhdfc() {
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
             Intent intent = new Intent(BaseActivity.this, HdfcTermActivity.class);
             intent.putExtra(TERM_FOR_INPUT_FRAGMENT, 28);
             //intent.putExtra(TERM_INPUT_FRAGMENT, null);
@@ -1275,16 +1293,22 @@ public class BaseActivity extends AppCompatActivity {
         }
         @JavascriptInterface
         public void showtermcomp() {
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
             //Life Insurance
             // mContext.startActivity(new Intent(mContext, TermSelectionActivity.class));
             startActivity(new Intent(BaseActivity.this, TermSelectionActivity.class));
         }
         @JavascriptInterface
-        public void userdefurl(String url) {
+        public void userdefurl(String url,String title) {
+            if(webviewDialog!= null && webviewDialog.isShowing()){
+                webviewDialog.dismiss();
+            }
             startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
                     .putExtra("URL", url)
-                    .putExtra("NAME", "Fimart")
-                    .putExtra("TITLE", "Fimart"));
+                    .putExtra("NAME", title)
+                    .putExtra("TITLE", title));
         }
     }
 

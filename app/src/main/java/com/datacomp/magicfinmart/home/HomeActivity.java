@@ -65,6 +65,7 @@ import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+import com.datacomp.magicfinmart.dashboard.DashboardItemAdapter;
 import com.datacomp.magicfinmart.festivelink.festivelinkActivity;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -1077,8 +1078,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            //    openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
-                openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
+               openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+              // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
 
@@ -1363,17 +1364,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //endregion
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard_menu, menu);
 
         final MenuItem menuItem = menu.findItem(R.id.action_push_notification);
+        final MenuItem menuNewItem = menu.findItem(R.id.action_new);
 
         //  SearchView actionView = (SearchView) menuItem.getActionView();
 
         View actionView = MenuItemCompat.getActionView(menuItem);
+        View actionViewnew = MenuItemCompat.getActionView(menuNewItem);
+
         textNotifyItemCount = (TextView) actionView.findViewById(R.id.notify_badge);
         textNotifyItemCount.setVisibility(View.GONE);
+
+        ImageView imgNew =  (ImageView) actionViewnew.findViewById(R.id.imgNew);
+
+        Glide.with(HomeActivity.this).
+                load(R.drawable.newicon)
+                .asGif()
+                .crossFade()
+                .into(imgNew);
 
         int PushCount = prefManager.getNotificationCounter();
 
@@ -1384,11 +1398,22 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             textNotifyItemCount.setText("" + String.valueOf(PushCount));
         }
 
+        actionViewnew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+            }
+
+
+        });
+
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onOptionsItemSelected(menuItem);
             }
+
+
         });
 
 
@@ -1428,9 +1453,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 startActivityForResult(intent, Constants.REQUEST_CODE);
                 break;
 
-            case R.id.action_new:
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
-                break;
+
 
         }
 
