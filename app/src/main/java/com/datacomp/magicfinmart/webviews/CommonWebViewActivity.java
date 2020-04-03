@@ -75,6 +75,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     String title = "";
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
+    Toolbar toolbar;
 
     // region Camera Permission
     private static final int CAMERA_REQUEST = 1888;
@@ -118,7 +119,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         url = getIntent().getStringExtra("URL");
         name = getIntent().getStringExtra("NAME");
         title = getIntent().getStringExtra("TITLE");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
@@ -320,6 +321,12 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     class MyJavaScriptInterface {
 
 
+        public void crossselltitle(String dynamicTitle) {
+
+            getSupportActionBar().setTitle(dynamicTitle);
+
+        }
+
         // region Raise Ticket
         @JavascriptInterface
         public void Upload_doc(String randomID) {
@@ -342,6 +349,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
 
         // endregion
+
         @JavascriptInterface
         public void SendShareQuotePdf(String url, String shareHtml) {
 
@@ -724,7 +732,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 }
                 String extension = path.substring(path.lastIndexOf(".")).toLowerCase();
                 if (extension.contains("pdf") || extension.contains("xls") || extension.contains("xlsx") || extension.contains("txt") || extension.contains("doc")
-                        || extension.contains("docs")  || extension.contains("jpeg") || extension.contains("jpg")  || extension.contains("png")) {
+                        || extension.contains("docs") || extension.contains("jpeg") || extension.contains("jpg") || extension.contains("png")) {
 
 
                     File pdfFile = new File(path);
@@ -732,8 +740,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                         showDialog();
 
 
-
-                        part = Utility.getMultipartPdf(pdfFile, PHOTO_File,"doc_type");
+                        part = Utility.getMultipartPdf(pdfFile, PHOTO_File, "doc_type");
                         new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
 
                     } else {

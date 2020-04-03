@@ -751,6 +751,8 @@ public class DBPersistanceController {
                     dashboardEntity.setIsSharable(dashBoardItemEntity.getIsSharable());
 
                     dashboardEntity.setTitle(dashBoardItemEntity.getTitle());
+                    dashboardEntity.setInfo(dashBoardItemEntity.getInfo());
+
                     dashboardEntity.setPopupmsg(dashBoardItemEntity.getPopupmsg());
                     dashboardEntities.add(dashboardEntity);
                 }

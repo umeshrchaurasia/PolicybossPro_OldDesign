@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuMasterEntity implements Parcelable {
+public class    MenuMasterEntity implements Parcelable {
 
     private List<MenuItemEntity> Menu;
     private List<DashBoardItemEntity> Dashboard;

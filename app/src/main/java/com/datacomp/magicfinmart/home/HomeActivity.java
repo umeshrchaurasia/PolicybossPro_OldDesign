@@ -2789,4 +2789,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
+    public  void infoProductPopUp(DashboardMultiLangEntity shareEntity)
+    {
+        openWebViewPopUp(txtFbaID, shareEntity.getInfo(), true, HomeActivity.this);
+    }
 }

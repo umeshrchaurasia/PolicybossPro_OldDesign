@@ -34,6 +34,9 @@ public class DashboardMultiLangEntity extends RealmObject {
     private String title;
 
 
+    private String info;
+
+
     public DashboardMultiLangEntity(String type, int productId, String productName, String productDetails, int icon, String productNameKey, String productDetailsKey) {
         this.type = type;
         this.productId = productId;
@@ -53,6 +56,7 @@ public class DashboardMultiLangEntity extends RealmObject {
         this.IsSharable = "";
         this.popupmsg = "";
         this.title = "";
+        this.info = "";
 
     }
 
@@ -202,5 +206,14 @@ public class DashboardMultiLangEntity extends RealmObject {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
 
 }

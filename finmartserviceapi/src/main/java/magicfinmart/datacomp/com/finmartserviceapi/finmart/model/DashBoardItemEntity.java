@@ -19,6 +19,28 @@ public class DashBoardItemEntity implements Parcelable {
     private String menuname;
     private String link;
 
+    private String iconimage;
+    private int isActive;
+    private String description;
+
+    private int type;
+    private int dashboard_type;
+    private String sequence;
+    private int ProdId;
+    private String ProductNameFontColor;
+    private String ProductDetailsFontColor;
+    private String ProductBackgroundColor;
+
+    private String IsExclusive;
+    private String IsNewprdClickable;
+    private String IsSharable;
+    private String popupmsg;
+    private String title;
+
+
+    private String info;
+
+
     protected DashBoardItemEntity(Parcel in) {
         menuid = in.readInt();
         menuname = in.readString();
@@ -38,6 +60,7 @@ public class DashBoardItemEntity implements Parcelable {
         IsSharable = in.readString();
         popupmsg = in.readString();
         title = in.readString();
+        info = in.readString();
     }
 
     public static final Creator<DashBoardItemEntity> CREATOR = new Creator<DashBoardItemEntity>() {
@@ -196,23 +219,13 @@ public class DashBoardItemEntity implements Parcelable {
         this.title = title;
     }
 
-    private String iconimage;
-    private int isActive;
-    private String description;
+    public String getInfo() {
+        return info;
+    }
 
-    private int type;
-    private int dashboard_type;
-    private String sequence;
-    private int ProdId;
-    private String ProductNameFontColor;
-    private String ProductDetailsFontColor;
-    private String ProductBackgroundColor;
-
-    private String IsExclusive;
-    private String IsNewprdClickable;
-    private String IsSharable;
-    private String popupmsg;
-    private String title;
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
 
     @Override
@@ -240,5 +253,6 @@ public class DashBoardItemEntity implements Parcelable {
         dest.writeString(IsSharable);
         dest.writeString(popupmsg);
         dest.writeString(title);
+        dest.writeString(info);
     }
 }

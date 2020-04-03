@@ -49,7 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
-public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     Fragment mContext;
     List<DashboardMultiLangEntity> listInsur;
     DBPersistanceController dbPersistanceController;
@@ -68,11 +68,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+
+
     public class DashboardItemHolder extends RecyclerView.ViewHolder {
-        ImageView imgIcon, imgNew, imgShare;
+        ImageView imgIcon, imgNew, imgShare, imgInfo;
         TextView txtProductName, txtProductDesc;
         CardView card_view;
-        LinearLayout lyParent,lyMain;
+        LinearLayout lyParent, lyMain;
 
 
         public DashboardItemHolder(View view) {
@@ -80,6 +82,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             card_view = (CardView) view.findViewById(R.id.card_view);
             imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
             imgNew = (ImageView) view.findViewById(R.id.imgNew);
+            imgInfo = (ImageView) view.findViewById(R.id.imgInfo);
             imgShare = (ImageView) view.findViewById(R.id.imgShare);
             txtProductName = (TextView) view.findViewById(R.id.txtProductName);
             txtProductDesc = (TextView) view.findViewById(R.id.txtProductDesc);
@@ -141,6 +144,12 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ((DashboardItemHolder) holder).imgShare.setVisibility(View.GONE);
                 }
 
+                if (!listInsur.get(position).getInfo().isEmpty()) {
+
+                    ((DashboardItemHolder) holder).imgInfo.setVisibility(View.VISIBLE);
+                } else {
+                    ((DashboardItemHolder) holder).imgInfo.setVisibility(View.GONE);
+                }
                 //endregion
 
                 if (!listInsur.get(position).getProductBackgroundColor().isEmpty()) {
@@ -180,6 +189,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
 
+            //region comment
+
 //            ((DashboardItemHolder) holder).imgShare.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -192,28 +203,47 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                }
 //            });
 
-            //txtProductDesc
-
-            ((DashboardItemHolder)holder).lyParent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switchMenus(listInsur.get(position));
-                }
-            });
 
 
-            ((DashboardItemHolder) holder).imgShare.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+//            ((DashboardItemHolder) holder).lyParent.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    switchMenus(listInsur.get(position));
+//                }
+//            });
+//
+//
+//            ((DashboardItemHolder) holder).imgShare.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//                    ((HomeActivity) mContext.getActivity()).shareProductPopUp(listInsur.get(position));
+//
+//                }
+//            });
+//
+//            ((DashboardItemHolder) holder).imgInfo.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//
+//                    ((HomeActivity) mContext.getActivity()).infoProductPopUp(listInsur.get(position));
+//
+//                }
+//            });
 
-                   // ((HomeActivity) mContext.getActivity()).shareDashbordProduct(listInsur.get(position));
-                    ((HomeActivity) mContext.getActivity()).shareProductPopUp(listInsur.get(position));
+             //endregion
 
 
-                }
-            });
+            ((DashboardItemHolder) holder).lyParent.setTag(R.id.lyParent, listInsur.get(position));
+            ((DashboardItemHolder) holder).imgShare.setTag(R.id.imgShare, listInsur.get(position));
+            ((DashboardItemHolder) holder).imgInfo.setTag(R.id.imgInfo, listInsur.get(position));
 
+            ((DashboardItemHolder) holder).lyParent.setOnClickListener(this);
+            ((DashboardItemHolder) holder).imgShare.setOnClickListener(this);
+            ((DashboardItemHolder) holder).imgInfo.setOnClickListener(this);
 
+            //
             //changed product id 17 to 12 for Commercial vehicle
             //date : 26/11/2019
 //            if (listInsur.get(position).getProductId() == 12) {
@@ -236,6 +266,25 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.lyParent:
+                switchMenus((DashboardMultiLangEntity)view.getTag(view.getId()));   // ie DashboardMultiLangEntity entity
+                break;
+
+            case R.id.imgShare:
+                ((HomeActivity) mContext.getActivity()).shareProductPopUp((DashboardMultiLangEntity)view.getTag(view.getId()));
+                break;
+
+            case R.id.imgInfo:
+                ((HomeActivity) mContext.getActivity()).infoProductPopUp((DashboardMultiLangEntity)view.getTag(view.getId()));
+                break;
+        }
+    }
+
+    @Override
     public int getItemCount() {
         return listInsur.size();
     }
@@ -244,7 +293,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
 
-       //Toast.makeText(mContext.getActivity(),"Produvt ID" + productID,Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext.getActivity(),"Produvt ID" + productID,Toast.LENGTH_LONG).show();
         //fetching parent ss_id in case of switch user
         Map<String, String> map = ((HomeActivity) mContext.getActivity()).loadMap();
         String parent_ssid = "";
