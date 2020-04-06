@@ -146,8 +146,8 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<PospAppointEmailResponse> getEmailTemplate(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-field-sales")
-        Call<RegisterSaleResponse> getfieldsales();
+        @POST("/api/getempbyregsource")
+        Call<RegisterSaleResponse> getfieldsales(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
         @POST("/api/sync-lead-data-send-sms")

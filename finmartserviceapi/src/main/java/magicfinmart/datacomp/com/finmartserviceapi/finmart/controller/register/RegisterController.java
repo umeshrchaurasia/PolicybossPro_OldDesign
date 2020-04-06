@@ -812,9 +812,12 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getfieldsales(final IResponseSubcriber iResponseSubcriber) {
+    public void getfieldsales( String campaignid, final IResponseSubcriber iResponseSubcriber) {
 
-        registerQuotesNetworkService.getfieldsales().enqueue(new Callback<RegisterSaleResponse>() {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("campaignid", "" + campaignid);
+
+        registerQuotesNetworkService.getfieldsales(body).enqueue(new Callback<RegisterSaleResponse>() {
             @Override
             public void onResponse(Call<RegisterSaleResponse> call, Response<RegisterSaleResponse> response) {
                 if (response.body() != null) {

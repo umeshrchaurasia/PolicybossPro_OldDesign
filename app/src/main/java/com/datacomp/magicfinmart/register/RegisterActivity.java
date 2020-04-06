@@ -11,14 +11,18 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -102,17 +106,17 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     String pass = "";
     PrefManager prefManager;
     TrackingRequestEntity trackingRequestEntity;
-    Spinner spReferal, spSource,spsales;
+    Spinner spReferal, spSource, spsales;
     EditText etRefererCode;
-    TextInputLayout tilReferer,txtsale;
+    TextInputLayout tilReferer, txtsale;
     boolean isVAlidPromo = false;
     boolean isValidPinCode = false;
 
     List<SourceEntity> sourceList;
     List<SalesDataEntity> saleList;
-    boolean isSaleclick=false;
-    LinkedHashMap<String,Integer> mapSale = new LinkedHashMap<>();
-   ArrayList<String> tempSaleList ;
+    boolean isSaleclick = false;
+    LinkedHashMap<String, Integer> mapSale = new LinkedHashMap<>();
+    ArrayList<String> tempSaleList;
     AlertDialog pincodeDialog;
 
     @Override
@@ -140,7 +144,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         new RegisterController(this).getRegSource(this);
 
-       // showDialog();
+        // showDialog();
 
 
         if (prefManager.IsInsuranceMasterUpdate()) {
@@ -186,19 +190,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spSource.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position ==0)
-                {
-                    isSaleclick=false;
+                if (position == 0) {
+                    isSaleclick = false;
                     txtsale.setVisibility(View.GONE);
-                }
-                else
-                {
-                    isSaleclick=true;
-                    if(isSaleclick) {
-                        isSaleclick=false;
+                } else {
+                    isSaleclick = true;
+                    if (isSaleclick) {
+                        isSaleclick = false;
                         txtsale.setVisibility(View.VISIBLE);
-                        showDialog();
-                        new RegisterController(RegisterActivity.this).getfieldsales(RegisterActivity.this);
+
+                        if (spSource.getSelectedItem() != null) {
+
+                            SourceEntity sourceEntity = (SourceEntity) spSource.getSelectedItem();
+
+                            showDialog();
+
+                            new RegisterController(RegisterActivity.this).getfieldsales("" + sourceEntity.getId(), RegisterActivity.this);
+
+
+                        }
+
                     }
 
                 }
@@ -349,7 +360,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         etRefererCode = (EditText) findViewById(R.id.etRefererCode);
         spReferal = (Spinner) findViewById(R.id.spReferal);
         spSource = (Spinner) findViewById(R.id.spSource);
-        spsales = (Spinner)findViewById(R.id.spsales);
+        spsales = (Spinner) findViewById(R.id.spsales);
         tilReferer = (TextInputLayout) findViewById(R.id.tilReferer);
         txtsale = (TextInputLayout) findViewById(R.id.txtsale);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
@@ -465,9 +476,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
         }
 
-        if(!isValidPinCode)
-        {
-            PincodeAlert("Alert","City Not Found. Kindly Contact to Tech Support Person","9137850207");
+        if (!isValidPinCode) {
+            PincodeAlert("Alert", "City Not Found. Kindly Contact to Tech Support Person", "9137850207");
             return false;
         }
 //        if (!isEmpty(etCity)) {
@@ -575,15 +585,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         SourceEntity sourceEntity = (SourceEntity) spSource.getSelectedItem();
         registerRequestEntity.setAppSource("" + sourceEntity.getId());
 
-        if(spSource.getSelectedItemPosition() != 0) {
-            if(spsales.getSelectedItem() !=null) {
+        if (spSource.getSelectedItemPosition() != 0) {
+            if (spsales.getSelectedItem() != null) {
                 registerRequestEntity.setField_sales_uid("" + mapSale.get(spsales.getSelectedItem().toString()));
-            }else
-            {
+            } else {
                 registerRequestEntity.setField_sales_uid("");
             }
 
-        }else{
+        } else {
             registerRequestEntity.setField_sales_uid("");
         }
     }
@@ -676,8 +685,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 Snackbar.make(etRefererCode, "" + response.getMessage(), Snackbar.LENGTH_LONG).show();
                 etRefererCode.setText("");
             }
-        }else if(response instanceof RegisterSaleResponse)
-        {
+        } else if (response instanceof RegisterSaleResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 saleList = ((RegisterSaleResponse) response).getMasterData();
@@ -743,9 +751,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spSource.setAdapter(prevInsAdapter);
     }
 
-    private List<String> getSaleyList( ) {
+    private List<String> getSaleyList() {
         mapSale.clear();
-       // mapSale.put("SELECT", 0);
+        // mapSale.put("SELECT", 0);
         for (SalesDataEntity salesDataEntity : saleList) {
             mapSale.put(salesDataEntity.getEmployeeName().toUpperCase(), salesDataEntity.getUid());    // adding in Map
         }
@@ -754,11 +762,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return tempSaleList;
     }
 
-    private  void bindsale()
-    {
-        if(saleList != null && saleList.size() > 0)
-        {
-            ArrayAdapter<String> saleAdapter = new ArrayAdapter<String >(this, android.R.layout.simple_spinner_item, getSaleyList());
+    private void bindsale() {
+        if (saleList != null && saleList.size() > 0) {
+            ArrayAdapter<String> saleAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getSaleyList());
 
             // Drop down layout style - list view with radio button
             saleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -766,8 +772,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             // attaching data adapter to spinner
 
             spsales.setAdapter(saleAdapter);
+        }else{
+            spsales.setAdapter(null);
         }
     }
+
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
@@ -1096,7 +1105,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             btnAllow.setText("Call");
             btnReject.setText("Close");
-
 
 
             btnAllow.setOnClickListener(new View.OnClickListener() {

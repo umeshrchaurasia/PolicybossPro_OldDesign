@@ -56,7 +56,7 @@ public interface IRegister {
 
     void getEmailTemplate(String URL, String Type, IResponseSubcriber iResponseSubcriber);
 
-    void getfieldsales(IResponseSubcriber iResponseSubcriber);
+    void getfieldsales( String campaignid, IResponseSubcriber iResponseSubcriber);
 
     void sendSyncSms(IResponseSubcriber iResponseSubcriber);
 

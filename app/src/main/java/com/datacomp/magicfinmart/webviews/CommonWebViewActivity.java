@@ -320,10 +320,10 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     class MyJavaScriptInterface {
 
-
+        @JavascriptInterface
         public void crossselltitle(String dynamicTitle) {
 
-            getSupportActionBar().setTitle(dynamicTitle);
+         getSupportActionBar().setTitle(dynamicTitle);
 
         }
 
