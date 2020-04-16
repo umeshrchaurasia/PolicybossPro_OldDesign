@@ -727,5 +727,14 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Self Employed</item>
         <item>Self Employed Professional</item>
     </string-array>
+    <string name="title_activity_razor_payment">Finmart Payment</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
 </resources>

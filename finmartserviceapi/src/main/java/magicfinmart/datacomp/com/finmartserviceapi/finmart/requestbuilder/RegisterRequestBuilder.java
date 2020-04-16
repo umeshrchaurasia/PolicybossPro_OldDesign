@@ -17,11 +17,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RazorPayResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
@@ -175,7 +177,16 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
 
 
 
+        // Payment Gateway
 
+        @Headers("token:" + token)
+        @POST("/api/Addtorazorpaydata")
+        Call<RazorPayResponse> addToRazorPay(@Body HashMap<String, String> body);
+
+
+        @Headers("token:" + token)
+        @POST("/api/getfbadataforrpay")
+        Call<PaymentDetailResponse> getDataForPayment(@Body HashMap<String, String> body);
     }
 
 

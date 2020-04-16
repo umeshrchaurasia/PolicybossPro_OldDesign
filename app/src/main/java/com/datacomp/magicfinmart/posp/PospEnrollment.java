@@ -45,6 +45,8 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.payment.RazorPaymentActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -1450,6 +1452,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                             pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
                             //update login response
                             updateLoginResponse(pospEnrollEntity);
+
                             openWebView(pospEnrollEntity.getPaymentURL());
                         }
                     }
@@ -1482,7 +1485,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 if (true) {
                     bindInputFromeServer(pospDetailsEntity);
                     if (isPaymentLinkAvailable) {
-                        openWebView(loginResponseEntity.getPaymentUrl());
+
+                       openWebView(loginResponseEntity.getPaymentUrl());
+
+
+
                     } else {
 
                         openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
@@ -1804,10 +1811,18 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     public void openWebView(String url) {
         if (!url.equals("")) {
-            startActivity(new Intent(this, CommonWebViewActivity.class)
-                    .putExtra("URL", url)
-                    .putExtra("NAME", "MAGIC FIN-MART")
-                    .putExtra("TITLE", "MAGIC FIN-MART"));
+
+//            startActivity(new Intent(this, CommonWebViewActivity.class)
+//                    .putExtra("URL", url)
+//                    .putExtra("NAME", "MAGIC FIN-MART")
+//                    .putExtra("TITLE", "MAGIC FIN-MART"));
+
+            startActivity(new Intent(this, RazorPaymentActivity.class));
+            PospEnrollment.this.finish();
+
+//Umesh 14
+          //  PospEnrollment.this.finish();
+         //   Utility.loadWebViewUrlInBrowser(PospEnrollment.this,loginResponseEntity.getPaymentUrl());
         }
     }
 

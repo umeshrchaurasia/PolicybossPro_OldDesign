@@ -26,7 +26,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
 import android.webkit.MimeTypeMap;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -246,6 +248,15 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         });
         webView.getSettings().setBuiltInZoomControls(true);
         webView.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
+        webView.addJavascriptInterface( new PaymentInterface(),"PaymentInterface");
+        // webView.setWebChromeClient(new WebChromeClient();
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                //Required functionality here
+                return super.onJsAlert(view, url, message, result);
+            }
+        });
         // webView.setWebChromeClient(new WebChromeClient());
         Log.d("URL", url);
 
@@ -318,12 +329,22 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     }
 
+    class PaymentInterface{
+        @JavascriptInterface
+        public void success(String data){
+        }
+
+        @JavascriptInterface
+        public void error(String data){
+        }
+    }
+
     class MyJavaScriptInterface {
 
         @JavascriptInterface
         public void crossselltitle(String dynamicTitle) {
 
-         getSupportActionBar().setTitle(dynamicTitle);
+            getSupportActionBar().setTitle(dynamicTitle);
 
         }
 
