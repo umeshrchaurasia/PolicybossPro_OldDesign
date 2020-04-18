@@ -774,6 +774,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan, "HlTitle", "Hldesc"));
 
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 8, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property, "LAPTitle", "LAPdesc"));
+       dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 81, "CAR LOAN TOP UP", "Sell car loan Top-Up, upto 200% of the car value of your customer!", R.drawable.carloan, "LAPTitle", "LAPdesc"));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
