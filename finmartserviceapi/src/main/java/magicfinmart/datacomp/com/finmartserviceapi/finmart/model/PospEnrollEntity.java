@@ -14,7 +14,10 @@ public class PospEnrollEntity {
     private String PaymentURL;
     private String POSPNo;
 
-
+    public PospEnrollEntity() {
+        POSPNo="";
+        PaymentURL="";
+    }
 
 
     public String getPaymentURL() {

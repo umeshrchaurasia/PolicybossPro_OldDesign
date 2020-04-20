@@ -47,7 +47,8 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
     private static final String TAG = "RAZOR_PAYMENT";
     Button btnBuy, btnCancel, btnContinue, btnHomeContinue;
     CardView cvBuy, cvSuccess, cvFailure;
-    TextView txtCustomerName, txtProdName, txtDisplayAmount, txtSuccessMessage, txtSuccessTitle, txtFailureMessage;
+    TextView txtCustomerName, txtProdName, txtDisplayAmount, txtSuccessMessage, txtSuccessTitle, txtFailureMessage,
+            txtpaymentstatus,txtfailcustid;
 
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -101,6 +102,9 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
         txtSuccessTitle = (TextView) findViewById(R.id.txtSuccessMessage);
         txtFailureMessage = (TextView) findViewById(R.id.txtFailureMessage);
 
+        txtpaymentstatus = (TextView) findViewById(R.id.txtpaymentstatus);
+        txtfailcustid = (TextView) findViewById(R.id.txtfailcustid);
+
     }
 
     private void setListner() {
@@ -121,7 +125,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
         try {
             JSONObject options = new JSONObject();
-            options.put("name", paymentDetailEntity.getName());
+            options.put("name", paymentDetailEntity.getName() + " - " + paymentDetailEntity.getCustID());
             options.put("description", "");
             //You can omit the image option to fetch the image from dashboard
             options.put("image", paymentDetailEntity.getImage());
@@ -199,6 +203,8 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
             cvBuy.setVisibility(View.GONE);
             cvSuccess.setVisibility(View.GONE);
 
+            txtpaymentstatus.setText("FAILED");
+            txtfailcustid.setText(paymentDetailEntity.getCustID());
 
             Log.d(TAG, "Payment failed: " + code + " " + response);
         } catch (Exception e) {

@@ -359,7 +359,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="5dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp">
 
@@ -396,7 +396,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_gravity="left"
+                android:gravity="center_horizontal"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
@@ -406,7 +406,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:paddingTop="0dp"
 
                     android:paddingRight="5dp"
@@ -450,7 +450,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:layout_gravity="left"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginLeft="20dp"
                     android:orientation="vertical">
 
@@ -480,7 +480,91 @@
                         android:background="@color/dashboard_bg">
 
                     </View>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
 
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical">
+                      <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:layout_marginLeft="20dp"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/lblpaymentstatus"
+                                style="@style/TextViewStyle.Large"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="left"
+                                android:paddingTop="0dp"
+
+                                android:paddingRight="5dp"
+                                android:paddingBottom="5dp"
+                                android:text="Payment Status : "
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/txtpaymentstatus"
+                                style="@style/TextViewStyle.Large"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="left"
+                                android:paddingTop="0dp"
+
+                                android:paddingRight="5dp"
+                                android:paddingBottom="5dp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+
+                            android:gravity="left"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/lblfailcustid"
+                                style="@style/TextViewStyle.Large"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="left"
+                                android:paddingTop="0dp"
+
+                                android:paddingRight="5dp"
+                                android:paddingBottom="5dp"
+                                android:text="Customer ID : "
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/txtfailcustid"
+                                style="@style/TextViewStyle.Large"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:gravity="left"
+                                android:paddingTop="0dp"
+                                android:layout_marginTop="5dp"
+
+                                android:paddingRight="5dp"
+                                android:paddingBottom="5dp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
