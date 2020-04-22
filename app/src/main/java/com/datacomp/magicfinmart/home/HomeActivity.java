@@ -14,10 +14,13 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -57,6 +60,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.BuildConfig;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
@@ -1078,8 +1082,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
-              // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+                // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
 
@@ -1365,7 +1369,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard_menu, menu);
@@ -1381,7 +1384,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         textNotifyItemCount = (TextView) actionView.findViewById(R.id.notify_badge);
         textNotifyItemCount.setVisibility(View.GONE);
 
-        ImageView imgNew =  (ImageView) actionViewnew.findViewById(R.id.imgNew);
+        ImageView imgNew = (ImageView) actionViewnew.findViewById(R.id.imgNew);
 
         Glide.with(HomeActivity.this).
                 load(R.drawable.newicon)
@@ -1452,7 +1455,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 intent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_CODE);
                 break;
-
 
 
         }
@@ -1542,6 +1544,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //endregion
 
                 }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    createLaunchAppIconMenu((UserConstatntResponse) response);
+                }
             }
         } else if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
@@ -1618,6 +1624,99 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
 
             }
+        }
+
+    }
+
+    private String getAppendURL(UserConstatntResponse response, String productID) {
+
+        Map<String, String> mLoadMap = loadMap();
+        String parent_ssid = "";
+        if (mLoadMap.size() > 0) {
+            parent_ssid = mLoadMap.get("Parent_POSPNo");
+        }
+
+        String ipAddress = "0.0.0.0";
+        try {
+            ipAddress = Utility.getMacAddress(this);
+        } catch (Exception io) {
+            ipAddress = "0.0.0.0";
+        }
+
+        String append = "&ip_address=" + ipAddress + "&mac_address=" + ipAddress
+                + "&app_version=" + BuildConfig.VERSION_NAME
+                + "&device_id=" + Utility.getDeviceId(this)
+                + "&product_id=" + productID
+                + "&login_ssid=" + parent_ssid;
+
+        return append;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void createLaunchAppIconMenu(UserConstatntResponse response) {
+        UserConstantEntity userConstantEntity = response.getMasterData();
+
+        String fourWheelerUrl = userConstantEntity.getFourWheelerUrl();
+        fourWheelerUrl = fourWheelerUrl + getAppendURL(response, "1"); // four wheeler
+        Intent fourWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class)
+                .putExtra("URL", fourWheelerUrl)
+                .putExtra("NAME", "Motor Insurance")
+                .putExtra("TITLE", "Motor Insurance");
+
+        String healthWheelerURL = userConstantEntity.getHealthurl();
+        healthWheelerURL = healthWheelerURL + getAppendURL(response, "2"); // four wheeler
+        Intent healthWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class)
+                .putExtra("URL", healthWheelerURL)
+                .putExtra("NAME", "Health Insurance")
+                .putExtra("TITLE", "Health Insurance");
+
+        String twoWheelerUrl = userConstantEntity.getTwoWheelerUrl();
+        twoWheelerUrl = twoWheelerUrl + getAppendURL(response, "10"); // four wheeler
+        Intent twoWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class)
+                .putExtra("URL", twoWheelerUrl)
+                .putExtra("NAME", "Two wheeler Insurance")
+                .putExtra("TITLE", "Two wheeler Insurance");
+
+        List<ShortcutInfo> listShortCutInfo = new ArrayList<>();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+
+            ShortcutManager shortcutManager = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+                shortcutManager = getSystemService(ShortcutManager.class);
+            }
+
+            ShortcutInfo siFourwheeler = null, siTwowheeler = null, siHealthInsurance = null;
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                siFourwheeler = new ShortcutInfo.Builder(this, "motor")
+                        .setShortLabel("Motor Insurance")
+                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                        .setIntent(fourWheelerIntent)
+                        .build();
+
+                siTwowheeler = new ShortcutInfo.Builder(this, "two_wheeler")
+                        .setShortLabel("Two wheeler Insurance")
+                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                        .setIntent(twoWheelerIntent)
+                        .build();
+
+                siHealthInsurance = new ShortcutInfo.Builder(this, "health_insurance")
+                        .setShortLabel("Health Insurance")
+                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                        .setIntent(healthWheelerIntent)
+                        .build();
+
+            }
+
+            listShortCutInfo.add(siFourwheeler);
+            listShortCutInfo.add(siTwowheeler);
+            listShortCutInfo.add(siHealthInsurance);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                shortcutManager.addDynamicShortcuts(listShortCutInfo);
+            }
+
         }
 
     }
@@ -2737,7 +2836,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 this);
     }
 
-    public void shareProductPopUp(DashboardMultiLangEntity shareEntity ) {
+    public void shareProductPopUp(DashboardMultiLangEntity shareEntity) {
 
         if (shareProdDialog != null && shareProdDialog.isShowing()) {
 
@@ -2789,8 +2888,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    public  void infoProductPopUp(DashboardMultiLangEntity shareEntity)
-    {
+    public void infoProductPopUp(DashboardMultiLangEntity shareEntity) {
         openWebViewPopUp(txtFbaID, shareEntity.getInfo(), true, HomeActivity.this);
     }
 }
