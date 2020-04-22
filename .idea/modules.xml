@@ -17,6 +17,9 @@
       <module fileurl="file://$PROJECT_DIR$/finmartserviceapi/Finmart_LatestProj-finmartserviceapi.iml" filepath="$PROJECT_DIR$/finmartserviceapi/Finmart_LatestProj-finmartserviceapi.iml" />
       <module fileurl="file://$PROJECT_DIR$/MaginFinmart.iml" filepath="$PROJECT_DIR$/MaginFinmart.iml" />
       <module fileurl="file://$PROJECT_DIR$/Umesh-FM-ANDROID.iml" filepath="$PROJECT_DIR$/Umesh-FM-ANDROID.iml" group="FM-ANDROID" />
+      <module fileurl="file://$PROJECT_DIR$/admin-AndroidStudioProjects-FM-ANDROID.iml" filepath="$PROJECT_DIR$/admin-AndroidStudioProjects-FM-ANDROID.iml" group="FM-ANDROID" />
+      <module fileurl="file://$PROJECT_DIR$/app/admin-AndroidStudioProjects-FM-ANDROID-app.iml" filepath="$PROJECT_DIR$/app/admin-AndroidStudioProjects-FM-ANDROID-app.iml" group="FM-ANDROID/app" />
+      <module fileurl="file://$PROJECT_DIR$/finmartserviceapi/admin-AndroidStudioProjects-FM-ANDROID-finmartserviceapi.iml" filepath="$PROJECT_DIR$/finmartserviceapi/admin-AndroidStudioProjects-FM-ANDROID-finmartserviceapi.iml" group="FM-ANDROID/finmartserviceapi" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" filepath="$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" />
     </modules>
