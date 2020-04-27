@@ -271,6 +271,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
+        Constants.hideKeyBoard(tvSignUp, LoginActivity.this);
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 

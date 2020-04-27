@@ -81,6 +81,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.messagecenter.messagecenteractivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
@@ -309,6 +310,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (loginResponseEntity != null) {
 
 
+            if (loginResponseEntity.getPOSPNo().equals("5")) {
+
+                verifyPospNo();
+                return;
+            }
+
             new MasterController(this).getInsuranceSubType(this);
             new MasterController(this).getInsurerList();
         }
@@ -321,6 +328,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //
 //            }
 //        }
+
+
 
         checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
         if (checkfirstmsg_call == 0) {
@@ -1078,7 +1087,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+               openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
               // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
@@ -1401,7 +1410,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionViewnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, HomeActivity.this);
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
             }
 
 
@@ -1513,7 +1522,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
                                 prefManager.setIsSeasonal(false);
                             }
                         }
@@ -1521,7 +1530,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         // prefManager.updatePopUpId("" + serverId);
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
                                 prefManager.setIsSeasonal(false);
                             }
                         }
@@ -2232,10 +2241,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
-    @Override
-    public void onOkClick(Dialog dialog, View view) {
-
-    }
 
     @Override
     public void onCancelClick(Dialog dialog, View view) {
@@ -2789,8 +2794,63 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
+    public void verifyPospNo( ) {
+
+
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+        TextView txtTitle, txtMessage;
+        Button btnClose;
+        ImageView ivCross;
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_failure_popup, null);
+
+        builder.setView(dialogView);
+        androidx.appcompat.app.AlertDialog  verifyDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
+        txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);
+        btnClose = (Button) dialogView.findViewById(R.id.btnClose);
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+        txtTitle.setText("Authorization");
+        txtMessage.setText(getResources().getString(R.string.verify_SSID) );
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                verifyDialog.dismiss();
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                verifyDialog.dismiss();
+                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        verifyDialog.setCancelable(false);
+        verifyDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+        // for user define height and width..
+    }
+
+
     public  void infoProductPopUp(DashboardMultiLangEntity shareEntity)
     {
-        openWebViewPopUp(txtFbaID, shareEntity.getInfo(), true, HomeActivity.this);
+        openWebViewPopUp(txtFbaID, shareEntity.getInfo(), true,"");
     }
 }

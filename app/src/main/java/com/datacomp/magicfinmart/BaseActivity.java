@@ -85,7 +85,7 @@ public class BaseActivity extends AppCompatActivity {
     PopUpListener popUpListener;
     PermissionListener permissionListener;
     String[] permissionsRequired = new String[]{android.Manifest.permission.CALL_PHONE};
-
+    WebView webView;
     //
 
     DBPersistanceController mReal;
@@ -151,7 +151,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void dialogLogout(final Context context) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
         builder.setTitle("");
         builder.setMessage("Do you really want to logout?");
         builder.setCancelable(false);
@@ -186,7 +186,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void dialogExit() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
         builder.setTitle("Exit");
         builder.setMessage("Do you want to exit the application?");
         builder.setCancelable(false);
@@ -220,7 +220,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize Realm
-        Realm.init(this);
+        Realm.init(BaseActivity.this);
         // Get a Realm instance for this thread
         realm = Realm.getDefaultInstance();
     }
@@ -263,19 +263,19 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void showDialog(String msg, Context context) {
         if (dialog == null)
-            dialog = ProgressDialog.show(context, "", msg, true);
+            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
         else {
             if (!dialog.isShowing())
-                dialog = ProgressDialog.show(context, "", msg, true);
+                dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
         }
     }
 
     protected void showDialog(String msg) {
         if (dialog == null)
-            dialog = ProgressDialog.show(this, "", msg, true);
+            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
         else {
             if (!dialog.isShowing())
-                dialog = ProgressDialog.show(this, "", msg, true);
+                dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
         }
     }
 
@@ -844,7 +844,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public interface WebViewPopUpListener {
 
-        void onOkClick(Dialog dialog, View view);
 
         void onCancelClick(Dialog dialog, View view);
     }
@@ -1019,7 +1018,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    public void openWebViewPopUp(final View view, String url, boolean isCancelable, final WebViewPopUpListener webViewPopUpListener) {
+    public void openWebViewPopUp(final View view, String url, boolean isCancelable,String strHdr) {
         try {
 
 
@@ -1028,7 +1027,16 @@ public class BaseActivity extends AppCompatActivity {
             webviewDialog.setContentView(R.layout.layout_common_webview_popup);
             webviewDialog.getWindow().setBackgroundDrawable(
                     new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            WebView webView = webviewDialog.findViewById(R.id.webView);
+             webView = webviewDialog.findViewById(R.id.webView);
+            TextView txtTitle =  webviewDialog.findViewById(R.id.txtTitle);
+
+            if(strHdr.trim().equals("")){
+                txtTitle.setVisibility(View.GONE);
+            }else{
+
+                txtTitle.setText(""+ strHdr.toUpperCase());
+                txtTitle.setVisibility(View.VISIBLE);
+            }
             settingWebview(webView, url);
             ImageView ivCross = (ImageView) webviewDialog.findViewById(R.id.ivCross);
 
@@ -1047,8 +1055,9 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Close dialog
-                    if (webViewPopUpListener != null)
-                        webViewPopUpListener.onCancelClick(webviewDialog, view);
+                    webviewDialog.dismiss();
+//                    if (webViewPopUpListener != null)
+//                        webViewPopUpListener.onCancelClick(webviewDialog, view);
                 }
             });
         } catch (Exception e) {
@@ -1056,6 +1065,13 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void uploadWebViewRaiserPath( String jsonResponse )
+    {
+       if(webView != null) {
+           webView.evaluateJavascript("javascript: " +
+                   "uploadImagePath(\"" + jsonResponse + "\")", null);
+       }
+    }
 
     public class MyJavaScriptInterface {
         Context mContext;
@@ -1066,6 +1082,22 @@ public class BaseActivity extends AppCompatActivity {
         }
 
 
+        // region Raise Ticket
+        @JavascriptInterface
+        public void Upload_doc(String randomID) {
+
+            ((CommonWebViewActivity)mContext).galleryCamPopUp( randomID);
+
+        }
+
+        @JavascriptInterface
+        public void Upload_doc_view(String randomID) {
+
+            ((CommonWebViewActivity)mContext).galleryCamPopUp( randomID);
+
+        }
+
+        // endregion
         @JavascriptInterface
         public void incomePotential() {
             //Get the string value to process

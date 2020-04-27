@@ -61,24 +61,31 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.zoho.ZohoController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketWebDocResponse;
 import okhttp3.MultipartBody;
 
 import static com.datacomp.magicfinmart.file_chooser.utils.FileUtilNew.generateFileName;
 
-public class CommonWebViewActivity extends BaseActivity implements BaseActivity.PopUpListener, IResponseSubcriber {
+public class CommonWebViewActivity extends BaseActivity implements BaseActivity.PopUpListener, BaseActivity.WebViewPopUpListener, IResponseSubcriber {
 
     WebView webView;
     String url = "";
     String name = "";
     String title = "";
+    String dashBoardtype = "";
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
     Toolbar toolbar;
 
+    LoginResponseEntity loginResponseEntity;
+    DBPersistanceController db;
+    UserConstantEntity userConstantEntity;
     // region Camera Permission
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
@@ -121,10 +128,19 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         url = getIntent().getStringExtra("URL");
         name = getIntent().getStringExtra("NAME");
         title = getIntent().getStringExtra("TITLE");
+        if(getIntent().getStringExtra("dashBoardtype") != null){
+
+            dashBoardtype  = getIntent().getStringExtra("dashBoardtype");
+        }
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
+
+        db = new DBPersistanceController(this);
+        loginResponseEntity = db.getUserData();
+        userConstantEntity = db.getUserConstantsData();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
@@ -271,6 +287,18 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     }
 
 
+    // region Popup Method Interface
+
+
+    @Override
+    public void onCancelClick(Dialog dialog, View view) {
+
+        dialog.cancel();
+    }
+
+    //endregion
+
+
     private class ProgressAsync extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -307,27 +335,6 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-
-            case R.id.action_home:
-
-                Intent intent = new Intent(this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("MarkTYPE", "FROM_HOME");
-
-                startActivity(intent);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-    }
 
     class PaymentInterface{
         @JavascriptInterface
@@ -351,21 +358,16 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         // region Raise Ticket
         @JavascriptInterface
         public void Upload_doc(String randomID) {
-            PHOTO_File = "";
-            PHOTO_File = "fm_file" + "_" + randomID;
-            Log.i("RAISE_TICKET Uploding ", PHOTO_File);
-            galleryCamPopUp();
+
+            galleryCamPopUp( randomID);
 
 
         }
 
         @JavascriptInterface
         public void Upload_doc_view(String randomID) {
-            PHOTO_File = "";
-            PHOTO_File = "fm_file" + "_" + randomID;
-            Log.i("RAISE_TICKET Uploding", PHOTO_File);
-            galleryCamPopUp();
 
+            galleryCamPopUp( randomID);
 
         }
 
@@ -459,8 +461,44 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
+
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.action_raise:
+                // Toast.makeText(this,"Popup",Toast.LENGTH_SHORT).show();
+                String url = userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
+                        + "&UDID=" + userConstantEntity.getUserid();
+                Log.d("URL", "Raise Ticket URL: "+url);
+              //  openWebViewPopUp(webView,  url, true, CommonWebViewActivity.this);
+                openWebViewPopUp(webView,  url, true,"Raise Ticket");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
+        if(dashBoardtype.equals("INSURANCE")){
+            getMenuInflater().inflate(R.menu.insurance_menu, menu);
+        }else{
+            getMenuInflater().inflate(R.menu.home_menu, menu);
+        }
+
         return true;
     }
 
@@ -481,7 +519,11 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     // region Camera & Gallery Popup For Raise Ticket
 
-    private void galleryCamPopUp() {
+    public void galleryCamPopUp(String randomID) {
+
+        PHOTO_File = "";
+        PHOTO_File = "fm_file" + "_" + randomID;
+        Log.i("RAISE_TICKET Uploding", PHOTO_File);
 
         if (!checkPermission()) {
 
@@ -853,6 +895,10 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 // Sending Data to Web Using evaluateJavascript
                 webView.evaluateJavascript("javascript: " +
                         "uploadImagePath(\"" + jsonResponse + "\")", null);
+
+
+                ////////////
+                uploadWebViewRaiserPath(jsonResponse);
 
             } else {
                 Toast.makeText(CommonWebViewActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();

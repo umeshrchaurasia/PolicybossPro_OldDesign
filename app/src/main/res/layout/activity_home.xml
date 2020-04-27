@@ -70,4 +70,6 @@
         app:itemTextColor="@color/header_dark_text"
         app:menu="@menu/nav_menu_drawer" />
 
+
+
 </androidx.drawerlayout.widget.DrawerLayout>

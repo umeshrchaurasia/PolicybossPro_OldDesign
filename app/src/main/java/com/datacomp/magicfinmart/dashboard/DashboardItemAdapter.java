@@ -291,6 +291,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
 
+
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
         int productID = dashboardEntity.getProductId();
 
@@ -332,6 +333,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
+                            .putExtra("dashBoardtype", "INSURANCE")
                             .putExtra("NAME", "Motor Insurance")
                             .putExtra("TITLE", "Motor Insurance"));
 
@@ -385,6 +387,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     } else {
                         mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                                 .putExtra("URL", healthUrl)
+                                .putExtra("dashBoardtype", "INSURANCE")
                                 .putExtra("NAME", "Health Insurance")
                                 .putExtra("TITLE", "Health Insurance"));
                     }
@@ -506,6 +509,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     motorUrl = motorUrl + append;
                     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                             .putExtra("URL", motorUrl)
+                            .putExtra("dashBoardtype", "INSURANCE")
                             .putExtra("NAME", "Two Wheeler Insurance")
                             .putExtra("TITLE", "Two Wheeler Insurance"));
 
@@ -545,6 +549,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 cvUrl = cvUrl + append;
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", cvUrl)
+                        .putExtra("dashBoardtype", "INSURANCE")
                         .putExtra("NAME", "Commercial Vehicle Insurance")
                         .putExtra("TITLE", "Commercial Vehicle Insurance"));
 
@@ -663,6 +668,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                         mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                                 .putExtra("URL", dynamicUrl)
+                                .putExtra("dashBoardtype", "INSURANCE")
                                 .putExtra("NAME", dashboardEntity.getProductName())
                                 .putExtra("TITLE", dashboardEntity.getProductName()));
 

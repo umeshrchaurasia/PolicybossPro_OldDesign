@@ -4,16 +4,22 @@ import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+
 public class TermSelectionActivity extends BaseActivity {
     RecyclerView rvTermSelection;
     TermSelectionItemAdapter mAdapter;
-
+    DBPersistanceController db;
+    UserConstantEntity userConstantEntity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +27,9 @@ public class TermSelectionActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        db = new DBPersistanceController(this);
+        userConstantEntity = db.getUserConstantsData();
 
         init();
     }
@@ -37,7 +46,7 @@ public class TermSelectionActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
+        getMenuInflater().inflate(R.menu.insurance_menu, menu);
         return true;
     }
 
@@ -55,6 +64,14 @@ public class TermSelectionActivity extends BaseActivity {
 //
 //                finish();
                 break;
+
+            case R.id.action_raise:
+                // Toast.makeText(this,"Popup",Toast.LENGTH_SHORT).show();
+                String url = userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
+                        + "&UDID=" + userConstantEntity.getUserid();
+                Log.d("URL", "Raise Ticket URL: "+url);
+                openWebViewPopUp(rvTermSelection,  url, true,"Raise Ticket");
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
