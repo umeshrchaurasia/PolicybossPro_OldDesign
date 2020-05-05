@@ -72,4 +72,9 @@ public interface IRegister {
 
 
     void getDataForPayment(String FBAID , IResponseSubcriber iResponseSubcriber);
+
+    void getDataForPayment_elite(String custid , IResponseSubcriber iResponseSubcriber);
+
+    void addToRazorPay_elite(String FBAID, String CustId,String PayId, IResponseSubcriber iResponseSubcriber);
+
 }

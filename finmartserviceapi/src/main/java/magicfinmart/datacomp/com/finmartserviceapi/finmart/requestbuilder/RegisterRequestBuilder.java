@@ -18,6 +18,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetailResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetail_EliteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
@@ -123,7 +124,7 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<NotificationResponse> getNotificationData(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/receive-update-notification")
+        @POST("/api/UserClickActionOnNotification")
         Call<NotificationUpdateResponse> recieveNotificationData(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
@@ -187,6 +188,16 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/getfbadataforrpay")
         Call<PaymentDetailResponse> getDataForPayment(@Body HashMap<String, String> body);
+
+
+        @Headers("token:" + token)
+        @POST("/api/GetEliteCustomer")
+        Call<PaymentDetail_EliteResponse> getDataForPayment_EliteCustomer(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/EliteRazorPayment")
+        Call<RazorPayResponse> addToRazorPayElite(@Body HashMap<String, String> body);
+
     }
 
 

@@ -99,11 +99,11 @@
             android:title="My DOCUMENTS">
             <menu>
                 <item
-                    android:id="@+id/nav_franchise"
+                    android:id="@+id/nav_franchise1"
                     android:icon="@drawable/agreemnet"
                     android:orderInCategory="260"
                     android:title="Loan Agreement"
-                    android:visible="true" />
+                    android:visible="false" />
 
                 <item
                     android:id="@+id/nav_AppointmentLetter"
@@ -195,9 +195,10 @@
                     android:visible="false" />
 
                 <item
-                    android:id="@+id/nav_sharedata"
+                    android:id="@+id/nav_sharedata1"
                     android:icon="@drawable/share_data"
                     android:orderInCategory="440"
+                    android:visible="false"
                     android:title="Generate Loan Leads" />
 
                 <item
@@ -225,14 +226,54 @@
 
             </menu>
         </item>
+
+
+
+        <item
+            android:id="@+id/nav_loan"
+            android:icon="@drawable/income_potential_ic"
+            android:orderInCategory="550"
+            android:title="LOANS">
+            <menu>
+                <item
+                    android:id="@+id/nav_franchise"
+                    android:icon="@drawable/agreemnet"
+                    android:orderInCategory="560"
+                    android:title="Referral  Agreement"
+                    android:visible="true" />
+                <item
+                    android:id="@+id/nav_sharedata"
+                    android:icon="@drawable/share_data"
+                    android:orderInCategory="565"
+                    android:title="Generate Loan Leads" />
+                <item
+                    android:id="@+id/nav_FreeCreditReport"
+                    android:icon="@drawable/agreemnet"
+                    android:orderInCategory="570"
+                    android:title="Free Credit Report"
+                    />
+                <item
+                    android:id="@+id/nav_OtherLoan"
+                    android:icon="@drawable/income_potential_ic"
+                    android:orderInCategory="585"
+                    android:title="Other loan products" />
+                <item
+                    android:id="@+id/nav_mybusinessLoan"
+                    android:icon="@drawable/business_ic"
+                    android:orderInCategory="595"
+                    android:title="My Business" />
+
+                <item
+                    android:id="@+id/nav_emicalLoan"
+                    android:icon="@drawable/income_calculator_ic"
+                    android:orderInCategory="597"
+                    android:title="EMI Calculator" />
+            </menu>
+        </item>
     </group>
 
 
-    <item
-        android:id="@+id/nav_OtherLoan"
-        android:icon="@drawable/income_potential_ic"
-        android:orderInCategory="600"
-        android:title="OTHER LOAN PRODUCTS" />
+
 
 
     <item

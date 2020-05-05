@@ -15,11 +15,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -65,7 +62,6 @@ import com.datacomp.magicfinmart.certificate.POSP_certicate_appointment;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.contact_lead.ContactLeadActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
-import com.datacomp.magicfinmart.dashboard.DashboardItemAdapter;
 import com.datacomp.magicfinmart.festivelink.festivelinkActivity;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -75,6 +71,7 @@ import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
 import com.datacomp.magicfinmart.home.adapter.CallingDetailAdapter;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
+import com.datacomp.magicfinmart.loan_fm.MyBusinessLoan.EmiCalcActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
@@ -89,6 +86,7 @@ import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.mybusiness.MyBusinessActivity;
+import com.datacomp.magicfinmart.loan_fm.MyBusinessLoan.MyBusiness_LoanActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
@@ -113,7 +111,6 @@ import com.google.android.material.navigation.NavigationView;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -548,8 +545,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_franchise:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                 .putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf")
-                                .putExtra("NAME", "LOAN_AGREEMENT")
-                                .putExtra("TITLE", "LOAN AGREEMENT"));
+                                .putExtra("NAME", "Referral AGREEMENT")
+                                .putExtra("TITLE", "Referral AGREEMENT"));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
@@ -649,6 +646,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 .putExtra("TITLE", "FESTIVE LINKS"));
 
                         break;
+
+                    case R.id.nav_FreeCreditReport:
+                        Utility.loadWebViewUrlInBrowser(HomeActivity.this,
+                                "http://www.rupeeboss.com/equifax-finmart?fbaid="
+                                        + String.valueOf(loginResponseEntity.getFBAId()));
+                        break;
+
+                    case R.id.nav_mybusinessLoan:
+                        startActivity(new Intent(HomeActivity.this, MyBusiness_LoanActivity.class));
+                        break;
+                    case R.id.nav_emicalLoan:
+                        startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
+                        break;
+
                     default:
                         break;
                 }
@@ -706,7 +717,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_transactionhistory, nav_MessageCentre, nav_crnpolicy,
                 nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail,
                 nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew,
-                nav_cobrowser, nav_logout;
+                nav_cobrowser, nav_logout,nav_FreeCreditReport,nav_mybusinessLoan,nav_emicalLoan;
 
 
         Menu menu = navigationView.getMenu();
@@ -743,7 +754,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         nav_generateLead = menu.findItem(R.id.nav_generateLead);
         nav_scan_vehicle = menu.findItem(R.id.nav_scan_vehicle);
         nav_sharedata = menu.findItem(R.id.nav_sharedata);
-
+        nav_FreeCreditReport= menu.findItem(R.id.nav_FreeCreditReport);
+        nav_mybusinessLoan =   menu.findItem(R.id.nav_mybusinessLoan);
+        nav_emicalLoan=   menu.findItem(R.id.nav_emicalLoan);
         nav_leaddetail = menu.findItem(R.id.nav_leaddetail);
         nav_sendSmsTemplate = menu.findItem(R.id.nav_sendSmsTemplate);
         nav_OtherLoan = menu.findItem(R.id.nav_OtherLoan);

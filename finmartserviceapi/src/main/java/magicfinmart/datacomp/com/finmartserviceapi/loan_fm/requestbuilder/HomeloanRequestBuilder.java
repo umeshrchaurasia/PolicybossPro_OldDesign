@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanApplyRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.EmiCalculatorResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GenerateHLLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
@@ -30,5 +31,7 @@ public class HomeloanRequestBuilder extends LoanRetroRequestBuilder {
 
 
 
+        @POST("/api/emi-calc-app")
+        Call<EmiCalculatorResponse> getemicalculatordata(@Body HashMap<String, String> body);
     }
 }

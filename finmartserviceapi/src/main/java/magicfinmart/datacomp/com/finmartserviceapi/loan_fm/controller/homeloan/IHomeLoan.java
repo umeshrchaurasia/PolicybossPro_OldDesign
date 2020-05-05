@@ -16,4 +16,6 @@ public interface IHomeLoan {
     void getRBCustomerData(String QuoteID, IResponseSubcriber iResponseSubcriber);
 
 
+    void getEmicalculatordata(String loanamount, String rateofint, String loantensure, IResponseSubcriber iResponseSubcriber);
+
 }

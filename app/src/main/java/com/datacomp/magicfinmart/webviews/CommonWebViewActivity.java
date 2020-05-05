@@ -52,6 +52,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaion
 import com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+import com.datacomp.magicfinmart.paymentEliteplan.RazorPaymentEliteActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -455,6 +456,15 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         public void redirectbusinessloan() {//Android.RedirectToHomepage();
             Intent intent = new Intent(CommonWebViewActivity.this, NewbusinessApplicaionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
+        @JavascriptInterface
+        public void EliteRazorPay(String cust_id) {
+            Intent intent = new Intent(CommonWebViewActivity.this, RazorPaymentEliteActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("cust_id", cust_id);
             startActivity(intent);
             finish();
         }

@@ -28,6 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetailResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetail_EliteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAppointEmailResponse;
@@ -1120,5 +1121,81 @@ public class RegisterController implements IRegister {
         });
     }
 
+    @Override
+    public void getDataForPayment_elite(String custid,final IResponseSubcriber iResponseSubcriber) {
 
+        HashMap<String, String> body = new HashMap<>();
+        body.put("custid",custid);
+
+        registerQuotesNetworkService.getDataForPayment_EliteCustomer(body).enqueue(new Callback<PaymentDetail_EliteResponse>() {
+            @Override
+            public void onResponse(Call<PaymentDetail_EliteResponse> call, Response<PaymentDetail_EliteResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PaymentDetail_EliteResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void addToRazorPay_elite(String FBAID, String CustId, String PayId, final IResponseSubcriber iResponseSubcriber) {
+
+
+        HashMap<String, String> body = new HashMap<>();
+       // body.put("FBAID",FBAID);
+        body.put("custid",CustId);
+        body.put("PayId",PayId);
+
+
+        registerQuotesNetworkService.addToRazorPayElite(body).enqueue(new Callback<RazorPayResponse>() {
+            @Override
+            public void onResponse(Call<RazorPayResponse> call, Response<RazorPayResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RazorPayResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
 }

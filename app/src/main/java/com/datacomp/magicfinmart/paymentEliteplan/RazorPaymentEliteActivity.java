@@ -1,20 +1,12 @@
-package com.datacomp.magicfinmart.payment;
+package com.datacomp.magicfinmart.paymentEliteplan;
+
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.datacomp.magicfinmart.BaseActivity;
-import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.posp.PospEnrollment;
-import com.datacomp.magicfinmart.utility.Constants;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -24,7 +16,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
@@ -35,14 +31,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PaymentDetailEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetailResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RazorPayResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
-public class RazorPaymentActivity extends BaseActivity implements PaymentResultListener, View.OnClickListener, IResponseSubcriber {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.PaymentEliteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetail_EliteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RazorPayResponse;
+
+public class RazorPaymentEliteActivity extends BaseActivity implements PaymentResultListener, View.OnClickListener, IResponseSubcriber {
 
     private static final String TAG = "RAZOR_PAYMENT";
     Button btnBuy, btnCancel, btnContinue, btnHomeContinue;
@@ -53,21 +49,27 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     UserConstantEntity userConstantEntity;
-    PaymentDetailEntity paymentDetailEntity;
+    PaymentEliteEntity paymentEliteEntity;
+    String custid="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_razor_payment);
+        setContentView(R.layout.activity_razor_payment_elite);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        custid = getIntent().getStringExtra("cust_id");
+
+
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
+
+
 
         initialize();
         setListner();
@@ -77,9 +79,9 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
         Checkout.preload(getApplicationContext());
 
-
+        Log.d(TAG, "Custtid :   " + "" + custid);
         showDialog();
-        new RegisterController(this).getDataForPayment(String.valueOf(loginResponseEntity.getFBAId()), RazorPaymentActivity.this);
+        new RegisterController(this).getDataForPayment_elite(String.valueOf(custid), RazorPaymentEliteActivity.this);
 
 
     }
@@ -125,16 +127,16 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
         try {
             JSONObject options = new JSONObject();
-            options.put("name", paymentDetailEntity.getName() + " - " + paymentDetailEntity.getCustID());
-            options.put("description", "");
+            options.put("name", paymentEliteEntity.getFullname() + " - " + paymentEliteEntity.getCustID());
+            options.put("plan", paymentEliteEntity.getPlanname() + " - " + paymentEliteEntity.getSubplan());
             //You can omit the image option to fetch the image from dashboard
-            options.put("image", paymentDetailEntity.getImage());
+            options.put("image", paymentEliteEntity.getImage());
             options.put("currency", "INR");
-            options.put("amount", paymentDetailEntity.getAmount());
+            options.put("amount", 100);//paymentEliteEntity.getAmount());
 
             JSONObject preFill = new JSONObject();
-            preFill.put("email", paymentDetailEntity.getEmail());
-            preFill.put("contact", paymentDetailEntity.getMobile());
+            preFill.put("email", paymentEliteEntity.getEmail());
+            preFill.put("contact", paymentEliteEntity.getMobile());
 
 
             options.put("prefill", preFill);
@@ -148,12 +150,12 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
     }
 
 
-    private void setPaymentDetail(PaymentDetailEntity paymentDetailEntity) {
+    private void setPaymentDetail(PaymentEliteEntity paymentEliteEntity) {
 
-        String custname = paymentDetailEntity.getName() + " - " + paymentDetailEntity.getCustID();
+        String custname = paymentEliteEntity.getFullname() + " - " + paymentEliteEntity.getCustID();
         txtCustomerName.setText(custname);
-        txtProdName.setText(paymentDetailEntity.getProductname());
-        txtDisplayAmount.setText("\u20B9" + " " + paymentDetailEntity.getDisplayamount());
+        txtProdName.setText(paymentEliteEntity.getPlanname() + " - " + paymentEliteEntity.getSubplan());
+        txtDisplayAmount.setText("\u20B9" + " " + paymentEliteEntity.getDisplayamount());
     }
 
 
@@ -162,20 +164,23 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
         if (view.getId() == R.id.btnBuy) {
 
-            if (paymentDetailEntity != null) {
+            if (paymentEliteEntity != null) {
                 startPayment();
             }
 
 
         } else if (view.getId() == R.id.btnCancel) {
 
-            RazorPaymentActivity.this.finish();
+            RazorPaymentEliteActivity.this.finish();
+            startActivity(new Intent(RazorPaymentEliteActivity.this, HomeActivity.class));
         } else if (view.getId() == R.id.btnContinue) {
-            RazorPaymentActivity.this.finish();
-            this.finish();
+            RazorPaymentEliteActivity.this.finish();
+           // this.finish();
+            startActivity(new Intent(RazorPaymentEliteActivity.this, HomeActivity.class));
         } else if (view.getId() == R.id.btnHomeContinue) {
-            RazorPaymentActivity.this.finish();
-            startActivity(new Intent(RazorPaymentActivity.this, PospEnrollment.class));
+            RazorPaymentEliteActivity.this.finish();
+
+            startActivity(new Intent(RazorPaymentEliteActivity.this, HomeActivity.class));
         }
 
 
@@ -189,7 +194,8 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
         Log.d(TAG, "Pyment Success with RazorPaymentID  " + razorpayPaymentID);
 
         showDialog();
-        new RegisterController(this).addToRazorPay(String.valueOf(loginResponseEntity.getFBAId()), paymentDetailEntity.getCustID(), razorpayPaymentID, RazorPaymentActivity.this);
+
+        new RegisterController(this).addToRazorPay_elite(String.valueOf(loginResponseEntity.getFBAId()), String.valueOf(paymentEliteEntity.getCustID()), razorpayPaymentID, RazorPaymentEliteActivity.this);
 
 
     }
@@ -204,7 +210,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
             cvSuccess.setVisibility(View.GONE);
 
             txtpaymentstatus.setText("FAILED");
-            txtfailcustid.setText(paymentDetailEntity.getCustID());
+            txtfailcustid.setText(paymentEliteEntity.getCustID());
 
             Log.d(TAG, "Payment failed: " + code + " " + response);
         } catch (Exception e) {
@@ -216,20 +222,20 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
     public void OnSuccess(APIResponse response, String message) {
 
         cancelDialog();
-        if (response instanceof PaymentDetailResponse) {
+        if (response instanceof PaymentDetail_EliteResponse) {
 
             if (response.getStatusNo() == 0) {
-                paymentDetailEntity = ((PaymentDetailResponse) response).getMasterData();
+                paymentEliteEntity = ((PaymentDetail_EliteResponse) response).getMasterData();
 
-                if (paymentDetailEntity.getCustID().equals("0")) {
-                    useretailPopUp(paymentDetailEntity);
+                if (String.valueOf(paymentEliteEntity.getCustID()).equals("0")) {
+                   useretailPopUp(paymentEliteEntity);
                 } else {
-                    setPaymentDetail(paymentDetailEntity);
+                    setPaymentDetail(paymentEliteEntity);
                 }
 
             }
 
-        } else if (response instanceof RazorPayResponse) {
+        } else if (response instanceof RazorPayResponse) {////////////
             if (response.getStatusNo() == 0) {
 
                 // prefManager.setIsUserLogin(true);
@@ -273,17 +279,17 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
     @Override
     public void onBackPressed() {
         if (cvFailure.getVisibility() == View.VISIBLE) {
-            startActivity(new Intent(RazorPaymentActivity.this, PospEnrollment.class));
+            startActivity(new Intent(RazorPaymentEliteActivity.this, PospEnrollment.class));
         }
         this.finish();
         super.onBackPressed();
     }
 
 
-    public void useretailPopUp(PaymentDetailEntity paymentDetailEntity) {
+    public void useretailPopUp(PaymentEliteEntity paymentDetailEntity) {
 
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(RazorPaymentActivity.this);
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(RazorPaymentEliteActivity.this);
         TextView txtTitle, txtMessage;
         Button btnShare;
         ImageView ivCross;
@@ -301,14 +307,14 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
         txtTitle.setText("Finmart Message");
         btnShare.setText("OK");
-        txtMessage.setText("" + paymentDetailEntity.getDispmsg());
+      //  txtMessage.setText("" + paymentDetailEntity.getDispmsg());
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 shareProdDialog.dismiss();
-                RazorPaymentActivity.this.finish();
+                RazorPaymentEliteActivity.this.finish();
 
             }
         });
@@ -318,7 +324,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
             public void onClick(View v) {
 
                 shareProdDialog.dismiss();
-                RazorPaymentActivity.this.finish();
+                RazorPaymentEliteActivity.this.finish();
             }
         });
 

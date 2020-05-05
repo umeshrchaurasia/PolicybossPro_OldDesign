@@ -23,6 +23,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GenerateHLLe
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LoanCityResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.MyBusinessLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.citywisebankloanResponse;
@@ -412,6 +413,49 @@ public class ErpLoanController implements IErpLoan {
             }
         });
     }
+
+    @Override
+    public void myBuisnessLoan(String empCode, String type, String brokerId,final IResponseSubcriberERP iResponseSubcriber) {
+        HashMap<String, String> bodyparameter = new HashMap<String, String>();
+
+        bodyparameter.put("empCode", empCode);
+        bodyparameter.put("type", type);
+        bodyparameter.put("brokerId", brokerId);
+        bodyparameter.put("bank", "bank");
+
+        erpNetworkService.getmyBuisnessloan(bodyparameter).enqueue(new Callback<MyBusinessLoanResponse>() {
+            @Override
+            public void onResponse(Call<MyBusinessLoanResponse> call, Response<MyBusinessLoanResponse> response) {
+                try {
+                    if (response.body().getStatusId() == 0) {
+                        iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+
+                } catch (Exception e) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MyBusinessLoanResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof JsonParseException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
+                }
+            }
+        });
+
+    }
+
 
 
 }

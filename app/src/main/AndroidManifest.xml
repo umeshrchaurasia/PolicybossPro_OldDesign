@@ -32,7 +32,6 @@
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_b7vQ8lyFs69syy" />
 
-
         <activity
             android:name=".file_chooser.FileChooserActivity"
             android:enabled="true"
@@ -48,12 +47,16 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".paymentEliteplan.RazorPaymentEliteActivity"
+            android:label="@string/title_activity_razor_payment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".payment.RazorPaymentActivity"
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".attendance.AttendanceRegistraionActivity"
             android:label="@string/title_activity_attendance_registraion"
@@ -1337,7 +1340,31 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
+        <activity
+            android:name=".loan_fm.MyBusinessLoan.BusinessPopUpActivity"
+            android:label="My Business"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.MyBusinessLoan.MyBusiness_LoanActivity"
+            android:label="My Business"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".loan_fm.MyBusinessLoan.EmiCalcActivity"
+            android:label="EMI Calculator"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
 
         <meta-data
             android:name="android.support.FILE_PROVIDER_PATHS"

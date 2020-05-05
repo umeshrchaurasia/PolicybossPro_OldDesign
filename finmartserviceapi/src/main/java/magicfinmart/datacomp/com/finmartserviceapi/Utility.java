@@ -92,7 +92,9 @@ public class Utility {
     public static String ULTRA_LAKSHYA_HDR_NAME = "ultra_lakshya_hdr_name";
 
     public static int OFFLINE_REQUEST_CODE = 10;
-
+    public static String MY_BUSISNESS= "mybuisness";
+    public static String MY_BUSISNESS_HDR= "mybuisnessheader";
+    public static String MY_BUSISNESS_type= "mybuisnesstype";
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);

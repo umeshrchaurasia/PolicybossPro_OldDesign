@@ -32,4 +32,7 @@ public interface IErpLoan {
     void getcityloan(IResponseSubcriberERP iResponseSubcriber );
 
     void getCitywiseBankListloan(String cityid,String Productid,IResponseSubcriberERP iResponseSubcriber );
+
+    void myBuisnessLoan(String empCode, String type, String brokerId, IResponseSubcriberERP iResponseSubcriber);
+
 }
