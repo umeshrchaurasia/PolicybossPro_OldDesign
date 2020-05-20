@@ -246,28 +246,37 @@
                     android:icon="@drawable/share_data"
                     android:orderInCategory="565"
                     android:title="Generate Loan Leads" />
-                <item
-                    android:id="@+id/nav_FreeCreditReport"
-                    android:icon="@drawable/agreemnet"
-                    android:orderInCategory="570"
-                    android:title="Free Credit Report"
-                    />
-                <item
-                    android:id="@+id/nav_OtherLoan"
-                    android:icon="@drawable/income_potential_ic"
-                    android:orderInCategory="585"
-                    android:title="Other loan products" />
+
                 <item
                     android:id="@+id/nav_mybusinessLoan"
                     android:icon="@drawable/business_ic"
-                    android:orderInCategory="595"
+                    android:orderInCategory="575"
                     android:title="My Business" />
 
                 <item
                     android:id="@+id/nav_emicalLoan"
                     android:icon="@drawable/income_calculator_ic"
-                    android:orderInCategory="597"
+                    android:orderInCategory="577"
                     android:title="EMI Calculator" />
+                <item
+                    android:id="@+id/nav_LeadSubmission"
+                    android:icon="@drawable/income_potential_ic"
+                    android:orderInCategory="585"
+                    android:title="Lead Submission"
+                    />
+                <item
+                    android:id="@+id/nav_FreeCreditReport"
+                    android:icon="@drawable/agreemnet"
+                    android:orderInCategory="590"
+                    android:title="Free Credit Report"
+                    />
+                <item
+                    android:id="@+id/nav_OtherLoan"
+                    android:icon="@drawable/income_potential_ic"
+                    android:orderInCategory="595"
+                    android:title="Other loan products"
+                    android:visible="false"/>
+
             </menu>
         </item>
     </group>

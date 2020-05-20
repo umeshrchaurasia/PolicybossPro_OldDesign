@@ -198,7 +198,7 @@
             android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />

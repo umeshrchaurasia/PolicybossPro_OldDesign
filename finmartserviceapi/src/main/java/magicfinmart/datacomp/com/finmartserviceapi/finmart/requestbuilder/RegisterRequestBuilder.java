@@ -31,6 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSour
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserHideResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import okhttp3.MultipartBody;
@@ -176,6 +177,10 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/GetShareUrl")
         Call<ProductURLShareResponse> getProductShareURL(@Body HashMap<String, Integer> body);
 
+
+        @Headers("token:" + token)
+        @POST("/api/GetFosInfo")
+        Call<UserHideResponse> hideFOSUser(@Body HashMap<String, String> body);
 
 
         // Payment Gateway

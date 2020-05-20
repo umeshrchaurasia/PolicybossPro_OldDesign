@@ -68,6 +68,10 @@ public interface IRegister {
 
     void getProductShareUrl(int fba_id,int ss_id,int product_id,int sub_fba_id, IResponseSubcriber iResponseSubcriber);
 
+    void hideFOSUser(String PospId, IResponseSubcriber iResponseSubcriber);
+
+
+
     void addToRazorPay(String FBAID, String CustId,String PayId, IResponseSubcriber iResponseSubcriber);
 
 

@@ -1025,6 +1025,7 @@ public class BaseActivity extends AppCompatActivity {
             webviewDialog = new Dialog(BaseActivity.this);
             webviewDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             webviewDialog.setContentView(R.layout.layout_common_webview_popup);
+
             webviewDialog.getWindow().setBackgroundDrawable(
                     new ColorDrawable(android.graphics.Color.TRANSPARENT));
              webView = webviewDialog.findViewById(R.id.webView);
@@ -1042,12 +1043,16 @@ public class BaseActivity extends AppCompatActivity {
 
             webviewDialog.setCancelable(isCancelable);
             webviewDialog.setCanceledOnTouchOutside(isCancelable);
+          //  webviewDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
             Window dialogWindow = webviewDialog.getWindow();
+
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
             lp.width = lp.MATCH_PARENT;  // Width
             lp.height = lp.WRAP_CONTENT; // Height
             dialogWindow.setAttributes(lp);
+            dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
 
             webviewDialog.show();
 

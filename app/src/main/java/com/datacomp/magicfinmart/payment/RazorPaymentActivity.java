@@ -125,8 +125,10 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
         try {
             JSONObject options = new JSONObject();
-            options.put("name", paymentDetailEntity.getName() + " - " + paymentDetailEntity.getCustID());
-            options.put("description", "");
+            options.put("name", paymentDetailEntity.getName() );
+            options.put("description", paymentDetailEntity.getCustID());
+
+
             //You can omit the image option to fetch the image from dashboard
             options.put("image", paymentDetailEntity.getImage());
             options.put("currency", "INR");
@@ -243,7 +245,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
             } else {
 
-                Log.d(TAG, "Failure : getfbadataforrpay method to sever   " + "" + response.getMessage());
+                Log.d(TAG, "Failure : get fba data for Razor pay method to sever   " + "" + response.getMessage());
             }
         }
     }

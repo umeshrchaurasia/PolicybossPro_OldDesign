@@ -32,12 +32,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserHideResponse;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     PrefManager prefManager;
@@ -276,18 +278,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (response.getStatusNo() == 0) {
 
                 prefManager.setUserPassword("" + etPassword.getText().toString());
-                // prefManager.setIsUserLogin(true);
-                if (!prefManager.getSharePushType().equals("")) {
 
-                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                    intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
-                    startActivity(intent);
+                if (((LoginResponse) response).getMasterData().getPOSPNo() != null) {
 
-                } else {
-                    startActivity(new Intent(this, HomeActivity.class));
+                    String PospID = ((LoginResponse) response).getMasterData().getPOSPNo();
+                    new RegisterController(this).hideFOSUser(PospID, LoginActivity.this);
                 }
+                // prefManager.setIsUserLogin(true);
 
-                finish();
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -296,6 +294,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
             new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Success : " + response.getMessage()), "Login"), null);
+        } else if (response instanceof UserHideResponse) {
+
+            String strFOS_STATUS = "";
+            if (((UserHideResponse) response).getMasterData().getHidesubuser() != null) {
+
+                strFOS_STATUS = ((UserHideResponse) response).getMasterData().getHidesubuser();
+                prefManager.setFosUSER(strFOS_STATUS);
+            }
+
+            if (!prefManager.getSharePushType().equals("")) {
+
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
+                startActivity(intent);
+
+            } else {
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                startActivity(intent);
+
+            }
+
+            finish();
+
+
         }
     }
 

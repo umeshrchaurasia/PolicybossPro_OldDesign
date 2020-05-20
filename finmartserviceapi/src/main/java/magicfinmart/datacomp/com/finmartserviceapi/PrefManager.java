@@ -46,7 +46,7 @@ public class PrefManager {
     private static final String CAR_VEHICLE_NUMBER_LOG = "vehicle_number_log";
     private static final String CAR_VEHICLE_MOBILE_LOG = "vehicle_mobile_log";
 
-
+    private static final String FOS_USER_AUTHENTICATIONN = "fos_user_authenticationn";
     public static String PUSH_VERIFY_LOGIN = "push_verify_login";
     public static String NOTIFICATION_COUNTER = "Notification_Counter";
     public static String SHARED_KEY_PUSH_NOTIFY = "shared_notifyFlag";
@@ -219,6 +219,17 @@ public class PrefManager {
     public boolean IsInsuranceMasterUpdate() {
         return pref.getBoolean(IS_INSURANCE_MASTER_UPDATE, true);
     }
+
+    public void setFosUSER(String strData) {
+
+        editor.putString(FOS_USER_AUTHENTICATIONN, strData);
+        editor.commit();
+    }
+
+    public String getFOSUser() {
+        return pref.getString(FOS_USER_AUTHENTICATIONN, "");
+    }
+
 
     public void setToken(String token) {
 

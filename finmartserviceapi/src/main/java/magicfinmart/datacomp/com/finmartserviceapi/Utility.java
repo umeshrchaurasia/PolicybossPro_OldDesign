@@ -85,6 +85,7 @@ public class Utility {
     public static String PUSH_BROADCAST_ACTION = "Finmart_Push_BroadCast_Action";
     public static String PUSH_NOTIFY = "notifyFlag";
     public static String PUSH_LOGIN_PAGE = "pushloginPage";
+    public static String FOS_INFOMATION = "fosinfomation";
 
     public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
 

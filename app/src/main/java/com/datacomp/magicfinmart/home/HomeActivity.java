@@ -659,6 +659,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_emicalLoan:
                         startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
                         break;
+                    case R.id.nav_LeadSubmission:
+                        startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
+
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                        MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
+                        break;
 
                     default:
                         break;
@@ -717,7 +723,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_transactionhistory, nav_MessageCentre, nav_crnpolicy,
                 nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail,
                 nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew,
-                nav_cobrowser, nav_logout,nav_FreeCreditReport,nav_mybusinessLoan,nav_emicalLoan;
+                nav_cobrowser, nav_logout,nav_FreeCreditReport,nav_mybusinessLoan,nav_emicalLoan,nav_LeadSubmission;
 
 
         Menu menu = navigationView.getMenu();
@@ -757,6 +763,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         nav_FreeCreditReport= menu.findItem(R.id.nav_FreeCreditReport);
         nav_mybusinessLoan =   menu.findItem(R.id.nav_mybusinessLoan);
         nav_emicalLoan=   menu.findItem(R.id.nav_emicalLoan);
+        nav_LeadSubmission=   menu.findItem(R.id.nav_LeadSubmission);
         nav_leaddetail = menu.findItem(R.id.nav_leaddetail);
         nav_sendSmsTemplate = menu.findItem(R.id.nav_sendSmsTemplate);
         nav_OtherLoan = menu.findItem(R.id.nav_OtherLoan);
@@ -1837,6 +1844,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } else {
             nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
         }
+
+
+        if(prefManager.getFOSUser() != ""){
+            String FOS_INFOMATION =prefManager.getFOSUser();
+
+            if(FOS_INFOMATION.equals("Y")){
+                nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
+            }
+        }
+
+
 
 
         //todo : check key from userconstant to hide my business

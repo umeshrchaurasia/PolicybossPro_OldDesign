@@ -279,7 +279,7 @@ public class RazorPaymentEliteActivity extends BaseActivity implements PaymentRe
     @Override
     public void onBackPressed() {
         if (cvFailure.getVisibility() == View.VISIBLE) {
-            startActivity(new Intent(RazorPaymentEliteActivity.this, PospEnrollment.class));
+            startActivity(new Intent(RazorPaymentEliteActivity.this, HomeActivity.class));
         }
         this.finish();
         super.onBackPressed();
