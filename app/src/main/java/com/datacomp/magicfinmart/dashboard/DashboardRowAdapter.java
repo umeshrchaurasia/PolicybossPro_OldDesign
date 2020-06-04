@@ -186,6 +186,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
+
         LangType = prefManager.getLanguage();
 
         if (holder instanceof HeaderRow) {
@@ -239,6 +240,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof LoanHolder) {
             //   final List<DashboardEntity> listLoan = mReal.getLoanProductList();
+            if (mReal.isHideLoan()) {
+                ((LoanHolder) holder).txtTypeName.setVisibility(View.GONE);
+                ((LoanHolder) holder).ivLogo.setVisibility(View.GONE);
+                ((LoanHolder) holder).rvDashboard.setVisibility(View.GONE);
+            }
             final List<DashboardMultiLangEntity> listLoan = mReal.getLoanProductLangList();
 
             if (LangType.equals("")) {
@@ -597,8 +603,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
 
 
-
-                    if(!dynamicUrl.isEmpty()){
+                    if (!dynamicUrl.isEmpty()) {
                         String ipaddress = "0.0.0.0";
                         try {
                             ipaddress = Utility.getMacAddress(mContext);
@@ -611,13 +616,13 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                                 + "&app_version=" + BuildConfig.VERSION_NAME
                                 + "&device_id=" + Utility.getDeviceId(mContext)
-                                + "&product_id="+productID+"&login_ssid=" + parent_ssid;
+                                + "&product_id=" + productID + "&login_ssid=" + parent_ssid;
                         dynamicUrl = dynamicUrl + append;
 
                         mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                                 .putExtra("URL", dynamicUrl)
                                 .putExtra("NAME", dashboardEntity.getProductName())
-                                .putExtra("TITLE",  dashboardEntity.getProductName()));
+                                .putExtra("TITLE", dashboardEntity.getProductName()));
 
                     }
 
@@ -639,6 +644,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
+
         switch (position) {
             //  case ROW_HEADER:
             //      return ROW_HEADER;

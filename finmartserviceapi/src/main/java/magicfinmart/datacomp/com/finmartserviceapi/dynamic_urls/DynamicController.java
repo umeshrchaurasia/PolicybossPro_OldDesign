@@ -22,6 +22,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.Up
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.UserBehaviourRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckAppAccessResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.FOSInfoResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.SwipeDetailResponse;
@@ -205,14 +206,14 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getAttendanceReport(String uid, long fdate, long tdate,final IResponseSubcriber iResponseSubcriber) {
+    public void getAttendanceReport(String uid, long fdate, long tdate, final IResponseSubcriber iResponseSubcriber) {
 
         String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipeDetails";
 
         HashMap<String, String> body = new HashMap<>();
         body.put("uid", uid);
-        body.put("fromdate",String.valueOf(fdate));
-        body.put("todate",String.valueOf(tdate));
+        body.put("fromdate", String.valueOf(fdate));
+        body.put("todate", String.valueOf(tdate));
 
         genericUrlNetworkService.attendanceReport(url, body).enqueue(new Callback<SwipeDetailResponse>() {
             @Override
@@ -284,7 +285,6 @@ public class DynamicController implements IDynamic {
         });
 
     }
-
 
 
     @Override
@@ -646,9 +646,48 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getBankdetail_homeloan(final String cityid, String Productid, final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid + "&Product_Id=" + Productid;
+    public void getFOSInfo(String POSPId, final IResponseSubcriber iResponseSubcriber) {
 
+        String url = BuildConfig.FINMART_URL + "/api/GetFosInfo";
+        HashMap<String, String> body = new HashMap<>();
+        body.put("PospId", POSPId);
+
+        genericUrlNetworkService.getFOSInfo(url, body).enqueue(new Callback<FOSInfoResponse>() {
+            @Override
+            public void onResponse(Call<FOSInfoResponse> call, Response<FOSInfoResponse> response) {
+
+                if (response.body() != null) {
+
+                    new DBPersistanceController(mContext).storeFOSDetail(response.body());
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FOSInfoResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
+    @Override
+    public void getBankdetail_homeloan(final String cityid, String Productid, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid + "&Product_Id=" + Productid;
 
         genericUrlNetworkService.getBankdetail_homeloan(url).enqueue(new Callback<home_bank_list_Response>() {
             @Override
