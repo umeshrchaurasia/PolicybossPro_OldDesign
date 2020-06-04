@@ -20,6 +20,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+import com.datacomp.magicfinmart.webviews.SyncWebViewActivity;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
@@ -62,7 +63,7 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        transactionId = getIntent().getStringExtra("transactionId");
+      //  transactionId = getIntent().getStringExtra("transactionId");
 
 
         db = new DBPersistanceController(this);
@@ -73,18 +74,21 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
 
         initialize();
         setListner();
-//        cvBuy.setVisibility(View.VISIBLE);
-//        cvSuccess.setVisibility(View.GONE);
-//        cvFailure.setVisibility(View.GONE);
 
         Checkout.preload(getApplicationContext());
 
-        Log.d(TAG, "transactionId :   " + "" + transactionId);
+       // Log.d(TAG, "transactionId :   " + "" + transactionId);
+
+        synctransactionEntity = getIntent().getExtras().getParcelable("SYNC_TRANSACTION");
 
 
-     //   showDialog();
+        if (synctransactionEntity != null) {
+            startPayment();
+        }
 
-        new DynamicController(this).getSync_trascat_detail(String.valueOf(transactionId), SyncRazorPaymentActivity.this);
+
+    // showDialog();
+     //   new DynamicController(this).getSync_trascat_detail(String.valueOf(transactionId), SyncRazorPaymentActivity.this);
     }
 
     private void initialize() {
@@ -134,8 +138,9 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
             //options.put("image", paymentEliteEntity.getImage());
             options.put("currency", "INR");
 
-            options.put("amount", synctransactionEntity.getTotal_Premium());//paymentEliteEntity.getAmount());
-
+           // int amount =  synctransactionEntity.getTotal_Premium() * 100;
+          //  options.put("amount", synctransactionEntity.getTotal_Premium());//paymentEliteEntity.getAmount());
+           options.put("amount", 100);
             JSONObject preFill = new JSONObject();
             preFill.put("email", synctransactionEntity.getEmail());
             preFill.put("contact", synctransactionEntity.getMobile());
@@ -176,18 +181,14 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
         // Toast.makeText(this, "Payment Successfully Done : " + razorpayPaymentID, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "Pyment Success with RazorPaymentID  " + razorpayPaymentID);
 
-       // this.finish();
-        String suceessurl = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(transactionId)+"/Success/"+razorpayPaymentID;
-        startActivity(new Intent(SyncRazorPaymentActivity.this, CommonWebViewActivity.class)
+        this.finish();
+        String suceessurl = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(synctransactionEntity.getTransaction_Id())+"/Success/"+razorpayPaymentID;
+        startActivity(new Intent(SyncRazorPaymentActivity.this, SyncWebViewActivity.class)
                 .putExtra("URL",suceessurl)
                 .putExtra("NAME", "Razor Payment")
                 .putExtra("TITLE", "Razor Payment"));
 
 
-      //  showDialog();
-
-     //   new RegisterController(this).addToRazorPay_elite(String.valueOf(loginResponseEntity.getFBAId()), String.valueOf(paymentEliteEntity.getCustID()), razorpayPaymentID, SyncRazorPaymentActivity.this);
-      //  new DynamicController(this).getSync_razor_payment(String.valueOf(transactionId),razorpayPaymentID ,SyncRazorPaymentActivity.this);
 
     }
 
@@ -196,13 +197,12 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
 
         try {
             Log.d(TAG, "Payment failed: " + code + " " + response);
-
-            String suceessurl = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(transactionId)+"/Cancle";
-            startActivity(new Intent(SyncRazorPaymentActivity.this, CommonWebViewActivity.class)
+            this.finish();
+            String suceessurl = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(synctransactionEntity.getTransaction_Id())+"/Cancle";
+            startActivity(new Intent(SyncRazorPaymentActivity.this, SyncWebViewActivity.class)
                     .putExtra("URL",suceessurl)
                     .putExtra("NAME", "Razor Payment")
-                    .putExtra("TITLE", "Razor Payment")
-                     .putExtra("backHandling","Y"));
+                    .putExtra("TITLE", "Razor Payment"));
 
         } catch (Exception e) {
             Log.d(TAG, "Exception in onPaymentError " + e.toString());

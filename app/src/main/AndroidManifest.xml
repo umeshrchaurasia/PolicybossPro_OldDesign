@@ -26,8 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-
+        <activity android:name=".webviews.SyncWebViewActivity"></activity>
         <activity
             android:name=".helpfeedback.raiseticketDialog.RaiseTicketDialogActivity"
             android:screenOrientation="portrait"
@@ -64,7 +63,6 @@
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".paymentEliteplan.SyncRazorPaymentActivity"
             android:label="@string/title_activity_razor_payment"

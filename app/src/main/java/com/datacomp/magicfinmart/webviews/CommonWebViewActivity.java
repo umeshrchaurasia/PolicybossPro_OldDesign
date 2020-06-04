@@ -64,6 +64,9 @@ import java.io.File;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.synctransactionDetailEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctransactionDetailReponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.zoho.ZohoController;
@@ -81,7 +84,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     String name = "";
     String title = "";
     String dashBoardtype = "";
-    String backHandling = "";
+
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
     Toolbar toolbar;
@@ -131,15 +134,11 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         url = getIntent().getStringExtra("URL");
         name = getIntent().getStringExtra("NAME");
         title = getIntent().getStringExtra("TITLE");
-        if(getIntent().getStringExtra("dashBoardtype") != null){
+        if (getIntent().getStringExtra("dashBoardtype") != null) {
 
-            dashBoardtype  = getIntent().getStringExtra("dashBoardtype");
+            dashBoardtype = getIntent().getStringExtra("dashBoardtype");
         }
 
-        if(getIntent().getStringExtra("backHandling") != null){
-
-            backHandling  = getIntent().getStringExtra("backHandling");
-        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -272,7 +271,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         });
         webView.getSettings().setBuiltInZoomControls(true);
         webView.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
-        webView.addJavascriptInterface( new PaymentInterface(),"PaymentInterface");
+        webView.addJavascriptInterface(new PaymentInterface(), "PaymentInterface");
         // webView.setWebChromeClient(new WebChromeClient();
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -331,6 +330,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             switch (keyCode) {
                 case KeyEvent.KEYCODE_BACK:
+
+                    Log.i("BACK", "Back Triggered");
                     if (webView.canGoBack()) {
                         webView.goBack();
                     } else {
@@ -344,13 +345,13 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     }
 
 
-    class PaymentInterface{
+    class PaymentInterface {
         @JavascriptInterface
-        public void success(String data){
+        public void success(String data) {
         }
 
         @JavascriptInterface
-        public void error(String data){
+        public void error(String data) {
         }
     }
 
@@ -371,7 +372,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         @JavascriptInterface
         public void Upload_doc(String randomID) {
 
-            galleryCamPopUp( randomID);
+            galleryCamPopUp(randomID);
 
 
         }
@@ -379,7 +380,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         @JavascriptInterface
         public void Upload_doc_view(String randomID) {
 
-            galleryCamPopUp( randomID);
+            galleryCamPopUp(randomID);
 
         }
 
@@ -482,11 +483,16 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
         @JavascriptInterface
         public void syncrazorpay(String transactionId) {
-            Intent intent = new Intent(CommonWebViewActivity.this, SyncRazorPaymentActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("transactionId", transactionId);
-            startActivity(intent);
-            finish();
+
+            if (!transactionId.equals("")) {
+                getSyncPaymentDetail(transactionId);
+            }
+
+//            Intent intent = new Intent(CommonWebViewActivity.this, SyncRazorPaymentActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            intent.putExtra("transactionId", transactionId);
+//            startActivity(intent);
+//            finish();
         }
     }
 
@@ -511,9 +517,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 // Toast.makeText(this,"Popup",Toast.LENGTH_SHORT).show();
                 String url = userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
                         + "&UDID=" + userConstantEntity.getUserid();
-                Log.d("URL", "Raise Ticket URL: "+url);
-              //  openWebViewPopUp(webView,  url, true, CommonWebViewActivity.this);
-                openWebViewPopUp(webView,  url, true,"Raise Ticket");
+                Log.d("URL", "Raise Ticket URL: " + url);
+                //  openWebViewPopUp(webView,  url, true, CommonWebViewActivity.this);
+                openWebViewPopUp(webView, url, true, "Raise Ticket");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -523,9 +529,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if(dashBoardtype.equals("INSURANCE")){
+        if (dashBoardtype.equals("INSURANCE")) {
             getMenuInflater().inflate(R.menu.insurance_menu, menu);
-        }else{
+        } else {
             getMenuInflater().inflate(R.menu.home_menu, menu);
         }
 
@@ -546,17 +552,13 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             countDownTimer.cancel();
     }
 
-    @Override
-    public void onBackPressed() {
-       super.onBackPressed();
-        if(backHandling.equals("Y")){
 
-            Intent intent = new Intent(this, HomeActivity.class);
-           // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP   | Intent.FLAG_ACTIVITY_SINGLE_TOP );
-            startActivity(intent);
-        }
+    private void getSyncPaymentDetail(String transactionId) {
 
+        showDialog();
+        new DynamicController(this).getSync_trascat_detail(String.valueOf(transactionId), CommonWebViewActivity.this);
     }
+
 
     // region Camera & Gallery Popup For Raise Ticket
 
@@ -944,6 +946,24 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
             } else {
                 Toast.makeText(CommonWebViewActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        else if (response instanceof synctransactionDetailReponse) {
+
+            if (((synctransactionDetailReponse) response).getStatus().equals("success")) {
+                synctransactionDetailEntity synctransactionEntity = ((synctransactionDetailReponse) response).getMasterData();
+
+
+                if (synctransactionEntity != null) {
+                    Intent intent = new Intent(CommonWebViewActivity.this, SyncRazorPaymentActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("SYNC_TRANSACTION", synctransactionEntity);
+                    startActivity(intent);
+                    finish();
+                }
+
+
             }
 
         }

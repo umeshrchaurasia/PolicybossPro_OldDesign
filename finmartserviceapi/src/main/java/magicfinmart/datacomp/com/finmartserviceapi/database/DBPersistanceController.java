@@ -71,10 +71,14 @@ public class DBPersistanceController {
     public static final String INSURER_LIST = "insurer_list";
 
     public DBPersistanceController(Context mContext) {
-        this.mContext = mContext;
-        realm = Realm.getDefaultInstance();
-        prefManager = new PrefManager(mContext);
-        editor = prefManager.editor;
+
+        if(mContext != null){
+            this.mContext = mContext;
+            realm = Realm.getDefaultInstance();
+            prefManager = new PrefManager(mContext);
+            editor = prefManager.editor;
+        }
+
     }
 
 

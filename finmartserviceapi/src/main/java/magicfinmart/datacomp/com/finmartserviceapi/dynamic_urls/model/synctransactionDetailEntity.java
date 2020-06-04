@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model;
 
-public class synctransactionDetailEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class synctransactionDetailEntity  implements Parcelable {
 
 
     /**
@@ -38,6 +41,62 @@ public class synctransactionDetailEntity {
     private int Ss_Id;
     private int __v;
     private String PayId;
+
+    protected synctransactionDetailEntity(Parcel in) {
+        _id = in.readString();
+        Transaction_Id = in.readInt();
+        Transaction_Status = in.readString();
+        Modified_On = in.readString();
+        Created_On = in.readString();
+        Total_Premium = in.readInt();
+        Service_Tax = in.readInt();
+        Net_Premium = in.readInt();
+        Plan = in.readInt();
+        Email = in.readString();
+        Mobile = in.readString();
+        Name = in.readString();
+        Fba_ID = in.readInt();
+        Ss_Id = in.readInt();
+        __v = in.readInt();
+        PayId = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(_id);
+        dest.writeInt(Transaction_Id);
+        dest.writeString(Transaction_Status);
+        dest.writeString(Modified_On);
+        dest.writeString(Created_On);
+        dest.writeInt(Total_Premium);
+        dest.writeInt(Service_Tax);
+        dest.writeInt(Net_Premium);
+        dest.writeInt(Plan);
+        dest.writeString(Email);
+        dest.writeString(Mobile);
+        dest.writeString(Name);
+        dest.writeInt(Fba_ID);
+        dest.writeInt(Ss_Id);
+        dest.writeInt(__v);
+        dest.writeString(PayId);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<synctransactionDetailEntity> CREATOR = new Creator<synctransactionDetailEntity>() {
+        @Override
+        public synctransactionDetailEntity createFromParcel(Parcel in) {
+            return new synctransactionDetailEntity(in);
+        }
+
+        @Override
+        public synctransactionDetailEntity[] newArray(int size) {
+            return new synctransactionDetailEntity[size];
+        }
+    };
 
     public String get_id() {
         return _id;
