@@ -548,7 +548,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
+       super.onBackPressed();
         if(backHandling.equals("Y")){
 
             Intent intent = new Intent(this, HomeActivity.class);

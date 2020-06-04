@@ -254,14 +254,14 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    public void onBackPressed() {
-////        if (cvFailure.getVisibility() == View.VISIBLE) {
-//          startActivity(new Intent(SyncRazorPaymentActivity.this, HomeActivity.class));
-////        }
-//       this.finish();
-//        super.onBackPressed();
-//    }
+    @Override
+    public void onBackPressed() {
+//        if (cvFailure.getVisibility() == View.VISIBLE) {
+          startActivity(new Intent(SyncRazorPaymentActivity.this, HomeActivity.class));
+//        }
+       this.finish();
+        super.onBackPressed();
+    }
 
 
 
