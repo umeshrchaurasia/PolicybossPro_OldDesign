@@ -27,7 +27,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <!-- Add your API key For Razor Payment Gateway here -->
+
+        <activity
+            android:name=".helpfeedback.raiseticketDialog.RaiseTicketDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            >
+        </activity> <!-- Add your API key For Razor Payment Gateway here -->
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_b7vQ8lyFs69syy" />
@@ -54,6 +61,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".payment.RazorPaymentActivity"
+            android:label="@string/title_activity_razor_payment"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".paymentEliteplan.SyncRazorPaymentActivity"
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

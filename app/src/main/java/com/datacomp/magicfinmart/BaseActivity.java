@@ -84,6 +84,7 @@ public class BaseActivity extends AppCompatActivity {
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
     PopUpListener popUpListener;
     PermissionListener permissionListener;
+
     String[] permissionsRequired = new String[]{android.Manifest.permission.CALL_PHONE};
     WebView webView;
     //
@@ -854,6 +855,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+
     public void registerPermission(PermissionListener permissionListener) {
         if (permissionListener != null)
             this.permissionListener = permissionListener;
@@ -1070,6 +1072,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
     public void uploadWebViewRaiserPath( String jsonResponse )
     {
        if(webView != null) {
@@ -1091,7 +1094,7 @@ public class BaseActivity extends AppCompatActivity {
         @JavascriptInterface
         public void Upload_doc(String randomID) {
 
-            ((CommonWebViewActivity)mContext).galleryCamPopUp( randomID);
+           ((CommonWebViewActivity)mContext).galleryCamPopUp( randomID);
 
         }
 
@@ -1099,6 +1102,7 @@ public class BaseActivity extends AppCompatActivity {
         public void Upload_doc_view(String randomID) {
 
             ((CommonWebViewActivity)mContext).galleryCamPopUp( randomID);
+
 
         }
 

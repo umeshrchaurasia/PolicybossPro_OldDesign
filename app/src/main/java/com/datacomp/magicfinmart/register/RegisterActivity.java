@@ -477,7 +477,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
 
         if (!isValidPinCode) {
-            PincodeAlert("Alert", "City Not Found. Kindly Contact to Tech Support Person", "9137850207");
+            PincodeAlert("Alert", "City Not Found. Kindly Contact to Tech Support Person", "");
             return false;
         }
 //        if (!isEmpty(etCity)) {

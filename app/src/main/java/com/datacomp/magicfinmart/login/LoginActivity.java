@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,12 +22,15 @@ import androidx.core.content.ContextCompat;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -47,6 +52,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     LoginRequestEntity loginRequestEntity;
     TextView tvSignUp, tvForgotPass;
     Button btnSignIn;
+    LinearLayout lyRaiseTicket;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
     DBPersistanceController dbPersistanceController;
     private static int PERMISSION_DENIED = 0;
@@ -173,6 +179,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         tvSignUp.setOnClickListener(this);
         btnSignIn.setOnClickListener(this);
         tvForgotPass.setOnClickListener(this);
+        lyRaiseTicket.setOnClickListener(this);
     }
 
     private void initWidgets() {
@@ -181,6 +188,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
+        lyRaiseTicket = (LinearLayout) findViewById(R.id.lyRaiseTicket);
     }
 
     @Override
@@ -191,6 +199,15 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.tvSignUp:
                 startActivity(new Intent(this, RegisterActivity.class));
+                break;
+            case R.id.lyRaiseTicket:
+                String url = "http://qa.policyboss.com/Finmart/Ticketing/ticket_login.html?landing_page=login_page";
+            //    String url = BuildConfig.POLICY_URL + "Finmart/Ticketing/ticket_login.html?landing_page=login_page";
+                Log.d("URL", "Raise Ticket URL: " + url);
+
+
+                startActivity(new Intent(this, RaiseTicketDialogActivity.class)
+                             .putExtra("URL", url));
                 break;
             case R.id.btnSignIn:
                 if (!isEmpty(etEmail)) {

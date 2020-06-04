@@ -214,7 +214,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         tvNote = (TextView) view.findViewById(R.id.tvNote);
         bikeQuoteRecycler = (RecyclerView) view.findViewById(R.id.bikeQuoteRecycler);
         webViewLoader = (ImageView) view.findViewById(R.id.webViewLoader);
-        Glide.with(this).load(R.drawable.preloader).into(webViewLoader);
+        Glide.with(this.getActivity()).load(R.drawable.preloader).into(webViewLoader);
         //tvPolicyExp = (TextView) view.findViewById(R.id.tvPolicyExp);
         tvRtoName = (TextView) view.findViewById(R.id.tvRtoName);
         tvMakeModel = (TextView) view.findViewById(R.id.tvMakeModel);

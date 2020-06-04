@@ -254,6 +254,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowBackground">@null</item>
         <!--   <item name="windowBackground">@android:color/transparent</item>-->
     </style>
 

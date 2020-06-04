@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.term.termselection;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
@@ -70,7 +72,9 @@ public class TermSelectionActivity extends BaseActivity {
                 String url = userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
                         + "&UDID=" + userConstantEntity.getUserid();
                 Log.d("URL", "Raise Ticket URL: "+url);
-                openWebViewPopUp(rvTermSelection,  url, true,"Raise Ticket");
+
+                startActivity(new Intent(this, RaiseTicketDialogActivity.class)
+                             .putExtra("URL", url));
                 return true;
         }
         return super.onOptionsItemSelected(item);

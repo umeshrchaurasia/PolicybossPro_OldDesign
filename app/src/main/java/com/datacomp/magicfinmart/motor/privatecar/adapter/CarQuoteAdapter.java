@@ -99,7 +99,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             Glide.with(mContext).load(logo)
                     .into(holder.imgInsurerLogo);*/
 
-            Glide.with(mContext).load(Utility.getInsurerImage(responseEntity.getInsurer_Id()))
+            Glide.with(mContext.getActivity()).load(Utility.getInsurerImage(responseEntity.getInsurer_Id()))
                     .into(holder.imgInsurerLogo);
         } catch (Exception e) {
             e.printStackTrace();

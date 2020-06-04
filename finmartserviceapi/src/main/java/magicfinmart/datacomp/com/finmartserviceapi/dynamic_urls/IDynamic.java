@@ -53,4 +53,13 @@ public interface IDynamic {
     void attendanceRegister(RegisterRequestEntity entity,IResponseSubcriber iResponseSubcriber);
 
     void getAttendanceReport(String uid,long fdate, long tdate, IResponseSubcriber iResponseSubcriber);
+
+
+
+    //Sync Contact Razor Pay
+    void getSync_trascat_detail(String transaction_Id,IResponseSubcriber iResponseSubcriber);
+
+    void getSync_trascat_Cancle(String transaction_Id,IResponseSubcriber iResponseSubcriber);
+
+    void getSync_razor_payment(String transaction_Id,String PayId,IResponseSubcriber iResponseSubcriber);
 }

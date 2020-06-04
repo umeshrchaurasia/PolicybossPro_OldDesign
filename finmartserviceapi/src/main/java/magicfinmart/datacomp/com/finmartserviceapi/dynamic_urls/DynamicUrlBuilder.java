@@ -20,6 +20,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.SwipeDe
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UserBehaviourResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.mybusinessResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.syncrazorsucessReponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctransactionDetailReponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -104,7 +106,14 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         Call<SwipeDetailResponse>attendanceReport(@Url String url, @Body HashMap<String, String> body);
 
 
+        @GET
+        Call<synctransactionDetailReponse> getSync_trascat_detail(@Url String strUrl);
 
+        @GET
+        Call<synctransactionDetailReponse> getSync_trascat_Cancle(@Url String strUrl);
+
+        @GET
+        Call<syncrazorsucessReponse> getSync_razor_payment(@Url String strUrl);
 
     }
 }

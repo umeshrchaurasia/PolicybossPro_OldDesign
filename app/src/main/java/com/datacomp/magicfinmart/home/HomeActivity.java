@@ -489,7 +489,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_leaddetail:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+                               // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+                                .putExtra("URL", "" + "http://qa.policyboss.com/SyncContact/DashBoard.html?ss_id=1655&fba_id=459")
                                 .putExtra("NAME", "" + "Lead DashBoard")
                                 .putExtra("TITLE", "" + "Lead DashBoard"));
                         break;
