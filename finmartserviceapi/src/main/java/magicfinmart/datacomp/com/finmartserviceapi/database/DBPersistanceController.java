@@ -17,7 +17,6 @@ import io.realm.Case;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.FOSInfoResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.KotakPLEmployerNameEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
@@ -41,6 +40,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificat
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserHideResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -87,15 +87,15 @@ public class DBPersistanceController {
 
     //region FOS Detail
 
-    public boolean storeFOSDetail(FOSInfoResponse response) {
+    public boolean storeFOSDetail(UserHideResponse response) {
 
         return editor.putString(FOS_DETAIL, new Gson().toJson(response)).commit();
     }
 
-    private FOSInfoResponse getFOSInfo() {
+    private UserHideResponse getFOSInfo() {
         Gson gson = new Gson();
-        if (gson.fromJson(prefManager.pref.getString(FOS_DETAIL, ""), FOSInfoResponse.class) != null)
-            return gson.fromJson(prefManager.pref.getString(FOS_DETAIL, ""), FOSInfoResponse.class);
+        if (gson.fromJson(prefManager.pref.getString(FOS_DETAIL, ""), UserHideResponse.class) != null)
+            return gson.fromJson(prefManager.pref.getString(FOS_DETAIL, ""), UserHideResponse.class);
 
         return null;
     }
@@ -103,7 +103,7 @@ public class DBPersistanceController {
     public boolean isHideLoan() {
 
         if (getFOSInfo() != null) {
-            FOSInfoResponse response = getFOSInfo();
+            UserHideResponse response = getFOSInfo();
             if (response.getMasterData().getHideloan().toLowerCase().equals("y"))
                 return true;
         }
