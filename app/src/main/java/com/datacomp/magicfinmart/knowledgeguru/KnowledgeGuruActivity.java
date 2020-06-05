@@ -2,8 +2,10 @@ package com.datacomp.magicfinmart.knowledgeguru;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +41,10 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
         loan = (CardView) findViewById(R.id.loan);
         insurance = (CardView) findViewById(R.id.insurance);
         other = (CardView) findViewById(R.id.other);
+
+        if (new DBPersistanceController(this).isHideLoan()) {
+            loan.setVisibility(View.GONE);
+        }
     }
 
     @Override

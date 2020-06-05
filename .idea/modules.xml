@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Android-FM-ANDROID.iml" filepath="$PROJECT_DIR$/Android-FM-ANDROID.iml" group="FM-ANDROID" />
       <module fileurl="file://$PROJECT_DIR$/AndroidStudioProjects-FM-ANDROID.iml" filepath="$PROJECT_DIR$/AndroidStudioProjects-FM-ANDROID.iml" group="FM-ANDROID" />
       <module fileurl="file://$PROJECT_DIR$/app/AndroidStudioProjects-FM-ANDROID-app.iml" filepath="$PROJECT_DIR$/app/AndroidStudioProjects-FM-ANDROID-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/finmartserviceapi/AndroidStudioProjects-FM-ANDROID-finmartserviceapi.iml" filepath="$PROJECT_DIR$/finmartserviceapi/AndroidStudioProjects-FM-ANDROID-finmartserviceapi.iml" />

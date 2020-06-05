@@ -118,7 +118,7 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
             //mAdapter = new VehicleDetailsAdapter(this, mPendingList);
             //rvPendingCasesList.setAdapter(mAdapter);
         } else if (response instanceof PendingCaseInsLoanResponse) {
-            pendingPagerAdapter = new PendingPagerAdapter(getSupportFragmentManager(),
+            pendingPagerAdapter = new PendingPagerAdapter(getSupportFragmentManager(),this,
                     ((PendingCaseInsLoanResponse) response).getMasterData());
             viewPager.setAdapter(pendingPagerAdapter);
             //mAdapter.notifyDataSetChanged();

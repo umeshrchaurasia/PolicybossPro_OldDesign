@@ -205,14 +205,14 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getAttendanceReport(String uid, long fdate, long tdate,final IResponseSubcriber iResponseSubcriber) {
+    public void getAttendanceReport(String uid, long fdate, long tdate, final IResponseSubcriber iResponseSubcriber) {
 
         String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipeDetails";
 
         HashMap<String, String> body = new HashMap<>();
         body.put("uid", uid);
-        body.put("fromdate",String.valueOf(fdate));
-        body.put("todate",String.valueOf(tdate));
+        body.put("fromdate", String.valueOf(fdate));
+        body.put("todate", String.valueOf(tdate));
 
         genericUrlNetworkService.attendanceReport(url, body).enqueue(new Callback<SwipeDetailResponse>() {
             @Override
@@ -284,7 +284,6 @@ public class DynamicController implements IDynamic {
         });
 
     }
-
 
 
     @Override
@@ -645,10 +644,13 @@ public class DynamicController implements IDynamic {
         });
     }
 
+
+
+
     @Override
     public void getBankdetail_homeloan(final String cityid, String Productid, final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid + "&Product_Id=" + Productid;
 
+        String url = "http://api.rupeeboss.com/BankAPIService.svc/GetCitywiseBankList?City_Id=" + cityid + "&Product_Id=" + Productid;
 
         genericUrlNetworkService.getBankdetail_homeloan(url).enqueue(new Callback<home_bank_list_Response>() {
             @Override

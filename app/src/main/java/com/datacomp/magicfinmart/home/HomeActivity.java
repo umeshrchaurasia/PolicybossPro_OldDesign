@@ -1835,6 +1835,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //        else
 //            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
 
+        if (db.isHideLoan()){
+           // nav_Menu.removeGroup(R.id.nav_loan);
+            nav_Menu.findItem(R.id.nav_loan).setVisible(false);
+        }
+
+
         //todo : check key from userconstant to hide add posp
         if (userConstantEntity != null && userConstantEntity.getAddPospVisible() != null && !userConstantEntity.getAddPospVisible().equals("")) {
             int visibility = Integer.parseInt(userConstantEntity.getAddPospVisible());

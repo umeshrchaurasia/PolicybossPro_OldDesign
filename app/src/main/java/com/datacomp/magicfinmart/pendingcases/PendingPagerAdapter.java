@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.pendingcases;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import androidx.fragment.app.Fragment;
@@ -8,12 +9,13 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseInsLoanResponse;
 
 
 public class PendingPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final int TOTAL = 2;
+    private static int TOTAL = 2;
     public final static String INSURANCE_LIST = "LIST_INSURANCE";
     public final static String LOAN_LIST = "LIST_LOAN";
     PendingCaseInsLoanResponse.MasterDataBean mMasterData;
@@ -21,9 +23,12 @@ public class PendingPagerAdapter extends FragmentStatePagerAdapter {
     private String[] pageTitle = new String[]{"INSURANCE", "LOAN"};
 
 
-    public PendingPagerAdapter(FragmentManager fm, PendingCaseInsLoanResponse.MasterDataBean masterData) {
+    public PendingPagerAdapter(FragmentManager fm, Context mContext, PendingCaseInsLoanResponse.MasterDataBean masterData) {
         super(fm);
         mMasterData = masterData;
+        if (new DBPersistanceController(mContext).isHideLoan()){
+            TOTAL = 1;
+        }
     }
 
     @Override

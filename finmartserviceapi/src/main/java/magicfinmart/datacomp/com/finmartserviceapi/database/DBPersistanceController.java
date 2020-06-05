@@ -40,6 +40,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificat
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsurerResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserHideResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -69,6 +70,8 @@ public class DBPersistanceController {
     SharedPreferences.Editor editor;
 
     public static final String INSURER_LIST = "insurer_list";
+    public static final String FOS_DETAIL = "fos_detail";
+
 
     public DBPersistanceController(Context mContext) {
 
@@ -81,6 +84,32 @@ public class DBPersistanceController {
 
     }
 
+
+    //region FOS Detail
+
+    public boolean storeFOSDetail(UserHideResponse response) {
+
+        return editor.putString(FOS_DETAIL, new Gson().toJson(response)).commit();
+    }
+
+    private UserHideResponse getFOSInfo() {
+        Gson gson = new Gson();
+        if (gson.fromJson(prefManager.pref.getString(FOS_DETAIL, ""), UserHideResponse.class) != null)
+            return gson.fromJson(prefManager.pref.getString(FOS_DETAIL, ""), UserHideResponse.class);
+
+        return null;
+    }
+
+    public boolean isHideLoan() {
+
+        if (getFOSInfo() != null) {
+            UserHideResponse response = getFOSInfo();
+            if (response.getMasterData().getHideloan().toLowerCase().equals("y"))
+                return true;
+        }
+
+        return false;
+    }
 
     //region Rbl City Master
 
@@ -778,7 +807,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan, "HlTitle", "Hldesc"));
 
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 8, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property, "LAPTitle", "LAPdesc"));
-       dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 81, "CAR LOAN TOP UP", "Sell car loan Top-Up, upto 200% of the car value of your customer!", R.drawable.carloan, "LAPTitle", "LAPdesc"));
+        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 81, "CAR LOAN TOP UP", "Sell car loan Top-Up, upto 200% of the car value of your customer!", R.drawable.carloan, "LAPTitle", "LAPdesc"));
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();

@@ -816,7 +816,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getfieldsales( String campaignid, final IResponseSubcriber iResponseSubcriber) {
+    public void getfieldsales(String campaignid, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("campaignid", "" + campaignid);
@@ -926,7 +926,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getMultiLanguageDetail( final IResponseSubcriber iResponseSubcriber) {
+    public void getMultiLanguageDetail(final IResponseSubcriber iResponseSubcriber) {
 
 
         registerQuotesNetworkService.getMultiLanguageDetail().enqueue(new Callback<MultilanguageResponse>() {
@@ -965,7 +965,7 @@ public class RegisterController implements IRegister {
 
 
     @Override
-    public void getMultiLanguageDetailOld( final IResponseSubcriber iResponseSubcriber) {
+    public void getMultiLanguageDetailOld(final IResponseSubcriber iResponseSubcriber) {
 
 
         registerQuotesNetworkService.getMultiLanguageDetailOld().enqueue(new Callback<MultiLangResponse>() {
@@ -1004,13 +1004,13 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getProductShareUrl( int fba_id, int ss_id, int product_id, int sub_fba_id, final IResponseSubcriber iResponseSubcriber) {
+    public void getProductShareUrl(int fba_id, int ss_id, int product_id, int sub_fba_id, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, Integer> body = new HashMap<>();
-        body.put("fba_id",fba_id);
-        body.put("ss_id",ss_id);
-        body.put("product_id",product_id);
-        body.put("sub_fba_id",sub_fba_id);
+        body.put("fba_id", fba_id);
+        body.put("ss_id", ss_id);
+        body.put("product_id", product_id);
+        body.put("sub_fba_id", sub_fba_id);
 
         registerQuotesNetworkService.getProductShareURL(body).enqueue(new Callback<ProductURLShareResponse>() {
             @Override
@@ -1047,12 +1047,15 @@ public class RegisterController implements IRegister {
     public void hideFOSUser(String PospId, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("PospId",PospId);
+        body.put("PospId", PospId);
 
         registerQuotesNetworkService.hideFOSUser(body).enqueue(new Callback<UserHideResponse>() {
             @Override
             public void onResponse(Call<UserHideResponse> call, Response<UserHideResponse> response) {
                 if (response.body() != null) {
+
+                    // store response to facade
+                    new DBPersistanceController(mContext).storeFOSDetail(response.body());
 
                     //callback of data
                     iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
@@ -1085,9 +1088,9 @@ public class RegisterController implements IRegister {
 
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID",FBAID);
-        body.put("CustId",CustId);
-        body.put("PayId",PayId);
+        body.put("FBAID", FBAID);
+        body.put("CustId", CustId);
+        body.put("PayId", PayId);
 
 
         registerQuotesNetworkService.addToRazorPay(body).enqueue(new Callback<RazorPayResponse>() {
@@ -1126,7 +1129,7 @@ public class RegisterController implements IRegister {
 
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID",FBAID);
+        body.put("FBAID", FBAID);
 
         registerQuotesNetworkService.getDataForPayment(body).enqueue(new Callback<PaymentDetailResponse>() {
             @Override
@@ -1160,10 +1163,10 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getDataForPayment_elite(String custid,final IResponseSubcriber iResponseSubcriber) {
+    public void getDataForPayment_elite(String custid, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("custid",custid);
+        body.put("custid", custid);
 
         registerQuotesNetworkService.getDataForPayment_EliteCustomer(body).enqueue(new Callback<PaymentDetail_EliteResponse>() {
             @Override
@@ -1201,9 +1204,9 @@ public class RegisterController implements IRegister {
 
 
         HashMap<String, String> body = new HashMap<>();
-       // body.put("FBAID",FBAID);
-        body.put("custid",CustId);
-        body.put("PayId",PayId);
+        // body.put("FBAID",FBAID);
+        body.put("custid", CustId);
+        body.put("PayId", PayId);
 
 
         registerQuotesNetworkService.addToRazorPayElite(body).enqueue(new Callback<RazorPayResponse>() {
