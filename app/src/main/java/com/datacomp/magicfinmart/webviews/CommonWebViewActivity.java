@@ -473,7 +473,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
 
         @JavascriptInterface
-        public void EliteRazorPay(String cust_id) {
+        public void EliteKotakRazorPay(String cust_id) {
             Intent intent = new Intent(CommonWebViewActivity.this, RazorPaymentEliteActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("cust_id", cust_id);

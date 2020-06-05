@@ -196,11 +196,11 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
 
 
         @Headers("token:" + token)
-        @POST("/api/GetEliteCustomer")
+        @POST("/api/GetEliteKotakCustomer")
         Call<PaymentDetail_EliteResponse> getDataForPayment_EliteCustomer(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/EliteRazorPayment")
+        @POST("/api/EliteKotakRazorPayment")
         Call<RazorPayResponse> addToRazorPayElite(@Body HashMap<String, String> body);
 
     }

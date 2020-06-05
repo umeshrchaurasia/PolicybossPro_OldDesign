@@ -117,7 +117,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'io.cobrowse:cobrowse-sdk-android:2.0.0-alpha.8'
 
-    implementation 'com.razorpay:checkout:1.5.13' //razor Pay
+    implementation 'com.razorpay:checkout:1.5.15' //razor Pay
 
 
 }

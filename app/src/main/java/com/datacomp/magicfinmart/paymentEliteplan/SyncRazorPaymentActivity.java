@@ -139,8 +139,8 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
             options.put("currency", "INR");
 
            // int amount =  synctransactionEntity.getTotal_Premium() * 100;
-          //  options.put("amount", synctransactionEntity.getTotal_Premium());//paymentEliteEntity.getAmount());
-           options.put("amount", 100);
+            options.put("amount", synctransactionEntity.getTotal_Premium());//paymentEliteEntity.getAmount());
+           //options.put("amount", 100);
             JSONObject preFill = new JSONObject();
             preFill.put("email", synctransactionEntity.getEmail());
             preFill.put("contact", synctransactionEntity.getMobile());

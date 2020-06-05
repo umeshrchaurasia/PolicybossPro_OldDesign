@@ -249,7 +249,7 @@ public class RazorPaymentEliteActivity extends BaseActivity implements PaymentRe
 
             } else {
 
-                Log.d(TAG, "Failure : getfbadataforrpay method to sever   " + "" + response.getMessage());
+                Log.d(TAG, "Failure : get fba data for pay method to sever   " + "" + response.getMessage());
             }
         }
     }
