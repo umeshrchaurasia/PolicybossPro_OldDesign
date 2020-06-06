@@ -54,6 +54,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.BuildConfig;
 import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
@@ -1362,28 +1363,40 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             // region user already logged in and app in forground
             else if (getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
                 NotifyEntity notificationEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
-                if (notificationEntity.getNotifyFlag().matches("NL")) {
-                    Intent intent = new Intent(this, NotificationActivity.class);
-                    startActivity(intent);
-                } else if (notificationEntity.getNotifyFlag().matches("MSG")) {
 
-                    String title = notificationEntity.getTitle();
-                    String body = notificationEntity.getBody();
-
-                    startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
-                            .putExtra("NOTIFY_TITLE", title)
-                            .putExtra("NOTIFY_BODY", body));
-
-                } else if (notificationEntity.getNotifyFlag().matches("WB")) {
-                    String web_url = notificationEntity.getWeb_url();
-                    String web_title = notificationEntity.getWeb_title();
-                    String web_name = "";
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", web_url)
-                            .putExtra("NAME", web_name)
-                            .putExtra("TITLE", web_title));
-
+                if(notificationEntity.getWeb_url() != null){
+                    if(!notificationEntity.getWeb_url().equals("")) {
+                        navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(),notificationEntity.getWeb_title());
+                    }
                 }
+
+
+                 //     region Comment
+//                if (notificationEntity.getNotifyFlag().matches("NL")) {
+//                    Intent intent = new Intent(this, NotificationActivity.class);
+//                    startActivity(intent);
+//                } else if (notificationEntity.getNotifyFlag().matches("MSG")) {
+//
+//                    String title = notificationEntity.getTitle();
+//                    String body = notificationEntity.getBody();
+//
+//                    startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
+//                            .putExtra("NOTIFY_TITLE", title)
+//                            .putExtra("NOTIFY_BODY", body));
+//
+//                }
+//                else if (notificationEntity.getNotifyFlag().matches("WB")) {
+//                    String web_url = notificationEntity.getWeb_url();
+//                    String web_title = notificationEntity.getWeb_title();
+//                    String web_name = "";
+//                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+//                            .putExtra("URL", web_url)
+//                            .putExtra("NAME", web_name)
+//                            .putExtra("TITLE", web_title));
+//
+//                }
+
+                //endregion
             }
             //endregion
 
@@ -2890,5 +2903,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public  void infoProductPopUp(DashboardMultiLangEntity shareEntity)
     {
         openWebViewPopUp(txtFbaID, shareEntity.getInfo(), true,"");
+    }
+
+    private  void navigateViaNotification(String prdID ,String WebURL,String Title)
+    {
+        String ipaddress = "0.0.0.0";
+        try {
+            ipaddress = Utility.getMacAddress(HomeActivity.this);
+        } catch (Exception io) {
+            ipaddress = "0.0.0.0";
+        }
+
+
+        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+        String append =  "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() +  "&sub_fba_id="  +
+                "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                + "&app_version=" + BuildConfig.VERSION_NAME
+                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                + "&product_id=" + prdID
+                 +"&login_ssid=";
+        WebURL = WebURL + append;
+
+        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                .putExtra("URL", WebURL)
+                .putExtra("NAME", Title)
+                .putExtra("TITLE", Title));
     }
 }

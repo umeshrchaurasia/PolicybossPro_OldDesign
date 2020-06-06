@@ -128,7 +128,7 @@ public class RazorPaymentEliteActivity extends BaseActivity implements PaymentRe
         try {
             JSONObject options = new JSONObject();
             options.put("name", paymentEliteEntity.getFullname() + " - " + paymentEliteEntity.getCustID());
-            options.put("plan", paymentEliteEntity.getPlanname() + " - " + paymentEliteEntity.getSubplan());
+            options.put("description", paymentEliteEntity.getPlanname());
             //You can omit the image option to fetch the image from dashboard
             options.put("image", paymentEliteEntity.getImage());
             options.put("currency", "INR");
@@ -154,7 +154,7 @@ public class RazorPaymentEliteActivity extends BaseActivity implements PaymentRe
 
         String custname = paymentEliteEntity.getFullname() + " - " + paymentEliteEntity.getCustID();
         txtCustomerName.setText(custname);
-        txtProdName.setText(paymentEliteEntity.getPlanname() + " - " + paymentEliteEntity.getSubplan());
+        txtProdName.setText(paymentEliteEntity.getPlanname());
         txtDisplayAmount.setText("\u20B9" + " " + paymentEliteEntity.getDisplayamount());
     }
 
