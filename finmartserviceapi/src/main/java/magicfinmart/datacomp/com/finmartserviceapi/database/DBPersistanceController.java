@@ -741,7 +741,7 @@ public class DBPersistanceController {
     public List<DashboardMultiLangEntity> getInsurProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
 
-
+        //region previous Logic
         //  DBPersistanceController db = new DBPersistanceController(mContext);
 
 
@@ -765,6 +765,9 @@ public class DBPersistanceController {
 //
 //        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 18, "TERM INSURANCE", "Get quotes, compare benefits and buy online from top Life Insurance companies.", R.drawable.life_insurance, "LifeInsTitle", "LifeInsdesc"));
 //        dashboardEntities.add(new DashboardMultiLangEntity("INSURANCE", 16, "REQUEST OFFLINE QUOTES", "Get offline quotes.", R.drawable.offlineportal, "OfflineQTitle", "OfflineQdesc"));
+
+        //endegion
+        //endregion
 
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
@@ -793,6 +796,8 @@ public class DBPersistanceController {
             //     }
         }
 
+
+
         return dashboardEntities;
     }
 
@@ -800,6 +805,16 @@ public class DBPersistanceController {
     public List<DashboardMultiLangEntity> getLoanProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
 
+        DashboardMultiLangEntity objDashboard = new DashboardMultiLangEntity("LOANS", 23, "Kotak Group health Care", "Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.", R.drawable.kotak_elite, "KOTAKTitle", "KOTAKdesc");
+        objDashboard.setIsExclusive("Y");
+        objDashboard.setIsSharable("Y");
+        objDashboard.setInfo("http://origin-cdnh.policyboss.com/fmweb/GroupHealthCare/update.html");
+        objDashboard.setTitle("Kotak Group health Care");
+        objDashboard.setPopupmsg("Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.");
+        dashboardEntities.add(objDashboard);
+
+
+        /////////////////////////
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 4, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card, "CCTitle", "CCdesc"));
 
         dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 19, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));

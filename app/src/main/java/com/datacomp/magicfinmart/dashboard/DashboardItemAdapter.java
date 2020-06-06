@@ -56,7 +56,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     int fbaId = 0;
     String LangType;
-    String loanurl="";
+    String loanurl = "";
 
     public DashboardItemAdapter(Fragment context, List<DashboardMultiLangEntity> list, String langType) {
         mContext = context;
@@ -68,7 +68,6 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             fbaId = dbPersistanceController.getUserData().getFBAId();
         }
     }
-
 
 
     public class DashboardItemHolder extends RecyclerView.ViewHolder {
@@ -135,6 +134,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
 
+             // IsExclusive() Verifying Data Comming From server in static case ie Loan it is null
+
             if (listInsur.get(position).getIsExclusive() != null) {
 
                 // region for Sharing Insurance Prod
@@ -173,6 +174,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     ((DashboardItemHolder) holder).txtProductDesc.setTextColor(ContextCompat.getColor(mContext.getActivity(), R.color.header_text_color));
                 }
 
+
+                // For IsExclusive == Y Showing "New" Icon in Product
                 if (listInsur.get(position).getIsExclusive().equals("Y")) {
                     ((DashboardItemHolder) holder).imgNew.setVisibility(View.VISIBLE);
                     Glide.with(mContext.getActivity()).
@@ -190,50 +193,10 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
 
-            //region comment
-
-//            ((DashboardItemHolder) holder).imgShare.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    Toast.makeText(mContext.getActivity(), "Share Data : " + position, Toast.LENGTH_SHORT).show();
-//                    switchMenus(listInsur.get(position));
-//
-//                    ((HomeActivity) mContext.getActivity()).shareDashbordProduct();
-//
-//                }
-//            });
 
 
 
-//            ((DashboardItemHolder) holder).lyParent.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    switchMenus(listInsur.get(position));
-//                }
-//            });
-//
-//
-//            ((DashboardItemHolder) holder).imgShare.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    ((HomeActivity) mContext.getActivity()).shareProductPopUp(listInsur.get(position));
-//
-//                }
-//            });
-//
-//            ((DashboardItemHolder) holder).imgInfo.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//
-//                    ((HomeActivity) mContext.getActivity()).infoProductPopUp(listInsur.get(position));
-//
-//                }
-//            });
-
-             //endregion
+            //endregion
 
 
             ((DashboardItemHolder) holder).lyParent.setTag(R.id.lyParent, listInsur.get(position));
@@ -272,15 +235,15 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (view.getId()) {
 
             case R.id.lyParent:
-                switchMenus((DashboardMultiLangEntity)view.getTag(view.getId()));   // ie DashboardMultiLangEntity entity
+                switchMenus((DashboardMultiLangEntity) view.getTag(view.getId()));   // ie DashboardMultiLangEntity entity
                 break;
 
             case R.id.imgShare:
-                ((HomeActivity) mContext.getActivity()).shareProductPopUp((DashboardMultiLangEntity)view.getTag(view.getId()));
+                ((HomeActivity) mContext.getActivity()).shareProductPopUp((DashboardMultiLangEntity) view.getTag(view.getId()));
                 break;
 
             case R.id.imgInfo:
-                ((HomeActivity) mContext.getActivity()).infoProductPopUp((DashboardMultiLangEntity)view.getTag(view.getId()));
+                ((HomeActivity) mContext.getActivity()).infoProductPopUp((DashboardMultiLangEntity) view.getTag(view.getId()));
                 break;
         }
     }
@@ -289,7 +252,6 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount() {
         return listInsur.size();
     }
-
 
 
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
@@ -399,9 +361,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             case 7:
                 //home loan
-              //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewHomeApplicaionActivity.class));
+                //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewHomeApplicaionActivity.class));
 
-                loanurl = "https://www.rupeeboss.com/finmart-home-loan-new?BrokerId="+dbPersistanceController.getUserData().getLoanId()+"&client_source=finmart";
+                loanurl = "https://www.rupeeboss.com/finmart-home-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", loanurl)
@@ -413,8 +375,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             case 19:
                 //personal loan
-               // mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewPersonalApplicaionActivity.class));
-                loanurl = "https://www.rupeeboss.com/finmart-personal-loan-new?BrokerId="+dbPersistanceController.getUserData().getLoanId()+"&client_source=finmart";
+                // mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewPersonalApplicaionActivity.class));
+                loanurl = "https://www.rupeeboss.com/finmart-personal-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", loanurl)
@@ -426,9 +388,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             case 8:
                 //lap
-             //   mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewLAPApplicaionActivity.class));
+                //   mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewLAPApplicaionActivity.class));
 
-                loanurl = "https://www.rupeeboss.com/finmart-property-loan?BrokerId="+dbPersistanceController.getUserData().getLoanId()+"&client_source=finmart";
+                loanurl = "https://www.rupeeboss.com/finmart-property-loan?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", loanurl)
@@ -440,9 +402,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 4:
                 //cc
                 // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
-              //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AppliedCreditListActivity.class));
+                //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AppliedCreditListActivity.class));
 
-                loanurl = "https://www.rupeeboss.com/finmart-credit-card-loan-new?BrokerId="+dbPersistanceController.getUserData().getLoanId()+"&client_source=finmart";
+                loanurl = "https://www.rupeeboss.com/finmart-credit-card-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", loanurl)
@@ -454,9 +416,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 6:
                 //BT
                 //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
-           //     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewbusinessApplicaionActivity.class));
+                //     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewbusinessApplicaionActivity.class));
 
-                loanurl = "https://www.rupeeboss.com/finmart-business-loan-new?BrokerId="+dbPersistanceController.getUserData().getLoanId()+"&client_source=finmart";
+                loanurl = "https://www.rupeeboss.com/finmart-business-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", loanurl)
@@ -466,9 +428,24 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
 
+            case 23:
+                // KOTAK
+               String kotakUrl = "http://elite.rupeeboss.com/EliteKotakWeb/policyDetails.html?";
+                String appendInKotak = "&fbaid=" + dbPersistanceController.getUserData().getFBAId() + "&source=finmart"
+                        + "&fba_id=" + dbPersistanceController.getUserData().getFBAId()
+                        + "&type=finmart"
+                        + "&loan_id=" +  dbPersistanceController.getUserData().getLoanId();
+                kotakUrl = kotakUrl + appendInKotak;
+                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                        .putExtra("URL", kotakUrl)
+                        .putExtra("NAME", "Kotak Group health Care" )
+                        .putExtra("TITLE", "Kotak Group health Care" ));
+
+                break;
+
             case 81:
 
-                loanurl = "https://www.rupeeboss.com/car-loan-new?BrokerId="+dbPersistanceController.getUserData().getLoanId()+"&client_source=finmart";
+                loanurl = "https://www.rupeeboss.com/car-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", loanurl)
