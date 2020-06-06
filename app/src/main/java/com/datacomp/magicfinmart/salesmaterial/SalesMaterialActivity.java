@@ -7,10 +7,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -145,22 +147,8 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
                 dbPersistanceController.storeCompanyList(mlistSalesProduct);
             }
 
-            // region comment
-//            Gson gson = new Gson();
-//
-//            String listString = gson.toJson(
-//                    mlistSalesProduct,
-//                    new TypeToken<ArrayList<SalesProductEntity>>() {}.getType());
-//
-//            try {
-//                JSONArray jsonArray = new JSONArray(listString);
-//            }catch (Exception ex){
-//
-//            }
 
-            // endregion
-
-            mAdapter = new SalesMaterialAdapter(this, mlistSalesProduct);
+            mAdapter = new SalesMaterialAdapter(this, new DBPersistanceController(this).getCompanyList());
             rvSalesMaterial.setAdapter(mAdapter);
         } else if (response instanceof SalesPromotionResponse) {
             companyLst = ((SalesPromotionResponse) response).getMasterData().getCompany();
@@ -186,12 +174,11 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
     public void redirectToApplyMain(SalesProductEntity entity, int pos) {
 
-        if(entity.getProduct_Id() == 7)
-        {
+        if (entity.getProduct_Id() == 7) {
             Intent intent = new Intent(SalesMaterialActivity.this, festivelinkActivity.class);
             startActivity(intent);
 
-        }else {
+        } else {
 
             if (entity.getCount() > entity.getOldCount()) {
                 alertCount(entity, pos);
@@ -203,7 +190,6 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
             }
         }
-
 
 
     }
@@ -232,19 +218,19 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
+    //    @Override
 //    public void onBackPressed() {
 //
 //        supportFinishAfterTransition();
 //        super.onBackPressed();
 //    }
 //
-@Override
-public boolean onSupportNavigateUp() {
-    onBackPressed();
-    return false;
-    // return super.onSupportNavigateUp();
-}
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
+        // return super.onSupportNavigateUp();
+    }
 
     public List<SalesProductEntity> getProducttList() {
         List<SalesProductEntity> EmploymentEntityList = new ArrayList<SalesProductEntity>();

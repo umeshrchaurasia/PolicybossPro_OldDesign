@@ -240,12 +240,18 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof LoanHolder) {
             //   final List<DashboardEntity> listLoan = mReal.getLoanProductList();
-            if (mReal.isHideLoan()) {
+//            if (mReal.isHideLoan()) {
+//                ((LoanHolder) holder).txtTypeName.setVisibility(View.GONE);
+//                ((LoanHolder) holder).ivLogo.setVisibility(View.GONE);
+//                ((LoanHolder) holder).rvDashboard.setVisibility(View.GONE);
+//            }
+            final List<DashboardMultiLangEntity> listLoan = mReal.getLoanProductLangList();
+            if (listLoan.size() == 0) {
                 ((LoanHolder) holder).txtTypeName.setVisibility(View.GONE);
                 ((LoanHolder) holder).ivLogo.setVisibility(View.GONE);
                 ((LoanHolder) holder).rvDashboard.setVisibility(View.GONE);
             }
-            final List<DashboardMultiLangEntity> listLoan = mReal.getLoanProductLangList();
+
 
             if (LangType.equals("")) {
                 ((LoanHolder) holder).txtTypeName.setText("LOANS");
