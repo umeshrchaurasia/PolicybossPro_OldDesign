@@ -246,18 +246,20 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //                ((LoanHolder) holder).rvDashboard.setVisibility(View.GONE);
 //            }
             final List<DashboardMultiLangEntity> listLoan = mReal.getLoanProductLangList();
-            if (listLoan.size() == 0) {
-                ((LoanHolder) holder).txtTypeName.setVisibility(View.GONE);
-                ((LoanHolder) holder).ivLogo.setVisibility(View.GONE);
-                ((LoanHolder) holder).rvDashboard.setVisibility(View.GONE);
-            }
 
+            //if loan is not available show kotak label
+            //else as it is
 
-            if (LangType.equals("")) {
-                ((LoanHolder) holder).txtTypeName.setText("LOANS");
+            if (mReal.isHideLoan()) {
+                ((LoanHolder) holder).txtTypeName.setText("KOTAK");
             } else {
-                ((LoanHolder) holder).txtTypeName.setText(mReal.getLangData(LangType, "Loans"));
+                if (LangType.equals("")) {
+                    ((LoanHolder) holder).txtTypeName.setText("LOANS");
+                } else {
+                    ((LoanHolder) holder).txtTypeName.setText(mReal.getLangData(LangType, "Loans"));
+                }
             }
+
 
             ((BaseFragment) mFragment).setLanguage(LangType, ((LoanHolder) holder).txtTypeName);
 
