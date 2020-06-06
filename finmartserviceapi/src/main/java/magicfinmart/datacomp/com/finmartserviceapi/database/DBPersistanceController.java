@@ -796,8 +796,6 @@ public class DBPersistanceController {
             //     }
         }
 
-
-
         return dashboardEntities;
     }
 
@@ -805,25 +803,27 @@ public class DBPersistanceController {
     public List<DashboardMultiLangEntity> getLoanProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
 
-        DashboardMultiLangEntity objDashboard = new DashboardMultiLangEntity("LOANS", 23, "Kotak Group health Care", "Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.", R.drawable.kotak_elite, "KOTAKTitle", "KOTAKdesc");
-        objDashboard.setIsExclusive("Y");
-        objDashboard.setIsSharable("Y");
-        objDashboard.setInfo("http://origin-cdnh.policyboss.com/fmweb/GroupHealthCare/update.html");
-        objDashboard.setTitle("Kotak Group health Care");
-        objDashboard.setPopupmsg("Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.");
-        dashboardEntities.add(objDashboard);
+        if (!isHideLoan()) {
+            DashboardMultiLangEntity objDashboard = new DashboardMultiLangEntity("LOANS", 23, "Kotak Group health Care", "Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.", R.drawable.kotak_elite, "KOTAKTitle", "KOTAKdesc");
+            objDashboard.setIsExclusive("Y");
+            objDashboard.setIsSharable("Y");
+            objDashboard.setInfo("http://origin-cdnh.policyboss.com/fmweb/GroupHealthCare/update.html");
+            objDashboard.setTitle("Kotak Group health Care");
+            objDashboard.setPopupmsg("Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.");
+            dashboardEntities.add(objDashboard);
 
 
-        /////////////////////////
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 4, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card, "CCTitle", "CCdesc"));
+            /////////////////////////
+            dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 4, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card, "CCTitle", "CCdesc"));
 
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 19, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 6, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer, "BLTitle", "BLdesc"));
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan, "HlTitle", "Hldesc"));
+            dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 19, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan, "PlTitle", "Pldesc"));
+            dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 6, "BUSINESS LOAN", "Maximum loan amount at competitive interest rate .", R.drawable.balance_transfer, "BLTitle", "BLdesc"));
+            dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 7, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan, "HlTitle", "Hldesc"));
 
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 8, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property, "LAPTitle", "LAPdesc"));
-        dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 81, "CAR LOAN TOP UP", "Sell car loan Top-Up, upto 200% of the car value of your customer!", R.drawable.carloan, "LAPTitle", "LAPdesc"));
+            dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 8, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property, "LAPTitle", "LAPdesc"));
+            dashboardEntities.add(new DashboardMultiLangEntity("LOANS", 81, "CAR LOAN TOP UP", "Sell car loan Top-Up, upto 200% of the car value of your customer!", R.drawable.carloan, "LAPTitle", "LAPdesc"));
 
+        }
         if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
             if (dashboardEntities != null && dashboardEntities.size() > 0) {
@@ -1172,10 +1172,19 @@ public class DBPersistanceController {
     }
 
     public List<SalesProductEntity> getCompanyList() {
-        List<SalesProductEntity> salesProductList = realm.where(SalesProductEntity.class).findAll();
-        if (salesProductList != null)
+
+
+        List<SalesProductEntity> salesProductList = new ArrayList<>();
+        if (isHideLoan()) {
+            salesProductList = realm.where(SalesProductEntity.class).notEqualTo("Product_Id", 4)
+                    .notEqualTo("Product_Id", 7).findAll();
+        } else {
+            salesProductList = realm.where(SalesProductEntity.class).findAll();
+        }
+
+        if (salesProductList != null) {
             return salesProductList;
-        else
+        } else
             return null;
     }
 
