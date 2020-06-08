@@ -251,7 +251,9 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             //else as it is
 
             if (mReal.isHideLoan()) {
-                ((LoanHolder) holder).txtTypeName.setText("KOTAK");
+                ((LoanHolder) holder).txtTypeName.setVisibility(View.GONE);
+                ((LoanHolder) holder).ivLogo.setVisibility(View.GONE);
+                ((LoanHolder) holder).tvPoweredBy.setVisibility(View.GONE);
             } else {
                 if (LangType.equals("")) {
                     ((LoanHolder) holder).txtTypeName.setText("LOANS");
