@@ -101,6 +101,7 @@ import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.switchuser.SwitchUserActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -328,7 +329,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //        }
 
 
-
         checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
         if (checkfirstmsg_call == 0) {
 
@@ -490,7 +490,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_leaddetail:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                               // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+                                // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
                                 .putExtra("URL", "" + "http://qa.policyboss.com/SyncContact/DashBoard.html?ss_id=1655&fba_id=459")
                                 .putExtra("NAME", "" + "Lead DashBoard")
                                 .putExtra("TITLE", "" + "Lead DashBoard"));
@@ -725,7 +725,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 nav_transactionhistory, nav_MessageCentre, nav_crnpolicy,
                 nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail,
                 nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew,
-                nav_cobrowser, nav_logout,nav_FreeCreditReport,nav_mybusinessLoan,nav_emicalLoan,nav_LeadSubmission;
+                nav_cobrowser, nav_logout, nav_FreeCreditReport, nav_mybusinessLoan, nav_emicalLoan, nav_LeadSubmission;
 
 
         Menu menu = navigationView.getMenu();
@@ -762,10 +762,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         nav_generateLead = menu.findItem(R.id.nav_generateLead);
         nav_scan_vehicle = menu.findItem(R.id.nav_scan_vehicle);
         nav_sharedata = menu.findItem(R.id.nav_sharedata);
-        nav_FreeCreditReport= menu.findItem(R.id.nav_FreeCreditReport);
-        nav_mybusinessLoan =   menu.findItem(R.id.nav_mybusinessLoan);
-        nav_emicalLoan=   menu.findItem(R.id.nav_emicalLoan);
-        nav_LeadSubmission=   menu.findItem(R.id.nav_LeadSubmission);
+        nav_FreeCreditReport = menu.findItem(R.id.nav_FreeCreditReport);
+        nav_mybusinessLoan = menu.findItem(R.id.nav_mybusinessLoan);
+        nav_emicalLoan = menu.findItem(R.id.nav_emicalLoan);
+        nav_LeadSubmission = menu.findItem(R.id.nav_LeadSubmission);
         nav_leaddetail = menu.findItem(R.id.nav_leaddetail);
         nav_sendSmsTemplate = menu.findItem(R.id.nav_sendSmsTemplate);
         nav_OtherLoan = menu.findItem(R.id.nav_OtherLoan);
@@ -1109,8 +1109,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
-              // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
+                // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
 
@@ -1364,14 +1364,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             else if (getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
                 NotifyEntity notificationEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
 
-                if(notificationEntity.getWeb_url() != null){
-                    if(!notificationEntity.getWeb_url().equals("")) {
-                        navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(),notificationEntity.getWeb_title());
+                if (notificationEntity.getWeb_url() != null) {
+                    if (!notificationEntity.getWeb_url().equals("")) {
+                        navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
                     }
                 }
 
 
-                 //     region Comment
+                //     region Comment
 //                if (notificationEntity.getNotifyFlag().matches("NL")) {
 //                    Intent intent = new Intent(this, NotificationActivity.class);
 //                    startActivity(intent);
@@ -1408,7 +1408,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard_menu, menu);
@@ -1424,7 +1423,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         textNotifyItemCount = (TextView) actionView.findViewById(R.id.notify_badge);
         textNotifyItemCount.setVisibility(View.GONE);
 
-        ImageView imgNew =  (ImageView) actionViewnew.findViewById(R.id.imgNew);
+        ImageView imgNew = (ImageView) actionViewnew.findViewById(R.id.imgNew);
 
         Glide.with(HomeActivity.this).
                 load(R.drawable.newicon)
@@ -1444,7 +1443,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionViewnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
             }
 
 
@@ -1495,7 +1494,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 intent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_CODE);
                 break;
-
 
 
         }
@@ -1556,7 +1554,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
                                 prefManager.setIsSeasonal(false);
                             }
                         }
@@ -1564,7 +1562,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         // prefManager.updatePopUpId("" + serverId);
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true,"");
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
                                 prefManager.setIsSeasonal(false);
                             }
                         }
@@ -1848,8 +1846,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //        else
 //            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
 
-        if (db.isHideLoan()){
-           // nav_Menu.removeGroup(R.id.nav_loan);
+        if (db.isHideLoan()) {
+            // nav_Menu.removeGroup(R.id.nav_loan);
             nav_Menu.findItem(R.id.nav_loan).setVisible(false);
         }
 
@@ -1866,15 +1864,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
 
-        if(prefManager.getFOSUser() != ""){
-            String FOS_INFOMATION =prefManager.getFOSUser();
+        if (prefManager.getFOSUser() != "") {
+            String FOS_INFOMATION = prefManager.getFOSUser();
 
-            if(FOS_INFOMATION.equals("Y")){
+            if (FOS_INFOMATION.equals("Y")) {
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
             }
         }
-
-
 
 
         //todo : check key from userconstant to hide my business
@@ -2793,7 +2789,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 this);
     }
 
-    public void shareProductPopUp(DashboardMultiLangEntity shareEntity ) {
+    public void shareProductPopUp(DashboardMultiLangEntity shareEntity) {
 
         if (shareProdDialog != null && shareProdDialog.isShowing()) {
 
@@ -2845,8 +2841,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    public void verifyPospNo( ) {
-
+    public void verifyPospNo() {
 
 
         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
@@ -2858,7 +2853,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         final View dialogView = inflater.inflate(R.layout.layout_failure_popup, null);
 
         builder.setView(dialogView);
-        androidx.appcompat.app.AlertDialog  verifyDialog = builder.create();
+        androidx.appcompat.app.AlertDialog verifyDialog = builder.create();
         // set the custom dialog components - text, image and button
         txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
         txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);
@@ -2866,7 +2861,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
 
         txtTitle.setText("Authorization");
-        txtMessage.setText(getResources().getString(R.string.verify_SSID) );
+        txtMessage.setText(getResources().getString(R.string.verify_SSID));
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2900,33 +2895,39 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    public  void infoProductPopUp(DashboardMultiLangEntity shareEntity)
-    {
-        openWebViewPopUp(txtFbaID, shareEntity.getInfo(), true,"");
+    public void infoProductPopUp(DashboardMultiLangEntity shareEntity) {
+        openWebViewPopUp(txtFbaID, shareEntity.getInfo(), true, "");
     }
 
-    private  void navigateViaNotification(String prdID ,String WebURL,String Title)
-    {
-        String ipaddress = "0.0.0.0";
-        try {
-            ipaddress = Utility.getMacAddress(HomeActivity.this);
-        } catch (Exception io) {
-            ipaddress = "0.0.0.0";
+    private void navigateViaNotification(String prdID, String WebURL, String Title) {
+
+        if (prdID.equals("18")) {
+
+            startActivity(new Intent(HomeActivity.this, TermSelectionActivity.class));
+
+        } else {
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(HomeActivity.this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+
+            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+            String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" +
+                    "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    + "&app_version=" + BuildConfig.VERSION_NAME
+                    + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                    + "&product_id=" + prdID
+                    + "&login_ssid=";
+            WebURL = WebURL + append;
+
+            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", WebURL)
+                    .putExtra("NAME", Title)
+                    .putExtra("TITLE", Title));
         }
 
-
-        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-        String append =  "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() +  "&sub_fba_id="  +
-                "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                + "&app_version=" + BuildConfig.VERSION_NAME
-                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                + "&product_id=" + prdID
-                 +"&login_ssid=";
-        WebURL = WebURL + append;
-
-        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                .putExtra("URL", WebURL)
-                .putExtra("NAME", Title)
-                .putExtra("TITLE", Title));
     }
 }
