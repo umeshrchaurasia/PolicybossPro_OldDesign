@@ -2,6 +2,11 @@ package com.datacomp.magicfinmart.notification;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.datacomp.magicfinmart.BuildConfig;
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,12 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 
 public class NotificationActivity extends BaseActivity implements IResponseSubcriber {
@@ -33,6 +40,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     List<NotificationEntity>  NotificationLst;
     NotificationAdapter mAdapter;
     DBPersistanceController dbPersistanceController;
+    UserConstantEntity userConstantEntity;
     LoginResponseEntity loginEntity;
     PrefManager prefManager;
 
@@ -48,6 +56,8 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
         dbPersistanceController = new DBPersistanceController(this);
         loginEntity = dbPersistanceController.getUserData();
+
+        userConstantEntity = dbPersistanceController.getUserConstantsData();
 
         initialize();
 
@@ -78,16 +88,10 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     public void redirectToApplyLoan(NotificationEntity notifyEntity) {
 
-        if(notifyEntity.getAction().equals("HL")) {
-
-            startActivity(new Intent(this, HomeLoanDetailActivity.class));
-            finish();
+        if(notifyEntity.getNotifyFlag() != null && notifyEntity.getWeb_url() != null){
+            navigateViaNotification(notifyEntity.getNotifyFlag(),notifyEntity.getWeb_url(),notifyEntity.getWeb_title());
         }
-        else if(notifyEntity.getAction().equals("PL")) {
 
-            startActivity(new Intent(this, PersonalLoanDetailActivity.class));
-            finish();
-        }
     }
 
 
@@ -141,6 +145,48 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         setResult(Constants.REQUEST_CODE, intent);
         finish();
         super.onBackPressed();
+    }
+
+    private void navigateViaNotification(String prdID, String WebURL, String Title) {
+
+        if (prdID.equals("18")) {
+
+            startActivity(new Intent(NotificationActivity.this, TermSelectionActivity.class));
+            this.finish();
+
+        } else {
+
+            if( WebURL.trim().equals("") || Title.trim().equals("") )
+            {
+
+                return;
+            }
+            String ipaddress = "0.0.0.0";
+            try {
+                ipaddress = Utility.getMacAddress(NotificationActivity.this);
+            } catch (Exception io) {
+                ipaddress = "0.0.0.0";
+            }
+
+
+            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+            String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" +
+                    "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    + "&app_version=" + BuildConfig.VERSION_NAME
+                    + "&device_id=" + Utility.getDeviceId(NotificationActivity.this)
+                    + "&product_id=" + prdID
+                    + "&login_ssid=";
+            WebURL = WebURL + append;
+
+            this.finish();
+            startActivity(new Intent(NotificationActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", WebURL)
+                    .putExtra("NAME", Title.toUpperCase())
+                    .putExtra("TITLE",Title.toUpperCase()));
+
+
+        }
+
     }
 
 

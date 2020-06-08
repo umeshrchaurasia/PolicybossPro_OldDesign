@@ -24,6 +24,7 @@ public class NotificationEntity {
     private String is_read;
     private String date;
     private int message_id;
+    private String notifyFlag;
 
     public String getTitle() {
         return title;
@@ -95,6 +96,14 @@ public class NotificationEntity {
 
     public void setMessage_id(int message_id) {
         this.message_id = message_id;
+    }
+
+    public String getNotifyFlag() {
+        return notifyFlag;
+    }
+
+    public void setNotifyFlag(String notifyFlag) {
+        this.notifyFlag = notifyFlag;
     }
 
 }
