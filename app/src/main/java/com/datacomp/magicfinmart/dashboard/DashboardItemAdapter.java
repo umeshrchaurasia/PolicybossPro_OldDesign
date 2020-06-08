@@ -266,7 +266,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             parent_ssid = map.get("Parent_POSPNo");
         }
 
-
+        String ipaddress = "0.0.0.0";
         switch (productID) {
 
             case 1:
@@ -278,7 +278,6 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                     String motorUrl = dbPersistanceController.getUserConstantsData().getFourWheelerUrl();
 
-                    String ipaddress = "0.0.0.0";
                     try {
                         ipaddress = Utility.getMacAddress(mContext.getActivity());
                     } catch (Exception io) {
@@ -305,7 +304,32 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
+            case 23:
 
+                // KOTAK
+                String kotakUrl = "http://elite.rupeeboss.com/EliteKotakWeb/policyDetails.html?";
+
+
+                try {
+                    ipaddress = Utility.getMacAddress(mContext.getActivity());
+                } catch (Exception io) {
+                    ipaddress = "0.0.0.0";
+                }
+
+
+                //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                String appendInKotak = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                        + "&app_version=" + BuildConfig.VERSION_NAME
+                        + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
+                        + "&product_id=1&login_ssid=" + parent_ssid;
+                kotakUrl = kotakUrl + appendInKotak;
+
+                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                        .putExtra("URL", kotakUrl)
+                        .putExtra("NAME", "Kotak Group health Care" )
+                        .putExtra("TITLE", "Kotak Group health Care" ));
+
+                break;
 
             case 24:
                 //fin peace
@@ -330,7 +354,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String healthUrl = dbPersistanceController.getUserConstantsData().getHealthurl();
                     //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
 
-                    String ipaddress = "0.0.0.0";
+
                     try {
                         ipaddress = Utility.getMacAddress(mContext.getActivity());
                     } catch (Exception io) {
@@ -428,20 +452,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
 
-            case 23:
-                // KOTAK
-               String kotakUrl = "http://elite.rupeeboss.com/EliteKotakWeb/policyDetails.html?";
-                String appendInKotak = "&fbaid=" + dbPersistanceController.getUserData().getFBAId() + "&source=finmart"
-                        + "&fba_id=" + dbPersistanceController.getUserData().getFBAId()
-                        + "&type=finmart"
-                        + "&loan_id=" +  dbPersistanceController.getUserData().getLoanId();
-                kotakUrl = kotakUrl + appendInKotak;
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", kotakUrl)
-                        .putExtra("NAME", "Kotak Group health Care" )
-                        .putExtra("TITLE", "Kotak Group health Care" ));
 
-                break;
 
             case 81:
 
@@ -472,7 +483,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                     String motorUrl = dbPersistanceController.getUserConstantsData().getTwoWheelerUrl();
 
-                    String ipaddress = "0.0.0.0";
+
                     try {
                         ipaddress = Utility.getMacAddress(mContext.getActivity());
                     } catch (Exception io) {
@@ -512,7 +523,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 String cvUrl = dbPersistanceController.getUserConstantsData().getCVUrl();
 
-                String ipaddress = "0.0.0.0";
+
                 try {
                     ipaddress = Utility.getMacAddress(mContext.getActivity());
                 } catch (Exception io) {
@@ -628,7 +639,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                     if (!dynamicUrl.isEmpty()) {
-                        String ipaddress = "0.0.0.0";
+
                         try {
                             ipaddress = Utility.getMacAddress(mContext.getActivity());
                         } catch (Exception io) {
