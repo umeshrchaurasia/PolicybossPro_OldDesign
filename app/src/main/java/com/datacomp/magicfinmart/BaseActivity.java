@@ -165,6 +165,7 @@ public class BaseActivity extends AppCompatActivity {
                         new PrefManager(context).clearAll();
                         new DBPersistanceController(context).logout();
 
+
                         Intent intent = new Intent(context, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
