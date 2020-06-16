@@ -1175,12 +1175,14 @@ public class DBPersistanceController {
 
 
         List<SalesProductEntity> salesProductList = new ArrayList<>();
-        if (isHideLoan()) {
-            salesProductList = realm.where(SalesProductEntity.class).notEqualTo("Product_Id", 4)
-                    .notEqualTo("Product_Id", 7).findAll();
-        } else {
-            salesProductList = realm.where(SalesProductEntity.class).findAll();
-        }
+//        if (isHideLoan()) {
+//            salesProductList = realm.where(SalesProductEntity.class).notEqualTo("Product_Id", 4)
+//                    .notEqualTo("Product_Id", 7).findAll();
+//        } else {
+//            salesProductList = realm.where(SalesProductEntity.class).findAll();
+//        }
+
+        salesProductList = realm.where(SalesProductEntity.class).findAll();
 
         if (salesProductList != null) {
             return salesProductList;

@@ -130,8 +130,6 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
                         }
                     }
                 }
-
-
             }
 
 
@@ -143,12 +141,21 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
                     mlistSalesProduct.get(i).setOldCount(0);
                 }
-
                 dbPersistanceController.storeCompanyList(mlistSalesProduct);
             }
 
+            List<SalesProductEntity> tempList = new ArrayList<>();
+            if (dbPersistanceController.isHideLoan()) {
+                for (int i = 0; i < mlistSalesProduct.size(); i++) {
+                    if (mlistSalesProduct.get(i).getProduct_Id() != 4 && mlistSalesProduct.get(i).getProduct_Id() != 7) {
+                        tempList.add(mlistSalesProduct.get(i));
+                    }
+                }
+            } else {
+                tempList.addAll(mlistSalesProduct);
+            }
 
-            mAdapter = new SalesMaterialAdapter(this, new DBPersistanceController(this).getCompanyList());
+            mAdapter = new SalesMaterialAdapter(this, tempList);
             rvSalesMaterial.setAdapter(mAdapter);
         } else if (response instanceof SalesPromotionResponse) {
             companyLst = ((SalesPromotionResponse) response).getMasterData().getCompany();

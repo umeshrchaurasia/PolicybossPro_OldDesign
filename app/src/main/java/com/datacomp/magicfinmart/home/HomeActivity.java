@@ -269,8 +269,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         try {
             Utility.getMacAddress(this);
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -309,14 +307,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
         if (loginResponseEntity != null) {
-
-
             if (loginResponseEntity.getPOSPNo().equals("5")) {
-
                 verifyPospNo();
                 return;
             }
-
             new MasterController(this).getInsuranceSubType(this);
             new MasterController(this).getInsurerList();
         }
@@ -324,8 +318,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
         if (checkfirstmsg_call == 0) {
-
-
             String type = "";
             Bundle bundle = getIntent().getExtras();
 
@@ -583,8 +575,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                             shortcutManager.removeAllDynamicShortcuts();
                         }
-
-
                         dialogLogout(HomeActivity.this);
                         break;
 
@@ -1475,7 +1465,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    createLaunchAppIconMenu((UserConstatntResponse) response);
+                    // createLaunchAppIconMenu((UserConstatntResponse) response);
                 }
 
             }
@@ -1544,15 +1534,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 if (((ProductURLShareResponse) response).getMasterData() != null) {
                     ProductURLShareEntity shareEntity = ((ProductURLShareResponse) response).getMasterData();
-
-
                     if (dashboardShareEntity != null) {
                         datashareList(HomeActivity.this, dashboardShareEntity.getTitle(), shareEntity.getMsg(), shareEntity.getUrl());
-
                     }
-
                 }
-
             }
         }
 
