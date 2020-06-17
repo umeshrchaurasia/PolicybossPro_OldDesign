@@ -89,6 +89,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     public void redirectToApplyLoan(NotificationEntity notifyEntity) {
 
         if(notifyEntity.getNotifyFlag() != null && notifyEntity.getWeb_url() != null){
+
             navigateViaNotification(notifyEntity.getNotifyFlag(),notifyEntity.getWeb_url(),notifyEntity.getWeb_title());
         }
 

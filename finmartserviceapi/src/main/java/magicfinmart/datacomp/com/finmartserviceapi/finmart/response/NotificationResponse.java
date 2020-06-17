@@ -10,8 +10,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEnt
  */
 
 public class NotificationResponse extends APIResponse {
-
-
     private List<NotificationEntity> MasterData;
 
     public List<NotificationEntity> getMasterData() {
@@ -21,5 +19,10 @@ public class NotificationResponse extends APIResponse {
     public void setMasterData(List<NotificationEntity> MasterData) {
         this.MasterData = MasterData;
     }
+
+
+
+
+
 
 }

@@ -30,7 +30,6 @@ android {
             buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
-            buildConfigField "String", "POLICY_URL", '"http://qa.policyboss.com"'
             signingConfig signingConfigs.release
         }
         debug {
@@ -75,7 +74,6 @@ android {
             buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
-            buildConfigField "String", "POLICY_URL", '"http://qa.policyboss.com"'
             signingConfig signingConfigs.debug
 
         }

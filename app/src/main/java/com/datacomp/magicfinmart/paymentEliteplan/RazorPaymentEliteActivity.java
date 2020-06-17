@@ -132,7 +132,7 @@ public class RazorPaymentEliteActivity extends BaseActivity implements PaymentRe
             //You can omit the image option to fetch the image from dashboard
             options.put("image", paymentEliteEntity.getImage());
             options.put("currency", "INR");
-            options.put("amount", 100);//paymentEliteEntity.getAmount());
+            options.put("amount", paymentEliteEntity.getAmount());//paymentEliteEntity.getAmount());
 
             JSONObject preFill = new JSONObject();
             preFill.put("email", paymentEliteEntity.getEmail());

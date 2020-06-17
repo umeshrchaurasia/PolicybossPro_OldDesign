@@ -176,6 +176,17 @@ public class UserConstantEntity extends RealmObject {
     private RealmList<DashboardarrayEntity> dashboardarray;
 
 
+    private  String LeadDashUrl;
+
+
+    private String EliteKotakUrl;
+
+
+
+    private String KotakEliteEnabled;
+
+    private String enablesynccontact;
+
     //////////////////////////
 
     public String getTermPopup() {
@@ -1020,4 +1031,35 @@ public class UserConstantEntity extends RealmObject {
     }
 
 
+    public String getLeadDashUrl() {
+        return LeadDashUrl;
+    }
+
+    public void setLeadDashUrl(String leadDashUrl) {
+        LeadDashUrl = leadDashUrl;
+    }
+
+    public String getEliteKotakUrl() {
+        return EliteKotakUrl;
+    }
+
+    public void setEliteKotakUrl(String eliteKotakUrl) {
+        EliteKotakUrl = eliteKotakUrl;
+    }
+
+
+    public String getKotakEliteEnabled() {
+        return KotakEliteEnabled;
+    }
+
+    public void setKotakEliteEnabled(String kotakEliteEnabled) {
+        KotakEliteEnabled = kotakEliteEnabled;
+    }
+    public String getEnablesynccontact() {
+        return enablesynccontact;
+    }
+
+    public void setEnablesynccontact(String enablesynccontact) {
+        this.enablesynccontact = enablesynccontact;
+    }
 }

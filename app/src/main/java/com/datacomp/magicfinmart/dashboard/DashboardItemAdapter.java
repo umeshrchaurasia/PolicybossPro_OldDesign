@@ -307,7 +307,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 23:
 
                 // KOTAK
-                String kotakUrl = "http://elite.rupeeboss.com/EliteKotakWeb/policyDetails.html?";
+                String kotakUrl =  dbPersistanceController.getUserConstantsData().getEliteKotakUrl();
 
 
                 try {
@@ -321,11 +321,12 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 String appendInKotak = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                         + "&app_version=" + BuildConfig.VERSION_NAME
                         + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                        + "&product_id=1&login_ssid=" + parent_ssid;
-                kotakUrl = kotakUrl + appendInKotak;
+                        + "&product_id=23&login_ssid=" + parent_ssid;
+                kotakUrl = kotakUrl + appendInKotak ;
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", kotakUrl)
+                        .putExtra("dashBoardtype", "INSURANCE")
                         .putExtra("NAME", "Kotak Group health Care" )
                         .putExtra("TITLE", "Kotak Group health Care" ));
 

@@ -138,8 +138,8 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
             //options.put("image", paymentEliteEntity.getImage());
             options.put("currency", "INR");
 
-           // int amount =  synctransactionEntity.getTotal_Premium() * 100;
-            options.put("amount", synctransactionEntity.getTotal_Premium());//paymentEliteEntity.getAmount());
+            String finalamount = String.valueOf(synctransactionEntity.getTotal_Premium() * 100);
+            options.put("amount", finalamount);//paymentEliteEntity.getAmount());
            //options.put("amount", 100);
             JSONObject preFill = new JSONObject();
             preFill.put("email", synctransactionEntity.getEmail());
@@ -182,7 +182,7 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
         Log.d(TAG, "Pyment Success with RazorPaymentID  " + razorpayPaymentID);
 
         this.finish();
-        String suceessurl = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(synctransactionEntity.getTransaction_Id())+"/Success/"+razorpayPaymentID;
+        String suceessurl = "http://horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(synctransactionEntity.getTransaction_Id())+"/Success/"+razorpayPaymentID;
         startActivity(new Intent(SyncRazorPaymentActivity.this, SyncWebViewActivity.class)
                 .putExtra("URL",suceessurl)
                 .putExtra("NAME", "Razor Payment")
@@ -198,7 +198,7 @@ public class SyncRazorPaymentActivity  extends BaseActivity implements PaymentRe
         try {
             Log.d(TAG, "Payment failed: " + code + " " + response);
             this.finish();
-            String suceessurl = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(synctransactionEntity.getTransaction_Id())+"/Cancle";
+            String suceessurl = "http://horizon.policyboss.com/razorpay-transaction-status/" + String.valueOf(synctransactionEntity.getTransaction_Id())+"/Cancle";
             startActivity(new Intent(SyncRazorPaymentActivity.this, SyncWebViewActivity.class)
                     .putExtra("URL",suceessurl)
                     .putExtra("NAME", "Razor Payment")

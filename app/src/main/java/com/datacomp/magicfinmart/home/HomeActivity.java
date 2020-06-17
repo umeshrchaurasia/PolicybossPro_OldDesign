@@ -99,6 +99,7 @@ import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
@@ -258,6 +259,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
 
+
+
+//        try {
+//            FirebaseMessaging.getInstance().subscribeToTopic("finmartall");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -474,8 +483,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_leaddetail:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+
                                 // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
-                                .putExtra("URL", "" + "http://qa.policyboss.com/SyncContact/DashBoard.html?ss_id=1655&fba_id=459")
+                                .putExtra("URL", "" + userConstantEntity.getLeadDashUrl())
                                 .putExtra("NAME", "" + "Lead DashBoard")
                                 .putExtra("TITLE", "" + "Lead DashBoard"));
                         break;
@@ -573,7 +583,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         editor.commit();
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                            shortcutManager.removeAllDynamicShortcuts();
+                          //  shortcutManager.removeAllDynamicShortcuts();
                         }
                         dialogLogout(HomeActivity.this);
                         break;
@@ -1289,9 +1299,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 NotifyEntity notificationEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
 
                 if (notificationEntity.getWeb_url() != null) {
-                    if (!notificationEntity.getWeb_url().equals("")) {
-                        navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
-                    }
+
+                    navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
+
                 }
             }
 
@@ -1901,6 +1911,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         } else {
             nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
+        }
+
+
+        if (userConstantEntity != null && userConstantEntity.getEnablesynccontact() != null && !userConstantEntity.getEnablesynccontact().equals("")) {
+            //int visibilitySync = userConstantEntity.getEnablesynccontact();
+            if ( userConstantEntity.getEnablesynccontact().equals("Y"))
+                nav_Menu.findItem(R.id.nav_contact).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_contact).setVisible(false);
+        } else {
+            nav_Menu.findItem(R.id.nav_contact).setVisible(false);
         }
 
         //Attendance
@@ -2901,6 +2922,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             startActivity(new Intent(HomeActivity.this, TermSelectionActivity.class));
 
         } else {
+
+            if( WebURL.trim().equals("") || Title.trim().equals("") )
+            {
+
+                return;
+            }
             String ipaddress = "0.0.0.0";
             try {
                 ipaddress = Utility.getMacAddress(HomeActivity.this);

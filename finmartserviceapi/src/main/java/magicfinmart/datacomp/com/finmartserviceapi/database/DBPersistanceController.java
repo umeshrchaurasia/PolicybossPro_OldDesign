@@ -802,15 +802,29 @@ public class DBPersistanceController {
 
     public List<DashboardMultiLangEntity> getLoanProductLangList() {
         List<DashboardMultiLangEntity> dashboardEntities = new ArrayList<DashboardMultiLangEntity>();
+        DBPersistanceController db = new DBPersistanceController(mContext);
+
+        if (db.getUserConstantsData() != null && db.getUserConstantsData().getKotakEliteEnabled() != null) {
 
 
-        DashboardMultiLangEntity objDashboard = new DashboardMultiLangEntity("LOANS", 23, "Kotak Group health Care", "Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.", R.drawable.kotak_elite, "KOTAKTitle", "KOTAKdesc");
-        objDashboard.setIsExclusive("Y");
-        objDashboard.setIsSharable("Y");
-        objDashboard.setInfo("http://origin-cdnh.policyboss.com/fmweb/GroupHealthCare/update.html");
-        objDashboard.setTitle("Kotak Group health Care");
-        objDashboard.setPopupmsg("Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.");
-        dashboardEntities.add(objDashboard);
+            int visibility = Integer.parseInt(db.getUserConstantsData().getKotakEliteEnabled());
+            if (visibility == 1){
+                DashboardMultiLangEntity objDashboard = new DashboardMultiLangEntity("LOANS", 23, "Kotak Group health Care", "Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.", R.drawable.kotak_elite, "KOTAKTitle", "KOTAKdesc");
+                objDashboard.setIsExclusive("Y");
+                objDashboard.setIsSharable("Y");
+                objDashboard.setInfo("http://origin-cdnh.policyboss.com/fmweb/GroupHealthCare/update.html");
+                objDashboard.setTitle("Kotak Group health Care");
+                objDashboard.setPopupmsg("Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.");
+                dashboardEntities.add(objDashboard);
+            }
+            else{
+
+            }
+
+
+        }
+
+
 
         if (!isHideLoan()) {
             /////////////////////////

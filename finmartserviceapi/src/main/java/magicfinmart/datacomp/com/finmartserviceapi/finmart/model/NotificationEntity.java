@@ -3,28 +3,16 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 public class NotificationEntity {
 
 
-    /**
-     * title : sdfghj
-     * body : qwerfg
-     * img_url : null
-     * action : WB
-     * web_url : wefghjk
-     * web_title : asdfgh
-     * is_read : 0
-     * date : 01/03/2018
-     * message_id : 238
-     */
-
     private String title;
     private String body;
     private String img_url;
     private String action;
+    private String notifyFlag;
     private String web_url;
     private String web_title;
     private String is_read;
     private String date;
     private int message_id;
-    private String notifyFlag;
 
     public String getTitle() {
         return title;
@@ -56,6 +44,14 @@ public class NotificationEntity {
 
     public void setAction(String action) {
         this.action = action;
+    }
+
+    public String getNotifyFlag() {
+        return notifyFlag;
+    }
+
+    public void setNotifyFlag(String notifyFlag) {
+        this.notifyFlag = notifyFlag;
     }
 
     public String getWeb_url() {
@@ -98,12 +94,5 @@ public class NotificationEntity {
         this.message_id = message_id;
     }
 
-    public String getNotifyFlag() {
-        return notifyFlag;
-    }
-
-    public void setNotifyFlag(String notifyFlag) {
-        this.notifyFlag = notifyFlag;
-    }
 
 }

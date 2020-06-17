@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
@@ -74,6 +75,7 @@ public class NotificationAdapter  extends RecyclerView.Adapter<NotificationAdapt
         holder.lyParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 
                 ((NotificationActivity)mContext).redirectToApplyLoan(notificationEntity);
             }

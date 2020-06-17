@@ -56,7 +56,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void checkAppAccess(String deviceID, String deviceToken, String uid, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = "http://49.50.95.141:191/AttendanceDetails.svc/CheckAppAccess";
+        String url = "http://202.131.96.101:3333/AttendanceDetails.svc/CheckAppAccess";
 
         HashMap<String, String> body = new HashMap<>();
         body.put("DeviceId", deviceID);
@@ -96,7 +96,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void indoorAttendance(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipe";
+        String url = "http://202.131.96.101:3333/AttendanceDetails.svc/EmployeeSwipe";
 
         genericUrlNetworkService.indoorAttendance(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
             @Override
@@ -133,7 +133,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void outdoorAttendance(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeOutdoorSwipe";
+        String url = "http://202.131.96.101:3333/AttendanceDetails.svc/EmployeeOutdoorSwipe";
 
         genericUrlNetworkService.indoorAttendance(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
             @Override
@@ -170,7 +170,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void attendanceRegister(RegisterRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = "http://49.50.95.141:191/AttendanceDetails.svc/UpdateEmployeeProfile";
+        String url = "http://202.131.96.101:3333/AttendanceDetails.svc/UpdateEmployeeProfile";
 
         genericUrlNetworkService.saveNewRegestration(url, entity).enqueue(new Callback<SwipeDetailResponse>() {
             @Override
@@ -207,7 +207,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void getAttendanceReport(String uid, long fdate, long tdate, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipeDetails";
+        String url = "http://202.131.96.101:3333/AttendanceDetails.svc/EmployeeSwipeDetails";
 
         HashMap<String, String> body = new HashMap<>();
         body.put("uid", uid);
@@ -248,7 +248,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void swipeDetailsTop(String deviceID, String deviceToken, String uid, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = "http://49.50.95.141:191/AttendanceDetails.svc/EmployeeSwipeDetails";
+        String url = "http://202.131.96.101:3333/AttendanceDetails.svc/EmployeeSwipeDetails";
 
         HashMap<String, String> body = new HashMap<>();
         body.put("DeviceId", deviceID);
@@ -685,7 +685,7 @@ public class DynamicController implements IDynamic {
     //Sync Contact Razor Pay
     @Override
     public void getSync_trascat_detail(String transaction_Id,final IResponseSubcriber iResponseSubcriber) {
-        String url = " http://qa-horizon.policyboss.com:3000/razorpay_payment/transaction_details/" + transaction_Id;
+        String url = "http://horizon.policyboss.com:5000/razorpay_payment/transaction_details/" + transaction_Id;
 
 
         genericUrlNetworkService.getSync_trascat_detail(url).enqueue(new Callback<synctransactionDetailReponse>() {
@@ -720,7 +720,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getSync_trascat_Cancle(String transaction_Id,final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + transaction_Id+"/Cancle";
+        String url = "http://horizon.policyboss.com/razorpay-transaction-status/" + transaction_Id+"/Cancle";
 
 
         genericUrlNetworkService.getSync_trascat_detail(url).enqueue(new Callback<synctransactionDetailReponse>() {
@@ -756,7 +756,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getSync_razor_payment(String transaction_Id,String PayId,final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://qa-horizon.policyboss.com/razorpay-transaction-status/" + transaction_Id+"/Success/"+PayId;
+        String url = "http://horizon.policyboss.com/razorpay-transaction-status/" + transaction_Id+"/Success/"+PayId;
 
 
         genericUrlNetworkService.getSync_razor_payment(url).enqueue(new Callback<syncrazorsucessReponse>() {
