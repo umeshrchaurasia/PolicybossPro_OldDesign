@@ -2921,7 +2921,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             startActivity(new Intent(HomeActivity.this, TermSelectionActivity.class));
 
-        } else {
+        } else if (prdID.equals("WB")) {
+
+            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                    .putExtra("URL", WebURL)
+                    .putExtra("NAME", Title)
+                    .putExtra("TITLE", Title));
+
+        }else {
 
             if( WebURL.trim().equals("") || Title.trim().equals("") )
             {
