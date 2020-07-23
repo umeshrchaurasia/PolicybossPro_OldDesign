@@ -32,6 +32,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.festivelink.festivelinkActivity;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
@@ -259,8 +260,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         } else if (response instanceof MenuMasterResponse) {
             if (response.getStatusNo() == 0) {
 
-                // ((HomeActivity)getActivity()).addDynamicMenu(((MenuMasterResponse) response).getMasterData().getMenu());
-
+                ((HomeActivity)getActivity()).addDynamicMenu(((MenuMasterResponse) response));
                 bindDashboardhAdapter();
             }
         }

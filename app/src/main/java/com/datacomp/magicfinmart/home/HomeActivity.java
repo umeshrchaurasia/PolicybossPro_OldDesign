@@ -99,7 +99,6 @@ import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONObject;
 
@@ -260,7 +259,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         getSupportActionBar().setElevation(0);
 
 
-
 //        try {
 //            FirebaseMessaging.getInstance().subscribeToTopic("finmartall");
 //
@@ -334,13 +332,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (bundle.getString("MarkTYPE") != null) {
                     type = bundle.getString("MarkTYPE");
                     if (!type.equals("FROM_HOME")) {
-                        showMArketingPopup();
+                        showMarketingPopup();
                     }
                 }
 
             } else {
                 prefManager.updateCheckMsgFirst("" + 1);
-                showMArketingPopup();
+                showMarketingPopup();
             }
 
 
@@ -583,7 +581,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         editor.commit();
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                          //  shortcutManager.removeAllDynamicShortcuts();
+                            //  shortcutManager.removeAllDynamicShortcuts();
                         }
                         dialogLogout(HomeActivity.this);
                         break;
@@ -822,14 +820,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
             for (String key : menuItems.keySet()) {
-
-
                 //  String strTitle = db.getLangData(language, key.toString());
 
                 if (!db.getLangData(language, key).equals("")) {
-
-                    //   Log.d("Menu Data", "" + menuItems.get(key).getTitle());
-
                     menuItems.get(key).setTitle(db.getLangData(language, key));
                     setLanguageFont(this, language, menuItems.get(key));
                 }
@@ -921,7 +914,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
 
-    private void showMArketingPopup() {
+    private void showMarketingPopup() {
 
         //region popup dashboard
 
@@ -968,7 +961,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //endregion
     }
 
-    public void addDynamicMenu(List<MenuItemEntity> list) {
+    public void addDynamicMenu(MenuMasterResponse response) {
+        menuMasterResponse = response;
+
+        List<MenuItemEntity> list = response.getMasterData().getMenu();
+
         Menu menu = navigationView.getMenu();
 
         for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
@@ -1449,7 +1446,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     init_headers();
 
                     if (prefManager.getPopUpCounter().equals("0")) {
-                        showMArketingPopup();
+                        showMarketingPopup();
                     }
 
                     //Notification Url :-1 November
@@ -1521,9 +1518,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         } else if (response instanceof MenuMasterResponse) {
             if (response.getStatusNo() == 0) {
-                menuMasterResponse = (MenuMasterResponse) response;
-                prefManager.storeMenuDashboard(menuMasterResponse);
-                addDynamicMenu(menuMasterResponse.getMasterData().getMenu());
+                prefManager.storeMenuDashboard((MenuMasterResponse) response);
+                addDynamicMenu((MenuMasterResponse) response);
 
 
             }
@@ -1916,7 +1912,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (userConstantEntity != null && userConstantEntity.getEnablesynccontact() != null && !userConstantEntity.getEnablesynccontact().equals("")) {
             //int visibilitySync = userConstantEntity.getEnablesynccontact();
-            if ( userConstantEntity.getEnablesynccontact().equals("Y"))
+            if (userConstantEntity.getEnablesynccontact().equals("Y"))
                 nav_Menu.findItem(R.id.nav_contact).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_contact).setVisible(false);
@@ -2928,10 +2924,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     .putExtra("NAME", Title)
                     .putExtra("TITLE", Title));
 
-        }else {
+        } else {
 
-            if( WebURL.trim().equals("") || Title.trim().equals("") )
-            {
+            if (WebURL.trim().equals("") || Title.trim().equals("")) {
 
                 return;
             }
