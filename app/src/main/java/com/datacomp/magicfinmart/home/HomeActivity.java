@@ -1480,7 +1480,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
 
-                //region check for new vwesion
+                //region check for new version
                 int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
                 if (pinfo != null && pinfo.versionCode < serverVersionCode) {
                     forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
@@ -1501,7 +1501,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                             if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
                                 if (!frg.isVisible()) {
-                                    Log.d("TAG", "CONSTANTS");
                                     //DialogMPS();
                                 }
                             }
@@ -1510,18 +1509,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 } else if (((ConstantsResponse) response).getMasterData().
                         getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
-
                 }
                 //endregion
-
-                //hideNavigationItem();
             }
         } else if (response instanceof MenuMasterResponse) {
             if (response.getStatusNo() == 0) {
                 prefManager.storeMenuDashboard((MenuMasterResponse) response);
                 addDynamicMenu((MenuMasterResponse) response);
-
-
             }
         } else if (response instanceof UserCallingResponse) {
             if (response.getStatusNo() == 0) {

@@ -99,9 +99,10 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void generateOtp(String MobileNo, final IResponseSubcriber iResponseSubcriber) {
+    public void generateOtp(String MobileNo,String email, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
         body.put("MobileNo", MobileNo);
+        body.put("email",email);
         registerQuotesNetworkService.generateOtp(body).enqueue(new Callback<GenerateOtpResponse>() {
             @Override
             public void onResponse(Call<GenerateOtpResponse> call, Response<GenerateOtpResponse> response) {

@@ -393,7 +393,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
                     if (!isMobileValid) {
                         showDialog("Sending otp...");
-                        new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
+                        new RegisterController(this).generateOtp(etMobile1.getText().toString(),etEmail.getText().toString(), this);
                         showOtpAlert();
                     } else {
                         hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
@@ -412,7 +412,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     setRegisterPersonalRequest();
                     if (!isMobileValid) {
                         showDialog("Sending otp...");
-                        new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
+                        new RegisterController(this).generateOtp(etMobile1.getText().toString(),etEmail.getText().toString(), this);
                         showOtpAlert();
                     } else {
 
@@ -859,7 +859,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 public void onClick(View view) {
                     etOtp.setText("");
                     showDialog("Re-sending otp...");
-                    new RegisterController(RegisterActivity.this).generateOtp(etMobile1.getText().toString(), RegisterActivity.this);
+                    new RegisterController(RegisterActivity.this).generateOtp(etMobile1.getText().toString(),etEmail.getText().toString(), RegisterActivity.this);
                 }
             });
         } catch (Exception e) {
