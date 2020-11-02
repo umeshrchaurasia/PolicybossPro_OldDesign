@@ -176,16 +176,99 @@ public class UserConstantEntity extends RealmObject {
     private RealmList<DashboardarrayEntity> dashboardarray;
 
 
-    private  String LeadDashUrl;
+    private String LeadDashUrl;
 
 
     private String EliteKotakUrl;
 
 
-
     private String KotakEliteEnabled;
 
     private String enablesynccontact;
+
+    //02/11/2020
+    private String GenerateMotorLeadsEnabled;
+    private String policyByCRNEnabled;
+    private String FinboxEnabled;
+    private String FinperksEnabled;
+
+    private String PospletterEnabled;
+    private String PospappformEnabled;
+    private String MyTransactionsEnabled;
+    private String MyMessagesEnabled;
+    private String SmsTemplatesEnabled;
+
+    public String getFinboxEnabled() {
+        return FinboxEnabled;
+    }
+
+    public void setFinboxEnabled(String finboxEnabled) {
+        FinboxEnabled = finboxEnabled;
+    }
+
+    public String getFinperksEnabled() {
+        return FinperksEnabled;
+    }
+
+    public void setFinperksEnabled(String finperksEnabled) {
+        FinperksEnabled = finperksEnabled;
+    }
+
+    public String getGenerateMotorLeadsEnabled() {
+        return GenerateMotorLeadsEnabled;
+    }
+
+    public void setGenerateMotorLeadsEnabled(String generateMotorLeadsEnabled) {
+        GenerateMotorLeadsEnabled = generateMotorLeadsEnabled;
+    }
+
+    public String getMyMessagesEnabled() {
+        return MyMessagesEnabled;
+    }
+
+    public void setMyMessagesEnabled(String myMessagesEnabled) {
+        MyMessagesEnabled = myMessagesEnabled;
+    }
+
+    public String getMyTransactionsEnabled() {
+        return MyTransactionsEnabled;
+    }
+
+    public void setMyTransactionsEnabled(String myTransactionsEnabled) {
+        MyTransactionsEnabled = myTransactionsEnabled;
+    }
+
+    public String getPolicyByCRNEnabled() {
+        return policyByCRNEnabled;
+    }
+
+    public void setPolicyByCRNEnabled(String policyByCRNEnabled) {
+        this.policyByCRNEnabled = policyByCRNEnabled;
+    }
+
+    public String getPospappformEnabled() {
+        return PospappformEnabled;
+    }
+
+    public void setPospappformEnabled(String pospappformEnabled) {
+        PospappformEnabled = pospappformEnabled;
+    }
+
+    public String getPospletterEnabled() {
+        return PospletterEnabled;
+    }
+
+    public void setPospletterEnabled(String pospletterEnabled) {
+        PospletterEnabled = pospletterEnabled;
+    }
+
+    public String getSmsTemplatesEnabled() {
+        return SmsTemplatesEnabled;
+    }
+
+    public void setSmsTemplatesEnabled(String smsTemplatesEnabled) {
+        SmsTemplatesEnabled = smsTemplatesEnabled;
+    }
 
     //////////////////////////
 
@@ -1055,6 +1138,7 @@ public class UserConstantEntity extends RealmObject {
     public void setKotakEliteEnabled(String kotakEliteEnabled) {
         KotakEliteEnabled = kotakEliteEnabled;
     }
+
     public String getEnablesynccontact() {
         return enablesynccontact;
     }

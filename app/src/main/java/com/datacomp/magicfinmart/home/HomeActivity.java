@@ -1870,49 +1870,130 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         //todo : check key from userconstant to hide my business
         if (userConstantEntity != null) {
+
             int visibility = Integer.parseInt(userConstantEntity.getShowmyinsurancebusiness());
             if (visibility > 0)
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
+
+
+            //todo : check key from userconstant to hide posp enrollment
+            if (userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
+                if (Integer.parseInt(userConstantEntity.getEnableenrolasposp()) == 1)
+                    nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
+                else
+                    nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
+            }
+
+            if (userConstantEntity.getCobrowserisactive() != null
+                    && !userConstantEntity.getCobrowserisactive().equals("")) {
+
+                if (Integer.parseInt(userConstantEntity.getCobrowserisactive()) == 1)
+                    nav_Menu.findItem(R.id.nav_cobrowser).setVisible(true);
+                else
+                    nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
+
+            }
+
+            if (userConstantEntity.getEnablesynccontact() != null && !userConstantEntity.getEnablesynccontact().equals("")) {
+                //int visibilitySync = userConstantEntity.getEnablesynccontact();
+                if (userConstantEntity.getEnablesynccontact().equals("Y"))
+                    nav_Menu.findItem(R.id.nav_contact).setVisible(true);
+                else
+                    nav_Menu.findItem(R.id.nav_contact).setVisible(false);
+            }
+
+            //Date 02/11/2020 by nilesh
+            if (userConstantEntity.getGenerateMotorLeadsEnabled() != null && !userConstantEntity.getGenerateMotorLeadsEnabled().equals("")) {
+
+                if (userConstantEntity.getGenerateMotorLeadsEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_generateLead).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_generateLead).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getPolicyByCRNEnabled() != null && !userConstantEntity.getPolicyByCRNEnabled().equals("")) {
+
+                if (userConstantEntity.getPolicyByCRNEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getFinboxEnabled() != null && !userConstantEntity.getFinboxEnabled().equals("")) {
+
+                if (userConstantEntity.getFinboxEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_finbox).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_finbox).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getFinperksEnabled() != null && !userConstantEntity.getFinperksEnabled().equals("")) {
+
+                if (userConstantEntity.getFinperksEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_finperk).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_finperk).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getPospletterEnabled() != null && !userConstantEntity.getPospletterEnabled().equals("")) {
+
+                if (userConstantEntity.getPospletterEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_AppointmentLetter).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_AppointmentLetter).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getPospappformEnabled() != null && !userConstantEntity.getPospappformEnabled().equals("")) {
+
+                if (userConstantEntity.getPospappformEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_Certificate).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_Certificate).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getMyTransactionsEnabled() != null && !userConstantEntity.getMyTransactionsEnabled().equals("")) {
+
+                if (userConstantEntity.getMyTransactionsEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_transactionhistory).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_transactionhistory).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getMyMessagesEnabled() != null && !userConstantEntity.getMyMessagesEnabled().equals("")) {
+
+                if (userConstantEntity.getMyTransactionsEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_MessageCentre).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_MessageCentre).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getSmsTemplatesEnabled() != null && !userConstantEntity.getSmsTemplatesEnabled().equals("")) {
+
+                if (userConstantEntity.getSmsTemplatesEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(true);
+                }
+            }
+
         } else {
             nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
-        }
-
-        //todo : check key from userconstant to hide posp enrollment
-        if (userConstantEntity != null && userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
-            int visibility = Integer.parseInt(userConstantEntity.getEnableenrolasposp());
-            if (visibility == 1)
-                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
-        } else {
             nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
-        }
-
-        if (userConstantEntity != null && userConstantEntity.getCobrowserisactive() != null
-                && !userConstantEntity.getCobrowserisactive().equals("")) {
-            int visibility = Integer.parseInt(userConstantEntity.getCobrowserisactive());
-
-            if (visibility == 1)
-                nav_Menu.findItem(R.id.nav_cobrowser).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
-
-        } else {
             nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
-        }
-
-
-        if (userConstantEntity != null && userConstantEntity.getEnablesynccontact() != null && !userConstantEntity.getEnablesynccontact().equals("")) {
-            //int visibilitySync = userConstantEntity.getEnablesynccontact();
-            if (userConstantEntity.getEnablesynccontact().equals("Y"))
-                nav_Menu.findItem(R.id.nav_contact).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_contact).setVisible(false);
-        } else {
             nav_Menu.findItem(R.id.nav_contact).setVisible(false);
+            nav_Menu.findItem(R.id.nav_generateLead).setVisible(false);
         }
+
 
         //Attendance
 //        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
@@ -1924,6 +2005,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //        }
 
         //init_headers();
+
+
     }
 
 
