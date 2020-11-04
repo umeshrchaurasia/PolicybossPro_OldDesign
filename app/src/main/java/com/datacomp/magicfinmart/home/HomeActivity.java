@@ -968,10 +968,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         Menu menu = navigationView.getMenu();
 
+        //remove menu item from group if exist
         for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
-            int sequence = Integer.parseInt(list.get(i - 1).getSequence());
-            sequence = (sequence * 100) + 1;
-            final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, sequence, sequence, list.get(i - 1).getMenuname());
+            int itemId = Integer.parseInt(list.get(i - 1).getSequence());
+            itemId = (itemId * 100) + 1;
+            menu.removeItem(itemId);
+        }
+
+        //add dynamic menu
+        for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
+            int itemId = Integer.parseInt(list.get(i - 1).getSequence());
+            itemId = (itemId * 100) + 1;
+            final MenuItem menuItem = menu.add(R.id.dynamic_menu, itemId, itemId, list.get(i - 1).getMenuname());
             Glide.with(this)
                     .load(list.get(i - 1).getIconimage())
                     .into(new SimpleTarget<GlideDrawable>() {
@@ -980,8 +988,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             menuItem.setIcon(resource);
                         }
                     });
-
-
         }
     }
 
@@ -1850,12 +1856,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //todo : check key from userconstant to hide add posp
         if (userConstantEntity != null && userConstantEntity.getAddPospVisible() != null && !userConstantEntity.getAddPospVisible().equals("")) {
             int visibility = Integer.parseInt(userConstantEntity.getAddPospVisible());
-            if (visibility == 1)
-                nav_Menu.findItem(R.id.nav_addposp).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
-        } else {
-            nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
+            MenuItem menuItem = nav_Menu.findItem(R.id.nav_addposp);
+            if (menuItem != null) {
+                if (visibility == 1)
+                    menuItem.setVisible(true);
+                else
+                    menuItem.setVisible(false);
+            }
         }
 
 
