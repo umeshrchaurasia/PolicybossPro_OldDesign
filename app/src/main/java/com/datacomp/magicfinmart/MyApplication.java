@@ -2,7 +2,7 @@ package com.datacomp.magicfinmart;
 
 import android.os.Bundle;
 
-import com.crashlytics.android.Crashlytics;
+//import com.crashlytics.android.Crashlytics;
 import com.datacomp.magicfinmart.analytics.AnalyticsTrackers;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
@@ -15,7 +15,7 @@ import org.matomo.sdk.extra.DownloadTracker;
 import org.matomo.sdk.extra.MatomoApplication;
 import org.matomo.sdk.extra.TrackHelper;
 
-import io.fabric.sdk.android.Fabric;
+//import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -34,7 +34,7 @@ public class MyApplication extends MatomoApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+     //   Fabric.with(this, new Crashlytics());       // temp 05 commented
 
         //region Realm Initialization
         Realm.init(this);
@@ -157,8 +157,11 @@ public class MyApplication extends MatomoApplication {
         TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
     }
 
+
+
     @Override
     public TrackerBuilder onCreateTrackerConfig() {
+
         return TrackerBuilder.createDefault("https://firsthive.com/engage/piwik/piwik.php", Integer.parseInt(BuildConfig.FIRSTHIVE));
     }
 
