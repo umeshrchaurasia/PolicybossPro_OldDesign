@@ -281,10 +281,6 @@
         </item>
     </group>
 
-
-
-
-
     <item
         android:id="@+id/nav_REQUEST"
         android:icon="@drawable/ic_business_name"
@@ -319,5 +315,8 @@
         android:orderInCategory="10000"
         android:title="LOG-OUT" />
 
-
+    <group
+        android:id="@+id/dynamic_menu"
+        android:checkableBehavior="single">
+    </group>
 </menu>

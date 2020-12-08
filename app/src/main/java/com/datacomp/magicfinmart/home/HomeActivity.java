@@ -968,10 +968,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         Menu menu = navigationView.getMenu();
 
+        //remove menu item from group if exist
         for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
-            int sequence = Integer.parseInt(list.get(i - 1).getSequence());
-            sequence = (sequence * 100) + 1;
-            final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, sequence, sequence, list.get(i - 1).getMenuname());
+            int itemId = Integer.parseInt(list.get(i - 1).getSequence());
+            itemId = (itemId * 100) + 1;
+            menu.removeItem(itemId);
+        }
+
+        //add dynamic menu
+        for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
+            int itemId = Integer.parseInt(list.get(i - 1).getSequence());
+            itemId = (itemId * 100) + 1;
+            final MenuItem menuItem = menu.add(R.id.dynamic_menu, itemId, itemId, list.get(i - 1).getMenuname());
             Glide.with(this)
                     .load(list.get(i - 1).getIconimage())
                     .into(new SimpleTarget<GlideDrawable>() {
@@ -980,8 +988,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             menuItem.setIcon(resource);
                         }
                     });
-
-
         }
     }
 
@@ -1480,7 +1486,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
 
-                //region check for new vwesion
+                //region check for new version
                 int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
                 if (pinfo != null && pinfo.versionCode < serverVersionCode) {
                     forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
@@ -1501,7 +1507,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                             if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
                                 if (!frg.isVisible()) {
-                                    Log.d("TAG", "CONSTANTS");
                                     //DialogMPS();
                                 }
                             }
@@ -1510,18 +1515,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 } else if (((ConstantsResponse) response).getMasterData().
                         getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
-
                 }
                 //endregion
-
-                //hideNavigationItem();
             }
         } else if (response instanceof MenuMasterResponse) {
             if (response.getStatusNo() == 0) {
                 prefManager.storeMenuDashboard((MenuMasterResponse) response);
                 addDynamicMenu((MenuMasterResponse) response);
-
-
             }
         } else if (response instanceof UserCallingResponse) {
             if (response.getStatusNo() == 0) {
@@ -1856,12 +1856,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //todo : check key from userconstant to hide add posp
         if (userConstantEntity != null && userConstantEntity.getAddPospVisible() != null && !userConstantEntity.getAddPospVisible().equals("")) {
             int visibility = Integer.parseInt(userConstantEntity.getAddPospVisible());
-            if (visibility == 1)
-                nav_Menu.findItem(R.id.nav_addposp).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
-        } else {
-            nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
+            MenuItem menuItem = nav_Menu.findItem(R.id.nav_addposp);
+            if (menuItem != null) {
+                if (visibility == 1)
+                    menuItem.setVisible(true);
+                else
+                    menuItem.setVisible(false);
+            }
         }
 
 
@@ -1876,49 +1877,130 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         //todo : check key from userconstant to hide my business
         if (userConstantEntity != null) {
+
             int visibility = Integer.parseInt(userConstantEntity.getShowmyinsurancebusiness());
             if (visibility > 0)
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
             else
                 nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
+
+
+            //todo : check key from userconstant to hide posp enrollment
+            if (userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
+                if (Integer.parseInt(userConstantEntity.getEnableenrolasposp()) == 1)
+                    nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
+                else
+                    nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
+            }
+
+            if (userConstantEntity.getCobrowserisactive() != null
+                    && !userConstantEntity.getCobrowserisactive().equals("")) {
+
+                if (Integer.parseInt(userConstantEntity.getCobrowserisactive()) == 1)
+                    nav_Menu.findItem(R.id.nav_cobrowser).setVisible(true);
+                else
+                    nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
+
+            }
+
+            if (userConstantEntity.getEnablesynccontact() != null && !userConstantEntity.getEnablesynccontact().equals("")) {
+                //int visibilitySync = userConstantEntity.getEnablesynccontact();
+                if (userConstantEntity.getEnablesynccontact().equals("Y"))
+                    nav_Menu.findItem(R.id.nav_contact).setVisible(true);
+                else
+                    nav_Menu.findItem(R.id.nav_contact).setVisible(false);
+            }
+
+            //Date 02/11/2020 by nilesh
+            if (userConstantEntity.getGenerateMotorLeadsEnabled() != null && !userConstantEntity.getGenerateMotorLeadsEnabled().equals("")) {
+
+                if (userConstantEntity.getGenerateMotorLeadsEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_generateLead).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_generateLead).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getPolicyByCRNEnabled() != null && !userConstantEntity.getPolicyByCRNEnabled().equals("")) {
+
+                if (userConstantEntity.getPolicyByCRNEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getFinboxEnabled() != null && !userConstantEntity.getFinboxEnabled().equals("")) {
+
+                if (userConstantEntity.getFinboxEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_finbox).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_finbox).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getFinperksEnabled() != null && !userConstantEntity.getFinperksEnabled().equals("")) {
+
+                if (userConstantEntity.getFinperksEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_finperk).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_finperk).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getPospletterEnabled() != null && !userConstantEntity.getPospletterEnabled().equals("")) {
+
+                if (userConstantEntity.getPospletterEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_AppointmentLetter).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_AppointmentLetter).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getPospappformEnabled() != null && !userConstantEntity.getPospappformEnabled().equals("")) {
+
+                if (userConstantEntity.getPospappformEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_Certificate).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_Certificate).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getMyTransactionsEnabled() != null && !userConstantEntity.getMyTransactionsEnabled().equals("")) {
+
+                if (userConstantEntity.getMyTransactionsEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_transactionhistory).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_transactionhistory).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getMyMessagesEnabled() != null && !userConstantEntity.getMyMessagesEnabled().equals("")) {
+
+                if (userConstantEntity.getMyTransactionsEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_MessageCentre).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_MessageCentre).setVisible(true);
+                }
+            }
+
+            if (userConstantEntity.getSmsTemplatesEnabled() != null && !userConstantEntity.getSmsTemplatesEnabled().equals("")) {
+
+                if (userConstantEntity.getSmsTemplatesEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(true);
+                }
+            }
+
         } else {
             nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
-        }
-
-        //todo : check key from userconstant to hide posp enrollment
-        if (userConstantEntity != null && userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
-            int visibility = Integer.parseInt(userConstantEntity.getEnableenrolasposp());
-            if (visibility == 1)
-                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
-        } else {
             nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
-        }
-
-        if (userConstantEntity != null && userConstantEntity.getCobrowserisactive() != null
-                && !userConstantEntity.getCobrowserisactive().equals("")) {
-            int visibility = Integer.parseInt(userConstantEntity.getCobrowserisactive());
-
-            if (visibility == 1)
-                nav_Menu.findItem(R.id.nav_cobrowser).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
-
-        } else {
             nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
-        }
-
-
-        if (userConstantEntity != null && userConstantEntity.getEnablesynccontact() != null && !userConstantEntity.getEnablesynccontact().equals("")) {
-            //int visibilitySync = userConstantEntity.getEnablesynccontact();
-            if (userConstantEntity.getEnablesynccontact().equals("Y"))
-                nav_Menu.findItem(R.id.nav_contact).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_contact).setVisible(false);
-        } else {
             nav_Menu.findItem(R.id.nav_contact).setVisible(false);
+            nav_Menu.findItem(R.id.nav_generateLead).setVisible(false);
         }
+
 
         //Attendance
 //        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
@@ -1930,6 +2012,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //        }
 
         //init_headers();
+
+
     }
 
 

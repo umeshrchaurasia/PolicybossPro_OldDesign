@@ -13,7 +13,7 @@ import okhttp3.MultipartBody;
  */
 
 public interface IRegister {
-    void generateOtp(String MobileNo, IResponseSubcriber iResponseSubcriber);
+    void generateOtp(String MobileNo,String email, IResponseSubcriber iResponseSubcriber);
 
     void validateOtp(String MobileNo, String MobileOTP, IResponseSubcriber iResponseSubcriber);
 
