@@ -8,13 +8,13 @@
     android:orientation="vertical">
 
 
-    <com.datacomp.magicfinmart.design.CustomImageView
+    <com.policyboss.magicfinmart.design.CustomImageView
         android:id="@+id/imglink"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:minHeight="200dp"
-        android:scaleType="fitXY"></com.datacomp.magicfinmart.design.CustomImageView>
+        android:scaleType="fitXY"></com.policyboss.magicfinmart.design.CustomImageView>
 
 
 </LinearLayout>

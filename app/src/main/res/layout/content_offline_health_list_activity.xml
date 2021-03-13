@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
+    tools:context="com.policyboss.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
     tools:showIn="@layout/activity_offline_health_list_activity">
 
 

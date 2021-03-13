@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.datacomp.magicfinmart.ncd.NCDActivity"
+    tools:context="com.policyboss.magicfinmart.ncd.NCDActivity"
     tools:showIn="@layout/activity_ncd">
 
     <ScrollView

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.datacomp.magicfinmart.home.HomeActivity">
+    tools:context="com.policyboss.magicfinmart.home.HomeActivity">
 
 
     <RelativeLayout

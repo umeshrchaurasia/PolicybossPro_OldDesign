@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.datacomp.magicfinmart">
+        package="com.policyboss.magicfinmart">
 
     <uses-feature android:name="android.hardware.bluetooth" />
 
@@ -128,7 +128,7 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.splashscreen.SplashScreenActivity" />
+                android:value=".splashscreen.SplashScreenActivity" />
         </activity>
         <activity
             android:name=".motor.privatecar.activity.PrivateCarDetailActivity"
@@ -149,7 +149,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.login.LoginActivity" />
+                android:value=".login.LoginActivity" />
         </activity>
         <activity
             android:name=".introslider.WelcomeActivity"
@@ -177,7 +177,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".motor.privatecar.activity.AddQuoteActivity"
@@ -188,7 +188,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity" />
+                android:value=".motor.privatecar.activity.PrivateCarDetailActivity" />
         </activity>
         <!--
              Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
@@ -203,7 +203,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.AddQuoteActivity" />
+                android:value=".motor.privatecar.activity.AddQuoteActivity" />
         </activity>
         <activity
             android:name=".webviews.CommonWebViewActivity"
@@ -214,7 +214,7 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
+                android:value=".motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
             android:name=".motor.privatecar.activity.PremiumBreakUpActivity"
@@ -227,7 +227,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
+                android:value=".motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
@@ -238,7 +238,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity" />
+                android:value=".loan_fm.personalloan.PersonalLoanDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.PersonalLoanDetailActivity"
@@ -249,7 +249,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
@@ -260,7 +260,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.addquote.HomeLoanQuoteActivity"
@@ -283,7 +283,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".motor.privatecar.activity.ModifyQuoteActivity"
@@ -301,7 +301,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity" />
+                android:value=".loan_fm.homeloan.HomeLoanDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.addquote.PLMainActivity"
@@ -312,7 +312,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity" />
+                android:value=".loan_fm.personalloan.PersonalLoanDetailActivity" />
         </activity>
         <activity
             android:name=".motor.privatecar.activity.InputQuoteBottmActivity"
@@ -323,7 +323,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity" />
+                android:value=".motor.privatecar.activity.PrivateCarDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.addquote.HLMainActivity"
@@ -334,7 +334,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity" />
+                android:value=".loan_fm.homeloan.HomeLoanDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
@@ -345,7 +345,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.balancetransfer.addquote.BLMainActivity"
@@ -356,7 +356,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
+                android:value=".loan_fm.balancetransfer.BalanceTransferDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView"
@@ -381,7 +381,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity" />
+                android:value=".loan_fm.laploan.LapLoanDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.laploan.addquote.LAPApplyActivity"
@@ -410,7 +410,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".motor.twowheeler.activity.BikeAddQuoteActivity"
@@ -421,7 +421,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
+                android:value=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
         </activity>
         <activity
             android:name=".health.HealthQuoteAppActivity"
@@ -466,7 +466,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".healthcheckupplans.HealthCheckUpPopUpActivity"
@@ -485,7 +485,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.introslider.WelcomeActivity" />
+                android:value=".introslider.WelcomeActivity" />
         </activity>
         <activity
             android:name=".knowledgeguru.KnowledgeGuruActivity"
@@ -496,7 +496,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
@@ -507,7 +507,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity" />
+                android:value=".knowledgeguru.KnowledgeGuruActivity" />
         </activity>
         <activity
             android:name=".notification.NotificationActivity"
@@ -518,7 +518,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".underconstruction.UnderConstructionActivity"
@@ -530,7 +530,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".whatsnew.WhatsNewActivity"
@@ -541,7 +541,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".helpfeedback.HelpFeedBackActivity"
@@ -552,7 +552,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".helpfeedback.contactus.ContactUsActivity"
@@ -563,7 +563,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
+                android:value=".helpfeedback.HelpFeedBackActivity" />
         </activity>
         <activity
             android:name=".helpfeedback.aboutus.AboutUsActivity"
@@ -574,7 +574,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
+                android:value=".helpfeedback.HelpFeedBackActivity" />
         </activity>
         <activity
             android:name=".pendingcases.PendingCasesActivity"
@@ -585,7 +585,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".salesmaterial.SalesMaterialActivity"
@@ -596,7 +596,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".creditcard.CreditCardActivity"
@@ -607,7 +607,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".creditcard.RBLCreditApplyActivity"
@@ -618,7 +618,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.creditcard.CreditCardActivity" />
+                android:value=".creditcard.CreditCardActivity" />
         </activity>
         <activity
             android:name=".salesmaterial.SalesDetailActivity"
@@ -629,7 +629,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity" />
+                android:value=".salesmaterial.SalesMaterialActivity" />
         </activity>
         <activity
             android:name=".salesmaterial.SalesShareActivity"
@@ -640,7 +640,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.salesmaterial.SalesDetailActivity" />
+                android:value=".salesmaterial.SalesDetailActivity" />
         </activity>
         <activity
             android:name=".creditcard.AppliedCreditListActivity"
@@ -651,7 +651,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".creditcard.ICICICreditApplyActivity"
@@ -662,7 +662,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity" />
+                android:value=".creditcard.AppliedCreditListActivity" />
         </activity>
         <activity
             android:name=".helpfeedback.raiseticket.RaiseTicketActivity"
@@ -673,7 +673,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
+                android:value=".helpfeedback.HelpFeedBackActivity" />
         </activity>
         <activity
             android:name=".helpfeedback.raiseticket.AddTicketActivity"
@@ -684,7 +684,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity" />
+                android:value=".helpfeedback.raiseticket.RaiseTicketActivity" />
         </activity>
         <activity
             android:name=".webviews.ShareQuoteActivity"
@@ -696,7 +696,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".quicklead.QuickLeadActivity"
@@ -707,7 +707,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
@@ -718,7 +718,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
+                android:value=".loan_fm.balancetransfer.BalanceTransferDetailActivity" />
         </activity>
         <activity
             android:name=".health.compare.HealthCompareActivity"
@@ -757,7 +757,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".term.termselection.TermSelectionActivity"
@@ -767,7 +767,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
@@ -777,7 +777,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
@@ -787,7 +787,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
+                android:value=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
         </activity>
         <activity
             android:name=".onlineexpressloan.RblpersonalloanActivity"
@@ -798,7 +798,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
+                android:value=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
         <activity
             android:name=".term.compareterm.CompareTermActivity"
@@ -841,13 +841,13 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
+                android:value=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
         <!--
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
+            </intent-filter>f
         </receiver>
         -->
         <activity
@@ -877,7 +877,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".notification.NotificationSmsActivity"
@@ -893,7 +893,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".IncomeCalculator.IncomeCalculatorActivity"
@@ -903,7 +903,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".IncomeCalculator.IncomePotentialActivity"
@@ -913,7 +913,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".IncomeCalculator.IncomePotentialDialogActivity"
@@ -926,7 +926,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity android:name=".IncomeCalculator.SimpleScannerActivity" />
         <activity
@@ -937,7 +937,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".contact_lead.ContactLeadActivity"
@@ -947,7 +947,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".scan_vehicle.VehicleScanActivity"
@@ -957,7 +957,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuotesListActivity"
@@ -967,7 +967,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+                android:value=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.AddOfflineQuotesActivity"
@@ -977,7 +977,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity" />
+                android:value=".offline_quotes.OfflineQuotesListActivity" />
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
@@ -990,7 +990,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".messagecenter.messagecenteractivity"
@@ -1000,7 +1000,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".ncd.NCDActivity"
@@ -1010,7 +1010,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".ncd.UploadNCDDocActivity"
@@ -1020,7 +1020,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.ncd.NCDActivity" />
+                android:value=".ncd.NCDActivity" />
         </activity>
         <activity
             android:name=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity"
@@ -1036,7 +1036,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
@@ -1046,7 +1046,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
@@ -1056,7 +1056,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
+                android:value=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
@@ -1067,7 +1067,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.offline_motor.InputOfflineMotorActivity"
@@ -1078,7 +1078,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
+                android:value=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
@@ -1089,7 +1089,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.health.InputOfflineHealthActivity"
@@ -1100,7 +1100,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity" />
+                android:value=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity" />
         </activity>
         <activity
             android:name=".certificate.POSP_certicate_appointment"
@@ -1111,7 +1111,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
@@ -1122,7 +1122,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_InputOfflineMotorActivity"
@@ -1133,7 +1133,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity" />
+                android:value=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
@@ -1144,7 +1144,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
             android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_InputOfflineMotorActivity"
@@ -1155,7 +1155,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+                android:value=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
         </activity>
         <activity
             android:name=".sendTemplateSms.SendTemplateSmsActivity"
@@ -1166,7 +1166,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity> <!-- <activity -->
         <!-- android:name=".insert_contact.InsertContactActivity" -->
         <!-- android:label="@string/title_activity_insert_contact" -->
@@ -1187,7 +1187,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".mybusiness.MyBusinessActivity"
@@ -1197,7 +1197,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity> <!-- <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" /> -->
         <activity
             android:name=".ultralaksha.ultralakshya.ultra_quotes_appln.activity.UltraLakshyaDetailActivity"
@@ -1208,7 +1208,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.ultralaksha.ultra_selection.UltraLakshaSelectionActivity" />
+                android:value=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
@@ -1219,7 +1219,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity" />
+                android:value=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity"
@@ -1230,7 +1230,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity" />
+                android:value=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
@@ -1241,7 +1241,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity"
@@ -1252,7 +1252,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity" />
+                android:value=".loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.new_HomeLoan.bank_selection_homeloanActivity"
@@ -1263,7 +1263,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
+                android:value=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity"
@@ -1274,7 +1274,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.businessloan.NewbusinessApplicaionActivity"
@@ -1285,7 +1285,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.businessloan.city_selecton_businessloan_Activity"
@@ -1296,7 +1296,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.businessloan.NewbusinessApplicaionActivity" />
+                android:value=".loan_fm.businessloan.NewbusinessApplicaionActivity" />
         </activity>
         <activity
             android:name=".loan_fm.businessloan.bank_selection_businessloanActivity"
@@ -1307,7 +1307,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.businessloan.city_selecton_businessloan_Activity" />
+                android:value=".loan_fm.businessloan.city_selecton_businessloan_Activity" />
         </activity>
         <activity
             android:name=".helpfeedback.raiseticket.ViewImageRaiseTicketActivity"
@@ -1329,7 +1329,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity" />
+                android:value=".loan_fm.laploan.newlaploan.NewLAPApplicaionActivity" />
         </activity>
         <activity
             android:name=".loan_fm.laploan.newlaploan.bank_selection_laploanActivity"
@@ -1340,7 +1340,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
+                android:value=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
         </activity>
         <activity
             android:name=".loan_fm.laploan.newlaploan.NewLAPApplicaionActivity"
@@ -1351,7 +1351,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.MyBusinessLoan.BusinessPopUpActivity"
@@ -1366,7 +1366,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
         <activity
             android:name=".loan_fm.MyBusinessLoan.EmiCalcActivity"
@@ -1376,7 +1376,7 @@
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+                android:value=".home.HomeActivity" />
         </activity>
 
         <meta-data
@@ -1387,14 +1387,14 @@
             android:value="ocr" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
+            android:value=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5798feb479107f972a6f8241c4f861c7340d95e9" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="@string/file_provider_authority"
+            android:authorities="com.policyboss.magicfinmart"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

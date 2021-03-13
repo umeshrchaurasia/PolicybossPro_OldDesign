@@ -61,7 +61,7 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<WhatsNewResponse> getWhatsNew(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-constant-data")
+        @POST("/api/get-constant-data-pb")
         Call<ConstantsResponse> getConstantsData(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
@@ -73,11 +73,11 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<MpsResponse> applyPromoCode(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/user-constant")
+        @POST("/api/user-constant-pb")
         Call<UserConstatntResponse> getUserConstatnt(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-dynamic-app")
+        @POST("/api/get-dynamic-app-pb")
         Call<MenuMasterResponse> getMenuMaster(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)

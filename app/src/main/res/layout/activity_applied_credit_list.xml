@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity">
+    tools:context="com.policyboss.magicfinmart.creditcard.AppliedCreditListActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

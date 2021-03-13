@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
+    tools:context="com.policyboss.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
 
     tools:showIn="@layout/activity_balance_transfer_loan_apply">
 

@@ -38,12 +38,12 @@ android {
     }
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.datacomp.magicfinmart"
+        applicationId "com.policyboss.magicfinmart"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 67
+        versionCode 1
 
-        versionName "2.4.2"
+        versionName "0.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context="com.datacomp.magicfinmart.helpfeedback.raiseticket.AddTicketActivity">
+    tools:context="com.policyboss.magicfinmart.helpfeedback.raiseticket.AddTicketActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

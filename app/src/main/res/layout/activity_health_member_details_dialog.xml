@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.health.fragment.HealthMemberDetailsDialogActivity">
+    tools:context="com.policyboss.magicfinmart.health.fragment.HealthMemberDetailsDialogActivity">
 
     <TextView
         style="@style/ButtonStyle"
