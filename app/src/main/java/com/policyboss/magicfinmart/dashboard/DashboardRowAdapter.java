@@ -277,6 +277,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //                                }
 //                            }));
 
+            ((LoanHolder) holder).txtTypeName.setVisibility(View.GONE);
+            ((LoanHolder) holder).ivLogo.setVisibility(View.GONE);
+            ((LoanHolder) holder).tvPoweredBy.setVisibility(View.GONE);
+            ((LoanHolder) holder).rvDashboard.setVisibility(View.GONE);
+
 
         } else if (holder instanceof MoreServiceHolder) {
 

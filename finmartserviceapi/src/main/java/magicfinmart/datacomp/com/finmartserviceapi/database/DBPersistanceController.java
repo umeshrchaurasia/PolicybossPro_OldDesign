@@ -35,6 +35,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MultiLangEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserHideEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
@@ -89,7 +90,14 @@ public class DBPersistanceController {
 
     public boolean storeFOSDetail(UserHideResponse response) {
 
-        return editor.putString(FOS_DETAIL, new Gson().toJson(response)).commit();
+        UserHideEntity hideEntity = new UserHideEntity();
+        hideEntity.setHidesubuser(response.getMasterData().getHidesubuser());
+        hideEntity.setHideloan("Y");
+
+        UserHideResponse hideResponse = new UserHideResponse();
+        hideResponse.setMasterData(hideEntity);
+
+        return editor.putString(FOS_DETAIL, new Gson().toJson(hideResponse)).commit();
     }
 
     private UserHideResponse getFOSInfo() {
