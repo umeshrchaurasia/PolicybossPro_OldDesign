@@ -30,15 +30,15 @@ android {
 
     signingConfigs {
         release {
-            keyAlias 'www.datacompwebtech.com'
-            keyPassword 'dwtandkey'
-            storeFile file('www.datacompwebtech.com.keystore')
-            storePassword 'dwtandkey'
+            keyAlias 'PolicyBossPro'
+            keyPassword 'PolicyBossPro'
+            storeFile file('PolicyBossPro')
+            storePassword 'PolicyBossPro'
         }
     }
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.policyboss.magicfinmart"
+        applicationId "com.policyboss.policybosspro"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
@@ -51,7 +51,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            resValue "string", "app_name", "MagicFinmart"
+            resValue "string", "app_name", "PolicybossPro"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "FIRSTHIVE", '"138"'
             //useProguard true
@@ -60,14 +60,14 @@ android {
         debug {
             debuggable true
             //useProguard false
-            resValue "string", "app_name", "qaFinmart"
+            resValue "string", "app_name", "qaPolicybossPro"
             buildConfigField "String", "FIRSTHIVE", '"138"'
         }
         //preprodapiqa.mgfm.in
         uat {
             debuggable true
             //useProguard false
-            resValue "string", "app_name", "PrepodFinmart"
+            resValue "string", "app_name", "uatPolicybossPro"
             buildConfigField "String", "FIRSTHIVE", '"138"'
 
             signingConfig signingConfigs.debug

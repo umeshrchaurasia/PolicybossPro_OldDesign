@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.policyboss.magicfinmart">
+    package="com.policyboss.policybosspro">
 
     <uses-feature android:name="android.hardware.bluetooth" />
 
@@ -17,11 +17,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".MyApplication"
+        android:name="com.policyboss.policybosspro.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_policyboss"
+        android:label="PolicyBoss Pro"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_policyboss_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
@@ -32,7 +33,7 @@
             android:value="rzp_live_DFxDFYDslN2DIq" />
 
         <activity
-            android:name=".file_chooser.FileChooserActivity"
+            android:name="com.policyboss.policybosspro.file_chooser.FileChooserActivity"
             android:enabled="true"
             android:exported="true"
             android:label="@string/choose_file"
@@ -47,62 +48,63 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".paymentEliteplan.RazorPaymentEliteActivity"
+            android:name="com.policyboss.policybosspro.paymentEliteplan.RazorPaymentEliteActivity"
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".payment.RazorPaymentActivity"
+            android:name="com.policyboss.policybosspro.payment.RazorPaymentActivity"
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".webviews.SyncWebViewActivity"
+        <activity
+            android:name="com.policyboss.policybosspro.webviews.SyncWebViewActivity"
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
-            android:name=".helpfeedback.raiseticketDialog.RaiseTicketDialogActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
 
         <activity
-            android:name=".paymentEliteplan.SyncRazorPaymentActivity"
+            android:name="com.policyboss.policybosspro.paymentEliteplan.SyncRazorPaymentActivity"
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".attendance.AttendanceRegistraionActivity"
+            android:name="com.policyboss.policybosspro.attendance.AttendanceRegistraionActivity"
             android:label="@string/title_activity_attendance_registraion"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
-            android:name=".festivelink.festivalShareActivity"
+            android:name="com.policyboss.policybosspro.festivelink.festivalShareActivity"
             android:label="SALES MATERIAL"
-            android:parentActivityName=".festivelink.festivelinkActivity"
+            android:parentActivityName="com.policyboss.policybosspro.festivelink.festivelinkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".switchuser.SwitchUserActivity"
+            android:name="com.policyboss.policybosspro.switchuser.SwitchUserActivity"
             android:label="Switch User"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".festivelink.festivelinkActivity"
+            android:name="com.policyboss.policybosspro.festivelink.festivelinkActivity"
             android:label="SALES MATERIAL"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".creditcard.newcreditcard.CreditCardInputActivity"
+            android:name="com.policyboss.policybosspro.creditcard.newcreditcard.CreditCardInputActivity"
             android:label="@string/title_activity_credit_card_input"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".splashscreen.SplashScreenActivity"
+            android:name="com.policyboss.policybosspro.splashscreen.SplashScreenActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -114,53 +116,53 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".home.HomeActivity"
+            android:name="com.policyboss.policybosspro.home.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".login.LoginActivity"
+            android:name="com.policyboss.policybosspro.login.LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".splashscreen.SplashScreenActivity"
+            android:parentActivityName="com.policyboss.policybosspro.splashscreen.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Login"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".splashscreen.SplashScreenActivity" />
+                android:value="com.policyboss.policybosspro.splashscreen.SplashScreenActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.activity.PrivateCarDetailActivity"
+            android:name="com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".register.RegisterActivity"
+            android:name="com.policyboss.policybosspro.register.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:parentActivityName=".login.LoginActivity"
+            android:parentActivityName="com.policyboss.policybosspro.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".login.LoginActivity" />
+                android:value="com.policyboss.policybosspro.login.LoginActivity" />
         </activity>
         <activity
-            android:name=".introslider.WelcomeActivity"
+            android:name="com.policyboss.policybosspro.introslider.WelcomeActivity"
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".myaccount.MyAccountActivity"
+            android:name="com.policyboss.policybosspro.myaccount.MyAccountActivity"
             android:label="@string/title_myaccount"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
@@ -169,559 +171,559 @@
          dispatching on non-Google Play devices
         -->
         <activity
-            android:name=".posp.PospEnrollment"
+            android:name="com.policyboss.policybosspro.posp.PospEnrollment"
             android:label="@string/title_pospenrollment"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.activity.AddQuoteActivity"
+            android:name="com.policyboss.policybosspro.motor.privatecar.activity.AddQuoteActivity"
             android:label="@string/title_activity_add_new_quote"
-            android:parentActivityName=".motor.privatecar.activity.PrivateCarDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".motor.privatecar.activity.PrivateCarDetailActivity" />
+                android:value="com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity" />
         </activity>
         <!--
              Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
              installation campaign reporting
         -->
         <activity
-            android:name=".motor.privatecar.activity.QuoteActivity"
+            android:name="com.policyboss.policybosspro.motor.privatecar.activity.QuoteActivity"
             android:label="@string/title_activity_quote"
-            android:parentActivityName=".motor.privatecar.activity.AddQuoteActivity"
+            android:parentActivityName="com.policyboss.policybosspro.motor.privatecar.activity.AddQuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".motor.privatecar.activity.AddQuoteActivity" />
+                android:value="com.policyboss.policybosspro.motor.privatecar.activity.AddQuoteActivity" />
         </activity>
         <activity
-            android:name=".webviews.CommonWebViewActivity"
+            android:name="com.policyboss.policybosspro.webviews.CommonWebViewActivity"
             android:label="@string/title_activity_common_web_view"
-            android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
+            android:parentActivityName="com.policyboss.policybosspro.motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".motor.privatecar.activity.QuoteActivity" />
+                android:value="com.policyboss.policybosspro.motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.activity.PremiumBreakUpActivity"
+            android:name="com.policyboss.policybosspro.motor.privatecar.activity.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
             android:launchMode="singleTop"
             android:noHistory="true"
-            android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
+            android:parentActivityName="com.policyboss.policybosspro.motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".motor.privatecar.activity.QuoteActivity" />
+                android:value="com.policyboss.policybosspro.motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
             android:label="@string/title_activity_personal_loan_apply"
-            android:parentActivityName=".loan_fm.personalloan.PersonalLoanDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.personalloan.PersonalLoanDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.personalloan.PersonalLoanDetailActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.personalloan.PersonalLoanDetailActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.personalloan.PersonalLoanDetailActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.personalloan.PersonalLoanDetailActivity"
             android:label="@string/title_activity_personal_loan_detail"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.HomeLoanDetailActivity"
             android:label="@string/title_activity_home_loan_detail"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.homeloan.addquote.HomeLoanQuoteActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.addquote.HomeLoanQuoteActivity"
             android:label="@string/title_activity_home_loan_quote"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.laploan.LapLoanDetailActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.LapLoanDetailActivity"
             android:label="@string/title_activity_lap_loan_detail"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.laploan.addquote.LapLoanQuoteActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.addquote.LapLoanQuoteActivity"
             android:label="@string/title_activity_lap_loan_quote"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.activity.ModifyQuoteActivity"
+            android:name="com.policyboss.policybosspro.motor.privatecar.activity.ModifyQuoteActivity"
             android:noHistory="true"
-            android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
+            android:parentActivityName="com.policyboss.policybosspro.motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.homeloan.loan_apply.HomeLoanApplyActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity"
             android:label="@string/title_activity_home_loan_apply"
-            android:parentActivityName=".loan_fm.homeloan.HomeLoanDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.homeloan.HomeLoanDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.homeloan.HomeLoanDetailActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.homeloan.HomeLoanDetailActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.personalloan.addquote.PLMainActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.personalloan.addquote.PLMainActivity"
             android:label="@string/title_activity_plmain"
-            android:parentActivityName=".loan_fm.personalloan.PersonalLoanDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.personalloan.PersonalLoanDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.personalloan.PersonalLoanDetailActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.personalloan.PersonalLoanDetailActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.activity.InputQuoteBottmActivity"
+            android:name="com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity"
             android:label="@string/title_activity_input_quote_bottm"
-            android:parentActivityName=".motor.privatecar.activity.PrivateCarDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".motor.privatecar.activity.PrivateCarDetailActivity" />
+                android:value="com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.homeloan.addquote.HLMainActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.addquote.HLMainActivity"
             android:label="@string/title_activity_hlmain"
-            android:parentActivityName=".loan_fm.homeloan.HomeLoanDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.homeloan.HomeLoanDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.homeloan.HomeLoanDetailActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.homeloan.HomeLoanDetailActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.balancetransfer.BalanceTransferDetailActivity"
             android:label="@string/title_activity_balance_transfer_detail"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.balancetransfer.addquote.BLMainActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.balancetransfer.addquote.BLMainActivity"
             android:label="@string/title_activity_blmain"
-            android:parentActivityName=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.balancetransfer.BalanceTransferDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.balancetransfer.BalanceTransferDetailActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView"
+            android:name="com.policyboss.policybosspro.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView"
             android:label="@string/title_activity_personal_loan_apply_web_view"
-            android:parentActivityName=".loan_fm.personalloan.addquote.PLMainActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.personalloan.addquote.PLMainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.homeloan.application.HomeLoanApplyWebView"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.application.HomeLoanApplyWebView"
             android:label="@string/title_activity_home_loan_apply_web_view"
-            android:parentActivityName=".loan_fm.homeloan.addquote.HLMainActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.homeloan.addquote.HLMainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.laploan.addquote.LAPMainActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.addquote.LAPMainActivity"
             android:label="@string/title_activity_lapmain"
-            android:parentActivityName=".loan_fm.laploan.LapLoanDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.laploan.LapLoanDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.laploan.LapLoanDetailActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.laploan.LapLoanDetailActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.laploan.addquote.LAPApplyActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.addquote.LAPApplyActivity"
             android:label="@string/title_activity_lapapply"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.laploan.application.LAPApplyWebView"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.application.LAPApplyWebView"
             android:label="@string/title_activity_lapapply_web_view"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView"
+            android:name="com.policyboss.policybosspro.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView"
             android:label="@string/title_activity_balance_transfer_detail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
+            android:name="com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
             android:label="@string/title_activity_two_wheeler_quote_app"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".motor.twowheeler.activity.BikeAddQuoteActivity"
+            android:name="com.policyboss.policybosspro.motor.twowheeler.activity.BikeAddQuoteActivity"
             android:label="@string/title_activity_bike_add_quote"
-            android:parentActivityName=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
+            android:parentActivityName="com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
+                android:value="com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
         </activity>
         <activity
-            android:name=".health.HealthQuoteAppActivity"
+            android:name="com.policyboss.policybosspro.health.HealthQuoteAppActivity"
             android:label="Health Insurance"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".health.healthquotetabs.HealthQuoteBottomTabsActivity"
+            android:name="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity"
             android:label="Quotes"
-            android:parentActivityName=".health.HealthQuoteAppActivity"
+            android:parentActivityName="com.policyboss.policybosspro.health.HealthQuoteAppActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".health.HealthQuoteAppActivity" />
+                android:value="com.policyboss.policybosspro.health.HealthQuoteAppActivity" />
         </activity>
         <activity
-            android:name=".health.fragment.HealthMemberDetailsDialogActivity"
+            android:name="com.policyboss.policybosspro.health.fragment.HealthMemberDetailsDialogActivity"
             android:label="@string/title_activity_health_member_details_dialog"
             android:noHistory="true"
-            android:parentActivityName=".health.healthquotetabs.HealthQuoteBottomTabsActivity"
+            android:parentActivityName="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
+                android:value="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
         <activity
-            android:name=".healthcheckupplans.HealthCheckUpPlansActivity"
+            android:name="com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpPlansActivity"
             android:label="@string/title_activity_health_check_up_plans"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".healthcheckupplans.HealthCheckUpPopUpActivity"
+            android:name="com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpPopUpActivity"
             android:noHistory="true"
-            android:parentActivityName=".healthcheckupplans.HealthCheckUpPlansActivity"
+            android:parentActivityName="com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpPlansActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".introslider.EulaActivity"
+            android:name="com.policyboss.policybosspro.introslider.EulaActivity"
             android:label="@string/title_activity_eula"
             android:noHistory="true"
-            android:parentActivityName=".introslider.WelcomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.introslider.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".introslider.WelcomeActivity" />
+                android:value="com.policyboss.policybosspro.introslider.WelcomeActivity" />
         </activity>
         <activity
-            android:name=".knowledgeguru.KnowledgeGuruActivity"
+            android:name="com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity"
             android:label="@string/title_activity_knowledge_guru"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
+            android:name="com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
-            android:parentActivityName=".knowledgeguru.KnowledgeGuruActivity"
+            android:parentActivityName="com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".knowledgeguru.KnowledgeGuruActivity" />
+                android:value="com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity" />
         </activity>
         <activity
-            android:name=".notification.NotificationActivity"
+            android:name="com.policyboss.policybosspro.notification.NotificationActivity"
             android:label="@string/title_activity_notification"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".underconstruction.UnderConstructionActivity"
+            android:name="com.policyboss.policybosspro.underconstruction.UnderConstructionActivity"
             android:label="@string/title_activity_under_construction"
             android:noHistory="true"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".whatsnew.WhatsNewActivity"
+            android:name="com.policyboss.policybosspro.whatsnew.WhatsNewActivity"
             android:label="@string/title_activity_whats_new"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".helpfeedback.HelpFeedBackActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity"
             android:label="@string/title_activity_help_feed_back"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".helpfeedback.contactus.ContactUsActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.contactus.ContactUsActivity"
             android:label="@string/title_activity_contact_us"
-            android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
+            android:parentActivityName="com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".helpfeedback.HelpFeedBackActivity" />
+                android:value="com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity" />
         </activity>
         <activity
-            android:name=".helpfeedback.aboutus.AboutUsActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.aboutus.AboutUsActivity"
             android:label="@string/title_activity_about_us"
-            android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
+            android:parentActivityName="com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".helpfeedback.HelpFeedBackActivity" />
+                android:value="com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity" />
         </activity>
         <activity
-            android:name=".pendingcases.PendingCasesActivity"
+            android:name="com.policyboss.policybosspro.pendingcases.PendingCasesActivity"
             android:label="Pending cases"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".salesmaterial.SalesMaterialActivity"
+            android:name="com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity"
             android:label="@string/title_activity_sales_material"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".creditcard.CreditCardActivity"
+            android:name="com.policyboss.policybosspro.creditcard.CreditCardActivity"
             android:label="@string/title_activity_credit_card"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".creditcard.RBLCreditApplyActivity"
+            android:name="com.policyboss.policybosspro.creditcard.RBLCreditApplyActivity"
             android:label="@string/title_activity_rblcredit_apply"
-            android:parentActivityName=".creditcard.CreditCardActivity"
+            android:parentActivityName="com.policyboss.policybosspro.creditcard.CreditCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".creditcard.CreditCardActivity" />
+                android:value="com.policyboss.policybosspro.creditcard.CreditCardActivity" />
         </activity>
         <activity
-            android:name=".salesmaterial.SalesDetailActivity"
+            android:name="com.policyboss.policybosspro.salesmaterial.SalesDetailActivity"
             android:label="@string/title_activity_sales_material"
-            android:parentActivityName=".salesmaterial.SalesMaterialActivity"
+            android:parentActivityName="com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".salesmaterial.SalesMaterialActivity" />
+                android:value="com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity" />
         </activity>
         <activity
-            android:name=".salesmaterial.SalesShareActivity"
+            android:name="com.policyboss.policybosspro.salesmaterial.SalesShareActivity"
             android:label="@string/title_activity_sales_material"
-            android:parentActivityName=".salesmaterial.SalesDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.salesmaterial.SalesDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".salesmaterial.SalesDetailActivity" />
+                android:value="com.policyboss.policybosspro.salesmaterial.SalesDetailActivity" />
         </activity>
         <activity
-            android:name=".creditcard.AppliedCreditListActivity"
+            android:name="com.policyboss.policybosspro.creditcard.AppliedCreditListActivity"
             android:label="@string/title_activity_applied_credit_list"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".creditcard.ICICICreditApplyActivity"
+            android:name="com.policyboss.policybosspro.creditcard.ICICICreditApplyActivity"
             android:label="@string/title_activity_rblcredit_apply"
-            android:parentActivityName=".creditcard.AppliedCreditListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.creditcard.AppliedCreditListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".creditcard.AppliedCreditListActivity" />
+                android:value="com.policyboss.policybosspro.creditcard.AppliedCreditListActivity" />
         </activity>
         <activity
-            android:name=".helpfeedback.raiseticket.RaiseTicketActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.raiseticket.RaiseTicketActivity"
             android:label="@string/title_activity_raise_ticket"
-            android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
+            android:parentActivityName="com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".helpfeedback.HelpFeedBackActivity" />
+                android:value="com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity" />
         </activity>
         <activity
-            android:name=".helpfeedback.raiseticket.AddTicketActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.raiseticket.AddTicketActivity"
             android:label="@string/title_activity_add_ticket"
-            android:parentActivityName=".helpfeedback.raiseticket.RaiseTicketActivity"
+            android:parentActivityName="com.policyboss.policybosspro.helpfeedback.raiseticket.RaiseTicketActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".helpfeedback.raiseticket.RaiseTicketActivity" />
+                android:value="com.policyboss.policybosspro.helpfeedback.raiseticket.RaiseTicketActivity" />
         </activity>
         <activity
-            android:name=".webviews.ShareQuoteActivity"
+            android:name="com.policyboss.policybosspro.webviews.ShareQuoteActivity"
             android:label="@string/title_activity_share_quote_activity"
             android:noHistory="true"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".quicklead.QuickLeadActivity"
+            android:name="com.policyboss.policybosspro.quicklead.QuickLeadActivity"
             android:label="@string/title_activity_quick_lead"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
             android:label="@string/title_activity_balance_transfer_loan_apply"
-            android:parentActivityName=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.balancetransfer.BalanceTransferDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.balancetransfer.BalanceTransferDetailActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
         </activity>
         <activity
-            android:name=".health.compare.HealthCompareActivity"
+            android:name="com.policyboss.policybosspro.health.compare.HealthCompareActivity"
             android:label="@string/title_activity_health_compare"
             android:noHistory="true"
             android:screenOrientation="portrait"
@@ -729,119 +731,119 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
+                android:value="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
         <activity
-            android:name=".health.fragment.HealthQuoteDetailsDialogActivity"
+            android:name="com.policyboss.policybosspro.health.fragment.HealthQuoteDetailsDialogActivity"
             android:noHistory="true"
-            android:parentActivityName=".health.healthquotetabs.HealthQuoteBottomTabsActivity"
+            android:parentActivityName="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
+                android:value="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".term.quoteapp.TermQuoteApplicationActivity"
+            android:name="com.policyboss.policybosspro.term.quoteapp.TermQuoteApplicationActivity"
             android:label="@string/title_activity_term_quote_application"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".term.termselection.TermSelectionActivity"
+            android:name="com.policyboss.policybosspro.term.termselection.TermSelectionActivity"
             android:label="@string/title_activity_term_selection"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
+            android:name="com.policyboss.policybosspro.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:label="EXPRESS LOAN"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:name="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:label="@string/title_activity_bank_loan_list"
-            android:parentActivityName=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
+                android:value="com.policyboss.policybosspro.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
         </activity>
         <activity
-            android:name=".onlineexpressloan.RblpersonalloanActivity"
+            android:name="com.policyboss.policybosspro.onlineexpressloan.RblpersonalloanActivity"
             android:label="RBL PERSONAL LOAN"
-            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
+                android:value="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
         <activity
-            android:name=".term.compareterm.CompareTermActivity"
+            android:name="com.policyboss.policybosspro.term.compareterm.CompareTermActivity"
             android:label="@string/title_activity_compare_ti_activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".onlineexpressloan.KotakpersonalloanActivity"
+            android:name="com.policyboss.policybosspro.onlineexpressloan.KotakpersonalloanActivity"
             android:label="@string/title_activity_kotak_term"
-            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".term.icici.IciciTermActivity"
+            android:name="com.policyboss.policybosspro.term.icici.IciciTermActivity"
             android:label="@string/title_activity_icici_term"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".onlineexpressloan.HdfcpersonalloanActivity"
+            android:name="com.policyboss.policybosspro.onlineexpressloan.HdfcpersonalloanActivity"
             android:label="@string/title_activity_hdfc_term"
-            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".healthcheckupplans.HealthCheckUpListActivity"
+            android:name="com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpListActivity"
             android:label="@string/title_activity_health_check_up_list"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".onlineexpressloan.EarlySalaryActivity"
+            android:name="com.policyboss.policybosspro.onlineexpressloan.EarlySalaryActivity"
             android:label="@string/title_activity_early_salary"
-            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
+                android:value="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
         <!--
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
@@ -851,12 +853,12 @@
         </receiver>
         -->
         <activity
-            android:name=".term.hdfc.HdfcTermActivity"
+            android:name="com.policyboss.policybosspro.term.hdfc.HdfcTermActivity"
             android:label="CLICK TO PROTECT 3D"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.popup.LeadInfoPopupActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.popup.LeadInfoPopupActivity"
             android:label="@string/title_activity_lead_info_popup"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme" /> <!-- <activity -->
@@ -870,303 +872,303 @@
         <!-- android:value=".term.termselection.TermSelectionActivity" /> -->
         <!-- </activity> -->
         <activity
-            android:name=".posp.AddPOSPUserActivity"
+            android:name="com.policyboss.policybosspro.posp.AddPOSPUserActivity"
             android:label="@string/title_activity_add_pospuser"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".notification.NotificationSmsActivity"
+            android:name="com.policyboss.policybosspro.notification.NotificationSmsActivity"
             android:label="@string/title_activity_notification_sms"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".generatelead.GenerateLeadActivity"
+            android:name="com.policyboss.policybosspro.generatelead.GenerateLeadActivity"
             android:label="@string/title_activity_generate_lead"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".IncomeCalculator.IncomeCalculatorActivity"
+            android:name="com.policyboss.policybosspro.IncomeCalculator.IncomeCalculatorActivity"
             android:label="Income Calculator"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".IncomeCalculator.IncomePotentialActivity"
+            android:name="com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity"
             android:label="@string/title_activity_income_potential"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".IncomeCalculator.IncomePotentialDialogActivity"
+            android:name="com.policyboss.policybosspro.IncomeCalculator.IncomePotentialDialogActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".IncomeCalculator.IncomePotentialdetailActivity"
+            android:name="com.policyboss.policybosspro.IncomeCalculator.IncomePotentialdetailActivity"
             android:label="Income Calculator"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
-        <activity android:name=".IncomeCalculator.SimpleScannerActivity" />
+        <activity android:name="com.policyboss.policybosspro.IncomeCalculator.SimpleScannerActivity" />
         <activity
-            android:name=".transactionhistory.nav_transactionhistoryActivity"
+            android:name="com.policyboss.policybosspro.transactionhistory.nav_transactionhistoryActivity"
             android:label="Transaction History"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".contact_lead.ContactLeadActivity"
+            android:name="com.policyboss.policybosspro.contact_lead.ContactLeadActivity"
             android:label="@string/title_activity_contact_lead"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".scan_vehicle.VehicleScanActivity"
+            android:name="com.policyboss.policybosspro.scan_vehicle.VehicleScanActivity"
             android:label="@string/title_activity_vehicle_scan"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuotesListActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuotesListActivity"
             android:label="@string/title_activity_offline_quotes_list"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.AddOfflineQuotesActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.AddOfflineQuotesActivity"
             android:label="@string/title_activity_add_offline_quotes"
-            android:parentActivityName=".offline_quotes.OfflineQuotesListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.OfflineQuotesListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.OfflineQuotesListActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuotesListActivity" />
         </activity>
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity
-            android:name=".crnpolicy.crnpolicyActivity"
+            android:name="com.policyboss.policybosspro.crnpolicy.crnpolicyActivity"
             android:label="REQUEST POLICY VIA CRN"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".messagecenter.messagecenteractivity"
+            android:name="com.policyboss.policybosspro.messagecenter.messagecenteractivity"
             android:label="@string/title_activity_messagecenteractivity"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".ncd.NCDActivity"
+            android:name="com.policyboss.policybosspro.ncd.NCDActivity"
             android:label="@string/title_activity_ncd"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".ncd.UploadNCDDocActivity"
+            android:name="com.policyboss.policybosspro.ncd.UploadNCDDocActivity"
             android:label="@string/title_activity_upload_ncddoc"
-            android:parentActivityName=".ncd.NCDActivity"
+            android:parentActivityName="com.policyboss.policybosspro.ncd.NCDActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ncd.NCDActivity" />
+                android:value="com.policyboss.policybosspro.ncd.NCDActivity" />
         </activity>
         <activity
-            android:name=".ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity"
+            android:name="com.policyboss.policybosspro.ultralaksha.ultralakshya.UltraLakshyaTermBottmActivity"
             android:label="Ultra Lakshya combo"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity"
             android:label="Offline Quotes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline"
             android:label="Offline Quotes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_Term.HdfcTermActivity_offline"
             android:label="Life Offline Quotes"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
+                android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_Term.TermQuoteApplicationActivity_offline" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
             android:label="@string/title_activity_offline_motor_list"
-            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.offline_motor.InputOfflineMotorActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.offline_motor.InputOfflineMotorActivity"
             android:label="@string/title_activity_input_offline_motor"
-            android:parentActivityName=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.offline_motor.OfflineMotorListActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
             android:label="@string/title_activity_offline_health_list_activity"
-            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.health.InputOfflineHealthActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.health.InputOfflineHealthActivity"
             android:label="@string/title_activity_input_offline_health"
-            android:parentActivityName=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.health.OfflineHealthListActivity" />
         </activity>
         <activity
-            android:name=".certificate.POSP_certicate_appointment"
+            android:name="com.policyboss.policybosspro.certificate.POSP_certicate_appointment"
             android:label="POSP Appointment Form"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
             android:label="OFFLINE MOTOR GCV"
-            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_InputOfflineMotorActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_InputOfflineMotorActivity"
             android:label="OFFLINE MOTOR GCV"
-            android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_GoodsCarrying_Motor.Good_OfflineMotorListActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
             android:label="OFFLINE MOTOR PCV"
-            android:parentActivityName=".offline_quotes.AddNewOfflineQuotesActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.AddNewOfflineQuotesActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity" />
         </activity>
         <activity
-            android:name=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_InputOfflineMotorActivity"
+            android:name="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_InputOfflineMotorActivity"
             android:label="OFFLINE MOTOR PCV"
-            android:parentActivityName=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
+            android:parentActivityName="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
+                android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuoteForm.Offline_PassengerCarrying_Motor.Passenger_OfflineMotorListActivity" />
         </activity>
         <activity
-            android:name=".sendTemplateSms.SendTemplateSmsActivity"
+            android:name="com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity"
             android:label="@string/title_activity_send_sms"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity> <!-- <activity -->
         <!-- android:name=".insert_contact.InsertContactActivity" -->
         <!-- android:label="@string/title_activity_insert_contact" -->
@@ -1179,204 +1181,204 @@
         <!-- android:value="com.datacomp.magicfinmart.home.HomeActivity" /> -->
         <!-- </activity> -->
         <activity
-            android:name=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
+            android:name="com.policyboss.policybosspro.ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
             android:label="FINMART EXCLUSIVES"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".mybusiness.MyBusinessActivity"
+            android:name="com.policyboss.policybosspro.mybusiness.MyBusinessActivity"
             android:label="My Business"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity> <!-- <activity android:name=".offline_quotes.OfflineQuoteForm.Term_OfflineQuote" /> -->
         <activity
-            android:name=".ultralaksha.ultralakshya.ultra_quotes_appln.activity.UltraLakshyaDetailActivity"
+            android:name="com.policyboss.policybosspro.ultralaksha.ultralakshya.ultra_quotes_appln.activity.UltraLakshyaDetailActivity"
             android:label="Ultra Lakshya combo"
-            android:parentActivityName=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
+            android:parentActivityName="com.policyboss.policybosspro.ultralaksha.ultra_selection.UltraLakshaSelectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ultralaksha.ultra_selection.UltraLakshaSelectionActivity" />
+                android:value="com.policyboss.policybosspro.ultralaksha.ultra_selection.UltraLakshaSelectionActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
+            android:name="com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
             android:label="Personal Loan"
-            android:parentActivityName=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.bank_selection_personalloanActivity"
             android:label="Personal Loan"
-            android:parentActivityName=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity" />
+                android:value="com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.city_selecton_personalloan_Activity" />
         </activity>
         <activity
-            android:name=".loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity"
             android:label="@string/title_activity_personal_loan_apply"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity"
             android:label="Home Loan"
-            android:parentActivityName=".loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.homeloan.new_HomeLoan.bank_selection_homeloanActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.bank_selection_homeloanActivity"
             android:label="Home Loan"
-            android:parentActivityName=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
+                android:value="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
         </activity>
         <activity
-            android:name=".loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity"
             android:label="@string/title_activity_home_loan_detail"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.businessloan.NewbusinessApplicaionActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.businessloan.NewbusinessApplicaionActivity"
             android:label="Business Loan"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.businessloan.city_selecton_businessloan_Activity"
+            android:name="com.policyboss.policybosspro.loan_fm.businessloan.city_selecton_businessloan_Activity"
             android:label="Business Loan"
-            android:parentActivityName=".loan_fm.businessloan.NewbusinessApplicaionActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.businessloan.NewbusinessApplicaionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.businessloan.NewbusinessApplicaionActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.businessloan.NewbusinessApplicaionActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.businessloan.bank_selection_businessloanActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.businessloan.bank_selection_businessloanActivity"
             android:label="Business Loan"
-            android:parentActivityName=".loan_fm.businessloan.city_selecton_businessloan_Activity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.businessloan.city_selecton_businessloan_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.businessloan.city_selecton_businessloan_Activity" />
+                android:value="com.policyboss.policybosspro.loan_fm.businessloan.city_selecton_businessloan_Activity" />
         </activity>
         <activity
-            android:name=".helpfeedback.raiseticket.ViewImageRaiseTicketActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.raiseticket.ViewImageRaiseTicketActivity"
             android:label="@string/title_activity_view_image_raise_ticket"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".helpfeedback.raiseticket.UploadRaiseActivity"
+            android:name="com.policyboss.policybosspro.helpfeedback.raiseticket.UploadRaiseActivity"
             android:label="@string/title_activity_upload_raise"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme" />
         <activity
-            android:name=".loan_fm.laploan.newlaploan.city_selecton_laploan_Activity"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.newlaploan.city_selecton_laploan_Activity"
             android:label="LAP Loan"
-            android:parentActivityName=".loan_fm.laploan.newlaploan.NewLAPApplicaionActivity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.laploan.newlaploan.NewLAPApplicaionActivity" />
+                android:value="com.policyboss.policybosspro.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.laploan.newlaploan.bank_selection_laploanActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.newlaploan.bank_selection_laploanActivity"
             android:label="LAP Loan"
-            android:parentActivityName=".loan_fm.laploan.newlaploan.city_selecton_laploan_Activity"
+            android:parentActivityName="com.policyboss.policybosspro.loan_fm.laploan.newlaploan.city_selecton_laploan_Activity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
+                android:value="com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.city_selecton_homeloan_Activity" />
         </activity>
         <activity
-            android:name=".loan_fm.laploan.newlaploan.NewLAPApplicaionActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity"
             android:label="LAP LOAN"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.MyBusinessLoan.BusinessPopUpActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.MyBusinessLoan.BusinessPopUpActivity"
             android:label="My Business"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".loan_fm.MyBusinessLoan.MyBusiness_LoanActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.MyBusinessLoan.MyBusiness_LoanActivity"
             android:label="My Business"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.MyBusinessLoan.EmiCalcActivity"
+            android:name="com.policyboss.policybosspro.loan_fm.MyBusinessLoan.EmiCalcActivity"
             android:label="EMI Calculator"
-            android:parentActivityName=".home.HomeActivity"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
+                android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
 
         <meta-data
@@ -1387,14 +1389,14 @@
             android:value="ocr" />
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
+            android:value="com.policyboss.policybosspro.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5798feb479107f972a6f8241c4f861c7340d95e9" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.policyboss.magicfinmart"
+            android:authorities="com.policyboss.policybosspro"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -1402,12 +1404,12 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver android:name=".broadcast.SMSBroadCastReceiver">
+        <receiver android:name="com.policyboss.policybosspro.broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".broadcast.UpdateAppBroadCastReceiver">
+        <receiver android:name="com.policyboss.policybosspro.broadcast.UpdateAppBroadCastReceiver">
             <intent-filter android:priority="5823">
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
@@ -1428,14 +1430,14 @@
         </receiver>
 
         <service
-            android:name=".utility.MyFirebaseMessagingService"
+            android:name="com.policyboss.policybosspro.utility.MyFirebaseMessagingService"
             android:exported="true"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".utility.FirebaseIDService">
+        <service android:name="com.policyboss.policybosspro.utility.FirebaseIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

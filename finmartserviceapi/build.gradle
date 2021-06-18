@@ -3,10 +3,10 @@ apply plugin: 'com.android.library'
 android {
     signingConfigs {
         release {
-            keyAlias 'www.datacompwebtech.com'
-            keyPassword 'dwtandkey'
-            storeFile file('www.datacompwebtech.com.keystore')
-            storePassword 'dwtandkey'
+            keyAlias 'PolicyBossPro'
+            keyPassword 'PolicyBossPro'
+            storeFile file('PolicyBossPro')
+            storePassword 'PolicyBossPro'
         }
     }
     compileSdkVersion 28
@@ -34,23 +34,23 @@ android {
         }
         debug {
             debuggable true
-            buildConfigField "String", "FINMART_URL", '"http://qa.mgfm.in"'
-            buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
-            buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
-            buildConfigField "String", "ERP_URL", '"http://beta.services.rupeeboss.com/LoginDtls.svc/"'
-            buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
-            buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
-            buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
-            buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
+            /*   buildConfigField "String", "FINMART_URL", '"http://qa.mgfm.in"'
+              buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
+              buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
+              buildConfigField "String", "ERP_URL", '"http://beta.services.rupeeboss.com/LoginDtls.svc/"'
+              buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
+              buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
+              buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
+              buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'*/
 
-           /* buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
-            buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
-            buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
-            buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'
-            buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
-            buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
-            buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
-            buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'*/
+             buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
+              buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
+              buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
+              buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'
+              buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
+              buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
+              buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
+              buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
 
         }
         uat {

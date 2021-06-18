@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="100"
-    tools:context="com.policyboss.magicfinmart.onlineexpressloan.KotakpersonalloanActivity">
+    tools:context="com.policyboss.policybosspro.onlineexpressloan.KotakpersonalloanActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.policyboss.magicfinmart.register.RegisterActivity"
+    tools:context="com.policyboss.policybosspro.register.RegisterActivity"
     tools:showIn="@layout/activity_register">
 
 
@@ -461,7 +461,7 @@
                     android:layout_height="wrap_content"
                     android:text="Life Insurance" />
 
-                <com.policyboss.magicfinmart.register.adapters.MultiSelectionSpinner
+                <com.policyboss.policybosspro.register.adapters.MultiSelectionSpinner
                     android:id="@+id/spLifeIns"
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"
@@ -474,7 +474,7 @@
                     android:layout_height="wrap_content"
                     android:text="General Insurance" />
 
-                <com.policyboss.magicfinmart.register.adapters.MultiSelectionSpinner
+                <com.policyboss.policybosspro.register.adapters.MultiSelectionSpinner
                     android:id="@+id/spGenIns"
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"
@@ -489,7 +489,7 @@
                     android:text="Health Insurance" />
 
 
-                <com.policyboss.magicfinmart.register.adapters.MultiSelectionSpinner
+                <com.policyboss.policybosspro.register.adapters.MultiSelectionSpinner
                     android:id="@+id/spHealthIns"
                     style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="match_parent"

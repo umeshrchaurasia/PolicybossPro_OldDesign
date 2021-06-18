@@ -5,7 +5,7 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:gravity="center"
 android:orientation="vertical"
-tools:context="com.policyboss.magicfinmart.IncomeCalculator.IncomePotentialDialogActivity">
+tools:context="com.policyboss.policybosspro.IncomeCalculator.IncomePotentialDialogActivity">
 
 <RelativeLayout
     android:id="@+id/rlPerAnnum"
