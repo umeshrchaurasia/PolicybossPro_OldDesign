@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by IN-RB on 19-02-2018.
+ *   //Created by IN-RB on 19-02-2018.
  */
 
 public class BankSaveRequest implements Parcelable{
