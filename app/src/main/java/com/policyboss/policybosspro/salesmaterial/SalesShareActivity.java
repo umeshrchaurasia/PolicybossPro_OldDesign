@@ -42,8 +42,8 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
     Bitmap salesPhoto;
-    Bitmap pospPhoto;
-    Bitmap pospDetails;
+    Bitmap POSPBitmap = null;
+    Bitmap FBABitmap = null;
     Bitmap combinedImage;
     String pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo;
     SalesProductEntity salesProductEntity;
@@ -80,6 +80,11 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         if (getIntent().hasExtra(Constants.PRODUCT_ID)) {
             salesProductEntity = getIntent().getExtras().getParcelable(Constants.PRODUCT_ID);
 
+            byte[] bytePOSPArray = getIntent().getByteArrayExtra("POSP_IMAGE");
+            POSPBitmap = BitmapFactory.decodeByteArray(bytePOSPArray, 0, bytePOSPArray.length);
+
+            byte[] byteFBAArray = getIntent().getByteArrayExtra("FBA_IMAGE");
+            FBABitmap = BitmapFactory.decodeByteArray(byteFBAArray, 0, byteFBAArray.length);
         }
         initialize();
         //new createBitmapFromURL(pospPhotoUrl).execute();
@@ -91,128 +96,12 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
         if (getIntent().hasExtra(Constants.DOC_DATA)) {
             docsEntity = getIntent().getExtras().getParcelable(Constants.DOC_DATA);
+
+            Log.d("PATH", docsEntity.getImage_path());
         }
     }
 
-    private void setPospDetails() {
-        if (accountDtlEntity != null) {
 
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
-                    pospNAme = loginResponseEntity.getPOSPName();
-                } else {
-                    pospNAme = "POSP Name";
-                }
-            } else {
-                pospNAme = "POSP Name";
-            }
-
-            if (accountDtlEntity.getDisplayEmail() != null && !accountDtlEntity.getDisplayEmail().equals("")) {
-                pospEmail = accountDtlEntity.getDisplayEmail();
-            } else {
-                if (loginResponseEntity.getPOSEmail() != null && !loginResponseEntity.getPOSEmail().equals("")) {
-                    pospEmail = loginResponseEntity.getPOSEmail();
-                } else {
-                    pospEmail = "XXXXXX@finmart.com";
-                }
-            }
-
-            if (accountDtlEntity.getDisplayDesignation() != null && !accountDtlEntity.getDisplayDesignation().equals("")) {
-                pospDesg = accountDtlEntity.getDisplayDesignation();
-            } else {
-                pospDesg = "LandMark POSP";
-            }
-
-            if (accountDtlEntity.getDisplayPhoneNo() != null && !accountDtlEntity.getDisplayPhoneNo().equals("")) {
-                PospMobNo = accountDtlEntity.getDisplayPhoneNo();
-            } else {
-                if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
-                    PospMobNo = loginResponseEntity.getPOSPMobile();
-                } else {
-                    PospMobNo = "98XXXXXXXX";
-                }
-
-            }
-        } else {
-            pospNAme = "POSP Name";
-            pospEmail = "XXXXXX@finmart.com";
-            pospDesg = "LandMark POSP";
-            PospMobNo = "98XXXXXXXX";
-        }
-        //setting photo url
-        if (loginResponseEntity != null) {
-            if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
-                try {
-                    pospPhotoUrl = new URL(loginResponseEntity.getPOSPProfileUrl());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        if (pospPhotoUrl == null) {
-            try {
-                pospPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void setOtherDetails() {
-
-        if (accountDtlEntity != null) {
-
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getFullName() != null && !loginResponseEntity.getFullName().equals("")) {
-                    pospNAme = loginResponseEntity.getFullName();
-                } else {
-                    pospNAme = "FBA Name";
-                }
-            } else {
-                pospNAme = "FBA Name";
-            }
-
-            if (accountDtlEntity.getEditEmailId() != null && !accountDtlEntity.getEditEmailId().equals("")) {
-                pospEmail = accountDtlEntity.getEditEmailId();
-            } else {
-                pospEmail = "XXXXXX@finmart.com";
-            }
-
-            if (accountDtlEntity.getDesignation() != null && !accountDtlEntity.getDesignation().equals("")) {
-                pospDesg = accountDtlEntity.getDesignation();
-            } else {
-                pospDesg = "FBA SUPPORT ASSISTANT";
-            }
-
-            if (accountDtlEntity.getEditMobiNumb() != null && !accountDtlEntity.getEditMobiNumb().equals("")) {
-                PospMobNo = accountDtlEntity.getEditMobiNumb();
-            } else {
-                PospMobNo = "98XXXXXXXX";
-            }
-        } else {
-            pospNAme = "FBA Name";
-            pospEmail = "XXXXXX@finmart.com";
-            pospDesg = "FBA SUPPORT ASSISTANT";
-            PospMobNo = "98XXXXXXXX";
-        }
-        //setting photo url
-        if (loginResponseEntity != null) {
-            if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
-                try {
-                    pospPhotoUrl = new URL(loginResponseEntity.getFBAProfileUrl());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        if (pospPhotoUrl == null) {
-            try {
-                pospPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -279,81 +168,86 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         }
     }
 
-    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
+    //region commented
+    //    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
+//
+//        URL url;
+//
+//        public createBitmapFromURL(URL url) {
+//            this.url = url;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            showDialog();
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected Bitmap doInBackground(Void... voids) {
+//            Bitmap networkBitmap = null;
+//
+//            if (url == null) {
+//                AssetManager assetManager = getAssets();
+//                InputStream istr;
+//                try {
+//                    istr = assetManager.open("file:///android_asset/profile_pic.png");
+//                    networkBitmap = BitmapFactory.decodeStream(istr);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            } else {
+//                try {
+//                    networkBitmap = BitmapFactory.decodeStream(
+//                            pospPhotoUrl.openConnection().getInputStream());
+//                    URL salePhotoUrl = new URL(docsEntity.getImage_path());
+//                    salesPhoto = BitmapFactory.decodeStream(
+//                            salePhotoUrl.openConnection().getInputStream());
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            return networkBitmap;
+//        }
+//
+//        protected void onPostExecute(Bitmap result) {
+//
+//            pospPhoto = result;
+//
+//            try {
+//                if (pospPhoto != null) {
+//                    // salesPhoto = ((GlideBitmapDrawable) ivProduct.getDrawable()).getBitmap();
+//                    /*if (salesPhoto == null) {
+//                        try {
+//                            salesPhoto = BitmapFactory.decodeStream(pospPhotoUrl.openConnection().getInputStream());
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }*/
+//                    //datashareList(BaseActivity.this, result);
+//                    pospDetails = createBitmap(pospPhoto, pospNAme, pospDesg, PospMobNo, pospEmail);
+//                    combinedImage = combineImages(salesPhoto, pospDetails);
+//                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                    combinedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//                    Glide.with(SalesShareActivity.this)
+//                            .load(stream.toByteArray())
+//                            .asBitmap()
+//                            .into(ivProduct);
+//                    cancelDialog();
+//                }
+//            } catch (Exception e) {
+//                cancelDialog();
+//                e.printStackTrace();
+//                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
+//
+//            }
+//        }
+//    }
 
-        URL url;
+    //endregion
 
-        public createBitmapFromURL(URL url) {
-            this.url = url;
-        }
 
-        @Override
-        protected void onPreExecute() {
-            showDialog();
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            Bitmap networkBitmap = null;
-
-            if (url == null) {
-                AssetManager assetManager = getAssets();
-                InputStream istr;
-                try {
-                    istr = assetManager.open("file:///android_asset/profile_pic.png");
-                    networkBitmap = BitmapFactory.decodeStream(istr);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    networkBitmap = BitmapFactory.decodeStream(
-                            pospPhotoUrl.openConnection().getInputStream());
-                    URL salePhotoUrl = new URL(docsEntity.getImage_path());
-                    salesPhoto = BitmapFactory.decodeStream(
-                            salePhotoUrl.openConnection().getInputStream());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return networkBitmap;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-
-            pospPhoto = result;
-
-            try {
-                if (pospPhoto != null) {
-                    // salesPhoto = ((GlideBitmapDrawable) ivProduct.getDrawable()).getBitmap();
-                    /*if (salesPhoto == null) {
-                        try {
-                            salesPhoto = BitmapFactory.decodeStream(pospPhotoUrl.openConnection().getInputStream());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }*/
-                    //datashareList(BaseActivity.this, result);
-                    pospDetails = createBitmap(pospPhoto, pospNAme, pospDesg, PospMobNo, pospEmail);
-                    combinedImage = combineImages(salesPhoto, pospDetails);
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    combinedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    Glide.with(SalesShareActivity.this)
-                            .load(stream.toByteArray())
-                            .asBitmap()
-                            .into(ivProduct);
-                    cancelDialog();
-                }
-            } catch (Exception e) {
-                cancelDialog();
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
-
-            }
-        }
-    }
 
     public class createBitmapFromURLNew extends AsyncTask<Void, Void, Bitmap> {
 
@@ -368,11 +262,15 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
             if (isSecondImageToShow) {
                 try {
                     if (salesProductEntity.getProduct_Id() == 1 || salesProductEntity.getProduct_Id() == 2)
-                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
+                        // combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
+                        combinedImage = POSPBitmap;
+
                     else if (salesProductEntity.getProduct_Id() == 3
                             || salesProductEntity.getProduct_Id() == 4
                             || salesProductEntity.getProduct_Id() == 5) {
-                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
+                        //  combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
+
+                        combinedImage = FBABitmap;
                     }
                 } catch (Exception e) {
 

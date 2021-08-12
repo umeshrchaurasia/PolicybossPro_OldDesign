@@ -640,7 +640,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/ivPhotoCam"
+                            android:layout_toLeftOf="@+id/ivPhotoView"
                             android:orientation="horizontal"
                             android:padding="8dp">
 
@@ -660,15 +660,17 @@
                                 android:text="FBA PHOTOGRAPH" />
 
 
-                            <ImageView
-                                android:id="@+id/ivPhotoGallery"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginLeft="10dp"
-                                android:padding="2dp"
-                                android:src="@drawable/folder_icon"
-                                android:visibility="gone" />
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/ivPhotoView"
+                            android:layout_toLeftOf="@+id/ivPhotoCam"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="@dimen/fab_margin"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/view"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/ivPhotoCam"
@@ -680,8 +682,8 @@
                             android:padding="2dp"
                             android:src="@drawable/ic_camera_alt" />
 
-
                     </RelativeLayout>
+
 
 
                     <View
@@ -696,7 +698,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/ivPanCam"
+                            android:layout_toLeftOf="@+id/ivPanView"
                             android:orientation="horizontal"
                             android:padding="8dp">
 
@@ -716,15 +718,18 @@
                                 android:text="FBA PAN CARD" />
 
 
-                            <ImageView
-                                android:id="@+id/ivPanGallery"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginLeft="10dp"
-                                android:padding="2dp"
-                                android:src="@drawable/folder_icon"
-                                android:visibility="gone" />
+
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/ivPanView"
+                            android:layout_toLeftOf="@+id/ivPanCam"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="@dimen/fab_margin"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/view"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/ivPanCam"
@@ -750,7 +755,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/ivCancelCam"
+                            android:layout_toLeftOf="@+id/ivCancelView"
                             android:orientation="horizontal"
                             android:padding="8dp">
 
@@ -770,15 +775,19 @@
                                 android:text="CANCELLED CHQ" />
 
 
-                            <ImageView
-                                android:id="@+id/ivCancelGallery"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginLeft="10dp"
-                                android:padding="2dp"
-                                android:src="@drawable/folder_icon"
-                                android:visibility="gone" />
+
                         </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/ivCancelView"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_toLeftOf="@+id/ivCancelCam"
+
+                            android:layout_marginRight="@dimen/fab_margin"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/view"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/ivCancelCam"
@@ -806,7 +815,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/ivAadharCam"
+                            android:layout_toLeftOf="@+id/ivAadharView"
                             android:orientation="horizontal"
                             android:padding="8dp">
 
@@ -826,15 +835,19 @@
                                 android:text="FBA AADHAR CARD" />
 
 
-                            <ImageView
-                                android:id="@+id/ivAadharGallery"
-                                android:layout_width="25dp"
-                                android:layout_height="25dp"
-                                android:layout_marginLeft="10dp"
-                                android:padding="2dp"
-                                android:src="@drawable/folder_icon"
-                                android:visibility="gone" />
+
                         </LinearLayout>
+
+
+                        <ImageView
+                            android:id="@+id/ivAadharView"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_toLeftOf="@+id/ivAadharCam"
+                            android:layout_marginRight="@dimen/fab_margin"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/view"
+                            android:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/ivAadharCam"
@@ -1545,30 +1558,30 @@
 
                     android:visibility="gone">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            style="@style/TextViewStyle.Large"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginRight="4dp"
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                style="@style/TextViewStyle.Large"
-                                android:layout_alignParentLeft="true"
-                                android:layout_marginLeft="4dp"
-                                android:layout_marginRight="4dp"
+                            android:text="Notification Enable"
+                            />
 
-                                android:text="Notification Enable"
-                               />
+                        <Switch
+                            android:id="@+id/swNotify"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:layout_alignParentRight="true"/>
 
-                           <Switch
-                               android:id="@+id/swNotify"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:checked="true"
-                               android:layout_alignParentRight="true"/>
-
-                        </RelativeLayout>
+                    </RelativeLayout>
 
 
 
@@ -1589,6 +1602,7 @@
 
         </LinearLayout>
     </ScrollView>
+
 
     <Button
         android:id="@+id/btnSave"

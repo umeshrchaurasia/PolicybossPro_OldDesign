@@ -76,19 +76,21 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         init();
         fetchProducts();
 
-        if (userConstantEntity != null) {
-            try {
-                setOtherDetails();
-                setPospDetails();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            new createBitmapFromURLPosp(pospPhotoUrl).execute();
-            new createBitmapFromURFba(fbaPhotoUrl).execute();
-        } else {
-
-        }
+        //region Old Logic for posp and Fba profile pic
+//        if (userConstantEntity != null) {
+//            try {
+//                setOtherDetails();
+//                setPospDetails();
+//            } catch (MalformedURLException e) {
+//                e.printStackTrace();
+//            }
+//
+//            new createBitmapFromURLPosp(pospPhotoUrl).execute();
+//            new createBitmapFromURFba(fbaPhotoUrl).execute();
+//        } else {
+//
+//        }
+        //endregion
     }
 
     private void fetchProducts() {
@@ -408,6 +410,8 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         }
     }
 
+
+    // region Not in Used
     private void setPospDetails() throws MalformedURLException {
 
 
@@ -508,4 +512,6 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
         }*/
     }
+
+    //endregion
 }

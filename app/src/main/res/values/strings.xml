@@ -21,13 +21,14 @@
     <string name="internal_storage">Internal storage</string>
 
     <string name="title_activity_home">Home</string>
+    <string name="camera_access_required">Camera access is required to display the camera.</string>
 
     <string name="signup">Not a Member? <b><u>Sign up now!</u></b></string>
 
     <string name="threedots">&#8942;</string>
     <string name="disclosure"><b><u>DISCLOSURE</u></b></string>
 
-    <string name="file_provider_authority" translatable="false">com.datacomp.magicfinmart.fileprovider</string>
+    <string name="file_provider_authority" translatable="false">com.policyboss.policybosspro.fileprovider</string>
 
     <string name="Emp_detail">Employment &amp; Income Details</string>
 

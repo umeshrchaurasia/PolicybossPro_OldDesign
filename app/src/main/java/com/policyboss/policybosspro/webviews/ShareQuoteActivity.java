@@ -1,6 +1,8 @@
 package com.policyboss.policybosspro.webviews;
 
 import android.app.DownloadManager;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -20,6 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.widget.Toolbar;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -43,9 +46,13 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
+import androidx.core.content.FileProvider;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -581,22 +588,22 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
 
     private void createWebPrintJob(WebView webView) {
 
-        PrintManager printManager = (PrintManager) this
-                .getSystemService(Context.PRINT_SERVICE);
-
-        PrintDocumentAdapter printAdapter = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            printAdapter = webView.createPrintDocumentAdapter();
-        }
-
-        String jobName = getString(R.string.app_name) + " Print Test";
-
-        if (printManager != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                printManager.print(jobName, printAdapter,
-                        new PrintAttributes.Builder().build());
-            }
-        }
+//        PrintManager printManager = (PrintManager) this
+//                .getSystemService(Context.PRINT_SERVICE);
+//
+//        PrintDocumentAdapter printAdapter = null;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            printAdapter = webView.createPrintDocumentAdapter();
+//        }
+//
+//        String jobName = getString(R.string.app_name) + " Print Test";
+//
+//        if (printManager != null) {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                printManager.print(jobName, printAdapter,
+//                        new PrintAttributes.Builder().build());
+//            }
+//        }
     }
 
     private void settingWebview(String loadHTMLinWebView, String utlToShare, boolean isHTML) {
@@ -738,6 +745,56 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         sharePdfTowhatsApp(fileName);*/
     }
 
+    private void createPdfOld(Bitmap bitmap, String urlToshare) {
+
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo =
+                new PdfDocument.PageInfo.Builder(bitmap.getWidth(),
+                        bitmap.getHeight(), 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+
+
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#ffffff"));
+        canvas.drawPaint(paint);
+
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+        paint.setColor(Color.BLUE);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        document.finishPage(page);
+
+
+        String fileName;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        fileName = df.format(c.getTime());
+
+        File direct = createShareDirIfNotExists();
+        String test = direct.getAbsolutePath();
+
+
+        // write the document content
+
+        try {
+            document.writeTo(new FileOutputStream(test
+                    + "/" + fileName + ".pdf"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        // close the document.
+        document.close();
+
+        sharePdfTowhatsAppOld(fileName, urlToshare);
+    }
+
     private void createPdf(Bitmap bitmap, String urlToshare) {
 
 
@@ -767,25 +824,80 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         fileName = df.format(c.getTime());
 
-        //File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
-        File direct = createShareDirIfNotExists();
-        String test = direct.getAbsolutePath();
+        /////////////////  New Code /////////////////////
+
+        OutputStream fos = null;
+        Uri screenshotUri = null;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
 
 
-        // write the document content
+
+
+            try{
+
+                ContentResolver resolver = getContentResolver();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MediaStore.Files.FileColumns.DISPLAY_NAME, Utility.getPdfFileName("FinmartNEW"));
+
+                Uri collection = MediaStore.Files.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);  // added this line
+
+                screenshotUri = resolver.insert(collection,contentValues);
+
+                // screenshotUri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,contentValues);
+
+
+                fos = resolver.openOutputStream(Objects.requireNonNull(screenshotUri));
+                //  alterDocument(screenshotUri);
+
+
+            }catch (Exception ex){
+
+                Log.d("PATH_ERROR" , ex.getLocalizedMessage());
+            }
+
+
+
+
+        }else{
+
+            File file = null;
+
+            try{
+                File direct = createShareDirIfNotExists();
+
+
+                file = new File(direct, fileName + ".pdf");
+                fos = new FileOutputStream(file);
+
+                screenshotUri = FileProvider.getUriForFile(ShareQuoteActivity.this,
+                        getString(R.string.file_provider_authority),
+                        file);
+
+
+            }catch (Exception ex){
+
+
+                Log.d("PATH_ERROR" , ex.getLocalizedMessage().toString());
+            }
+        }
 
         try {
-            document.writeTo(new FileOutputStream(test
-                    + "/" + fileName + ".pdf"));
 
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+            // bitmap.compress(Bitmap.CompressFormat.JPEG,90,fos);  // no in used
+            document.writeTo(fos);
+
+            fos.close();
+            document.close();
+
+
+        }catch (Exception ex){
+
         }
 
         // close the document.
-        document.close();
-        sharePdfTowhatsApp(fileName, urlToshare);
+
+
+        sharePdfTowhatsApp(fileName, urlToshare,screenshotUri);
     }
 
     @Override

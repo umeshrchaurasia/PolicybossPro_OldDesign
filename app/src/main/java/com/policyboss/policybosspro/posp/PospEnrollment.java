@@ -1,7 +1,9 @@
 package com.policyboss.policybosspro.posp;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +15,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import androidx.core.app.ActivityCompat;
@@ -43,8 +46,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.payment.RazorPaymentActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
@@ -83,11 +88,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeRespo
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import okhttp3.MultipartBody;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 /**
  * Created by daniyalshaikh on 11/01/18.
  */
 
 public class PospEnrollment extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener, IResponseSubcriber, View.OnFocusChangeListener {
+
     private static final int CAMERA_REQUEST = 1889;
     private static final int SELECT_PICTURE = 1801;
     int type;
@@ -125,8 +133,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     PospEnrollEntity pospEnrollEntity;
     LoginResponseEntity loginResponseEntity;
 
-    ImageView ivPhotoCam, ivPhotoGallery, ivPanCam, ivPanGallery, ivCancelCam, ivCancelGallery, ivAadharCam, ivAadharGallery,
-            ivAadharCamBack, ivAadharGalleryBack, ivEduCam, ivEduGallery,
+    ImageView ivPhotoCam, ivPhotoView, ivPanCam, ivPanView, ivCancelCam, ivCancelView, ivAadharCam, ivAadharView,
+            ivAadharCamBack, ivAadharBackView, ivEduCam, ivEduView,
             ivAadhar, ivAadharBack, ivCancel, ivPan, ivPhoto, ivEdu;
 
     HashMap<String, String> body;
@@ -148,6 +156,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +166,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         registerPopUp(this);
+
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         registerRequestEntity = new RegisterRequestEntity();
@@ -169,10 +180,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         setListener();
         initLayouts();
         setTextWatcher();
+        setfileView();
         showDialog("Fetching Posp Details ...");
         //MObile NO display
-            etMobileNo1.setText(loginResponseEntity.getMobiNumb1());
-          //  etAddress1.setText(loginResponseEntity.getEmailID());
+        etMobileNo1.setText(loginResponseEntity.getMobiNumb1());
+        //  etAddress1.setText(loginResponseEntity.getEmailID());
         etEmailId.setText(loginResponseEntity.getEmailID());
 
 
@@ -181,6 +193,15 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     }
 
+    private void setfileView(){
+
+        ivPhotoView.setVisibility(View.GONE);
+        ivAadharView.setVisibility(View.GONE);
+        ivAadharBackView.setVisibility(View.GONE);
+        ivPanView.setVisibility(View.GONE);
+        ivEduView.setVisibility(View.GONE);
+        ivCancelView.setVisibility(View.GONE);
+    }
     private void setInputParameters() {
 
 
@@ -297,7 +318,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
             for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
                 if (!docAvailableEntity.getFileName().equals("")) {
-                    setUploadedDocument(docAvailableEntity.getDocType());
+                    setUploadedDocument(docAvailableEntity.getDocType(), docAvailableEntity.getFileName());
                 }
             }
         }
@@ -501,17 +522,17 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
 
         ivPhotoCam.setOnClickListener(this);
-        ivPhotoGallery.setOnClickListener(this);
+        ivPhotoView.setOnClickListener(this);
         ivPanCam.setOnClickListener(this);
-        ivPanGallery.setOnClickListener(this);
+        ivPanView.setOnClickListener(this);
         ivAadharCam.setOnClickListener(this);
-        ivAadharGallery.setOnClickListener(this);
+        ivAadharView.setOnClickListener(this);
         ivAadharCamBack.setOnClickListener(this);
-        ivAadharGalleryBack.setOnClickListener(this);
+        ivAadharBackView.setOnClickListener(this);
         ivEduCam.setOnClickListener(this);
-        ivEduGallery.setOnClickListener(this);
+        ivEduView.setOnClickListener(this);
         ivCancelCam.setOnClickListener(this);
-        ivCancelGallery.setOnClickListener(this);
+        ivCancelView.setOnClickListener(this);
 
 
     }
@@ -574,18 +595,18 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
 
         ivPhotoCam = (ImageView) findViewById(R.id.ivPhotoCam);
-        ivPhotoGallery = (ImageView) findViewById(R.id.ivPhotoGallery);
+        ivPhotoView = (ImageView) findViewById(R.id.ivPhotoView);
         ivPanCam = (ImageView) findViewById(R.id.ivPanCam);
-        ivPanGallery = (ImageView) findViewById(R.id.ivPanGallery);
+        ivPanView = (ImageView) findViewById(R.id.ivPanView);
 
         ivCancelCam = (ImageView) findViewById(R.id.ivCancelCam);
-        ivCancelGallery = (ImageView) findViewById(R.id.ivCancelGallery);
+        ivCancelView = (ImageView) findViewById(R.id.ivCancelView);
         ivAadharCam = (ImageView) findViewById(R.id.ivAadharCam);
-        ivAadharGallery = (ImageView) findViewById(R.id.ivAadharGallery);
+        ivAadharView = (ImageView) findViewById(R.id.ivAadharView);
         ivAadharCamBack = (ImageView) findViewById(R.id.ivAadharCamBack);
-        ivAadharGalleryBack = (ImageView) findViewById(R.id.ivAadharGalleryBack);
+        ivAadharBackView = (ImageView) findViewById(R.id.ivAadharBackView);
         ivEduCam = (ImageView) findViewById(R.id.ivEduCam);
-        ivEduGallery = (ImageView) findViewById(R.id.ivEduGallery);
+        ivEduView = (ImageView) findViewById(R.id.ivEduView);
 
 
         ivAadhar = (ImageView) findViewById(R.id.ivAadhar);
@@ -1054,7 +1075,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 ////////////////////////////////////////////////chk
 //                                if (isPaymentLinkAvailable)
 //                                {
-                                    openWebView("");
+                                openWebView("");
 //                                } else {
 //                                    bindInputFromeServer(pospDetailsEntity);
 //                                    openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
@@ -1124,59 +1145,63 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivPhotoGallery:
-                type = 6;
-                openGallery();   // Not in Used
-                break;
 
             case R.id.ivPanCam:
                 type = 7;
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivPanGallery:
-                type = 7;
-                openGallery();  // Not in Used
-                break;
 
             case R.id.ivAadharCam:
                 type = 8;
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivAadharGallery:
-                type = 8;
-                openGallery();   // Not in Used
-                break;
+
 
             case R.id.ivAadharCamBack:
                 type = 9;
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivAadharGalleryBack:
-                type = 9;
-                openGallery();      // Not in Used
-                break;
+
             case R.id.ivCancelCam:
                 type = 10;
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivCancelGallery:
-                type = 10;
-                openGallery();  // Not in Used
-                break;
 
             case R.id.ivEduCam:
                 type = 11;
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivEduGallery:
-                type = 11;
-                openGallery();  // Not in Used
+
+            // VIew
+            case R.id.ivPhotoView:
+                new createBitmapFromURL(ivPhotoView.getTag().toString(),"POSP PHOTOGRAPH").execute();
                 break;
+
+            case R.id.ivPanView:
+                new createBitmapFromURL(ivPanView.getTag().toString(),"POSP PAN CARD").execute();
+                break;
+
+            case R.id.ivAadharView:
+                new createBitmapFromURL(ivAadharView.getTag().toString(),"POSP AADHAR CARD FRONT").execute();
+                break;
+
+            case R.id.ivAadharBackView:
+                new createBitmapFromURL(ivAadharBackView.getTag().toString(),"POSP AADHAR CARD BACK").execute();
+                break;
+
+            case R.id.ivCancelView:
+                new createBitmapFromURL(ivCancelView.getTag().toString(),"POSP CANCELLED CHQ").execute();
+                break;
+
+            case R.id.ivEduView:
+                new createBitmapFromURL(ivEduView.getTag().toString(),"POSP HIGHEST EDU. PROOF").execute();
+                break;
+
         }
     }
 
@@ -1443,16 +1468,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 if (((EnrollPospResponse) response).getMasterData() != null) {
 
                     if (((EnrollPospResponse) response).getMasterData().getPOSPNo() != null &&
-                           !((EnrollPospResponse) response).getMasterData().getPOSPNo().equals(""))
+                            !((EnrollPospResponse) response).getMasterData().getPOSPNo().equals(""))
                     {
-                             isPospNoAvailable = true;
+                        isPospNoAvailable = true;
 
-                            isPaymentLinkAvailable = true;
-                             pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
+                        isPaymentLinkAvailable = true;
+                        pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
 
-                            //update login response
-                            updateLoginResponse(pospEnrollEntity);
-                            openWebView("");
+                        //update login response
+                        updateLoginResponse(pospEnrollEntity);
+                        openWebView("");
 
                     }
                     else
@@ -1473,7 +1498,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         updatePhotoUrl(temp);
                 }
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-                setDocumentUpload();
+                setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
 
             }
         }
@@ -1489,10 +1514,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             } else {
                 if (true) {
                     bindInputFromeServer(pospDetailsEntity);
-                 //   if (isPaymentLinkAvailable)
+                    //   if (isPaymentLinkAvailable)
                     {
 
-                       openWebView("");
+                        openWebView("");
 
 
 
@@ -1822,16 +1847,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
 
 
-   //     if (!url.equals("")) {
+        //     if (!url.equals("")) {
 
-            //            startActivity(new Intent(this, CommonWebViewActivity.class)
+        //            startActivity(new Intent(this, CommonWebViewActivity.class)
 //                    .putExtra("URL", url)
 //                    .putExtra("NAME", "MAGIC FIN-MART")
 //                    .putExtra("TITLE", "MAGIC FIN-MART"));
 
 //Umesh 14
-          //  PospEnrollment.this.finish();
-         //   Utility.loadWebViewUrlInBrowser(PospEnrollment.this,loginResponseEntity.getPaymentUrl());
+        //  PospEnrollment.this.finish();
+        //   Utility.loadWebViewUrlInBrowser(PospEnrollment.this,loginResponseEntity.getPaymentUrl());
 //        }
     }
 
@@ -1863,7 +1888,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
 
         }
-        Docfile = createFile(FileName);
+        //  Docfile = createFile(FileName);
+        Docfile = createImageFile(FileName);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             imageUri = Uri.fromFile(Docfile);
@@ -1882,22 +1908,53 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
 
     private void openGallery() {
-        String[] mimeTypes = {"image/jpeg", "image/png", "image/jpg"};
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
-        intent.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+
+        // region old code
+        //String[] mimeTypes = {"image/jpeg", "image/png", "image/jpg"};
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+        //     startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+        //endregion
+
+
+
+        String  mimeType = "image/*";
+
+        Uri collection ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection =  MediaStore.Video.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+            );
+        } else {
+            collection =  MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        }
+
+
+        try {
+            Intent intent = new  Intent(Intent.ACTION_PICK, collection);
+
+            intent.setType(mimeType);
+            intent.resolveActivity(getPackageManager());
+            startActivityForResult(intent, SELECT_PICTURE);
+
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
             Bitmap mphoto = null;
             // Bitmap mphoto = (Bitmap) data.getExtras().get("data");
             try {
-                mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                //mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                mphoto = getBitmapFromContentResolver(imageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
                 mphoto = rotateImageIfRequired(this, mphoto, Docfile);
             } catch (Exception e) {
@@ -1954,60 +2011,63 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         }
 
-        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+        else if (requestCode == SELECT_PICTURE && resultCode == Activity.RESULT_OK )
+        {
             Uri selectedImageUri = data.getData();
             Bitmap mphoto = null;
             try {
-                mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                mphoto = getBitmapFromContentResolver(selectedImageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
-                switch (type) {
-                    case 6:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
-                        new RegisterController(this).uploadDocuments(part, body, this);
-                        break;
-                    case 7:
-
-                        showDialog();
-                        file = saveImageToStorage(mphoto, "" + POSP_PAN);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
-                        new RegisterController(this).uploadDocuments(part, body, this);
-                        break;
-
-                    case 8:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
-                        new RegisterController(this).uploadDocuments(part, body, this);
-                        break;
-                    case 9:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
-                        new RegisterController(this).uploadDocuments(part, body, this);
-                        break;
-                    case 10:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
-                        new RegisterController(this).uploadDocuments(part, body, this);
-                        break;
-                    case 11:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, "" + POSP_EDU);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
-                        new RegisterController(this).uploadDocuments(part, body, this);
-                        break;
-                }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+            }
+
+            switch (type) {
+                case 6:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 7:
+
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_PAN);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+
+                case 8:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 9:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 10:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 11:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_EDU);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
             }
 
 
@@ -2030,41 +2090,81 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
-    private void setDocumentUpload() {
+    private void setDocumentUpload(String FileName) {
         if (type == 6) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
+
+            ivPhotoView.setTag(FileName);
+            ivPhotoView.setVisibility(View.VISIBLE);
         } else if (type == 7) {
             ivPan.setImageResource(R.drawable.doc_uploaded);
+
+            ivPanView.setTag(FileName);
+            ivPanView.setVisibility(View.VISIBLE);
         } else if (type == 8) {
             ivAadhar.setImageResource(R.drawable.doc_uploaded);
+
+            ivAadharView.setTag(FileName);
+            ivAadharView.setVisibility(View.VISIBLE);
+
         } else if (type == 9) {
             ivAadharBack.setImageResource(R.drawable.doc_uploaded);
+
+            ivAadharBackView.setTag(FileName);
+            ivAadharBackView.setVisibility(View.VISIBLE);
+
         } else if (type == 10) {
             ivCancel.setImageResource(R.drawable.doc_uploaded);
+
+            ivCancelView.setTag(FileName);
+            ivCancelView.setVisibility(View.VISIBLE);
+
         } else if (type == 11) {
             ivEdu.setImageResource(R.drawable.doc_uploaded);
+
+            ivEduView.setTag(FileName);
+            ivEduView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void setUploadedDocument(int type) {
+    private void setUploadedDocument(int type, String FileName) {
         switch (type) {
             case 6:
                 ivPhoto.setImageResource(R.drawable.doc_uploaded);
+
+                ivPhotoView.setTag(FileName);
+                ivPhotoView.setVisibility(View.VISIBLE);
                 break;
             case 7:
                 ivPan.setImageResource(R.drawable.doc_uploaded);
+
+                ivPanView.setTag(FileName);
+                ivPanView.setVisibility(View.VISIBLE);
+
                 break;
             case 8:
                 ivAadhar.setImageResource(R.drawable.doc_uploaded);
+
+                ivAadharView.setTag(FileName);
+                ivAadharView.setVisibility(View.VISIBLE);
                 break;
             case 9:
                 ivAadharBack.setImageResource(R.drawable.doc_uploaded);
+
+                ivAadharBackView.setTag(FileName);
+                ivAadharBackView.setVisibility(View.VISIBLE);
                 break;
             case 10:
                 ivCancel.setImageResource(R.drawable.doc_uploaded);
+
+                ivCancelView.setTag(FileName);
+                ivCancelView.setVisibility(View.VISIBLE);
                 break;
             case 11:
                 ivEdu.setImageResource(R.drawable.doc_uploaded);
+
+                ivEduView.setTag(FileName);
+                ivEduView.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -2391,16 +2491,71 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     // region permission
 
+//    private boolean checkPermission() {
+//
+//        int camera = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[0]);
+//
+//        int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
+//        int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+//
+//        return camera == PackageManager.PERMISSION_GRANTED
+//                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+//                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+//    }
+//
+//    private boolean checkRationalePermission() {
+//
+//        boolean camera = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[0]);
+//
+//        boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[1]);
+//        boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[2]);
+//
+//        return camera || write_external || read_external;
+//    }
+//
+//    private void requestPermission() {
+//        ActivityCompat.requestPermissions(this, perms, Constants.PERMISSION_CAMERA_STORACGE_CONSTANT);
+//    }
+
+
+    // region Permission
+
+    private void checkRationale(){
+        if (checkRationalePermission()) {
+            //Show Information about why you need the permission
+
+            Snackbar.make(ivMyProfile, R.string.camera_access_required,
+                    Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Request the permission
+                    requestPermission();
+                }
+            }).show();
+
+        } else {
+            openPopUp(llBankDetail, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+        }
+    }
+
     private boolean checkPermission() {
 
         int camera = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[0]);
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return camera == PackageManager.PERMISSION_GRANTED
 
-        return camera == PackageManager.PERMISSION_GRANTED
-                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        }else{
+            return camera == PackageManager.PERMISSION_GRANTED
+                    &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+
+        }
+
     }
 
     private boolean checkRationalePermission() {
@@ -2409,13 +2564,22 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[1]);
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[2]);
+        // boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-        return camera || write_external || read_external;
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return  camera ||  read_external;
+        }else{
+            return  camera ||write_external   || read_external;
+
+        }
     }
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, perms, Constants.PERMISSION_CAMERA_STORACGE_CONSTANT);
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -2429,15 +2593,19 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && writeExternal && readExternal) {
+                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
 
                         showCamerGalleryPopUp();
 
                     }
 
+
                 }
                 break;
+
+
 
 
         }
@@ -2459,6 +2627,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                 openPopUp(llBankDetail, "Need  Permission", "This app needs all permissions.", "GRANT", true);
             }
+
         } else {
 
             showCamerGalleryPopUp();

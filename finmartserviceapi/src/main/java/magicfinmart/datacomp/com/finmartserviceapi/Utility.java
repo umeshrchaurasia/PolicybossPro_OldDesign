@@ -181,10 +181,23 @@ public class Utility {
 
         return body;
     }
+    public static String getNewFileName(String name)  {
+        String timeStamp  =new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return name + timeStamp + ".jpg";
+    }
+    public static String getPdfFileName(String name)  {
+        String timeStamp  =new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return name + timeStamp + ".pdf";
+    }
+
+    public static String  getImageDirectoryPath() {
+        return Environment.DIRECTORY_PICTURES + File.separator + "PolicyBossPro";
+    }
+
     public static File createDirIfNotExists() {
         boolean ret = true;
 
-        File file = new File(Environment.getExternalStorageDirectory(), "/FINMART");
+        File file = new File(Environment.getExternalStorageDirectory(), "/PolicyBossPro");
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 Log.e("TravellerLog :: ", "Problem creating Image folder");
@@ -197,7 +210,7 @@ public class Utility {
     public static File createShareDirIfNotExists() {
         boolean ret = true;
 
-        File file = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
+        File file = new File(Environment.getExternalStorageDirectory(), "/PolicyBossPro/QUOTES");
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 Log.e("TravellerLog :: ", "Problem creating Quotes folder");

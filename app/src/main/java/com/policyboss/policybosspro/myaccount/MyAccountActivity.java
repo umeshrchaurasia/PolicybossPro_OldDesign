@@ -3,6 +3,7 @@ package com.policyboss.policybosspro.myaccount;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -93,7 +94,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     int type;
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
-            ivPhotoCam, ivPhotoGallery, ivPanCam, ivPanGallery, ivCancelCam, ivCancelGallery, ivAadharCam, ivAadharGallery,
+            ivPhotoCam, ivPhotoView, ivPanCam, ivPanView, ivCancelCam, ivCancelView, ivAadharCam, ivAadharView,
             ivAadhar, ivCancel, ivPan, ivPhoto, ivUser, ivNotify;
     RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP, rlAbout, rlNotify;
 
@@ -159,7 +160,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         initWidgets();
         setListener();
         initLayouts();
-
+        setfileView();
 
         if (dbPersistanceController.getUserConstantsData() != null) {
             bindAboutMe();
@@ -205,14 +206,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         ivProfile.setOnClickListener(this);
         ivPhotoCam.setOnClickListener(this);
-        ivPhotoGallery.setOnClickListener(this);
+        ivPhotoView.setOnClickListener(this);
         ivPanCam.setOnClickListener(this);
-        ivPanGallery.setOnClickListener(this);
+        ivPanView.setOnClickListener(this);
 
         ivCancelCam.setOnClickListener(this);
-        ivCancelGallery.setOnClickListener(this);
+        ivCancelView.setOnClickListener(this);
         ivAadharCam.setOnClickListener(this);
-        ivAadharGallery.setOnClickListener(this);
+        ivAadharView.setOnClickListener(this);
 
         ivManagerMobile.setOnClickListener(this);
         ivManagerEmail.setOnClickListener(this);
@@ -305,14 +306,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         ivUser = (ImageView) findViewById(R.id.ivUser);
         ivPhotoCam = (ImageView) findViewById(R.id.ivPhotoCam);
-        ivPhotoGallery = (ImageView) findViewById(R.id.ivPhotoGallery);
+        ivPhotoView = (ImageView) findViewById(R.id.ivPhotoView);
         ivPanCam = (ImageView) findViewById(R.id.ivPanCam);
-        ivPanGallery = (ImageView) findViewById(R.id.ivPanGallery);
+        ivPanView = (ImageView) findViewById(R.id.ivPanView);
 
         ivCancelCam = (ImageView) findViewById(R.id.ivCancelCam);
-        ivCancelGallery = (ImageView) findViewById(R.id.ivCancelGallery);
+        ivCancelView = (ImageView) findViewById(R.id.ivCancelView);
         ivAadharCam = (ImageView) findViewById(R.id.ivAadharCam);
-        ivAadharGallery = (ImageView) findViewById(R.id.ivAadharGallery);
+        ivAadharView = (ImageView) findViewById(R.id.ivAadharView);
 
         ivAadhar = (ImageView) findViewById(R.id.ivAadhar);
         ivCancel = (ImageView) findViewById(R.id.ivCancel);
@@ -366,6 +367,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         txtSupportMobile.setText(userConstantEntity.getSuppMobile());
         txtSupportEmail.setText(userConstantEntity.getSuppEmail());
+    }
+
+    private void setfileView(){
+
+        ivAadharView.setVisibility(View.GONE);
+        ivPanView.setVisibility(View.GONE);
+        ivPhotoView.setVisibility(View.GONE);
+        ivCancelView.setVisibility(View.GONE);
     }
 
     @Override
@@ -441,11 +450,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivPhotoGallery:
-                type = 2;
-                openGallery();  // Not in Used
-
-                break;
 
             case R.id.ivPanCam:
                 type = 3;
@@ -453,10 +457,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivPanGallery:
-                type = 3;
-                openGallery();  // Not in Used
-                break;
 
             case R.id.ivCancelCam:
                 type = 4;
@@ -464,10 +464,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivCancelGallery:
-                type = 4;
-                openGallery();   // Not in Used
-                break;
 
             case R.id.ivAadharCam:
                 type = 5;
@@ -475,9 +471,24 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 galleryCamPopUp();
                 break;
 
-            case R.id.ivAadharGallery:
-                type = 5;
-                openGallery();        // Not in Used
+            case R.id.ivPhotoView:
+
+                new createBitmapFromURL(ivPhotoView.getTag().toString(),"FBA PHOTOGRAPH").execute();
+
+                break;
+            case R.id.ivPanView:
+                new createBitmapFromURL(ivPanView.getTag().toString(), "FBA PAN CARD").execute();
+
+                break;
+            case R.id.ivCancelView:
+                new createBitmapFromURL(ivCancelView.getTag().toString(), "CANCELLED CHQ").execute();
+
+                break;
+
+            case R.id.ivAadharView:
+
+                new createBitmapFromURL(ivAadharView.getTag().toString(),"FBA AADHAR CARD").execute();
+
                 break;
 
 
@@ -1185,6 +1196,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         return byteArray;
     }
 
+    // Set All File When Page was Display .
     private void setDocumentUpload(int fileType, String FileName) {
         if (fileType == 1 || fileType == 2) {
             //ProfiePics
@@ -1202,6 +1214,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
             if (FileName != null && !FileName.equals("")) {
+
+                ivPhotoView.setTag(FileName);
+                ivPhotoView.setVisibility(View.VISIBLE);
+
+                ivPhoto.setImageResource(R.drawable.doc_uploaded);
                 Glide.with(MyAccountActivity.this)
                         .load(FileName)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -1226,17 +1243,33 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         if (fileType == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
+            ivPhotoView.setTag(FileName);
+            ivPhotoView.setVisibility(View.VISIBLE);
+
         } else if (fileType == 3) {
             ivPan.setImageResource(R.drawable.doc_uploaded);
+            ivPanView.setTag(FileName);
+            ivPanView.setVisibility(View.VISIBLE);
+
         } else if (fileType == 4) {
             ivCancel.setImageResource(R.drawable.doc_uploaded);
+
+            ivCancelView.setTag(FileName);
+            ivCancelView.setVisibility(View.VISIBLE);
         } else if (fileType == 5) {
             ivAadhar.setImageResource(R.drawable.doc_uploaded);
+
+            ivAadharView.setTag(FileName);
+            ivAadharView.setVisibility(View.VISIBLE);
         }
     }
 
+    // Reflect particular File After File was Uploadwd .
     private void setDocumentUpload(String URL) {
         if (type == 1) {
+            ivPhoto.setImageResource(R.drawable.doc_uploaded);
+            ivPhotoView.setTag(URL);
+            ivPhotoView.setVisibility(View.VISIBLE);
             Glide.with(MyAccountActivity.this)
                     .load(URL)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -1247,6 +1280,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     .into(ivUser);
         } else if (type == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
+            ivPhotoView.setTag(URL);
+            ivPhotoView.setVisibility(View.VISIBLE);
             Glide.with(MyAccountActivity.this)
                     .load(URL)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -1257,10 +1292,17 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     .into(ivUser);
 
         } else if (type == 3) {
+            ivPanView.setTag(URL);
+            ivPanView.setVisibility(View.VISIBLE);
+
             ivPan.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 4) {
+            ivCancelView.setTag(URL);
+            ivCancelView.setVisibility(View.VISIBLE);
             ivCancel.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 5) {
+            ivAadharView.setTag(URL);
+            ivAadharView.setVisibility(View.VISIBLE);
             ivAadhar.setImageResource(R.drawable.doc_uploaded);
         }
     }
@@ -1289,6 +1331,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         if (!checkPermission()) {
 
+            //region comment
             if (checkRationalePermission()) {
                 //Show Information about why you need the permission
                 requestPermission();
@@ -1302,6 +1345,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
             }
+            //endregion
+
+
         } else {
 
             showCamerGalleryPopUp();
@@ -1370,7 +1416,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 break;
 
         }
-        Docfile = createFile(FileName);
+        //  Docfile = createFile(FileName);
+        Docfile = createImageFile(FileName);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             imageUri = Uri.fromFile(Docfile);
@@ -1380,8 +1427,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
 
 
-        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
                 imageUri);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
@@ -1389,33 +1436,38 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void openGallery() {
 
-        String FileName = "";
+//        Docfile = createFile(FileName);
+//
+//        Intent intent = new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+//
 
-        switch (type) {
-            case 1:
-                FileName = PHOTO_File;
-                break;
-            case 2:
-                FileName = PHOTO_File;
-                break;
-            case 3:
-                FileName = PAN_File;
-                break;
-            case 4:
-                FileName = CANCEL_CHQ_File;
-                break;
-            case 5:
-                FileName = AADHAR_File;
-                break;
 
+        String  mimeType = "image/*";
+
+        Uri collection ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection =  MediaStore.Video.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+            );
+        } else {
+            collection =  MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         }
-        Docfile = createFile(FileName);
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+        try {
+            Intent intent = new  Intent(Intent.ACTION_PICK, collection);
+
+            intent.setType(mimeType);
+            intent.resolveActivity(getPackageManager());
+            startActivityForResult(intent, SELECT_PICTURE);
+
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void setProfilePhoto(Bitmap mphoto) {
@@ -1494,7 +1546,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Below For Cropping The Camera Image
+
+
+        //region handle result of CropImageActivity which was not supporting above Q
+
+        //  /****** Below For Cropping The Camera Image**************************/ //
+
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             //extractTextFromImage();
             startCropImageActivity(imageUri);
@@ -1504,8 +1561,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             Uri selectedImageUri = data.getData();
             startCropImageActivity(selectedImageUri);
         }
-
-        //region Below  handle result of CropImageActivity
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
@@ -1514,7 +1569,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     cropImageUri = result.getUri();
                     Bitmap mphoto = null;
                     try {
-                        mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                        //mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                        mphoto = getBitmapFromContentResolver(cropImageUri);
                         mphoto = getResizedBitmap(mphoto, 800);
 
 
@@ -1580,12 +1636,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         //endregion
 
 
-        //region Below  Previous Code for Image and Camara Handling
+        // region  commented Below   Code for Image and Camara Handling
 //
 //        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
 //        Bitmap mphoto = null;
 //        try {
-//            mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+//          //  mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+//            mphoto = getBitmapFromContentResolver(imageUri);
 //            mphoto = getResizedBitmap(mphoto, 800);
 //            mphoto = rotateImageIfRequired(this, mphoto, Docfile);
 //
@@ -1636,19 +1693,26 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //        }
 //
 //
-//    } else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+//    }
+//
+//        else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
 //        Uri selectedImageUri = data.getData();
 //        Bitmap mphoto = null;
 //        try {
-//            mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+//            // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+//            mphoto = getBitmapFromContentResolver(selectedImageUri);
 //            mphoto = getResizedBitmap(mphoto, 800);
-//            mphoto = rotateImageIfRequired(this, mphoto, Docfile);
+//          //  mphoto = rotateImageIfRequired(this, mphoto, Docfile);
 //
-//            switch (type) {
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        switch (type) {
 //                case 1:
 //                    showDialog();
 //                    setProfilePhoto(mphoto);
-//                    file = saveImageToStorage(mphoto, "PROFILE");
+//                    file = saveImageToStorage(mphoto, PHOTO_File);
 //                    part = Utility.getMultipartImage(file);
 //                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
 //                    new RegisterController(this).uploadDocuments(part, body, this);
@@ -1685,14 +1749,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //                    new RegisterController(this).uploadDocuments(part, body, this);
 //                    break;
 //            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
 //
 //    }
-//    //endregion
-
+        //endregion
     }
 
 
@@ -1711,17 +1770,47 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
-    // region permission
+
+    // region Permission
+
+    private void checkRationale(){
+        if (checkRationalePermission()) {
+            //Show Information about why you need the permission
+
+            Snackbar.make(ivMyProfile, R.string.camera_access_required,
+                    Snackbar.LENGTH_INDEFINITE).setAction("Ok", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Request the permission
+                    requestPermission();
+                }
+            }).show();
+
+        } else {
+            openPopUp(btnSave, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+        }
+    }
+
     private boolean checkPermission() {
 
         int camera = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[0]);
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+          if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+              return camera == PackageManager.PERMISSION_GRANTED
 
-        return camera == PackageManager.PERMISSION_GRANTED
-                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+                      && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+          }else{
+              return camera == PackageManager.PERMISSION_GRANTED
+                      &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                      && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+
+          }
+
+
+
     }
 
     private boolean checkRationalePermission() {
@@ -1730,13 +1819,21 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, perms[1]);
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, perms[2]);
+       // boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-        return camera || write_external || read_external;
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return  camera ||  read_external;
+        }else{
+            return  camera ||write_external   || read_external;
+
+        }
     }
 
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, perms, Constants.PERMISSION_CAMERA_STORACGE_CONSTANT);
     }
+
 
 
     @Override
@@ -1751,15 +1848,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && writeExternal && readExternal) {
+                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
 
                         showCamerGalleryPopUp();
 
                     }
 
+
                 }
                 break;
+
+
 
             case Constants.PERMISSION_CALLBACK_CONSTANT:
                 if (grantResults.length > 0) {
@@ -1816,6 +1917,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
 
+
     public void ConfirmAlert(String Title, String strBody, final String strMobile) {
         try {
             AlertDialog.Builder builder = new AlertDialog.Builder(MyAccountActivity.this);
@@ -1842,7 +1944,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                             dialog.dismiss();
                         }
                     });
-            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();

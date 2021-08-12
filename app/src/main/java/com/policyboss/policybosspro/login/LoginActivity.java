@@ -24,6 +24,7 @@ import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.register.RegisterActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
@@ -44,6 +45,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotRespon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserHideResponse;
 
+import static android.os.Build.VERSION.SDK_INT;
+
 public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     PrefManager prefManager;
     EditText etEmail, etPassword;
@@ -56,14 +59,21 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static int PERMISSION_DENIED = 0;
 
 
+//    String[] perms = {
+//            "android.permission.CAMERA",
+//            "android.permission.ACCESS_FINE_LOCATION",
+//            "android.permission.WRITE_EXTERNAL_STORAGE",
+//            "android.permission.READ_EXTERNAL_STORAGE",
+//            "android.permission.BLUETOOTH",
+//            "android.permission.BLUETOOTH_ADMIN"
+//    };
     String[] perms = {
             "android.permission.CAMERA",
-            "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.BLUETOOTH",
-            "android.permission.BLUETOOTH_ADMIN"
+            "android.permission.READ_EXTERNAL_STORAGE"
+
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,70 +101,130 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private boolean checkPermission() {
 
+        int camera = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[0]);
 
-        int camera = ContextCompat.checkSelfPermission(getApplicationContext(), perms[0]);
-        int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
-        int WRITE_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[2]);
-        int READ_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[3]);
+        int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
+        int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return camera == PackageManager.PERMISSION_GRANTED
 
-        int bluetooth = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
-        int bluetoothAdmin = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        }else{
+            return camera == PackageManager.PERMISSION_GRANTED
+                    &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
 
-        return camera == PackageManager.PERMISSION_GRANTED
-                && fineLocation == PackageManager.PERMISSION_GRANTED
-                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && bluetooth == PackageManager.PERMISSION_GRANTED
-                && bluetoothAdmin == PackageManager.PERMISSION_GRANTED;
+        }
+
+
     }
+
+    private void checkRationale(){
+        if (checkRationalePermission()) {
+            //Show Information about why you need the permission
+
+            requestPermission();
+
+        }
+        else {
+
+//            showMessageOKCancel("Required permissions to proceed Magic-finmart..!", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
+
+
+
+        }
+    }
+
+    private boolean checkRationalePermission() {
+
+        boolean camera = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[0]);
+
+        boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[1]);
+        boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[2]);
+        // boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return  camera ||  read_external;
+        }else{
+            return  camera ||write_external   || read_external;
+
+        }
+    }
+
 
     private void requestPermission() {
-        ActivityCompat.requestPermissions(this, perms, REQUEST_CODE_ASK_PERMISSIONS);
+        ActivityCompat.requestPermissions(this, perms, Constants.PERMISSION_CAMERA_STORACGE_CONSTANT);
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
         switch (requestCode) {
-            case REQUEST_CODE_ASK_PERMISSIONS:
-                if (grantResults.length > 0) {
+            case  Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
+              // if (grantResults.length > 0) {
 
 
-                    boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                    boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                    boolean writeExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean readExternal = grantResults[3] == PackageManager.PERMISSION_GRANTED;
-                    boolean bluetooth = grantResults[4] == PackageManager.PERMISSION_GRANTED;
-                    boolean bluetoothAdmin = grantResults[5] == PackageManager.PERMISSION_GRANTED;
+                    //region  commented
 
-                    if (camera && fineLocation && writeExternal
-                            && readExternal
-                            && bluetooth && bluetoothAdmin) {
+//                    boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+//                    boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+//                    boolean writeExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+//                    boolean readExternal = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+//                    boolean bluetooth = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+//                    boolean bluetoothAdmin = grantResults[5] == PackageManager.PERMISSION_GRANTED;
+//
+//                    if (camera && fineLocation && writeExternal
+//                            && readExternal
+//                            && bluetooth && bluetoothAdmin) {
+//
+//                        // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
+//                    }
+                    //endregion
 
-                        // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
-                    } else {
+                    if (SDK_INT < Build.VERSION_CODES.Q) {
 
-                        //Permission Denied, You cannot access location data and camera
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
-                            showMessageOKCancel("Required permissions to proceed Magic-finmart..!",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            // finish();
-                                            if (2 > PERMISSION_DENIED) {
-                                                PERMISSION_DENIED++;
-                                                requestPermission();
-                                            } else {
-                                                dialogInterface.dismiss();
+                        boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                        boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                        boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                        if (camera && writeExternal && readExternal) {
+
+                            // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            //Permission Denied, You cannot access location data and camera
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+                                showMessageOKCancel("Required permissions to proceed Magic-finmart..!",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                // finish();
+                                                if (2 > PERMISSION_DENIED) {
+                                                    PERMISSION_DENIED++;
+                                                    checkRationale();
+                                                } else {
+                                                    dialogInterface.dismiss();
+
+                                                }
 
                                             }
-                                        }
-                                    });
-                        } else {
-                            //  requestPermission();
+                                        });
+
+                            } else {
+                                //  requestPermission();
+                            }
                         }
-                    }
+                    //}
                 }
                 break;
         }
@@ -162,12 +232,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
         new AlertDialog.Builder(LoginActivity.this, R.style.AlertDialog_Theme)
-
+                .setCancelable(false)
                 .setTitle("Retry")
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 //.setNegativeButton("Cancel", null)
                 .create()
+
                 .show();
     }
 

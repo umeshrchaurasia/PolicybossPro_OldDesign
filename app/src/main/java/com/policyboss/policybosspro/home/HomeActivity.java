@@ -1675,6 +1675,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.onResume();
 
         // will be upadte everytyime user comes on dashboard
+        toolbar.setTitle("MAGIC FIN-MART");
 
         if (loginResponseEntity != null) {
             new MasterController(this).getConstants(this);

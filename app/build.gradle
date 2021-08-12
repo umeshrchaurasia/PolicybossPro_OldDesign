@@ -17,7 +17,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
 
     lintOptions {
         checkReleaseBuilds false
@@ -40,7 +40,7 @@ android {
         multiDexEnabled true
         applicationId "com.policyboss.policybosspro"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
 
         versionName "0.0.1"
@@ -62,6 +62,9 @@ android {
             //useProguard false
             resValue "string", "app_name", "qaPolicybossPro"
             buildConfigField "String", "FIRSTHIVE", '"138"'
+
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
         }
         //preprodapiqa.mgfm.in
         uat {

@@ -3,6 +3,8 @@ package com.policyboss.policybosspro;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,12 +13,15 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 
@@ -25,9 +30,12 @@ import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.ParcelFileDescriptor;
+import android.provider.MediaStore;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -41,7 +49,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.login.LoginActivity;
 import com.policyboss.policybosspro.term.hdfc.HdfcTermActivity;
@@ -54,7 +62,11 @@ import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +76,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -427,7 +440,13 @@ public class BaseActivity extends AppCompatActivity {
     public File saveImageToStorage(Bitmap bitmap, String name) {
         FileOutputStream outStream = null;
 
-        File dir = Utility.createDirIfNotExists();
+        File dir = null;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            dir = Utility.createDirIfNotExists();
+        }else{
+            dir = createDirIfNotExistsNew(getApplicationContext());
+        }
+
         String fileName = name + ".jpg";
         fileName = fileName.replaceAll("\\s+", "");
         File outFile = new File(dir, fileName);
@@ -442,6 +461,17 @@ public class BaseActivity extends AppCompatActivity {
         return outFile;
     }
 
+    public  File createDirIfNotExistsNew(Context context) {
+        boolean ret = true;
+
+        // external storage.
+        File file = new File(context.getExternalFilesDir( Environment.DIRECTORY_PICTURES), "PolicyBossPro");
+        if (file.mkdirs()) {
+            Log.e("File Log", "Directory not created");
+        }
+
+        return file;
+    }
     public File getImageFromStorage(String name) {
         try {
             File dir = Utility.createDirIfNotExists();
@@ -542,7 +572,8 @@ public class BaseActivity extends AppCompatActivity {
         return cs;
     }
 
-    public void datashareList(Context context, Bitmap bitmap, String prdSubject, String prdDetail) {
+    //region Sharing Old Logic
+    public void datashareListOld(Context context, Bitmap bitmap, String prdSubject, String prdDetail) {
 
         //  String Deeplink = "https://nykaa.ly/P_" + Sharedata_product_id;
 
@@ -687,7 +718,8 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
-    public void datashareList(Context context, String prdSubject,String Bodymsg, String link) {
+    public void datashareListOLD(Context context, String prdSubject,String Bodymsg, String link) {
+
 
 
         String Deeplink;
@@ -808,8 +840,122 @@ public class BaseActivity extends AppCompatActivity {
 
 
     }
+    // endregion
 
-    public void sharePdfTowhatsApp(String pdfFileName, String urlToShare) {
+    public void datashareList(Context context, Bitmap bitmap, String prdSubject, String prdDetail)  {
+
+
+
+        OutputStream fos = null;
+        Uri screenshotUri = null;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+
+
+
+
+            try{
+
+                ContentResolver resolver = getContentResolver();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(MediaStore.Images.Media.DISPLAY_NAME,Utility.getNewFileName("Finmart_product"));
+                contentValues.put(MediaStore.Images.Media.MIME_TYPE,"image/jpg");
+                contentValues.put(MediaStore.Images.Media.RELATIVE_PATH,Utility.getImageDirectoryPath());
+
+
+                screenshotUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+
+
+                fos = resolver.openOutputStream(Objects.requireNonNull(screenshotUri));
+
+
+            }catch (Exception ex){
+
+            }
+
+
+
+
+        }else{
+
+            File file = null;
+
+            try{
+                File imagesDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + "FINMART");
+
+
+                if (!imagesDir.exists()){
+                    imagesDir.mkdir();
+                }
+
+                //  File imagesDir  = getAppSpecificAlbumStorageDir(PermissionActivity.this, Environment.DIRECTORY_PICTURES,"DemoLatest1");
+
+                file = new File(imagesDir, "Finmart_product" + ".jpg");
+                fos = new FileOutputStream(file);
+
+                screenshotUri = FileProvider.getUriForFile(BaseActivity.this,
+                        getString(R.string.file_provider_authority),
+                        file);
+
+
+            }catch (Exception ex){
+
+
+                Log.d("PATH_ERROR" , ex.getLocalizedMessage().toString());
+            }
+        }
+
+        try {
+            bitmap.compress(Bitmap.CompressFormat.JPEG,90,fos);
+            fos.close();
+
+            openNativeShare(screenshotUri,prdSubject,prdDetail);
+
+        }catch (Exception ex){
+
+        }
+
+    }
+
+    private void  openNativeShare( Uri screenshotUri, String prdSubject, String prdDetail) {
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+        startActivity(Intent.createChooser(shareIntent, "Share Via"));
+    }
+
+    public void datashareList(Context context, String prdSubject,String Bodymsg, String link) {
+
+
+        String Deeplink;
+
+        Deeplink = Bodymsg + "\n" + link;
+        if(prdSubject.isEmpty()){
+            prdSubject = "Magic Finmart";
+        }
+
+        String prdDetail = Deeplink;
+
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+        startActivity(Intent.createChooser(shareIntent, "Share Via"));
+
+
+
+    }
+
+
+    public void sharePdfTowhatsAppOld(String pdfFileName, String urlToShare) {
         try {
             File outputFile = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES/" + pdfFileName + ".pdf");
 
@@ -830,6 +976,182 @@ public class BaseActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void sharePdfTowhatsApp(String pdfFileName, String urlToShare, Uri uri) {
+
+
+        try {
+
+            Intent share = new Intent();
+            share.setAction(Intent.ACTION_SEND);
+            share.setType("application/pdf");
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            share.putExtra(Intent.EXTRA_TEXT, urlToShare);
+
+            //share.setPackage("com.whatsapp");
+            Intent intent = Intent.createChooser(share, "Share Quote");
+            startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public File createImageFile(String name)  {
+        // Create an image file name
+        File temp;
+        String timeStamp  =new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File storageDir  = getAppSpecificAlbumStorageDir(this, Environment.DIRECTORY_PICTURES,"PolicyBossPro");
+        try {
+            temp =  File.createTempFile(name + timeStamp, /* prefix */
+                    ".jpg", /* suffix */
+                    storageDir /* directory */
+            );
+
+            Log.d("IMAGE_PATH","File Name"+ temp.getName() + "File Path" +temp.getAbsolutePath());
+            //  String  currentPhotoPath = temp.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  null;
+        }
+        return  temp;
+    }
+
+    public File getAppSpecificAlbumStorageDir(Context context,String albumName ,  String subAlbumName) {
+        // Get the pictures directory that's inside the app-specific directory on
+        // external storage.
+        File file = new File(context.getExternalFilesDir(albumName), subAlbumName);
+        if (file.mkdirs()) {
+            Log.e("fssfsf", "Directory not created");
+        }
+
+        return file;
+    }
+
+    public Bitmap getBitmapFromContentResolver(Uri selectedFileUri) {
+        try {
+            ParcelFileDescriptor parcelFileDescriptor =
+                    getContentResolver().openFileDescriptor(selectedFileUri, "r");
+            FileDescriptor fileDescriptor = parcelFileDescriptor.getFileDescriptor();
+            Bitmap image = BitmapFactory.decodeFileDescriptor(fileDescriptor);
+
+            parcelFileDescriptor.close();
+            return  image;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  null;
+        }
+    }
+
+    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
+        String imgURL;
+        Bitmap bitmap;
+        URL NotifyPhotoUrl;
+        String title;
+        public createBitmapFromURL(String imgURL,String title) {
+            this.imgURL = imgURL;
+            this.title = title;
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showDialog();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+            try {
+                NotifyPhotoUrl = new URL(imgURL);
+                networkBitmap = BitmapFactory.decodeStream(
+                        NotifyPhotoUrl.openConnection().getInputStream());
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + NotifyPhotoUrl);
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            bitmap = result;
+            cancelDialog();
+
+            if(bitmap != null ){
+                viewUploadFile(bitmap,title);
+            }
+
+
+
+        }
+    }
+
+
+
+    private void viewUploadFile(Bitmap bitmap, String title) {
+
+        if (bitmap == null) {
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this ,R.style.CustomDialog);
+
+        // TouchImageView ivDocFile;
+        ImageView ivDocFile,ivClose;
+        Button btnClose;
+        TextView txtHdr;
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView;
+
+        dialogView = inflater.inflate(R.layout.layout_view_doc, null);
+
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        btnClose = (Button) dialogView.findViewById(R.id.btnClose);
+        ivClose   = (ImageView) dialogView.findViewById(R.id.ivClose);
+        ivDocFile = (ImageView) dialogView.findViewById(R.id.ivDocFile);
+        txtHdr = (TextView) dialogView.findViewById(R.id.txtHdr);
+
+        ivDocFile.setImageBitmap(bitmap);
+        txtHdr.setText(title);
+
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        Glide.with(this)
+//                .load(stream)
+//                .asBitmap()
+//                .override(100, 100)
+//                .into(ivDocFile);
+
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        // alertDialog.getWindow().getAttributes().windowAnimations = R.style.CustomDialogAnimation;
+        alertDialog.show();
+        //  alertDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
     }
 
     public void registerPopUp(PopUpListener popUpListener) {
