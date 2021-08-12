@@ -22,7 +22,7 @@ public class FastLaneRequestBuilder extends FinmartRetroRequestBuilder {
     public interface FastLaneNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/vehicle-info")
+        @POST("/quote/Postfm/vehicle-info")
         Call<FastLaneDataResponse> getFastLaneData(@Body HashMap<String, String> body);
     }
 }

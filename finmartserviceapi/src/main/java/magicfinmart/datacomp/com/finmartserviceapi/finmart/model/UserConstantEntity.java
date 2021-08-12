@@ -106,7 +106,7 @@ public class UserConstantEntity extends RealmObject {
     private int isactive;
 
     /**
-     * plbanner : http://api.magicfinmart.com/images/plbanner.gif
+     * plbanner :https://horizon.policyboss.com:5443/images/plbanner.gif
      * plactive : 1
      * addposplimit : 10
      * serviceurl : http://bo.mgfm.in/get_service/1976

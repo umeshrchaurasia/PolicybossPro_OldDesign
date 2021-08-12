@@ -37,55 +37,55 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
     public interface MasterNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/vehicle-details")
+        @POST("/quote/Postfm/vehicle-details")
         Call<CarMasterResponse> getCarMaster(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/vehicle-details")
+        @POST("/quote/Postfm/vehicle-details")
         Call<BikeMasterResponse> getBikeMaster(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-city-vehicle")
+        @POST("/quote/Postfm/get-city-vehicle")
         Call<CityMasterResponse> getAllCity();
 
         @Headers("token:" + token)
-        @POST("/api/get-insurance-company")
+        @POST("/quote/Postfm/get-insurance-company")
         Call<InsuranceMasterResponse> getInsuranceMasters();
 
         @Headers("token:" + token)
-        @POST("/api/contact-us")
+        @POST("/quote/Postfm/contact-us-PB")
         Call<ContactUsResponse> getContactUs();
 
         @Headers("token:" + token)
-        @POST("/api/whats-new")
+        @POST("/quote/Postfm/whats-new")
         Call<WhatsNewResponse> getWhatsNew(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-constant-data-pb")
+        @POST("/quote/Postfm/get-constant-data-pb")
         Call<ConstantsResponse> getConstantsData(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-mps-data")
+        @POST("/quote/Postfm/get-mps-data")
         Call<MpsResponse> getMpsData(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/validated-cupon-code")
+        @POST("/quote/Postfm/validated-cupon-code")
         Call<MpsResponse> applyPromoCode(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/user-constant-pb")
+        @POST("/quote/Postfm/user-constant-pb")
         Call<UserConstatntResponse> getUserConstatnt(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-dynamic-app-pb")
+        @POST("/quote/Postfm/get-dynamic-app-pb")
         Call<MenuMasterResponse> getMenuMaster(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-vehicle-insu-sub-type")
+        @POST("/quote/Postfm/get-vehicle-insu-sub-type")
         Call<InsuranceSubtypeResponse> getInsuranceSubtype();
 
         @Headers("token:" + token)
-        @POST("/api/insurer-list")
+        @POST("/quote/Postfm/insurer-list")
         Call<InsurerResponse> getInsuranceList();
 
     }

@@ -44,6 +44,7 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
 
         if (new DBPersistanceController(this).isHideLoan()) {
             loan.setVisibility(View.GONE);
+            other.setVisibility(View.GONE);
         }
     }
 

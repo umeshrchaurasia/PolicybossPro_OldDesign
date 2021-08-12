@@ -7,7 +7,7 @@ public class FestivalCompaignEntity implements Parcelable {
         /**
          * campaignid : 1
          * name : test name
-         * imagelink : http://api.magicfinmart.com/InsurerImages/car_44.png
+         * imagelink : https://horizon.policyboss.com:5443/InsurerImages/car_44.png
          * title : test
          * description : test desc
          * shorturl : mgfm.in/1i1yaw

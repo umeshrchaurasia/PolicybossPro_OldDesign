@@ -54,6 +54,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="4dp"
         android:gravity="top"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView
@@ -78,6 +79,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:gravity="top"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView
@@ -102,6 +104,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:gravity="top"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView

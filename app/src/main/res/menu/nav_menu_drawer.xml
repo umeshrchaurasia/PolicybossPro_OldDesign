@@ -286,6 +286,7 @@
         android:id="@+id/nav_REQUEST"
         android:icon="@drawable/ic_business_name"
         android:orderInCategory="700"
+        android:visible="false"
         android:title="MORE SERVICES">
 
     </item>
@@ -303,6 +304,7 @@
         android:id="@+id/nav_whatsnew"
         android:icon="@drawable/whats_new"
         android:orderInCategory="900"
+        android:visible="false"
         android:title="WHAT'S NEW" />
     <item
         android:id="@+id/nav_cobrowser"

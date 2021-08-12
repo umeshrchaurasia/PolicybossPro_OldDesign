@@ -410,7 +410,7 @@ public class MotorController implements IMotor {
     @Override
     public void saveMotorBreakIn(SaveMotorRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = BuildConfig.FINMART_URL + "/api/manage-vehicle-breaking";
+        String url = BuildConfig.FINMART_URL + "/quote/Postfm/manage-vehicle-breaking";
         motorQuotesNetworkService.saveBreakIn(url, entity).enqueue(new Callback<SaveAddOnResponse>() {
             @Override
             public void onResponse(Call<SaveAddOnResponse> call, Response<SaveAddOnResponse> response) {

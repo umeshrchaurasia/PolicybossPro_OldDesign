@@ -36,41 +36,41 @@ public class ExpressLoanRequestBuilder extends FinmartRetroRequestBuilder {
     public interface ExpressNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/get-early-salary")
+        @POST("/quote/Postfm/get-early-salary")
         Call<ExpressQuoteListResponse> getExpressQuoteList(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/express-loan")
+        @POST("/quote/Postfm/express-loan")
         Call<ExpressLoanListResponse> getExpressLoanList();
 
         @Headers("token:" + token)
-        @POST("/api/save-loan")
+        @POST("/quote/Postfm/save-loan")
         Call<ExpressSaveResponse> saveExpressLoan(@Body SaveExpressLoanRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/hdfc-personal-loan")
+        @POST("/quote/Postfm/hdfc-personal-loan")
         Call<HdfcPers_SaveResponse> saveHDFCPersonalLoan(@Body HdfcPers_SaveRequestEntity body);
 
 
         @Headers("token:" + token)
-        @POST("/api/kotak-personal-loan")
+        @POST("/quote/Postfm/kotak-personal-loan")
         Call<kotakPers_SaveResponse> savekotakPersonalLoan(@Body KotakPersonalSaveRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/get-kotak-pl-company-master")
+        @POST("/quote/Postfm/get-kotak-pl-company-master")
        Call<KotakPLEmployerNameResponse> getEmployerNameKotakPL();
 
 
         @Headers("token:" + token)
-        @POST("/api/get-kotak-pl-calc")
+        @POST("/quote/Postfm/get-kotak-pl-calc")
         Call<KotakROICalResponse> getKotakROICalculationList(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/save-early-salary")
+        @POST("/quote/Postfm/save-early-salary")
         Call<EarlySalaryLoanResponse> saveEarlySalaryLoan(@Body EarlySalaryRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/rb-personal-loan")
+        @POST("/quote/Postfm/rb-personal-loan")
         Call<ExpressRbPersonalResponse> saveRblPersonalLoan(@Body RBLPesonalLoanReqEntity body);
 //
 

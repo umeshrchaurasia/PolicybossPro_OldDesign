@@ -46,9 +46,7 @@ public class PospDetailsEntity {
      * DwtCustId :
      * PaymDate :
      * PaymStat :
-     * Posp_Profile_Url : http://api.magicfinmart.com/upload/1519642255780.jpg
-     * doc_available : [{"DocType":2,"FileName":"http://api.magicfinmart.com/upload/1519642123556.jpg","DocName":"Photograph"},{"DocType":3,"FileName":"http://api.magicfinmart.com/upload/1519571004536.jpg","DocName":"PAN"},{"DocType":1,"FileName":"http://api.magicfinmart.com/upload/1519655528457.jpg","DocName":"Profile"},{"DocType":4,"FileName":"http://api.magicfinmart.com/upload/1519655499257.jpg","DocName":"Cancelled Check"},{"DocType":5,"FileName":"","DocName":"Aadhar"},{"DocType":6,"FileName":"","DocName":"PSOP Photograph"},{"DocType":7,"FileName":"","DocName":"POSP Pancard"},{"DocType":8,"FileName":"","DocName":"POSP Adharcard Front"},{"DocType":9,"FileName":"","DocName":"POSP Adharcard Back"},{"DocType":10,"FileName":"","DocName":"POSP Cancelled Cheque"},{"DocType":11,"FileName":"","DocName":"POSP Heighest Education Proof"}]
-     */
+       */
 
     private int FBAID;
     private String Posp_First_Name;

@@ -23,15 +23,15 @@ public class HomeloanRequestBuilder extends LoanRetroRequestBuilder {
 
     public interface HomeloanNetworkService {
 
-        @POST("/api/mobile-api-compare")
+        @POST("/quote/Postfm/mobile-api-compare")
         Call<GetQuoteResponse> getQuotes(@Body HomeLoanRequest homeLoanRequest);
 
-        @POST("/api/getcustomer")
+        @POST("/quote/Postfm/getcustomer")
         Call<RBCustomerResponse> getRupeeBossCustomer(@Body HashMap<String, String> body);
 
 
 
-        @POST("/api/emi-calc-app")
+        @POST("/quote/Postfm/emi-calc-app")
         Call<EmiCalculatorResponse> getemicalculatordata(@Body HashMap<String, String> body);
     }
 }

@@ -450,7 +450,7 @@ public class Utility {
         int ID = 0;
         if (insId != null && !insId.equals(""))
             ID = Integer.parseInt(insId);
-        return "http://api.magicfinmart.com/InsurerImages/car_" + ID + ".png";
+        return "https://horizon.policyboss.com:5443/InsurerImages/car_" + ID + ".png";
     }
 
     public static void loadWebViewUrlInBrowser(Context context, String url) {

@@ -19,7 +19,7 @@ public class FinmartRetroRequestBuilder {
     //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
     public static Retrofit restAdapter = null;
     // production url
-    //public static String URL = "http://api.magicfinmart.com";
+    //public static String URL = "https://horizon.policyboss.com:5443";
     // Test Environment url
     //   public static String URL = "http://qa.mgfm.in";
 

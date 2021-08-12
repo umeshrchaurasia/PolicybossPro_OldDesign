@@ -72,11 +72,11 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
         Call<DocumentResponse> uploadNCD_Document(@Url String s, @Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
 
         @Headers("token:" + token)
-        @POST("/api/GetPospAppointmentLetter")
+        @POST("/quote/Postfm/GetPospAppointmentLetter")
         Call<CertificateResponse> GetPospAppointmentLetter(@Body CertificateEntity entity);
 
         @Headers("token:" + token)
-        @POST("/api/user-behaviour-data")
+        @POST("/quote/Postfm/user-behaviour-data")
         Call<UserBehaviourResponse> sendUserBehaviour(@Body UserBehaviourRequestEntity entity);
 
 

@@ -27,7 +27,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="20dp"
-        android:text="PolicyBoss Pro Is a Single Platform From Where You Can Sell Various Financial Products And Services To Your Customers Like Insurance, Loans, Health Check-up Plans And More ."
+        android:text="Policyboss Pro Is A Single Platform From Where You Can Sell IRDAI Approved Insurance Products Like Motor, Health, Travel &amp; More"
         android:textAppearance="@style/TextStyle.TextMedium" />
 
     <TextView

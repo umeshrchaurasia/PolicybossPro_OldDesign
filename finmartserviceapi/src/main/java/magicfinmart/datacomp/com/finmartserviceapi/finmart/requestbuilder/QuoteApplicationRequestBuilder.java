@@ -37,45 +37,45 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
     public interface QuoteApplicationNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/get-vehicle-request")
+        @POST("/quote/Postfm/get-vehicle-request")
         Call<QuoteApplicationResponse> getQuoteApplication(@Body QuoteApplicationRequestEntity entity);
 
         @Headers("token:" + token)
-        @POST("/api/manage-vehicle")
+        @POST("/quote/Postfm/manage-vehicle")
         Call<SaveQuoteResponse> saveMotorRequest(@Body SaveMotorRequestEntity entity);
 
         @Headers("token:" + token)
-        @POST("/api/set-quote-to-application-vehicle")
+        @POST("/quote/Postfm/set-quote-to-application-vehicle")
         Call<QuoteAppUpdateDeleteResponse> quoteToApplication(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/delete-vehicle-request")
+        @POST("/quote/Postfm/delete-vehicle-request")
         Call<QuoteAppUpdateDeleteResponse> deleteQuote(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-my-leads")
+        @POST("/quote/Postfm/get-my-leads")
         Call<MotorLeadResponse> modifyLead(@Body MotorMyLeadEntity entity);
 
 
         @Headers("token:" + token)
-        @POST("/api/get-my-leads-view")
+        @POST("/quote/Postfm/get-my-leads-view")
         Call<MotorViewLeadResponse> modifyLeadView(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-my-leads-edit")
+        @POST("/quote/Postfm/get-my-leads-edit")
         Call<MotorViewLeadResponse> modifyLeadEdit(@Body HashMap<String, String> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/contact-lead-disposition-master")
+        @POST("/quote/Postfm/contact-lead-disposition-master")
         Call<LeadDispositionResponse> getLeadDispositionMaster();
 
         @Headers("token:" + token)
-        @POST("/api/insert-fba-contact-lead-disposition")
+        @POST("/quote/Postfm/insert-fba-contact-lead-disposition")
         Call<LeadDispositionSaveResponse> saveLeadDisposition(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/search-fba-onbehalf")
+        @POST("/quote/Postfm/search-fba-onbehalf")
         Call<BOFbaListResponse> getBOFbaList(@Body HashMap<String, String> body);
 
 

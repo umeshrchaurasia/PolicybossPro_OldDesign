@@ -288,7 +288,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getNCD(final IResponseSubcriber iResponseSubcriber) {
-        String url = BuildConfig.FINMART_URL + "/api/get-ncd-product";
+        String url = BuildConfig.FINMART_URL + "/quote/Postfm/get-ncd-product";
 
         HashMap<String, String> body = new HashMap<>();
         body.put("fbaid", "" + new DBPersistanceController(mContext).getUserData().getFBAId());
@@ -323,7 +323,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void uploadNCDDetails(UploadNCDRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
-        String url = BuildConfig.FINMART_URL + "/api/insert-ncd-details";
+        String url = BuildConfig.FINMART_URL + "/quote/Postfm/insert-ncd-details";
 
         genericUrlNetworkService.uploadNCD(url, entity).enqueue(new Callback<UploadNCDResponse>() {
             @Override
@@ -357,7 +357,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void uploadNCDDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = BuildConfig.FINMART_URL + "/api/ncd-fba-document-upload";
+        String url = BuildConfig.FINMART_URL + "/quote/Postfm/ncd-fba-document-upload";
 
         genericUrlNetworkService.uploadNCD_Document(url, document, body).enqueue(new Callback<DocumentResponse>() {
             @Override
@@ -463,7 +463,7 @@ public class DynamicController implements IDynamic {
     @Override
     public void saveGenerateLead(GenerateLeadRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = BuildConfig.FINMART_URL + "/api/save-moter-lead-details";
+        String url = BuildConfig.FINMART_URL + "/quote/Postfm/save-moter-lead-details";
         genericUrlNetworkService.saveGenerateLead(url, entity).enqueue(new Callback<GenerateLeadResponse>() {
             @Override
             public void onResponse(Call<GenerateLeadResponse> call, Response<GenerateLeadResponse> response) {

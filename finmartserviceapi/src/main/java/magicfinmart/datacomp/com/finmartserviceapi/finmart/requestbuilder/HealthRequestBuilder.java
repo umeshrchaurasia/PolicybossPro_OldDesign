@@ -33,36 +33,36 @@ public class HealthRequestBuilder extends FinmartRetroRequestBuilder {
     public interface HealthNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/get-smart-health")
+        @POST("/quote/Postfm/get-smart-health")
         Call<HealthQuoteAppResponse> getHealthQuoteAppList(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/smart-health")
+        @POST("/quote/Postfm/smart-health")
         Call<HealthQuoteResponse> getHealthQuote(@Body HealthQuote body);
 
         @Headers("token:" + token)
-        @POST("/api/smart-health")
+        @POST("/quote/Postfm/smart-health")
         Call<HealthQuoteExpResponse> getHealthQuoteExp(@Body HealthQuote body);
 
 
         @Headers("token:" + token)
-        @POST("/api/set-quote-application-smart-health")
+        @POST("/quote/Postfm/set-quote-application-smart-health")
         Call<HealthQuotetoAppResponse> convertHealthQuoteToApp(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/delete-smart-health")
+        @POST("/quote/Postfm/delete-smart-health")
         Call<HealthDeleteResponse> deleteQuote(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/compare-premium")
+        @POST("/quote/Postfm/compare-premium")
         Call<HealthQuoteCompareResponse> compareQuotes(@Body HealthCompareRequestEntity entity);
 
         @Headers("token:" + token)
-        @POST("/api/GetCompareBenefits")
+        @POST("/quote/Postfm/GetCompareBenefits")
         Call<BenefitsListResponse> getBenefits(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/short-url")
+        @POST("/quote/Postfm/short-url")
         Call<HealthShortLinkResponse> getShortLink(@Body HashMap<String, String> bo);
 
         @POST

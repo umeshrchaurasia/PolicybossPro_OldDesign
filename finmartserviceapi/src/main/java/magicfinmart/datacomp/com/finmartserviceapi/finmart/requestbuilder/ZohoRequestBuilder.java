@@ -39,31 +39,31 @@ public class ZohoRequestBuilder extends FinmartRetroRequestBuilder {
 
 
         @Headers("token:" + token)
-        @POST("/api/get-ticket-categories")
+        @POST("/quote/Postfm/get-ticket-categories")
         Call<TicketCategoryResponse> getTicketCategories();
 
         @Headers("token:" + token)
-        @POST("/api/create-ticket")
+        @POST("/quote/Postfm/create-ticket")
         Call<CreateTicketResponse> createTicket(@Body CreateTicketrequest body);
 
                @Headers("token:" + token)
-        @POST("/api/get-ticket-request")
+        @POST("/quote/Postfm/get-ticket-request")
         Call<TicketListResponse> getListOfTickets(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/create-ticket-comments")
+        @POST("/quote/Postfm/create-ticket-comments")
         Call<RaiseTicketCommentResponse> saveTicketComment(@Body HashMap<String, String> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/get-ticket-comments")
+        @POST("/quote/Postfm/get-ticket-comments")
         Call<RaiseTicketViewResponse> viewTicket(@Body HashMap<String, String> body);
 
         // File Upload
 
         @Headers("token:" + token)
         @Multipart
-        @POST("/api/upload-doc-ticket-comment")
+        @POST("/quote/Postfm/upload-doc-ticket-comment")
         Call<DocumentResponse> uploadDocumentRaiseTicket(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
 
 

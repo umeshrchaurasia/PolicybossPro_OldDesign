@@ -6,7 +6,7 @@ public class PaymentDetailEntity {
      * Name : tttttt Test
      * Email : testpay@yahoo.com
      * Mobile : 8198868870
-     * image : http://api.magicfinmart.com/images/salesmaterial/razorpay/finlog.png
+     * image : images/salesmaterial/razorpay/finlog.png
      * dispmsg : Please Create CustomerId
      * Status : 0
      */
