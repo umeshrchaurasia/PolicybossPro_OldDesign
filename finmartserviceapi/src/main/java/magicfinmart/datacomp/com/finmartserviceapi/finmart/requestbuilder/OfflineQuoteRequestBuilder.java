@@ -43,54 +43,54 @@ public class OfflineQuoteRequestBuilder extends FinmartRetroRequestBuilder {
     public interface OfflineQuoteNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/credit-card-rbl")
+        @POST("/quote/Postfm/credit-card-rbl")
         Call<CCRblResponse> applyRbl(@Body CCRblRequestEntity ccRblRequestEntity);
 
         @Headers("token:" + token)
-        @POST("/api/get-offline-quote-material")
+        @POST("/quote/Postfm/get-offline-quote-material")
         Call<OfflineInputResponse> getOfflineInput();
 
         @Headers("token:" + token)
-        @POST("/api/offline-quotes-request")
+        @POST("/quote/Postfm/offline-quotes-request")
         Call<CreateQuoteResponse> createQuote(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
         @Multipart
-        @POST("/api/upload-doc-offline-quotes ")
+        @POST("/quote/Postfm/upload-doc-offline-quotes ")
         Call<DocumentResponse> uploadDocumentOfflineQuotes(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
 
         @Headers("token:" + token)
-        @POST("/api/get-offline-quotes")
+        @POST("/quote/Postfm/get-offline-quotes")
         Call<OfflineQuoteResponse> getOfflineQuote(@Body HashMap<String, String> body);
 
 
         //region offline quote new
 
         @Headers("token:" + token)
-        @POST("/api/manage-vehicle-offline")
+        @POST("/quote/Postfm/manage-vehicle-offline")
         Call<OfflineCommonResponse> saveOfflineMotor(@Body SaveMotorRequestEntity saveMotorRequestEntity);
 
 
         @Headers("token:" + token)
-        @POST("/api/get-vehicle-offline-quote")
+        @POST("/quote/Postfm/get-vehicle-offline-quote")
         Call<OfflineMotorListResponse> getOfflineMotorList(@Body HashMap<String, String> body);
 
         // Health
 //life
         @Headers("token:" + token)
-        @POST("/api/smart-term-life-offline-quote")
+        @POST("/quote/Postfm/smart-term-life-offline-quote")
         Call<Offline_TermResponse> getTermCompareQuotes_offline(@Body TermFinmartRequest body);
 
         @Headers("token:" + token)
-        @POST("/api/manage-health-request-offline")
+        @POST("/quote/Postfm/manage-health-request-offline")
         Call<OfflineHealthSaveResponse> saveOfflineHealth(@Body SaveHealthRequestEntity saveMotorRequestEntity);
 
 
         @Headers("token:" + token)
-        @POST("/api/get-health-request-offline")
+        @POST("/quote/Postfm/get-health-request-offline")
         Call<OfflineHealthResponse> getOfflineHealthList(@Body HashMap<String, String> body);
         @Headers("token:" + token)
-        @POST("/api/get-smart-term-life-offline-quote")
+        @POST("/quote/Postfm/get-smart-term-life-offline-quote")
         Call<TermQuoteApplicationResponse> getTermQuoteApplication_offline(@Body HashMap<String, String> body);
         //endregion
 

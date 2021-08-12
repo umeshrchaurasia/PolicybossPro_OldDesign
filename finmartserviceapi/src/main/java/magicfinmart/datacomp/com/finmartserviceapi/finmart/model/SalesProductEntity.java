@@ -11,7 +11,7 @@ public class SalesProductEntity extends RealmObject implements Parcelable {
     /**
      * Product_Id : 1
      * Product_Name : Health Insurance
-     * Product_image : api.magicfinmart.com/images/salesmaterial/health.png
+     * Product_image : https://horizon.policyboss.com:5443/images/salesmaterial/health.png
      * Count : 7
      */
     @PrimaryKey

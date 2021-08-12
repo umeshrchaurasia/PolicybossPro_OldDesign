@@ -23,11 +23,11 @@ public class TrackingRequestBuilder extends FinmartRetroRequestBuilder {
     public interface TrackingNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/insert-tracking")
+        @POST("/quote/Postfm/insert-tracking")
         Call<TrackingResponse> sendTracking(@Body TrackingRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/save-vehicle-info-details-log")
+        @POST("/quote/Postfm/save-vehicle-info-details-log")
         Call<TrackingResponse> saveVehicleInfo(@Body HashMap<String, String> body);
     }
 }

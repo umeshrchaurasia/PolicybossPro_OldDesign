@@ -464,7 +464,7 @@ document.getElementById('polexpdate').innerHTML = "";
         var response = JSON.parse(bikeReponse);
 
 
-        document.getElementById('lblImg').src = "http://api.magicfinmart.com/InsurerImages/car_" + response.Insurer_Id + ".png" ;
+        document.getElementById('lblImg').src = "https://horizon.policyboss.com:5443/InsurerImages/car_" + response.Insurer_Id + ".png" ;
         document.getElementById('IDV').innerHTML = "" + response.LM_Custom_Request.vehicle_expected_idv;
         document.getElementById('PREM').innerHTML =   "₹ " +  Math.round(response.Premium_Breakup.final_premium)  ;
         var WithOutAddOn = ""

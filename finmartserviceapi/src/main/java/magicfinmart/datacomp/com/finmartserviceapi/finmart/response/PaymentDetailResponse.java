@@ -10,8 +10,7 @@ public class PaymentDetailResponse extends APIResponse {
 
 
     /**
-     * MasterData : {"CustID":"8407152","Name":"tttttt Test","Email":"testpay@yahoo.com","Mobile":"8198868870","image":"http://api.magicfinmart.com/images/salesmaterial/razorpay/finlog.png","dispmsg":"Please Create CustomerId","Status":0}
-     */
+       */
 
     private PaymentDetailEntity MasterData;
 

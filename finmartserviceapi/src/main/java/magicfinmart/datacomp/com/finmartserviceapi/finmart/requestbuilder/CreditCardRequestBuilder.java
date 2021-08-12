@@ -32,24 +32,24 @@ public class CreditCardRequestBuilder extends FinmartRetroRequestBuilder {
     public interface CreditCardNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/get-credit-card-data")
+        @POST("/quote/Postfm/get-credit-card-data")
         Call<CreditCardMasterResponse> getAllCreditCards();
 
         @Headers("token:" + token)
-        @POST("/api/credit-card-rbl")
+        @POST("/quote/Postfm/credit-card-rbl")
         Call<CCRblResponse> applyRbl(@Body CCRblRequestEntity ccRblRequestEntity);
 
 
         @Headers("token:" + token)
-        @POST("/api/get-saved-creditcard-info")
+        @POST("/quote/Postfm/get-saved-creditcard-info")
         Call<AppliedCreditCardResponse> getAppliedCreditCards(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-rbl-city")
+        @POST("/quote/Postfm/get-rbl-city")
         Call<RblCityMasterResponse> getRblCityMaster();
 
         @Headers("token:" + token)
-        @POST("/api/credit-card-icici")
+        @POST("/quote/Postfm/credit-card-icici")
         Call<CCICICIResponse> applyICICI(@Body CCICICIRequestEntity cciciciRequestEntity);
 
 

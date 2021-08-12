@@ -37,55 +37,55 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
 
 
         @Headers("token:" + token)
-        @POST("/api/delete-smart-term-life")
+        @POST("/quote/Postfm/delete-smart-term-life")
         Call<DeleteTermQuoteResponse> deleteTermInsurance(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/smart-term-life")
+        @POST("/quote/Postfm/smart-term-life")
         Call<TermCompareQuoteResponse> getTermCompareQuotes(@Body TermFinmartRequest body);
 
         @Headers("token:" + token)
-        @POST("/api/get-smart-term-life")
+        @POST("/quote/Postfm/get-smart-term-life")
         Call<TermQuoteApplicationResponse> getTermQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/smart-term-quote-to-application")
+        @POST("/quote/Postfm/smart-term-quote-to-application")
         Call<TermQuoteToAppResponse> convertQuoteToApp(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/product-insurance-mappingId-update")
+        @POST("/quote/Postfm/product-insurance-mappingId-update")
         Call<UpdateCRNResponse> updateCRN(@Body HashMap<String, String> body);
 
 /*
         @Headers("token:" + token)
-        @POST("/api/set-quote-application-smart-health")
+        @POST("/quote/Postfm/set-quote-application-smart-health")
         Call<HealthQuotetoAppResponse> convertHealthQuoteToApp(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/delete-smart-health")
+        @POST("/quote/Postfm/delete-smart-health")
         Call<HealthDeleteResponse> deleteQuote(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/compare-premium")
+        @POST("/quote/Postfm/compare-premium")
         Call<HealthQuoteCompareResponse> compareQuotes(@Body HealthCompareRequestEntity entity);
 
         @Headers("token:" + token)
-        @POST("/api/GetCompareBenefits")
+        @POST("/quote/Postfm/GetCompareBenefits")
         Call<BenefitsListResponse> getBenefits(@Body HashMap<String, String> body);*/
 
         //region ultra laksha
 
         @Headers("token:" + token)
-        @POST("/api/getultralakshyaquotelist")
+        @POST("/quote/Postfm/getultralakshyaquotelist")
         Call<UltraLakshyaQuoteApplnResponse> getUltraQuoteApplnList(@Body HashMap<String, String> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/liccombowrapper")
+        @POST("/quote/Postfm/liccombowrapper")
         Call<UltraLakshaRecalculateResponse> recalculateUltraLaksha(@Body UltralakshaRequestEntity entity);
 
         @Headers("token:" + token)
-        @POST("/api/licillustration")
+        @POST("/quote/Postfm/licillustration")
         Call<UltraLakshaIllustrationResponseNew> getIllustration(@Body LICIllustrationRequestEntity entity);
 
         //endregion

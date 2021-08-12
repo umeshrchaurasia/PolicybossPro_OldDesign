@@ -22,14 +22,14 @@ public class PersonalloanRequestBuilder extends LoanRetroRequestBuilder {
     }
     public interface PersonalloanNetworkService{
         //  personal-loan-mobile//
-        @POST("/api/customer-loan-request")
+        @POST("/quote/Postfm/customer-loan-request")
         Call<GetPersonalLoanResponse> getPersonalQuotes(@Body PersonalLoanRequest personalLoanRequest);
 
 
-        @POST("/api/balance-transfer-with-qid")
+        @POST("/quote/Postfm/balance-transfer-with-qid")
         Call<GetBLDispalyResponse> getBLDispalyResponseQuotes(@Body BLLoanRequest blLoanRequest);
 
-        @POST("/api/equifax")
+        @POST("/quote/Postfm/equifax")
         Call<equifax_personalloan_response> getequifaxQuotes(@Body equifax_personalloan_request equifax_personalloan_requestlist);
 
     }

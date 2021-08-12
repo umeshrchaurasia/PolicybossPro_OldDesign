@@ -22,7 +22,7 @@ public class QuickLeadRequestBuilder extends FinmartRetroRequestBuilder {
     public interface QuickLeadNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/quick-lead")
+        @POST("/quote/Postfm/quick-lead")
         Call<QuickLeadResponse> getAllCreditCards(@Body QuickLeadRequestEntity quickLeadRequestEntity);
 
     }

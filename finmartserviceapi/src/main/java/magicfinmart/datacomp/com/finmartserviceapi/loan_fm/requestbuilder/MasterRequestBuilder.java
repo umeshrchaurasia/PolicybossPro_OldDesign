@@ -16,7 +16,7 @@ public class MasterRequestBuilder extends LoanRetroRequestBuilder {
 
     public interface MasterloanNetworkService {
 
-            @POST("/api/getcity")
+            @POST("/quote/Postfm/getcity")
         Call<CityResponse> getCity();
     }
 }

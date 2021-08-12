@@ -57,150 +57,150 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
     public interface RegisterQuotesNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/generate-otp")
+        @POST("/quote/Postfm/generate-otp")
         Call<GenerateOtpResponse> generateOtp(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/retrive-otp")
+        @POST("/quote/Postfm/retrive-otp")
         Call<VerifyOtpResponse> verifyOtp(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-city-and-state")
+        @POST("/quote/Postfm/get-city-and-state")
         Call<PincodeResponse> getCityStateCityPincode(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/insert-fba-registration")
+        @POST("/quote/Postfm/insert-fba-registration")
         Call<RegisterFbaResponse> registerFba(@Body RegisterRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/AddChildPosp")
+        @POST("/quote/Postfm/AddChildPosp")
         Call<RegisterFbaResponse> addChildPosp(@Body RegisterRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/get-child-fba")
+        @POST("/quote/Postfm/get-child-fba")
         Call<ChildPospResponse> getChildPosp(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/posp-registration")
+        @POST("/quote/Postfm/posp-registration")
         Call<EnrollPospResponse> enrollPosp(@Body RegisterRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/get-posp-detail")
+        @POST("/quote/Postfm/get-posp-detail")
         Call<PospDetailsResponse> getPospDetails(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/get-ifsc-code")
+        @POST("/quote/Postfm/get-ifsc-code")
         Call<IfscCodeResponse> getIfscCode(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/my-account")
+        @POST("/quote/Postfm/my-account")
         Call<MyAccountResponse> saveAccDtl(@Body RegisterRequestEntity body);
 
 
         @Headers("token:" + token)
-        @POST("/api/get-my-account")
+        @POST("/quote/Postfm/get-my-account")
         Call<MyAcctDtlResponse> getMyAcctDtl(@Body HashMap<String, String> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/get-registration-source")
+        @POST("/quote/Postfm/get-registration-source")
         Call<RegisterSourceResponse> getRegSource();
 
 
         @Headers("token:" + token)
         @Multipart
-        @POST("/api/upload-doc")
+        @POST("/quote/Postfm/upload-doc")
         Call<DocumentResponse> uploadDocument(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
 
         @Headers("token:" + token)
         @Multipart
-        @POST("/api/upload-doc")
+        @POST("/quote/Postfm/upload-doc")
         Call<DocumentResponse> uploadDocumentNew(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMapString, @PartMap() Map<String, Integer> partMapInt);
 
 
 ////////////////////// Notification ////////////////////////////////
 
         @Headers("token:" + token)
-        @POST("/api/get-notification-data")
+        @POST("/quote/Postfm/get-notification-data")
         Call<NotificationResponse> getNotificationData(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/UserClickActionOnNotification")
+        @POST("/quote/Postfm/UserClickActionOnNotification")
         Call<NotificationUpdateResponse> recieveNotificationData(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/update-notification")
+        @POST("/quote/Postfm/update-notification")
         Call<NotificationUpdateResponse> userClickActionOnNotification(@Body HashMap<String, String> body);
 
         ////////////////////// Contact Lead ////////////////////////////////
 
         @Headers("token:" + token)
-        @POST("/api/addcontacts")
+        @POST("/quote/Postfm/addcontacts")
         Call<ContactLeadResponse> saveContactLead(@Body ContactLeadRequestEntity body);
 
         ////////////////////// Posp Sms & Email ////////////////////////////////
 
         @Headers("token:" + token)
-        @POST("/api/get-customers-sms-template")
+        @POST("/quote/Postfm/get-customers-sms-template")
         Call<SmsTemplateResponse> getSmsTemplate();
 
 
         @Headers("token:" + token)
-        @POST("/api/posp-appointment-email")
+        @POST("/quote/Postfm/posp-appointment-email")
         Call<PospAppointEmailResponse> getEmailTemplate(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/getempbyregsource")
+        @POST("/quote/Postfm/getempbyregsource")
         Call<RegisterSaleResponse> getfieldsales(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/sync-lead-data-send-sms")
+        @POST("/quote/Postfm/sync-lead-data-send-sms")
         Call<SendSyncSmsResponse> sendSyncSms(@Body HashMap<String, String> body);
 
     ///////////////////////////////// Home page ///////////////////////////////
 
         @Headers("token:" + token)
-        @POST("/api/user-calling")
+        @POST("/quote/Postfm/user-calling")
         Call<UserCallingResponse> getUserCallingDetail(@Body HashMap<String, String> body);
 
         ///////////////////////////////// Multi Language Calling ///////////////////////////////
         @Headers("token:" + token)
-        @POST("/api/GetLangData")
+        @POST("/quote/Postfm/GetLangData")
         Call<MultilanguageResponse> getMultiLanguageDetail();
 
 
         @Headers("token:" + token)
-        @POST("/api/GetLangDataOld")
+        @POST("/quote/Postfm/GetLangDataOld")
         Call<MultiLangResponse> getMultiLanguageDetailOld();
 
         @Headers("token:" + token)
-        @POST("/api/GetShareUrl")
+        @POST("/quote/Postfm/GetShareUrl")
         Call<ProductURLShareResponse> getProductShareURL(@Body HashMap<String, Integer> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/GetFosInfo")
+        @POST("/quote/Postfm/GetFosInfo")
         Call<UserHideResponse> hideFOSUser(@Body HashMap<String, String> body);
 
 
         // Payment Gateway
 
         @Headers("token:" + token)
-        @POST("/api/Addtorazorpaydata")
+        @POST("/quote/Postfm/Addtorazorpaydata")
         Call<RazorPayResponse> addToRazorPay(@Body HashMap<String, String> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/getfbadataforrpay")
+        @POST("/quote/Postfm/getfbadataforrpay")
         Call<PaymentDetailResponse> getDataForPayment(@Body HashMap<String, String> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/GetEliteKotakCustomer")
+        @POST("/quote/Postfm/GetEliteKotakCustomer")
         Call<PaymentDetail_EliteResponse> getDataForPayment_EliteCustomer(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/EliteKotakRazorPayment")
+        @POST("/quote/Postfm/EliteKotakRazorPayment")
         Call<RazorPayResponse> addToRazorPayElite(@Body HashMap<String, String> body);
 
     }

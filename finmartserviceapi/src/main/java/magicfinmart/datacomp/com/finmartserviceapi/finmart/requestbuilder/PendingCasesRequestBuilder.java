@@ -26,20 +26,20 @@ public class PendingCasesRequestBuilder extends FinmartRetroRequestBuilder {
     public interface PendingNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/pending-cases")
+        @POST("/quote/Postfm/pending-cases")
         Call<PendingCasesResponse> getPendingCases(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/delete-pending-cases")
+        @POST("/quote/Postfm/delete-pending-cases")
         Call<PendingCaseDeleteResponse> deletePendingCase(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/pending-cases-insurence-and-loan")
+        @POST("/quote/Postfm/pending-cases-insurence-and-loan")
         Call<PendingCaseInsLoanResponse> getPendingCasesWithType(@Body HashMap<String, String> body);
 
         //transction history
         @Headers("token:" + token)
-        @POST("/api/get-transaction-history")
+        @POST("/quote/Postfm/get-transaction-history")
         Call<TransctionHistoryResponse> gettransctionHistory(@Body HashMap<String, String> body);
     }
 }

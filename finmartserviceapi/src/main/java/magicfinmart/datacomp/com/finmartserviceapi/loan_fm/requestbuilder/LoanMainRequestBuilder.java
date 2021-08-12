@@ -36,12 +36,12 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
         //    region HomeLoan
 
         @Headers("token:1234567890")
-        @POST("/api/get-loan-request")
+        @POST("/quote/Postfm/get-loan-request")
         Call<FmHomelLoanResponse> getHLQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-//        @POST("/api/save-HLloan-request")
-        @POST("/api/save-loan-request")
+//        @POST("/quote/Postfm/save-HLloan-request")
+        @POST("/quote/Postfm/save-loan-request")
         Call<FmSaveQuoteHomeLoanResponse> saveHLQuote(@Body FmHomeLoanRequest fmHomeLoanRequest);
 
 
@@ -51,45 +51,45 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
 
 
         @Headers("token:1234567890")
-        @POST("/api/getloanrequest")
+        @POST("/quote/Postfm/getloanrequest")
         Call<NewLoanApplicationResponse> getLoanApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/api/get-personalloan-request")
+        @POST("/quote/Postfm/get-personalloan-request")
         Call<FmPersonalLoanResponse> getPLQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/api/manage-personalloan")
+        @POST("/quote/Postfm/manage-personalloan")
         Call<FmSaveQuotePersonalLoanResponse> savePLQuote(@Body FmPersonalLoanRequest fmPersonalLoanRequest);
 
         //endregion
 
         //bank save
         @Headers("token:1234567890")
-        @POST("/api/update-bank-id")
+        @POST("/quote/Postfm/update-bank-id")
         Call<BankForNodeResponse> savebankFbABuy(@Body BankSaveRequest bankSaveRequest);
 
         //BT
 
 
         @Headers("token:1234567890")
-        @POST("/api/get-balance-transfer-request")
+        @POST("/quote/Postfm/get-balance-transfer-request")
         Call<FmBalanceLoanResponse> getBLQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/api/ManageBalanceTransfer")
+        @POST("/quote/Postfm/ManageBalanceTransfer")
         Call<FmSaveQuoteBLResponse> saveBLQuote(@Body FmBalanceLoanRequest fmBalanceLoanRequest);
         //delete
         @Headers("token:1234567890")
-        @POST("/api/delete-loan-request-loan")
+        @POST("/quote/Postfm/delete-loan-request-loan")
         Call<FmSaveQuoteHomeLoanResponse> getdelete_loanrequest(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/api/delete-personal-loan-request")
+        @POST("/quote/Postfm/delete-personal-loan-request")
         Call<FmSaveQuotePersonalLoanResponse> getdelete_personalrequest(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/api/delete-balance-transfer")
+        @POST("/quote/Postfm/delete-balance-transfer")
         Call<FmSaveQuoteBLResponse> getdelete_balancerequest(@Body HashMap<String, String> body);
 
     }

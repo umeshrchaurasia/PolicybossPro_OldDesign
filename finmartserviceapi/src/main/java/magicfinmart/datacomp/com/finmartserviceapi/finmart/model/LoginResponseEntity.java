@@ -103,8 +103,8 @@ public class LoginResponseEntity extends RealmObject {
      * rm_id : 0
      * referraid :
      * POSPNo :
-     * POSPProfileUrl : http://api.magicfinmart.com/uploads/1519725969630.jpg
-     * FBAProfileUrl : http://api.magicfinmart.com/uploads/1519728916249.jpg
+     * POSPProfileUrl : https://horizon.policyboss.com:5443/uploads/1519725969630.jpg
+     * FBAProfileUrl :https://horizon.policyboss.com:5443/uploads/1519728916249.jpg
      */
 
     private int rm_id;

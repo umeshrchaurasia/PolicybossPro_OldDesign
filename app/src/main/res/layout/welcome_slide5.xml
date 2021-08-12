@@ -14,7 +14,7 @@
         android:layout_marginRight="20dp"
         android:gravity="center"
         android:lines="2"
-        android:text="open the dooR to a world of  opportunities"
+        android:text="open the dooR to a world of opportunities"
         android:textAllCaps="true" />
 
     <ImageView

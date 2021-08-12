@@ -38,7 +38,7 @@ public class HealthCheckUPController implements IHealthCheckUp {
         HashMap<String, String> body = new HashMap<>();
         body.put("FBAID", String.valueOf(new DBPersistanceController(mContext).getUserData().getFBAId()));
 
-        String strUrl = BuildConfig.FINMART_URL + "/api/health-assure-configure";
+        String strUrl = BuildConfig.FINMART_URL + "/quote/Postfm/health-assure-configure";
 
         healthCheckNetworkService.getHealthCheckUpList(strUrl, body).enqueue(new Callback<HealthCheckUpResponse>() {
             @Override

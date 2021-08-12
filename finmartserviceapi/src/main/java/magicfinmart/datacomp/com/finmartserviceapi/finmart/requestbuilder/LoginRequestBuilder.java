@@ -29,28 +29,28 @@ public class LoginRequestBuilder extends FinmartRetroRequestBuilder {
     public interface LoginNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/login")
+        @POST("/quote/Postfm/login")
         Call<LoginResponse> login(@Body LoginRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/login")
+        @POST("/quote/Postfm/login")
         Call<CheckLoginResponse> chklogin(@Body LoginRequestEntity body);
 
         @Headers("token:" + token)
-        @POST("/api/forgotPassword")
+        @POST("/quote/Postfm/forgotPassword")
         Call<ForgotResponse> forgotPassword(@Body HashMap<String, String> body);
 
 
         @Headers("token:" + token)
-        @POST("/api/change-password")
+        @POST("/quote/Postfm/change-password")
         Call<ChangePasswordResponse> changePassword(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/validate-refer-code")
+        @POST("/quote/Postfm/validate-refer-code")
         Call<ReferFriendResponse> referFriend(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/GetChildUsersApi")
+        @POST("/quote/Postfm/GetChildUsersApi")
         Call<PospAgentResponse> getPospAgentData(@Body HashMap<String, String> body);
 
     }
