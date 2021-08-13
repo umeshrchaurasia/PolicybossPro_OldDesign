@@ -1,12 +1,15 @@
 package com.policyboss.policybosspro.login;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +50,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserHideResp
 
 import static android.os.Build.VERSION.SDK_INT;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
+public class LoginActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener, IResponseSubcriber {
     PrefManager prefManager;
     EditText etEmail, etPassword;
     LoginRequestEntity loginRequestEntity;
@@ -86,6 +89,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         dbPersistanceController.clearUserData();
+        registerPopUp(this);
         if (!checkPermission()) {
             requestPermission();
         }
@@ -128,12 +132,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
         else {
 
-//            showMessageOKCancel("Required permissions to proceed Magic-finmart..!", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
+            openPopUp(btnSignIn, "Need  Permission", "This app needs all permissions.", "GRANT", true);
 
 
 
@@ -415,4 +414,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
 }

@@ -59,6 +59,13 @@ public class SendTemplateAdapter extends RecyclerView.Adapter<SendTemplateAdapte
     public void onBindViewHolder(NotificationItem holder, int position) {
 
         final SmsTemplateEntity smsTemplateEntity = smsTemplateEntityList.get(position);
+
+        if(smsTemplateEntity.getFba_sms_id() == 4){
+            holder.lyParent.setVisibility(View.GONE);
+
+        }else{
+            holder.lyParent.setVisibility(View.VISIBLE);
+        }
         holder.txtTitle.setText( "" +smsTemplateEntity.getTemplete());
 
         holder.lyParent.setOnClickListener(new View.OnClickListener() {
