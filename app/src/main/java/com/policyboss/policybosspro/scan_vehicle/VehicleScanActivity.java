@@ -364,7 +364,7 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
         String FileName = "";
         FileName = PHOTO_File;
 
-        Docfile = createFile(FileName);
+        Docfile = createImageFile(FileName);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             imageUri = Uri.fromFile(Docfile);
@@ -484,9 +484,16 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
 
-        return camera == PackageManager.PERMISSION_GRANTED
-                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        }else{
+            return camera == PackageManager.PERMISSION_GRANTED
+                    &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+
+        }
     }
 
     private boolean checkRationalePermission() {
@@ -496,7 +503,12 @@ public class VehicleScanActivity extends BaseActivity implements BaseActivity.Po
         boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(VehicleScanActivity.this, perms[1]);
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(VehicleScanActivity.this, perms[2]);
 
-        return camera || write_external || read_external;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return  camera ||  read_external;
+        }else{
+            return  camera ||write_external   || read_external;
+
+        }
     }
 
     private void requestPermission() {

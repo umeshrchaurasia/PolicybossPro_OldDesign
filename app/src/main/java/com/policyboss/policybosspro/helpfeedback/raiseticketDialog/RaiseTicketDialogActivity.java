@@ -5,6 +5,7 @@ import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -251,9 +252,16 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
 
-        return camera == PackageManager.PERMISSION_GRANTED
-                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        }else{
+            return camera == PackageManager.PERMISSION_GRANTED
+                    &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+
+        }
     }
 
     private boolean checkRationalePermission() {
@@ -263,7 +271,12 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
         boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(RaiseTicketDialogActivity.this, perms[1]);
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(RaiseTicketDialogActivity.this, perms[2]);
 
-        return camera || write_external || read_external;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return  camera ||  read_external;
+        }else{
+            return  camera ||write_external   || read_external;
+
+        }
     }
 
     private void requestPermission() {
@@ -282,13 +295,13 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && writeExternal && readExternal) {
+                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
 
                         showCamerGalleryPopUp();
 
                     }
-
                 }
                 break;
 
@@ -370,7 +383,8 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
         String FileName = PHOTO_File;
 
 
-        Docfile = createFile(FileName);
+        Docfile = createImageFile(FileName);
+
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             imageUri = Uri.fromFile(Docfile);
@@ -389,16 +403,28 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
 
     private void openGallery() {
 
-        String FileName = PHOTO_File;
+        String  mimeType = "image/*";
+
+        Uri collection ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection =  MediaStore.Video.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+            );
+        } else {
+            collection =  MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        }
 
 
-        Docfile = createFile(FileName);
+        try {
+            Intent intent = new  Intent(Intent.ACTION_PICK, collection);
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType(mimeType);
+            intent.resolveActivity(getPackageManager());
+            startActivityForResult(intent, SELECT_PICTURE);
 
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     //endregion
@@ -531,8 +557,8 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
                         cropImageUri = result.getUri();
                         Bitmap mphoto = null;
                         try {
-                            mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
-                            //  mphoto = getResizedBitmap(mphoto, 800);
+                          //  mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                            mphoto = getBitmapFromContentResolver(cropImageUri);
 
 
                         } catch (Exception e) {

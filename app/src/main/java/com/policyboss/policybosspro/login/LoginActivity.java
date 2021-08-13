@@ -427,5 +427,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
         dialog.cancel();
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
     }
 }

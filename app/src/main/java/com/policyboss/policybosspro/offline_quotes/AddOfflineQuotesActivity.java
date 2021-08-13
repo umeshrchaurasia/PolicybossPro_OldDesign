@@ -1,6 +1,7 @@
 package com.policyboss.policybosspro.offline_quotes;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -241,10 +242,16 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return camera == PackageManager.PERMISSION_GRANTED
 
-        return camera == PackageManager.PERMISSION_GRANTED
-                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        }else{
+            return camera == PackageManager.PERMISSION_GRANTED
+                    &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+
+        }
     }
 
     public void galleryCamPopUp(DocumentEntity entity) {
@@ -277,7 +284,12 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
         boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(this, perms[1]);
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(this, perms[2]);
 
-        return camera || write_external || read_external;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return  camera ||  read_external;
+        }else{
+            return  camera ||write_external   || read_external;
+
+        }
     }
 
     private void requestPermission() {
@@ -327,7 +339,7 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
         String FileName = requiredDocEntity.getDocname();
 
-        Docfile = createFile(FileName);
+        Docfile = createImageFile(FileName);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             imageUri = Uri.fromFile(Docfile);
@@ -346,15 +358,30 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
 
     private void openGallery(DocumentEntity requiredDocEntity) {
 
-        String FileName = requiredDocEntity.getDocname();
+       // String FileName = requiredDocEntity.getDocname();
 
-        Docfile = createFile(FileName);
+        String  mimeType = "image/*";
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
+        Uri collection ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection =  MediaStore.Video.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+            );
+        } else {
+            collection =  MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        }
 
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+
+        try {
+            Intent intent = new  Intent(Intent.ACTION_PICK, collection);
+
+            intent.setType(mimeType);
+            intent.resolveActivity(getPackageManager());
+            startActivityForResult(intent, SELECT_PICTURE);
+
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
@@ -457,7 +484,9 @@ public class AddOfflineQuotesActivity extends BaseActivity implements IResponseS
                     cropImageUri = result.getUri();
                     Bitmap mphoto = null;
                     try {
-                        mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                      //  mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+
+                        mphoto = getBitmapFromContentResolver(cropImageUri);
                         mphoto = getResizedBitmap(mphoto, 800);
 
 

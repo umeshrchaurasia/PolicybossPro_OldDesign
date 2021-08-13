@@ -1,6 +1,7 @@
 package com.policyboss.policybosspro.ncd;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -325,7 +326,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                 break;
 
         }
-        Docfile = createFile(FileName);
+        Docfile = createImageFile(FileName);
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             imageUri = Uri.fromFile(Docfile);
@@ -343,30 +344,28 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
     private void openGallery() {
 
-        String FileName = "";
+        String  mimeType = "image/*";
 
-        switch (type) {
-            case 1:
-                FileName = file1;
-                break;
-            case 2:
-                FileName = file2;
-                break;
-            case 3:
-                FileName = file3;
-                break;
-            case 4:
-                FileName = file4;
-                break;
-
+        Uri collection ;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            collection =  MediaStore.Video.Media.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+            );
+        } else {
+            collection =  MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
         }
-        Docfile = createFile(FileName);
 
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
 
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+        try {
+            Intent intent = new  Intent(Intent.ACTION_PICK, collection);
+
+            intent.setType(mimeType);
+            intent.resolveActivity(getPackageManager());
+            startActivityForResult(intent, SELECT_PICTURE);
+
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     //endregion
@@ -380,9 +379,16 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
 
-        return camera == PackageManager.PERMISSION_GRANTED
-                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+        }else{
+            return camera == PackageManager.PERMISSION_GRANTED
+                    &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+
+        }
     }
 
     private boolean checkRationalePermission() {
@@ -392,7 +398,13 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(UploadNCDDocActivity.this, perms[1]);
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(UploadNCDDocActivity.this, perms[2]);
 
-        return camera || write_external || read_external;
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return  camera ||  read_external;
+        }else{
+            return  camera ||write_external   || read_external;
+
+        }
     }
 
     private void requestPermission() {
@@ -412,12 +424,14 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && writeExternal && readExternal) {
+                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
 
                         showCamerGalleryPopUp();
 
                     }
+
 
                 }
                 break;
@@ -434,7 +448,8 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap mphoto = null;
             try {
-                mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+              //  mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                mphoto = getBitmapFromContentResolver(imageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
                 mphoto = rotateImageIfRequired(this, mphoto, Docfile);
 
@@ -484,56 +499,54 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
             }
 
 
-        } else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+        }
+        else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             Bitmap mphoto = null;
-            try {
-                mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 800);
-                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
+            // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+            mphoto = getBitmapFromContentResolver(selectedImageUri);
+            mphoto = getResizedBitmap(mphoto, 800);
+            //  mphoto = rotateImageIfRequired(this, mphoto, Docfile);
 
-                switch (type) {
-                    case 1:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, file1);
+            switch (type) {
+                case 1:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, file1);
 
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), APPLICATION);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), APPLICATION);
 
-                        new DynamicController(this).uploadNCDDocuments(part, body, this);
-                        break;
-                    case 2:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, file2);
+                    new DynamicController(this).uploadNCDDocuments(part, body, this);
+                    break;
+                case 2:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, file2);
 
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH1);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH1);
 
-                        new DynamicController(this).uploadNCDDocuments(part, body, this);
-                        break;
-                    case 3:
+                    new DynamicController(this).uploadNCDDocuments(part, body, this);
+                    break;
+                case 3:
 
-                        showDialog();
-                        file = saveImageToStorage(mphoto, file3);
+                    showDialog();
+                    file = saveImageToStorage(mphoto, file3);
 
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH2);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH2);
 
-                        new DynamicController(this).uploadNCDDocuments(part, body, this);
-                        break;
+                    new DynamicController(this).uploadNCDDocuments(part, body, this);
+                    break;
 
-                    case 4:
-                        showDialog();
-                        file = saveImageToStorage(mphoto, file4);
+                case 4:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, file4);
 
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH3);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getNCDBody(this, mNCDEntity.getGuid(), OTH3);
 
-                        new DynamicController(this).uploadNCDDocuments(part, body, this);
-                        break;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+                    new DynamicController(this).uploadNCDDocuments(part, body, this);
+                    break;
             }
 
 
