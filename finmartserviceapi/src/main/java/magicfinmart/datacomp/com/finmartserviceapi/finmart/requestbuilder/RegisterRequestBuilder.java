@@ -109,12 +109,12 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
 
         @Headers("token:" + token)
         @Multipart
-        @POST("/quote/Postfm/upload-doc")
+        @POST("/quote/Postfm_fileupload/upload-doc")
         Call<DocumentResponse> uploadDocument(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
 
         @Headers("token:" + token)
         @Multipart
-        @POST("/quote/Postfm/upload-doc")
+        @POST("/quote/Postfm_fileupload/upload-doc")
         Call<DocumentResponse> uploadDocumentNew(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMapString, @PartMap() Map<String, Integer> partMapInt);
 
 

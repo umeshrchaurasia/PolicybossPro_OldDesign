@@ -54,6 +54,8 @@ import com.policyboss.policybosspro.payment.RazorPaymentActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 import com.policyboss.policybosspro.webviews.MyWebViewClient;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -144,6 +146,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     InputStream inputStream;
     ExifInterface ei;
     Uri imageUri;
+    private Uri cropImageUri;
     private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
     private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard", AADHAR_BACK_File = "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
     LinearLayout llMain;
@@ -1945,133 +1948,243 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         }
     }
 
+    /**
+     * //TODO: Crop image activity to crop capture image.
+     * Start crop image activity for the given image.
+     */
+    private void startCropImageActivity(Uri imageUri) {
+        CropImage.activity(imageUri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .start(this);
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
-            Bitmap mphoto = null;
-            // Bitmap mphoto = (Bitmap) data.getExtras().get("data");
-            try {
-                //mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                mphoto = getBitmapFromContentResolver(imageUri);
-                mphoto = getResizedBitmap(mphoto, 800);
-                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            switch (type) {
+        //region handle result of CropImageActivity
 
-                case 6:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 7:
+        //  /****** Below For Cropping The Camera Image**************************/ //
 
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_PAN);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-
-                case 8:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 9:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 10:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 11:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_EDU);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-            }
-
-
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            //extractTextFromImage();
+            startCropImageActivity(imageUri);
         }
-
-        else if (requestCode == SELECT_PICTURE && resultCode == Activity.RESULT_OK )
-        {
+        // Below For Cropping The Gallery Image
+        else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
-            Bitmap mphoto = null;
-            try {
-                // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getBitmapFromContentResolver(selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 800);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            switch (type) {
-                case 6:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 7:
-
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_PAN);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-
-                case 8:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 9:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 10:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-                case 11:
-                    showDialog();
-                    file = saveImageToStorage(mphoto, "" + POSP_EDU);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
-                    new RegisterController(this).uploadDocuments(part, body, this);
-                    break;
-            }
-
-
+            startCropImageActivity(selectedImageUri);
         }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    cropImageUri = result.getUri();
+                    Bitmap mphoto = null;
+                    try {
+                        //mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                        mphoto = getBitmapFromContentResolver(cropImageUri);
+                        mphoto = getResizedBitmap(mphoto, 800);
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    showDialog();
+
+                    switch (type) {
+
+                        case 6:
+                            showDialog();
+                            file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
+                            part = Utility.getMultipartImage(file);
+                            body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
+                            new RegisterController(this).uploadDocuments(part, body, this);
+                            break;
+                        case 7:
+
+                            showDialog();
+                            file = saveImageToStorage(mphoto, "" + POSP_PAN);
+                            part = Utility.getMultipartImage(file);
+                            body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
+                            new RegisterController(this).uploadDocuments(part, body, this);
+                            break;
+
+                        case 8:
+                            showDialog();
+                            file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
+                            part = Utility.getMultipartImage(file);
+                            body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
+                            new RegisterController(this).uploadDocuments(part, body, this);
+                            break;
+                        case 9:
+                            showDialog();
+                            file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
+                            part = Utility.getMultipartImage(file);
+                            body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
+                            new RegisterController(this).uploadDocuments(part, body, this);
+                            break;
+                        case 10:
+                            showDialog();
+                            file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
+                            part = Utility.getMultipartImage(file);
+                            body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
+                            new RegisterController(this).uploadDocuments(part, body, this);
+                            break;
+                        case 11:
+                            showDialog();
+                            file = saveImageToStorage(mphoto, "" + POSP_EDU);
+                            part = Utility.getMultipartImage(file);
+                            body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
+                            new RegisterController(this).uploadDocuments(part, body, this);
+                            break;
+                    }
+
+
+
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        //endregion
+
+
+        // region  commented Below   Code for Image and Camara Handling
+
+//        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+//            Bitmap mphoto = null;
+//            // Bitmap mphoto = (Bitmap) data.getExtras().get("data");
+//            try {
+//                //mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+//                mphoto = getBitmapFromContentResolver(imageUri);
+//                mphoto = getResizedBitmap(mphoto, 800);
+//                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            switch (type) {
+//
+//                case 6:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 7:
+//
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_PAN);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//
+//                case 8:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 9:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 10:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 11:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_EDU);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//            }
+//
+//
+//        }
+//
+//        else if (requestCode == SELECT_PICTURE && resultCode == Activity.RESULT_OK )
+//        {
+//            Uri selectedImageUri = data.getData();
+//            Bitmap mphoto = null;
+//            try {
+//                // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+//                mphoto = getBitmapFromContentResolver(selectedImageUri);
+//                mphoto = getResizedBitmap(mphoto, 800);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            switch (type) {
+//                case 6:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 7:
+//
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_PAN);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//
+//                case 8:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 9:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 10:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//                case 11:
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, "" + POSP_EDU);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
+//                    new RegisterController(this).uploadDocuments(part, body, this);
+//                    break;
+//            }
+//
+//
+//        }
+
+        //endregion
     }
 
 
