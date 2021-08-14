@@ -244,9 +244,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 spHealthIns.setListener(this);
             }
         } catch (Exception e) {
-            new TrackingController(this)
-                    .sendData(new TrackingRequestEntity(new TrackingData(" Multi-select spinner" + e.getMessage()), Constants.REGISTER),
-                            null);
+          //  new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(" Multi-select spinner" + e.getMessage()), Constants.REGISTER),null);
         }
     }
 
@@ -659,7 +657,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             cancelDialog();
             trackingRequestEntity.setType("Register");
             trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
-            new TrackingController(this).sendData(trackingRequestEntity, null);
+           // new TrackingController(this).sendData(trackingRequestEntity, null);
 
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
@@ -781,9 +779,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-        trackingRequestEntity.setType("Register");
-        trackingRequestEntity.setData(new TrackingData(t.getMessage()));
-        new TrackingController(this).sendData(trackingRequestEntity, null);
+       // trackingRequestEntity.setType("Register");
+      //  trackingRequestEntity.setData(new TrackingData(t.getMessage()));
+       // new TrackingController(this).sendData(trackingRequestEntity, null);
     }
 
     private String extractDigitFromMessage(String message) {

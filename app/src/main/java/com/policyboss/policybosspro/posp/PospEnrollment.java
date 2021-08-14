@@ -1066,7 +1066,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                     }
                 } else {
-                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : submit button for posp enrollment"), Constants.POSP), null);
+                   // new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : submit button for posp enrollment"), Constants.POSP), null);
 
                     IsAllImageUploaded = checkAllImageUpload();
                     if (IsAllImageUploaded) {
@@ -1576,7 +1576,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : " + t.getMessage()), Constants.POSP), null);
+       // new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : " + t.getMessage()), Constants.POSP), null);
     }
 
 

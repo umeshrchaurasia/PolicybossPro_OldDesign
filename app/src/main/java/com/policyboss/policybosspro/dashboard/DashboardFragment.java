@@ -187,17 +187,17 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 case R.id.nav_sales:
                     //redirect to sales
                     startActivity(new Intent(getContext(), SalesMaterialActivity.class));
-                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
+                  //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
                     return true;
                 case R.id.nav_pending:
                     //redirect to pending status
                     startActivity(new Intent(getContext(), PendingCasesActivity.class));
-                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
+                  //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
                     return true;
                 case R.id.nav_knowledge:
                     //redirect to knowledge guru
                     startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
-                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
+                  //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
                     return true;
             }
             return false;
@@ -288,7 +288,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         } catch (android.content.ActivityNotFoundException anfe) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
-        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
+       // new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
     }
 
     /*@Override
@@ -312,19 +312,19 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
             case R.id.tvKnowledge:
                 //redirect to knowledge guru
                 startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
+               // new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
                 MyApplication.getInstance().trackEvent(Constants.KNOWLEDGE_GURU, "Clicked", "Knowledge Guru From Dashboard");
                 break;
             case R.id.tvPendingCAses:
                 //redirect to pending status
                 startActivity(new Intent(getContext(), PendingCasesActivity.class));
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
+               // new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
                 MyApplication.getInstance().trackEvent(Constants.PENDING_CASES, "Clicked", "Pending Cases From Dashboard");
                 break;
             case R.id.tvSalesMat:
                 //redirect to sales
                 startActivity(new Intent(getContext(), SalesMaterialActivity.class));
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
+              //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
                 MyApplication.getInstance().trackEvent(Constants.SALES_MATERIAL, "Clicked", "Sales Material From Dashboard");
                 break;
         }

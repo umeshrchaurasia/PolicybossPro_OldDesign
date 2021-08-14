@@ -417,7 +417,7 @@ public class Utility {
     }
 
     public static String getMotorUrl(Context context, String Service_Log_Unique_Id) {
-        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Motor buy : buy button for motor"), "MOTOR INSURANCE"), null);
+        //new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Motor buy : buy button for motor"), "MOTOR INSURANCE"), null);
         LoginResponseEntity loginResponseEntity = new DBPersistanceController(context).getUserData();
         String ssid = "5";
         if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
@@ -433,7 +433,7 @@ public class Utility {
     }
 
     public static String getTwoWheelerUrl(Context context, String Service_Log_Unique_Id) {
-        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("TW buy : buy button for TW"), "TWO WHEELER INSURANCE"), null);
+      //  new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("TW buy : buy button for TW"), "TWO WHEELER INSURANCE"), null);
         LoginResponseEntity loginResponseEntity = new DBPersistanceController(context).getUserData();
         String ssid = "5";
         if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))

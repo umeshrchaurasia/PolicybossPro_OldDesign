@@ -123,7 +123,7 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     public boolean checkAllMastersIsUpdate() {

@@ -360,7 +360,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
 
                 //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
+               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
 
@@ -372,7 +372,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 + mReal.getUserData().getFBAId())
                         .putExtra("NAME", "FIN-PEACE")
                         .putExtra("TITLE", "FIN-PEACE"));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                 MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
             case 2:
@@ -413,45 +413,45 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
 
 
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
+              //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
                 break;
             case 7:
                 //home loan
                 mContext.startActivity(new Intent(mContext, NewHomeApplicaionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
+             //   new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;
             case 19:
                 //personal loan
                 mContext.startActivity(new Intent(mContext, NewPersonalApplicaionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
+               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
                 break;
             case 8:
                 //lap
                 mContext.startActivity(new Intent(mContext, NewLAPApplicaionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+              //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
                 MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
                 break;
             case 4:
                 //cc
                 // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
                 mContext.startActivity(new Intent(mContext, AppliedCreditListActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
+               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
                 MyApplication.getInstance().trackEvent(Constants.CREDIT_CARD, "Clicked", "Credit Card tab on home page");
                 break;
             case 6:
                 //BT
                 //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
                 mContext.startActivity(new Intent(mContext, NewbusinessApplicaionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
+              //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
             case 9:
 
                 mContext.startActivity(new Intent(mContext, QuickLeadActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                 MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
 
@@ -486,7 +486,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
                 //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
+              //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
                 MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;
 
@@ -494,7 +494,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 11:
                 //health check up
                 mContext.startActivity(new Intent(mContext, HealthCheckUpListActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
                 MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
                 break;
 
@@ -543,26 +543,26 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 15: //ncd
                 //car
                 mContext.startActivity(new Intent(mContext, NCDActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
+              //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
                 MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
 
                 break;
             case 16:
                 mContext.startActivity(new Intent(mContext, AddNewOfflineQuotesActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
+              //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
                 MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
                 break;
 
             case 49: // added by Nilesh 13.02.2019 -- Ultra laksh
                 mContext.startActivity(new Intent(mContext, UltraLakshaSelectionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Ultra lakshya"), Constants.CAMPAIGN), null);
+               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Ultra lakshya"), Constants.CAMPAIGN), null);
                 MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHYA");
                 break;
 
             case 18:
                 //Life Insurance
                 mContext.startActivity(new Intent(mContext, TermSelectionActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
+              //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
                 break;
 

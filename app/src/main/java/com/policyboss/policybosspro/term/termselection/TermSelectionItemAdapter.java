@@ -75,7 +75,7 @@ public class TermSelectionItemAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void onClick(View view) {
                     mContext.startActivity(new Intent(mContext, TermQuoteApplicationActivity.class).putExtra(Constants.LIFE_INS, termSelectionEntity.getCompantID()));
-                    new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData(termSelectionEntity.getCompanyName() + " Selection"), Constants.LIFE_INS), null);
+                  //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData(termSelectionEntity.getCompanyName() + " Selection"), Constants.LIFE_INS), null);
                 }
             });
         }

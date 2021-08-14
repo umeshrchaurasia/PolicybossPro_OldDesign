@@ -132,7 +132,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
         else {
 
-            openPopUp(btnSignIn, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+            openPopUp(btnSignIn, "Need  Permission", "This app needs all permissions.", "GRANT", false);
 
 
 
@@ -186,45 +186,44 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 //                        // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
 //                    }
                     //endregion
+                // if (grantResults.length > 0)
 
-                    if (SDK_INT < Build.VERSION_CODES.Q) {
+                if (SDK_INT < Build.VERSION_CODES.Q) {
+
+                    boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                    if (camera && writeExternal && readExternal) {
+
+                        // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
+                    } else {
+
+                        //Permission Denied, You cannot access location data and camera
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
 
-                        boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-                        boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-                        boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-
-                        if (camera && writeExternal && readExternal) {
-
-                            // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
-                        } else {
-
-                            //Permission Denied, You cannot access location data and camera
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-
-                                showMessageOKCancel("Required permissions to proceed Magic-finmart..!",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                // finish();
-                                                if (2 > PERMISSION_DENIED) {
-                                                    PERMISSION_DENIED++;
-                                                    checkRationale();
-                                                } else {
-                                                    dialogInterface.dismiss();
-
-                                                }
+                            showMessageOKCancel("Required permissions to proceed Magic-finmart..!",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            // finish();
+                                            if (2 > PERMISSION_DENIED) {
+                                                PERMISSION_DENIED++;
+                                                checkRationale();
+                                            } else {
+                                                dialogInterface.dismiss();
 
                                             }
-                                        });
 
-                            } else {
-                                //  requestPermission();
-                            }
+                                        }
+                                    });
+
                         }
-                    //}
+                    }
+
                 }
+
                 break;
         }
     }
@@ -378,7 +377,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Success : " + response.getMessage()), "Login"), null);
+           // new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Success : " + response.getMessage()), "Login"), null);
         } else if (response instanceof UserHideResponse) {
 
             String strFOS_STATUS = "";
@@ -410,7 +409,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Failure : " + t.getMessage()), "Login"), null);
+    //    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Failure : " + t.getMessage()), "Login"), null);
     }
 
 

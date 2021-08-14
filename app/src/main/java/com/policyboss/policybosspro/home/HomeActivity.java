@@ -441,7 +441,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount:
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
+                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                         //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
@@ -455,7 +455,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_pospenrollment:
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
+                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                         break;
                     case R.id.nav_addposp:
                         fragment = new POSPListFragment();
@@ -529,7 +529,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;*/
                     case R.id.nav_whatsnew:
                         startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
                         break;
 
                     case R.id.nav_cobrowser:
@@ -540,7 +540,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 .putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf")
                                 .putExtra("NAME", "Referral AGREEMENT")
                                 .putExtra("TITLE", "Referral AGREEMENT"));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
                     case R.id.nav_raiseTicket:
@@ -555,7 +555,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                     .putExtra("NAME", "RAISE_TICKET")
                                     .putExtra("TITLE", "RAISE TICKET"));
                         }
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
+                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
 
                         break;
 //                    case R.id.nav_IncomePotential:
@@ -658,7 +658,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_LeadSubmission:
                         startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
 
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                         MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                         break;
 
@@ -1667,7 +1667,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (android.content.ActivityNotFoundException anfe) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
-        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
+      //  new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
     }
 
     @Override
@@ -2502,7 +2502,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     LoanDialog.dismiss();
 
                     startActivity(new Intent(HomeActivity.this, BalanceTransferDetailActivity.class));
-                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
+                   // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
                     MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
 
                 }
@@ -2533,7 +2533,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
-                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                   // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                     MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 }
             });
@@ -2554,7 +2554,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, LapLoanDetailActivity.class));
-                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+                   // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
                     MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
 
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
@@ -2631,7 +2631,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                     + new DBPersistanceController(HomeActivity.this).getUserData().getFBAId())
                             .putExtra("NAME", "FIN-PEACE")
                             .putExtra("TITLE", "FIN-PEACE"));
-                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+                  //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                     MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
 
                 }
@@ -2642,7 +2642,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MoreServiceDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, HealthCheckUpListActivity.class));
-                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                    //new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
                     MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
 
                 }
@@ -2701,7 +2701,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     MyUtilitiesDialog.dismiss();
 
                     new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                  //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
                     //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                 }
             });
@@ -2733,7 +2733,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
-                    new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+                  //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
 
                 }
             });

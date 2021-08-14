@@ -183,7 +183,7 @@ public class BaseActivity extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();
-                        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Logout : Logout button in menu "), Constants.LOGOUT), null);
+                      //  new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Logout : Logout button in menu "), Constants.LOGOUT), null);
 
                     }
                 });
