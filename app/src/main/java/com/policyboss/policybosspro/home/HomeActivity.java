@@ -1675,7 +1675,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.onResume();
 
         // will be upadte everytyime user comes on dashboard
-        toolbar.setTitle("MAGIC FIN-MART");
+        toolbar.setTitle("PolicyBoss Pro");
 
         if (loginResponseEntity != null) {
             new MasterController(this).getConstants(this);
@@ -1930,7 +1930,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(true);
                 }
             }
-
+            //region comment policyBosspro finbox and finpiece
+            /*
             if (userConstantEntity.getFinboxEnabled() != null && !userConstantEntity.getFinboxEnabled().equals("")) {
 
                 if (userConstantEntity.getFinboxEnabled().equals("0")) {
@@ -1948,6 +1949,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     nav_Menu.findItem(R.id.nav_finperk).setVisible(true);
                 }
             }
+            */
+            //endregion
 
             if (userConstantEntity.getPospletterEnabled() != null && !userConstantEntity.getPospletterEnabled().equals("")) {
 

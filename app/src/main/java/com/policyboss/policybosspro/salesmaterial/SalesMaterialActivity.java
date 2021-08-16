@@ -149,7 +149,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
             List<SalesProductEntity> tempList = new ArrayList<>();
             if (dbPersistanceController.isHideLoan()) {
                 for (int i = 0; i < mlistSalesProduct.size(); i++) {
-                    if (mlistSalesProduct.get(i).getProduct_Id() != 4 && mlistSalesProduct.get(i).getProduct_Id() != 7) {
+                    if (mlistSalesProduct.get(i).getProduct_Id() != 5 && mlistSalesProduct.get(i).getProduct_Id() != 3 && mlistSalesProduct.get(i).getProduct_Id() != 4 && mlistSalesProduct.get(i).getProduct_Id() != 7) {
                         tempList.add(mlistSalesProduct.get(i));
                     }
                 }

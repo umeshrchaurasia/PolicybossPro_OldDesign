@@ -1004,7 +1004,7 @@
                     style="@style/LinearLayoutStyle"
                     android:animateLayoutChanges="true"
 
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
@@ -1057,7 +1057,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="4dp"
                                         android:layout_marginRight="4dp"
-                                        android:text="Rajeev Ranjan"
+                                        android:text=""
                                         android:textAllCaps="true"
                                         android:textAppearance="@style/TextViewStyle.Large"
                                         android:textColor="@color/blue"

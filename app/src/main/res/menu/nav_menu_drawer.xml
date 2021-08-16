@@ -28,6 +28,7 @@
             android:id="@+id/nav_finbox"
             android:icon="@drawable/mps"
             android:orderInCategory="100"
+            android:visible="false"
             android:title="@string/nav_finbox" />
 
 
@@ -35,6 +36,7 @@
             android:id="@+id/nav_finperk"
             android:icon="@drawable/ic_business_name"
             android:orderInCategory="100"
+            android:visible="false"
             android:title="@string/nav_finperks" />
         <item
             android:id="@+id/nav_festivelink"

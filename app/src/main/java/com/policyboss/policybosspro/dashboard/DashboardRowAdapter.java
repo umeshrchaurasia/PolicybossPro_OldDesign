@@ -57,7 +57,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private int ROW_DISCLOSURE = 1;
     private int ROW_LOAN = 2;
     private int ROW_MORE_SERVICES = 3;
-    private int TOTAL_ROW = 4;
+    private int TOTAL_ROW = 3;
     Fragment mFragment;
     DBPersistanceController mReal;
     Context mContext;
@@ -170,10 +170,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         R.layout.layout_dashboard_recycler, parent, false);
                 return new LoanHolder(view);
 
-            case 3:
-                view = LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.layout_dashboard_recycler, parent, false);
-                return new MoreServiceHolder(view);
+           // case 3:
+           //     view = LayoutInflater.from(parent.getContext()).inflate(
+           //             R.layout.layout_dashboard_recycler, parent, false);
+           //     return new MoreServiceHolder(view);
 
             default:
                 break;
@@ -283,7 +283,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((LoanHolder) holder).rvDashboard.setVisibility(View.GONE);
 
 
-        } else if (holder instanceof MoreServiceHolder) {
+        }
+
+        /*
+        else if (holder instanceof MoreServiceHolder) {
 
             //   final List<DashboardEntity> listMore = mReal.getMoreProductList();
             final List<DashboardMultiLangEntity> listMore = mReal.getMoreProductLangList();
@@ -300,16 +303,9 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore, LangType));
 
-//            ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
-//                    new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
-//                            new RecyclerItemClickListener.OnItemClickListener() {
-//                                @Override
-//                                public void onItemClick(View view, int position) {
-//                                    switchMenus(listMore.get(position));
-//                                }
-//                            }));
 
-        }
+        } */
+
 
     }
 
@@ -668,8 +664,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 return ROW_DISCLOSURE;
             case 2:
                 return ROW_LOAN;
-            case 3:
-                return ROW_MORE_SERVICES;
+          //  case 3:
+              //  return c;
             default:
                 break;
         }
