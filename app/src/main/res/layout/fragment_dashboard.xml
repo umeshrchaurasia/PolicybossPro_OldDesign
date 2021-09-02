@@ -32,6 +32,7 @@
             android:background="@color/black" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tvPendingCAses"
             style="@style/TextViewStyle.Small"
             android:layout_width="0dp"

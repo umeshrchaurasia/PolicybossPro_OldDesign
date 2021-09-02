@@ -19,7 +19,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+        android:scaleType="centerInside"
         android:src="@drawable/slide_4" />
 
 
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Get Attractive Compensation For All The Sales Made."
+            android:text="Get attractive compensation for all the sales made"
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
@@ -65,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Get Instant Commission On All Insurance Products Sold."
+            android:text="Get instant commission on all insurance products sold"
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
@@ -99,7 +100,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="4dp"
-        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView
@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Redeem Rewards For Best Gifts Of Your Choice."
+            android:text="Earn reward points across all products and services"
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 

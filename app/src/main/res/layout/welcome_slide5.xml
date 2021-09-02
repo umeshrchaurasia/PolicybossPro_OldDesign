@@ -19,7 +19,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
+        android:scaleType="centerInside"
         android:src="@drawable/slide_5" />
 
 
@@ -30,7 +31,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
-        android:text="Become Your Customer’s"
+        android:text="Become Your Customer's first choice for"
         android:textAlignment="center" />
 
     <TextView
@@ -40,7 +41,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
-        android:text="TOTAL FINANCIAL ADVISOR"
+        android:text="SERVICING ALL INSURANCE NEEDS"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textStyle="bold" />
@@ -52,8 +53,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
-        android:text="And Stay Ahead Of Competition "
+        android:text="and Stay Ahead of Competition"
         android:textAlignment="center"
-        android:textAllCaps="true" />
+         />
 
 </LinearLayout>
