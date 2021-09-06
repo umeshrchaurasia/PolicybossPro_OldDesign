@@ -45,8 +45,7 @@ import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
-import com.policyboss.policybosspro.location.ILocationStateListener;
-import com.policyboss.policybosspro.location.LocationTracker;
+
 import com.policyboss.policybosspro.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.policyboss.policybosspro.search_bo_fba.IBOFbaCallback;
 import com.policyboss.policybosspro.search_bo_fba.SearchBOFBAFragment;
@@ -93,7 +92,7 @@ import static com.policyboss.policybosspro.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
+public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
@@ -138,8 +137,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     boolean isClaimExist = true;
     boolean isNeedRSA = true;
 
-    LocationTracker locationTracker;
-    Location location;
 
     Spinner spMonth, spYear;
     ArrayAdapter<String> MonthAdapter, YearAdapter;
@@ -169,17 +166,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bike_fragment_input, container, false);
 
-        //region init location
-        locationTracker = new LocationTracker(getActivity());
-        //location callback method
-        locationTracker.setLocationStateListener(this);
 
-        //GoogleApiClient initialisation and location update
-        locationTracker.init();
-
-        //GoogleApiclient connect
-        locationTracker.onResume();
-        //endregion
 
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
@@ -2168,10 +2155,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     //endregion
 
     void setCustomerDetails() {
-        if (location != null) {
-            motorRequestEntity.setGeo_lat(location.getLatitude());
-            motorRequestEntity.setGeo_long(location.getLongitude());
-        }
+
+            motorRequestEntity.setGeo_lat(0);
+            motorRequestEntity.setGeo_long(0);
+
         String[] fullName = etCustomerName.getText().toString().split(" ");
 
         if (fullName.length == 1) {
@@ -2357,20 +2344,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnected() {
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnectionFailed() {
-        location = null;
-    }
 
     public String getPolicyBossDateFormat(String date) { //dd-MM-YYYY
         Date newDate = null;

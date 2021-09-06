@@ -48,7 +48,7 @@ import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
-import com.policyboss.policybosspro.attendance.AttendanceFragment;
+
 import com.policyboss.policybosspro.certificate.POSP_certicate_appointment;
 import com.policyboss.policybosspro.change_password.ChangePasswordFragment;
 import com.policyboss.policybosspro.contact_lead.ContactLeadActivity;
@@ -378,8 +378,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 switch (menuItem.getItemId()) {
 
                     case R.id.nav_attendance:
-                        fragment = new AttendanceFragment();
-                        getSupportActionBar().setTitle("My Attendance");
+//                        fragment = new AttendanceFragment();
+//                        getSupportActionBar().setTitle("My Attendance");
 
                         break;
 

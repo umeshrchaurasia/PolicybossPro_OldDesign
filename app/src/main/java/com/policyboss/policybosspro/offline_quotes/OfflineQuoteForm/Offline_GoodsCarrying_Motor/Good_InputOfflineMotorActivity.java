@@ -40,8 +40,7 @@ import android.widget.Toast;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
-import com.policyboss.policybosspro.location.ILocationStateListener;
-import com.policyboss.policybosspro.location.LocationTracker;
+
 
 
 import com.policyboss.policybosspro.offline_quotes.AddOfflineQuotesActivity;
@@ -86,7 +85,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResp
 import static com.policyboss.policybosspro.utility.DateTimePicker.getDiffYears;
 
 public class Good_InputOfflineMotorActivity extends BaseActivity implements BaseActivity.PopUpListener,
-        ILocationStateListener, RadioGroup.OnCheckedChangeListener,
+   RadioGroup.OnCheckedChangeListener,
         CompoundButton.OnCheckedChangeListener, View.OnClickListener,
         IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
 
@@ -136,8 +135,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
     String regplace, makeModel = "";
     boolean isClaimExist = true;
 
-    LocationTracker locationTracker;
-    Location location;
+
 
     Spinner spMonth, spYear;
     ArrayAdapter<String> MonthAdapter, YearAdapter;
@@ -161,17 +159,7 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //region init location
-        locationTracker = new LocationTracker(this);
-        //location callback method
-        locationTracker.setLocationStateListener(this);
 
-        //GoogleApiClient initialisation and location update
-        locationTracker.init();
-
-        //GoogleApiclient connect
-        locationTracker.onResume();
-        //endregion
 
         dbController = new DBPersistanceController(this);
         motorRequestEntity = new MotorRequestEntity(this);
@@ -2341,10 +2329,10 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
     //endregion
 
     void setCustomerDetails() {
-        if (location != null) {
-            motorRequestEntity.setGeo_lat(location.getLatitude());
-            motorRequestEntity.setGeo_long(location.getLongitude());
-        }
+
+            motorRequestEntity.setGeo_lat(0);
+            motorRequestEntity.setGeo_long(0);
+
         String[] fullName = etCustomerName.getText().toString().split(" ");
 
         if (fullName.length == 1) {
@@ -2698,20 +2686,6 @@ public class Good_InputOfflineMotorActivity extends BaseActivity implements Base
         }
     }
 
-    @Override
-    public void onLocationChanged(Location loc) {
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnected() {
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnectionFailed() {
-        location = null;
-    }
 
     @Override
     public void getBOFBA(BOFbaEntity entity) {

@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.location.Location;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,8 +48,7 @@ import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
-import com.policyboss.policybosspro.location.ILocationStateListener;
-import com.policyboss.policybosspro.location.LocationTracker;
+
 import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.policyboss.policybosspro.search_bo_fba.IBOFbaCallback;
 import com.policyboss.policybosspro.search_bo_fba.SearchBOFBAFragment;
@@ -98,7 +97,7 @@ import static com.policyboss.policybosspro.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
+public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener,  RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IBOFbaCallback {
 
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
@@ -144,8 +143,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     String regplace, makeModel = "";
     boolean isClaimExist, isPolicyExist = true;
 
-    LocationTracker locationTracker;
-    Location location;
+
 
     Spinner spMonth, spYear;
     ArrayAdapter<String> MonthAdapter, YearAdapter;
@@ -181,17 +179,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         view = inflater.inflate(R.layout.content_add_new_quote, container, false);
 
-        //region init location
-        locationTracker = new LocationTracker(getActivity());
-        //location callback method
-        locationTracker.setLocationStateListener(this);
-
-        //GoogleApiClient initialisation and location update
-        locationTracker.init();
-
-        //GoogleApiclient connect
-        locationTracker.onResume();
-        //endregion
 
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
@@ -2567,11 +2554,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     //endregion
 
     void setCustomerDetails() {
-        if (location != null) {
-            motorRequestEntity.setGeo_lat(location.getLatitude());
-            motorRequestEntity.setGeo_long(location.getLongitude());
-        }
-        String[] fullName = etCustomerName.getText().toString().split(" ");
+
+            motorRequestEntity.setGeo_lat(0);
+            motorRequestEntity.setGeo_long(0);
+          String[] fullName = etCustomerName.getText().toString().split(" ");
 
         if (fullName.length == 1) {
             motorRequestEntity.setFirst_name(fullName[0]);
@@ -2864,21 +2850,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnected() {
-        location = locationTracker.mLocation;
-    }
-
-    @Override
-    public void onConnectionFailed() {
-        location = null;
-    }
+   
 
     public void setYearMonthAdapter(Calendar calendar) {
 

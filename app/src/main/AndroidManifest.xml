@@ -99,12 +99,7 @@
             android:label="@string/title_activity_razor_payment"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name="com.policyboss.policybosspro.attendance.AttendanceRegistraionActivity"
-            android:label="@string/title_activity_attendance_registraion"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
+
         <activity
             android:name="com.policyboss.policybosspro.festivelink.festivalShareActivity"
             android:label="SALES MATERIAL"
