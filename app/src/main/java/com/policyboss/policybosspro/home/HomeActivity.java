@@ -122,8 +122,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.cobrowse.CobrowseIO;
-import io.cobrowse.ui.CobrowseActivity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -290,9 +289,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         toolbar.setTitle("PolicyBoss Pro");
 
 
-        if (userConstantEntity != null && !userConstantEntity.getCobrowserlicensecode().equals("")) {
-            setUpCoBrowser();
-        }
 
         getNotificationAction();
 
@@ -533,7 +529,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_cobrowser:
-                        dialogCoBrowser();
+                       // dialogCoBrowser();
                         break;
                     case R.id.nav_franchise:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
@@ -853,22 +849,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         return outputMap;
     }
 
-    private void setUpCoBrowser() {
-        //region Co Browser
-        CobrowseIO.instance().license(userConstantEntity.getCobrowserlicensecode());
-        Log.i("App", "Cobrowse device id: " + CobrowseIO.instance().deviceId(this.getApplication()));
-        HashMap<String, Object> customData = new HashMap<>();
-        customData.put("user_id", loginResponseEntity.getFBAId());
-        customData.put("user_name", loginResponseEntity.getUserName());
-        customData.put("user_email", loginResponseEntity.getEmailID());
-        customData.put("device_id", CobrowseIO.instance().deviceId(this.getApplication()));
-        customData.put("device_name", "Android");
-        CobrowseIO.instance().customData(customData);
-
-        CobrowseIO.instance().start(this);
-        Log.i("App", "id: " + loginResponseEntity.getFBAId());
-        //endregion
-    }
 
 
     private void addFinmartContact() {
@@ -2781,8 +2761,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
-                        Intent intent = new Intent(HomeActivity.this, CobrowseActivity.class);
-                        startActivity(intent);
+//                        Intent intent = new Intent(HomeActivity.this, CobrowseActivity.class);
+//                        startActivity(intent);
                     }
                 });
 

@@ -62,14 +62,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static int PERMISSION_DENIED = 0;
 
 
-//    String[] perms = {
-//            "android.permission.CAMERA",
-//            "android.permission.ACCESS_FINE_LOCATION",
-//            "android.permission.WRITE_EXTERNAL_STORAGE",
-//            "android.permission.READ_EXTERNAL_STORAGE",
-//            "android.permission.BLUETOOTH",
-//            "android.permission.BLUETOOTH_ADMIN"
-//    };
+
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -170,22 +163,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
               // if (grantResults.length > 0) {
 
 
-                    //region  commented
 
-//                    boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-//                    boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-//                    boolean writeExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-//                    boolean readExternal = grantResults[3] == PackageManager.PERMISSION_GRANTED;
-//                    boolean bluetooth = grantResults[4] == PackageManager.PERMISSION_GRANTED;
-//                    boolean bluetoothAdmin = grantResults[5] == PackageManager.PERMISSION_GRANTED;
-//
-//                    if (camera && fineLocation && writeExternal
-//                            && readExternal
-//                            && bluetooth && bluetoothAdmin) {
-//
-//                        // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
-//                    }
-                    //endregion
                 // if (grantResults.length > 0)
 
                 if (SDK_INT < Build.VERSION_CODES.Q) {

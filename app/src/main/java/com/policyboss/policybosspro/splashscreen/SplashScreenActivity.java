@@ -13,7 +13,7 @@ import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.introslider.WelcomeActivity;
 import com.policyboss.policybosspro.login.LoginActivity;
-import com.policyboss.policybosspro.utility.AsyncUserBehaviour;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -112,7 +112,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         } else {
 
             //user behaviour data collection in Async
-            new AsyncUserBehaviour(this).execute();
+
 
             new Handler().postDelayed(new Runnable() {
                 @Override

@@ -54,6 +54,8 @@ android {
             resValue "string", "app_name", "PolicybossPro"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "FIRSTHIVE", '"138"'
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
             //useProguard true
             signingConfig signingConfigs.release
         }
@@ -111,7 +113,7 @@ dependencies {
     implementation project(path: ':finmartserviceapi')
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
-    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
     implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
@@ -119,10 +121,9 @@ dependencies {
 
 
     implementation 'org.matomo.sdk:tracker:4.0.2'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation 'com.jakewharton:butterknife:8.8.1'
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'io.cobrowse:cobrowse-sdk-android:2.0.0-alpha.8'
+
 
     implementation 'com.razorpay:checkout:1.5.15' //razor Pay
 

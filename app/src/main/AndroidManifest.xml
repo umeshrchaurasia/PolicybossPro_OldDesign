@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.policyboss.policybosspro">
 
-    <uses-feature android:name="android.hardware.bluetooth" />
+
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -951,7 +951,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
-        <activity android:name="com.policyboss.policybosspro.IncomeCalculator.SimpleScannerActivity" />
+
         <activity
             android:name="com.policyboss.policybosspro.transactionhistory.nav_transactionhistoryActivity"
             android:label="Transaction History"

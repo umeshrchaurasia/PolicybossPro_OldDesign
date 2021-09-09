@@ -88,7 +88,7 @@ public class IncomePotentialActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivQr:
-                startActivityForResult(new Intent(this, SimpleScannerActivity.class), 111);
+              //  startActivityForResult(new Intent(this, SimpleScannerActivity.class), 111);
                 break;
             case R.id.tvPermistic:
                 tvPermistic.setBackgroundColor(getResources().getColor(R.color.selcted_blue));

@@ -34,7 +34,7 @@ import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import okhttp3.ResponseBody;
-import timber.log.Timber;
+
 
 public class FileUtilNew {
     public static final String DOCUMENTS_DIR = "documents";
@@ -258,7 +258,7 @@ public class FileUtilNew {
                 return cursor.getString(column_index);
             }
         }  catch (Exception e) {
-            Timber.e(e);
+
         } finally {
             if (cursor != null)
                 cursor.close();
