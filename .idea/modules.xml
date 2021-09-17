@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PolicyBoss_Finmart.iml" filepath="$PROJECT_DIR$/.idea/modules/PolicyBoss_Finmart.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/PolicyBoss_Finmart.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/PolicyBoss_Finmart.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/finmartserviceapi/PolicyBoss_Finmart.finmartserviceapi.iml" filepath="$PROJECT_DIR$/.idea/modules/finmartserviceapi/PolicyBoss_Finmart.finmartserviceapi.iml" />
+    </modules>
+  </component>
+</project>
