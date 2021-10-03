@@ -102,7 +102,7 @@
 
         <activity
             android:name="com.policyboss.policybosspro.festivelink.festivalShareActivity"
-            android:label="SALES MATERIAL"
+            android:label="CUSTOMER COMM."
             android:parentActivityName="com.policyboss.policybosspro.festivelink.festivelinkActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -116,7 +116,7 @@
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name="com.policyboss.policybosspro.festivelink.festivelinkActivity"
-            android:label="SALES MATERIAL"
+            android:label="CUSTOMER COMM."
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

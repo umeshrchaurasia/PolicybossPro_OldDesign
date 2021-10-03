@@ -41,7 +41,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
-        android:text="SERVICING ALL INSURANCE NEEDS"
+        android:text="ALL INSURANCE NEEDS"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textStyle="bold" />

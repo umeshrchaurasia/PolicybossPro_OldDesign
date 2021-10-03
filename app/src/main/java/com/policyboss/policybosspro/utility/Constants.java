@@ -43,7 +43,7 @@ public class Constants {
     public static String LOGIN = "FBA LOGIN";
     public static String REGISTER = "FBA REGISTER";
 
-    public static String SALES_MATERIAL = "SALES MATERIAL";
+    public static String SALES_MATERIAL = "CUSTOMER COMM.";
     public static String PENDING_CASES = "PENDING CASES";
     public static String KNOWLEDGE_GURU = "KNOWLEDGE GURU";
 

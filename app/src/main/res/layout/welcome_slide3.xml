@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Sell Motor, Health, Travel and Other Insurance Products from Top Insurance Companies of India."
+            android:text="Solicit Motor, Health, Travel and Other Insurance Products from All Major Insurance Companies of India."
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 

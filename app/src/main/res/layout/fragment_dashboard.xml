@@ -23,7 +23,7 @@
             android:gravity="center"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:text="SALES MATERIAL"
+            android:text="CUSTOMER COMM."
             android:textColor="@color/header_dark_text" />
 
         <View

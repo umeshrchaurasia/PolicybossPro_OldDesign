@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Get attractive compensation for all the sales made"
+            android:text="Get attractive remuneration for all the sales made"
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Get instant commission on all insurance products sold"
+            android:text="Completely Paperless System"
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Earn reward points across all products and services"
+            android:text="Digital Quotey from multiple insurers across multiple products"
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 

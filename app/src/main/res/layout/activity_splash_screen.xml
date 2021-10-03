@@ -22,6 +22,7 @@
         style="@style/TextViewStyle.Large"
         android:layout_below="@+id/imageView3"
         android:gravity="center"
+        android:visibility="gone"
         android:text="ONE STOP FINANCIAL SOLUTION"
         android:textColor="@color/header_dark_text" />
 

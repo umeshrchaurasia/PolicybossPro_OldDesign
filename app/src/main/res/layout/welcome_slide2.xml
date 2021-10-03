@@ -28,7 +28,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="20dp"
-        android:text="Policyboss pro is a single platform from where you can sell IRDAI Approved insurance products Like Motor, Health, Travel &amp; more"
+        android:text="Policyboss Pro is a single platform from where you can solicit IRDAI Approved insurance products like Motor, Health, Travel &amp; more"
         android:textAppearance="@style/TextStyle.TextMedium" />
 
     <TextView

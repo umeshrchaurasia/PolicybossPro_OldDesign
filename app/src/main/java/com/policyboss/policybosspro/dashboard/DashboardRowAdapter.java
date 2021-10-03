@@ -196,7 +196,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             final List<DashboardMultiLangEntity> listIns = mReal.getInsurProductLangList();
 
             if (LangType.equals("")) {
-                ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
+             //   ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
+                ((InsuranceHolder) holder).txtTypeName.setText("LANDMARK INSURANCE BROKERS PVT.LTD.\n(IRDAI COR #216)");
             } else {
                 ((InsuranceHolder) holder).txtTypeName.setText(mReal.getLangData(LangType, "Insurance"));
             }

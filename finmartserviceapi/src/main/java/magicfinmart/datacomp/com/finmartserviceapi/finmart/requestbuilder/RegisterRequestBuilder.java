@@ -141,7 +141,7 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         ////////////////////// Posp Sms & Email ////////////////////////////////
 
         @Headers("token:" + token)
-        @POST("/quote/Postfm/get-customers-sms-template")
+        @POST("/quote/Postfm/get-customers-sms-template_pb")
         Call<SmsTemplateResponse> getSmsTemplate();
 
 

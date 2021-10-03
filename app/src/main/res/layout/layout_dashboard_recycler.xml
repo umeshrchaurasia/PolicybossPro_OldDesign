@@ -43,6 +43,7 @@
                 android:layout_toLeftOf="@+id/ivLogo"
                 android:gravity="center_vertical"
                 android:textStyle="italic"
+                android:visibility="gone"
                 android:text="powered by" />
 
             <ImageView
@@ -52,6 +53,7 @@
                 android:id="@+id/ivLogo"
                 android:layout_width="50dp"
                 android:layout_height="22dp"
+                android:visibility="gone"
                 android:layout_alignParentRight="true"
                  />
         </RelativeLayout>

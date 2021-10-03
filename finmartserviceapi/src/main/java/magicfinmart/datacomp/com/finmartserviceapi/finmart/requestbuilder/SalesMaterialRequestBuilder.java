@@ -26,12 +26,12 @@ public class SalesMaterialRequestBuilder extends FinmartRetroRequestBuilder {
     public interface SalesMaterialNetworkService {
 
         @Headers("token:" + token)
-        @POST("/quote/Postfm/sales-material-product")
+        @POST("/quote/Postfm/sales-material-product-pb")
         Call<SalesMaterialProductResponse> getSalesProducts();
 
 
         @Headers("token:" + token)
-        @POST("/quote/Postfm/sales-material-product-details")
+        @POST("/quote/Postfm/sales-material-product-details-pb")
         Call<SalesPromotionResponse> getProductPromotions(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
