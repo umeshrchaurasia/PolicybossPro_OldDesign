@@ -760,7 +760,7 @@
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="left|center"
-                        android:text="POSP PHOTOGRAPH" />
+                        android:text="RECENT PHOTOGRAPH" />
 
 
 
@@ -817,7 +817,7 @@
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="left|center"
-                        android:text="POSP PAN CARD" />
+                        android:text="RECENT PAN CARD" />
 
 
 
@@ -875,7 +875,7 @@
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="left|center"
-                        android:text="POSP AADHAR CARD FRONT" />
+                        android:text="RECENT AADHAR CARD FRONT" />
 
 
 
@@ -934,7 +934,7 @@
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="left|center"
-                        android:text="POSP AADHAR CARD BACK" />
+                        android:text="RECENT AADHAR CARD BACK" />
 
 
 
@@ -992,7 +992,7 @@
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="left|center"
-                        android:text="POSP CANCELLED CHQ" />
+                        android:text="RECENT CANCELLED CHQ" />
 
                 </LinearLayout>
 
@@ -1051,7 +1051,7 @@
                         android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="left|center"
-                        android:text="POSP HIGHEST EDU. PROOF" />
+                        android:text="RECENT HIGHEST EDU. PROOF" />
 
 
 

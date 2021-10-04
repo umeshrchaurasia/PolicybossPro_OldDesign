@@ -78,7 +78,9 @@
                     android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
+
                     android:orientation="horizontal"
+
                     android:visibility="visible">
 
                     <androidx.cardview.widget.CardView
@@ -87,6 +89,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:elevation="0dp"
+                        android:visibility="gone"
                         app:cardCornerRadius="0dp">
 
                         <LinearLayout

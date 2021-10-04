@@ -164,7 +164,7 @@
                     android:icon="@drawable/insurance_policy_ic"
                     android:orderInCategory="350"
                     android:title="Get Policy by CRN"
-                    android:visible="true" />
+                    android:visible="false" />
 
             </menu>
         </item>
@@ -300,6 +300,29 @@
         android:orderInCategory="710"
         android:title="MY UTILITIES">
 
+    </item>
+
+    <item
+        android:id="@+id/nav_legal"
+        android:icon="@drawable/my_account"
+        android:orderInCategory="800"
+        android:title="LEGAL">
+        <menu>
+
+            <item
+                android:id="@+id/nav_disclosure"
+                android:icon="@drawable/insurance_policy_ic"
+                android:orderInCategory="810"
+                android:title="Disclosure"
+                android:visible="true" />
+            <item
+                android:id="@+id/nav_policy"
+                android:icon="@drawable/agreemnet"
+                android:orderInCategory="820"
+                android:title="Privacy Policy" />
+
+
+        </menu>
     </item>
 
     <item

@@ -658,6 +658,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                         break;
 
+                    case R.id.nav_disclosure:
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", "file:///android_asset/Disclosure.html")
+                                .putExtra("NAME", "DISCLOSURE")
+                                .putExtra("TITLE", "DISCLOSURE"));
+                        break;
+                    case R.id.nav_policy:
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", "https://policyboss.com/privacy-policy")
+                                .putExtra("NAME", "PRIVACY POLICY")
+                                .putExtra("TITLE", "PRIVACY POLICY"));
+                        break;
                     default:
                         break;
                 }
@@ -1902,14 +1914,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             }
 
-            if (userConstantEntity.getPolicyByCRNEnabled() != null && !userConstantEntity.getPolicyByCRNEnabled().equals("")) {
+          /*  if (userConstantEntity.getPolicyByCRNEnabled() != null && !userConstantEntity.getPolicyByCRNEnabled().equals("")) {
 
-                if (userConstantEntity.getPolicyByCRNEnabled().equals("0")) {
-                    nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(false);
-                } else {
+              if (userConstantEntity.getPolicyByCRNEnabled().equals("0")) {
+                   nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(false);
+               } else {
                     nav_Menu.findItem(R.id.nav_crnpolicy).setVisible(true);
-                }
-            }
+              }
+            }*/
+
             //region comment policyBosspro finbox and finpiece
             /*
             if (userConstantEntity.getFinboxEnabled() != null && !userConstantEntity.getFinboxEnabled().equals("")) {

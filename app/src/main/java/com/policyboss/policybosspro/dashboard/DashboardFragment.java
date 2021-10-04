@@ -325,7 +325,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 //redirect to sales
                 startActivity(new Intent(getContext(), SalesMaterialActivity.class));
               //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
-                MyApplication.getInstance().trackEvent(Constants.SALES_MATERIAL, "Clicked", "Sales Material From Dashboard");
+                MyApplication.getInstance().trackEvent(Constants.SALES_MATERIAL, "Clicked", "CUSTOMER COMM. From Dashboard");
                 break;
         }
     }

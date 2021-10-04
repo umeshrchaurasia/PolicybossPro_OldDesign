@@ -46,7 +46,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
 
-public class SalesMaterialActivity extends BaseActivity implements IResponseSubcriber {
+public class  SalesMaterialActivity extends BaseActivity implements IResponseSubcriber {
 
     RecyclerView rvSalesMaterial;
     SalesMaterialAdapter mAdapter;
