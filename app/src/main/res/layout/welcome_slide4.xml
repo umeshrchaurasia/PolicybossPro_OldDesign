@@ -113,7 +113,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Digital Quotey from multiple insurers across multiple products"
+            android:text="Digital Quotes from multiple insurers across multiple products"
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
