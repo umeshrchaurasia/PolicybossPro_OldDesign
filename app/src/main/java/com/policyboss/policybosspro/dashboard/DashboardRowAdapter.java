@@ -197,7 +197,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             if (LangType.equals("")) {
              //   ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
-                ((InsuranceHolder) holder).txtTypeName.setText("LANDMARK INSURANCE BROKERS PVT.LTD.\n(IRDAI COR #216)");
+                ((InsuranceHolder) holder).txtTypeName.setText("LANDMARK INSURANCE BROKERS PVT.LTD.\n(IRDAI CoR #216)");
             } else {
                 ((InsuranceHolder) holder).txtTypeName.setText(mReal.getLangData(LangType, "Insurance"));
             }
