@@ -69,6 +69,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.Logi
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SalesDataEntity;
@@ -220,6 +223,26 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             }
         });
+    }
+
+    private void setMultiSelectionList( List<HealthinsuranceEntity> healthinsurance ,  List<GeneralinsuranceEntity> generalinsurance , List<LifeinsuranceEntity> lifeinsurance ) {
+
+        //////////// healthinsurance /////////////
+        healthList = new ArrayList();
+        for (int i = 0; i < healthinsurance.size(); i++) {
+            healthList.add(healthinsurance.get(i).getInsuShorName());
+        }
+        //////////// generalinsurance /////////////
+        generalList = new ArrayList();
+        for (int i = 0; i < generalinsurance.size(); i++) {
+            generalList.add(generalinsurance.get(i).getInsuShorName());
+        }
+        //////////// lifeinsurance /////////////
+        lifeList = new ArrayList();
+        for (int i = 0; i < lifeinsurance.size(); i++) {
+            lifeList.add(lifeinsurance.get(i).getInsuShorName());
+        }
+
     }
 
     private void initMultiSelect() {
@@ -669,10 +692,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
 
         } else if (response instanceof InsuranceMasterResponse) {
-            healthList = dbPersistanceController.getHealthListNames();
-            generalList = dbPersistanceController.getGeneralListNames();
-            lifeList = dbPersistanceController.getLifeListNames();
+
+            List<HealthinsuranceEntity> healthinsurance =  ((InsuranceMasterResponse) response).getMasterData().getHealthinsurance();
+            List<GeneralinsuranceEntity> generalinsurance  =  ((InsuranceMasterResponse) response).getMasterData().getGeneralinsurance();
+            List<LifeinsuranceEntity> lifeinsurance =  ((InsuranceMasterResponse) response).getMasterData().getLifeinsurance();
+
+            setMultiSelectionList(healthinsurance,generalinsurance,lifeinsurance);
+
             initMultiSelect();
+
         } else if (response instanceof ReferFriendResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
