@@ -259,6 +259,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         @Override
         protected Bitmap doInBackground(Void... voids) {
 
+            // Note : Bind Footer ie Agent detail  to combine Image
             if (isSecondImageToShow) {
                 try {
                     if (salesProductEntity.getProduct_Id() == 1 || salesProductEntity.getProduct_Id() == 2)
@@ -279,41 +280,34 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 combinedImage = null;
             }
 
-
+            /**********************************************************************************************
+             //Todo  Note  : combine Sales Material Product image and Footer image using" "combineImages" Method
+             // No need But We written  mergeProductToFooter() two times only mention
+             // case 1,2  : Belong POSP (Insurance)
+             // case 3,4,5 : Belong FOS (Loan)
+             // Other : Show only Product Image
+             ********************************************************************************************/
             switch (salesProductEntity.getProduct_Id()) {
                 case 1:
                 case 2:
                     //setPospDetails();
-                    try {
-                        URL salePhotoUrl = new URL(docsEntity.getImage_path());
-                        salesPhoto = BitmapFactory.decodeStream(
-                                salePhotoUrl.openConnection().getInputStream());
-                        //if (combinedImage != null && salesPhoto != null) {
-                        if (salesPhoto != null) {
-                            combinedImage = combineImages(salesPhoto, combinedImage);
-                            //ivProduct.setImageBitmap(combinedImage);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    mergeProductToFooter();
                     break;
 
                 case 3:
                 case 4:
                 case 5:
                     //setOtherDetails();
-                    try {
-                        URL salePhotoUrl = new URL(docsEntity.getImage_path());
-                        salesPhoto = BitmapFactory.decodeStream(
-                                salePhotoUrl.openConnection().getInputStream());
-                        if (salesPhoto != null) {
-                            combinedImage = combineImages(salesPhoto, combinedImage);
-                            //ivProduct.setImageBitmap(combinedImage);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    mergeProductToFooter();
                     break;
+
+                default:
+                {
+                    if(salesProductEntity.getProduct_Id() > 5) {
+
+                        getOnlyPoductImage();
+                    }
+                }
             }
             return combinedImage;
         }
@@ -333,6 +327,39 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
 
         }
+
+
+        public void mergeProductToFooter(){
+
+            try {
+                URL salePhotoUrl = new URL(docsEntity.getImage_path());
+                salesPhoto = BitmapFactory.decodeStream(
+                        salePhotoUrl.openConnection().getInputStream());
+
+                if (salesPhoto != null) {
+                    combinedImage = combineImages(salesPhoto, combinedImage);
+                    //ivProduct.setImageBitmap(combinedImage);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void getOnlyPoductImage(){
+
+            try {
+                URL salePhotoUrl = new URL(docsEntity.getImage_path());
+                salesPhoto = BitmapFactory.decodeStream(
+                        salePhotoUrl.openConnection().getInputStream());
+                if (salesPhoto != null) {
+                    combinedImage = salesPhoto;
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }
