@@ -666,7 +666,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_policy:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "https://policyboss.com/privacy-policy")
+                                .putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro")
                                 .putExtra("NAME", "PRIVACY POLICY")
                                 .putExtra("TITLE", "PRIVACY POLICY"));
                         break;
