@@ -219,6 +219,8 @@ public class RegisterRequestEntity {
     private String DisplayEmail;
     private String DisplayPhoneNo;
     private String DisplayDesignation;
+    private String posp_amount;
+
     /**
      * Link :
      */
@@ -342,6 +344,7 @@ public class RegisterRequestEntity {
         VersionCode = "";
         ParentId="0";
         field_sales_uid="";
+        posp_amount = "";
     }
 
 
@@ -1161,5 +1164,14 @@ public class RegisterRequestEntity {
     public void setField_sales_uid(String field_sales_uid) {
         this.field_sales_uid = field_sales_uid;
     }
+
+    public String getPosp_amount() {
+        return posp_amount;
+    }
+
+    public void setPosp_amount(String posp_amount) {
+        this.posp_amount = posp_amount;
+    }
+
 
 }

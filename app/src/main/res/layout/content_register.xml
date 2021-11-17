@@ -402,6 +402,50 @@
                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="bottom"
+                    android:visibility="visible"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="0dp"
+                        android:gravity="left"
+                        android:text="Posp Amount"
+                        android:textSize="14sp" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/radioGroup">
+                        <RadioButton
+                            android:id="@+id/rdTwoHundredNinetyNine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="@string/TwoHundredNinetyNine"
+                            android:checked="true"
+
+                            />
+                        <RadioButton
+                            android:id="@+id/rdNineHundredNinetyNine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/NineHundredNinetyNine"
+                            android:checked="false"
+                            />
+
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

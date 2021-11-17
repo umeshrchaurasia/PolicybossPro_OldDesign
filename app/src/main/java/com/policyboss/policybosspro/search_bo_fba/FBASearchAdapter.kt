@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.policyboss.policybosspro.R
-import kotlinx.android.synthetic.main.layout_bo_fba_search_item.view.*
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BOFbaEntity
 
 class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val iboFbaCallback: IBOFbaCallback, val context: Context) :
@@ -40,7 +42,10 @@ class FBASearchAdapter(val fbaList: List<BOFbaEntity>, val iboFbaCallback: IBOFb
 
 
     class FBAItem(v: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(v) {
-        var txtFBAName = v.txtFBAName
-        var llSearchFBA = v.llSearchFBA
+
+        val txtFBAName = v.findViewById(R.id.txtFBAName) as TextView
+        val llSearchFBA =v.findViewById(R.id.llSearchFBA) as LinearLayout
+//        var txtFBAName = v.txtFBAName
+//        var llSearchFBA = v.llSearchFBA
     }
 }

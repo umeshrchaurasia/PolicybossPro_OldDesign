@@ -7,10 +7,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.utility.Constants
-import kotlinx.android.synthetic.main.fragment_search_bofba.*
+
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController
@@ -25,6 +28,10 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
 
     var mAdapter: FBASearchAdapter? = null
     var mList = mutableListOf<BOFbaEntity>()
+
+    lateinit var rvFBAList: RecyclerView
+    lateinit var imgSearch : ImageView
+    lateinit var etSearch : EditText
 
     companion object {
         fun newInstance(iboFbaCallback: IBOFbaCallback): SearchBOFBAFragment =
@@ -41,6 +48,11 @@ class SearchBOFBAFragment() : BottomSheetDialogFragment(), IResponseSubcriber, I
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        rvFBAList = view.findViewById(R.id.rvFBAList)
+        imgSearch = view.findViewById(R.id.imgSearch)
+        etSearch = view.findViewById(R.id.etSearch)
+
 
         rvFBAList.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
 

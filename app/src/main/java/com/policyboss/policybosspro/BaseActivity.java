@@ -978,7 +978,8 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void sharePdfTowhatsApp(String pdfFileName, String urlToShare, Uri uri) {
+
+    public void sharePdfFile(String pdfFileName, String urlToShare, Uri uri) {
 
 
         try {
@@ -986,16 +987,37 @@ public class BaseActivity extends AppCompatActivity {
             Intent share = new Intent();
             share.setAction(Intent.ACTION_SEND);
             share.setType("application/pdf");
-            share.putExtra(Intent.EXTRA_STREAM, uri);
             share.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-            share.putExtra(Intent.EXTRA_TEXT, urlToShare);
+            share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            share.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-            //share.setPackage("com.whatsapp");
+            share.putExtra(Intent.EXTRA_TEXT, urlToShare);
+            share.putExtra(Intent.EXTRA_SUBJECT, "Quote Details");
+            share.putExtra(Intent.EXTRA_STREAM, uri);
             Intent intent = Intent.createChooser(share, "Share Quote");
             startActivity(intent);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void sharePdfFileLink(String pdfFileName, String urlToShare, Uri uri) {
+
+
+       String prdDetail = "Please click on the below link to get the quotation:" + "\n\n" + urlToShare;
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+
+
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Quote Details");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+        startActivity(Intent.createChooser(shareIntent, "Share Via"));
+
+
+
     }
 
     public File createImageFile(String name)  {

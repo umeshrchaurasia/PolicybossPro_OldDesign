@@ -34,6 +34,8 @@
 
     <string name="RM_Calling">Do you want to call/mail to your: </string>
 
+    <string name="NineHundredNinetyNine">Pro Membership(\u20B9 999)</string>
+    <string name="TwoHundredNinetyNine">Lite Membership(\u20B9 299)</string>
 
     <string name="FM_Contact">Hello, Welcome to Finmart Whatsapp chat.\nyou can use this to communicate with us,\nto allow press Add to Contact</string>
 

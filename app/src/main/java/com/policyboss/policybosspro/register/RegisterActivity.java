@@ -41,6 +41,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -100,6 +101,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     MultiSelectionSpinner spLifeIns, spGenIns, spHealthIns;
     CheckBox chbxLife, chbxGen, chbxHealth, chbxMutual, chbxStocks, chbxPostal, chbxBonds;
     Button btnSubmit;
+    RadioButton rdNineHundredNinetyNine, rdTwoHundredNinetyNine ;
+
     RegisterRequestEntity registerRequestEntity;
     Boolean isValidPersonalInfo = false, isMobileValid = false;
     TextView tvOk, txtMale, txtFemale;
@@ -384,6 +387,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spsales = (Spinner) findViewById(R.id.spsales);
         tilReferer = (TextInputLayout) findViewById(R.id.tilReferer);
         txtsale = (TextInputLayout) findViewById(R.id.txtsale);
+
+        rdNineHundredNinetyNine = (RadioButton) findViewById(R.id.rdNineHundredNinetyNine);
+        rdTwoHundredNinetyNine = (RadioButton) findViewById(R.id.rdTwoHundredNinetyNine);
+
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
     }
 
@@ -615,6 +622,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         } else {
             registerRequestEntity.setField_sales_uid("");
+        }
+
+        if(rdNineHundredNinetyNine.isChecked()){
+
+            registerRequestEntity.setPosp_amount("999");
+        }else{
+
+            registerRequestEntity.setPosp_amount("299");
         }
     }
 

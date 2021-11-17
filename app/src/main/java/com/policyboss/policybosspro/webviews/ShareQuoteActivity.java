@@ -4,6 +4,7 @@ import android.app.DownloadManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -14,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -43,7 +45,10 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -894,11 +899,18 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
 
         }
 
-        // close the document.
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+            String prdDetail = "Please click on the below link to get the quotation:" + "\n\n" + urlToshare;
+            datashareList(ShareQuoteActivity.this, bmp, "Quote Detail", prdDetail);
+        }else{
+            sharePdfFile(fileName, urlToshare,screenshotUri);
+        }
 
 
-        sharePdfTowhatsApp(fileName, urlToshare,screenshotUri);
     }
+
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -962,6 +974,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
                 // SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
                 //SimplePDFTable(bmp);
                 createPdf(bmp, urlToShare);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
