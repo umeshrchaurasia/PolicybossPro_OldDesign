@@ -109,6 +109,7 @@ public class BaseActivity extends AppCompatActivity {
     Dialog webviewDialog;
 
     public String getDateFromAge(int age) {
+
         Calendar cal = Calendar.getInstance();
         int year = age;
         cal.add(Calendar.YEAR, -year);

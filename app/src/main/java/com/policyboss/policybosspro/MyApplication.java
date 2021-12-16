@@ -25,7 +25,7 @@ public class MyApplication extends MatomoApplication {
 
     public static final String TAG = MyApplication.class
             .getSimpleName();
-    private static MyApplication mInstance;
+    public static MyApplication mInstance;
 
     private org.matomo.sdk.Tracker mMamatoTracker;
 
