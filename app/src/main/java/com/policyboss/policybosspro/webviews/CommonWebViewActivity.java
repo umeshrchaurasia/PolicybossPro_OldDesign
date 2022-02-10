@@ -47,9 +47,7 @@ import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.file_chooser.utils.FileUtilNew;
 import com.policyboss.policybosspro.health.HealthQuoteAppActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
-import com.policyboss.policybosspro.loan_fm.businessloan.NewbusinessApplicaionActivity;
-import com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
-import com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
+
 import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.policyboss.policybosspro.paymentEliteplan.RazorPaymentEliteActivity;
@@ -448,28 +446,22 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 //                    .putExtra("TITLE", "LIC FREE CREDIT REPORT"));
         }
 
-        @JavascriptInterface
-        public void redirectpersonalloan() {//Android.RedirectToHomepage();
-            Intent intent = new Intent(CommonWebViewActivity.this, NewPersonalApplicaionActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
+
 
         @JavascriptInterface
         public void redirecthomeloan() {//Android.RedirectToHomepage();
-            Intent intent = new Intent(CommonWebViewActivity.this, NewHomeApplicaionActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(CommonWebViewActivity.this, NewHomeApplicaionActivity.class);
+    //        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+     //       startActivity(intent);
+     //       finish();
         }
 
         @JavascriptInterface
         public void redirectbusinessloan() {//Android.RedirectToHomepage();
-            Intent intent = new Intent(CommonWebViewActivity.this, NewbusinessApplicaionActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
+           // Intent intent = new Intent(CommonWebViewActivity.this, NewbusinessApplicaionActivity.class);
+       //     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+         //   startActivity(intent);
+         //  finish();
         }
 
         @JavascriptInterface

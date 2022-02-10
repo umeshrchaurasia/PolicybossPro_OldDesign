@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.R;
-import com.policyboss.policybosspro.loan_fm.popup.LeadInfoPopupActivity;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -145,8 +145,8 @@ public class PendingCaseFragment extends BaseFragment implements IResponseSubcri
     }
 
     public void openLeadDetailPopUp(String AppNumb) {
-        Intent intent = new Intent(getActivity(), LeadInfoPopupActivity.class);
-        intent.putExtra("APPLICATION_NUMBER",AppNumb);
-        startActivityForResult(intent, Utility.LEAD_REQUEST_CODE);
+       // Intent intent = new Intent(getActivity(), LeadInfoPopupActivity.class);
+     //   intent.putExtra("APPLICATION_NUMBER",AppNumb);
+     //   startActivityForResult(intent, Utility.LEAD_REQUEST_CODE);
     }
 }

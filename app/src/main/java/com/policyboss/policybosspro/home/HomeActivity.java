@@ -62,14 +62,7 @@ import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity;
 import com.policyboss.policybosspro.helpfeedback.raiseticket.RaiseTicketActivity;
 import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter;
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity;
-import com.policyboss.policybosspro.loan_fm.MyBusinessLoan.EmiCalcActivity;
-import com.policyboss.policybosspro.loan_fm.MyBusinessLoan.MyBusiness_LoanActivity;
-import com.policyboss.policybosspro.loan_fm.balancetransfer.BalanceTransferDetailActivity;
-import com.policyboss.policybosspro.loan_fm.balancetransfer.addquote.BLMainActivity;
-import com.policyboss.policybosspro.loan_fm.homeloan.addquote.HLMainActivity;
-import com.policyboss.policybosspro.loan_fm.laploan.LapLoanDetailActivity;
-import com.policyboss.policybosspro.loan_fm.laploan.addquote.LAPMainActivity;
-import com.policyboss.policybosspro.loan_fm.personalloan.addquote.PLMainActivity;
+
 import com.policyboss.policybosspro.login.LoginActivity;
 import com.policyboss.policybosspro.messagecenter.messagecenteractivity;
 import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity;
@@ -646,10 +639,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_mybusinessLoan:
-                        startActivity(new Intent(HomeActivity.this, MyBusiness_LoanActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this, MyBusiness_LoanActivity.class));
                         break;
                     case R.id.nav_emicalLoan:
-                        startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
                         break;
                     case R.id.nav_LeadSubmission:
                         startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
@@ -1584,16 +1577,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     startActivity(new Intent(this, CompareTermActivity.class));
                     break;
                 case 5:
-                    startActivity(new Intent(this, HLMainActivity.class));
+                 //   startActivity(new Intent(this, HLMainActivity.class));
                     break;
                 case 6:
-                    startActivity(new Intent(this, PLMainActivity.class));
+             //       startActivity(new Intent(this, PLMainActivity.class));
                     break;
                 case 7:
-                    startActivity(new Intent(this, LAPMainActivity.class));
+           //         startActivity(new Intent(this, LAPMainActivity.class));
                     break;
                 case 8:
-                    startActivity(new Intent(this, BLMainActivity.class));
+          //          startActivity(new Intent(this, BLMainActivity.class));
                     break;
                 case 9:
                     startActivity(new Intent(this, KnowledgeGuruActivity.class));
@@ -2497,9 +2490,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
 
-                    startActivity(new Intent(HomeActivity.this, BalanceTransferDetailActivity.class));
+                //    startActivity(new Intent(HomeActivity.this, BalanceTransferDetailActivity.class));
                    // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
-                    MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
+                  //  MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
 
                 }
             });
@@ -2549,9 +2542,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    startActivity(new Intent(HomeActivity.this, LapLoanDetailActivity.class));
+               //     startActivity(new Intent(HomeActivity.this, LapLoanDetailActivity.class));
                    // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                    MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
+             //       MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
 
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
 //                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)

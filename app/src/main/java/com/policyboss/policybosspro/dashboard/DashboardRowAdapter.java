@@ -23,10 +23,7 @@ import com.policyboss.policybosspro.creditcard.AppliedCreditListActivity;
 import com.policyboss.policybosspro.health.HealthQuoteAppActivity;
 import com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpListActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
-import com.policyboss.policybosspro.loan_fm.businessloan.NewbusinessApplicaionActivity;
-import com.policyboss.policybosspro.loan_fm.homeloan.new_HomeLoan.NewHomeApplicaionActivity;
-import com.policyboss.policybosspro.loan_fm.laploan.newlaploan.NewLAPApplicaionActivity;
-import com.policyboss.policybosspro.loan_fm.personalloan.new_personalloan.NewPersonalApplicaionActivity;
+
 import com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.policyboss.policybosspro.ncd.NCDActivity;
@@ -415,21 +412,21 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 7:
                 //home loan
-                mContext.startActivity(new Intent(mContext, NewHomeApplicaionActivity.class));
+            //    mContext.startActivity(new Intent(mContext, NewHomeApplicaionActivity.class));
              //   new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
-                MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
+            //    MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;
             case 19:
                 //personal loan
-                mContext.startActivity(new Intent(mContext, NewPersonalApplicaionActivity.class));
+           //
                // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
-                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
+          //      MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
                 break;
             case 8:
                 //lap
-                mContext.startActivity(new Intent(mContext, NewLAPApplicaionActivity.class));
+            //    mContext.startActivity(new Intent(mContext, NewLAPApplicaionActivity.class));
               //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
+          //      MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
                 break;
             case 4:
                 //cc
@@ -441,9 +438,9 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 6:
                 //BT
                 //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
-                mContext.startActivity(new Intent(mContext, NewbusinessApplicaionActivity.class));
+           //     mContext.startActivity(new Intent(mContext, NewbusinessApplicaionActivity.class));
               //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
-                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
+            //    MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
             case 9:
 
