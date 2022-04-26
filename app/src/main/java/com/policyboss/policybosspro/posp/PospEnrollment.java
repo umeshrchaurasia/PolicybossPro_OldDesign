@@ -248,7 +248,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 etMobileNo2.setText("" + registerRequestEntity.getPosp_Mobile2());
             }
             if (!registerRequestEntity.getPosp_Email().equals("") && registerRequestEntity.getPosp_Email() != null) {
-                etEmailId.setText("" + registerRequestEntity.getPosp_Email());
+                etEmailId.setText("" + registerRequestEntity.getPosp_Email().trim());
             }
             if (!registerRequestEntity.getPosp_PAN().equals("") && registerRequestEntity.getPosp_PAN() != null) {
                 etPan.setText("" + registerRequestEntity.getPosp_PAN());
@@ -394,7 +394,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             etMobileNo2.setText("" + registerRequestEntity.getPosp_Mobile2());
         }
         if (registerRequestEntity.getPosp_Email() != null && !registerRequestEntity.getPosp_Email().equals("")) {
-            etEmailId.setText("" + registerRequestEntity.getPosp_Email());
+            etEmailId.setText("" + registerRequestEntity.getPosp_Email().trim());
         }
         if (registerRequestEntity.getPosp_PAN() != null && !registerRequestEntity.getPosp_PAN().equals("")) {
             etPan.setText("" + registerRequestEntity.getPosp_PAN());
@@ -1250,7 +1250,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             registerRequestEntity.setPosp_Gender("F");
         registerRequestEntity.setPosp_Mobile1(etMobileNo1.getText().toString());
         registerRequestEntity.setPosp_Mobile2(etMobileNo2.getText().toString());
-        registerRequestEntity.setPosp_Email(etEmailId.getText().toString());
+        registerRequestEntity.setPosp_Email(etEmailId.getText().toString().trim());
         registerRequestEntity.setPosp_PAN(etPan.getText().toString());
         registerRequestEntity.setPosp_Aadhaar(etAadhar.getText().toString());
         if (!etGST.getText().toString().isEmpty())
@@ -1269,7 +1269,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             registerRequestEntity.setGender("F");
         registerRequestEntity.setMobile_1(etMobileNo1.getText().toString());
         registerRequestEntity.setMobile_2(etMobileNo2.getText().toString());
-        registerRequestEntity.setEmailId(etEmailId.getText().toString());
+        registerRequestEntity.setEmailId(etEmailId.getText().toString().trim());
         registerRequestEntity.setFBAPan(etPan.getText().toString());
         //registerRequestEntity.setOther_Aadhaar(etAadhar.getText().toString());
         if (!etGST.getText().toString().isEmpty())
@@ -1556,7 +1556,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 loginResponseEntity.setPaymentUrl("");
                 loginResponseEntity.setPOSPName(registerRequestEntity.getPosp_FirstName() + " " + registerRequestEntity.getPosp_LastName());
                 loginResponseEntity.setPOSPNo(pospEnrollEntity.getPOSPNo());
-                loginResponseEntity.setPOSEmail(registerRequestEntity.getPosp_Email());
+                loginResponseEntity.setPOSEmail(registerRequestEntity.getPosp_Email().trim());
                 loginResponseEntity.setPOSPMobile(registerRequestEntity.getPosp_Mobile1());
             }
         });

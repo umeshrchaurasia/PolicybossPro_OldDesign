@@ -592,7 +592,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         registerRequestEntity.setDOB("" + etDob.getText().toString());
         registerRequestEntity.setMobile_1("" + etMobile1.getText().toString());
         registerRequestEntity.setMobile_2("" + etMobile2.getText().toString());
-        registerRequestEntity.setEmailId("" + etEmail.getText().toString());
+        registerRequestEntity.setEmailId("" + etEmail.getText().toString().trim());
         registerRequestEntity.setPinCode("" + etPincode.getText().toString());
         if (isMale) {
             registerRequestEntity.setGender("M");
