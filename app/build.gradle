@@ -17,7 +17,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 31
 
     lintOptions {
         checkReleaseBuilds false
@@ -40,7 +40,7 @@ android {
         multiDexEnabled true
         applicationId "com.policyboss.policybosspro"
         minSdkVersion 19
-        targetSdkVersion 32
+        targetSdkVersion 31
         versionCode 7
 
         versionName "0.1.7"
@@ -123,7 +123,6 @@ dependencies {
     implementation 'org.matomo.sdk:tracker:4.0.2'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
 
     implementation 'com.razorpay:checkout:1.5.15' //razor Pay
 
