@@ -220,7 +220,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.enableLights(true);
             channel.enableVibration(true);
             channel.setLightColor(Color.BLUE);
-            channel.setDescription("Finmart");
+            channel.setDescription("PoliyBoss Pro");
             // Sets whether notifications posted to this channel appear on the lockscreen or not
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);    // Notification.VISIBILITY_PRIVATE
             getManager().createNotificationChannel(channel);
