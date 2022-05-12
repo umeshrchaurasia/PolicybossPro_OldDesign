@@ -508,6 +508,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             PincodeAlert("Alert", "City Not Found. Kindly Contact to Tech Support Person", "");
             return false;
         }
+
+        if (!(rdTwoHundredNinetyNine.isChecked()) && !(rdNineHundredNinetyNine.isChecked())) {
+            Snackbar snackbar = Snackbar
+                    .make(rdNineHundredNinetyNine, "Please Select Posp Amount", Snackbar.LENGTH_LONG);
+            snackbar.show();
+            return false;
+        }
 //        if (!isEmpty(etCity)) {
 //            etCity.requestFocus();
 //            etCity.setError("Enter City");
