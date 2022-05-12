@@ -9,12 +9,10 @@ android {
             storePassword 'PolicyBossPro'
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 55
-        versionName "2.3.0"
+        targetSdkVersion 32
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
@@ -33,7 +31,6 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            debuggable true
             /*   buildConfigField "String", "FINMART_URL", '"http://qa.mgfm.in"'
               buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
               buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
@@ -54,7 +51,6 @@ android {
 
         }
         uat {
-            debuggable true
 
 //            buildConfigField "String", "FINMART_URL", '"https://horizon.policyboss.com:5443"'
 //            buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
