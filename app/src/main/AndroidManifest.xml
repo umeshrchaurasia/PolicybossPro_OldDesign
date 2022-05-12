@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="LockedOrientationActivity"
     package="com.policyboss.policybosspro">
 
 
@@ -13,16 +14,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" tools:ignore="QueryAllPackagesPermission" />
-
     <queries>
 
-        <package android:name="com.whatsapp" />
-        <package android:name="com.whatsapp.w4b" />
 
-        <package android:name="com.google.android.gm" />
-
-        <package android:name="org.telegram.messenger" />
 
 
 
@@ -85,14 +79,15 @@
 
     <application
         android:name="com.policyboss.policybosspro.MyApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_policyboss"
         android:label="PolicyBoss Pro"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_policyboss_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+       >
 
         <!-- Add your API key For Razor Payment Gateway here -->
         <meta-data
@@ -1131,9 +1126,9 @@
             android:name="com.google.android.gms.analytics.AnalyticsService"
             android:enabled="true"
             android:exported="false" />
-
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
+        <!-- Todo        : RazorPay  Added for Android 12 or heigher-->
         <receiver
             android:name="com.razorpay.RzpTokenReceiver"
             android:exported="false">

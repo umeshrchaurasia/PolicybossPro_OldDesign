@@ -430,7 +430,7 @@
                             android:layout_height="wrap_content"
 
                             android:text="@string/TwoHundredNinetyNine"
-                            android:checked="true"
+                            android:checked="false"
 
                             />
                         <RadioButton
