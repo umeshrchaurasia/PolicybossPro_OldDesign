@@ -1967,7 +1967,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             if (userConstantEntity.getMyMessagesEnabled() != null && !userConstantEntity.getMyMessagesEnabled().equals("")) {
 
-                if (userConstantEntity.getMyTransactionsEnabled().equals("0")) {
+                if (userConstantEntity.getMyMessagesEnabled().equals("0")) {
                     nav_Menu.findItem(R.id.nav_MessageCentre).setVisible(false);
                 } else {
                     nav_Menu.findItem(R.id.nav_MessageCentre).setVisible(true);
