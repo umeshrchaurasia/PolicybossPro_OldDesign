@@ -1,5 +1,6 @@
 package com.policyboss.policybosspro;
 
+import android.app.Application;
 import android.os.Bundle;
 
 //import com.crashlytics.android.Crashlytics;
@@ -21,7 +22,7 @@ import io.realm.RealmConfiguration;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
-public class MyApplication extends MatomoApplication {
+public class MyApplication extends Application {
 
     public static final String TAG = MyApplication.class
             .getSimpleName();
@@ -51,8 +52,9 @@ public class MyApplication extends MatomoApplication {
         //region google analytics Initialization
 
         mInstance = this;
-        AnalyticsTrackers.initialize(this);
-        AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
+        // 05 below two line  commented
+       // AnalyticsTrackers.initialize(this);
+       // AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
 
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -152,18 +154,18 @@ public class MyApplication extends MatomoApplication {
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
                 //first hive
-        getTracker().setUserId(String.valueOf(FBA_ID));
-        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
-        TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
+//        getTracker().setUserId(String.valueOf(FBA_ID));
+//        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
+//        TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
     }
 
 
 
-    @Override
-    public TrackerBuilder onCreateTrackerConfig() {
-
-        return TrackerBuilder.createDefault("https://firsthive.com/engage/piwik/piwik.php", Integer.parseInt(BuildConfig.FIRSTHIVE));
-    }
+//    @Override
+//    public TrackerBuilder onCreateTrackerConfig() {
+//
+//        return TrackerBuilder.createDefault("https://firsthive.com/engage/piwik/piwik.php", Integer.parseInt(BuildConfig.FIRSTHIVE));
+//    }
 
 
     

@@ -101,7 +101,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     MultiSelectionSpinner spLifeIns, spGenIns, spHealthIns;
     CheckBox chbxLife, chbxGen, chbxHealth, chbxMutual, chbxStocks, chbxPostal, chbxBonds;
     Button btnSubmit;
-    RadioButton rdNineHundredNinetyNine, rdTwoHundredNinetyNine ;
+    RadioButton rdNineHundredNinetyNine, rdTwoHundredNinetyNine ,rdNinetyNine;
 
     RegisterRequestEntity registerRequestEntity;
     Boolean isValidPersonalInfo = false, isMobileValid = false;
@@ -390,7 +390,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         rdNineHundredNinetyNine = (RadioButton) findViewById(R.id.rdNineHundredNinetyNine);
         rdTwoHundredNinetyNine = (RadioButton) findViewById(R.id.rdTwoHundredNinetyNine);
-
+        rdNinetyNine  = (RadioButton) findViewById(R.id.rdNinetyNine);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
     }
 
@@ -509,7 +509,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             return false;
         }
 
-        if (!(rdTwoHundredNinetyNine.isChecked()) && !(rdNineHundredNinetyNine.isChecked())) {
+        if (!(rdTwoHundredNinetyNine.isChecked()) && !(rdNineHundredNinetyNine.isChecked())   && !(rdNinetyNine.isChecked()) ) {
             Snackbar snackbar = Snackbar
                     .make(rdNineHundredNinetyNine, "Please Select Posp Amount", Snackbar.LENGTH_LONG);
             snackbar.show();
@@ -634,9 +634,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if(rdNineHundredNinetyNine.isChecked()){
 
             registerRequestEntity.setPosp_amount("999");
-        }else{
+        }else if(rdTwoHundredNinetyNine.isChecked()) {
 
             registerRequestEntity.setPosp_amount("299");
+
+        }else if(rdNinetyNine.isChecked()) {
+
+            registerRequestEntity.setPosp_amount("99");
         }
     }
 
