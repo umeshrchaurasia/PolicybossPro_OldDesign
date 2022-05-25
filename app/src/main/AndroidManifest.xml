@@ -97,7 +97,7 @@
         <activity
             android:name="com.policyboss.policybosspro.file_chooser.FileChooserActivity"
             android:enabled="true"
-            android:exported="true"
+            android:exported="false"
             android:label="@string/choose_file"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -1128,7 +1128,7 @@
             android:exported="false" />
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
-        <!-- Todo        : RazorPay  Added for Android 12 or heigher-->
+        <!-- RazorPay  Added for Android 12 or heigher-->
         <receiver
             android:name="com.razorpay.RzpTokenReceiver"
             android:exported="false">
