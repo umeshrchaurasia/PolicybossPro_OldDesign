@@ -41,9 +41,9 @@ android {
         applicationId "com.policyboss.policybosspro"
         minSdkVersion 19
         targetSdkVersion 32
-        versionCode 7
+        versionCode 9
 
-        versionName "0.1.7"
+        versionName "0.0.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
