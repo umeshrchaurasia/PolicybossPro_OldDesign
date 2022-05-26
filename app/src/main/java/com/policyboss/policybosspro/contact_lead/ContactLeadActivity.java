@@ -1,5 +1,8 @@
 package com.policyboss.policybosspro.contact_lead;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -50,6 +53,8 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     RecyclerView rvContactList;
+    private ClipboardManager clipboardManager;
+    private ClipData clipData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,40 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
       //  txtcontain.setText("Permission requests protect sensitive information available from a device and should only be used when access to information is necessary for the functioning of your app. This document provides tips on ways you might be able to achieve the same (or better) functionality without requiring access to such information; it is not an exhaustive discussion of how permissions work in the Android operating system. ");
     }
 
+    public void showResultAlert(String strBody) {
+        try {
+
+            String[] parts = strBody.split(":-");
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+            builder.setTitle("PolicyBossPro");
+
+            builder.setMessage(strBody);
+            String positiveText = "Copy URL";
+            if(parts[1].toString().length() >0){
+                clipData = ClipData.newPlainText("text",parts[1]);
+            }else{
+                clipData = ClipData.newPlainText("text",strBody);
+            }
+
+            clipboardManager.setPrimaryClip(clipData);
+
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toast.makeText(getApplicationContext(),"URL is Copied to Clipboard", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+        }
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -121,7 +160,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         if (response instanceof SendSyncSmsResponse) {
             if (response.getStatusNo() == 0) {
 
-                showAlert(response.getMessage());
+                showResultAlert(response.getMessage());
             }
         }
     }
@@ -132,68 +171,68 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
     }
 
-    class LoadContactTaskA extends AsyncTask<Void, Integer, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            txtCount.setText("" + phones.getCount());
-            //setProgressBarIndeterminate(false);
-            progressBar.setMax(phones.getCount());
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            // Get Contact list from Phone
-            if (phones != null && phones.getCount() > 0) {
-                try {
-                    int i = 1;
-                    while (phones.moveToNext()) {
-
-                        Thread.sleep(1);
-
-                        String name = "" + phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        String phoneNumber = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-
-
-                        SelectUser selectUser = new SelectUser();
-
-                        selectUser.setName(name);
-                        selectUser.setPhone(phoneNumber);
-
-                        selectUsers.add(selectUser);
-                        publishProgress(i++);
-
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            //phones.close();
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            // setProgress(values[0]);
-            output++;
-            //  progress = (int)(((double)output/phones.getCount())*10000);
-            //  setProgress(progress);
-            progressBar.setProgress(values[0]);
-            txtOutput.setText("" + values[0]);
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            //       cancelDialog();
-            int i = selectUsers.size();
-            txtOutput.setText("Done");
-
-
-        }
-    }
+//    class LoadContactTaskA extends AsyncTask<Void, Integer, Void> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            txtCount.setText("" + phones.getCount());
+//            //setProgressBarIndeterminate(false);
+//            progressBar.setMax(phones.getCount());
+//        }
+//
+//        @Override
+//        protected Void doInBackground(Void... voids) {
+//            // Get Contact list from Phone
+//            if (phones != null && phones.getCount() > 0) {
+//                try {
+//                    int i = 1;
+//                    while (phones.moveToNext()) {
+//
+//                        Thread.sleep(1);
+//
+//                        String name = "" + phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+//                        String phoneNumber = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//
+//
+//                        SelectUser selectUser = new SelectUser();
+//
+//                        selectUser.setName(name);
+//                        selectUser.setPhone(phoneNumber);
+//
+//                        selectUsers.add(selectUser);
+//                        publishProgress(i++);
+//
+//                    }
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            //phones.close();
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            // setProgress(values[0]);
+//            output++;
+//            //  progress = (int)(((double)output/phones.getCount())*10000);
+//            //  setProgress(progress);
+//            progressBar.setProgress(values[0]);
+//            txtOutput.setText("" + values[0]);
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+//            //       cancelDialog();
+//            int i = selectUsers.size();
+//            txtOutput.setText("Done");
+//
+//
+//        }
+//    }
 
 
     @Override
