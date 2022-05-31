@@ -168,14 +168,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notificationBuilder.setLargeIcon(bitmap_image);
         } else {
             notificationBuilder.setStyle(BigTextstyle);
-            notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+            notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_policyboss));
         }
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setSmallIcon(R.drawable.finmart_white_logo);
+            notificationBuilder.setSmallIcon(R.drawable.ic_pb_notify);
             notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
         } else {
-            notificationBuilder.setSmallIcon(R.mipmap.ic_launcher);
+            notificationBuilder.setSmallIcon(R.drawable.ic_pb_notify);
         }
 
         notificationBuilder

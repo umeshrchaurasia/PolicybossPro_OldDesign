@@ -306,22 +306,27 @@ public class MasterController implements IMasterFetch {
                         // new PrefManager(mContext).updateMotorVersion("1");
 
 
+                        // region commented
                         //existing master version
-                        int motorVersion = Integer.parseInt(new PrefManager(mContext).getMotorVersion());
+//                        int motorVersion = Integer.parseInt(new PrefManager(mContext).getMotorVersion());
+//
+//                        //new version available hit to master
+//
+//                        if (Integer.parseInt(response.body().getMasterData().getUpdateMaster())
+//                                > motorVersion) {
+//
+//                            //clear all master tags
+//                            new PrefManager(mContext).clearMotorMaster();
+//
+//                            new PrefManager(mContext).updateMotorVersion
+//                                    (response.body().getMasterData().getUpdateMaster());
+//
+//                            getCarMaster(null);
+//                            getBikeMaster(null);
+//                        }
+                        //endregion
 
-                        //new version available hit to master
-                        if (Integer.parseInt(response.body().getMasterData().getUpdateMaster())
-                                > motorVersion) {
 
-                            //clear all master tags
-                            new PrefManager(mContext).clearMotorMaster();
-
-                            new PrefManager(mContext).updateMotorVersion
-                                    (response.body().getMasterData().getUpdateMaster());
-
-                            getCarMaster(null);
-                            getBikeMaster(null);
-                        }
                         if (iResponseSubcriber != null)
                             iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {

@@ -5,6 +5,7 @@ data class RegisterPospAmountModel(
     val posp_amount: String,
     val posp_desc: String,
     val posp_header_desc: String,
+    val posp_sub_header_desc: String,
     val posp_name: String,
     var isCheck : Boolean
 )

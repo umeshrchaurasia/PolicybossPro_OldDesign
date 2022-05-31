@@ -43,15 +43,19 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter;
+import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.register.adapters.MultiSelectionSpinner;
 import com.policyboss.policybosspro.register.adapters.PospAmountDetailAdapter;
 import com.policyboss.policybosspro.register.adapters.RegisterPospAmountAdapter;
+import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 
@@ -154,7 +158,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setListener();
         initLayouts();
         setSpinnerListener();
-
+        setGender();
         txtsale.setVisibility(View.GONE);
         prefManager = new PrefManager(this);
 
@@ -1109,6 +1113,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     };
     //endregion
 
+
+    private void setGender(){
+
+        isFemale = false;
+        isMale = true;
+        setGender(txtMale, txtFemale);
+    }
+
     private void setGender(TextView clickedText, TextView textView1) {
 
 
@@ -1251,7 +1263,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    public void PospAmountAlert(String Title,  List<String>  strDetailList) {
+    public void PospAmountAlert(String Title,String subTitle,  List<String>  strDetailList) {
 
         if (pospAmountDialog != null && pospAmountDialog.isShowing()) {
 
@@ -1261,7 +1273,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
             Button btnClose;
-            TextView txtTitle;
+            TextView txtTitle,txtHeader;
             RecyclerView rvDetails;
             PospAmountDetailAdapter pospAmountDetailAdapter;
 
@@ -1273,8 +1285,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             pospAmountDialog = builder.create();
             // set the custom dialog components - text, image and button
             txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
-            rvDetails = (RecyclerView) dialogView.findViewById(R.id.rvDetails);
-
+            txtHeader  =(TextView) dialogView.findViewById(R.id.txtHeader);
              rvDetails = dialogView.findViewById(R.id.rvDetails);
             rvDetails.setLayoutManager(new LinearLayoutManager(this));
             rvDetails.setHasFixedSize(true);
@@ -1285,8 +1296,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             btnClose = (Button) dialogView.findViewById(R.id.btnClose);
 
             txtTitle.setText(Title);
-
-
+            txtHeader.setText(subTitle);
 
 
 

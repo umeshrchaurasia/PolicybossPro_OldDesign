@@ -36,10 +36,24 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.6dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
             android:background="@color/search_gray" />
 
+        <TextView
+            android:id="@+id/txtHeader"
+            style="@style/TextViewStyle.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="18dp"
+            android:gravity="left"
+
+            android:text="Title!!"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvDetails"
@@ -54,12 +68,12 @@
         <Button
             android:id="@+id/btnClose"
             style="@style/ButtonStyle"
-            android:layout_width="match_parent"
-
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
 
-            android:text="Continue" />
+            android:text="OK" />
 
 
     </LinearLayout>

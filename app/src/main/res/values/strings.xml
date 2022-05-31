@@ -19,6 +19,7 @@
     <string name="choose_file">Select a file</string>
     <string name="error_selecting_file">Error selecting File</string>
     <string name="internal_storage">Internal storage</string>
+    <string name="myaccount_update"> Please update your profile photo.</string>
 
     <string name="title_activity_home">Home</string>
     <string name="camera_access_required">Camera access is required to display the camera.</string>

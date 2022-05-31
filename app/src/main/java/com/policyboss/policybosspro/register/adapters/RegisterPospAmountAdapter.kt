@@ -49,6 +49,7 @@ class RegisterPospAmountAdapter (
 
             (mContext as RegisterActivity).PospAmountAlert(
                 pospAmntEntity.posp_header_desc,
+                pospAmntEntity.posp_sub_header_desc,
                 getDescList(pospAmntEntity.posp_desc))
 
 
@@ -71,6 +72,15 @@ class RegisterPospAmountAdapter (
 
 
             updateList(pospAmntEntity, position)
+
+        }
+
+        holder.imgInfo.setOnClickListener {
+
+            (mContext as RegisterActivity).PospAmountAlert(
+                pospAmntEntity.posp_header_desc,
+                pospAmntEntity.posp_sub_header_desc,
+                getDescList(pospAmntEntity.posp_desc))
 
         }
     }

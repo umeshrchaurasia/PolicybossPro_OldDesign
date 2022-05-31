@@ -119,23 +119,23 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        if (response instanceof BikeMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CarMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CityMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof InsuranceMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        }
+//        if (response instanceof BikeMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        } else if (response instanceof CarMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        } else if (response instanceof CityMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        } else if (response instanceof InsuranceMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        }
     }
 
     @Override

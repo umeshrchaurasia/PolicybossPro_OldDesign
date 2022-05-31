@@ -531,6 +531,8 @@ public class PrefManager {
 
     private static final String SAVE_BEHAVIOUR = "seasonaldate";
 
+    private static final String IS_MYACCOUNT = "ismyaccount_updated";
+
     public void setIsBirthday(boolean isFirstTime) {
         Calendar calendar = Calendar.getInstance();
         String currentDay = simpleDateFormat.format(calendar.getTime());
@@ -591,6 +593,19 @@ public class PrefManager {
 
     public boolean isUserBehaviourSave() {
         return pref.getBoolean(SAVE_BEHAVIOUR, false);
+    }
+
+
+    //endregion
+
+    //region user behaviour
+
+    public boolean setMyAccountData(boolean isSend) {
+        return editor.putBoolean(IS_MYACCOUNT, isSend).commit();
+    }
+
+    public boolean isMyAccountReqUpdate() {
+        return pref.getBoolean(IS_MYACCOUNT, false);
     }
 
 
