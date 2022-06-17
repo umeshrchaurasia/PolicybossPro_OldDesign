@@ -105,6 +105,8 @@ public class UserConstantEntity extends RealmObject {
     private String finmartwhatsappno;
     private int isactive;
 
+    private String enablemyaccountupdate;
+
     /**
      * plbanner :https://horizon.policyboss.com:5443/images/plbanner.gif
      * plactive : 1
@@ -121,6 +123,7 @@ public class UserConstantEntity extends RealmObject {
     private String PBByCrnSearch;
 
     private String ERPID;
+
     /**
      * userid :
      * marketinghomepopupid : 1
@@ -138,6 +141,8 @@ public class UserConstantEntity extends RealmObject {
     private String marketinghomemaxcount;
     private String marketinghomeenabled;
     private String marketinghometransfertype;
+
+
 
     private String healthurltemp;
 
@@ -1146,4 +1151,13 @@ public class UserConstantEntity extends RealmObject {
     public void setEnablesynccontact(String enablesynccontact) {
         this.enablesynccontact = enablesynccontact;
     }
+
+    public String getEnablemyaccountupdate() {
+        return enablemyaccountupdate;
+    }
+
+    public void setEnablemyaccountupdate(String enablemyaccountupdate) {
+        this.enablemyaccountupdate = enablemyaccountupdate;
+    }
+
 }

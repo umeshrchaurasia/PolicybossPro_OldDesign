@@ -11,18 +11,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
-
-import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.Toolbar;
-
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -46,14 +34,34 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter;
+import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.register.adapters.MultiSelectionSpinner;
+import com.policyboss.policybosspro.register.adapters.PospAmountDetailAdapter;
+import com.policyboss.policybosspro.register.adapters.RegisterPospAmountAdapter;
+import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -69,10 +77,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RegisterPospAmountModel;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SalesDataEntity;
@@ -84,6 +92,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterationPospAmountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SourceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
@@ -101,7 +110,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     MultiSelectionSpinner spLifeIns, spGenIns, spHealthIns;
     CheckBox chbxLife, chbxGen, chbxHealth, chbxMutual, chbxStocks, chbxPostal, chbxBonds;
     Button btnSubmit;
-    RadioButton rdNineHundredNinetyNine, rdTwoHundredNinetyNine ,rdNinetyNine;
+    RadioButton rdNineHundredNinetyNine, rdTwoHundredNinetyNine ;
+    RegisterPospAmountAdapter PospAmountAdapter;
+    RecyclerView rvPospAmount;
+    String POSP_AMOUNT ="";
 
     RegisterRequestEntity registerRequestEntity;
     Boolean isValidPersonalInfo = false, isMobileValid = false;
@@ -120,10 +132,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     List<SourceEntity> sourceList;
     List<SalesDataEntity> saleList;
+    List<RegisterPospAmountModel> pospList;
     boolean isSaleclick = false;
     LinkedHashMap<String, Integer> mapSale = new LinkedHashMap<>();
     ArrayList<String> tempSaleList;
-    AlertDialog pincodeDialog;
+    AlertDialog pincodeDialog , pospAmountDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +148,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         trackingRequestEntity = new TrackingRequestEntity();
         dbPersistanceController = new DBPersistanceController(this);
         registerRequestEntity = new RegisterRequestEntity();
+        pospList = new ArrayList<>();
         sourceList = new ArrayList<>();
         saleList = new ArrayList<>();
         tempSaleList = new ArrayList<>();
@@ -144,10 +158,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setListener();
         initLayouts();
         setSpinnerListener();
-
+        setGender();
         txtsale.setVisibility(View.GONE);
         prefManager = new PrefManager(this);
 
+        new RegisterController(this).getRegistPospAmount(this);
         new RegisterController(this).getRegSource(this);
 
         // showDialog();
@@ -390,8 +405,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         rdNineHundredNinetyNine = (RadioButton) findViewById(R.id.rdNineHundredNinetyNine);
         rdTwoHundredNinetyNine = (RadioButton) findViewById(R.id.rdTwoHundredNinetyNine);
-        rdNinetyNine  = (RadioButton) findViewById(R.id.rdNinetyNine);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
+
+        rvPospAmount = (RecyclerView) findViewById(R.id.rvPospAmount);
+        rvPospAmount.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(RegisterActivity.this);
+        rvPospAmount.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -455,6 +475,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private Boolean validateRegister() {
+
+
         if (!isEmpty(etFirstName)) {
             etFirstName.requestFocus();
             etFirstName.setError("Enter First Name");
@@ -509,12 +531,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             return false;
         }
 
-        if (!(rdTwoHundredNinetyNine.isChecked()) && !(rdNineHundredNinetyNine.isChecked())   && !(rdNinetyNine.isChecked()) ) {
+        if(!isValidatePospAmount()){
             Snackbar snackbar = Snackbar
-                    .make(rdNineHundredNinetyNine, "Please Select Posp Amount", Snackbar.LENGTH_LONG);
+                    .make(etPincode, "Please Select Posp Amount", Snackbar.LENGTH_LONG);
             snackbar.show();
             return false;
         }
+
+
+//        if (!(rdTwoHundredNinetyNine.isChecked()) && !(rdNineHundredNinetyNine.isChecked())   && !(rdNinetyNine.isChecked()) ) {
+//            Snackbar snackbar = Snackbar
+//                    .make(rdNineHundredNinetyNine, "Please Select Posp Amount", Snackbar.LENGTH_LONG);
+//            snackbar.show();
+//            return false;
+//        }
+//
 //        if (!isEmpty(etCity)) {
 //            etCity.requestFocus();
 //            etCity.setError("Enter City");
@@ -536,6 +567,23 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         return true;
     }
 
+    private boolean isValidatePospAmount(){
+
+        Boolean blnChk = false;
+
+        for (int i=0; i<pospList.size(); i++) {
+
+            if(pospList.get(i).isCheck()){
+
+                blnChk  =  true;
+                POSP_AMOUNT = pospList.get(i).getPosp_amount();
+                break;
+
+            }
+        }
+
+        return blnChk;
+    }
     private void setProfessionInfo() {
 
         if (chbxLife.isChecked()) {
@@ -631,17 +679,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             registerRequestEntity.setField_sales_uid("");
         }
 
-        if(rdNineHundredNinetyNine.isChecked()){
+        registerRequestEntity.setPosp_amount(POSP_AMOUNT);
 
-            registerRequestEntity.setPosp_amount("999");
-        }else if(rdTwoHundredNinetyNine.isChecked()) {
-
-            registerRequestEntity.setPosp_amount("299");
-
-        }else if(rdNinetyNine.isChecked()) {
-
-            registerRequestEntity.setPosp_amount("99");
-        }
+//        if(rdNineHundredNinetyNine.isChecked()){
+//
+//            registerRequestEntity.setPosp_amount("999");
+//        }else {
+//
+//            registerRequestEntity.setPosp_amount("299");
+//
+//        }
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -674,6 +721,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             if (response != null) {
                 sourceList = ((RegisterSourceResponse) response).getMasterData();
                 bindSource();
+            }
+
+        } else if (response instanceof RegisterationPospAmountResponse) {
+
+            if (response != null) {
+                pospList = ((RegisterationPospAmountResponse) response).getMasterData();
+                bindPospAmount();
             }
 
         } else if (response instanceof GenerateOtpResponse) {
@@ -803,7 +857,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spSource.setAdapter(prevInsAdapter);
     }
 
-    private List<String> getSaleyList() {
+    private void bindPospAmount() {
+
+        if (pospList.size() > 0) {
+            PospAmountAdapter = new RegisterPospAmountAdapter(RegisterActivity.this, pospList);
+            rvPospAmount.setAdapter(PospAmountAdapter);
+
+        }
+    }
+
+        private List<String> getSaleyList() {
         mapSale.clear();
         // mapSale.put("SELECT", 0);
         for (SalesDataEntity salesDataEntity : saleList) {
@@ -1050,6 +1113,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     };
     //endregion
 
+
+    private void setGender(){
+
+        isFemale = false;
+        isMale = true;
+        setGender(txtMale, txtFemale);
+    }
+
     private void setGender(TextView clickedText, TextView textView1) {
 
 
@@ -1157,6 +1228,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             btnAllow.setText("Call");
             btnReject.setText("Close");
+            btnAllow.setVisibility(View.GONE);
 
 
             btnAllow.setOnClickListener(new View.OnClickListener() {
@@ -1187,6 +1259,58 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             });
             pincodeDialog.setCancelable(true);
             pincodeDialog.show();
+        }
+
+    }
+
+    public void PospAmountAlert(String Title,String subTitle,  List<String>  strDetailList) {
+
+        if (pospAmountDialog != null && pospAmountDialog.isShowing()) {
+
+            return;
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
+
+            Button btnClose;
+            TextView txtTitle,txtHeader;
+            RecyclerView rvDetails;
+            PospAmountDetailAdapter pospAmountDetailAdapter;
+
+
+            LayoutInflater inflater = this.getLayoutInflater();
+            final View dialogView = inflater.inflate(R.layout.layout_posp_amount_popup, null);
+
+            builder.setView(dialogView);
+            pospAmountDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
+            txtHeader  =(TextView) dialogView.findViewById(R.id.txtHeader);
+             rvDetails = dialogView.findViewById(R.id.rvDetails);
+            rvDetails.setLayoutManager(new LinearLayoutManager(this));
+            rvDetails.setHasFixedSize(true);
+            rvDetails.setNestedScrollingEnabled(false);
+            pospAmountDetailAdapter  = new PospAmountDetailAdapter(RegisterActivity.this, strDetailList);
+            rvDetails.setAdapter(pospAmountDetailAdapter);
+
+            btnClose = (Button) dialogView.findViewById(R.id.btnClose);
+
+            txtTitle.setText(Title);
+            txtHeader.setText(subTitle);
+
+
+
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pospAmountDialog.dismiss();
+
+                }
+            });
+
+
+            pospAmountDialog.setCancelable(true);
+            pospAmountDialog.show();
         }
 
     }

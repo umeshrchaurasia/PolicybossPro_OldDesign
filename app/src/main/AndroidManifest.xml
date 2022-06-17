@@ -1103,7 +1103,7 @@
         </receiver>
         <receiver
             android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
@@ -1111,7 +1111,7 @@
 
         <service
             android:name="com.policyboss.policybosspro.utility.MyFirebaseMessagingService"
-            android:exported="true"
+            android:exported="false"
             android:stopWithTask="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

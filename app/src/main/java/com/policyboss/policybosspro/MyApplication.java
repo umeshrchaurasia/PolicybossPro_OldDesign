@@ -11,10 +11,6 @@ import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import org.matomo.sdk.TrackerBuilder;
-import org.matomo.sdk.extra.DownloadTracker;
-import org.matomo.sdk.extra.MatomoApplication;
-import org.matomo.sdk.extra.TrackHelper;
 
 //import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -28,7 +24,7 @@ public class MyApplication extends Application {
             .getSimpleName();
     public static MyApplication mInstance;
 
-    private org.matomo.sdk.Tracker mMamatoTracker;
+
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
@@ -110,30 +106,6 @@ public class MyApplication extends Application {
         }
     }
 
-    /***
-     * Tracking event
-     *
-     * @param category event category
-     * @param action   action of the event
-     * @param label    label
-     */
-//    public void trackEvent(String category, String action, String label) {
-//        Tracker t = getGoogleAnalyticsTracker();
-//        int FBA_ID = 0;
-//        DBPersistanceController dbPersistanceController = new DBPersistanceController(this);
-//
-//        if (dbPersistanceController.getUserData() != null)
-//            FBA_ID = dbPersistanceController.getUserData().getFBAId();
-//        // Build and send an Event.
-//        t.send(new HitBuilders.EventBuilder().setCategory(category).setAction(action).setLabel(label).setValue(FBA_ID).build());
-//
-//
-//        //first hive
-//        getTracker().setUserId(String.valueOf(FBA_ID));
-//        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
-//        TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
-//
-//    }
 
 
     public void trackEvent(String category, String action, String label) {
@@ -153,20 +125,8 @@ public class MyApplication extends Application {
 
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 
-                //first hive
-//        getTracker().setUserId(String.valueOf(FBA_ID));
-//        TrackHelper.track().download().identifier(new DownloadTracker.Extra.ApkChecksum(this)).with(getTracker());
-//        TrackHelper.track().event(category, action).name(label).value(1000f).with(getTracker());
+
     }
-
-
-
-//    @Override
-//    public TrackerBuilder onCreateTrackerConfig() {
-//
-//        return TrackerBuilder.createDefault("https://firsthive.com/engage/piwik/piwik.php", Integer.parseInt(BuildConfig.FIRSTHIVE));
-//    }
-
 
     
 }

@@ -13,7 +13,16 @@ public class NotificationEntity {
     private String is_read;
     private String date;
     private int message_id;
+    private  boolean isOpen;
 
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
     public String getTitle() {
         return title;
     }

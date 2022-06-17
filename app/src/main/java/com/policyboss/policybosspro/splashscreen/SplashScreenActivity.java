@@ -68,13 +68,13 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 });
 
 
-        new MasterController(this).getInsurerList();
-
-        if (new LoanCityFacade(this) != null) {
-            if (new LoanCityFacade(this).getLoanCity() == null) {
-                new ErpLoanController(this).getcityloan(null);
-            }
-        }
+//        new MasterController(this).getInsurerList();
+//
+//        if (new LoanCityFacade(this) != null) {
+//            if (new LoanCityFacade(this).getLoanCity() == null) {
+//                new ErpLoanController(this).getcityloan(null);
+//            }
+//        }
 
 
         // for user constant
@@ -92,20 +92,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         }*/
 
 
-       //region Comment
-     //       prefManager.updateCheckMsgFirst("" + 0);
 
-//        prefManager.setIsUpdateShown(true);
-//        if (prefManager.IsBikeMasterUpdate())
-//            new MasterController(this).getBikeMaster(this);
-//        if (prefManager.IsCarMasterUpdate())
-//            new MasterController(this).getCarMaster(this);
-//        if (prefManager.IsRtoMasterUpdate())
-//            new MasterController(this).getRTOMaster(this);
-//        if (prefManager.IsInsuranceMasterUpdate())
-//            new MasterController(this).getInsuranceMaster(this);
-
-          //endregion
         if (prefManager.isFirstTimeLaunch()) {
 
             startActivity(new Intent(this, WelcomeActivity.class));
@@ -118,41 +105,12 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 @Override
                 public void run() {
 
-                    //region comment
-                                        if (checkAllMastersIsUpdate()) {
                         if (loginResponseEntity != null) {
                             startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                         } else {
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
-                    }
-                    else {
 
-
-                        if (prefManager.IsBikeMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
-                        if (prefManager.IsCarMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getCarMaster(SplashScreenActivity.this);
-                        if (prefManager.IsRtoMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getRTOMaster(SplashScreenActivity.this);
-                        if (prefManager.IsInsuranceMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getInsuranceMaster(SplashScreenActivity.this);
-                        if (prefManager.getIsRblCityMaster())
-                            new CreditCardController(SplashScreenActivity.this).getRblCityMaster(SplashScreenActivity.this);
-
-                        if (loginResponseEntity != null) {
-                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-                        } else {
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                        }
-                    }
-                    //endregion
-
-//                    if (loginResponseEntity != null) {
-//                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-//                    } else {
-//                        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-//                    }
                 }
             }, SPLASH_DISPLAY_LENGTH);
         }
@@ -161,23 +119,23 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        if (response instanceof BikeMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CarMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CityMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof InsuranceMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        }
+//        if (response instanceof BikeMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        } else if (response instanceof CarMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        } else if (response instanceof CityMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        } else if (response instanceof InsuranceMasterResponse) {
+//            if (checkAllMastersIsUpdate()) {
+//                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+//            }
+//        }
     }
 
     @Override

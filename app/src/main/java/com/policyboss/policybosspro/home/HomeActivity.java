@@ -172,7 +172,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
-    AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog;
+    AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog, MyAccountDialog;
     int selectedLang = -1;
     String LANGUAGE;
 
@@ -298,17 +298,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         // will be called once when ever app is opened
 
-        if (db.getRTOListNames() != null && db.getRTOListNames().size() <= 0) {
-            new MasterController(this).getRTOMaster(this);
-        }
+//        if (db.getRTOListNames() != null && db.getRTOListNames().size() <= 0) {
+//            new MasterController(this).getRTOMaster(this);
+//        }
 
         if (loginResponseEntity != null) {
-            if (loginResponseEntity.getPOSPNo().equals("5")) {
-                verifyPospNo();
-                return;
+            if(loginResponseEntity.getPOSPNo() != null){
+                if (loginResponseEntity.getPOSPNo().equals("5")) {
+                    verifyPospNo();
+                    return;
+                }
             }
-            new MasterController(this).getInsuranceSubType(this);
-            new MasterController(this).getInsurerList();
+
+//            new MasterController(this).getInsuranceSubType(this);
+//            new MasterController(this).getInsurerList();
         }
 
 
@@ -1259,38 +1262,62 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     prefManager.clearNotification();
 
-                    if (type.matches("NL")) {
-                        Intent intent = new Intent(this, NotificationActivity.class);
-                        startActivity(intent);
+                    //region comment
+//                    if (type.matches("NL")) {
+//                        Intent intent = new Intent(this, NotificationActivity.class);
+//                        startActivity(intent);
+//
+//                    } else if (type.matches("MSG")) {
+//
+//                        startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
+//                                .putExtra("NOTIFY_TITLE", title)
+//                                .putExtra("NOTIFY_BODY", body));
+//
+//                    } else if (type.matches("PF")) {
+//                         //PF : Profile Pic
+//                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class)
+//                                .putExtra("NOTIFY_TITLE", title)
+//                                .putExtra("NOTIFY_BODY", body));
+//
+//                    }else if (type.matches("WB")) {
+//                        //WB : Webview
+//                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+//                                .putExtra("URL", web_url)
+//                                .putExtra("NAME", web_name)
+//                                .putExtra("TITLE", web_title));
+//
+//                    }
 
-                    } else if (type.matches("MSG")) {
-
-                        startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
-                                .putExtra("NOTIFY_TITLE", title)
-                                .putExtra("NOTIFY_BODY", body));
-
-                    } else if (type.matches("WB")) {
-
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", web_url)
-                                .putExtra("NAME", web_name)
-                                .putExtra("TITLE", web_title));
-
-                    }
+                    //endregion
                 }
 
             }
             //endregion
 
-            // region user already logged in and app in forground
+            // region user already logged in and app in forground / Background
             else if (getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
                 NotifyEntity notificationEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
 
-                if (notificationEntity.getWeb_url() != null) {
+                if (notificationEntity.getNotifyFlag().trim().equals("NL")) {
+                    Intent intent = new Intent(this, NotificationActivity.class);
+                    startActivity(intent);
 
-                    navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
+                } else if (notificationEntity.getNotifyFlag().trim().equals("PF")) {
 
+                    startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+
+                } else if (notificationEntity.getNotifyFlag().trim().equals("SL")) {
+
+                    startActivity(new Intent(HomeActivity.this, SalesMaterialActivity.class));
+
+                }  else{
+                    if (notificationEntity.getWeb_url() != null) {
+
+                        navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
+
+                    }
                 }
+
             }
 
             //endregion
@@ -1440,8 +1467,25 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         showMarketingPopup();
                     }
 
+
+                    if (userConstantEntity.getEnablemyaccountupdate() != null  ) {
+
+                        if(userConstantEntity.getEnablemyaccountupdate().equals("1")){
+
+                            if((userConstantEntity.getLoanselfphoto() == null) || ( userConstantEntity.getLoanselfphoto().trim().equals("")) )  {
+                                showMyAccountAlert();
+
+                          }
+                        }
+
+
+                    }
+
+
+
                     //Notification Url :-1 November
                     int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
+
 
                     if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
@@ -1449,6 +1493,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
                                 prefManager.setIsSeasonal(false);
                             }
+
                         }
                     } else if (localNotificationenable == 0) {
                         // prefManager.updatePopUpId("" + serverId);
@@ -1456,10 +1501,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             if (prefManager.getIsSeasonal()) {
                                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
                                 prefManager.setIsSeasonal(false);
+
                             }
                         }
 
                     }
+//                    else if(1==1){
+//
+//                        showContactAlert("My Account Update", getString(R.string.buyHdfc));
+//                    }
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1486,17 +1536,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         }
                     }
 
-                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
-                        for (Fragment frg :
-                                getSupportFragmentManager().getFragments()) {
-
-                            if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
-                                if (!frg.isVisible()) {
-                                    //DialogMPS();
-                                }
-                            }
-                        }
-                    }
+//                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
+//                        for (Fragment frg :
+//                                getSupportFragmentManager().getFragments()) {
+//
+//                            if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
+//                                if (!frg.isVisible()) {
+//                                    //DialogMPS();
+//                                }
+//                            }
+//                        }
+//                    }
 
                 } else if (((ConstantsResponse) response).getMasterData().
                         getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
@@ -2070,6 +2120,63 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     }
 
+    public void showMyAccountAlert() {
+
+        if (MyAccountDialog != null && MyAccountDialog.isShowing()) {
+
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+
+        TextView txtTile, txtMessage;
+        ImageView ivCross, ivMessage;
+        Button btnAllow;
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_verify_mycontact_popup, null);
+
+        builder.setView(dialogView);
+        MyAccountDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        txtTile = dialogView.findViewById(R.id.txtTile);
+        txtMessage = dialogView.findViewById(R.id.txtMessage);
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+        ivMessage = (ImageView) dialogView.findViewById(R.id.ivMessage);
+        btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+
+        String url = "https://api.magicfinmart.com/images/in_miss1.jpeg?"+  Math.round(Math.random() * 1000);;
+        Glide.with(HomeActivity.this)
+                .load(url)
+                //.placeholder(R.drawable.circle_placeholder)
+                .into(ivMessage);
+
+        txtTile.setText("Update Profile Photo!!");
+       // txtMessage.setText(getResources().getString(R.string.myaccount_update));
+
+
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyAccountDialog.dismiss();
+
+            }
+        });
+
+        btnAllow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyAccountDialog.dismiss();
+                startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+
+            }
+        });
+
+        MyAccountDialog.setCancelable(true);
+        MyAccountDialog.setCanceledOnTouchOutside(true);
+        MyAccountDialog.show();
+
+    }
 
     public void CallingDetailsPopUp(List<UserCallingEntity> lstCallingDetail) {
         if (callingDetailDialog != null && callingDetailDialog.isShowing()) {
@@ -2987,18 +3094,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     private void navigateViaNotification(String prdID, String WebURL, String Title) {
 
-        if (prdID.equals("18")) {
-
-            startActivity(new Intent(HomeActivity.this, TermSelectionActivity.class));
-
-        } else if (prdID.equals("WB")) {
+      if (prdID.equals("WB")) {
 
             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                     .putExtra("URL", WebURL)
                     .putExtra("NAME", Title)
                     .putExtra("TITLE", Title));
 
-        } else {
+        } else if (prdID == "CB") {
+            Utility.loadWebViewUrlInBrowser(HomeActivity.this, WebURL);
+        }else {
 
             if (WebURL.trim().equals("") || Title.trim().equals("")) {
 

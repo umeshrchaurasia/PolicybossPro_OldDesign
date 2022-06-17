@@ -16,13 +16,14 @@
         app:cardCornerRadius="5dp">
 
         <LinearLayout
-            android:id="@+id/lyParent"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
             <LinearLayout
+                android:id="@+id/lyParent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -84,6 +85,7 @@
                 android:background="@color/lightGrey" />
 
             <RelativeLayout
+                android:id="@+id/rlArrow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -114,17 +116,59 @@
 
                 <TextView
                     android:id="@+id/txtDate"
-                    android:layout_width="wrap_content"
                     style="@style/TextViewStyle.Medium"
-                    android:layout_marginRight="2dp"
-
-                   android:layout_alignParentRight="true"
-
-                    android:paddingRight="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:layout_toLeftOf="@+id/imgArrow"
                     android:text="22/09/2017"
                     android:textColor="@color/text_edit_color" />
 
+                <ImageView
+                    android:id="@+id/imgArrow"
+                    android:visibility="invisible"
+                    android:layout_width="28dp"
+
+                    android:layout_height="28dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="-2dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginRight="0dp"
+                    android:paddingRight="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/drop_down_arrow">
+
+                </ImageView>
             </RelativeLayout>
+
+            <View
+               android:id="@+id/viewBigImg"
+                android:layout_width="match_parent"
+                android:layout_height="0.6dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/lightGrey" />
+
+            <RelativeLayout
+                android:id="@+id/rlBigImg"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgBigNotify"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+
+                    android:src="@drawable/notification_ic">
+
+                </ImageView>
+
+
+
+            </RelativeLayout>
+
 
 
         </LinearLayout>
