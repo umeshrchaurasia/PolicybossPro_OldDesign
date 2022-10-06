@@ -1474,10 +1474,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                             if((userConstantEntity.getLoanselfphoto() == null) || ( userConstantEntity.getLoanselfphoto().trim().equals("")) )  {
                                 showMyAccountAlert();
-
                           }
                         }
-
 
                     }
 
