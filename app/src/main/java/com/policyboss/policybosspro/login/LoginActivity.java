@@ -158,10 +158,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case  Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
-              // if (grantResults.length > 0) {
-
+            case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
+                // if (grantResults.length > 0) {
 
 
                 // if (grantResults.length > 0)
@@ -178,7 +178,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     } else {
 
                         //Permission Denied, You cannot access location data and camera
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (SDK_INT >= Build.VERSION_CODES.M) {
 
 
                             showMessageOKCancel("Required permissions to proceed Magic-finmart..!",

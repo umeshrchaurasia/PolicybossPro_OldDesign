@@ -35,10 +35,14 @@
         <entry key="..\:/Rahul Proj/PolicybossPro_OldDesign/app/src/main/res/layout/push_notify_item.xml" value="0.48656716417910445" />
         <entry key="..\:/Rahul Proj/PolicybossPro_OldDesign/app/src/main/res/menu/nav_menu_drawer.xml" value="0.17395833333333333" />
         <entry key="..\:/Rahul Proj/PolicybossPro_OldDesign/app/src/main/res/menu/navigation.xml" value="0.17395833333333333" />
+        <entry key="app/src/main/res/drawable/ic_drop_down_24.xml" value="0.1315" />
+        <entry key="app/src/main/res/layout/content_register.xml" value="0.21603260869565216" />
+        <entry key="app/src/main/res/layout/layout_verify_mycontact_popup.xml" value="0.18704710144927536" />
+        <entry key="app/src/main/res/menu/nav_menu_drawer.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

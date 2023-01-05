@@ -1313,7 +1313,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }  else{
                     if (notificationEntity.getWeb_url() != null) {
 
-                        navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
+                            navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
 
                     }
                 }
@@ -1474,10 +1474,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                             if((userConstantEntity.getLoanselfphoto() == null) || ( userConstantEntity.getLoanselfphoto().trim().equals("")) )  {
                                 showMyAccountAlert();
-
                           }
                         }
-
 
                     }
 
@@ -3101,7 +3099,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     .putExtra("NAME", Title)
                     .putExtra("TITLE", Title));
 
-        } else if (prdID == "CB") {
+            } else if (prdID.equals("CB")) {
             Utility.loadWebViewUrlInBrowser(HomeActivity.this, WebURL);
         }else {
 
