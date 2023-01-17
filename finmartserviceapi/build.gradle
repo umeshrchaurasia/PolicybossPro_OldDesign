@@ -3,10 +3,6 @@ apply plugin: 'com.android.library'
 android {
     signingConfigs {
         release {
-            keyAlias 'PolicyBossPro'
-            keyPassword 'PolicyBossPro'
-            storeFile file('D:\\Umesh_Projects\\PolicyBossPro_Newjks\\PolicyBossPro.jks')
-            storePassword 'PolicyBossPro'
         }
     }
     compileSdkVersion 32

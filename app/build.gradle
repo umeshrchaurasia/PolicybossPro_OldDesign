@@ -23,6 +23,10 @@ repositories {
 }
 
 android {
+    signingConfigs {
+        release {
+        }
+    }
     compileSdkVersion 32
 
     lintOptions {
@@ -36,13 +40,6 @@ android {
     buildFeatures {
         viewBinding true
 
-    }
-    signingConfigs {
-        release {
-            keyAlias 'PolicyBossPro'
-            keyPassword 'PolicyBossPro'
-            storePassword 'PolicyBossPro'
-        }
     }
     defaultConfig {
         multiDexEnabled true
