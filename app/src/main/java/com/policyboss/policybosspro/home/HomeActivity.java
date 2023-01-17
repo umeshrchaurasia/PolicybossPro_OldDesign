@@ -83,6 +83,7 @@ import com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity;
 import com.policyboss.policybosspro.share_data.ShareDataFragment;
 import com.policyboss.policybosspro.splashscreen.SplashScreenActivity;
 import com.policyboss.policybosspro.switchuser.SwitchUserActivity;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.compareterm.CompareTermActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.transactionhistory.nav_transactionhistoryActivity;
@@ -97,6 +98,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -126,6 +128,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.Ma
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashboardarrayEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
@@ -287,6 +290,71 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         init_headers();
 
+        String deeplink_value= prefManager.getDeepLink();
+        if(!deeplink_value.isEmpty())
+        {
+
+            Uri myUri = Uri.parse(deeplink_value);
+
+            String prdID=   myUri.getQueryParameter("product_id");
+            String title_value=   myUri.getQueryParameter("title");
+            String Title = "PolicyBoss";
+            if(title_value!=null)
+            {
+                Title=title_value;
+            }else {
+                Title = "PolicyBoss";
+            }
+
+            if(prdID!=null)
+            {
+
+                // combine other parameter
+                if (deeplink_value.trim().equals("") || Title.trim().equals("")) {
+
+                    return;
+                }
+                String ipaddress = "0.0.0.0";
+                try {
+                    ipaddress = Utility.getMacAddress(HomeActivity.this);
+                } catch (Exception io) {
+                    ipaddress = "0.0.0.0";
+                }
+
+
+                //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" +
+                        "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                        + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                        + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                        + "&product_id=" + prdID
+                        + "&login_ssid=";
+                deeplink_value = deeplink_value + append;
+
+                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                        .putExtra("URL", deeplink_value)
+                        .putExtra("NAME", Title)
+                        .putExtra("TITLE", Title));
+
+
+
+            }
+            else
+            {
+                //new link
+
+                String prd2=  myUri.getQueryParameter("product_id");
+                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                        .putExtra("URL", deeplink_value)
+                        .putExtra("NAME", Title)
+                        .putExtra("TITLE", Title));
+
+            }
+
+
+            prefManager.clearDeeplink();
+
+        }
 
         setNavigationMenu(prefManager.getLanguage());    // Set Navigation Drawer
 
@@ -560,7 +628,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_contact:
-                        startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
+                       // startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
+                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
                         break;
                     case R.id.nav_sendSmsTemplate:
                         startActivity(new Intent(HomeActivity.this, SendTemplateSmsActivity.class));
@@ -1034,7 +1103,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
                 // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
@@ -1362,7 +1431,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionViewnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
             }
 
 
@@ -1459,8 +1528,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } else if (response instanceof UserConstatntResponse) {
             if (response.getStatusNo() == 0) {
                 if (((UserConstatntResponse) response).getMasterData() != null) {
+
                     //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
+
+                    shortcutAppMenu();
                     init_headers();
 
                     if (prefManager.getPopUpCounter().equals("0")) {
@@ -1486,18 +1558,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                     if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
-                        if (!userConstantEntity.getNotificationpopupurl().equals("")) {
+                        if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
                             if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
                                 prefManager.setIsSeasonal(false);
                             }
 
                         }
                     } else if (localNotificationenable == 0) {
                         // prefManager.updatePopUpId("" + serverId);
-                        if (!userConstantEntity.getNotificationpopupurl().equals("")) {
+                        if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
                             if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, "");
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
                                 prefManager.setIsSeasonal(false);
 
                             }
@@ -1580,6 +1652,197 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         }
 
+    }
+
+
+    private void shortcutAppMenu() {
+
+        try{
+            if(loginResponseEntity != null && userConstantEntity != null){
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+
+                    //  val shortcutManager = getSystemService(ShortcutManager::class.java);
+
+
+                    ShortcutManager  shortcutManager = getSystemService(ShortcutManager.class);
+
+                    if (shortcutManager != null) {
+
+                        // var intentPrivateCar: Intent? = null;
+
+                        //Motor
+                        if(db==null)
+                        {
+                            db = new DBPersistanceController(HomeActivity.this);
+                        }
+
+                        String motorUrl = db.getUserConstantsData().getFourWheelerUrl();
+                        String bikeUrl = db.getUserConstantsData().getTwoWheelerUrl();
+                        String healthUrl = db.getUserConstantsData().getHealthurl();
+
+
+                        String  expressUrl="";
+                        for (int i=0;  i< db.getUserConstantsData().getDashboardarray().size() ; i++)
+                        {
+                            DashboardarrayEntity dbEntity = db.getUserConstantsData().getDashboardarray().get(i);
+                            if(Integer.parseInt(dbEntity.getProdId())==35 )
+                            {
+                                expressUrl=dbEntity.getUrl();
+                            }
+
+                        }
+
+
+
+                        String ipaddress = "0.0.0.0";
+                        try {
+                            ipaddress = Utility.getMacAddress(HomeActivity.this);
+                        } catch (Exception io) {
+                            ipaddress = "0.0.0.0";
+                        }
+
+                        //fetching parent ss_id in case of switch user
+                        Map<String, String> map = (HomeActivity.this).loadMap();
+                        String parent_ssid = "";
+                        if (map.size() > 0) {
+                            parent_ssid = map.get("Parent_POSPNo");
+                        }
+
+
+                        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                        String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                                + "&product_id=1&login_ssid=" + parent_ssid;
+                        motorUrl = motorUrl + append;
+
+                        String append_bike = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                                + "&product_id=10&login_ssid=" + parent_ssid;
+                        bikeUrl = bikeUrl + append_bike;
+
+
+                        String append_health = "&ip_address=" + ipaddress
+                                + "&app_version=policyboss-" + Utility.getVersionName(HomeActivity.this)
+                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&login_ssid=" + parent_ssid;
+
+                        healthUrl = healthUrl + append_health;
+
+
+
+                        String append_express = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                                + "&product_id=35&login_ssid=" + parent_ssid;
+                        expressUrl = expressUrl + append_express;
+
+
+                        Intent intentPrivateCar;
+
+                        intentPrivateCar =new Intent(HomeActivity.this, CommonWebViewActivity.class);
+
+                        intentPrivateCar.putExtra("URL", motorUrl);
+                        intentPrivateCar.putExtra("dashBoardtype", "INSURANCE");
+                        intentPrivateCar.putExtra("NAME", "Motor Insurance");
+                        intentPrivateCar.putExtra("TITLE", "Motor Insurance");
+                        intentPrivateCar.putExtra("APPMENU", "Y");
+                        intentPrivateCar.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intentPrivateCar.setAction(Intent.ACTION_VIEW);
+
+                        Intent intentBike;
+
+                        intentBike = new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", bikeUrl)
+                                .putExtra("dashBoardtype", "INSURANCE")
+                                .putExtra("NAME", "Two Wheeler Insurance")
+                                .putExtra("TITLE", "Two Wheeler Insurance")
+                                .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intentBike.setAction(Intent.ACTION_VIEW);
+
+
+                        Intent intentExpressUrl;
+
+                        intentExpressUrl =new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", expressUrl)
+                                .putExtra("dashBoardtype", "INSURANCE")
+                                .putExtra("NAME", "2W Express Insurance")
+                                .putExtra("TITLE", "2W Express Insurance")
+                                .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intentExpressUrl.setAction(Intent.ACTION_VIEW);
+
+                        Intent intenthealthIns;
+
+                        intenthealthIns =new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", healthUrl)
+                                .putExtra("dashBoardtype", "INSURANCE")
+                                .putExtra("NAME", "Health Insurance")
+                                .putExtra("TITLE", "Health Insurance")
+                                .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intenthealthIns.setAction(Intent.ACTION_VIEW);
+
+
+                        //two_wheeler_express
+                        ShortcutInfo shortcutInfo1 =new ShortcutInfo.Builder(this, "ID1")
+                                .setShortLabel("2W Express Issuance")
+                                .setLongLabel("2W Express Issuance")
+                                .setIcon(Icon.createWithResource(this, R.drawable.twowheelerexpressicon_sm))
+                                .setIntent(intentExpressUrl)
+                                .setRank(0)
+                                .build();
+                        //health_advisory
+                        ShortcutInfo shortcutInfo2 =new ShortcutInfo.Builder(this, "ID2")
+                                .setShortLabel("Health Insurance")
+                                .setLongLabel("Health Insurance")
+                                .setIcon(Icon.createWithResource(this, R.drawable.health_insurance_sm))
+                                .setIntent(intenthealthIns)
+                                .setRank(1)
+                                .build();
+
+
+                        //car
+                        ShortcutInfo shortcutInfo3 =new ShortcutInfo.Builder(this, "ID3")
+                                .setShortLabel("Private Car")
+                                .setLongLabel("Private Car")
+                                .setIcon(Icon.createWithResource(this, R.drawable.private_car_sm))
+                                //.setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://programmerworld.co/")))
+                                .setIntent(intentPrivateCar)
+                                .setRank(2)
+                                .build();
+
+                        ShortcutInfo shortcutInfo4 =new ShortcutInfo.Builder(this, "ID4")
+                                .setShortLabel("Two Wheeler")
+                                .setLongLabel("Two Wheeler")
+                                .setIcon(Icon.createWithResource(this, R.drawable.two_wheeler_sm))
+                                .setIntent(intentBike)
+                                .setRank(3)
+                                .build();
+
+                        ArrayList<ShortcutInfo> shortcutInfoList = new ArrayList<ShortcutInfo>();
+
+                        shortcutInfoList.add(shortcutInfo1);
+                        shortcutInfoList.add(shortcutInfo2);
+                        shortcutInfoList.add(shortcutInfo3);
+                        shortcutInfoList.add(shortcutInfo4);
+
+
+                        shortcutManager.setDynamicShortcuts(shortcutInfoList);
+
+
+                    }
+
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Log.d("SHORTCUTMENU", ex.toString());
+        }
     }
 
 
@@ -1824,54 +2087,59 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
 
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                 shortcutManager = getSystemService(ShortcutManager.class);
             }
 
-            ShortcutInfo siFourwheeler = null, siTwowheeler = null, siHealthInsurance = null, siCVInsurance = null, siTermInsurance = null;
+            if (shortcutManager != null) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                siFourwheeler = new ShortcutInfo.Builder(this, "motor")
-                        .setShortLabel("Motor Insurance")
-                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                        .setIntent(fourWheelerIntent)
-                        .build();
 
-                siTwowheeler = new ShortcutInfo.Builder(this, "two_wheeler")
-                        .setShortLabel("Two wheeler Insurance")
-                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                        .setIntent(twoWheelerIntent)
-                        .build();
+                ShortcutInfo siFourwheeler = null, siTwowheeler = null, siHealthInsurance = null, siCVInsurance = null, siTermInsurance = null;
 
-                siHealthInsurance = new ShortcutInfo.Builder(this, "health_insurance")
-                        .setShortLabel("Health Insurance")
-                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                        .setIntent(healthWheelerIntent)
-                        .build();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    siFourwheeler = new ShortcutInfo.Builder(this, "motor")
+                            .setShortLabel("Motor Insurance")
+                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                            .setIntent(fourWheelerIntent)
+                            .build();
 
-                siCVInsurance = new ShortcutInfo.Builder(this, "cv_insurance")
-                        .setShortLabel("CV Insurance")
-                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                        .setIntent(cvIntent)
-                        .build();
+                    siTwowheeler = new ShortcutInfo.Builder(this, "two_wheeler")
+                            .setShortLabel("Two wheeler Insurance")
+                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                            .setIntent(twoWheelerIntent)
+                            .build();
 
-                siTermInsurance = new ShortcutInfo.Builder(this, "term_insurance")
-                        .setShortLabel("Term Insurance")
-                        .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                        .setIntent(termIntent)
-                        .build();
+                    siHealthInsurance = new ShortcutInfo.Builder(this, "health_insurance")
+                            .setShortLabel("Health Insurance")
+                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                            .setIntent(healthWheelerIntent)
+                            .build();
+
+                    siCVInsurance = new ShortcutInfo.Builder(this, "cv_insurance")
+                            .setShortLabel("CV Insurance")
+                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                            .setIntent(cvIntent)
+                            .build();
+
+                    siTermInsurance = new ShortcutInfo.Builder(this, "term_insurance")
+                            .setShortLabel("Term Insurance")
+                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
+                            .setIntent(termIntent)
+                            .build();
+                }
+
+                listShortCutInfo.add(siFourwheeler);
+                listShortCutInfo.add(siTwowheeler);
+                listShortCutInfo.add(siHealthInsurance);
+                listShortCutInfo.add(siCVInsurance);
+                // listShortCutInfo.add(siTermInsurance);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                    shortcutManager.addDynamicShortcuts(listShortCutInfo);
+                }
+
             }
 
-            listShortCutInfo.add(siFourwheeler);
-            listShortCutInfo.add(siTwowheeler);
-            listShortCutInfo.add(siHealthInsurance);
-            listShortCutInfo.add(siCVInsurance);
-            // listShortCutInfo.add(siTermInsurance);
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                shortcutManager.addDynamicShortcuts(listShortCutInfo);
-            }
 
 
         }
@@ -1942,7 +2210,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (userConstantEntity.getEnablesynccontact().equals("Y"))
                     nav_Menu.findItem(R.id.nav_contact).setVisible(true);
                 else
-                    nav_Menu.findItem(R.id.nav_contact).setVisible(false);
+                    nav_Menu.findItem(R.id.nav_contact).setVisible(true);
             }
 
             //Date 02/11/2020 by nilesh

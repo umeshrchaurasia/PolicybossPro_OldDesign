@@ -100,7 +100,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getRegistPospAmount(IResponseSubcriber iResponseSubcriber) {
+    public void getRegistPospAmount(final IResponseSubcriber iResponseSubcriber) {
 
         registerQuotesNetworkService.getRegistPospAmount().enqueue(new Callback<RegisterationPospAmountResponse>() {
             @Override

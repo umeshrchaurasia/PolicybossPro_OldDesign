@@ -90,7 +90,7 @@ public class Constants {
     public static String HEALTH_CHECKUP = "HEALTH CHECKUP PLANS";
     public static String CV = "COMMERSIAL VEHICLE";
     public static String ULTRALAKSHA_COMBO =  "ULTRA LAKSHYA COMBO";
-
+    public static String SyncContacts =  "Sync Contacts";
 
     public static final Double GST = 0.18;
     public static final String SHARED_PREFERENCE_FINMART = "shared_finmart";

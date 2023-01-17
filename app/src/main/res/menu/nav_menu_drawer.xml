@@ -83,12 +83,18 @@
                     android:orderInCategory="240"
                     android:title="Raise a Ticket" />
 
-
+                <item
+                    android:id="@+id/nav_sendSmsTemplate"
+                    android:icon="@drawable/mps"
+                    android:orderInCategory="242"
+                    android:title="Sms Templates"
+                    android:visible="true" />
                 <item
                     android:id="@+id/nav_changepassword"
                     android:icon="@drawable/change_password"
                     android:orderInCategory="245"
                     android:title="Change Password" />
+
 
 
             </menu>
@@ -166,6 +172,7 @@
                     android:title="Get Policy by CRN"
                     android:visible="false" />
 
+
             </menu>
         </item>
 
@@ -174,15 +181,15 @@
             android:id="@+id/nav_LEADS"
             android:icon="@drawable/my_account"
             android:orderInCategory="400"
-            android:title="MY LEADS">
+            android:title="Sync Contacts">
             <menu>
 
                 <item
                     android:id="@+id/nav_contact"
                     android:icon="@drawable/sync_contact_ic"
                     android:orderInCategory="410"
-                    android:title="Create Lead from Contact"
-                    android:visible="false" />
+                    android:title="Sync/ReSync Now"
+                    android:visible="true" />
                 <item
                     android:id="@+id/nav_generateLead"
                     android:icon="@drawable/vehicledetail"
@@ -207,16 +214,11 @@
                     android:id="@+id/nav_leaddetail"
                     android:icon="@drawable/insurance_policy_ic"
                     android:orderInCategory="450"
-                    android:title="Lead Dashboard"
+                    android:title="Summary &amp; Dashboard"
                     android:visible="true" />
 
 
-                <item
-                    android:id="@+id/nav_sendSmsTemplate"
-                    android:icon="@drawable/mps"
-                    android:orderInCategory="460"
-                    android:title="Sms Templates"
-                    android:visible="true" />
+
 
                 <!--added temp =05-->
                 <item

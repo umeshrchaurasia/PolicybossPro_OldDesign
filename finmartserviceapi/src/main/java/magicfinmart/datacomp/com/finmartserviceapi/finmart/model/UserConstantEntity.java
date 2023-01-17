@@ -203,6 +203,8 @@ public class UserConstantEntity extends RealmObject {
     private String MyMessagesEnabled;
     private String SmsTemplatesEnabled;
 
+    private String notif_popupurl_elite;
+
     public String getFinboxEnabled() {
         return FinboxEnabled;
     }
@@ -1160,4 +1162,11 @@ public class UserConstantEntity extends RealmObject {
         this.enablemyaccountupdate = enablemyaccountupdate;
     }
 
+    public String getNotif_popupurl_elite() {
+        return notif_popupurl_elite;
+    }
+
+    public void setNotif_popupurl_elite(String notif_popupurl_elite) {
+        this.notif_popupurl_elite = notif_popupurl_elite;
+    }
 }

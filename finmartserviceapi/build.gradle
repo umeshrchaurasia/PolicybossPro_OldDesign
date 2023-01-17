@@ -5,13 +5,13 @@ android {
         release {
             keyAlias 'PolicyBossPro'
             keyPassword 'PolicyBossPro'
-            storeFile file('PolicyBossPro')
+            storeFile file('D:\\Umesh_Projects\\PolicyBossPro_Newjks\\PolicyBossPro.jks')
             storePassword 'PolicyBossPro'
         }
     }
     compileSdkVersion 32
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 32
         versionCode 55
         versionName "2.3.0"
@@ -27,7 +27,7 @@ android {
             buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
             buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'
             buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
-            buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
+            buildConfigField "String", "NODE_URL", '"https://horizon.policyboss.com:5443"'
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
             signingConfig signingConfigs.release
@@ -71,7 +71,7 @@ android {
             buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
             buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'
             buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
-            buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
+            buildConfigField "String", "NODE_URL", '"https://horizon.policyboss.com:5443"'
             buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
             signingConfig signingConfigs.debug
@@ -90,6 +90,12 @@ dependencies {
     implementation 'com.squareup.okhttp:okhttp:2.7.5'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+
+    // val work_version = "2.7.1"
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
 
 }
 apply plugin: 'kotlin-android'

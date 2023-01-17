@@ -23,4 +23,7 @@
 
     <!-- Selectable Items -->
 
+    <dimen name="twelve">12dp</dimen>
+    <dimen name="eight">8dp</dimen>
+    <dimen name="twenty_four">24dp</dimen>
 </resources>

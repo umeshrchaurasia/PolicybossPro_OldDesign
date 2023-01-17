@@ -52,6 +52,7 @@ import android.widget.Toast;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.login.LoginActivity;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.hdfc.HdfcTermActivity;
 import com.policyboss.policybosspro.term.icici.IciciTermActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
@@ -84,6 +85,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 
 
@@ -1450,6 +1452,25 @@ public class BaseActivity extends AppCompatActivity {
             ((CommonWebViewActivity)mContext).galleryCamPopUp( randomID);
 
 
+        }
+
+        @JavascriptInterface
+        public void synccontacts() {
+            //Get the string value to process
+            //shareQuote();
+            startActivity(new Intent(BaseActivity.this, WelcomeSyncContactActivityNew.class));
+        }
+
+        @JavascriptInterface
+        public void syncsummary() {
+            //Get the string value to process
+            //shareQuote();
+
+            UserConstantEntity userConstantEntity =    new DBPersistanceController(BaseActivity.this).getUserConstantsData();
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class) // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+                    .putExtra("URL", "" + userConstantEntity.getLeadDashUrl())
+                    .putExtra("NAME", "" + "View Summary")
+                    .putExtra("TITLE", "" + "View Summary"));
         }
 
         // endregion

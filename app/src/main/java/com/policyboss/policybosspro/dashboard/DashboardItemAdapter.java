@@ -28,6 +28,7 @@ import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteApp
 import com.policyboss.policybosspro.ncd.NCDActivity;
 import com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity;
 import com.policyboss.policybosspro.quicklead.QuickLeadActivity;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.ultralaksha.ultra_selection.UltraLakshaSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
@@ -231,7 +232,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             case R.id.lyParent:
                 switchMenus((DashboardMultiLangEntity) view.getTag(view.getId()));   // ie DashboardMultiLangEntity entity
-                break;
+                 break;
 
             case R.id.imgShare:
                 ((HomeActivity) mContext.getActivity()).shareProductPopUp((DashboardMultiLangEntity) view.getTag(view.getId()));
@@ -614,9 +615,16 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
                 break;
 
+            case 41:
+                //Synch Contact
+                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), WelcomeSyncContactActivityNew.class));
+                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                MyApplication.getInstance().trackEvent(Constants.SyncContacts, "Clicked", "Sync Contact");
+                break;
+
         }
 
-        if (productID < 100) {
+        if (productID < 100 && productID != 41) {
             if (dashboardEntity.getIsNewprdClickable() != null) {
                 if (dashboardEntity.getIsNewprdClickable().equals("Y")) {
                     //   region Getting Dynamic Product and Clickable action Using UserConstatnt Data

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,13 +24,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.register.RegisterActivity;
-import com.policyboss.policybosspro.utility.Constants;
+import com.policyboss.policybosspro.utility.Constants;		
+import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
 
 import io.realm.Realm;
@@ -66,8 +69,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"
-
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.READ_CONTACTS",
+            "android.permission.READ_CALL_LOG"
     };
 
 
@@ -102,6 +106,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        int READ_CONTACTS = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
+        int READ_CALL_LOG = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[4]);
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             return camera == PackageManager.PERMISSION_GRANTED
 
@@ -109,8 +115,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }else{
             return camera == PackageManager.PERMISSION_GRANTED
                     &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
-
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && READ_CONTACTS == PackageManager.PERMISSION_GRANTED
+                    && READ_CALL_LOG == PackageManager.PERMISSION_GRANTED;
         }
 
 
@@ -138,13 +145,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[1]);
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[2]);
+        boolean read_contacts = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[3]);
+        boolean read_call_log = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[4]);
+
         // boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
 
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            return  camera ||  read_external;
+            return  camera ||  read_external || read_contacts || read_call_log ;
         }else{
-            return  camera ||write_external   || read_external;
+            return  camera ||write_external   || read_external  || read_contacts || read_call_log;
 
         }
     }
@@ -158,10 +168,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 // if (grantResults.length > 0) {
+
 
 
                 // if (grantResults.length > 0)
@@ -171,17 +181,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-
-                    if (camera && writeExternal && readExternal) {
+                    boolean read_contacts = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+                    boolean read_call_log = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    if (camera && writeExternal && readExternal && read_contacts && read_call_log ) {
 
                         // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
                     } else {
 
                         //Permission Denied, You cannot access location data and camera
-                        if (SDK_INT >= Build.VERSION_CODES.M) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
 
-                            showMessageOKCancel("Required permissions to proceed Magic-finmart..!",
+                            showMessageOKCancel("Required permissions to proceed PolicyBossProElite..!",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -247,7 +258,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.lyRaiseTicket:
                // String url = "http://qa.policyboss.com/Finmart/Ticketing/ticket_login.html?landing_page=login_page";
-                String url = "http://origin-cdnh.policyboss.com/fmweb/Ticketing/ticket_login.html?landing_page=login_page";
+                String url = "https://origin-cdnh.policyboss.com/fmweb/Ticketing/ticket_login.html?landing_page=login_page";
                 Log.d("URL", "Raise Ticket URL: " + url);
 
 
@@ -267,6 +278,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     //etPassword.setError("Enter Password");
                     return;
                 }
+                if (!NetworkUtils.isNetworkAvailable(this)) {
+
+                    Snackbar.make( view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
                 //switch user clear
                 SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
@@ -278,10 +294,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
                 loginRequestEntity.setTokenId(prefManager.getToken());
+
                 loginRequestEntity.setIsChildLogin("");
 
                 prefManager.setFirstTimeLaunch(false);
 
+                Log.d("TOKEN" , prefManager.getToken());
                 showDialog();
                 new LoginController(this).login(loginRequestEntity, this);
                 break;
@@ -291,7 +309,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void dialogForgotPassword() {
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
         builder.setCancelable(true);
         // builder.setTitle("FORGOT PASSWORD");
         LayoutInflater inflater = this.getLayoutInflater();
@@ -302,7 +320,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         final EditText etEmail = (EditText) view.findViewById(R.id.etEmail);
         Button btnReset = (Button) view.findViewById(R.id.btnReset);
-       /* Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+       // ImageView ivClose = (ImageView) view.findViewById(R.id.ivClose);
+        /* Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
        btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -313,6 +332,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 if (!isValideEmailID(etEmail)) {
                     etEmail.setError("Invalid Email ID");
                     etEmail.setFocusable(true);
@@ -332,6 +353,30 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 .forgotPassword(etEmail.getText().toString(), LoginActivity.this);
     }
 
+    public void showPospAlert(String strBody) {
+        try {
+            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(LoginActivity.this,R.style.AlertDialog_Theme);
+            builder.setTitle("PolicyBossPro Elite");
+
+            builder.setMessage(strBody);
+            String positiveText = "Ok";
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                        }
+                    });
+            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
@@ -342,9 +387,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 prefManager.setUserPassword("" + etPassword.getText().toString());
 
                 if (((LoginResponse) response).getMasterData().getPOSPNo() != null) {
+                    if (((LoginResponse) response).getMasterData().getPOSPNo() != "") {
+                        String PospID = ((LoginResponse) response).getMasterData().getPOSPNo();
+                        new RegisterController(this).hideFOSUser(PospID, LoginActivity.this);
 
-                    String PospID = ((LoginResponse) response).getMasterData().getPOSPNo();
-                    new RegisterController(this).hideFOSUser(PospID, LoginActivity.this);
+                    }else{
+                        showPospAlert("Your Posp Number is not generated.!!\nNot Eligible For Login.Please Contact Admin");
+                    }
+                }else{
+
+                    showPospAlert("Your Posp Number is not generated.!!\nNot Eligible For Login.Please Contact Admin");
                 }
                 // prefManager.setIsUserLogin(true);
 
