@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'io.fabric'   // temp  05 changes
 
+
+
+
+
+
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -17,6 +23,10 @@ repositories {
 }
 
 android {
+    signingConfigs {
+        release {
+        }
+    }
     compileSdkVersion 32
 
     lintOptions {
@@ -30,14 +40,6 @@ android {
     buildFeatures {
         viewBinding true
 
-    }
-    signingConfigs {
-        release {
-            keyAlias 'PolicyBossPro'
-            keyPassword 'PolicyBossPro'
-            storeFile file('D:\\Umesh_Projects\\PolicyBossPro_Newjks\\PolicyBossPro.jks')
-            storePassword 'PolicyBossPro'
-        }
     }
     defaultConfig {
         multiDexEnabled true
