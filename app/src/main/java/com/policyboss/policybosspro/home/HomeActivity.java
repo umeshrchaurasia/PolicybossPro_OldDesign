@@ -308,6 +308,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             if(prdID!=null)
             {
+                if(prdID.equals("41"))
+                {
+                    //sync native app activity
+                    startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                }else
+                {
 
                 // combine other parameter
                 if (deeplink_value.trim().equals("") || Title.trim().equals("")) {
@@ -327,7 +333,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                         + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
                         + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                        + "&product_id=" + prdID
+                       // + "&product_id=" + prdID
                         + "&login_ssid=";
                 deeplink_value = deeplink_value + append;
 
@@ -335,6 +341,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         .putExtra("URL", deeplink_value)
                         .putExtra("NAME", Title)
                         .putExtra("TITLE", Title));
+                }
 
 
 
