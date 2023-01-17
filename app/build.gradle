@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'io.fabric'   // temp  05 changes
 
+
+
+
+
+
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -35,7 +41,6 @@ android {
         release {
             keyAlias 'PolicyBossPro'
             keyPassword 'PolicyBossPro'
-            storeFile file('D:\\Umesh_Projects\\PolicyBossPro_Newjks\\PolicyBossPro.jks')
             storePassword 'PolicyBossPro'
         }
     }
