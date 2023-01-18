@@ -298,12 +298,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             String prdID=   myUri.getQueryParameter("product_id");
             String title_value=   myUri.getQueryParameter("title");
-            String Title = "PolicyBoss";
+            String Title = "";
             if(title_value!=null)
             {
                 Title=title_value;
             }else {
-                Title = "PolicyBoss";
+                Title = "";
             }
 
             if(prdID!=null)
@@ -350,7 +350,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             {
                 //new link
 
-                String prd2=  myUri.getQueryParameter("product_id");
+               // String prd2=  myUri.getQueryParameter("product_id");
                 startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                         .putExtra("URL", deeplink_value)
                         .putExtra("NAME", Title)
