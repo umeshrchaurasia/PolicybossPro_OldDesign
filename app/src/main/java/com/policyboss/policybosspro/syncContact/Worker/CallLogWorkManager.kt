@@ -246,7 +246,7 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
     ): ForegroundInfo {
 
 
-        val id = "com.utility.PolicyBossPro.notifications1225"
+        val id = "com.utility.PolicyBossPro.notifications555"
         val channelName = "SynContact channel"
         val title = "Sync Contact"
         val cancel = "Cancel"

@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.policyboss.policybosspro.BaseActivity;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 
 import java.util.List;
@@ -87,17 +89,20 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 //            }
 //        }
 
+        if (NetworkUtils.isNetworkAvailable(SplashScreenActivity.this)) {
 
-        // for user constant
-        if (loginResponseEntity != null) {
-            //reset user behaviour flag to send data on every app launch
-            prefManager.saveUserbehaviourState(false);
-            new MasterController(this).geUserConstant(0, this);
-            new MasterController(this).getConstants(this);
-            new MasterController(this).getMenuMaster(this);
+            if (loginResponseEntity != null) {
+                //reset user behaviour flag to send data on every app launch
+                prefManager.saveUserbehaviourState(false);
+                new MasterController(this).geUserConstant(0, this);
+                new MasterController(this).getConstants(this);
+                new MasterController(this).getMenuMaster(this);
 
 
+            }
         }
+        // for user constant
+
        /* if (userConstantEntity != null) {
             new MasterController(this).geUserConstant(0, this);
         }*/

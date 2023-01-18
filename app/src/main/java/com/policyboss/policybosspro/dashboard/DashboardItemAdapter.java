@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.MyApplication;
@@ -32,6 +33,7 @@ import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivit
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.ultralaksha.ultra_selection.UltraLakshaSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
+import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 
 import java.util.List;
@@ -231,14 +233,30 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         switch (view.getId()) {
 
             case R.id.lyParent:
+
+                if (!NetworkUtils.isNetworkAvailable(mContext.getActivity())) {
+
+                    Snackbar.make( view, mContext.getActivity().getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 switchMenus((DashboardMultiLangEntity) view.getTag(view.getId()));   // ie DashboardMultiLangEntity entity
                  break;
 
             case R.id.imgShare:
+                if (!NetworkUtils.isNetworkAvailable(mContext.getActivity())) {
+
+                    Snackbar.make( view, mContext.getActivity().getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 ((HomeActivity) mContext.getActivity()).shareProductPopUp((DashboardMultiLangEntity) view.getTag(view.getId()));
                 break;
 
             case R.id.imgInfo:
+                if (!NetworkUtils.isNetworkAvailable(mContext.getActivity())) {
+
+                    Snackbar.make( view, mContext.getActivity().getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 ((HomeActivity) mContext.getActivity()).infoProductPopUp((DashboardMultiLangEntity) view.getTag(view.getId()));
                 break;
         }

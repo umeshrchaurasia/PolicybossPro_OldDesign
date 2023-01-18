@@ -24,6 +24,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
@@ -33,6 +34,7 @@ import com.policyboss.policybosspro.pendingcases.PendingCasesActivity;
 import com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.policyboss.policybosspro.utility.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -309,19 +311,36 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.tvKnowledge:
+
+                if (!NetworkUtils.isNetworkAvailable(this.getActivity())) {
+
+                    Snackbar.make( view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 //redirect to knowledge guru
                 startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
                // new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
                 MyApplication.getInstance().trackEvent(Constants.KNOWLEDGE_GURU, "Clicked", "Knowledge Guru From Dashboard");
                 break;
             case R.id.tvPendingCAses:
+                if (!NetworkUtils.isNetworkAvailable(this.getActivity())) {
+
+                    Snackbar.make( view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 //redirect to pending status
                 startActivity(new Intent(getContext(), PendingCasesActivity.class));
                // new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
                 MyApplication.getInstance().trackEvent(Constants.PENDING_CASES, "Clicked", "Pending Cases From Dashboard");
                 break;
             case R.id.tvSalesMat:
+                if (!NetworkUtils.isNetworkAvailable(this.getActivity())) {
+
+                    Snackbar.make( view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
                 //redirect to sales
                 startActivity(new Intent(getContext(), SalesMaterialActivity.class));
               //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);

@@ -43,6 +43,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
@@ -89,6 +90,7 @@ import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.transactionhistory.nav_transactionhistoryActivity;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
+import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.policyboss.policybosspro.whatsnew.WhatsNewActivity;
@@ -415,6 +417,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             // This method will trigger on item Click of navigation menu
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                if (!NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
+
+                    Snackbar.make( drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return false;
+                }
                 //Checking if the item is in checked state or not, if not make it in checked state
                 if (menuItem.isChecked()) menuItem.setChecked(false);
                 else menuItem.setChecked(true);
@@ -422,7 +430,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 drawerLayout.closeDrawers();
                 //Check to see which item was being clicked and perform appropriate action
 
-                Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
                 Fragment fragment = null;
 
                 //hide keyboard
@@ -1466,6 +1473,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         switch (item.getItemId()) {
 
             case R.id.action_call:
+
+                if (!NetworkUtils.isNetworkAvailable(this)) {
+
+                    Snackbar.make( drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return false;
+                }
                 if (userConstantEntity.getMangMobile() != null) {
 
 
@@ -1486,6 +1499,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 break;
             case R.id.action_push_notification:
+
+                if (!NetworkUtils.isNetworkAvailable(this)) {
+
+                    Snackbar.make( drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return false;
+                }
+
                 intent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_CODE);
                 break;
@@ -1980,10 +2000,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // will be upadte everytyime user comes on dashboard
         toolbar.setTitle("PolicyBoss Pro");
 
-        if (loginResponseEntity != null) {
-            new MasterController(this).getConstants(this);
-            new MasterController(this).geUserConstant(1, this);
+        if (NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
+
+            if (loginResponseEntity != null) {
+                new MasterController(this).getConstants(this);
+                new MasterController(this).geUserConstant(1, this);
+            }
         }
+
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
         LocalBroadcastManager.getInstance(HomeActivity.this)
