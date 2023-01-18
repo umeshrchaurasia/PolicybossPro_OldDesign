@@ -192,7 +192,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
 
-                            showMessageOKCancel("Required permissions to proceed PolicyBossProElite..!",
+                            showMessageOKCancel("Required permissions to proceed PolicyBossPro..!",
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -356,7 +356,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void showPospAlert(String strBody) {
         try {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(LoginActivity.this,R.style.AlertDialog_Theme);
-            builder.setTitle("PolicyBossPro Elite");
+            builder.setTitle("PolicyBossPro");
 
             builder.setMessage(strBody);
             String positiveText = "Ok";
