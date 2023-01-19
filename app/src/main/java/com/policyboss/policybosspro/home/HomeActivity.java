@@ -345,20 +345,21 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                             }
-                        }, 1000);
+                        }, 400);
 
 
                     }
 
 
-                } else {
+                }
+                else {
                     //new link
 
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
 
-                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
+                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
 
 
                             }
