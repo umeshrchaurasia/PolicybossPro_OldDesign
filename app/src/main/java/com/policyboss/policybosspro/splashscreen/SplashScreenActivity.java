@@ -122,7 +122,8 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 public void run() {
 
                         if (loginResponseEntity != null) {
-                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class)
+                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         } else {
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
@@ -240,17 +241,26 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                                 if (uri != null) {
 
                                     // the path segments and storing it in list.
-                                    List<String> parameters = uri.getPathSegments();
-                                    String param = parameters.get(parameters.size() - 1);
+                                 //   List<String> parameters = uri.getPathSegments();
+                                 //   String param = parameters.get(parameters.size() - 1);
                                     //  messageTV.setText(uri.toString());
                                     deeplinkurl =  uri.toString();
                                     Log.d("", uri.toString());
                                     prefManager.setDeeplink(uri.toString());
 //                                    startActivity(new Intent(SplashScreenActivity.this, CommonWebViewActivity.class)
 //                                            .putExtra("URL", uri.toString())
-//                                            .putExtra("NAME", "Insurance")
-//                                            .putExtra("TITLE", "Insurance"));
+//                                            .putExtra("NAME", "")
+//                                            .putExtra("TITLE", ""));
+                                    new Handler().postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
 
+                                            startActivity(new Intent(SplashScreenActivity.this, CommonWebViewActivity.class).putExtra("URL", uri.toString()).putExtra("NAME", "").putExtra("TITLE", "")
+                                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
+
+                                        }
+                                    }, 1000);
 
 
 //                                    String prd=  uri.getQueryParameter("product_id");

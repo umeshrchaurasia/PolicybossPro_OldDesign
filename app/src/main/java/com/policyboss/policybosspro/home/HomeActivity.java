@@ -22,6 +22,8 @@ import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -151,8 +153,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
-public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener,
-        BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
+public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener, BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
 
     final String TAG = "HOME";
     final String mapKey = "map_switchuser";
@@ -190,7 +191,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     DashboardMultiLangEntity dashboardShareEntity;
 
     ShortcutManager shortcutManager = null;
-
+    String deeplink_value="";
+    String Title = "";
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -211,13 +213,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 } else if (intent.getAction().equalsIgnoreCase(Utility.USER_PROFILE_ACTION)) {
                     String PROFILE_PATH = intent.getStringExtra("PROFILE_PATH");
 
-                    Glide.with(HomeActivity.this)
-                            .load(Uri.parse(PROFILE_PATH))
-                            .placeholder(R.drawable.finmart_user_icon)
-                            .diskCacheStrategy(DiskCacheStrategy.NONE)
-                            .skipMemoryCache(true)
-                            .override(64, 64)
-                            .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                    Glide.with(HomeActivity.this).load(Uri.parse(PROFILE_PATH)).placeholder(R.drawable.finmart_user_icon).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(64, 64).transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                             .into(ivProfile);
 
                 }
@@ -287,81 +283,95 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         toolbar.setTitle("PolicyBoss Pro");
 
 
-
         getNotificationAction();
 
         init_headers();
 
-        String deeplink_value= prefManager.getDeepLink();
-        if(!deeplink_value.isEmpty())
-        {
+        deeplink_value = prefManager.getDeepLink();
 
-            Uri myUri = Uri.parse(deeplink_value);
+        if (!deeplink_value.isEmpty()) {
+            try {
 
-            String prdID=   myUri.getQueryParameter("product_id");
-            String title_value=   myUri.getQueryParameter("title");
-            String Title = "";
-            if(title_value!=null)
-            {
-                Title=title_value;
-            }else {
-                Title = "";
-            }
+                Uri myUri = Uri.parse(deeplink_value);
 
-            if(prdID!=null)
-            {
-                if(prdID.equals("41"))
-                {
-                    //sync native app activity
-                    startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
-                }else
-                {
+                String prdID = myUri.getQueryParameter("product_id");
+                String title_value = myUri.getQueryParameter("title");
 
-                // combine other parameter
-                if (deeplink_value.trim().equals("") || Title.trim().equals("")) {
-
-                    return;
-                }
-                String ipaddress = "0.0.0.0";
-                try {
-                    ipaddress = Utility.getMacAddress(HomeActivity.this);
-                } catch (Exception io) {
-                    ipaddress = "0.0.0.0";
+                if (title_value != null) {
+                    Title = title_value;
+                } else {
+                    Title = "";
                 }
 
+                if (prdID != null) {
 
-                //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" +
-                        "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                        + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                        + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                       // + "&product_id=" + prdID
-                        + "&login_ssid=";
-                deeplink_value = deeplink_value + append;
+                    if (prdID.equals("41")) {
+                        //sync native app activity
+                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                    } else if (prdID.equals("501")) {
+                        //my account activity
+                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                    }else if (prdID.equals("502")) {
+                        //PospEnrollment activity
+                        startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                    }else if (prdID.equals("503")) {
+                        //sync native app activity
+                        startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
+                    }else if (prdID.equals("504")) {
+                        //sync native app activity
+                        startActivity(new Intent(HomeActivity.this, SalesMaterialActivity.class));
+                    }
+                    else {
 
-                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                        .putExtra("URL", deeplink_value)
-                        .putExtra("NAME", Title)
-                        .putExtra("TITLE", Title));
+                        String ipaddress = "0.0.0.0";
+                        try {
+                            ipaddress = Utility.getMacAddress(HomeActivity.this);
+                        } catch (Exception io) {
+                            ipaddress = "0.0.0.0";
+                        }
+
+
+                        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                        String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                                // + "&product_id=" + prdID
+                                + "&login_ssid=";
+                        deeplink_value = deeplink_value + append;
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
+
+
+                            }
+                        }, 1000);
+
+
+                    }
+
+
+                } else {
+                    //new link
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
+
+
+                            }
+                        }, 1000);
                 }
 
 
+                prefManager.clearDeeplink();
 
+            } catch (Exception ex) {
+                //  Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+                Log.d("Deeplinl", ex.toString());
             }
-            else
-            {
-                //new link
-
-               // String prd2=  myUri.getQueryParameter("product_id");
-                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                        .putExtra("URL", deeplink_value)
-                        .putExtra("NAME", Title)
-                        .putExtra("TITLE", Title));
-
-            }
-
-
-            prefManager.clearDeeplink();
 
         }
 
@@ -380,7 +390,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //        }
 
         if (loginResponseEntity != null) {
-            if(loginResponseEntity.getPOSPNo() != null){
+            if (loginResponseEntity.getPOSPNo() != null) {
                 if (loginResponseEntity.getPOSPNo().equals("5")) {
                     verifyPospNo();
                     return;
@@ -420,7 +430,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 if (!NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
 
-                    Snackbar.make( drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
                     return false;
                 }
                 //Checking if the item is in checked state or not, if not make it in checked state
@@ -439,10 +449,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         int sequence = Integer.parseInt(menuItemEntity.getSequence());
                         sequence = (sequence * 100) + 1;
                         if (menuItem.getItemId() == sequence) {
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                    .putExtra("URL", menuItemEntity.getLink())
-                                    .putExtra("NAME", menuItemEntity.getMenuname())
-                                    .putExtra("TITLE", menuItemEntity.getMenuname()));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", menuItemEntity.getLink()).putExtra("NAME", menuItemEntity.getMenuname()).putExtra("TITLE", menuItemEntity.getMenuname()));
                             return true;
                         }
                     }
@@ -515,7 +522,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount:
-                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                         //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
@@ -529,7 +536,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_pospenrollment:
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
-                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                         break;
                     case R.id.nav_addposp:
                         fragment = new POSPListFragment();
@@ -544,10 +551,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         if (userConstantEntity != null && userConstantEntity.getPBByCrnSearch() != null && !userConstantEntity.getPBByCrnSearch().equalsIgnoreCase("")) {
 
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                    .putExtra("URL", userConstantEntity.getPBByCrnSearch())
-                                    .putExtra("NAME", "" + "Search CRN")
-                                    .putExtra("TITLE", "" + "Search CRN"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getPBByCrnSearch()).putExtra("NAME", "" + "Search CRN").putExtra("TITLE", "" + "Search CRN"));
                         } else {
                             Toast.makeText(HomeActivity.this, "Please contact to your RM", Toast.LENGTH_SHORT).show();
                         }
@@ -557,15 +561,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
 
                                 // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
-                                .putExtra("URL", "" + userConstantEntity.getLeadDashUrl())
-                                .putExtra("NAME", "" + "Lead DashBoard")
-                                .putExtra("TITLE", "" + "Lead DashBoard"));
+                                .putExtra("URL", "" + userConstantEntity.getLeadDashUrl()).putExtra("NAME", "" + "Sync Contact DashBoard").putExtra("TITLE", "" + "Sync Contact DashBoard"));
                         break;
                     case R.id.nav_gift:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "http://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()))
-                                .putExtra("NAME", "" + "Gift Voucher")
-                                .putExtra("TITLE", "" + "Gift Voucher"));
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "Gift Voucher").putExtra("TITLE", "" + "Gift Voucher"));
                         break;
 /*
                     case R.id.nav_offlineQuotes:
@@ -603,18 +602,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;*/
                     case R.id.nav_whatsnew:
                         startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
-                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
                         break;
 
                     case R.id.nav_cobrowser:
-                       // dialogCoBrowser();
+                        // dialogCoBrowser();
                         break;
                     case R.id.nav_franchise:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf")
-                                .putExtra("NAME", "Referral AGREEMENT")
-                                .putExtra("TITLE", "Referral AGREEMENT"));
-                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf").putExtra("NAME", "Referral AGREEMENT").putExtra("TITLE", "Referral AGREEMENT"));
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
                     case R.id.nav_raiseTicket:
@@ -623,13 +619,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
                         } else {
 
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                    .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
-                                            + "&UDID=" + userConstantEntity.getUserid())
-                                    .putExtra("NAME", "RAISE_TICKET")
-                                    .putExtra("TITLE", "RAISE TICKET"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile() + "&UDID=" + userConstantEntity.getUserid()).putExtra("NAME", "RAISE_TICKET").putExtra("TITLE", "RAISE TICKET"));
                         }
-                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
 
                         break;
 //                    case R.id.nav_IncomePotential:
@@ -642,7 +634,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_contact:
-                       // startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
+                        // startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
                         startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
                         break;
                     case R.id.nav_sendSmsTemplate:
@@ -656,7 +648,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         editor.commit();
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                            //  shortcutManager.removeAllDynamicShortcuts();
+                              removeShorcuts();
                         }
                         dialogLogout(HomeActivity.this);
                         break;
@@ -674,12 +666,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
                         break;
                     case R.id.nav_AppointmentLetter:
-                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
-                                .putExtra("TYPE", "1"));
+                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class).putExtra("TYPE", "1"));
                         break;
                     case R.id.nav_Certificate:
-                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class)
-                                .putExtra("TYPE", "0"));
+                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class).putExtra("TYPE", "0"));
                         break;
 
                     case R.id.nav_OtherLoan:
@@ -697,57 +687,40 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_finbox:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", userConstantEntity.getFinboxurl())
-                                .putExtra("NAME", "MY FINBOX")
-                                .putExtra("TITLE", "MY FINBOX"));
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getFinboxurl()).putExtra("NAME", "MY FINBOX").putExtra("TITLE", "MY FINBOX"));
 
                         break;
                     case R.id.nav_finperk:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", userConstantEntity.getFinperkurl())
-                                .putExtra("NAME", "FINPERKS")
-                                .putExtra("TITLE", "FINPERKS"));
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getFinperkurl()).putExtra("NAME", "FINPERKS").putExtra("TITLE", "FINPERKS"));
 
                         break;
                     case R.id.nav_festivelink:
-                        startActivity(new Intent(HomeActivity.this, festivelinkActivity.class)
-                                .putExtra("URL", userConstantEntity.getFinperkurl())
-                                .putExtra("NAME", "FESTIVE LINKS")
-                                .putExtra("TITLE", "FESTIVE LINKS"));
+                        startActivity(new Intent(HomeActivity.this, festivelinkActivity.class).putExtra("URL", userConstantEntity.getFinperkurl()).putExtra("NAME", "FESTIVE LINKS").putExtra("TITLE", "FESTIVE LINKS"));
 
                         break;
 
                     case R.id.nav_FreeCreditReport:
-                        Utility.loadWebViewUrlInBrowser(HomeActivity.this,
-                                "http://www.rupeeboss.com/equifax-finmart?fbaid="
-                                        + String.valueOf(loginResponseEntity.getFBAId()));
+                        Utility.loadWebViewUrlInBrowser(HomeActivity.this, "http://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
                         break;
 
                     case R.id.nav_mybusinessLoan:
-                      //  startActivity(new Intent(HomeActivity.this, MyBusiness_LoanActivity.class));
+                        //  startActivity(new Intent(HomeActivity.this, MyBusiness_LoanActivity.class));
                         break;
                     case R.id.nav_emicalLoan:
-                      //  startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
+                        //  startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
                         break;
                     case R.id.nav_LeadSubmission:
                         startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
 
-                       // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                         MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                         break;
 
                     case R.id.nav_disclosure:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "file:///android_asset/Disclosure.html")
-                                .putExtra("NAME", "DISCLOSURE")
-                                .putExtra("TITLE", "DISCLOSURE"));
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "file:///android_asset/Disclosure.html").putExtra("NAME", "DISCLOSURE").putExtra("TITLE", "DISCLOSURE"));
                         break;
                     case R.id.nav_policy:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro")
-                                .putExtra("NAME", "PRIVACY POLICY")
-                                .putExtra("TITLE", "PRIVACY POLICY"));
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
                         break;
                     default:
                         break;
@@ -765,11 +738,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         });
         //endregion
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
-                drawerLayout,
-                toolbar,
-                R.string.openDrawer,
-                R.string.closeDrawer) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -798,15 +767,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         getSupportActionBar().setTitle(db.getLangData(language, "Title"));   // setTitle
 
-        MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink,
-                nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment,
-                nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,
+        MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink, nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment, nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,
 
-                nav_AppointmentLetter, nav_Certificate, nav_TRANSACTIONS, nav_mybusiness_insurance,
-                nav_transactionhistory, nav_MessageCentre, nav_crnpolicy,
-                nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail,
-                nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew,
-                nav_cobrowser, nav_logout, nav_FreeCreditReport, nav_mybusinessLoan, nav_emicalLoan, nav_LeadSubmission;
+                nav_AppointmentLetter, nav_Certificate, nav_TRANSACTIONS, nav_mybusiness_insurance, nav_transactionhistory, nav_MessageCentre, nav_crnpolicy, nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail, nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew, nav_cobrowser, nav_logout, nav_FreeCreditReport, nav_mybusinessLoan, nav_emicalLoan, nav_LeadSubmission;
 
 
         Menu menu = navigationView.getMenu();
@@ -922,8 +885,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     public Map<String, String> loadMap() {
         Map<String, String> outputMap = new HashMap<>();
-        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART,
-                Context.MODE_PRIVATE);
+        SharedPreferences pSharedPref = getApplicationContext().getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
         try {
             if (pSharedPref != null) {
                 String jsonString = pSharedPref.getString(mapKey, (new JSONObject()).toString());
@@ -939,7 +901,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         return outputMap;
     }
-
 
 
     private void addFinmartContact() {
@@ -970,14 +931,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 ipaddress = "0.0.0.0";
             }
 
-            String append = "&ip_address=" + ipaddress
-                    + "&app_version=policyboss-" + Utility.getVersionName(this)
-                    + "&device_id=" + Utility.getDeviceId(this);
+            String append = "&ip_address=" + ipaddress + "&app_version=policyboss-" + Utility.getVersionName(this) + "&device_id=" + Utility.getDeviceId(this);
             String fullmsgurl = msgurl + append;
-            startActivity(new Intent(this, CommonWebViewActivity.class)
-                    .putExtra("URL", fullmsgurl)
-                    .putExtra("NAME", "Message Center")
-                    .putExtra("TITLE", "Message Center"));
+            startActivity(new Intent(this, CommonWebViewActivity.class).putExtra("URL", fullmsgurl).putExtra("NAME", "Message Center").putExtra("TITLE", "Message Center"));
 
             //   incl_nav.setVisibility(View.VISIBLE);
             //  new PendingController(this).gettransactionhistory(empCode, "1", this);
@@ -990,8 +946,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //region popup dashboard
 
         if (userConstantEntity != null) {
-            if (userConstantEntity.getMarketinghomeenabled() != null &&
-                    userConstantEntity.getMarketinghomeenabled().equals("1")) {
+            if (userConstantEntity.getMarketinghomeenabled() != null && userConstantEntity.getMarketinghomeenabled().equals("1")) {
 
                 int serverPopUpCount = Integer.parseInt(userConstantEntity.getMarketinghomemaxcount());
                 int localPopupCount = Integer.parseInt(prefManager.getPopUpCounter());
@@ -1051,14 +1006,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             int itemId = Integer.parseInt(list.get(i - 1).getSequence());
             itemId = (itemId * 100) + 1;
             final MenuItem menuItem = menu.add(R.id.dynamic_menu, itemId, itemId, list.get(i - 1).getMenuname());
-            Glide.with(this)
-                    .load(list.get(i - 1).getIconimage())
-                    .into(new SimpleTarget<GlideDrawable>() {
-                        @Override
-                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                            menuItem.setIcon(resource);
-                        }
-                    });
+            Glide.with(this).load(list.get(i - 1).getIconimage()).into(new SimpleTarget<GlideDrawable>() {
+                @Override
+                public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                    menuItem.setIcon(resource);
+                }
+            });
         }
     }
 
@@ -1151,13 +1104,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             try {
                 txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
                 txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
-                Glide.with(HomeActivity.this)
-                        .load(userConstantEntity.getLoansendphoto())
-                        .placeholder(R.drawable.circle_placeholder)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .override(64, 64)
-                        .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                Glide.with(HomeActivity.this).load(userConstantEntity.getLoansendphoto()).placeholder(R.drawable.circle_placeholder).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(64, 64).transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                         .into(ivProfile);
             } catch (Exception e) {
 
@@ -1167,14 +1114,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             try {
                 txtPospNo.setText("");
                 txtErpID.setText("");
-                Glide.with(HomeActivity.this)
-                        .load(R.drawable.finmart_user_icon)
-                        .placeholder(R.drawable.circle_placeholder)
-                        .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .override(64, 64)
-                        .into(ivProfile);
+                Glide.with(HomeActivity.this).load(R.drawable.finmart_user_icon).placeholder(R.drawable.circle_placeholder).transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                        .diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(64, 64).into(ivProfile);
             } catch (Exception e) {
 
             }
@@ -1393,10 +1334,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     startActivity(new Intent(HomeActivity.this, SalesMaterialActivity.class));
 
-                }  else{
+                }
+                 else if (notificationEntity.getNotifyFlag().trim().equals("SY")) {
+
+                    startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+
+                }
+                else {
                     if (notificationEntity.getWeb_url() != null) {
 
-                            navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
+                        navigateViaNotification(notificationEntity.getNotifyFlag(), notificationEntity.getWeb_url(), notificationEntity.getWeb_title());
 
                     }
                 }
@@ -1427,11 +1374,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         ImageView imgNew = (ImageView) actionViewnew.findViewById(R.id.imgNew);
 
-        Glide.with(HomeActivity.this).
-                load(R.drawable.newicon)
-                .asGif()
-                .crossFade()
-                .into(imgNew);
+        Glide.with(HomeActivity.this).load(R.drawable.newicon).asGif().crossFade().into(imgNew);
 
         int PushCount = prefManager.getNotificationCounter();
 
@@ -1476,7 +1419,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 if (!NetworkUtils.isNetworkAvailable(this)) {
 
-                    Snackbar.make( drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
                     return false;
                 }
                 if (userConstantEntity.getMangMobile() != null) {
@@ -1502,7 +1445,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 if (!NetworkUtils.isNetworkAvailable(this)) {
 
-                    Snackbar.make( drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
                     return false;
                 }
 
@@ -1567,17 +1510,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
 
-                    if (userConstantEntity.getEnablemyaccountupdate() != null  ) {
+                    if (userConstantEntity.getEnablemyaccountupdate() != null) {
 
-                        if(userConstantEntity.getEnablemyaccountupdate().equals("1")){
+                        if (userConstantEntity.getEnablemyaccountupdate().equals("1")) {
 
-                            if((userConstantEntity.getLoanselfphoto() == null) || ( userConstantEntity.getLoanselfphoto().trim().equals("")) )  {
+                            if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
                                 showMyAccountAlert();
-                          }
+                            }
                         }
 
                     }
-
 
 
                     //Notification Url :-1 November
@@ -1645,8 +1587,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        }
 //                    }
 
-                } else if (((ConstantsResponse) response).getMasterData().
-                        getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+                } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
                 }
                 //endregion
             }
@@ -1684,23 +1625,22 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     private void shortcutAppMenu() {
 
-        try{
-            if(loginResponseEntity != null && userConstantEntity != null){
+        try {
+            if (loginResponseEntity != null && userConstantEntity != null) {
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
 
                     //  val shortcutManager = getSystemService(ShortcutManager::class.java);
 
 
-                    ShortcutManager  shortcutManager = getSystemService(ShortcutManager.class);
+                    ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
 
                     if (shortcutManager != null) {
 
                         // var intentPrivateCar: Intent? = null;
 
                         //Motor
-                        if(db==null)
-                        {
+                        if (db == null) {
                             db = new DBPersistanceController(HomeActivity.this);
                         }
 
@@ -1709,17 +1649,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         String healthUrl = db.getUserConstantsData().getHealthurl();
 
 
-                        String  expressUrl="";
-                        for (int i=0;  i< db.getUserConstantsData().getDashboardarray().size() ; i++)
-                        {
+                        String expressUrl = "";
+                        for (int i = 0; i < db.getUserConstantsData().getDashboardarray().size(); i++) {
                             DashboardarrayEntity dbEntity = db.getUserConstantsData().getDashboardarray().get(i);
-                            if(Integer.parseInt(dbEntity.getProdId())==35 )
-                            {
-                                expressUrl=dbEntity.getUrl();
+                            if (Integer.parseInt(dbEntity.getProdId()) == 35) {
+                                expressUrl = dbEntity.getUrl();
                             }
 
                         }
-
 
 
                         String ipaddress = "0.0.0.0";
@@ -1738,116 +1675,63 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                         //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                        String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                                + "&product_id=1&login_ssid=" + parent_ssid;
+                        String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&product_id=1&login_ssid=" + parent_ssid;
                         motorUrl = motorUrl + append;
 
-                        String append_bike = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                                + "&product_id=10&login_ssid=" + parent_ssid;
+                        String append_bike = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&product_id=10&login_ssid=" + parent_ssid;
                         bikeUrl = bikeUrl + append_bike;
 
 
-                        String append_health = "&ip_address=" + ipaddress
-                                + "&app_version=policyboss-" + Utility.getVersionName(HomeActivity.this)
-                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&login_ssid=" + parent_ssid;
+                        String append_health = "&ip_address=" + ipaddress + "&app_version=policyboss-" + Utility.getVersionName(HomeActivity.this) + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&login_ssid=" + parent_ssid;
 
                         healthUrl = healthUrl + append_health;
 
 
-
-                        String append_express = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                                + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                                + "&product_id=35&login_ssid=" + parent_ssid;
+                        String append_express = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&product_id=35&login_ssid=" + parent_ssid;
                         expressUrl = expressUrl + append_express;
 
 
                         Intent intentPrivateCar;
 
-                        intentPrivateCar =new Intent(HomeActivity.this, CommonWebViewActivity.class);
+                        intentPrivateCar = new Intent(HomeActivity.this, CommonWebViewActivity.class);
 
                         intentPrivateCar.putExtra("URL", motorUrl);
                         intentPrivateCar.putExtra("dashBoardtype", "INSURANCE");
                         intentPrivateCar.putExtra("NAME", "Motor Insurance");
                         intentPrivateCar.putExtra("TITLE", "Motor Insurance");
                         intentPrivateCar.putExtra("APPMENU", "Y");
-                        intentPrivateCar.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intentPrivateCar.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intentPrivateCar.setAction(Intent.ACTION_VIEW);
 
                         Intent intentBike;
 
-                        intentBike = new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", bikeUrl)
-                                .putExtra("dashBoardtype", "INSURANCE")
-                                .putExtra("NAME", "Two Wheeler Insurance")
-                                .putExtra("TITLE", "Two Wheeler Insurance")
-                                .putExtra("APPMENU", "Y")
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intentBike = new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", bikeUrl).putExtra("dashBoardtype", "INSURANCE").putExtra("NAME", "Two Wheeler Insurance").putExtra("TITLE", "Two Wheeler Insurance").putExtra("APPMENU", "Y").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intentBike.setAction(Intent.ACTION_VIEW);
 
 
                         Intent intentExpressUrl;
 
-                        intentExpressUrl =new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", expressUrl)
-                                .putExtra("dashBoardtype", "INSURANCE")
-                                .putExtra("NAME", "2W Express Insurance")
-                                .putExtra("TITLE", "2W Express Insurance")
-                                .putExtra("APPMENU", "Y")
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intentExpressUrl = new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", expressUrl).putExtra("dashBoardtype", "INSURANCE").putExtra("NAME", "2W Express Insurance").putExtra("TITLE", "2W Express Insurance").putExtra("APPMENU", "Y").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intentExpressUrl.setAction(Intent.ACTION_VIEW);
 
                         Intent intenthealthIns;
 
-                        intenthealthIns =new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", healthUrl)
-                                .putExtra("dashBoardtype", "INSURANCE")
-                                .putExtra("NAME", "Health Insurance")
-                                .putExtra("TITLE", "Health Insurance")
-                                .putExtra("APPMENU", "Y")
-                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intenthealthIns = new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", healthUrl).putExtra("dashBoardtype", "INSURANCE").putExtra("NAME", "Health Insurance").putExtra("TITLE", "Health Insurance").putExtra("APPMENU", "Y").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intenthealthIns.setAction(Intent.ACTION_VIEW);
 
 
                         //two_wheeler_express
-                        ShortcutInfo shortcutInfo1 =new ShortcutInfo.Builder(this, "ID1")
-                                .setShortLabel("2W Express Issuance")
-                                .setLongLabel("2W Express Issuance")
-                                .setIcon(Icon.createWithResource(this, R.drawable.twowheelerexpressicon_sm))
-                                .setIntent(intentExpressUrl)
-                                .setRank(0)
-                                .build();
+                        ShortcutInfo shortcutInfo1 = new ShortcutInfo.Builder(this, "ID1").setShortLabel("2W Express Issuance").setLongLabel("2W Express Issuance").setIcon(Icon.createWithResource(this, R.drawable.twowheelerexpressicon_sm)).setIntent(intentExpressUrl).setRank(0).build();
                         //health_advisory
-                        ShortcutInfo shortcutInfo2 =new ShortcutInfo.Builder(this, "ID2")
-                                .setShortLabel("Health Insurance")
-                                .setLongLabel("Health Insurance")
-                                .setIcon(Icon.createWithResource(this, R.drawable.health_insurance_sm))
-                                .setIntent(intenthealthIns)
-                                .setRank(1)
-                                .build();
+                        ShortcutInfo shortcutInfo2 = new ShortcutInfo.Builder(this, "ID2").setShortLabel("Health Insurance").setLongLabel("Health Insurance").setIcon(Icon.createWithResource(this, R.drawable.health_insurance_sm)).setIntent(intenthealthIns).setRank(1).build();
 
 
                         //car
-                        ShortcutInfo shortcutInfo3 =new ShortcutInfo.Builder(this, "ID3")
-                                .setShortLabel("Private Car")
-                                .setLongLabel("Private Car")
-                                .setIcon(Icon.createWithResource(this, R.drawable.private_car_sm))
+                        ShortcutInfo shortcutInfo3 = new ShortcutInfo.Builder(this, "ID3").setShortLabel("Private Car").setLongLabel("Private Car").setIcon(Icon.createWithResource(this, R.drawable.private_car_sm))
                                 //.setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://programmerworld.co/")))
-                                .setIntent(intentPrivateCar)
-                                .setRank(2)
-                                .build();
+                                .setIntent(intentPrivateCar).setRank(2).build();
 
-                        ShortcutInfo shortcutInfo4 =new ShortcutInfo.Builder(this, "ID4")
-                                .setShortLabel("Two Wheeler")
-                                .setLongLabel("Two Wheeler")
-                                .setIcon(Icon.createWithResource(this, R.drawable.two_wheeler_sm))
-                                .setIntent(intentBike)
-                                .setRank(3)
-                                .build();
+                        ShortcutInfo shortcutInfo4 = new ShortcutInfo.Builder(this, "ID4").setShortLabel("Two Wheeler").setLongLabel("Two Wheeler").setIcon(Icon.createWithResource(this, R.drawable.two_wheeler_sm)).setIntent(intentBike).setRank(3).build();
 
                         ArrayList<ShortcutInfo> shortcutInfoList = new ArrayList<ShortcutInfo>();
 
@@ -1865,9 +1749,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Log.d("SHORTCUTMENU", ex.toString());
         }
     }
@@ -1915,16 +1797,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     startActivity(new Intent(this, CompareTermActivity.class));
                     break;
                 case 5:
-                 //   startActivity(new Intent(this, HLMainActivity.class));
+                    //   startActivity(new Intent(this, HLMainActivity.class));
                     break;
                 case 6:
-             //       startActivity(new Intent(this, PLMainActivity.class));
+                    //       startActivity(new Intent(this, PLMainActivity.class));
                     break;
                 case 7:
-           //         startActivity(new Intent(this, LAPMainActivity.class));
+                    //         startActivity(new Intent(this, LAPMainActivity.class));
                     break;
                 case 8:
-          //          startActivity(new Intent(this, BLMainActivity.class));
+                    //          startActivity(new Intent(this, BLMainActivity.class));
                     break;
                 case 9:
                     startActivity(new Intent(this, KnowledgeGuruActivity.class));
@@ -1941,11 +1823,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
                     } else {
 
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
-                                        + "&UDID=" + userConstantEntity.getUserid())
-                                .putExtra("NAME", "RAISE_TICKET")
-                                .putExtra("TITLE", "RAISE TICKET"));
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile() + "&UDID=" + userConstantEntity.getUserid()).putExtra("NAME", "RAISE_TICKET").putExtra("TITLE", "RAISE TICKET"));
                     }
                     break;
                 case 13:
@@ -1956,10 +1834,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     break;
                 case 1111:
                     if (userConstantEntity != null && userConstantEntity.getMarketinghomeurl() != null) {
-                        startActivity(new Intent(this, CommonWebViewActivity.class)
-                                .putExtra("URL", userConstantEntity.getMarketinghomeurl())
-                                .putExtra("NAME", userConstantEntity.getMarketinghometitle())
-                                .putExtra("TITLE", userConstantEntity.getMarketinghometitle()));
+                        startActivity(new Intent(this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getMarketinghomeurl()).putExtra("NAME", userConstantEntity.getMarketinghometitle()).putExtra("TITLE", userConstantEntity.getMarketinghometitle()));
                     }
                     break;
 
@@ -1990,7 +1865,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } catch (android.content.ActivityNotFoundException anfe) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
-      //  new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
+        //  new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
     }
 
     @Override
@@ -2010,8 +1885,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
-        LocalBroadcastManager.getInstance(HomeActivity.this)
-                .registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
+        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
 
 
     }
@@ -2061,11 +1935,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             ipAddress = "0.0.0.0";
         }
 
-        String append = "&ip_address=" + ipAddress + "&mac_address=" + ipAddress
-                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                + "&device_id=" + Utility.getDeviceId(this)
-                + "&product_id=" + productID
-                + "&login_ssid=" + parent_ssid;
+        String append = "&ip_address=" + ipAddress + "&mac_address=" + ipAddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(this) + "&product_id=" + productID + "&login_ssid=" + parent_ssid;
 
         return append;
     }
@@ -2084,31 +1954,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         String fourWheelerUrl = userConstantEntity.getFourWheelerUrl();
         fourWheelerUrl = fourWheelerUrl + getAppendURL(response, "1"); // four wheeler
-        Intent fourWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class)
-                .putExtra("URL", fourWheelerUrl)
-                .putExtra("NAME", "Motor Insurance")
-                .putExtra("TITLE", "Motor Insurance");
+        Intent fourWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class).putExtra("URL", fourWheelerUrl).putExtra("NAME", "Motor Insurance").putExtra("TITLE", "Motor Insurance");
 
         String twoWheelerUrl = userConstantEntity.getTwoWheelerUrl();
         twoWheelerUrl = twoWheelerUrl + getAppendURL(response, "10"); // four wheeler
-        Intent twoWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class)
-                .putExtra("URL", twoWheelerUrl)
-                .putExtra("NAME", "Two wheeler Insurance")
-                .putExtra("TITLE", "Two wheeler Insurance");
+        Intent twoWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class).putExtra("URL", twoWheelerUrl).putExtra("NAME", "Two wheeler Insurance").putExtra("TITLE", "Two wheeler Insurance");
 
         String healthWheelerURL = userConstantEntity.getHealthurl();
         healthWheelerURL = healthWheelerURL + getAppendURL(response, "2"); // four wheeler
-        Intent healthWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class)
-                .putExtra("URL", healthWheelerURL)
-                .putExtra("NAME", "Health Insurance")
-                .putExtra("TITLE", "Health Insurance");
+        Intent healthWheelerIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class).putExtra("URL", healthWheelerURL).putExtra("NAME", "Health Insurance").putExtra("TITLE", "Health Insurance");
 
         String cvURL = userConstantEntity.getCVUrl();
         cvURL = cvURL + getAppendURL(response, "12"); // cv wheeler
-        Intent cvIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class)
-                .putExtra("URL", cvURL)
-                .putExtra("NAME", "CV Insurance")
-                .putExtra("TITLE", "CV Insurance");
+        Intent cvIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, CommonWebViewActivity.class).putExtra("URL", cvURL).putExtra("NAME", "CV Insurance").putExtra("TITLE", "CV Insurance");
 
         Intent termIntent = new Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, TermSelectionActivity.class);
 
@@ -2128,35 +1986,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 ShortcutInfo siFourwheeler = null, siTwowheeler = null, siHealthInsurance = null, siCVInsurance = null, siTermInsurance = null;
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                    siFourwheeler = new ShortcutInfo.Builder(this, "motor")
-                            .setShortLabel("Motor Insurance")
-                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                            .setIntent(fourWheelerIntent)
-                            .build();
+                    siFourwheeler = new ShortcutInfo.Builder(this, "motor").setShortLabel("Motor Insurance").setIcon(Icon.createWithResource(this, R.drawable.car_1)).setIntent(fourWheelerIntent).build();
 
-                    siTwowheeler = new ShortcutInfo.Builder(this, "two_wheeler")
-                            .setShortLabel("Two wheeler Insurance")
-                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                            .setIntent(twoWheelerIntent)
-                            .build();
+                    siTwowheeler = new ShortcutInfo.Builder(this, "two_wheeler").setShortLabel("Two wheeler Insurance").setIcon(Icon.createWithResource(this, R.drawable.car_1)).setIntent(twoWheelerIntent).build();
 
-                    siHealthInsurance = new ShortcutInfo.Builder(this, "health_insurance")
-                            .setShortLabel("Health Insurance")
-                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                            .setIntent(healthWheelerIntent)
-                            .build();
+                    siHealthInsurance = new ShortcutInfo.Builder(this, "health_insurance").setShortLabel("Health Insurance").setIcon(Icon.createWithResource(this, R.drawable.car_1)).setIntent(healthWheelerIntent).build();
 
-                    siCVInsurance = new ShortcutInfo.Builder(this, "cv_insurance")
-                            .setShortLabel("CV Insurance")
-                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                            .setIntent(cvIntent)
-                            .build();
+                    siCVInsurance = new ShortcutInfo.Builder(this, "cv_insurance").setShortLabel("CV Insurance").setIcon(Icon.createWithResource(this, R.drawable.car_1)).setIntent(cvIntent).build();
 
-                    siTermInsurance = new ShortcutInfo.Builder(this, "term_insurance")
-                            .setShortLabel("Term Insurance")
-                            .setIcon(Icon.createWithResource(this, R.drawable.car_1))
-                            .setIntent(termIntent)
-                            .build();
+                    siTermInsurance = new ShortcutInfo.Builder(this, "term_insurance").setShortLabel("Term Insurance").setIcon(Icon.createWithResource(this, R.drawable.car_1)).setIntent(termIntent).build();
                 }
 
                 listShortCutInfo.add(siFourwheeler);
@@ -2170,7 +2008,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
 
             }
-
 
 
         }
@@ -2191,10 +2028,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             int visibility = Integer.parseInt(userConstantEntity.getAddPospVisible());
             MenuItem menuItem = nav_Menu.findItem(R.id.nav_addposp);
             if (menuItem != null) {
-                if (visibility == 1)
-                    menuItem.setVisible(true);
-                else
-                    menuItem.setVisible(false);
+                if (visibility == 1) menuItem.setVisible(true);
+                else menuItem.setVisible(false);
             }
         }
 
@@ -2212,27 +2047,22 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (userConstantEntity != null) {
 
             int visibility = Integer.parseInt(userConstantEntity.getShowmyinsurancebusiness());
-            if (visibility > 0)
-                nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
-            else
-                nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
+            if (visibility > 0) nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(true);
+            else nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);
 
 
             //todo : check key from userconstant to hide posp enrollment
             if (userConstantEntity.getEnableenrolasposp() != null && !userConstantEntity.getEnableenrolasposp().equals("")) {
                 if (Integer.parseInt(userConstantEntity.getEnableenrolasposp()) == 1)
                     nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(true);
-                else
-                    nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
+                else nav_Menu.findItem(R.id.nav_pospenrollment).setVisible(false);
             }
 
-            if (userConstantEntity.getCobrowserisactive() != null
-                    && !userConstantEntity.getCobrowserisactive().equals("")) {
+            if (userConstantEntity.getCobrowserisactive() != null && !userConstantEntity.getCobrowserisactive().equals("")) {
 
                 if (Integer.parseInt(userConstantEntity.getCobrowserisactive()) == 1)
                     nav_Menu.findItem(R.id.nav_cobrowser).setVisible(true);
-                else
-                    nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
+                else nav_Menu.findItem(R.id.nav_cobrowser).setVisible(false);
 
             }
 
@@ -2240,8 +2070,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //int visibilitySync = userConstantEntity.getEnablesynccontact();
                 if (userConstantEntity.getEnablesynccontact().equals("Y"))
                     nav_Menu.findItem(R.id.nav_contact).setVisible(true);
-                else
-                    nav_Menu.findItem(R.id.nav_contact).setVisible(true);
+                else nav_Menu.findItem(R.id.nav_contact).setVisible(true);
             }
 
             //Date 02/11/2020 by nilesh
@@ -2370,31 +2199,29 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             String positiveText = "Call";
             String NegativeText = "Share";
             String NeutralText = "Cancel";
-            builder.setPositiveButton(positiveText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+            builder.setPositiveButton(positiveText, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
 
-                            Intent intentCalling = new Intent(Intent.ACTION_DIAL);
-                            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
-                            startActivity(intentCalling);
+                    Intent intentCalling = new Intent(Intent.ACTION_DIAL);
+                    intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
+                    startActivity(intentCalling);
 
-                        }
-                    });
+                }
+            });
 
-            builder.setNegativeButton(NegativeText,
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            if (userConstantEntity.getMangEmail() != null) {
-                                // composeEmail(userConstantEntity.getMangEmail(), "");
-                                shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
+            builder.setNegativeButton(NegativeText, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    if (userConstantEntity.getMangEmail() != null) {
+                        // composeEmail(userConstantEntity.getMangEmail(), "");
+                        shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
 
-                            }
-                        }
-                    });
+                    }
+                }
+            });
 
             builder.setNeutralButton(NeutralText, new DialogInterface.OnClickListener() {
                 @Override
@@ -2441,15 +2268,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         ivMessage = (ImageView) dialogView.findViewById(R.id.ivMessage);
         btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
 
-        String url = "https://api.magicfinmart.com/images/in_miss1.jpeg?"+  Math.round(Math.random() * 1000);;
-        Glide.with(HomeActivity.this)
-                .load(url)
+        String url = "https://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000);
+        ;
+        Glide.with(HomeActivity.this).load(url)
                 //.placeholder(R.drawable.circle_placeholder)
                 .into(ivMessage);
 
         txtTile.setText("Update Profile Photo!!");
-       // txtMessage.setText(getResources().getString(R.string.myaccount_update));
-
+        // txtMessage.setText(getResources().getString(R.string.myaccount_update));
 
 
         ivCross.setOnClickListener(new View.OnClickListener() {
@@ -2558,8 +2384,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtGetMPS.setOnClickListener(onClickListener);
             txtLater.setOnClickListener(onClickListener);
 
-            if (!mpsDialog.isShowing())
-                mpsDialog.show();
+            if (!mpsDialog.isShowing()) mpsDialog.show();
         }
 
     }
@@ -2866,8 +2691,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvBalanceTransfer, cvFreeCreditReport, cvLoanOnMessanger,
-                    cvLeadSubmission, cvCashLoan, cvBusinessLoan, cvRectifyCredit;
+            CardView cvBalanceTransfer, cvFreeCreditReport, cvLoanOnMessanger, cvLeadSubmission, cvCashLoan, cvBusinessLoan, cvRectifyCredit;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -2894,9 +2718,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
 
-                //    startActivity(new Intent(HomeActivity.this, BalanceTransferDetailActivity.class));
-                   // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
-                  //  MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
+                    //    startActivity(new Intent(HomeActivity.this, BalanceTransferDetailActivity.class));
+                    // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
+                    //  MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
 
                 }
             });
@@ -2905,9 +2729,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    Utility.loadWebViewUrlInBrowser(HomeActivity.this,
-                            "http://www.rupeeboss.com/equifax-finmart?fbaid="
-                                    + String.valueOf(loginResponseEntity.getFBAId()));
+                    Utility.loadWebViewUrlInBrowser(HomeActivity.this, "http://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
                 }
             });
 
@@ -2915,8 +2737,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    Utility.loadWebViewUrlInBrowser(HomeActivity.this,
-                            "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
+                    Utility.loadWebViewUrlInBrowser(HomeActivity.this, "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
 
                 }
             });
@@ -2926,7 +2747,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
-                   // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                    // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                     MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 }
             });
@@ -2935,10 +2756,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
-                            .putExtra("NAME", "" + "Cash Loan")
-                            .putExtra("TITLE", "" + "Cash Loan"));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Cash Loan").putExtra("TITLE", "" + "Cash Loan"));
                 }
             });
 
@@ -2946,9 +2764,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-               //     startActivity(new Intent(HomeActivity.this, LapLoanDetailActivity.class));
-                   // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-             //       MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
+                    //     startActivity(new Intent(HomeActivity.this, LapLoanDetailActivity.class));
+                    // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+                    //       MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
 
                     //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
 //                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
@@ -2964,10 +2782,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
                     //    http://www.rupeeboss.com/rectifycredit?fbaid=37292&type=finmart&loan_id=38054
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
-                            .putExtra("NAME", "" + "Rectify Credit")
-                            .putExtra("TITLE", "" + "Rectify Credit"));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Rectify Credit").putExtra("TITLE", "" + "Rectify Credit"));
 
                 }
             });
@@ -3019,12 +2834,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MoreServiceDialog.dismiss();
 
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
-                                    + new DBPersistanceController(HomeActivity.this).getUserData().getFBAId())
-                            .putExtra("NAME", "FIN-PEACE")
-                            .putExtra("TITLE", "FIN-PEACE"));
-                  //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/" + new DBPersistanceController(HomeActivity.this).getUserData().getFBAId()).putExtra("NAME", "FIN-PEACE").putExtra("TITLE", "FIN-PEACE"));
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                     MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
 
                 }
@@ -3067,8 +2878,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             Button btnone, btntwo;
             TextView txtTile, txtBody, txtMob;
             ImageView ivCross;
-            CardView cvMPS, cvIncomeCalculator,
-                    cvMyTrainingCalender, cvHelpFeedback;
+            CardView cvMPS, cvIncomeCalculator, cvMyTrainingCalender, cvHelpFeedback;
 
             LayoutInflater inflater = this.getLayoutInflater();
 
@@ -3094,7 +2904,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     MyUtilitiesDialog.dismiss();
 
                     new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-                  //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
                     //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                 }
             });
@@ -3113,10 +2923,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
 
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginResponseEntity.getFBAId()))
-                            .putExtra("NAME", "" + "My Training Calender")
-                            .putExtra("TITLE", "" + "My Training Calender"));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "My Training Calender").putExtra("TITLE", "" + "My Training Calender"));
 
                 }
             });
@@ -3126,7 +2933,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MyUtilitiesDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
-                  //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
 
                 }
             });
@@ -3166,23 +2973,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         builder.setMessage("Do you want to share your screen?");
         builder.setCancelable(false);
 
-        builder.setPositiveButton(
-                "SHARE",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
+        builder.setPositiveButton("SHARE", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
 //                        Intent intent = new Intent(HomeActivity.this, CobrowseActivity.class);
 //                        startActivity(intent);
-                    }
-                });
+            }
+        });
 
-        builder.setNegativeButton(
-                "CANCEL",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
+        builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
         androidx.appcompat.app.AlertDialog exitdialog = builder.create();
         exitdialog.show();
 
@@ -3271,12 +3074,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         dashboardShareEntity = dashboardMultiLangEntity;
         showDialog();
         //loginResponseEntity.getFBAId()
-        new RegisterController(this).getProductShareUrl(
-                loginResponseEntity.getFBAId(),
-                Integer.valueOf(loginResponseEntity.getPOSPNo()),
-                dashboardMultiLangEntity.getProductId(),
-                0,
-                this);
+        new RegisterController(this).getProductShareUrl(loginResponseEntity.getFBAId(), Integer.valueOf(loginResponseEntity.getPOSPNo()), dashboardMultiLangEntity.getProductId(), 0, this);
     }
 
     public void shareProductPopUp(DashboardMultiLangEntity shareEntity) {
@@ -3391,16 +3189,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     private void navigateViaNotification(String prdID, String WebURL, String Title) {
 
-      if (prdID.equals("WB")) {
+        if (prdID.equals("WB")) {
 
-            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                    .putExtra("URL", WebURL)
-                    .putExtra("NAME", Title)
-                    .putExtra("TITLE", Title));
+            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", WebURL).putExtra("NAME", Title).putExtra("TITLE", Title));
 
-            } else if (prdID.equals("CB")) {
+        } else if (prdID.equals("CB")) {
             Utility.loadWebViewUrlInBrowser(HomeActivity.this, WebURL);
-        }else {
+        } else {
 
             if (WebURL.trim().equals("") || Title.trim().equals("")) {
 
@@ -3415,19 +3210,31 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
             //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-            String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" +
-                    "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                    + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                    + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                    + "&product_id=" + prdID
-                    + "&login_ssid=";
+            String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&product_id=" + prdID + "&login_ssid=";
             WebURL = WebURL + append;
 
-            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                    .putExtra("URL", WebURL)
-                    .putExtra("NAME", Title)
-                    .putExtra("TITLE", Title));
+            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", WebURL).putExtra("NAME", Title).putExtra("TITLE", Title));
         }
 
+    }
+
+
+    private void removeShorcuts() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            try {
+                ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+
+                shortcutManager.disableShortcuts(Arrays.asList("ID1"));
+                shortcutManager.disableShortcuts(Arrays.asList("ID2"));
+                shortcutManager.disableShortcuts(Arrays.asList("ID3"));
+                shortcutManager.disableShortcuts(Arrays.asList("ID4"));
+                shortcutManager.removeAllDynamicShortcuts();
+            }catch (java.lang.Exception ex){
+                Log.d("SHORTCUTMENU", ex.toString());
+            }
+
+
+
+        }
     }
 }

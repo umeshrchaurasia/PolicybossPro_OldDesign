@@ -1469,11 +1469,11 @@ public class BaseActivity extends AppCompatActivity {
             UserConstantEntity userConstantEntity =    new DBPersistanceController(BaseActivity.this).getUserConstantsData();
             startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class) // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
                     .putExtra("URL", "" + userConstantEntity.getLeadDashUrl())
-                    .putExtra("NAME", "" + "View Summary")
-                    .putExtra("TITLE", "" + "View Summary"));
+                    .putExtra("NAME", "" + "Sync Contact DashBoard")
+                    .putExtra("TITLE", "" + "Sync Contact DashBoard"));
         }
 
-        // endregion
+        // endregion+
         @JavascriptInterface
         public void incomePotential() {
             //Get the string value to process

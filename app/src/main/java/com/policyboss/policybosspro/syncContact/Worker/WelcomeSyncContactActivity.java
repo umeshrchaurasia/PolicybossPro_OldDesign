@@ -117,7 +117,7 @@ public class WelcomeSyncContactActivity extends BaseActivity implements View.OnC
 
             case R.id.txtprivacy:
                 startActivity(new Intent(this, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro-elite")
+                        .putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro")
                         .putExtra("NAME", "" + "privacy-policy")
                         .putExtra("TITLE", "" + "privacy-policy"));
                 break;

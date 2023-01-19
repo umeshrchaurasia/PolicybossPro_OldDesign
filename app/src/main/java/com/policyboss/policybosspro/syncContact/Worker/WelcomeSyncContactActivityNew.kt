@@ -269,7 +269,7 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
                 Intent(this, CommonWebViewActivity::class.java)
                     .putExtra(
                         "URL",
-                        "https://www.policyboss.com/privacy-policy-policyboss-pro-elite"
+                        "https://www.policyboss.com/privacy-policy-policyboss-pro"
                     )
                     .putExtra("NAME", "" + "privacy-policy")
                     .putExtra("TITLE", "" + "privacy-policy")
