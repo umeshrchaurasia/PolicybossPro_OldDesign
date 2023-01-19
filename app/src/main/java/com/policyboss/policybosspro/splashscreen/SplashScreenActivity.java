@@ -222,14 +222,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 //                          {
 //                              String prd2=  pendingDynamicLinkData.getLink().getQueryParameter("product_id");
 //                          }
-                           // webView.loadUrl(url);
-                           // webView.getSettings().setJavaScriptEnabled(true);
-                           // webView.setWebViewClient(new WebViewClient());
 
-//                            startActivity(new Intent(SplashScreenActivity.this, CommonWebViewActivity.class)
-//                                    .putExtra("URL", url)
-//                                    .putExtra("NAME", "Health Insurance")
-//                                    .putExtra("TITLE", "Health Insurance"));
 
                         }
                         else
@@ -247,32 +240,23 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                                     deeplinkurl =  uri.toString();
                                     Log.d("", uri.toString());
                                     prefManager.setDeeplink(uri.toString());
+
 //                                    startActivity(new Intent(SplashScreenActivity.this, CommonWebViewActivity.class)
 //                                            .putExtra("URL", uri.toString())
 //                                            .putExtra("NAME", "")
 //                                            .putExtra("TITLE", ""));
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-
-                                            startActivity(new Intent(SplashScreenActivity.this, CommonWebViewActivity.class).putExtra("URL", uri.toString()).putExtra("NAME", "").putExtra("TITLE", "")
-                                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-
-                                        }
-                                    }, 1000);
-
-
-//                                    String prd=  uri.getQueryParameter("product_id");
+//                                    new Handler().postDelayed(new Runnable() {
+//                                        @Override
+//                                        public void run() {
 //
-//                                    if(prd!=null)
-//                                    {
-//                                        String prd1= uri.getQueryParameter("product_id");
-//                                    }
-//                                    else
-//                                    {
-//                                        String prd2=  uri.getQueryParameter("product_id");
-//                                    }
+//                                            startActivity(new Intent(SplashScreenActivity.this, CommonWebViewActivity.class).putExtra("URL", uri.toString()).putExtra("NAME", "").putExtra("TITLE", "")
+//                                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+//
+//
+//                                        }
+//                                    }, 1000);
+
+
                                 }
 
 
