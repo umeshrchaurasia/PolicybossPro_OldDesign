@@ -1759,6 +1759,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public void OnFailure(Throwable t) {
         cancelDialog();
         //openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
+        Log.d(Constants.TAG, t.getMessage() );
     }
 
     @Override

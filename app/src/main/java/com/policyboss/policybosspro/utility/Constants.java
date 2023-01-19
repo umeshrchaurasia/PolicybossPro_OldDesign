@@ -134,6 +134,7 @@ public class Constants {
     public static String OFFLINE_HEALTH_EDIT = "offline_health_edit";
 
     public static String TERM_INPUT_FRAGMENT = "input_term_fragment_bottom";
+    public static String TAG = "POLICYBOSS";
 
     public static String[] permissionsRequired ={Manifest.permission.CALL_PHONE};
 

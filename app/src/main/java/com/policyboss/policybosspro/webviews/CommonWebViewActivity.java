@@ -992,7 +992,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     public void OnFailure(Throwable t) {
 
         cancelDialog();
-        Toast.makeText(CommonWebViewActivity.this, "Error :" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        Log.d(Constants.TAG, t.getMessage() );
+      //  Toast.makeText(CommonWebViewActivity.this, "Error :" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     //endregion

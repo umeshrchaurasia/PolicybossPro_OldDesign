@@ -172,7 +172,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnFailure(Throwable t) {
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     public boolean checkAllMastersIsUpdate() {
