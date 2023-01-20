@@ -111,7 +111,9 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
         if (prefManager.isFirstTimeLaunch()) {
 
-            startActivity(new Intent(this, WelcomeActivity.class));
+            startActivity(new Intent(this, WelcomeActivity.class)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+
         } else {
 
             //user behaviour data collection in Async
@@ -125,7 +127,8 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                             startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class)
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         } else {
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class)
+                                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }
 
                 }
@@ -272,4 +275,11 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                     }
                 });
     }
+
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//
+//        Toast.makeText(this,"hugfh gh ghfh h ",Toast.LENGTH_SHORT).show();
+//    }
 }

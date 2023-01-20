@@ -287,94 +287,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         init_headers();
 
-        deeplink_value = prefManager.getDeepLink();
-
-        if (!deeplink_value.isEmpty()) {
-            try {
-
-                Uri myUri = Uri.parse(deeplink_value);
-
-                String prdID = myUri.getQueryParameter("product_id");
-                String title_value = myUri.getQueryParameter("title");
-
-                if (title_value != null) {
-                    Title = title_value;
-                } else {
-                    Title = "";
-                }
-
-                if (prdID != null) {
-
-                    if (prdID.equals("41")) {
-                        //sync native app activity
-                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
-                    } else if (prdID.equals("501")) {
-                        //my account activity
-                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                    }else if (prdID.equals("502")) {
-                        //PospEnrollment activity
-                        startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
-                    }else if (prdID.equals("503")) {
-                        //sync native app activity
-                        startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
-                    }else if (prdID.equals("504")) {
-                        //sync native app activity
-                        startActivity(new Intent(HomeActivity.this, SalesMaterialActivity.class));
-                    }
-                    else {
-
-                        String ipaddress = "0.0.0.0";
-                        try {
-                            ipaddress = Utility.getMacAddress(HomeActivity.this);
-                        } catch (Exception io) {
-                            ipaddress = "0.0.0.0";
-                        }
 
 
-                        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                        String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
-                                // + "&product_id=" + prdID
-                                + "&login_ssid=";
-                        deeplink_value = deeplink_value + append;
 
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
-
-
-                            }
-                        }, 400);
-
-
-                    }
-
-
-                }
-                else {
-                    //new link
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
-
-
-                            }
-                        }, 1000);
-                }
-
-
-                prefManager.clearDeeplink();
-
-            } catch (Exception ex) {
-                //  Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
-                Log.d("Deeplinl", ex.toString());
-            }
-
-        }
 
         setNavigationMenu(prefManager.getLanguage());    // Set Navigation Drawer
 
@@ -1505,6 +1420,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     shortcutAppMenu();
                     init_headers();
+
+                    deeplink_handle();
 
                     if (prefManager.getPopUpCounter().equals("0")) {
                         showMarketingPopup();
@@ -3236,6 +3153,97 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
 
 
+
+        }
+    }
+
+    private void deeplink_handle()
+    {
+        deeplink_value = prefManager.getDeepLink();
+        if (!deeplink_value.isEmpty()) {
+            try {
+
+                Uri myUri = Uri.parse(deeplink_value);
+
+                String prdID = myUri.getQueryParameter("product_id");
+                String title_value = myUri.getQueryParameter("title");
+
+                if (title_value != null) {
+                    Title = title_value;
+                } else {
+                    Title = "";
+                }
+
+                if (prdID != null) {
+
+                    if (prdID.equals("41")) {
+                        //sync native app activity
+                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                    } else if (prdID.equals("501")) {
+                        //my account activity
+                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                    }else if (prdID.equals("502")) {
+                        //PospEnrollment activity
+                        startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                    }else if (prdID.equals("503")) {
+                        //sync native app activity
+                        startActivity(new Intent(HomeActivity.this, NotificationActivity.class));
+                    }else if (prdID.equals("504")) {
+                        //sync native app activity
+                        startActivity(new Intent(HomeActivity.this, SalesMaterialActivity.class));
+                    }
+                    else {
+
+                        String ipaddress = "0.0.0.0";
+                        try {
+                            ipaddress = Utility.getMacAddress(HomeActivity.this);
+                        } catch (Exception io) {
+                            ipaddress = "0.0.0.0";
+                        }
+
+
+                        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                        String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                                // + "&product_id=" + prdID
+                                + "&login_ssid=";
+                        deeplink_value = deeplink_value + append;
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
+
+
+                            }
+                        }, 100);
+
+
+                    }
+
+
+                }
+                else {
+                    //new link
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", deeplink_value).putExtra("NAME", Title).putExtra("TITLE", Title));
+
+
+                        }
+                    }, 100);
+                }
+
+
+                prefManager.clearDeeplink();
+
+            } catch (Exception ex) {
+                //  Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+                Log.d("Deeplinl", ex.toString());
+            }
 
         }
     }
