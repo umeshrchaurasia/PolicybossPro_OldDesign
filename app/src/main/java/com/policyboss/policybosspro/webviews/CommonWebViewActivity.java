@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,6 +39,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
@@ -55,10 +60,12 @@ import com.policyboss.policybosspro.paymentEliteplan.SyncRazorPaymentActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.policyboss.policybosspro.utility.UTILITY;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
+import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -73,6 +80,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEnt
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketWebDocResponse;
 import okhttp3.MultipartBody;
 
+
 import static com.policyboss.policybosspro.file_chooser.utils.FileUtilNew.generateFileName;
 
 public class CommonWebViewActivity extends BaseActivity implements BaseActivity.PopUpListener, BaseActivity.WebViewPopUpListener, IResponseSubcriber {
@@ -82,6 +90,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     String name = "";
     String title = "";
     String dashBoardtype = "";
+
+    String DOC_TYPE = "";
+    ActivityResultLauncher<Intent> resultLauncher;
 
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
@@ -117,7 +128,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 //    Bitmap bitmapPhoto = null;
     private String PHOTO_File = "";
     MultipartBody.Part part;
-    //HashMap<String, String> body;
+    HashMap<String, String> body;
+
+    private String DocCommonID = "", DocCommonCrn = "", DocCommonType = "", DocCommonPath = "";
 
 
     androidx.appcompat.app.AlertDialog alertDialog;
@@ -148,6 +161,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         userConstantEntity = db.getUserConstantsData();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        pdfFileLauncher();
         if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
                 || name.equals("LOAN_AGREEMENT") || name.equals("LIC Business") || name.equals("OfflineQuotes")) {
             // fab.setVisibility(View.VISIBLE);
@@ -382,6 +397,13 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
         }
 
+        @JavascriptInterface
+        public void Upload_document(String id, String crn, String FileType , String FilePath ) {
+
+            galleryCamPopUp_Common(id,crn,FileType,FilePath);
+
+        }
+
         // endregion
 
         @JavascriptInterface
@@ -552,10 +574,43 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     }
 
 
+    public void galleryCamPopUp_Common(String id, String crn, String FileType , String FilePath) {
+
+        DOC_TYPE =  "COMMON";
+        DocCommonID = id;
+        DocCommonCrn = crn;
+        DocCommonType = FileType;
+        DocCommonPath = FilePath;
+
+        PHOTO_File = "policyBoss_file" + "_" + id;
+        Log.i("RAISE_TICKET Uploding", PHOTO_File);
+
+        if (!checkPermission()) {
+
+            if (checkRationalePermission()) {
+                //Show Information about why you need the permission
+                requestPermission();
+
+            } else {
+                //Previously Permission Request was cancelled with 'Dont Ask Again',
+                // Redirect to Settings after showing Information about why you need the permission
+
+                //  permissionAlert(navigationView,"Need Call Permission","This app needs Call permission.");
+                openPopUp(ivUser, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+
+            }
+        } else {
+
+            showCamerGalleryPopUp();
+        }
+    }
+
     // region Camera & Gallery Popup For Raise Ticket
 
     public void galleryCamPopUp(String randomID) {
 
+        DOC_TYPE =  "RAISE";
         PHOTO_File = "";
         PHOTO_File = "fm_file" + "_" + randomID;
         Log.i("RAISE_TICKET Uploding", PHOTO_File);
@@ -630,6 +685,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 if (grantResults.length > 0) {
@@ -641,7 +697,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
+                    if (camera && (writeExternal || minSdk29) && readExternal) {
 
                         showCamerGalleryPopUp();
 
@@ -711,9 +767,17 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     private void showFileChooser() {
         // Create the ACTION_GET_CONTENT Intent
-        Intent getContentIntent = FileUtilNew.createGetContentIntent();    // Only For PDF Pls check createGetContentIntent() method
-        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
-        startActivityForResult(intent, PICK_PDF_REQUEST);
+//        Intent getContentIntent = FileUtilNew.createGetContentIntent();    // Only For PDF Pls check createGetContentIntent() method
+//        Intent intent = Intent.createChooser(getContentIntent, "Select a file");
+//        startActivityForResult(intent, PICK_PDF_REQUEST);
+
+        // Initialize intent
+        Intent intent
+                = new Intent(Intent.ACTION_GET_CONTENT);
+        // set type
+        intent.setType("application/pdf");
+        // Launch intent
+        resultLauncher.launch(intent);
 
 //        Intent intent = FileUtilNew.getCustomFileChooserIntent(FileUtilNew.DOC, FileUtilNew.PDF, FileUtilNew.XLS,FileUtilNew.TEXT,FileUtilNew.DOCX);
 //
@@ -722,6 +786,79 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     }
 
 
+    private void pdfFileLauncher(){
+
+        resultLauncher = registerForActivityResult(
+                new ActivityResultContracts
+                        .StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(
+                            ActivityResult result)
+                    {
+                        // Initialize result data
+                        Intent data = result.getData();
+                        // check condition
+                        if (data != null) {
+                            // When data is not equal to empty
+                            // Get PDf uri
+                            Uri sUri = data.getData();
+                            // set Uri on text view
+                            Log.d("URL",""+ sUri.toString());
+
+                            // Get PDF path
+                            String sPath = sUri.getPath();
+                            Log.d("URL",""+Html.fromHtml(
+                                    "<big><b>PDF Path</b></big><br>" + sPath));
+                            String path =   UTILITY.getFilePath(CommonWebViewActivity.this, sUri);
+                            File file = new File(path);
+
+
+
+                            if (file.exists()) {
+
+                                if(UTILITY.isFileLessThan5MB(file)){
+
+                                    showAlert("File is too Big, please select a file less than 5mb");
+                                    return;
+                                }else {
+
+                                    Log.e("TravellerLog :: ", "Problem creating Image folder");
+                                    showDialog();
+
+                                    switch (DOC_TYPE) {
+
+                                        case "RAISE": {
+
+                                            part = Utility.getMultipartPdf(file, PHOTO_File, "doc_type");
+                                            new ZohoController(CommonWebViewActivity.this).uploadRaiseTicketDocWeb(part, CommonWebViewActivity.this);
+
+                                            break;
+                                        }
+                                        case "COMMON": {
+
+                                            // Change Here
+                                            body = Utility.getBody_Common(CommonWebViewActivity.this, DocCommonID, DocCommonCrn, DocCommonType, DocCommonPath);
+
+                                            part = Utility.getMultipartImage(file, "doc_type");
+
+                                            new ZohoController(CommonWebViewActivity.this).uploadRaiseTicketDocWeb(part, CommonWebViewActivity.this);
+
+
+                                        }
+                                    }
+
+                                }
+
+
+
+                            }
+
+
+                        }
+                    }
+                });
+    }
     private void launchCamera() {
 
 
@@ -839,98 +976,126 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Only For Pdf
-        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            final Uri uri = data.getData();
-            // Get the File path from the Uri
-            try {
+        // region  Only For Pdf {Not working old
 
 
-                String path = FileUtilNew.getPath(this, uri);
+//        if (requestCode == PICK_PDF_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+//
+//            final Uri uri = data.getData();
+//            // Get the File path from the Uri
+//            try {
+//
+//
+//                String path = FileUtilNew.getPath(this, uri);
+//
+//                if (!path.contains(".")) {
+//
+//                    showAlert("Only file type allowed to be uploaded are\n(Image,Docs,PDF,Excel & Text.)");
+//                    return;
+//                }
+//                String extension = path.substring(path.lastIndexOf(".")).toLowerCase();
+//                if (extension.contains("pdf") || extension.contains("xls") || extension.contains("xlsx") || extension.contains("txt") || extension.contains("doc")
+//                        || extension.contains("docs") || extension.contains("jpeg") || extension.contains("jpg") || extension.contains("png")) {
+//
+//
+//                    File pdfFile = new File(path);
+//                    if (pdfFile.exists()) {
+//                        showDialog();
+//
+//
+//                        part = Utility.getMultipartPdf(pdfFile, PHOTO_File, "doc_type");
+//                        new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+//
+//                    } else {
+//                        showAlert("Select file from File Manager.");
+//                    }
+//                } else {
+//
+//                    showAlert("Only file type allowed to be uploaded are\n(Image,Docs,PDF,Excel & Text.)");
+//                }
+//
+//
+//            } catch (Exception ex) {
+//
+//                showAlert("Select file from File Manager.");
+//            }
+//        } else {
+//
+//
+//        }
 
-                if (!path.contains(".")) {
+        //endregion
 
-                    showAlert("Only file type allowed to be uploaded are\n(Image,Docs,PDF,Excel & Text.)");
-                    return;
-                }
-                String extension = path.substring(path.lastIndexOf(".")).toLowerCase();
-                if (extension.contains("pdf") || extension.contains("xls") || extension.contains("xlsx") || extension.contains("txt") || extension.contains("doc")
-                        || extension.contains("docs") || extension.contains("jpeg") || extension.contains("jpg") || extension.contains("png")) {
-
-
-                    File pdfFile = new File(path);
-                    if (pdfFile.exists()) {
-                        showDialog();
-
-
-                        part = Utility.getMultipartPdf(pdfFile, PHOTO_File, "doc_type");
-                        new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
-
-                    } else {
-                        showAlert("Select file from File Manager.");
-                    }
-                } else {
-
-                    showAlert("Only file type allowed to be uploaded are\n(Image,Docs,PDF,Excel & Text.)");
-                }
-
-
-            } catch (Exception ex) {
-
-                showAlert("Select file from File Manager.");
-            }
-        } else {
-
-            // Below For Cropping The Camera Image
-            if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-                //extractTextFromImage();
-                startCropImageActivity(imageUri);
-            }
-            // Below For Cropping The Gallery Image
-            else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
-                Uri selectedImageUri = data.getData();
-                startCropImageActivity(selectedImageUri);
-            }
-
-            //region Below  handle result of CropImageActivity
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                CropImage.ActivityResult result = CropImage.getActivityResult(data);
-
-                if (resultCode == RESULT_OK) {
-                    try {
-                        cropImageUri = result.getUri();
-                        Bitmap mphoto = null;
-                        try {
-                            mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
-                            //  mphoto = getResizedBitmap(mphoto, 800);
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        showDialog();
-
-
-                        file = saveImageToStorage(mphoto, PHOTO_File);
-                        // setProfilePhoto(mphoto);
-
-                        part = Utility.getMultipartImage(file, "doc_type");
-
-                        new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
-
-                    } catch (Exception e) {
-                        Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-
-                } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                    Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-            //endregion
+        // Below For Cropping The Camera Image
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            //extractTextFromImage();
+            startCropImageActivity(imageUri);
+        }
+        // Below For Cropping The Gallery Image
+        else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            startCropImageActivity(selectedImageUri);
         }
 
+        //region Below  handle result of CropImageActivity
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            if (resultCode == RESULT_OK) {
+                try {
+                    cropImageUri = result.getUri();
+                    Bitmap mphoto = null;
+                    try {
+                        mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                        //  mphoto = getResizedBitmap(mphoto, 800);
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    showDialog();
+
+                    switch (DOC_TYPE){
+
+                        case "RAISE" : {
+
+                            file = saveImageToStorage(mphoto, PHOTO_File);
+                            // setProfilePhoto(mphoto);
+
+                            part = Utility.getMultipartImage(file, "doc_type");
+
+                            new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+
+                            break;
+                        }
+                        case "COMMON" : {
+
+                            file = saveImageToStorage(mphoto, PHOTO_File);
+                            // setProfilePhoto(mphoto);
+
+                            body = Utility.getBody_Common(this, DocCommonID, DocCommonCrn,DocCommonType,DocCommonPath);
+
+                            part = Utility.getMultipartImage(file, "doc_type");
+
+                            new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+
+
+                        }
+
+                    }
+
+
+
+                } catch (Exception e) {
+                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+            }
+        }
+
+        //endregion
 
     }
 

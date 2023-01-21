@@ -170,6 +170,19 @@ public class Utility {
         return body;
     }
 
+
+    public static HashMap<String, String> getBody_Common(Context context, String id, String  crn, String FileType, String FilePath) {
+        HashMap<String, String> body = new HashMap<String, String>();
+
+
+        body.put("id", id);
+        body.put("crn", crn);
+        body.put("filetype", FileType);
+        body.put("filepath", FilePath);
+
+
+        return body;
+    }
     public static HashMap<String, String> getNCDBody(Context context, String GUID, int DocTyp) {
         HashMap<String, String> body = new HashMap<String, String>();
 
@@ -219,6 +232,8 @@ public class Utility {
         }
         return file;
     }
+
+
 
     public static int checkShareStatus(Context context) {
         int pospStatus;
