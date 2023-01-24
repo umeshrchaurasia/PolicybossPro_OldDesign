@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CreateTicketrequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CommonWebDocResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateTicketResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketViewResponse;
@@ -72,5 +73,10 @@ public class ZohoRequestBuilder extends FinmartRetroRequestBuilder {
         @Multipart
         @POST
         Call<RaiseTicketWebDocResponse> uploadDocumentRaiseTicketWeb(@Url String url, @Part() MultipartBody.Part doc);
+
+
+        @Multipart
+        @POST
+        Call<CommonWebDocResponse> uploadCommonDocumentWeb(@Url String url, @Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
     }
 }

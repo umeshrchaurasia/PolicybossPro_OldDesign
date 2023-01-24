@@ -77,6 +77,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.zoho.ZohoController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CommonWebDocResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketWebDocResponse;
 import okhttp3.MultipartBody;
 
@@ -842,7 +843,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
                                             part = Utility.getMultipartImage(file, "doc_type");
 
-                                            new ZohoController(CommonWebViewActivity.this).uploadRaiseTicketDocWeb(part, CommonWebViewActivity.this);
+
+                                            new ZohoController(CommonWebViewActivity.this).uploadCommonDocuments(part, body, CommonWebViewActivity.this);
 
 
                                         }
@@ -1077,7 +1079,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
                             part = Utility.getMultipartImage(file, "doc_type");
 
-                            new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+                            new ZohoController(CommonWebViewActivity.this).uploadCommonDocuments(part, body, CommonWebViewActivity.this);
 
 
                         }
@@ -1107,6 +1109,33 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         cancelDialog();
         //RaiseTicketWebDocResponse
         if (response instanceof RaiseTicketWebDocResponse) {
+            if (response.getStatusNo() == 0) {
+
+
+                Toast.makeText(CommonWebViewActivity.this, response.getMessage(), Toast.LENGTH_LONG).show();
+//                String jsonResponse =  new Gson().toJson(response).toString();
+//                jsonResponse = jsonResponse.replace("\"", "'");
+
+                String jsonResponse = ((RaiseTicketWebDocResponse) response).getMasterData().getFile_name() + "|" +
+                        ((RaiseTicketWebDocResponse) response).getMasterData().getFile_path();
+                Log.i("RAISE_TICKET RESPONSE", jsonResponse);
+
+                // Sending Data to Web Using evaluateJavascript
+                // When Activty Page Called than This One is rasied.
+                webView.evaluateJavascript("javascript: " +
+                        "uploadImagePath(\"" + jsonResponse + "\")", null);
+
+
+                //////////// When Dialog Page Called via Base Activity below method raised
+                uploadWebViewRaiserPath(jsonResponse);
+
+            } else {
+                Toast.makeText(CommonWebViewActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        else  if (response instanceof CommonWebDocResponse) {
             if (response.getStatusNo() == 0) {
 
 

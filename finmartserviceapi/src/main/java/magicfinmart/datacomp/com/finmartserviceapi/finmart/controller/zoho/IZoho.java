@@ -25,4 +25,6 @@ public interface IZoho {
 
     void uploadRaiseTicketDocWeb(MultipartBody.Part document, final IResponseSubcriber iResponseSubcriber);
 
+    void uploadCommonDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber);
+
 }

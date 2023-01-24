@@ -2,6 +2,8 @@ package com.policyboss.policybosspro.salesmaterial;
 
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity;
 
 import java.util.List;
 
@@ -59,7 +62,12 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
         holder.lyParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SalesMaterialActivity) mContex).redirectToApplyMain(entity, position);
+                if(entity.getProduct_Id() == 110){
+
+                    mContex.startActivity(new Intent(mContex, SendTemplateSmsActivity.class));
+                }else{
+                    ((SalesMaterialActivity) mContex).redirectToApplyMain(entity, holder.getAdapterPosition());
+                }
             }
 
         });

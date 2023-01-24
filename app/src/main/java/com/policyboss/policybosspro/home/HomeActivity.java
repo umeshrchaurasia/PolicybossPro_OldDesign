@@ -665,7 +665,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-                hideNavigationItem();
+
+                try {
+                    hideNavigationItem();
+                }catch (Exception ex ){
+
+                }
+
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -2069,14 +2075,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             }
 
-            if (userConstantEntity.getSmsTemplatesEnabled() != null && !userConstantEntity.getSmsTemplatesEnabled().equals("")) {
-
-                if (userConstantEntity.getSmsTemplatesEnabled().equals("0")) {
-                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(false);
-                } else {
-                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(true);
-                }
-            }
+//            if (userConstantEntity.getSmsTemplatesEnabled() != null && !userConstantEntity.getSmsTemplatesEnabled().equals("")) {
+//
+//                if (userConstantEntity.getSmsTemplatesEnabled().equals("0")) {
+//                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(false);
+//                } else {
+//                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(true);
+//                }
+//            }
 
         } else {
             nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);

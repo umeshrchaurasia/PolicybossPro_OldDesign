@@ -108,12 +108,15 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
         showAnimDialog("")
         CoroutineScope(Dispatchers.IO).launch {
             try { //showDialog()
-              getHorizonDetails()
 
+              getHorizonDetails()
 
             }catch (e: Exception){
 
-                //cancelDialog()
+                withContext(Dispatchers.Main) {
+                    viewPager.visibility = View.VISIBLE
+                    cancelAnimDialog()
+                }
             }
         }
 
@@ -224,9 +227,11 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
                     }
                 }else{
-                    Log.d(TAG, resultResp.toString())
-                    viewPager.visibility = View.VISIBLE
-                    cancelAnimDialog()
+                    withContext(Dispatchers.Main) {
+                        Log.d(TAG, resultResp.toString())
+                        viewPager.visibility = View.VISIBLE
+                        cancelAnimDialog()
+                    }
                 }
 
 
@@ -236,9 +241,11 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
             }else{
 
-                Log.d(TAG, resultResp.toString())
-                viewPager.visibility = View.VISIBLE
-                cancelAnimDialog()
+                withContext(Dispatchers.Main) {
+                    Log.d(TAG, resultResp.toString())
+                    viewPager.visibility = View.VISIBLE
+                    cancelAnimDialog()
+                }
                // cancelDialog()
             }
 

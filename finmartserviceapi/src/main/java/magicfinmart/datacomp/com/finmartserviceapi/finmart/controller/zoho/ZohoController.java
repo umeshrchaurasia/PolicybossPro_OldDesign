@@ -11,6 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.ZohoRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CreateTicketrequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CommonWebDocResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateTicketResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketCommentResponse;
@@ -312,6 +313,45 @@ public class ZohoController implements IZoho {
                     iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
                 } else if (t instanceof UnknownHostException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void uploadCommonDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = BuildConfig.NODE_URL + "/pb_upload_doc";
+        zohoNetworkService.uploadCommonDocumentWeb(url , document, body).enqueue(new Callback<CommonWebDocResponse>() {
+            @Override
+            public void onResponse(Call<CommonWebDocResponse> call, Response<CommonWebDocResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        //callback of data
+                        iResponseSubcriber.OnSuccess(response.body(), "");
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CommonWebDocResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Server Error"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Server Errorn"));
                 } else if (t instanceof NumberFormatException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
                 } else {
