@@ -416,61 +416,66 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.txtMale:
-                isFemale = false;
-                isMale = true;
-                setGender(txtMale, txtFemale);
-                break;
-            case R.id.txtFemale:
-                isFemale = true;
-                isMale = false;
-                setGender(txtFemale, txtMale);
-                break;
-            case R.id.ivPersonalInfo:
-            case R.id.rlPersonalInfo:
-                hideAllLayouts(llPersonalInfo, ivPersonalInfo);
-                break;
-            case R.id.ivProfessionalInfo:
-            case R.id.rlProfessionalInfo:
+        try {
+            switch (view.getId()) {
+                case R.id.txtMale:
+                    isFemale = false;
+                    isMale = true;
+                    setGender(txtMale, txtFemale);
+                    break;
+                case R.id.txtFemale:
+                    isFemale = true;
+                    isMale = false;
+                    setGender(txtFemale, txtMale);
+                    break;
+                case R.id.ivPersonalInfo:
+                case R.id.rlPersonalInfo:
+                    hideAllLayouts(llPersonalInfo, ivPersonalInfo);
+                    break;
+                case R.id.ivProfessionalInfo:
+                case R.id.rlProfessionalInfo:
 
-                isValidPersonalInfo = validateRegister();
-                manageTaskBar();
-                if (isValidPersonalInfo) {
-                    setRegisterPersonalRequest();
+                    isValidPersonalInfo = validateRegister();
+                    manageTaskBar();
+                    if (isValidPersonalInfo) {
+                        setRegisterPersonalRequest();
 
-                    if (!isMobileValid) {
-                        showDialog("Sending otp...");
-                        new RegisterController(this).generateOtp(etMobile1.getText().toString(),etEmail.getText().toString(), this);
-                        showOtpAlert();
-                    } else {
-                        hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
-                        btnSubmit.setVisibility(View.VISIBLE);
-                    }
-                } else {
-
-                }
-
-
-                break;
-            case R.id.btnSubmit:
-                isValidPersonalInfo = validateRegister();
-                manageTaskBar();
-                if (isValidPersonalInfo) {
-                    setRegisterPersonalRequest();
-                    if (!isMobileValid) {
-                        showDialog("Sending otp...");
-                        new RegisterController(this).generateOtp(etMobile1.getText().toString(),etEmail.getText().toString(), this);
-                        showOtpAlert();
+                        if (!isMobileValid) {
+                            showDialog("Sending otp...");
+                            new RegisterController(this).generateOtp(etMobile1.getText().toString(), etEmail.getText().toString(), this);
+                            showOtpAlert();
+                        } else {
+                            hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
+                            btnSubmit.setVisibility(View.VISIBLE);
+                        }
                     } else {
 
-                        setProfessionInfo();
-                        showDialog();
-                        new RegisterController(this).registerFba(registerRequestEntity, this);
-
                     }
-                }
-                break;
+
+
+                    break;
+                case R.id.btnSubmit:
+                    isValidPersonalInfo = validateRegister();
+                    manageTaskBar();
+                    if (isValidPersonalInfo) {
+                        setRegisterPersonalRequest();
+                        if (!isMobileValid) {
+                            showDialog("Sending otp...");
+                            new RegisterController(this).generateOtp(etMobile1.getText().toString(), etEmail.getText().toString(), this);
+                            showOtpAlert();
+                        } else {
+
+                            setProfessionInfo();
+                            showDialog();
+                            new RegisterController(this).registerFba(registerRequestEntity, this);
+
+                        }
+                    }
+                    break;
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -119,9 +119,15 @@ public class BaseFragment extends Fragment {
     }
 
     public void cancelDialog() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
-        }
+        try {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        }catch (Exception ex)
+            {
+                ex.printStackTrace();
+                dialog.dismiss();
+            }
     }
 
     @Override
@@ -140,11 +146,16 @@ public class BaseFragment extends Fragment {
     }
 
     public void showDialog(String msg) {
-        if (dialog == null)
-            dialog = ProgressDialog.show(getActivity(), "", msg, true);
-        else {
-            if (!dialog.isShowing())
+        try {
+            if (dialog == null)
                 dialog = ProgressDialog.show(getActivity(), "", msg, true);
+            else {
+                if (!dialog.isShowing())
+                    dialog = ProgressDialog.show(getActivity(), "", msg, true);
+            }
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
         }
 
     }

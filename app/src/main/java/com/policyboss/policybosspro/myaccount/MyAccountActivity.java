@@ -994,106 +994,109 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+         try {
+             cancelDialog();
+             if (response instanceof PincodeResponse) {
+                 if (response.getStatusNo() == 0) {
+                     etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
+                     etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
-        cancelDialog();
-        if (response instanceof PincodeResponse) {
-            if (response.getStatusNo() == 0) {
-                etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
-                etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+                     registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+                     registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
+                     registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
 
-                registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
-                registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
-                registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
+                 } else {
 
-            } else {
+                     etState.setText("");
+                     etCity.setText("");
 
-                etState.setText("");
-                etCity.setText("");
+                     registerRequestEntity.setCity("");
+                     registerRequestEntity.setState("");
+                     registerRequestEntity.setStateID("0");
 
-                registerRequestEntity.setCity("");
-                registerRequestEntity.setState("");
-                registerRequestEntity.setStateID("0");
+                 }
+             } else if (response instanceof IfscCodeResponse) {
+                 if (response.getStatusNo() == 0) {
+                     Constants.hideKeyBoard(etPincode, this);
 
-            }
-        } else if (response instanceof IfscCodeResponse) {
-            if (response.getStatusNo() == 0) {
-                Constants.hideKeyBoard(etPincode, this);
+                     IfscEntity ifscEntity = ((IfscCodeResponse) response).getMasterData().get(0);
 
-                IfscEntity ifscEntity = ((IfscCodeResponse) response).getMasterData().get(0);
+                     etIfscCode.setText("" + ifscEntity.getIFSCCode());
+                     etMicrCode.setText("" + ifscEntity.getMICRCode());
+                     etBankName.setText("" + ifscEntity.getBankName());
+                     etBankBranch.setText("" + ifscEntity.getBankName());
+                     etBankCity.setText("" + ifscEntity.getCityName());
 
-                etIfscCode.setText("" + ifscEntity.getIFSCCode());
-                etMicrCode.setText("" + ifscEntity.getMICRCode());
-                etBankName.setText("" + ifscEntity.getBankName());
-                etBankBranch.setText("" + ifscEntity.getBankName());
-                etBankCity.setText("" + ifscEntity.getCityName());
-
-                etMicrCode.setSelection(etMicrCode.getText().length());
-
-
-                registerRequestEntity.setLoan_BankName("" + ifscEntity.getBankName());
-                registerRequestEntity.setLoan_BankBranch("" + ifscEntity.getBankBran());
-                registerRequestEntity.setLoan_IFSC("" + ifscEntity.getIFSCCode());
-
-            }
-        } else if (response instanceof MyAccountResponse) {
-
-            if (registerRequestEntity.getType().equals("0")) {
-                Snackbar.make(ivMyProfile, response.getMessage(), Snackbar.LENGTH_SHORT).show();
-                saveAcctDtlToDB(0);
-            } else if ((registerRequestEntity.getType().equals("1") || registerRequestEntity.getType().equals("4"))) {
-                saveAcctDtlToDB(Integer.valueOf(registerRequestEntity.getType()));
-            }
-        }
-
-        //DocumentResponse
-        else if (response instanceof DocumentResponse) {
-            if (response.getStatusNo() == 0) {
-
-                // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-                setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
-                if (type == 1 || type == 2) {
-                    try {
-                        updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
-
-                        dbPersistanceController.updateUserConstatntProfile(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
-
-                        // Todo : Firing Local BroadCase
-                        Intent profileIntent = new Intent(Utility.USER_PROFILE_ACTION);
-                        profileIntent.putExtra("PROFILE_PATH", ((DocumentResponse) response).getMasterData().get(0).getPrv_file());
-
-                        LocalBroadcastManager.getInstance(MyAccountActivity.this).sendBroadcast(profileIntent);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-            }
-        } else if (response instanceof MyAcctDtlResponse) {
-            if (response.getStatusNo() == 0) {
+                     etMicrCode.setSelection(etMicrCode.getText().length());
 
 
-                accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
+                     registerRequestEntity.setLoan_BankName("" + ifscEntity.getBankName());
+                     registerRequestEntity.setLoan_BankBranch("" + ifscEntity.getBankBran());
+                     registerRequestEntity.setLoan_IFSC("" + ifscEntity.getIFSCCode());
 
-                if (accountDtlEntity != null) {
-                    isDataUploaded = false;
-                    setAcctDtlInfo(accountDtlEntity);
-                    dbPersistanceController.updateMyAccountData(accountDtlEntity);
-                    isDataUploaded = true;
-                }
+                 }
+             } else if (response instanceof MyAccountResponse) {
+
+                 if (registerRequestEntity.getType().equals("0")) {
+                     Snackbar.make(ivMyProfile, response.getMessage(), Snackbar.LENGTH_SHORT).show();
+                     saveAcctDtlToDB(0);
+                 } else if ((registerRequestEntity.getType().equals("1") || registerRequestEntity.getType().equals("4"))) {
+                     saveAcctDtlToDB(Integer.valueOf(registerRequestEntity.getType()));
+                 }
+             }
+
+             //DocumentResponse
+             else if (response instanceof DocumentResponse) {
+                 if (response.getStatusNo() == 0) {
+
+                     // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+                     setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+                     if (type == 1 || type == 2) {
+                         try {
+                             updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+
+                             dbPersistanceController.updateUserConstatntProfile(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+
+                             // Todo : Firing Local BroadCase
+                             Intent profileIntent = new Intent(Utility.USER_PROFILE_ACTION);
+                             profileIntent.putExtra("PROFILE_PATH", ((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+
+                             LocalBroadcastManager.getInstance(MyAccountActivity.this).sendBroadcast(profileIntent);
+
+                         } catch (Exception e) {
+                             e.printStackTrace();
+                         }
+
+                     }
+
+                 }
+             } else if (response instanceof MyAcctDtlResponse) {
+                 if (response.getStatusNo() == 0) {
 
 
-            }
-        } else if (response instanceof UserConstatntResponse) {
-            if (response.getStatusNo() == 0) {
-                if (((UserConstatntResponse) response).getMasterData() != null) {
-                    dbPersistanceController.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
-                    bindAboutMe();
-                }
-            }
-        }
+                     accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
 
+                     if (accountDtlEntity != null) {
+                         isDataUploaded = false;
+                         setAcctDtlInfo(accountDtlEntity);
+                         dbPersistanceController.updateMyAccountData(accountDtlEntity);
+                         isDataUploaded = true;
+                     }
+
+
+                 }
+             } else if (response instanceof UserConstatntResponse) {
+                 if (response.getStatusNo() == 0) {
+                     if (((UserConstatntResponse) response).getMasterData() != null) {
+                         dbPersistanceController.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
+                         bindAboutMe();
+                     }
+                 }
+             }
+         }
+         catch(Exception ex){
+             ex.printStackTrace();
+         }
     }
 
     public void updateLoginResponse(final String fbaProfileUrl) {
@@ -1546,9 +1549,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        try{
 
-
-        //region handle result of CropImageActivity which was not supporting above Q
+             //region handle result of CropImageActivity which was not supporting above Q
 
         //  /****** Below For Cropping The Camera Image**************************/ //
 
@@ -1636,7 +1639,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         //endregion
 
 
-        // region  commented Below   Code for Image and Camara Handling
+             // region  commented Below   Code for Image and Camara Handling
 //
 //        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
 //        Bitmap mphoto = null;
@@ -1752,6 +1755,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //
 //    }
         //endregion
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

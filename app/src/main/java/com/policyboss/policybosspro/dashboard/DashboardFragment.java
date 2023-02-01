@@ -208,38 +208,39 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
-        if (response instanceof ConstantsResponse) {
-            constantEntity = ((ConstantsResponse) response).getMasterData();
-            if (response.getStatusNo() == 0) {
+        try {
+            cancelDialog();
+            if (response instanceof ConstantsResponse) {
+                constantEntity = ((ConstantsResponse) response).getMasterData();
+                if (response.getStatusNo() == 0) {
 
-                //region check for new vwesion
-                int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
-                if (pinfo != null && pinfo.versionCode < serverVersionCode) {
-                    forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
-                    if (forceUpdate == 1) {
-                        // forced update app
-                        openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
-                    } else {
-                        // aap with less version but not forced update
-                        if (prefManager.getUpdateShown()) {
-                            prefManager.setIsUpdateShown(false);
-                            openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
+                    //region check for new vwesion
+                    int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
+                    if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+                        forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
+                        if (forceUpdate == 1) {
+                            // forced update app
+                            openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
+                        } else {
+                            // aap with less version but not forced update
+                            if (prefManager.getUpdateShown()) {
+                                prefManager.setIsUpdateShown(false);
+                                openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
+                            }
+                        }
+                    } else if (((ConstantsResponse) response).getMasterData().
+                            getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+                        if (getActivity() != null && prefManager.getMps() != null) {
+
+                            //  ((HomeActivity) getActivity()).DialogMPS();
                         }
                     }
-                } else if (((ConstantsResponse) response).getMasterData().
-                        getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
-                    if (getActivity() != null && prefManager.getMps() != null) {
-
-                        //  ((HomeActivity) getActivity()).DialogMPS();
-                    }
+                    //endregion
+                    // if (getActivity() != null)
+                    //     ((HomeActivity) getActivity()).hideNavigationItem();
                 }
-                //endregion
-                // if (getActivity() != null)
-                //     ((HomeActivity) getActivity()).hideNavigationItem();
-            }
-        } else if (response instanceof UserConstatntResponse) {
-            if (response.getStatusNo() == 0) {
+            } else if (response instanceof UserConstatntResponse) {
+                if (response.getStatusNo() == 0) {
 
 
 //                if (LangType == "") {
@@ -251,13 +252,17 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 //                }
 
 
-            }
-        } else if (response instanceof MenuMasterResponse) {
-            if (response.getStatusNo() == 0) {
+                }
+            } else if (response instanceof MenuMasterResponse) {
+                if (response.getStatusNo() == 0) {
 
-                ((HomeActivity)getActivity()).addDynamicMenu(((MenuMasterResponse) response));
-                bindDashboardhAdapter();
+                    ((HomeActivity) getActivity()).addDynamicMenu(((MenuMasterResponse) response));
+                    bindDashboardhAdapter();
+                }
             }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
     }

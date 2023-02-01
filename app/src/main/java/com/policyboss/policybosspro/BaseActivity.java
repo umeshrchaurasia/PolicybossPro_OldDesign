@@ -257,13 +257,25 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void cancelDialog() {
-        if (dialog != null) {
-            dialog.dismiss();
+        try{
+            if (dialog != null) {
+                dialog.dismiss();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+                dialog.dismiss();
         }
     }
 
     protected void cancelDialog(Context context) {
-        if (dialog != null) {
+        try{
+            if (dialog != null) {
+                dialog.dismiss();
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
             dialog.dismiss();
         }
     }
@@ -271,29 +283,50 @@ public class BaseActivity extends AppCompatActivity {
     protected void showDialog() {
 //        dialog = ProgressDialog.show(BaseActivity.this, "", "Loading...", true);
         showDialog("Loading...");
+
     }
 
     protected void showDialog(Context context) {
         // dialog = ProgressDialog.show(context, "", "Loading...", true);
-        if (context != null)
-            showDialog("Loading...", context);
-    }
-
-    protected void showDialog(String msg, Context context) {
-        if (dialog == null)
-            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
-        else {
-            if (!dialog.isShowing())
-                dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+        try {
+                if (context != null) {
+                    showDialog("Loading...", context);
+                }
+            }
+          catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
+    protected void showDialog(String msg, Context context) {
+        try {
+                if (dialog == null)
+                    dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+                else {
+                    if (!dialog.isShowing())
+                        dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+                }
+             }
+        catch (Exception e) {
+                    e.printStackTrace();
+
+            }
+    }
+
     protected void showDialog(String msg) {
-        if (dialog == null)
-            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
-        else {
-            if (!dialog.isShowing())
+        try {
+
+            if (dialog == null)
                 dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+            else {
+                if (!dialog.isShowing())
+
+                    dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+
         }
     }
 

@@ -1961,9 +1961,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        try
+        {
 
-
-        //region handle result of CropImageActivity
+             //region handle result of CropImageActivity
 
         //  /****** Below For Cropping The Camera Image**************************/ //
 
@@ -2057,7 +2058,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         //endregion
 
 
-        // region  commented Below   Code for Image and Camara Handling
+             // region  commented Below   Code for Image and Camara Handling
 
 //        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
 //            Bitmap mphoto = null;
@@ -2185,6 +2186,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 //        }
 
         //endregion
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -234,6 +234,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setContentView(R.layout.activity_home);
         registerPopUp(this);
         registerPermission(this);
@@ -251,6 +252,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
 
+        try {
 
 //        try {
 //            FirebaseMessaging.getInstance().subscribeToTopic("finmartall");
@@ -259,132 +261,129 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //            e.printStackTrace();
 //        }
 
-        try {
-            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            versionNAme = pinfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+            try {
+                pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                versionNAme = pinfo.versionName;
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
 
 
-        try {
-            Utility.getMacAddress(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                Utility.getMacAddress(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        db = new DBPersistanceController(this);
-        loginResponseEntity = db.getUserData();
-        userConstantEntity = db.getUserConstantsData();
-        prefManager = new PrefManager(this);
+            db = new DBPersistanceController(this);
+            loginResponseEntity = db.getUserData();
+            userConstantEntity = db.getUserConstantsData();
+            prefManager = new PrefManager(this);
 
-        textViewList = new ArrayList<>();
+            textViewList = new ArrayList<>();
 
-        toolbar.setTitle("PolicyBoss Pro");
-
-
-        getNotificationAction();
-
-        init_headers();
+            toolbar.setTitle("PolicyBoss Pro");
 
 
+            getNotificationAction();
+
+            init_headers();
 
 
-
-        setNavigationMenu(prefManager.getLanguage());    // Set Navigation Drawer
-
-
-        if (savedInstanceState == null) {
-            selectHome();
-        }
+            setNavigationMenu(prefManager.getLanguage());    // Set Navigation Drawer
 
 
-        // will be called once when ever app is opened
+            if (savedInstanceState == null) {
+                selectHome();
+            }
+
+
+            // will be called once when ever app is opened
 
 //        if (db.getRTOListNames() != null && db.getRTOListNames().size() <= 0) {
 //            new MasterController(this).getRTOMaster(this);
 //        }
 
-        if (loginResponseEntity != null) {
-            if (loginResponseEntity.getPOSPNo() != null) {
-                if (loginResponseEntity.getPOSPNo().equals("5")) {
-                    verifyPospNo();
-                    return;
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getPOSPNo() != null) {
+                    if (loginResponseEntity.getPOSPNo().equals("5")) {
+                        verifyPospNo();
+                        return;
+                    }
                 }
-            }
 
 //            new MasterController(this).getInsuranceSubType(this);
 //            new MasterController(this).getInsurerList();
-        }
-
-
-        checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
-        if (checkfirstmsg_call == 0) {
-            String type = "";
-            Bundle bundle = getIntent().getExtras();
-
-            if (bundle != null) {
-                if (bundle.getString("MarkTYPE") != null) {
-                    type = bundle.getString("MarkTYPE");
-                    if (!type.equals("FROM_HOME")) {
-                        showMarketingPopup();
-                    }
-                }
-
-            } else {
-                prefManager.updateCheckMsgFirst("" + 1);
-                showMarketingPopup();
             }
 
 
-        }
-        //region navigation click
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            // This method will trigger on item Click of navigation menu
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
+            if (checkfirstmsg_call == 0) {
+                String type = "";
+                Bundle bundle = getIntent().getExtras();
 
-                if (!NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
-
-                    Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
-                    return false;
-                }
-                //Checking if the item is in checked state or not, if not make it in checked state
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
-                //Closing drawer on item click
-                drawerLayout.closeDrawers();
-                //Check to see which item was being clicked and perform appropriate action
-
-                Fragment fragment = null;
-
-                //hide keyboard
-                Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
-                if (menuMasterResponse != null) {
-                    for (MenuItemEntity menuItemEntity : menuMasterResponse.getMasterData().getMenu()) {
-                        int sequence = Integer.parseInt(menuItemEntity.getSequence());
-                        sequence = (sequence * 100) + 1;
-                        if (menuItem.getItemId() == sequence) {
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", menuItemEntity.getLink()).putExtra("NAME", menuItemEntity.getMenuname()).putExtra("TITLE", menuItemEntity.getMenuname()));
-                            return true;
+                if (bundle != null) {
+                    if (bundle.getString("MarkTYPE") != null) {
+                        type = bundle.getString("MarkTYPE");
+                        if (!type.equals("FROM_HOME")) {
+                            showMarketingPopup();
                         }
                     }
+
+                } else {
+                    prefManager.updateCheckMsgFirst("" + 1);
+                    showMarketingPopup();
                 }
 
 
-                switch (menuItem.getItemId()) {
+            }
+            //region navigation click
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                // This method will trigger on item Click of navigation menu
+                @Override
+                public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-                    case R.id.nav_attendance:
+                    if (!NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
+
+                        Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    //Checking if the item is in checked state or not, if not make it in checked state
+                    if (menuItem.isChecked()) menuItem.setChecked(false);
+                    else menuItem.setChecked(true);
+                    //Closing drawer on item click
+                    drawerLayout.closeDrawers();
+                    //Check to see which item was being clicked and perform appropriate action
+
+                    Fragment fragment = null;
+
+                    //hide keyboard
+                    Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
+                    if (menuMasterResponse != null) {
+                        for (MenuItemEntity menuItemEntity : menuMasterResponse.getMasterData().getMenu()) {
+                            int sequence = Integer.parseInt(menuItemEntity.getSequence());
+                            sequence = (sequence * 100) + 1;
+                            if (menuItem.getItemId() == sequence) {
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", menuItemEntity.getLink()).putExtra("NAME", menuItemEntity.getMenuname()).putExtra("TITLE", menuItemEntity.getMenuname()));
+                                return true;
+                            }
+                        }
+                    }
+
+
+                    switch (menuItem.getItemId()) {
+
+                        case R.id.nav_attendance:
 //                        fragment = new AttendanceFragment();
 //                        getSupportActionBar().setTitle("My Attendance");
 
-                        break;
+                            break;
 
-                    case R.id.nav_generateLead:
-                        startActivity(new Intent(HomeActivity.this, GenerateLeadActivity.class));
-                        break;
+                        case R.id.nav_generateLead:
+                            startActivity(new Intent(HomeActivity.this, GenerateLeadActivity.class));
+                            break;
 
-                    //added by Nilesh
+                        //added by Nilesh
 //                    case R.id.nav_vehicleinfo:
 //                        getSupportActionBar().setTitle("VEHICLE DETAIL");
 //                        fragment = new VehicleDetailFragment();
@@ -393,7 +392,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                    case R.id.nav_expressLoan:
 //                        startActivity(new Intent(HomeActivity.this, AppliedOnlineLoanListActivity.class));
 //                        break;
-                    //Replacing the main content with ContentFragment Which is our Inbox View;
+                        //Replacing the main content with ContentFragment Which is our Inbox View;
 //                    case R.id.nav_yesbankbot:
 //                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
 //                                .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
@@ -401,87 +400,87 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                                .putExtra("TITLE", "" + "YES BANK BOT"));
 //
 //                        break;
-                    case R.id.nav_home:
-                        fragment = new DashboardFragment();
-                        // getSupportActionBar().setTitle("MAGIC FIN-MART");
-                        if (prefManager.getLanguage().equals("")) {
-                            getSupportActionBar().setTitle("PolicyBoss Pro");
-                        } else {
-                            getSupportActionBar().setTitle(db.getLangData(prefManager.getLanguage(), "Title"));
-                        }
+                        case R.id.nav_home:
+                            fragment = new DashboardFragment();
+                            // getSupportActionBar().setTitle("MAGIC FIN-MART");
+                            if (prefManager.getLanguage().equals("")) {
+                                getSupportActionBar().setTitle("PolicyBoss Pro");
+                            } else {
+                                getSupportActionBar().setTitle(db.getLangData(prefManager.getLanguage(), "Title"));
+                            }
 
-                        //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
-                        break;
-
-
-                    case R.id.nav_language:
-
-                        if (db.isMultiLangExist() == false) {
-                            showDialog();
-                            new RegisterController(HomeActivity.this).getMultiLanguageDetailOld(HomeActivity.this);
-                        } else {
-                            showMultiLanguage();
-                        }
-                        break;
-
-                    case R.id.nav_insert_contact:
-                        //  startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
-
-                        break;
-                    case R.id.nav_sharedata:
-                        fragment = new ShareDataFragment();
-                        getSupportActionBar().setTitle("Generate Loan Leads");
-                        break;
-                    case R.id.nav_changepassword:
-                        fragment = new ChangePasswordFragment();
-                        getSupportActionBar().setTitle("Change Password");
-                        break;
-                    // For rest of the options we just show a toast on click .
-                    case R.id.nav_myaccount:
-                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
-                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                        //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
-                        // fragment = new BasFragment();
-                        // getSupportActionBar().setTitle("BAS 2016-17");
-                        // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
-
-                        //startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                            //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
+                            break;
 
 
-                        break;
+                        case R.id.nav_language:
 
-                    case R.id.nav_pospenrollment:
-                        startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
-                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
-                        break;
-                    case R.id.nav_addposp:
-                        fragment = new POSPListFragment();
-                        getSupportActionBar().setTitle("Sub User List");
-                        break;
+                            if (db.isMultiLangExist() == false) {
+                                showDialog();
+                                new RegisterController(HomeActivity.this).getMultiLanguageDetailOld(HomeActivity.this);
+                            } else {
+                                showMultiLanguage();
+                            }
+                            break;
+
+                        case R.id.nav_insert_contact:
+                            //  startActivity(new Intent(HomeActivity.this, InsertContactActivity.class));
+
+                            break;
+                        case R.id.nav_sharedata:
+                            fragment = new ShareDataFragment();
+                            getSupportActionBar().setTitle("Generate Loan Leads");
+                            break;
+                        case R.id.nav_changepassword:
+                            fragment = new ChangePasswordFragment();
+                            getSupportActionBar().setTitle("Change Password");
+                            break;
+                        // For rest of the options we just show a toast on click .
+                        case R.id.nav_myaccount:
+                            // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
+                            startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                            //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                            // fragment = new BasFragment();
+                            // getSupportActionBar().setTitle("BAS 2016-17");
+                            // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+
+                            //startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+
+
+                            break;
+
+                        case R.id.nav_pospenrollment:
+                            startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                            // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
+                            break;
+                        case R.id.nav_addposp:
+                            fragment = new POSPListFragment();
+                            getSupportActionBar().setTitle("Sub User List");
+                            break;
 //                    case R.id.nav_homeloanApplication:
 //                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
 //                        break;
 
-                    case R.id.nav_crnpolicy:
-                        //  startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
+                        case R.id.nav_crnpolicy:
+                            //  startActivity(new Intent(HomeActivity.this, crnpolicyActivity.class));
 
-                        if (userConstantEntity != null && userConstantEntity.getPBByCrnSearch() != null && !userConstantEntity.getPBByCrnSearch().equalsIgnoreCase("")) {
+                            if (userConstantEntity != null && userConstantEntity.getPBByCrnSearch() != null && !userConstantEntity.getPBByCrnSearch().equalsIgnoreCase("")) {
 
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getPBByCrnSearch()).putExtra("NAME", "" + "Search CRN").putExtra("TITLE", "" + "Search CRN"));
-                        } else {
-                            Toast.makeText(HomeActivity.this, "Please contact to your RM", Toast.LENGTH_SHORT).show();
-                        }
-                        break;
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getPBByCrnSearch()).putExtra("NAME", "" + "Search CRN").putExtra("TITLE", "" + "Search CRN"));
+                            } else {
+                                Toast.makeText(HomeActivity.this, "Please contact to your RM", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
 
-                    case R.id.nav_leaddetail:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                        case R.id.nav_leaddetail:
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
 
-                                // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
-                                .putExtra("URL", "" + userConstantEntity.getLeadDashUrl()).putExtra("NAME", "" + "Sync Contact DashBoard").putExtra("TITLE", "" + "Sync Contact DashBoard"));
-                        break;
-                    case R.id.nav_gift:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "Gift Voucher").putExtra("TITLE", "" + "Gift Voucher"));
-                        break;
+                                    // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+                                    .putExtra("URL", "" + userConstantEntity.getLeadDashUrl()).putExtra("NAME", "" + "Sync Contact DashBoard").putExtra("TITLE", "" + "Sync Contact DashBoard"));
+                            break;
+                        case R.id.nav_gift:
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "Gift Voucher").putExtra("TITLE", "" + "Gift Voucher"));
+                            break;
 /*
                     case R.id.nav_offlineQuotes:
                         //   startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
@@ -516,172 +515,175 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         // startActivity(new Intent(HomeActivity.this, PreviewVideoActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.INSPECTION), null);
                         break;*/
-                    case R.id.nav_whatsnew:
-                        startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
-                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
-                        break;
+                        case R.id.nav_whatsnew:
+                            startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
+                            // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                            break;
 
-                    case R.id.nav_cobrowser:
-                        // dialogCoBrowser();
-                        break;
-                    case R.id.nav_franchise:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf").putExtra("NAME", "Referral AGREEMENT").putExtra("TITLE", "Referral AGREEMENT"));
-                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+                        case R.id.nav_cobrowser:
+                            // dialogCoBrowser();
+                            break;
+                        case R.id.nav_franchise:
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf").putExtra("NAME", "Referral AGREEMENT").putExtra("TITLE", "Referral AGREEMENT"));
+                            // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
-                        break;
-                    case R.id.nav_raiseTicket:
+                            break;
+                        case R.id.nav_raiseTicket:
 
-                        if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
-                            startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
-                        } else {
+                            if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
+                                startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+                            } else {
 
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile() + "&UDID=" + userConstantEntity.getUserid()).putExtra("NAME", "RAISE_TICKET").putExtra("TITLE", "RAISE TICKET"));
-                        }
-                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile() + "&UDID=" + userConstantEntity.getUserid()).putExtra("NAME", "RAISE_TICKET").putExtra("TITLE", "RAISE TICKET"));
+                            }
+                            // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
 
-                        break;
+                            break;
 //                    case R.id.nav_IncomePotential:
 //                        startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
 //
 //                        break;
-                    case R.id.nav_transactionhistory:
-                        startActivity(new Intent(HomeActivity.this, nav_transactionhistoryActivity.class));
+                        case R.id.nav_transactionhistory:
+                            startActivity(new Intent(HomeActivity.this, nav_transactionhistoryActivity.class));
 
-                        break;
+                            break;
 
-                    case R.id.nav_contact:
-                        // startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
-                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
-                        break;
-                    case R.id.nav_sendSmsTemplate:
-                        startActivity(new Intent(HomeActivity.this, SendTemplateSmsActivity.class));
-                        break;
-                    case R.id.nav_logout:
-                        //switch user clear
-                        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.clear();
-                        editor.commit();
+                        case R.id.nav_contact:
+                            // startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
+                            startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                            break;
+                        case R.id.nav_sendSmsTemplate:
+                            startActivity(new Intent(HomeActivity.this, SendTemplateSmsActivity.class));
+                            break;
+                        case R.id.nav_logout:
+                            //switch user clear
+                            SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.clear();
+                            editor.commit();
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                              removeShorcuts();
-                        }
-                        dialogLogout(HomeActivity.this);
-                        break;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                                removeShorcuts();
+                            }
+                            dialogLogout(HomeActivity.this);
+                            break;
 
-                    case R.id.nav_scan_vehicle:
-                        // startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
-                        startActivity(new Intent(HomeActivity.this, VehicleScanActivity.class));
-                        break;
-                    case R.id.nav_MessageCentre:
-                        MessageCenter();
-                        //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
-                        break;
-                    case R.id.nav_mybusiness_insurance:
+                        case R.id.nav_scan_vehicle:
+                            // startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
+                            startActivity(new Intent(HomeActivity.this, VehicleScanActivity.class));
+                            break;
+                        case R.id.nav_MessageCentre:
+                            MessageCenter();
+                            //   startActivity(new Intent(HomeActivity.this, messagecenteractivity.class));
+                            break;
+                        case R.id.nav_mybusiness_insurance:
 
-                        startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
-                        break;
-                    case R.id.nav_AppointmentLetter:
-                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class).putExtra("TYPE", "1"));
-                        break;
-                    case R.id.nav_Certificate:
-                        startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class).putExtra("TYPE", "0"));
-                        break;
+                            startActivity(new Intent(HomeActivity.this, MyBusinessActivity.class));
+                            break;
+                        case R.id.nav_AppointmentLetter:
+                            startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class).putExtra("TYPE", "1"));
+                            break;
+                        case R.id.nav_Certificate:
+                            startActivity(new Intent(HomeActivity.this, POSP_certicate_appointment.class).putExtra("TYPE", "0"));
+                            break;
 
-                    case R.id.nav_OtherLoan:
-                        ConfirmOtherLoanProductsAlert();
+                        case R.id.nav_OtherLoan:
+                            ConfirmOtherLoanProductsAlert();
 
-                        break;
+                            break;
 
-                    case R.id.nav_REQUEST:
-                        ConfirmMoreServiceAlert();
+                        case R.id.nav_REQUEST:
+                           // ConfirmMoreServiceAlert();
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://qa-www.policyboss.com/").putExtra("NAME", "policyboss").putExtra("TITLE", "policyboss  "));
 
-                        break;
-                    case R.id.nav_MYUtilities:
-                        ConfirmnMyUtilitiesAlert();
+                            break;
+                        case R.id.nav_MYUtilities:
+                            ConfirmnMyUtilitiesAlert();
 
-                        break;
+                            break;
 
-                    case R.id.nav_finbox:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getFinboxurl()).putExtra("NAME", "MY FINBOX").putExtra("TITLE", "MY FINBOX"));
+                        case R.id.nav_finbox:
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getFinboxurl()).putExtra("NAME", "MY FINBOX").putExtra("TITLE", "MY FINBOX"));
 
-                        break;
-                    case R.id.nav_finperk:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getFinperkurl()).putExtra("NAME", "FINPERKS").putExtra("TITLE", "FINPERKS"));
+                            break;
+                        case R.id.nav_finperk:
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getFinperkurl()).putExtra("NAME", "FINPERKS").putExtra("TITLE", "FINPERKS"));
 
-                        break;
-                    case R.id.nav_festivelink:
-                        startActivity(new Intent(HomeActivity.this, festivelinkActivity.class).putExtra("URL", userConstantEntity.getFinperkurl()).putExtra("NAME", "FESTIVE LINKS").putExtra("TITLE", "FESTIVE LINKS"));
+                            break;
+                        case R.id.nav_festivelink:
+                            startActivity(new Intent(HomeActivity.this, festivelinkActivity.class).putExtra("URL", userConstantEntity.getFinperkurl()).putExtra("NAME", "FESTIVE LINKS").putExtra("TITLE", "FESTIVE LINKS"));
 
-                        break;
+                            break;
 
-                    case R.id.nav_FreeCreditReport:
-                        Utility.loadWebViewUrlInBrowser(HomeActivity.this, "http://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
-                        break;
+                        case R.id.nav_FreeCreditReport:
+                            Utility.loadWebViewUrlInBrowser(HomeActivity.this, "http://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
+                            break;
 
-                    case R.id.nav_mybusinessLoan:
-                        //  startActivity(new Intent(HomeActivity.this, MyBusiness_LoanActivity.class));
-                        break;
-                    case R.id.nav_emicalLoan:
-                        //  startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
-                        break;
-                    case R.id.nav_LeadSubmission:
-                        startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
+                        case R.id.nav_mybusinessLoan:
+                            //  startActivity(new Intent(HomeActivity.this, MyBusiness_LoanActivity.class));
+                            break;
+                        case R.id.nav_emicalLoan:
+                            //  startActivity(new Intent(HomeActivity.this, EmiCalcActivity.class));
+                            break;
+                        case R.id.nav_LeadSubmission:
+                            startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
 
-                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
-                        MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
-                        break;
+                            // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                            MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
+                            break;
 
-                    case R.id.nav_disclosure:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "file:///android_asset/Disclosure.html").putExtra("NAME", "DISCLOSURE").putExtra("TITLE", "DISCLOSURE"));
-                        break;
-                    case R.id.nav_policy:
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
-                        break;
-                    default:
-                        break;
+                        case R.id.nav_disclosure:
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "file:///android_asset/Disclosure.html").putExtra("NAME", "DISCLOSURE").putExtra("TITLE", "DISCLOSURE"));
+                            break;
+                        case R.id.nav_policy:
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (fragment != null) {
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, fragment);
+                        fragmentTransaction.commit();
+
+                        return true;
+                    }
+                    return false;
+                }
+            });
+            //endregion
+
+            ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                    // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                    super.onDrawerClosed(drawerView);
                 }
 
-                if (fragment != null) {
-                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, fragment);
-                    fragmentTransaction.commit();
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
 
-                    return true;
+                    try {
+                        hideNavigationItem();
+                    } catch (Exception ex) {
+
+                    }
+
+                    super.onDrawerOpened(drawerView);
                 }
-                return false;
+            };
+
+            //Setting the actionbarToggle to drawer layout
+            drawerLayout.setDrawerListener(actionBarDrawerToggle);
+            //calling sync state is necessay or else your hamburger icon wont show up
+            actionBarDrawerToggle.syncState();
+        }
+        catch (Exception e) {
+                e.printStackTrace();
             }
-        });
-        //endregion
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
-                try {
-                    hideNavigationItem();
-                }catch (Exception ex ){
-
-                }
-
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        //Setting the actionbarToggle to drawer layout
-        drawerLayout.setDrawerListener(actionBarDrawerToggle);
-        //calling sync state is necessay or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();
-
-
     }
 
 
@@ -1319,10 +1321,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onOptionsItemSelected(menuItem);
+                try {
+                    onOptionsItemSelected(menuItem);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
-
         });
 
 
@@ -1334,170 +1338,169 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        Intent intent;
-        switch (item.getItemId()) {
+            Intent intent;
+            switch (item.getItemId()) {
 
-            case R.id.action_call:
+                case R.id.action_call:
 
-                if (!NetworkUtils.isNetworkAvailable(this)) {
+                    if (!NetworkUtils.isNetworkAvailable(this)) {
 
-                    Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
-                    return false;
-                }
-                if (userConstantEntity.getMangMobile() != null) {
+                        Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                        return false;
+                    }
+                    if (userConstantEntity.getMangMobile() != null) {
 
 
-                    if (userConstantEntity.getManagName() != null) {
-                        // ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        if (userConstantEntity.getManagName() != null) {
+                            // ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
 
-                        if (callingDetailDialog != null && callingDetailDialog.isShowing()) {
+                            if (callingDetailDialog != null && callingDetailDialog.isShowing()) {
 
-                            return false;
-                        } else {
-                            showDialog();
-                            new RegisterController(this).getUserCallingDetail(String.valueOf(loginResponseEntity.getFBAId()), this);
+                                return false;
+                            } else {
+                                showDialog();
+                                new RegisterController(this).getUserCallingDetail(String.valueOf(loginResponseEntity.getFBAId()), this);
+                            }
                         }
+
                     }
 
-                }
 
+                    break;
+                case R.id.action_push_notification:
 
-                break;
-            case R.id.action_push_notification:
+                    if (!NetworkUtils.isNetworkAvailable(this)) {
 
-                if (!NetworkUtils.isNetworkAvailable(this)) {
+                        Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                        return false;
+                    }
 
-                    Snackbar.make(drawerLayout, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
-                    return false;
-                }
+                    intent = new Intent(HomeActivity.this, NotificationActivity.class);
+                    startActivityForResult(intent, Constants.REQUEST_CODE);
+                    break;
+            }
 
-                intent = new Intent(HomeActivity.this, NotificationActivity.class);
-                startActivityForResult(intent, Constants.REQUEST_CODE);
-                break;
-
-
-        }
-
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
     }
 
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
-        if (response instanceof LoginResponse) {
-            if (response.getStatusNo() == 0) {
+        try {
+            cancelDialog();
+            if (response instanceof LoginResponse) {
+                if (response.getStatusNo() == 0) {
 
-                // prefManager.setIsUserLogin(true);
+                    // prefManager.setIsUserLogin(true);
 
-                Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                    Intent intent = new Intent(HomeActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
 
 
-            } else {
-                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        } else if (response instanceof MpsResponse) {
-
-            if (response.getStatusNo() == 0) {
-
-                prefManager.removeMps();
-                prefManager.setMPS(((MpsResponse) response).getMasterData());
-                if (loginResponseEntity.getIsFirstLogin() == 1) {
-                    DialogMPS();
                 } else {
-                    DialogMPS();
+                    Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+            } else if (response instanceof MpsResponse) {
 
-            }
-        } else if (response instanceof MyAcctDtlResponse) {
-            if (response.getStatusNo() == 0) {
-                if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
-                    db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
+                if (response.getStatusNo() == 0) {
+
+                    prefManager.removeMps();
+                    prefManager.setMPS(((MpsResponse) response).getMasterData());
+                    if (loginResponseEntity.getIsFirstLogin() == 1) {
+                        DialogMPS();
+                    } else {
+                        DialogMPS();
+                    }
+
                 }
-            }
-        } else if (response instanceof UserConstatntResponse) {
-            if (response.getStatusNo() == 0) {
-                if (((UserConstatntResponse) response).getMasterData() != null) {
-
-                    //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
-                    userConstantEntity = ((UserConstatntResponse) response).getMasterData();
-
-                    shortcutAppMenu();
-                    init_headers();
-
-                    deeplink_handle();
-
-                    if (prefManager.getPopUpCounter().equals("0")) {
-                        showMarketingPopup();
+            } else if (response instanceof MyAcctDtlResponse) {
+                if (response.getStatusNo() == 0) {
+                    if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
+                        db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
                     }
+                }
+            } else if (response instanceof UserConstatntResponse) {
+                if (response.getStatusNo() == 0) {
+                    if (((UserConstatntResponse) response).getMasterData() != null) {
 
+                        //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
+                        userConstantEntity = ((UserConstatntResponse) response).getMasterData();
 
-                    if (userConstantEntity.getEnablemyaccountupdate() != null) {
+                        shortcutAppMenu();
+                        init_headers();
 
-                        if (userConstantEntity.getEnablemyaccountupdate().equals("1")) {
+                        deeplink_handle();
 
-                            if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
-                                showMyAccountAlert();
-                            }
+                        if (prefManager.getPopUpCounter().equals("0")) {
+                            showMarketingPopup();
                         }
 
-                    }
 
+                        if (userConstantEntity.getEnablemyaccountupdate() != null) {
 
-                    //Notification Url :-1 November
-                    int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
+                            if (userConstantEntity.getEnablemyaccountupdate().equals("1")) {
 
-
-                    if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
-                        if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
-                            if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
-                                prefManager.setIsSeasonal(false);
+                                if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
+                                    showMyAccountAlert();
+                                }
                             }
 
                         }
-                    } else if (localNotificationenable == 0) {
-                        // prefManager.updatePopUpId("" + serverId);
-                        if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
-                            if (prefManager.getIsSeasonal()) {
-                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
-                                prefManager.setIsSeasonal(false);
+
+
+                        //Notification Url :-1 November
+                        int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
+
+
+                        if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
+                            if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
+                                if (prefManager.getIsSeasonal()) {
+                                    openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
+                                    prefManager.setIsSeasonal(false);
+                                }
 
                             }
-                        }
+                        } else if (localNotificationenable == 0) {
+                            // prefManager.updatePopUpId("" + serverId);
+                            if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
+                                if (prefManager.getIsSeasonal()) {
+                                    openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
+                                    prefManager.setIsSeasonal(false);
 
-                    }
+                                }
+                            }
+
+                        }
 //                    else if(1==1){
 //
 //                        showContactAlert("My Account Update", getString(R.string.buyHdfc));
 //                    }
-                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    // createLaunchAppIconMenu((UserConstatntResponse) response);
-                }
-
-            }
-        } else if (response instanceof ConstantsResponse) {
-            constantEntity = ((ConstantsResponse) response).getMasterData();
-            if (response.getStatusNo() == 0) {
-
-                //region check for new version
-                int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
-                if (pinfo != null && pinfo.versionCode < serverVersionCode) {
-                    forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
-                    if (forceUpdate == 1) {
-                        // forced update app
-                        openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", false);
-                    } else {
-                        // aap with less version but not forced update
-                        if (prefManager.getUpdateShown()) {
-                            prefManager.setIsUpdateShown(false);
-                            openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", true);
-                        }
                     }
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        // createLaunchAppIconMenu((UserConstatntResponse) response);
+                    }
+
+                }
+            } else if (response instanceof ConstantsResponse) {
+                constantEntity = ((ConstantsResponse) response).getMasterData();
+                if (response.getStatusNo() == 0) {
+
+                    //region check for new version
+                    int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
+                    if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+                        forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
+                        if (forceUpdate == 1) {
+                            // forced update app
+                            openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", false);
+                        } else {
+                            // aap with less version but not forced update
+                            if (prefManager.getUpdateShown()) {
+                                prefManager.setIsUpdateShown(false);
+                                openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", true);
+                            }
+                        }
 
 //                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
 //                        for (Fragment frg :
@@ -1511,37 +1514,40 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        }
 //                    }
 
-                } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+                    } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+                    }
+                    //endregion
                 }
-                //endregion
-            }
-        } else if (response instanceof MenuMasterResponse) {
-            if (response.getStatusNo() == 0) {
-                prefManager.storeMenuDashboard((MenuMasterResponse) response);
-                addDynamicMenu((MenuMasterResponse) response);
-            }
-        } else if (response instanceof UserCallingResponse) {
-            if (response.getStatusNo() == 0) {
+            } else if (response instanceof MenuMasterResponse) {
+                if (response.getStatusNo() == 0) {
+                    prefManager.storeMenuDashboard((MenuMasterResponse) response);
+                    addDynamicMenu((MenuMasterResponse) response);
+                }
+            } else if (response instanceof UserCallingResponse) {
+                if (response.getStatusNo() == 0) {
 
-                CallingDetailsPopUp(((UserCallingResponse) response).getMasterData());
-            }
-        } else if (response instanceof MultiLangResponse) {
+                    CallingDetailsPopUp(((UserCallingResponse) response).getMasterData());
+                }
+            } else if (response instanceof MultiLangResponse) {
 
-            if (response.getStatusNo() == 0) {
+                if (response.getStatusNo() == 0) {
 
-                showMultiLanguage();
-            }
-        } else if (response instanceof ProductURLShareResponse) {
+                    showMultiLanguage();
+                }
+            } else if (response instanceof ProductURLShareResponse) {
 
-            if (response.getStatusNo() == 0) {
+                if (response.getStatusNo() == 0) {
 
-                if (((ProductURLShareResponse) response).getMasterData() != null) {
-                    ProductURLShareEntity shareEntity = ((ProductURLShareResponse) response).getMasterData();
-                    if (dashboardShareEntity != null) {
-                        datashareList(HomeActivity.this, dashboardShareEntity.getTitle(), shareEntity.getMsg(), shareEntity.getUrl());
+                    if (((ProductURLShareResponse) response).getMasterData() != null) {
+                        ProductURLShareEntity shareEntity = ((ProductURLShareResponse) response).getMasterData();
+                        if (dashboardShareEntity != null) {
+                            datashareList(HomeActivity.this, dashboardShareEntity.getTitle(), shareEntity.getMsg(), shareEntity.getUrl());
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -2170,7 +2176,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     public void showMyAccountAlert() {
-
+    try
+    {
         if (MyAccountDialog != null && MyAccountDialog.isShowing()) {
 
             return;
@@ -2223,6 +2230,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         MyAccountDialog.setCancelable(true);
         MyAccountDialog.setCanceledOnTouchOutside(true);
         MyAccountDialog.show();
+    }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

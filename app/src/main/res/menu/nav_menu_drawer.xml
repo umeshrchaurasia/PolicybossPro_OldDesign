@@ -290,8 +290,8 @@
         android:id="@+id/nav_REQUEST"
         android:icon="@drawable/ic_business_name"
         android:orderInCategory="700"
-        android:visible="false"
-        android:title="MORE SERVICES">
+        android:visible="true"
+        android:title="QA Policyboss">
 
     </item>
 
