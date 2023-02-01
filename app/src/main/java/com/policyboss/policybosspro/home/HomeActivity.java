@@ -1972,7 +1972,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
 
-        if (prefManager.getFOSUser() != "") {
+        if (!prefManager.getFOSUser().equals("")) {
             String FOS_INFOMATION = prefManager.getFOSUser();
 
             if (FOS_INFOMATION.equals("Y")) {
