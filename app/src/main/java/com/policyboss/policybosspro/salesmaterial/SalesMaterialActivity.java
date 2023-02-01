@@ -1,5 +1,6 @@
 package com.policyboss.policybosspro.salesmaterial;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,7 +26,9 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.festivelink.festivelinkActivity;
+import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.utility.Constants;
 
 import java.io.IOException;
@@ -61,7 +64,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
     UserConstantEntity userConstantEntity;
     URL pospPhotoUrl = null, fbaPhotoUrl = null;
     SharePospDetailsEntity sharePospDetailsEntity;
-
+    Dialog showDialog ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
         //loginResponseEntity = dbPersistanceController.getUserData();
         //accountDtlEntity = dbPersistanceController.getAccountData();
         userConstantEntity = dbPersistanceController.getUserConstantsData();
+        showDialog = new Dialog(SalesMaterialActivity.this,R.style.Dialog);
         init();
         fetchProducts();
 
@@ -94,7 +98,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
     }
 
     private void fetchProducts() {
-        showDialog();
+        showDialogMain("");
         new SalesMaterialController(this).getSalesProducts(this);
     }
 
@@ -108,7 +112,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
+        cancelDialogMain();
         boolean isUpdate = false;
         if (response instanceof SalesMaterialProductResponse) {
             mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
@@ -183,7 +187,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
+        cancelDialogMain();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
@@ -416,6 +420,43 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
         }
     }
 
+    private void showDialogMain( String strmsg){
+
+        try {
+            if(! SalesMaterialActivity.this.isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    if(!strmsg.isEmpty()){
+                        dialogLoadingBinding.txtMessage.setText(strmsg);
+                    }
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception e){
+
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
+        }
+    }
 
     // region Not in Used
     private void setPospDetails() throws MalformedURLException {
@@ -478,7 +519,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
 
         @Override
         protected void onPreExecute() {
-            showDialog("Downloading...");
+            showDialogMain("Downloading...");
         }
 
         @Override
@@ -507,7 +548,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            cancelDialog();
+            cancelDialogMain();
             Toast.makeText(SalesMaterialActivity.this, "Image Downloaded", Toast.LENGTH_SHORT).show();
         }
     }

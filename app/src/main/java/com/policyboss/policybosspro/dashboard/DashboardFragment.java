@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity;
 import com.policyboss.policybosspro.pendingcases.PendingCasesActivity;
@@ -80,6 +83,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     List<ScanResult> wifiList;
     ArrayList<String> wifiArrayList;
     DBPersistanceController db;
+    Dialog showDialog ;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -105,6 +109,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         initialise(view);
         db = new DBPersistanceController(getActivity());
 
+        showDialog = new Dialog(getActivity(),R.style.Dialog);
 
         setListener();
         receiverWifi = new WifiReceiver();
@@ -134,7 +139,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         }
 
 
-        showDialog();
+        showDialogMain();
         new MasterController(getActivity()).geUserConstantSync(this);
         new MasterController(getActivity()).getMenuMaster(this);
 
@@ -209,7 +214,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void OnSuccess(APIResponse response, String message) {
         try {
-            cancelDialog();
+            cancelDialogMain();
             if (response instanceof ConstantsResponse) {
                 constantEntity = ((ConstantsResponse) response).getMasterData();
                 if (response.getStatusNo() == 0) {
@@ -269,7 +274,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
+        cancelDialogMain();
     }
 
     @Override
@@ -391,6 +396,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mHandleMessageReceiver);
+        cancelDialogMain();
     }
 
     //region broadcast receiver
@@ -410,6 +416,42 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     //endregion
 
+
+
+    private void showDialogMain( ){
+
+        try {
+            if(! getActivity().isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception ex){
+
+            Log.d(Constants.TAG, ex.toString());
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
+        }
+    }
 
 
 

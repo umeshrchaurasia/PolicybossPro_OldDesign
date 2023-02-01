@@ -45,10 +45,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.file_chooser.utils.FileUtilNew;
 import com.policyboss.policybosspro.health.HealthQuoteAppActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
@@ -137,6 +139,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     androidx.appcompat.app.AlertDialog alertDialog;
     //endregion
 
+    Dialog showDialog ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +160,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
+
+        showDialog = new Dialog(CommonWebViewActivity.this,R.style.Dialog);
 
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
@@ -197,7 +203,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
             public void onFinish() {
                 try {
-                    cancelDialog();
+                    cancelDialogMain();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -245,7 +251,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
                 if (isActive)
-                    showDialog(CommonWebViewActivity.this);
+                    showDialogMain();
                 // new ProgressAsync().execute();
                 super.onPageStarted(view, url, favicon);
             }
@@ -253,7 +259,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO hide your progress image
-                cancelDialog();
+                cancelDialogMain();
                 super.onPageFinished(view, url);
             }
 
@@ -335,7 +341,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            cancelDialog();
+            cancelDialogMain();
         }
     }
 
@@ -574,7 +580,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     private void getSyncPaymentDetail(String transactionId) {
 
-        showDialog();
+        showDialogMain();
         new DynamicController(this).getSync_trascat_detail(String.valueOf(transactionId), CommonWebViewActivity.this);
     }
 
@@ -829,7 +835,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                                 }else {
 
                                     Log.e("TravellerLog :: ", "Problem creating Image folder");
-                                    showDialog();
+                                    showDialogMain();
 
                                     switch (DOC_TYPE) {
 
@@ -1059,7 +1065,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    showDialog();
+                    showDialogMain();
 
                     switch (DOC_TYPE){
 
@@ -1110,7 +1116,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     public void OnSuccess(APIResponse response, String message) {
 
 
-        cancelDialog();
+        cancelDialogMain();
         //RaiseTicketWebDocResponse
         if (response instanceof RaiseTicketWebDocResponse) {
             if (response.getStatusNo() == 0) {
@@ -1189,7 +1195,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     @Override
     public void OnFailure(Throwable t) {
 
-        cancelDialog();
+        cancelDialogMain();
         Log.d(Constants.TAG, t.getMessage() );
       //  Toast.makeText(CommonWebViewActivity.this, "Error :" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
@@ -1197,4 +1203,41 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     //endregion
 
     // endregion
+
+    private void showDialogMain( ){
+
+        try {
+            if(! CommonWebViewActivity.this.isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception e){
+
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
+        }
+    }
+
+
+
 }

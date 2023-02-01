@@ -56,6 +56,8 @@ import com.policyboss.policybosspro.certificate.POSP_certicate_appointment;
 import com.policyboss.policybosspro.change_password.ChangePasswordFragment;
 import com.policyboss.policybosspro.contact_lead.ContactLeadActivity;
 import com.policyboss.policybosspro.dashboard.DashboardFragment;
+import com.policyboss.policybosspro.databinding.DialogLoadingBinding;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.festivelink.festivelinkActivity;
 import com.policyboss.policybosspro.generatelead.GenerateLeadActivity;
 import com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -113,6 +115,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -193,6 +196,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     ShortcutManager shortcutManager = null;
     String deeplink_value="";
     String Title = "";
+    Dialog showDialog ;
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -238,6 +242,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         setContentView(R.layout.activity_home);
         registerPopUp(this);
         registerPermission(this);
+
+        showDialog = new Dialog(HomeActivity.this,R.style.Dialog);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -416,7 +422,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         case R.id.nav_language:
 
                             if (db.isMultiLangExist() == false) {
-                                showDialog();
+                                showDialogMain();
                                 new RegisterController(HomeActivity.this).getMultiLanguageDetailOld(HomeActivity.this);
                             } else {
                                 showMultiLanguage();
@@ -1111,7 +1117,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //  new PrefManager(HomeActivity.this).clearAll();
 
                     new DBPersistanceController(HomeActivity.this).clearSwitchUser();
-                    showDialog();
+                    showDialogMain();
                     new LoginController(HomeActivity.this).login(loginRequestEntity, HomeActivity.this);
                 }
             });
@@ -1358,7 +1364,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                                 return false;
                             } else {
-                                showDialog();
+                                showDialogMain();
                                 new RegisterController(this).getUserCallingDetail(String.valueOf(loginResponseEntity.getFBAId()), this);
                             }
                         }
@@ -1387,7 +1393,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public void OnSuccess(APIResponse response, String message) {
         try {
-            cancelDialog();
+            cancelDialogMain();
             if (response instanceof LoginResponse) {
                 if (response.getStatusNo() == 0) {
 
@@ -1687,7 +1693,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
+        cancelDialogMain();
         //openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
         Log.d(Constants.TAG, t.getMessage() );
     }
@@ -1826,6 +1832,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mHandleMessageReceiver);
+        cancelDialogMain();
     }
 
     @Override
@@ -3008,7 +3015,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public void shareDashbordProduct(DashboardMultiLangEntity dashboardMultiLangEntity) {
 
         dashboardShareEntity = dashboardMultiLangEntity;
-        showDialog();
+        showDialogMain();
         //loginResponseEntity.getFBAId()
         new RegisterController(this).getProductShareUrl(loginResponseEntity.getFBAId(), Integer.valueOf(loginResponseEntity.getPOSPNo()), dashboardMultiLangEntity.getProductId(), 0, this);
     }
@@ -3264,4 +3271,42 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         }
     }
+
+
+   private void showDialogMain( ){
+
+        try {
+            if(! HomeActivity.this.isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception e){
+
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
+        }
+    }
+
+
+
 }

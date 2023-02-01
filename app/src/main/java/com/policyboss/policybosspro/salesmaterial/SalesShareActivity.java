@@ -16,6 +16,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.TouchImageView;
@@ -52,6 +53,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
     UserConstantEntity userConstantEntity;
     boolean isSecondImageToShow = false;
 
+    Dialog showDialog ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +67,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         loginResponseEntity = dbPersistanceController.getUserData();
         accountDtlEntity = dbPersistanceController.getAccountData();
 
+        showDialog = new Dialog(SalesShareActivity.this,R.style.Dialog);
 
         //Realm Thread access denied in Async
         if (userConstantEntity.getParentid() != null
@@ -253,7 +256,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
         @Override
         protected void onPreExecute() {
-            showDialog();
+            showDialogMain();
         }
 
         @Override
@@ -314,7 +317,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
         protected void onPostExecute(Bitmap result) {
 
-            cancelDialog();
+            cancelDialogMain();
             if (result == null) {
                 Glide.with(SalesShareActivity.this)
                         .load(docsEntity.getImage_path())
@@ -361,5 +364,40 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         }
 
     }
+
+    private void showDialogMain( ){
+
+        try {
+            if(! SalesShareActivity.this.isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception e){
+
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
+        }
+    }
+
 
 }

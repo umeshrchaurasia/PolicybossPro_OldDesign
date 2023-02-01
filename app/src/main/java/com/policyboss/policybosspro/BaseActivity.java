@@ -237,10 +237,17 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize Realm
-        Realm.init(BaseActivity.this);
-        // Get a Realm instance for this thread
-        realm = Realm.getDefaultInstance();
+
+        try{
+            // Initialize Realm
+            Realm.init(BaseActivity.this);
+            // Get a Realm instance for this thread
+            realm = Realm.getDefaultInstance();
+
+        }catch ( Exception ex){
+
+        }
+
     }
 
 
