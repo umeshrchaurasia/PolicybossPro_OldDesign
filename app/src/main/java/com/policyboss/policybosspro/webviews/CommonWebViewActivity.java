@@ -513,7 +513,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        try{
+           switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
@@ -538,8 +539,11 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
-
     }
 
     @Override
