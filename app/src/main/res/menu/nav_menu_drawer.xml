@@ -291,7 +291,7 @@
         android:icon="@drawable/ic_business_name"
         android:orderInCategory="700"
         android:visible="true"
-        android:title="QA Policyboss">
+        android:title="QR Scanner">
 
     </item>
 
