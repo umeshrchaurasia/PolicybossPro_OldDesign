@@ -48,6 +48,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
+import com.policyboss.policybosspro.posp.PospEnrollment;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -142,6 +144,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     };
 
+    Dialog showDialog ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +161,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
         prefManager = new PrefManager(this);
+        showDialog = new Dialog(MyAccountActivity.this,R.style.Dialog);
+
         initWidgets();
         setListener();
         initLayouts();
@@ -168,7 +174,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             new MasterController(this).geUserConstant(1, this);
         }
 
-        showDialog("Fetching Detail...");
+        showDialogMain("Fetching Detail...");
         new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
 
 
@@ -564,7 +570,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     }
 
                 } else {
-                    showDialog();
+                    showDialogMain("");
                     saveMain();
                 }
 
@@ -601,7 +607,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if ((s.length() == 6) && (isDataUploaded)) {
-                showDialog("Fetching City...");
+                showDialogMain("Fetching City...");
                 Toast.makeText(MyAccountActivity.this, "Fetching City...Data", Toast.LENGTH_LONG).show();
                 new RegisterController(MyAccountActivity.this).getCityState(etPincode.getText().toString(), MyAccountActivity.this);
 
@@ -991,11 +997,20 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
         return true;
     }
+    private void bankDetailClear(){
+
+        etIfscCode.setText("");
+        etMicrCode.setText("");
+        etBankName.setText("");
+        etBankBranch.setText("" );
+        etBankCity.setText("" );
+
+    }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
          try {
-             cancelDialog();
+             cancelDialogMain();
              if (response instanceof PincodeResponse) {
                  if (response.getStatusNo() == 0) {
                      etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
@@ -1020,6 +1035,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                      Constants.hideKeyBoard(etPincode, this);
 
                      IfscEntity ifscEntity = ((IfscCodeResponse) response).getMasterData().get(0);
+
+                     if(ifscEntity.getIFSCCode() == null){
+
+                         Snackbar.make(llMyProfile, "No Data Found. Please Contact Support Team", Snackbar.LENGTH_LONG).show();
+                         bankDetailClear();
+                         return;
+                     }
+                     if(ifscEntity.getIFSCCode().isEmpty()){
+
+                         Snackbar.make(llMyProfile, "No Data Found.Please Contact Support Team", Snackbar.LENGTH_LONG).show();
+                         bankDetailClear();
+                         return;
+                     }
 
                      etIfscCode.setText("" + ifscEntity.getIFSCCode());
                      etMicrCode.setText("" + ifscEntity.getMICRCode());
@@ -1312,7 +1340,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
+        cancelDialogMain();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
@@ -1324,7 +1352,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if ((etIfscCode.getText().length() > 3) && (isDataUploaded)) {
 
                 Constants.hideKeyBoard(v, MyAccountActivity.this);
-                showDialog("Fetching Bank Details...");
+                showDialogMain("Fetching Bank Details...");
                 new RegisterController(MyAccountActivity.this).getIFSC(etIfscCode.getText().toString(), MyAccountActivity.this);
             }
         }
@@ -1581,11 +1609,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         e.printStackTrace();
                     }
 
-                    showDialog();
 
                     switch (type) {
                         case 1:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, PHOTO_File);
                             setProfilePhoto(mphoto);
                             part = Utility.getMultipartImage(file);
@@ -1594,7 +1621,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                             new RegisterController(this).uploadDocuments(part, body, this);
                             break;
                         case 2:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, PHOTO_File);
                             setProfilePhoto(mphoto);
                             part = Utility.getMultipartImage(file);
@@ -1603,7 +1630,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                             break;
                         case 3:
 
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, PAN_File);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginEntity.getFBAId(), PAN, PAN_File);
@@ -1611,14 +1638,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                             break;
 
                         case 4:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File);
                             new RegisterController(this).uploadDocuments(part, body, this);
                             break;
                         case 5:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, AADHAR_File);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR, AADHAR_File);
@@ -1846,6 +1873,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 if (grantResults.length > 0) {
@@ -1857,7 +1885,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
+                    if (camera && (writeExternal || minSdk29) && readExternal) {
 
                         showCamerGalleryPopUp();
 
@@ -1866,7 +1894,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 }
                 break;
-
 
 
             case Constants.PERMISSION_CALLBACK_CONSTANT:
@@ -1978,6 +2005,46 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         supportFinishAfterTransition();
         super.onBackPressed();
     }
+
+    private void showDialogMain( String strmsg){
+
+        try {
+            if(! MyAccountActivity.this.isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    if(!strmsg.isEmpty()){
+                        dialogLoadingBinding.txtMessage.setText(strmsg);
+                    }
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception e){
+
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
+        }
+    }
+
+
 
 
 }

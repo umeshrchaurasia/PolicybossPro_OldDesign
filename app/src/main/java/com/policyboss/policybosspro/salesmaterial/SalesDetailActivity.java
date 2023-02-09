@@ -1,6 +1,7 @@
 package com.policyboss.policybosspro.salesmaterial;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.utility.Constants;
 
@@ -69,6 +71,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
 
     byte[] bytePOSPArray = null;
     byte[] byteFBAArray = null;
+    Dialog showDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,8 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
             //The key argument here must match that used in the other activity
         }
         init();
+        showDialog = new Dialog(SalesDetailActivity.this,R.style.Dialog);
+
         if (userConstantEntity != null) {
             try {
                 setOtherDetails();
@@ -94,7 +99,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
                 e.printStackTrace();
             }
         }
-        showDialog();
+        showDialogMain("");
         new SalesMaterialController(this).getProductPromotions(salesProductEntity.getProduct_Id(), SalesDetailActivity.this);
 
     }
@@ -261,7 +266,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
+        cancelDialogMain();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
@@ -430,7 +435,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
         @SuppressLint("WrongThread")
         protected void onPostExecute(Bitmap result) {
             if (result != null) {
-                cancelDialog();
+                cancelDialogMain();
 
                 Bitmap fbaDetails = createBitmap(result, fbaNAme, fbaDesg, fbaMobNo, fbaEmail);
                 // saveImageToStorage(fbaDetails, "fbaSalesMaterialDetails");
@@ -442,6 +447,44 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
                 byteFBAArray = byteArray;
 
             }
+        }
+    }
+
+    private void showDialogMain( String strmsg){
+
+        try {
+            if(! SalesDetailActivity.this.isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    if(!strmsg.isEmpty()){
+                        dialogLoadingBinding.txtMessage.setText(strmsg);
+                    }
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception e){
+
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
         }
     }
 

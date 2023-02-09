@@ -49,8 +49,11 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
+import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.payment.RazorPaymentActivity;
+import com.policyboss.policybosspro.salesmaterial.SalesDetailActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 import com.policyboss.policybosspro.webviews.MyWebViewClient;
@@ -159,7 +162,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     };
 
-
+    Dialog showDialog ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,12 +182,13 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         }
 
         prefManager = new PrefManager(this);
+        showDialog = new Dialog(PospEnrollment.this,R.style.Dialog);
         initWidgets();
         setListener();
         initLayouts();
         setTextWatcher();
         setfileView();
-        showDialog("Fetching Posp Details ...");
+        showDialogMain("Fetching Posp Details ...");
         //MObile NO display
         etMobileNo1.setText(loginResponseEntity.getMobiNumb1().trim());
         //  etAddress1.setText(loginResponseEntity.getEmailID());
@@ -477,7 +481,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.length() == 6) {
-                showDialog("Fetching City...");
+                showDialogMain("Fetching City...");
                 new RegisterController(PospEnrollment.this).getCityState(etPincode.getText().toString(), PospEnrollment.this);
 
             }
@@ -628,7 +632,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         if (isPospInfo && isAddress && isBankDetails) {
             registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
-            showDialog();
+            showDialogMain("");
             new RegisterController(this).enrollPosp(registerRequestEntity, this);
         } else {
             Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
@@ -1367,10 +1371,19 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         }
     }
 
+    private void bankDetailClear(){
+
+        etIfscCode.setText("");
+        erMicrCode.setText("");
+        etBankName.setText("");
+        etBankBranch.setText("" );
+        etBankCity.setText("" );
+
+    }
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof PincodeResponse) {
-            cancelDialog();
+            cancelDialogMain();
             if (response.getStatusNo() == 0) {
                 Constants.hideKeyBoard(etPincode, this);
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
@@ -1385,13 +1398,25 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
             }
         } else if (response instanceof IfscCodeResponse) {
-            cancelDialog();
+            cancelDialogMain();
             if (response.getStatusNo() == 0) {
                 Constants.hideKeyBoard(etPincode, this);
                 if (((IfscCodeResponse) response).getMasterData() != null) {
                     if (((IfscCodeResponse) response).getMasterData().size() > 0) {
                         ifscEntity = ((IfscCodeResponse) response).getMasterData().get(0);
 
+                        if(ifscEntity.getIFSCCode() == null){
+
+                            Snackbar.make(llMyProfile, "No Data Found. Please Contact Support Team", Snackbar.LENGTH_LONG).show();
+                            bankDetailClear();
+                            return;
+                        }
+                        if(ifscEntity.getIFSCCode().isEmpty()){
+
+                            Snackbar.make(llMyProfile, "No Data Found.Please Contact Support Team", Snackbar.LENGTH_LONG).show();
+                            bankDetailClear();
+                            return;
+                        }
                         etIfscCode.setText("" + ifscEntity.getIFSCCode());
                         if (ifscEntity.getMICRCode() != null)
                             erMicrCode.setText("" + ifscEntity.getMICRCode());
@@ -1409,7 +1434,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 }
             }
         } else if (response instanceof PospDetailsResponse) {
-            cancelDialog();
+            cancelDialogMain();
             Constants.hideKeyBoard(etPincode, this);
             if (response.getStatusNo() == 0) {
                 if (((PospDetailsResponse) response).getMasterData() != null) {
@@ -1466,7 +1491,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 }
             }
         } else if (response instanceof EnrollPospResponse) {
-            cancelDialog();
+            cancelDialogMain();
             if (response.getStatusNo() == 0) {
                 if (((EnrollPospResponse) response).getMasterData() != null) {
 
@@ -1493,7 +1518,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         } else if (response instanceof DocumentResponse) {
-            cancelDialog();
+            cancelDialogMain();
             if (response.getStatusNo() == 0) {
                 if (type == 6) {
                     String temp = ((DocumentResponse) response).getMasterData().get(0).getPrv_file();
@@ -1574,7 +1599,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
+        cancelDialogMain();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
        // new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : " + t.getMessage()), Constants.POSP), null);
     }
@@ -1629,14 +1654,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
-                showDialog();
+                showDialogMain("");
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO hide your progress image
-                cancelDialog();
+                cancelDialogMain();
                 if (count == 0) {
                     count++;
                     view.loadUrl("javascript: (function() {document.getElementById('ctl00_ContentPlaceHolder1_tbPAN').value= '" + etPan.getText().toString().toUpperCase() + "';}) ();");
@@ -1669,7 +1694,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             case R.id.etIfscCode:
                 if (!hasFocus) {
                     if (etIfscCode.getText().length() > 3) {
-                        showDialog("Fetching Bank Details...");
+                        showDialogMain("Fetching Bank Details...");
                         new RegisterController(PospEnrollment.this).getIFSC(etIfscCode.getText().toString(), PospEnrollment.this);
                     }
                 }
@@ -1686,7 +1711,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             case R.id.etPincode:
                 if (!hasFocus) {
                     if (etPincode.getText().length() == 6) {
-                        showDialog("Fetching City...");
+                        showDialogMain("Fetching City...");
                         new RegisterController(PospEnrollment.this).getCityState(etPincode.getText().toString(), PospEnrollment.this);
                     }
                 }
@@ -1994,12 +2019,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         e.printStackTrace();
                     }
 
-                    showDialog();
+                    showDialogMain("");
 
                     switch (type) {
 
                         case 6:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO, PHOTO_File);
@@ -2007,7 +2032,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                             break;
                         case 7:
 
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, "" + POSP_PAN);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN, PAN_File);
@@ -2015,28 +2040,28 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                             break;
 
                         case 8:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT, AADHAR_FRONT_File);
                             new RegisterController(this).uploadDocuments(part, body, this);
                             break;
                         case 9:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK, AADHAR_BACK_File);
                             new RegisterController(this).uploadDocuments(part, body, this);
                             break;
                         case 10:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ, CANCEL_CHQ_File);
                             new RegisterController(this).uploadDocuments(part, body, this);
                             break;
                         case 11:
-                            showDialog();
+                            showDialogMain("");
                             file = saveImageToStorage(mphoto, "" + POSP_EDU);
                             part = Utility.getMultipartImage(file);
                             body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU, EDU_FILE);
@@ -2702,6 +2727,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 if (grantResults.length > 0) {
@@ -2711,9 +2737,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+                    boolean minSdk29 = SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
+                    if (camera && (writeExternal || minSdk29) && readExternal) {
 
                         showCamerGalleryPopUp();
 
@@ -2722,8 +2748,6 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                 }
                 break;
-
-
 
 
         }
@@ -2818,5 +2842,45 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         supportFinishAfterTransition();
         super.onBackPressed();
     }
+    private void showDialogMain( String strmsg){
+
+        try {
+            if(! PospEnrollment.this.isFinishing()){
+
+                if(!showDialog.isShowing()) {
+                    ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
+                    showDialog.setContentView(dialogLoadingBinding.getRoot());
+
+                    if(!strmsg.isEmpty()){
+                        dialogLoadingBinding.txtMessage.setText(strmsg);
+                    }
+
+                    showDialog.setCancelable(false);
+                    showDialog.show();
+                }
+            }
+        }catch (Exception e){
+
+
+        }
+
+
+    }
+
+    private void cancelDialogMain() {
+        try{
+            if (showDialog != null) {
+                showDialog.dismiss();
+
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            showDialog.dismiss();
+        }
+    }
+
+
+
 
 }

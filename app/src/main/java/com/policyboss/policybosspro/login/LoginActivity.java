@@ -168,10 +168,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 // if (grantResults.length > 0) {
-
 
 
                 // if (grantResults.length > 0)
@@ -183,13 +183,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean read_contacts = grantResults[3] == PackageManager.PERMISSION_GRANTED;
                     boolean read_call_log = grantResults[4] == PackageManager.PERMISSION_GRANTED;
-                    if (camera && writeExternal && readExternal && read_contacts && read_call_log ) {
+                    if (camera && writeExternal && readExternal && read_contacts && read_call_log) {
 
                         // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
                     } else {
 
                         //Permission Denied, You cannot access location data and camera
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (SDK_INT >= Build.VERSION_CODES.M) {
 
 
                             showMessageOKCancel("Required permissions to proceed PolicyBossPro..!",
@@ -387,7 +387,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 prefManager.setUserPassword("" + etPassword.getText().toString());
 
                 if (((LoginResponse) response).getMasterData().getPOSPNo() != null) {
-                    if (((LoginResponse) response).getMasterData().getPOSPNo() != "") {
+                    if (  !((LoginResponse) response).getMasterData().getPOSPNo().trim().isEmpty()) {
                         String PospID = ((LoginResponse) response).getMasterData().getPOSPNo();
                         new RegisterController(this).hideFOSUser(PospID, LoginActivity.this);
 

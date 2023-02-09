@@ -260,8 +260,12 @@
 
     <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/transparent_color</item>
         <item name="android:windowAnimationStyle">@style/CustomDialogAnimation</item>
+    </style>
+    <style name="Dialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <style name="CustomTransLucent" parent="Theme.AppCompat.Light.Dialog">
