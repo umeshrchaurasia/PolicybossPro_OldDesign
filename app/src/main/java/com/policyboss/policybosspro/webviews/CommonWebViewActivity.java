@@ -59,7 +59,7 @@ import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmAct
 import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.policyboss.policybosspro.paymentEliteplan.RazorPaymentEliteActivity;
 import com.policyboss.policybosspro.paymentEliteplan.SyncRazorPaymentActivity;
-import com.policyboss.policybosspro.scanqrcode.scanActivity;
+
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -516,14 +516,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 //            startActivity(intent);
 //            finish();
         }
-        @JavascriptInterface
-        public void getscanner(String url) {
-            Intent intent = new Intent(CommonWebViewActivity.this, scanActivity.class);
-          //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("url", url);
-            startActivity(intent);
-           // finish();
-        }
+
 
     }
 
