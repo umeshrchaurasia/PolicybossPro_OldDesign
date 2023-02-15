@@ -78,13 +78,13 @@ import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.mybusiness.MyBusinessActivity;
 import com.policyboss.policybosspro.notification.NotificationActivity;
 import com.policyboss.policybosspro.notification.NotificationSmsActivity;
+import com.policyboss.policybosspro.oauthtoken.OauthTokenActivity;
 import com.policyboss.policybosspro.pendingcases.PendingCasesActivity;
 import com.policyboss.policybosspro.posp.POSPListFragment;
 import com.policyboss.policybosspro.posp.PospEnrollment;
 import com.policyboss.policybosspro.quicklead.QuickLeadActivity;
 import com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity;
 import com.policyboss.policybosspro.scan_vehicle.VehicleScanActivity;
-import com.policyboss.policybosspro.scanqrcode.scanActivity;
 import com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity;
 import com.policyboss.policybosspro.share_data.ShareDataFragment;
 import com.policyboss.policybosspro.splashscreen.SplashScreenActivity;
@@ -601,7 +601,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         case R.id.nav_REQUEST:
                            // ConfirmMoreServiceAlert();
-                           startActivity(new Intent(HomeActivity.this, scanActivity.class));
+                           startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class));
                          //9     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://inv.policyboss.com/qrscan.html" ).putExtra("NAME", "Scan").putExtra("TITLE", "Scan"));
 
                           //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/qrscan.html").putExtra("NAME", "Scanner").putExtra("TITLE", "Scanner"));

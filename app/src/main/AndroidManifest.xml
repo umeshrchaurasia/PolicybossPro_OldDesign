@@ -15,6 +15,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".OauthTokenActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name="com.policyboss.policybosspro.file_chooser.FileChooserActivity"
             android:enabled="true"
             android:exported="false"
@@ -1031,15 +1038,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
-        <activity
-            android:name=".scanqrcode.scanActivity"
-            android:noHistory="true"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="rzp_live_DFxDFYDslN2DIq" />
