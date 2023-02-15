@@ -94,6 +94,7 @@ import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.transactionhistory.nav_transactionhistoryActivity;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
+import com.policyboss.policybosspro.utility.CoroutineHelper;
 import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
@@ -316,6 +317,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         verifyPospNo();
                         return;
                     }
+
+                   CoroutineHelper.saveDeviceDetails(HomeActivity.this,loginResponseEntity.getPOSPNo(),"active");
                 }
 
 //            new MasterController(this).getInsuranceSubType(this);
@@ -1458,16 +1461,21 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         //Notification Url :-1 November
                         int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
 
+                        if (userConstantEntity.getNotificationpopupurltype() != null){
 
-                        if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
-                            if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
-                                if (prefManager.getIsSeasonal()) {
-                                    openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
-                                    prefManager.setIsSeasonal(false);
+                            if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
+                                if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
+                                    if (prefManager.getIsSeasonal()) {
+                                        openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
+                                        prefManager.setIsSeasonal(false);
+                                    }
+
                                 }
-
                             }
-                        } else if (localNotificationenable == 0) {
+
+                        }
+
+                        else if (localNotificationenable == 0) {
                             // prefManager.updatePopUpId("" + serverId);
                             if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
                                 if (prefManager.getIsSeasonal()) {

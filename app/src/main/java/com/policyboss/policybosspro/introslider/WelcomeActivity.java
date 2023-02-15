@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.utility.CoroutineHelper;
 
 
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
@@ -34,6 +36,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_welcome);
         init_widgets();
         setListener();
+        CoroutineHelper.saveDeviceDetails(WelcomeActivity.this,"0","install");
+
     }
 
     private void setListener() {
