@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".oauthtoken.OauthTokenActivity">
+
+
+<LinearLayout
+    android:id="@+id/llyaout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@drawable/rect_shape"
+
+
+    android:orientation="vertical"
+
+    android:padding="20dp"
+    >
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dashboard_bg"
+        android:textColor="@color/dashboard_title"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_gravity="top"
+        android:padding="6dp"
+        style="@style/TextStyle.TextLarge"
+
+        android:text="Oauth Token"></TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|center_vertical"
+
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/oauthtoken"
+            style="@style/TextStyle.TextLarge"
+            android:background="@color/green_descent"
+            android:backgroundTint="@color/green_descent"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_gravity="center_vertical"
+            android:padding="6dp"
+            android:textColor="@color/black"
+
+            android:text="ASZ23F"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+</RelativeLayout>

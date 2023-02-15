@@ -273,6 +273,22 @@ The system is configured to monitor the number of leads generated, to the conver
     <string name="dash_two_wheeler">TWO WHEELER</string>
 
 
+    <string name="title_activity_credit_card_swipe_wishes">CreditCardSwipeWishesActivity</string>
+
+    <string name="title_activity_switch_user">SwitchUserActivity</string>
+
+    <string name="title_activity_festival_share">festivalShareActivity</string>
+    <string name="title_activity_razor_payment">Finmart Payment</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="hello_first_fragment">Hello first fragment</string>
+
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="term">Terms &amp; Conditions.</string>
+    <string name="privacy">Privacy Policy.</string>
+    <string name="noInternet">No Internet Connection</string>
     <string-array name="ncb_percent">
         <item>0</item>
         <item>20</item>
@@ -281,7 +297,6 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>45</item>
         <item>50</item>
     </string-array>
-
     <string-array name="pa_cover_car">
         <item>0</item>
         <item>50000</item>
@@ -290,6 +305,7 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>200000</item>
     </string-array>
 
+    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="pa_cover_bike">
         <item>0</item>
         <item>10000</item>
@@ -327,6 +343,7 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Child4</item>
 
     </string-array>
+
     <string-array name="health_family_relationship">
         <item>Relationship</item>
         <item>Self</item>
@@ -344,6 +361,7 @@ The system is configured to monitor the number of leads generated, to the conver
 
 
     </string-array>
+
     <string-array name="icici_qualification">
         <item>Highest Education Qualification</item>
         <item>Under Graduate</item>
@@ -351,7 +369,6 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Post Graduate</item>
         <item>Professional</item>
     </string-array>
-
     <string-array name="icici_relationship">
         <item>ICICI Bank Relationship</item>
         <item>Salary</item>
@@ -396,8 +413,6 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>&gt; 2 MONTHS</item>
 
     </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string-array name="NoOfDependents">
         <item>No of Dependents</item>
         <item>0</item>
@@ -431,7 +446,6 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Co-Provided</item>
 
     </string-array>
-
     <string-array name="organization">
         <item>Select</item>
         <item>Multinational</item>
@@ -451,7 +465,6 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Others</item>
 
     </string-array>
-
     <string-array name="icici_options">
         <item>LIFE</item>
         <item>LIFE PLUS</item>
@@ -566,6 +579,7 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>48 Months</item>
         <item>60 Months</item>
     </string-array>
+
     <string-array name="RelationshipWithCoAppKotakPL">
         <item>Relationship With Co-applicant</item>
         <item>Spouse</item>
@@ -575,6 +589,7 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Son</item>
         <item>Daughter</item>
     </string-array>
+
     <string-array name="exp_organization">
         <item>Organization Category</item>
         <item>Public Ltd</item>
@@ -586,6 +601,7 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Partnership Firm</item>
         <item>Others Including Society/Trust/AOP</item>
     </string-array>
+
     <string-array name="exp_employment_salaried">
         <item>Select Employment &amp; Mode OF Credit</item>
         <item>Salaried: Account Transfer</item>
@@ -619,6 +635,7 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Professional</item>
         <item>Other</item>
     </string-array>
+
     <string-array name="exp_tenure">
         <item>Tenure</item>
         <item>12 months</item>
@@ -627,10 +644,12 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>48 months</item>
         <item>60 months</item>
     </string-array>
+
     <string-array name="referal_array">
         <item>SELF</item>
         <item>DATACOMP </item>
     </string-array>
+
     <string-array name="CityEarlySal">
         <item>Select City</item>
         <item>Mumbai</item>
@@ -655,6 +674,7 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Comprehensive (1 Yr) + T.P. (2 Yrs)</item>
         <item>Comprehensive Plan (3 Yrs)</item>
     </string-array>
+    <!-- Strings used for fragments for navigation -->
     <string-array name="motor_subtype_renew">
         <item>T.P. Only (1 Yr)</item>
         <item>Comprehensive Plan (1 Yr)</item>
@@ -668,8 +688,6 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Comprehensive (1 Yr) + T.P. (4 Yrs)</item>
         <item>Comprehensive Plan (5 Yrs)</item>
     </string-array>
-    <string name="title_activity_credit_card_swipe_wishes">CreditCardSwipeWishesActivity</string>
-
     <string-array name="CCHolder">
         <item>Are you Credit Card Holder? </item>
         <item>Yes</item>
@@ -681,14 +699,11 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Yes</item>
         <item>No</item>
     </string-array>
-
     <string-array name="CCTakenLoan">
         <item>Have you taken loan in the past? </item>
         <item>Yes</item>
         <item>No</item>
     </string-array>
-    <string name="title_activity_switch_user">SwitchUserActivity</string>
-    <string name="title_activity_festival_share">festivalShareActivity</string>
 
     <string-array name="quicklead_product">
         <item>Product</item>
@@ -707,7 +722,6 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Merchant Business</item>
 
     </string-array>
-
     <string-array name="quicklead_Company_Type">
         <item>Company Type</item>
         <item>Proprietorship</item>
@@ -717,24 +731,10 @@ The system is configured to monitor the number of leads generated, to the conver
         <item>Individual</item>
         <item>Govt Entity</item>
     </string-array>
-
     <string-array name="quicklead_Profile">
         <item>Profile</item>
         <item>Salaried</item>
         <item>Self Employed</item>
         <item>Self Employed Professional</item>
     </string-array>
-    <string name="title_activity_razor_payment">Finmart Payment</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-
-    <string name="term">Terms &amp; Conditions.</string>
-    <string name="privacy">Privacy Policy.</string>
-    <string name="noInternet">No Internet Connection</string>
 </resources>
