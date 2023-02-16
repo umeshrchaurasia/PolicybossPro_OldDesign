@@ -1,103 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/lyParent"
+    android:background="@null"
+    tools:context=".oauthtoken.OauthTokenActivity">
 
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-    android:background="@color/white"
-    android:layout_marginHorizontal="@dimen/eight"
-tools:context=".oauthtoken.OauthTokenActivity">
-
-
-<!--<LinearLayout-->
-<!--    android:id="@+id/llyaout"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    app:layout_behavior="@string/appbar_scrolling_view_behavior"-->
-<!--    android:background="@drawable/rect_shape"-->
-
-
-<!--    android:orientation="vertical"-->
-
-<!--    android:padding="20dp"-->
-<!--    >-->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@color/dashboard_bg"-->
-<!--        android:textColor="@color/dashboard_title"-->
-<!--        android:gravity="center_horizontal|center_vertical"-->
-<!--        android:layout_gravity="top"-->
-<!--        android:padding="6dp"-->
-<!--        style="@style/TextStyle.TextLarge"-->
-
-<!--        android:text="Oauth Token"></TextView>-->
-
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:gravity="center_horizontal|center_vertical"-->
-
-<!--        android:orientation="horizontal">-->
-
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/oauthtoken"-->
-<!--            style="@style/TextStyle.TextLarge"-->
-<!--            android:background="@color/green_descent"-->
-<!--            android:backgroundTint="@color/green_descent"-->
-<!--            android:gravity="center_horizontal|center_vertical"-->
-<!--            android:layout_gravity="center_vertical"-->
-<!--            android:padding="6dp"-->
-<!--            android:textColor="@color/black"-->
-
-<!--            android:text="ASZ23F"/>-->
-
-
-<!--    </LinearLayout>-->
-
-
-<!--</LinearLayout>-->
-
-
-    <ImageView
-        android:id="@+id/imgClose"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="@dimen/twelve"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="@dimen/eight"
-        app:srcCompat="@drawable/ic_close_24" />
-
-    <TextView
-        android:id="@+id/textOath"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Oauth Token"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:fontFamily="@font/muli"
-        style="@style/TextViewStyle.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgClose" />
+        android:layout_centerInParent="true"
+        android:paddingTop="@dimen/twenty_four"
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ecedcee"
-        app:layout_constraintTop_toBottomOf="@+id/textOath"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-
-        />
+        >
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:paddingBottom="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginHorizontal="@dimen/twelve"
+            android:background="@color/bg_dashboard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/textOath"
+                style="@style/TextViewStyle.Large"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+
+                android:background="@color/colorPrimaryDark"
+                android:fontFamily="@font/muli"
+                android:gravity="center"
+                android:padding="@dimen/twelve"
+                android:text="OAuth Token"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imgClose"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_close" />
+
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="@dimen/twelve"
+                android:layout_marginTop="@dimen/eight"
+                android:background="@color/blue_descent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textOath" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txtOauthData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/twelve"
+                android:layout_marginTop="@dimen/twenty_four"
+                android:background="@color/bg_light"
+                android:fontFamily="@font/muli"
+                android:padding="16dp"
+                android:text=""
+                android:visibility="invisible"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+            <ProgressBar
+                android:id="@+id/imgLoader"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:indeterminate="true"
+                android:layout_marginTop="@dimen/twenty_four"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/view1"/>
+
+<!--            <androidx.appcompat.widget.AppCompatImageView-->
+<!--                android:id="@+id/imgLoader"-->
+<!--                android:layout_width="52dp"-->
+<!--                android:layout_height="52dp"-->
+<!--                android:layout_marginTop="@dimen/twenty_four"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+
+<!--                app:layout_constraintTop_toBottomOf="@+id/view1"/>-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/txtError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginBottom="@dimen/eight"
+            android:textColor="@color/red_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+        </androidx.appcompat.widget.AppCompatTextView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>

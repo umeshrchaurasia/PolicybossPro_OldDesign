@@ -93,7 +93,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
             if (loginResponseEntity != null) {
                 //reset user behaviour flag to send data on every app launch
-                prefManager.saveUserbehaviourState(false);
+                //prefManager.saveUserbehaviourState(false);
                 new MasterController(this).geUserConstant(0, this);
                 new MasterController(this).getConstants(this);
                 new MasterController(this).getMenuMaster(this);

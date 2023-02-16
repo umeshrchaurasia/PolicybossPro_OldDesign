@@ -4,6 +4,7 @@ import com.utility.finmartcontact.core.requestentity.CallLogRequestEntity
 import com.utility.finmartcontact.core.requestentity.ContactLeadRequestEntity
 import com.utility.finmartcontact.core.response.ContactLogResponse
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonEmpDetailResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder
@@ -44,6 +45,10 @@ interface SyncContactInterface {
     @POST("/app_visitor/save_device_details")
     suspend fun saveDeviceDetails( @Body body : HashMap<String,String> ): Response<ContactLogResponse>
 
+
+    @Headers("token:" + FinmartRetroRequestBuilder.token)
+    @POST("/app_visitor/save_device_details")
+    suspend fun getOauthToken( @Body body : HashMap<String,String> ): Response<OauthTokenResponse>
 
 
 }

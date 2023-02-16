@@ -3084,6 +3084,57 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // for user define height and width..
     }
 
+    public void oauthVerifyPopUp(DashboardMultiLangEntity shareEntity) {
+
+        if (shareProdDialog != null && shareProdDialog.isShowing()) {
+
+            return;
+        }
+
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this);
+        TextView txtTitle, txtMessage;
+        Button btnShare;
+        ImageView ivCross;
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_share_popup, null);
+
+        builder.setView(dialogView);
+        shareProdDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
+        txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);
+        btnShare = (Button) dialogView.findViewById(R.id.btnShare);
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+        txtTitle.setText("" + shareEntity.getTitle());
+        txtMessage.setText("" + shareEntity.getPopupmsg());
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                shareDashbordProduct(shareEntity);
+                shareProdDialog.dismiss();
+
+            }
+        });
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                shareProdDialog.dismiss();
+
+            }
+        });
+
+        shareProdDialog.setCancelable(true);
+        shareProdDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+        // for user define height and width..
+    }
+
 
     public void verifyPospNo() {
 

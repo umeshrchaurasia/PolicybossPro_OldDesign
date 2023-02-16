@@ -29,8 +29,8 @@ class CoroutineHelper {
                         body.put("ss_id",ss_id)
                         body.put("device_id",UTILITY.getDeviceID(context))
 
-                        body.put("device_name",UTILITY.getDeviceName(context))
-                        body.put("os_detail",UTILITY.getOS(context))
+                        body.put("device_name",UTILITY.getDeviceName())
+                        body.put("os_detail",UTILITY.getOS())
                         body.put("device_info",UTILITY.getDeviceDetail(context))
                         body.put("action_type",action_type)
                        // val resultRespAsync = async { RetroHelper.api.saveDeviceDetails(url, body) }

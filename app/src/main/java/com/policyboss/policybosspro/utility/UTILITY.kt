@@ -14,6 +14,7 @@ import java.io.FileOutputStream
 object UTILITY {
 
 
+      const val ErrorMessage : String = "Data Not Found.\nPlease try Again!!"
 
         @JvmStatic
         fun getFilePath(context: Context, contentUri: Uri): String? {
@@ -115,7 +116,7 @@ object UTILITY {
     }
 
     @SuppressLint("HardwareIds")
-    fun getDeviceName(context: Context): String {
+    fun getDeviceName(): String {
         try {
             return  "${Build.BRAND}-${Build.MODEL}"
         }catch (ex: Exception){
@@ -124,7 +125,7 @@ object UTILITY {
 
     }
     @SuppressLint("HardwareIds")
-    fun getOS(context: Context): String {
+    fun getOS(): String {
         try {
             return  "Android:${Build.VERSION.RELEASE}"
         }catch (ex: Exception){

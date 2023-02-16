@@ -92,5 +92,14 @@
     <!--<color name="application_primary_text_color">#212121</color>-->
     <!--<color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>-->
+
+    <color name="lightTransparentBlue">#e4f2fd</color>
+    <color name="blue_card">#b1eafe</color>
+    <color name="blue_menu">#d2f2fd</color>
+    <color name="blue_bg_light">#e3f2fd</color>
+    <color name="blue_bg">#ebf8ff</color>
+    <color name="blue_card_bg">#afe2f5</color>
+
+    <color name="semi_transparent">#80000000</color>
 </resources>
 
