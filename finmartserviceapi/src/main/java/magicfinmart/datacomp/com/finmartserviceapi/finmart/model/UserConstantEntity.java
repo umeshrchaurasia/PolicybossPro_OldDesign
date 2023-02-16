@@ -106,6 +106,9 @@ public class UserConstantEntity extends RealmObject {
     private int isactive;
 
     private String enablemyaccountupdate;
+    private String  androidproversion;
+
+    private String androidproouathEnabled;
 
     /**
      * plbanner :https://horizon.policyboss.com:5443/images/plbanner.gif
@@ -1169,4 +1172,21 @@ public class UserConstantEntity extends RealmObject {
     public void setNotif_popupurl_elite(String notif_popupurl_elite) {
         this.notif_popupurl_elite = notif_popupurl_elite;
     }
+
+    public String getAndroidProVersion() {
+        return androidproversion;
+    }
+
+    public void setAndroidproversion(String androidproversion) {
+        this.androidproversion = androidproversion;
+    }
+
+    public String getAndroidpProOuathEnabled() {
+        return androidproouathEnabled;
+    }
+
+    public void setAndroidproouathEnabled(String androidproouathEnabled) {
+        this.androidproouathEnabled = androidproouathEnabled;
+    }
+
 }

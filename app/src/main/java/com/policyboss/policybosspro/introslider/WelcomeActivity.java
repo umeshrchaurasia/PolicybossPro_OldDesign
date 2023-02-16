@@ -36,7 +36,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_welcome);
         init_widgets();
         setListener();
-        CoroutineHelper.saveDeviceDetails(WelcomeActivity.this,"0","install");
+        CoroutineHelper.saveDeviceDetails(WelcomeActivity.this,"0","Install");
 
     }
 

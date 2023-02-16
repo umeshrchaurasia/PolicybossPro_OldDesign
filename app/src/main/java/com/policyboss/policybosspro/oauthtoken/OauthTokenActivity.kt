@@ -18,8 +18,10 @@ import com.policyboss.policybosspro.databinding.DialogLoadingBinding
 import com.policyboss.policybosspro.oauthtoken.model.OauthTokenRepository
 import com.policyboss.policybosspro.oauthtoken.model.OauthTokenViewModel
 import com.policyboss.policybosspro.oauthtoken.model.OauthTokenViewModelFactory
+import com.policyboss.policybosspro.utility.UTILITY
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
 class OauthTokenActivity : AppCompatActivity() {
@@ -37,7 +39,7 @@ class OauthTokenActivity : AppCompatActivity() {
         setListner()
 
         // calling API
-        viewModel.getAuthToken(ss_id = "0")
+        viewModel.getAuthToken(ss_id = "0", deviceID = UTILITY.getDeviceID(this@OauthTokenActivity))
 
         // displaying the response which we get from above API
         observe()
@@ -83,8 +85,12 @@ class OauthTokenActivity : AppCompatActivity() {
                         is APIState.Success ->{
 
                             cancelAnimDialog()
-                            binding.txtOauthData.visibility = View.VISIBLE
-                            binding.txtOauthData.text = "ALDWD9090"
+
+                            it.data?.let{
+                                binding.txtOauthData.visibility = View.VISIBLE
+                                binding.txtOauthData.text = it.Token?: ""
+
+                            }
 
                         }
 

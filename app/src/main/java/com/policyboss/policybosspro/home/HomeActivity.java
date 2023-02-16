@@ -147,8 +147,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MultiLangResponse;
@@ -319,7 +317,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         return;
                     }
 
-                   CoroutineHelper.saveDeviceDetails(HomeActivity.this,loginResponseEntity.getPOSPNo(),"active");
+                   CoroutineHelper.saveDeviceDetails(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
                 }
 
 //            new MasterController(this).getInsuranceSubType(this);
@@ -1415,7 +1413,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 } else {
                     Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-            } else if (response instanceof MpsResponse) {
+            }
+
+            else if (response instanceof MpsResponse) {
 
                 if (response.getStatusNo() == 0) {
 
@@ -1428,13 +1428,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
                 }
-            } else if (response instanceof MyAcctDtlResponse) {
+            }
+
+            else if (response instanceof MyAcctDtlResponse) {
                 if (response.getStatusNo() == 0) {
                     if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
                         db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
                     }
                 }
-            } else if (response instanceof UserConstatntResponse) {
+            }
+
+            else if (response instanceof UserConstatntResponse) {
                 if (response.getStatusNo() == 0) {
                     if (((UserConstatntResponse) response).getMasterData() != null) {
 
@@ -1445,6 +1449,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         init_headers();
 
                         deeplink_handle();
+
+                        //region check for new version
+                        int serverVersionCode = Integer.parseInt(userConstantEntity.getAndroidProVersion());
+                        if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+
+                                // forced update app
+                                openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", false);
+                        }
+                        //endregion
 
                         if (prefManager.getPopUpCounter().equals("0")) {
                             showMarketingPopup();
@@ -1466,7 +1479,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         //Notification Url :-1 November
                         int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
 
-                        if (userConstantEntity.getNotificationpopupurltype() != null){
+                        if (userConstantEntity.getNotificationpopupurltype() != null) {
 
                             if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
                                 if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
@@ -1478,9 +1491,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 }
                             }
 
-                        }
-
-                        else if (localNotificationenable == 0) {
+                        } else if (localNotificationenable == 0) {
                             // prefManager.updatePopUpId("" + serverId);
                             if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
                                 if (prefManager.getIsSeasonal()) {
@@ -1502,58 +1513,70 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
                 }
-            } else if (response instanceof ConstantsResponse) {
-                constantEntity = ((ConstantsResponse) response).getMasterData();
-                if (response.getStatusNo() == 0) {
+            }
 
-                    //region check for new version
-                    int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
-                    if (pinfo != null && pinfo.versionCode < serverVersionCode) {
-                        forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
-                        if (forceUpdate == 1) {
-                            // forced update app
-                            openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", false);
-                        } else {
-                            // aap with less version but not forced update
-                            if (prefManager.getUpdateShown()) {
-                                prefManager.setIsUpdateShown(false);
-                                openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", true);
-                            }
-                        }
-
-//                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
-//                        for (Fragment frg :
-//                                getSupportFragmentManager().getFragments()) {
+            //region comment ConstantsResponse
+//            else if (response instanceof ConstantsResponse) {
+//                constantEntity = ((ConstantsResponse) response).getMasterData();
+//                if (response.getStatusNo() == 0) {
 //
-//                            if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
-//                                if (!frg.isVisible()) {
-//                                    //DialogMPS();
-//                                }
+//                    //region check for new version
+//                    int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
+//                    if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+//                        forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
+//                        if (forceUpdate == 1) {
+//                            // forced update app
+//                            openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", false);
+//                        } else {
+//                            // aap with less version but not forced update
+//                            if (prefManager.getUpdateShown()) {
+//                                prefManager.setIsUpdateShown(false);
+//                                openPopUp(navigationView, "UPDATE", "New version available on play store, Please update.", "OK", true);
 //                            }
 //                        }
+//
+////                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
+////                        for (Fragment frg :
+////                                getSupportFragmentManager().getFragments()) {
+////
+////                            if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
+////                                if (!frg.isVisible()) {
+////                                    //DialogMPS();
+////                                }
+////                            }
+////                        }
+////                    }
+//
+//                    } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
 //                    }
+//                    //endregion
+//                }
+//            }
+            //endregion
 
-                    } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
-                    }
-                    //endregion
-                }
-            } else if (response instanceof MenuMasterResponse) {
+            else if (response instanceof MenuMasterResponse) {
                 if (response.getStatusNo() == 0) {
                     prefManager.storeMenuDashboard((MenuMasterResponse) response);
                     addDynamicMenu((MenuMasterResponse) response);
                 }
-            } else if (response instanceof UserCallingResponse) {
+            }
+
+            else if (response instanceof UserCallingResponse) {
                 if (response.getStatusNo() == 0) {
 
                     CallingDetailsPopUp(((UserCallingResponse) response).getMasterData());
                 }
-            } else if (response instanceof MultiLangResponse) {
+            }
+
+            else if (response instanceof MultiLangResponse) {
 
                 if (response.getStatusNo() == 0) {
 
                     showMultiLanguage();
                 }
-            } else if (response instanceof ProductURLShareResponse) {
+            }
+
+            else if (response instanceof ProductURLShareResponse) {
 
                 if (response.getStatusNo() == 0) {
 
@@ -1795,11 +1818,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
         if (view.getId() == navigationView.getId()) {
-            if (forceUpdate == 1) {
 
-            } else {
-                dialog.cancel();
-            }
+        //            if (forceUpdate == 1) {
+//
+//            } else {
+//                dialog.cancel();
+//            }
+
         } else if (view.getId() == ivProfile.getId()) {
             dialog.cancel();
         } else {
@@ -1828,7 +1853,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
 
             if (loginResponseEntity != null) {
-                new MasterController(this).getConstants(this);
+               // new MasterController(this).getConstants(this);
                 new MasterController(this).geUserConstant(1, this);
             }
         }

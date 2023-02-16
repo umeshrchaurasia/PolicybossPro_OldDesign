@@ -47,7 +47,7 @@ interface SyncContactInterface {
 
 
     @Headers("token:" + FinmartRetroRequestBuilder.token)
-    @POST("/app_visitor/save_device_details")
+    @POST("/auth_tokens/generate_web_auth_token")
     suspend fun getOauthToken( @Body body : HashMap<String,String> ): Response<OauthTokenResponse>
 
 

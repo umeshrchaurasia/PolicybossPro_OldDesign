@@ -22,11 +22,13 @@ class OauthTokenViewModel(val oauthTokenRepository: OauthTokenRepository) : View
     get() = oauthMutuableStateFlow
 
 
-    fun getAuthToken(ss_id : String) = viewModelScope.launch {
+    fun getAuthToken(ss_id : String, deviceID : String) = viewModelScope.launch {
 
 
         var body = HashMap<String,String>()
         body.put("ss_id",ss_id)
+        body.put("device_id",deviceID)
+        body.put("user_agent","")
 
         oauthMutuableStateFlow.value = APIState.Loading()
        // delay(8000)
@@ -39,7 +41,13 @@ class OauthTokenViewModel(val oauthTokenRepository: OauthTokenRepository) : View
 
                     if(data.isSuccessful){
 
-                        oauthMutuableStateFlow.value = APIState.Success(data = data.body())
+
+                         if(data.body()?.Status?.uppercase().equals("SUCCESS")){
+                             oauthMutuableStateFlow.value = APIState.Success(data = data.body())
+                         }else{
+                             oauthMutuableStateFlow.value = APIState.Failure(errorMessage = data.body()?.Msg ?: UTILITY.ErrorMessage)
+                         }
+
                     }else{
                         oauthMutuableStateFlow.value = APIState.Failure(errorMessage = UTILITY.ErrorMessage)
                     }
