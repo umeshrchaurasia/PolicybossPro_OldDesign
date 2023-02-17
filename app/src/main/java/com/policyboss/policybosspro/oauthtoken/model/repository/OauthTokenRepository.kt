@@ -1,4 +1,4 @@
-package com.policyboss.policybosspro.oauthtoken.model
+package com.policyboss.policybosspro.oauthtoken.model.repository
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow

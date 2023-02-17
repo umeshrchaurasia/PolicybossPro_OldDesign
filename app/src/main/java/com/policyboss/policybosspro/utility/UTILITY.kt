@@ -74,7 +74,7 @@ object UTILITY {
     }
 
     @SuppressLint("HardwareIds")
-     fun getDeviceDetail(context: Context): String {
+     fun getDeviceDetai(context: Context): String {
         try {
         return "Brand: ${Build.BRAND} \n" +
                 "DeviceName: ${Build.BRAND} - ${Build.MODEL} \n" +
@@ -100,6 +100,30 @@ object UTILITY {
         }catch (ex: Exception){
             return ""
         }
+    }
+
+    fun getDeviceDetail(context: Context) : DeviceDetailEntity {
+
+      return  DeviceDetailEntity(
+
+            Model = Build.MODEL ?: "",
+            ID = Build.ID?: "",
+
+            SDK =  ""+ Build.VERSION.SDK_INT,
+            Manufacture = Build.MANUFACTURER?: "",
+            Brand = Build.BRAND?: "",
+
+            User = Build.USER ?: "",
+            Type = Build.TYPE ?: "",
+            Base = ""+ Build.VERSION_CODES.BASE,
+
+            Incremental = Build.VERSION.INCREMENTAL?: "",
+            Board = Build.BRAND ?: "",
+            Host = Build.HOST ?: "",
+
+            FingerPrint = Build.FINGERPRINT ?: "",
+            VersionCode = Build.VERSION.RELEASE?: ""
+        )
     }
 
     @SuppressLint("HardwareIds")

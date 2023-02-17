@@ -2,6 +2,7 @@ package com.policyboss.policybosspro.utility
 
 import android.content.Context
 import android.util.Log
+import com.google.gson.Gson
 
 import kotlinx.coroutines.*
 import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig
@@ -24,14 +25,16 @@ class CoroutineHelper {
 
                     withContext(Dispatchers.IO) {
 
-                        var url = BuildConfig.FINMART_URL + "/app_visitor/save_device_details"
+                       // var url = BuildConfig.FINMART_URL + "/app_visitor/save_device_details"
+
+                        Log.d(Constants.TAG, "DeviceDetail"+ Gson().toJson(UTILITY.getDeviceDetail(context)))
                         val body = HashMap<String,String>()
                         body.put("ss_id",ss_id)
                         body.put("device_id",UTILITY.getDeviceID(context))
 
                         body.put("device_name",UTILITY.getDeviceName())
                         body.put("os_detail",UTILITY.getOS())
-                        body.put("device_info",UTILITY.getDeviceDetail(context))
+                        body.put("device_info", Gson().toJson(UTILITY.getDeviceDetail(context)))
                         body.put("action_type",action_type)
                        // val resultRespAsync = async { RetroHelper.api.saveDeviceDetails(url, body) }
                         val resultRespAsync = async { RetroHelper.api.saveDeviceDetails(body) }

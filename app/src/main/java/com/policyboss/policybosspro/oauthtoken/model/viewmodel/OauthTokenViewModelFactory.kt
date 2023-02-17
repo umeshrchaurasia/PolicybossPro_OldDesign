@@ -1,7 +1,8 @@
-package com.policyboss.policybosspro.oauthtoken.model
+package com.policyboss.policybosspro.oauthtoken.model.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.policyboss.policybosspro.oauthtoken.model.repository.OauthTokenRepository
 
 
 class OauthTokenViewModelFactory(private val repository: OauthTokenRepository) :ViewModelProvider.Factory {

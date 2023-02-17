@@ -1,33 +1,29 @@
 package com.policyboss.policybosspro.oauthtoken
 
-import android.app.Dialog
-import android.graphics.drawable.ColorDrawable
-import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.bumptech.glide.Glide
 import com.policyboss.policybosspro.APIState
-import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityOauthTokenBinding
-import com.policyboss.policybosspro.databinding.DialogLoadingBinding
-import com.policyboss.policybosspro.oauthtoken.model.OauthTokenRepository
-import com.policyboss.policybosspro.oauthtoken.model.OauthTokenViewModel
-import com.policyboss.policybosspro.oauthtoken.model.OauthTokenViewModelFactory
+import com.policyboss.policybosspro.oauthtoken.model.repository.OauthTokenRepository
+import com.policyboss.policybosspro.oauthtoken.model.viewmodel.OauthTokenViewModel
+import com.policyboss.policybosspro.oauthtoken.model.viewmodel.OauthTokenViewModelFactory
 import com.policyboss.policybosspro.utility.UTILITY
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
 class OauthTokenActivity : AppCompatActivity() {
 
     lateinit var binding : ActivityOauthTokenBinding
     lateinit var viewModel: OauthTokenViewModel
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +39,12 @@ class OauthTokenActivity : AppCompatActivity() {
 
         // displaying the response which we get from above API
         observe()
+
+    }
+
+
+    override fun onPause() {
+        super.onPause()
 
     }
 
@@ -67,6 +69,7 @@ class OauthTokenActivity : AppCompatActivity() {
 
 
 
+
     private fun observe(){
 
 
@@ -86,11 +89,14 @@ class OauthTokenActivity : AppCompatActivity() {
 
                             cancelAnimDialog()
 
-                            it.data?.let{
-                                binding.txtOauthData.visibility = View.VISIBLE
-                                binding.txtOauthData.text = it.Token?: ""
+                            if(it != null){
+                                it.data?.let{
+                                    binding.txtOauthData.visibility = View.VISIBLE
+                                    binding.txtOauthData.text = it.Token?: ""
 
+                                }
                             }
+
 
                         }
 

@@ -1,10 +1,10 @@
-package com.policyboss.policybosspro.oauthtoken.model
+package com.policyboss.policybosspro.oauthtoken.model.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.policybosspro.APIState
+import com.policyboss.policybosspro.oauthtoken.model.repository.OauthTokenRepository
 import com.policyboss.policybosspro.utility.UTILITY
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -15,11 +15,31 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.Oa
 class OauthTokenViewModel(val oauthTokenRepository: OauthTokenRepository) : ViewModel(){
 
 
-    private val oauthMutuableStateFlow : MutableStateFlow<APIState<OauthTokenResponse>> = MutableStateFlow(APIState.Empty())
+    private var oauthMutuableStateFlow : MutableStateFlow<APIState<OauthTokenResponse>> = MutableStateFlow(APIState.Empty())
 
     // data is collected in OauthStateFlow variable, we have to get from here
     val OauthStateFlow : StateFlow<APIState<OauthTokenResponse>>
     get() = oauthMutuableStateFlow
+
+
+    //var time_in_milli_seconds = 0L
+
+
+     var timeOauth : MutableStateFlow<Long> = MutableStateFlow(0)
+
+    // data is collected in OauthStateFlow variable, we have to get from here
+    val time_in_milli_seconds : StateFlow<Long>
+        get() = timeOauth
+
+
+
+    fun setAuthTime(value : Long) = viewModelScope.launch {
+
+        timeOauth.emit(value)
+    }
+
+
+
 
 
     fun getAuthToken(ss_id : String, deviceID : String) = viewModelScope.launch {
