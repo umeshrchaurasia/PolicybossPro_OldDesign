@@ -303,7 +303,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                            + "&product_id=1&login_ssid=" + parent_ssid;
+                            + "&product_id=1&login_ssid=" + parent_ssid ;
                     motorUrl = motorUrl + append;
 
                     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)

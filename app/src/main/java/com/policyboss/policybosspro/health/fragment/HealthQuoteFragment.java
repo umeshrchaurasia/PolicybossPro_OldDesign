@@ -429,7 +429,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             finalPremium = (int) Math.round(buyHealthQuoteEntity.getGrossPremium());
         }
 
-        Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
+        Glide.with(this.requireContext()).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
         txtProductName.setText("" + buyHealthQuoteEntity.getProductName());
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());

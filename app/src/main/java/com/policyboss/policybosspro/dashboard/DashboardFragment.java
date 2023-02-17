@@ -53,10 +53,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.Ma
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
+
 
 
 /**
@@ -145,8 +142,10 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         //send user behaviour
 
-        if (!prefManager.isUserBehaviourSave())
-            new DynamicController(getActivity()).sendUserBehaviour();
+        // region commented
+//    if (!prefManager.isUserBehaviourSave())
+//       new DynamicController(getActivity()).sendUserBehaviour();
+        //endregion
 
         return view;
     }
@@ -215,50 +214,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     public void OnSuccess(APIResponse response, String message) {
         try {
             cancelDialogMain();
-            if (response instanceof ConstantsResponse) {
-                constantEntity = ((ConstantsResponse) response).getMasterData();
-                if (response.getStatusNo() == 0) {
 
-                    //region check for new vwesion
-                    int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
-                    if (pinfo != null && pinfo.versionCode < serverVersionCode) {
-                        forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
-                        if (forceUpdate == 1) {
-                            // forced update app
-                            openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
-                        } else {
-                            // aap with less version but not forced update
-                            if (prefManager.getUpdateShown()) {
-                                prefManager.setIsUpdateShown(false);
-                                openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
-                            }
-                        }
-                    } else if (((ConstantsResponse) response).getMasterData().
-                            getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
-                        if (getActivity() != null && prefManager.getMps() != null) {
-
-                            //  ((HomeActivity) getActivity()).DialogMPS();
-                        }
-                    }
-                    //endregion
-                    // if (getActivity() != null)
-                    //     ((HomeActivity) getActivity()).hideNavigationItem();
-                }
-            } else if (response instanceof UserConstatntResponse) {
-                if (response.getStatusNo() == 0) {
-
-
-//                if (LangType == "") {
-//                    mAdapter = new DashboardRowAdapter(DashboardFragment.this);
-//                    this.rvHome.setAdapter(mAdapter);
-//                } else {
-//                    mAdapter = new DashboardRowAdapter(DashboardFragment.this, LangType);
-//                    this.rvHome.setAdapter(mAdapter);
-//                }
-
-
-                }
-            } else if (response instanceof MenuMasterResponse) {
+         if (response instanceof MenuMasterResponse) {
                 if (response.getStatusNo() == 0) {
 
                     ((HomeActivity) getActivity()).addDynamicMenu(((MenuMasterResponse) response));
