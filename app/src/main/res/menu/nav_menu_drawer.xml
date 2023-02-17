@@ -8,13 +8,13 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/home"
-            android:orderInCategory="100"
+            android:orderInCategory="50"
             android:title="@string/nav_home" />
 
         <item
             android:id="@+id/nav_REQUEST"
             android:icon="@drawable/ic_business_name"
-            android:orderInCategory="50"
+            android:orderInCategory="51"
             android:visible="true"
             android:title="Auth Token">
 

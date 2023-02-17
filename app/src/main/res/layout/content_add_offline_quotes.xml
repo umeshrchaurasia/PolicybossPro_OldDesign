@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="15dp"
-                    android:background="@drawable/blue_border_lightblue_background"
+                    android:background="@drawable/curve_background"
                     android:padding="8dp"
                     android:text="DOCUMENTS UPLOAD"
                     android:textAllCaps="true"

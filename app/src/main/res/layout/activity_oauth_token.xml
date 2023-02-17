@@ -72,19 +72,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textOath" />
 
+
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtOauthData"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/twelve"
-                android:layout_marginTop="@dimen/twenty_four"
-                android:background="@color/bg_light"
-                android:fontFamily="@font/muli"
-                android:padding="16dp"
-                android:text=""
-                android:visibility="invisible"
-                android:textColor="@color/black"
-                android:textSize="28sp"
+                android:layout_marginTop="12dp"
+
+                android:fontFamily="@font/bungee"
+                android:text="kmnk"
+                android:gravity="center"
+                android:visibility="visible"
+                android:textColor="@color/lightBlue"
+                android:textSize="52sp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
@@ -111,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/oauth_note"
-                android:layout_marginTop="@dimen/twelve"
+                android:layout_marginTop="0dp"
                 android:layout_marginBottom="@dimen/eight"
                 android:gravity="left"
                 app:layout_constraintTop_toBottomOf="@+id/txtOauthData"
