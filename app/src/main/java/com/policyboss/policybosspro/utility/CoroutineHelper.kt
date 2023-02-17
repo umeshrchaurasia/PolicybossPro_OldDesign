@@ -42,23 +42,20 @@ class CoroutineHelper {
                         if (resultResp.isSuccessful) {
                             // cancelDialog()
 
-                           // val a = resultResp.body()?.status?: ""
 
-                            if(resultResp.body()?.status?.uppercase().equals("SUCCESS")){
-
-                                var response = resultResp.body()
-
-
-                                Log.d(Constants.TAG,"save_device_details:"+ "SUCCESS" )
-
-                            }else{
-
-                                Log.d(Constants.TAG,"save_device_details: Failure")
-                            }
-
-
-                            // delay(8000)
-
+                            // region No NEED
+//                            if(resultResp.body()?.status?.uppercase().equals("SUCCESS")){
+//
+//                                //var response = resultResp.body()
+//
+//
+//                                Log.d(Constants.TAG,"save_device_details:"+ "SUCCESS" )
+//
+//                            }else{
+//
+//                                Log.d(Constants.TAG,"save_device_details: Failure")
+//                            }
+                            //endregion
 
 
                         }else{
