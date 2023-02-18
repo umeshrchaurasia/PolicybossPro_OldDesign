@@ -73,7 +73,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textOath" />
 
 
-
+<!--            android:textColor="@color/lightBlue"-->
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txtOauthData"
                 android:layout_width="0dp"
@@ -85,9 +85,9 @@
                 android:text="kmnk"
                 android:gravity="center"
                 android:visibility="visible"
-                android:textColor="@color/lightBlue"
+                android:textColor="@color/white"
                 android:textSize="52sp"
-
+                android:background="@drawable/bg_gradient"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
 
@@ -114,8 +114,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/oauth_note"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="12dp"
                 android:layout_marginBottom="@dimen/eight"
+
                 android:gravity="left"
                 app:layout_constraintTop_toBottomOf="@+id/txtOauthData"
                 app:layout_constraintStart_toStartOf="parent"
