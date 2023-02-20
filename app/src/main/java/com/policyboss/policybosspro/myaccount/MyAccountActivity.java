@@ -1904,7 +1904,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                     if (call_phone) {
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + dbPersistanceController.getUserConstantsData().getManagName(), dbPersistanceController.getConstantsData().getHelpNumber());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + dbPersistanceController.getUserConstantsData().getManagName(),"8928385797");
 
 
                     }

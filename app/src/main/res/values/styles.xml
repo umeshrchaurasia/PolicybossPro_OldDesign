@@ -140,7 +140,7 @@
         <item name="android:gravity">center_vertical|center_horizontal</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:background">@drawable/curve_background</item>
+        <item name="android:background">@drawable/blue_border_lightblue_background</item>
         <item name="android:focusable">true</item>
         <item name="android:minHeight">36dp</item>
         <item name="android:textStyle">bold</item>
@@ -234,7 +234,7 @@
     <style name="HeaderLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/curve_background</item>
+        <item name="android:background">@drawable/blue_border_lightblue_background</item>
     </style>
 
     <style name="LinearLayoutStyle">
@@ -258,10 +258,25 @@
         <!--   <item name="windowBackground">@android:color/transparent</item>-->
     </style>
 
+
     <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@color/transparent_color</item>
-        <item name="android:windowAnimationStyle">@style/CustomDialogAnimation</item>
+
+            <item name="android:windowIsTranslucent">true</item>
+
+            <item name="android:windowAnimationStyle">@style/CustomDialogAnimation</item>
+<!--            <item name="android:windowBackground">@color/transparent_color</item>&ndash;&gt;-->
+
+            <item name="android:windowBackground">@android:color/transparent</item>
+            <item name="android:windowContentOverlay">@null</item>
+            <item name="android:windowNoTitle">true</item>
+            <item name="android:windowIsFloating">true</item>
+            <item name="android:backgroundDimEnabled">true</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+<!--        <item name="android:windowAnimationStyle">@android:style/Animation</item>-->
+
+
     </style>
     <style name="Dialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowIsTranslucent">true</item>

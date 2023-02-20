@@ -136,5 +136,8 @@
     <color name="blue_card_bg">#afe2f5</color>
 
     <color name="semi_transparent">#80000000</color>
+
+    <color name="transparent1">#0D000000</color>
+
 </resources>
 

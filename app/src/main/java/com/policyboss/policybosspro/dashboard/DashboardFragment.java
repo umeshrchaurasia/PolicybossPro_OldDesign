@@ -51,7 +51,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 
 
@@ -66,7 +66,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     BottomNavigationView navigation;
     PackageInfo pinfo;
     View view;
-    ConstantEntity constantEntity;
+    //ConstantEntity constantEntity;
     PrefManager prefManager;
     int forceUpdate;
     //LocationTracker locationTracker;

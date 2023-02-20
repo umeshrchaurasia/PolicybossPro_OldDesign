@@ -375,9 +375,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
 
 
-                if (mReal.getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
-                    mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
-                } else {
+//                if (mReal.getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
+//                    mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+//                } else
+
+                {
 
                     String healthUrl = mReal.getUserConstantsData().getHealthurl();
                     //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
@@ -395,10 +397,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     healthUrl = healthUrl + append;
 
-                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
-                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
-                        Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
-                    } else {
+//                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
+//                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+//                        Utility.loadWebViewUrlInBrowser(mContext, healthUrl);
+//                    } else
+
+                    {
                         mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                                 .putExtra("URL", healthUrl)
                                 .putExtra("NAME", "Health Insurance")
@@ -577,10 +581,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                     invUrl = invUrl + append;
 
-                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
-                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
-                        Utility.loadWebViewUrlInBrowser(mContext, invUrl);
-                    } else {
+//                    if (mReal.getConstantsData().getHealthThrowBrowser() != null &&
+//                            mReal.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+//                        Utility.loadWebViewUrlInBrowser(mContext, invUrl);
+//                    } else
+
+                    {
                         mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                                 .putExtra("URL", invUrl)
                                 .putExtra("NAME", "INVESTMENT PLANS")

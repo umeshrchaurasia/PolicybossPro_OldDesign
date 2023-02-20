@@ -303,7 +303,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                            + "&product_id=1&login_ssid=" + parent_ssid ;
+                            + "&product_id=1&login_ssid=" + parent_ssid;
                     motorUrl = motorUrl + append;
 
                     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
@@ -358,40 +358,52 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
             case 2:
                 //health
+                try {
 
-                // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
-
-
-                if (dbPersistanceController.getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
-                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), HealthQuoteAppActivity.class));
-                } else {
-
-                    String healthUrl = dbPersistanceController.getUserConstantsData().getHealthurl();
-                    //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+                    // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
 
 
-                    try {
-                        ipaddress = Utility.getMacAddress(mContext.getActivity());
-                    } catch (Exception io) {
-                        ipaddress = "0.0.0.0";
+//                if (dbPersistanceController.getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
+//                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), HealthQuoteAppActivity.class));
+//                }
+//                else
+                    {
+
+                        String healthUrl = dbPersistanceController.getUserConstantsData().getHealthurl();
+                        //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+
+
+                        try {
+                            ipaddress = Utility.getMacAddress(mContext.getActivity());
+                        } catch (Exception io) {
+                            ipaddress = "0.0.0.0";
+                        }
+
+                        String append = "&ip_address=" + ipaddress
+                                + "&app_version=policyboss-" + Utility.getVersionName(mContext.getActivity())
+                                + "&device_id=" + Utility.getDeviceId(mContext.getActivity()) + "&login_ssid=" + parent_ssid;
+                        ;
+                        healthUrl = healthUrl + append;
+
+//                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
+//                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+//                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), healthUrl);
+//                    } else
+
+                        {
+
+
+                            mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                    .putExtra("URL", healthUrl)
+                                    .putExtra("dashBoardtype", "INSURANCE")
+                                    .putExtra("NAME", "Health Insurance")
+                                    .putExtra("TITLE", "Health Insurance"));
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
 
-                    String append = "&ip_address=" + ipaddress
-                            + "&app_version=policyboss-" + Utility.getVersionName(mContext.getActivity())
-                            + "&device_id=" + Utility.getDeviceId(mContext.getActivity()) + "&login_ssid=" + parent_ssid;
-                    ;
-                    healthUrl = healthUrl + append;
-
-                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
-                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
-                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), healthUrl);
-                    } else {
-                        mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                                .putExtra("URL", healthUrl)
-                                .putExtra("dashBoardtype", "INSURANCE")
-                                .putExtra("NAME", "Health Insurance")
-                                .putExtra("TITLE", "Health Insurance"));
-                    }
                 }
 
 
@@ -619,10 +631,12 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                     invUrl = invUrl + append;
 
-                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
-                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
-                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), invUrl);
-                    } else {
+//                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
+//                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+//                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), invUrl);
+//                    } else
+
+                    {
                         mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                                 .putExtra("URL", invUrl)
                                 .putExtra("NAME", "INVESTMENT PLANS")

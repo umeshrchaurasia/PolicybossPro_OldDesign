@@ -136,7 +136,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.Logi
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashboardarrayEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
@@ -173,7 +173,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     PackageInfo pinfo;
     PrefManager prefManager;
     int forceUpdate, checkfirstmsg_call, isContactFirstCall;
-    ConstantEntity constantEntity;
+    //ConstantEntity constantEntity;
     AlertDialog mpsDialog;
     androidx.appcompat.app.AlertDialog shareProdDialog;
     CallingDetailAdapter callingDetailAdapter;
@@ -1683,7 +1683,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         Intent intentExpressUrl;
 
-                        intentExpressUrl = new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", expressUrl).putExtra("dashBoardtype", "INSURANCE").putExtra("NAME", "2W Express Insurance").putExtra("TITLE", "2W Express Insurance").putExtra("APPMENU", "Y").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        //startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                        intentExpressUrl = new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class)
+                               // .putExtra("URL", expressUrl).putExtra("dashBoardtype", "INSURANCE")
+                               // .putExtra("NAME", "Sync Contacts").putExtra("TITLE", "Sync Contacts")
+                               // .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intentExpressUrl.setAction(Intent.ACTION_VIEW);
 
                         Intent intenthealthIns;
@@ -1693,7 +1698,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                         //two_wheeler_express
-                        ShortcutInfo shortcutInfo1 = new ShortcutInfo.Builder(this, "ID1").setShortLabel("2W Express Issuance").setLongLabel("2W Express Issuance").setIcon(Icon.createWithResource(this, R.drawable.twowheelerexpressicon_sm)).setIntent(intentExpressUrl).setRank(0).build();
+                        ShortcutInfo shortcutInfo1 = new ShortcutInfo.Builder(this, "ID1").setShortLabel("Sync Contacts").setLongLabel("Sync Contacts").setIcon(Icon.createWithResource(this, R.drawable.sync_contact)).setIntent(intentExpressUrl).setRank(0).build();
                         //health_advisory
                         ShortcutInfo shortcutInfo2 = new ShortcutInfo.Builder(this, "ID2").setShortLabel("Health Insurance").setLongLabel("Health Insurance").setIcon(Icon.createWithResource(this, R.drawable.health_insurance_sm)).setIntent(intenthealthIns).setRank(1).build();
 
@@ -2134,6 +2139,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                    nav_Menu.findItem(R.id.nav_sendSmsTemplate).setVisible(true);
 //                }
 //            }
+
+            if (userConstantEntity.getAndroidpProOuathEnabled() != null && !userConstantEntity.getAndroidpProOuathEnabled().equals("")) {
+
+                if (userConstantEntity.getAndroidpProOuathEnabled().equals("0")) {
+                    nav_Menu.findItem(R.id.nav_REQUEST).setVisible(false);
+                } else {
+                    nav_Menu.findItem(R.id.nav_REQUEST).setVisible(true);
+                }
+            }
 
         } else {
             nav_Menu.findItem(R.id.nav_mybusiness_insurance).setVisible(false);

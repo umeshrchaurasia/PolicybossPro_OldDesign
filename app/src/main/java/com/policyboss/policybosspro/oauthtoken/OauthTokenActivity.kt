@@ -1,9 +1,8 @@
 package com.policyboss.policybosspro.oauthtoken
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +14,8 @@ import com.policyboss.policybosspro.oauthtoken.model.viewmodel.OauthTokenViewMod
 import com.policyboss.policybosspro.oauthtoken.model.viewmodel.OauthTokenViewModelFactory
 import com.policyboss.policybosspro.utility.UTILITY
 import kotlinx.coroutines.launch
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
 class OauthTokenActivity : AppCompatActivity() {
@@ -22,7 +23,7 @@ class OauthTokenActivity : AppCompatActivity() {
     lateinit var binding : ActivityOauthTokenBinding
     lateinit var viewModel: OauthTokenViewModel
 
-
+    lateinit var loginResponseEntity: LoginResponseEntity
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +35,13 @@ class OauthTokenActivity : AppCompatActivity() {
         init()
         setListner()
 
-        // calling API
-        viewModel.getAuthToken(ss_id = "0", deviceID = UTILITY.getDeviceID(this@OauthTokenActivity))
+        if (loginResponseEntity != null) {
+            if (loginResponseEntity.pospNo != null) {
+                // calling API
+                viewModel.getAuthToken(ss_id =loginResponseEntity.pospNo , deviceID = UTILITY.getDeviceID(this@OauthTokenActivity))
+            }
+        }
+
 
         // displaying the response which we get from above API
         observe()
@@ -55,6 +61,8 @@ class OauthTokenActivity : AppCompatActivity() {
         var viewModelFactory = OauthTokenViewModelFactory(authRepository)
         viewModel = ViewModelProvider(this,viewModelFactory).get(OauthTokenViewModel::class.java)
 
+
+        loginResponseEntity = DBPersistanceController(this).getUserData()
 
     }
 
