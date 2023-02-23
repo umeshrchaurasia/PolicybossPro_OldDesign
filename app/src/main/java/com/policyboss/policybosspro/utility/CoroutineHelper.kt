@@ -34,7 +34,7 @@ class CoroutineHelper {
                         body.put("device_info", Gson().toJson(UTILITY.getDeviceDetail(context)))
                         body.put("action_type",action_type)
                         body.put("App_Version",
-                            "Android_PolicyBossPro-" + com.policyboss.policybosspro.BuildConfig.VERSION_NAME)
+                            "PolicyBossPro-" + com.policyboss.policybosspro.BuildConfig.VERSION_NAME)
                        // val resultRespAsync = async { RetroHelper.api.saveDeviceDetails(url, body) }
                         val resultRespAsync = async { RetroHelper.api.saveDeviceDetails(body) }
                         val resultResp = resultRespAsync.await()
