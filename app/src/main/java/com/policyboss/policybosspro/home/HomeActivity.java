@@ -645,7 +645,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_disclosure:
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "file:///android_asset/Disclosure.html").putExtra("NAME", "DISCLOSURE").putExtra("TITLE", "DISCLOSURE"));
+                           // startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "file:///android_asset/Disclosure.html").putExtra("NAME", "DISCLOSURE").putExtra("TITLE", "DISCLOSURE"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://inv.policyboss.com/qrscan.html").putExtra("NAME", "sync POLICY").putExtra("TITLE", "sync"));
                             break;
                         case R.id.nav_policy:
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));

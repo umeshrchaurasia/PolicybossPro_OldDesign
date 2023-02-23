@@ -60,6 +60,8 @@ import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteApp
 import com.policyboss.policybosspro.paymentEliteplan.RazorPaymentEliteActivity;
 import com.policyboss.policybosspro.paymentEliteplan.SyncRazorPaymentActivity;
 
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivity;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -171,22 +173,22 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         pdfFileLauncher();
-        if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
-                || name.equals("LOAN_AGREEMENT") || name.equals("LIC Business") || name.equals("OfflineQuotes")) {
-            // fab.setVisibility(View.VISIBLE);
-            fab.setVisibility(View.VISIBLE);
-        } else {
-            fab.setVisibility(View.GONE);
-        }
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-
-                downloadPdf(url, name);   //05 temp
-            }
-        });
+//        if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
+//                || name.equals("LOAN_AGREEMENT") || name.equals("LIC Business") || name.equals("OfflineQuotes")) {
+//            // fab.setVisibility(View.VISIBLE);
+//           // fab.setVisibility(View.VISIBLE);
+//        } else {
+//           // fab.setVisibility(View.GONE);
+//        }
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();*/
+//
+//                downloadPdf(url, name);   //05 temp
+//            }
+//        });
         if (isNetworkConnected()) {
             settingWebview();
             startCountDownTimer();
@@ -413,6 +415,17 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
 
         // endregion
+
+        @JavascriptInterface
+        public void getsynccontact() {
+
+            Intent intent = new Intent(CommonWebViewActivity.this, WelcomeSyncContactActivityNew.class);
+         //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+
+        }
 
         @JavascriptInterface
         public void SendShareQuotePdf(String url, String shareHtml) {

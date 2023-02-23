@@ -3,10 +3,7 @@ package com.policyboss.policybosspro.utility
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
-
 import kotlinx.coroutines.*
-import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig
-import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
 
@@ -36,6 +33,8 @@ class CoroutineHelper {
                         body.put("os_detail",UTILITY.getOS())
                         body.put("device_info", Gson().toJson(UTILITY.getDeviceDetail(context)))
                         body.put("action_type",action_type)
+                        body.put("App_Version",
+                            "Android_PolicyBossPro-" + com.policyboss.policybosspro.BuildConfig.VERSION_NAME)
                        // val resultRespAsync = async { RetroHelper.api.saveDeviceDetails(url, body) }
                         val resultRespAsync = async { RetroHelper.api.saveDeviceDetails(body) }
                         val resultResp = resultRespAsync.await()
