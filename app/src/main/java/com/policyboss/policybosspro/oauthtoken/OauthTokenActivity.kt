@@ -62,6 +62,7 @@ class OauthTokenActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this,viewModelFactory).get(OauthTokenViewModel::class.java)
 
 
+        binding.txtOauthData.text = ""
         loginResponseEntity = DBPersistanceController(this).getUserData()
 
     }

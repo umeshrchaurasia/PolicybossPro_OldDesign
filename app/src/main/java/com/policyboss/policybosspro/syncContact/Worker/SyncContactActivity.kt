@@ -25,6 +25,7 @@ import com.policyboss.policybosspro.databinding.ActivitySyncContactBinding
 import com.policyboss.policybosspro.databinding.DialogLoadingBinding
 import com.policyboss.policybosspro.utility.Constant
 import com.policyboss.policybosspro.utility.NetworkUtils
+import com.policyboss.policybosspro.utility.UTILITY
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import com.utility.finmartcontact.home.Worker.CallLogWorkManager
 import com.utility.finmartcontact.home.Worker.ContactLogWorkManager
@@ -165,6 +166,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
             .putInt(Constant.KEY_fbaid, loginResponseEntity.fbaId)
             .putString(Constant.KEY_parentid, userConstantEntity.parentid)
             .putString(Constant.KEY_ssid, userConstantEntity!!.pospNo)
+            .putString(Constant.KEY_deviceid, UTILITY.getDeviceID(this@SyncContactActivity))
             .build()
 
 

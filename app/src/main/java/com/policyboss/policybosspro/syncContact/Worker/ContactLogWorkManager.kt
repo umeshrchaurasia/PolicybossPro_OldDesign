@@ -13,10 +13,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.work.*
-import com.github.tamir7.contacts.Contacts
-import com.github.tamir7.contacts.Contacts.*
 import com.google.gson.Gson
 import com.policyboss.policybosspro.utility.Constant
+import com.policyboss.policybosspro.utility.UTILITY
 
 import com.utility.finmartcontact.core.model.ContactlistEntity
 import com.utility.finmartcontact.core.requestentity.ContactLeadRequestEntity
@@ -80,6 +79,7 @@ class ContactLogWorkManager(
         val fbaid = inputData.getInt(Constant.KEY_fbaid, 0)
         val ssid = inputData.getString(Constant.KEY_ssid)
         val parentid = inputData.getString(Constant.KEY_parentid)
+        val deviceID = inputData.getString(Constant.KEY_deviceid) ?: ""
 
         var tfbaid = ""
         var tsub_fba_id = ""
@@ -110,7 +110,7 @@ class ContactLogWorkManager(
 
             if (contactlist != null && contactlist!!.size > 0) {
 
-                var getAllContactDetails = getQuery().find()
+               // var getAllContactDetails = getQuery().find()
 
 
                 for (i in 0..contactlist!!.size - 1 step 1000) {
@@ -128,7 +128,9 @@ class ContactLogWorkManager(
                         ssid = ssid!!,
                         sub_fba_id = tsub_fba_id,
                         contactlist = subcontactlist,
-                        raw_data = Gson().toJson(getAllContactDetails)
+                        //raw_data = Gson().toJson(getAllContactDetails)
+                        device_id = deviceID,
+                        raw_data = ""
                     )
 
                         val resultResp = RetroHelper.api.saveContactLead(url, contactRequestEntity)

@@ -181,7 +181,7 @@ dependencies {
     implementation "androidx.fragment:fragment:1.5.5"
 
     // for contact and call log
-    implementation 'com.github.tamir7.contacts:contacts:1.1.7'
+   // implementation 'com.github.tamir7.contacts:contacts:1.1.7'
 
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
