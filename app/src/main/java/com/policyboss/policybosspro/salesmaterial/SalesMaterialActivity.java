@@ -113,77 +113,84 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialogMain();
-        boolean isUpdate = false;
-        if (response instanceof SalesMaterialProductResponse) {
-            mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
-            //mlistSalesProduct = getProducttList();
+        try {
+            boolean isUpdate = false;
+            if (response instanceof SalesMaterialProductResponse) {
+                mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+                //mlistSalesProduct = getProducttList();
 
-            List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
-            if (compLst != null) {
-                if (compLst.size() > 0) {
-                    for (int i = 0; i < mlistSalesProduct.size(); i++) {
-                        for (SalesProductEntity oldComEntiy : compLst) {
-                            if (mlistSalesProduct.get(i).getProduct_Id() == oldComEntiy.getProduct_Id()) {
+                List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
+                if (compLst != null) {
+                    if (compLst.size() > 0) {
+                        for (int i = 0; i < mlistSalesProduct.size(); i++) {
+                            for (SalesProductEntity oldComEntiy : compLst) {
+                                if (mlistSalesProduct.get(i).getProduct_Id() == oldComEntiy.getProduct_Id()) {
 
-                                if (oldComEntiy.getOldCount() > mlistSalesProduct.get(i).getCount()) {
-                                    isUpdate = true;
-                                    break;
+                                    if (oldComEntiy.getOldCount() > mlistSalesProduct.get(i).getCount()) {
+                                        isUpdate = true;
+                                        break;
+                                    }
+
+                                    mlistSalesProduct.get(i).setOldCount(oldComEntiy.getOldCount());
+
                                 }
-
-                                mlistSalesProduct.get(i).setOldCount(oldComEntiy.getOldCount());
-
                             }
                         }
                     }
                 }
-            }
 
 
-            // case 1 : for first time when db data is empty OR Server list size is change ie product is increased / decreased
-            // case 2 : if sever product count is lesss than db product count than db should update
+                // case 1 : for first time when db data is empty OR Server list size is change ie product is increased / decreased
+                // case 2 : if sever product count is lesss than db product count than db should update
 
-            if (compLst.size() != mlistSalesProduct.size() || isUpdate) {
-                for (int i = 0; i < mlistSalesProduct.size(); i++) {
+                if (compLst.size() != mlistSalesProduct.size() || isUpdate) {
+                    for (int i = 0; i < mlistSalesProduct.size(); i++) {
 
-                    mlistSalesProduct.get(i).setOldCount(0);
+                        mlistSalesProduct.get(i).setOldCount(0);
+                    }
+                    dbPersistanceController.storeCompanyList(mlistSalesProduct);
                 }
-                dbPersistanceController.storeCompanyList(mlistSalesProduct);
-            }
 
-            List<SalesProductEntity> tempList = new ArrayList<>();
-            if (dbPersistanceController.isHideLoan()) {
-                for (int i = 0; i < mlistSalesProduct.size(); i++) {
-                    if (mlistSalesProduct.get(i).getProduct_Id() != 5 && mlistSalesProduct.get(i).getProduct_Id() != 3 && mlistSalesProduct.get(i).getProduct_Id() != 4 && mlistSalesProduct.get(i).getProduct_Id() != 7) {
-                        tempList.add(mlistSalesProduct.get(i));
+                List<SalesProductEntity> tempList = new ArrayList<>();
+                if (dbPersistanceController.isHideLoan()) {
+                    for (int i = 0; i < mlistSalesProduct.size(); i++) {
+                        if (mlistSalesProduct.get(i).getProduct_Id() != 5 && mlistSalesProduct.get(i).getProduct_Id() != 3 && mlistSalesProduct.get(i).getProduct_Id() != 4 && mlistSalesProduct.get(i).getProduct_Id() != 7) {
+                            tempList.add(mlistSalesProduct.get(i));
+                        }
+                    }
+                } else {
+                    tempList.addAll(mlistSalesProduct);
+                }
+
+                if (userConstantEntity.getSmsTemplatesEnabled() != null) {
+                    if (!userConstantEntity.getSmsTemplatesEnabled().equals("0")) {
+
+                        // menuChild.add(MenuChild("nav_sendSmsTemplate", "Sms Templates", R.drawable.sms_template))
+                        tempList.add(new SalesProductEntity(110, "Sms Templates", "http://api.magicfinmart.com/images/salesmaterial/sms_template.png?" + Math.round(Math.random() * 100), 0));
+
                     }
                 }
-            } else {
-                tempList.addAll(mlistSalesProduct);
-            }
-            if (userConstantEntity.getSmsTemplatesEnabled() != null) {
-                if (!userConstantEntity.getSmsTemplatesEnabled().equals("0")) {
 
-                    // menuChild.add(MenuChild("nav_sendSmsTemplate", "Sms Templates", R.drawable.sms_template))
-                    tempList.add(new SalesProductEntity(110, "Sms Templates", "http://api.magicfinmart.com/images/salesmaterial/sms_template.png?" + Math.round(Math.random() * 100), 0));
+                mAdapter = new SalesMaterialAdapter(this, tempList);
+                rvSalesMaterial.setAdapter(mAdapter);
+            } else if (response instanceof SalesPromotionResponse) {
+                companyLst = ((SalesPromotionResponse) response).getMasterData().getCompany();
 
-                }
-            }
-
-            mAdapter = new SalesMaterialAdapter(this, tempList);
-            rvSalesMaterial.setAdapter(mAdapter);
-        } else if (response instanceof SalesPromotionResponse) {
-            companyLst = ((SalesPromotionResponse) response).getMasterData().getCompany();
-
-        } else if (response instanceof MyAcctDtlResponse) {
-            if (response.getStatusNo() == 0) {
-                //accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);  // 05
+            } else if (response instanceof MyAcctDtlResponse) {
+                if (response.getStatusNo() == 0) {
+                    //accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);  // 05
                 /*if (accountDtlEntity != null) {
                     setOtherDetails();
                     setPospDetails();
                     new createBitmapFromURLPosp(pospPhotoUrl).execute();
                     new createBitmapFromURFba(fbaPhotoUrl).execute();
                 }*/
+                }
             }
+
+        } catch (Exception ex)
+        {
+            ex.printStackTrace();
         }
     }
 

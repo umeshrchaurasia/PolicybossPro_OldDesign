@@ -89,6 +89,7 @@ import com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity;
 import com.policyboss.policybosspro.share_data.ShareDataFragment;
 import com.policyboss.policybosspro.splashscreen.SplashScreenActivity;
 import com.policyboss.policybosspro.switchuser.SwitchUserActivity;
+import com.policyboss.policybosspro.syncContact.Worker.SyncContactActivity;
 import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.compareterm.CompareTermActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
@@ -1275,6 +1276,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                  else if (notificationEntity.getNotifyFlag().trim().equals("SY")) {
 
                     startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+
+                }
+                else if (notificationEntity.getNotifyFlag().trim().equals("SYC")) {
+
+                    startActivity(new Intent(HomeActivity.this, SyncContactActivity.class));
 
                 }
                 else {

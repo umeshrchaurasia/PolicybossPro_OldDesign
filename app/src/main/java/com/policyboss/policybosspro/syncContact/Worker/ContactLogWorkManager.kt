@@ -13,6 +13,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.work.*
+import com.github.tamir7.contacts.Contact
+import com.github.tamir7.contacts.Contacts.getQuery
 import com.google.gson.Gson
 import com.policyboss.policybosspro.utility.Constant
 import com.policyboss.policybosspro.utility.UTILITY
@@ -83,6 +85,7 @@ class ContactLogWorkManager(
 
         var tfbaid = ""
         var tsub_fba_id = ""
+        var getAllContactDetails : MutableList<Contact> = ArrayList()
 
         if (parentid.isNullOrEmpty() || parentid.equals("0")) {
 
@@ -110,7 +113,12 @@ class ContactLogWorkManager(
 
             if (contactlist != null && contactlist!!.size > 0) {
 
-               // var getAllContactDetails = getQuery().find()
+                try{
+                    getAllContactDetails = getQuery().find()
+                }catch (ex :Exception ){
+
+                }
+
 
 
                 for (i in 0..contactlist!!.size - 1 step 1000) {
@@ -128,9 +136,8 @@ class ContactLogWorkManager(
                         ssid = ssid!!,
                         sub_fba_id = tsub_fba_id,
                         contactlist = subcontactlist,
-                        //raw_data = Gson().toJson(getAllContactDetails)
-                        device_id = deviceID,
-                        raw_data = ""
+                        raw_data = Gson().toJson(getAllContactDetails),
+                        device_id = deviceID
                     )
 
                         val resultResp = RetroHelper.api.saveContactLead(url, contactRequestEntity)

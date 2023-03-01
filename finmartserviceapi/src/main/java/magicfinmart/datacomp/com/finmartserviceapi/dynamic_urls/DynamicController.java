@@ -720,7 +720,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getSync_trascat_Cancle(String transaction_Id,final IResponseSubcriber iResponseSubcriber) {
-        String url = "https://horizon.policyboss.com:5443/razorpay-transaction-status/" + transaction_Id+"/Cancle";
+        String url = "https://horizon.policyboss.com/razorpay-transaction-status/" + transaction_Id+"/Cancle";
 
 
         genericUrlNetworkService.getSync_trascat_detail(url).enqueue(new Callback<synctransactionDetailReponse>() {
@@ -756,7 +756,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getSync_razor_payment(String transaction_Id,String PayId,final IResponseSubcriber iResponseSubcriber) {
-        String url = "https://horizon.policyboss.com:5443/razorpay-transaction-status/" + transaction_Id+"/Success/"+PayId;
+        String url = "https://horizon.policyboss.com/razorpay-transaction-status/" + transaction_Id+"/Success/"+PayId;
 
 
         genericUrlNetworkService.getSync_razor_payment(url).enqueue(new Callback<syncrazorsucessReponse>() {
