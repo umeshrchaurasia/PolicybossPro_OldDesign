@@ -1,30 +1,26 @@
 package com.utility.finmartcontact.home.Worker
 
-import android.app.Notification
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.database.Cursor
-import android.graphics.Color
-import android.os.Build
 import android.provider.ContactsContract
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.Data
+import androidx.work.WorkerParameters
 import com.github.tamir7.contacts.Contact
 import com.github.tamir7.contacts.Contacts.getQuery
 import com.google.gson.Gson
 import com.policyboss.policybosspro.utility.Constant
-import com.policyboss.policybosspro.utility.UTILITY
-
 import com.utility.finmartcontact.core.model.ContactlistEntity
 import com.utility.finmartcontact.core.requestentity.ContactLeadRequestEntity
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
+import android.content.ContentResolver
+
+
+
 
 
 /**
@@ -140,6 +136,9 @@ class ContactLogWorkManager(
                         device_id = deviceID
                     )
 
+
+                    Log.d(Constant.TAG_SAVING_CONTACT_LOG,Gson().toJson(getAllContactDetails) )
+
                         val resultResp = RetroHelper.api.saveContactLead(url, contactRequestEntity)
 
 
@@ -180,7 +179,9 @@ class ContactLogWorkManager(
             ContactsContract.Contacts.DISPLAY_NAME,
             ContactsContract.CommonDataKinds.Phone.PHOTO_URI,
             ContactsContract.CommonDataKinds.Phone.NUMBER,
-            ContactsContract.CommonDataKinds.Photo.CONTACT_ID
+            ContactsContract.CommonDataKinds.Photo.CONTACT_ID,
+             ContactsContract.Data.MIMETYPE,
+            ContactsContract.Data.DATA1
         )
 
         val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
@@ -260,6 +261,8 @@ class ContactLogWorkManager(
 
 
     }
+
+
 
 
 }

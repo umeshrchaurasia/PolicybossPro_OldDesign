@@ -2,6 +2,7 @@ package com.policyboss.policybosspro.utility
 
 import android.content.Context
 import android.util.Log
+import android.view.View
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
@@ -74,7 +75,80 @@ class CoroutineHelper {
             }
 
         }
+/*
+        @JvmStatic
+        fun getsyncDetailshorizon(context: Context,   ss_id : String, action_type : String)  : String  {
 
+            var isContactSync = "0"
+            val TAG = "HORIZONEMP"
+
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try { //showDialog()
+
+                    withContext(Dispatchers.IO){
+
+                        // var url =  "https://horizon.policyboss.com:5443/sync_contacts" + "/contact_entry"
+                        var url = "https://horizon.policyboss.com:5443/posps/dsas/view/" + ss_id
+                        val resultRespAsync = async { RetroHelper.api.getHorizonDetails(url) }
+                        val resultResp = resultRespAsync.await()
+                        if (resultResp.isSuccessful) {
+                            // cancelDialog()
+                            Log.d(TAG, resultResp.toString())
+                            if(resultResp.body()?.status.equals("SUCCESS")){
+
+                                var HorizonEmpDetailResponse = resultResp.body()
+                                isContactSync = HorizonEmpDetailResponse?.POSP?.Is_Contact_Sync.toString()
+
+                                withContext(Dispatchers.Main){
+
+                                    if (isContactSync.equals("1")) {
+
+                                       // viewPager!!.currentItem = 2
+                                       // viewPager.beginFakeDrag()
+                                       // viewPager.visibility = View.VISIBLE
+                                      //  cancelAnimDialog()
+                                    }else{
+                                     //   viewPager.visibility = View.VISIBLE
+                                     //   cancelAnimDialog()
+                                    }
+
+                                    return@withContext isContactSync
+
+                                }
+                            }else{
+                                withContext(Dispatchers.Main) {
+                                    Log.d(TAG, resultResp.toString())
+                                   // viewPager.visibility = View.VISIBLE
+                                   // cancelAnimDialog()
+                                }
+                            }
+
+
+                            // delay(8000)
+
+
+
+                        }else{
+
+                            withContext(Dispatchers.Main) {
+                                Log.d(TAG, resultResp.toString())
+                               // viewPager.visibility = View.VISIBLE
+                               // cancelAnimDialog()
+                            }
+                            // cancelDialog()
+                        }
+
+                    }
+
+                }catch (e: Exception){
+
+                    Log.d(Constants.TAG,"save_device_details: Failure")
+
+                }
+            }
+
+        }*/
 
     }
 

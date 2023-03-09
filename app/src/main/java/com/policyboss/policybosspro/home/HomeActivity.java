@@ -182,7 +182,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     UserConstantEntity userConstantEntity;
 
     MenuMasterResponse menuMasterResponse;
-    AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog, MyAccountDialog;
+    AlertDialog callingDetailDialog, finmartContacttDialog, LoanDialog, MoreServiceDialog, MyUtilitiesDialog, MyAccountDialog,MySyncPopUpAlert;
     int selectedLang = -1;
     String LANGUAGE;
 
@@ -324,6 +324,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //            new MasterController(this).getInsuranceSubType(this);
 //            new MasterController(this).getInsurerList();
             }
+            //getEnablesyncprofileupdate
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getPOSPNo() != null) {
+
+               //   String mydata =  CoroutineHelper.getsyncDetailshorizon(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
+
+                        //   if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
+                        showMySyncPopUpAlert();
+                        //   }
+
+                }
+            }
+
 
 
             checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
@@ -610,6 +623,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                             break;
+                        case R.id.nav_QA:
+                            // ConfirmMoreServiceAlert();
+                        //    startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class))
+
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://qa-www.policyboss.com/" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+
+                            //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/qrscan.html").putExtra("NAME", "Scanner").putExtra("TITLE", "Scanner"));
+
+
+                            break;
                         case R.id.nav_MYUtilities:
                             ConfirmnMyUtilitiesAlert();
 
@@ -646,8 +669,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_disclosure:
-                           // startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "file:///android_asset/Disclosure.html").putExtra("NAME", "DISCLOSURE").putExtra("TITLE", "DISCLOSURE"));
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://inv.policyboss.com/qrscan.html").putExtra("NAME", "sync POLICY").putExtra("TITLE", "sync"));
+                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "file:///android_asset/Disclosure.html").putExtra("NAME", "DISCLOSURE").putExtra("TITLE", "DISCLOSURE"));
+
+
                             break;
                         case R.id.nav_policy:
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
@@ -707,7 +731,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink, nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment, nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,
 
-                nav_AppointmentLetter, nav_Certificate, nav_TRANSACTIONS, nav_mybusiness_insurance, nav_transactionhistory, nav_MessageCentre, nav_crnpolicy, nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail, nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew, nav_cobrowser, nav_logout, nav_FreeCreditReport, nav_mybusinessLoan, nav_emicalLoan, nav_LeadSubmission;
+                nav_AppointmentLetter, nav_Certificate, nav_TRANSACTIONS, nav_mybusiness_insurance, nav_transactionhistory, nav_MessageCentre, nav_crnpolicy, nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail, nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew, nav_cobrowser, nav_logout, nav_FreeCreditReport, nav_mybusinessLoan, nav_emicalLoan, nav_LeadSubmission,nav_QA;
 
 
         Menu menu = navigationView.getMenu();
@@ -752,7 +776,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         nav_sendSmsTemplate = menu.findItem(R.id.nav_sendSmsTemplate);
         nav_OtherLoan = menu.findItem(R.id.nav_OtherLoan);
         nav_REQUEST = menu.findItem(R.id.nav_REQUEST);
-
+        nav_QA= menu.findItem(R.id.nav_QA);
         nav_MYUtilities = menu.findItem(R.id.nav_MYUtilities);
         nav_whatsnew = menu.findItem(R.id.nav_whatsnew);
         nav_cobrowser = menu.findItem(R.id.nav_cobrowser);
@@ -800,6 +824,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             menuItems.put("MenuSms", nav_sendSmsTemplate);
             menuItems.put("MenuOthLoanProds", nav_OtherLoan);
             menuItems.put("MenuMorServ", nav_REQUEST);
+            menuItems.put("MenuMorServ", nav_QA);
+
 
             menuItems.put("MenuUtil", nav_MYUtilities);
             menuItems.put("Menuwtsnew", nav_whatsnew);
@@ -1470,18 +1496,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             showMarketingPopup();
                         }
 
+                        if (userConstantEntity != null) {
+                            if (userConstantEntity.getEnablemyaccountupdate() != null) {
 
-                        if (userConstantEntity.getEnablemyaccountupdate() != null) {
+//                                if (userConstantEntity.getEnablemyaccountupdate().equals("1"))
+                                {
 
-                            if (userConstantEntity.getEnablemyaccountupdate().equals("1")) {
-
-                                if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
-                                    showMyAccountAlert();
+                                    if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
+                                        showMyAccountAlert();
+                                    }
                                 }
+
                             }
-
                         }
-
 
                         //Notification Url :-1 November
                         int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
@@ -2265,8 +2292,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
         ivMessage = (ImageView) dialogView.findViewById(R.id.ivMessage);
         btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
-
-        String url = "https://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000);
+//myaccountupdateurl
+        String url = userConstantEntity.getMyaccountupdateurl() + Math.round(Math.random() * 1000);
         ;
         Glide.with(HomeActivity.this).load(url)
                 //.placeholder(R.drawable.circle_placeholder)
@@ -2297,6 +2324,68 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         MyAccountDialog.setCanceledOnTouchOutside(true);
         MyAccountDialog.show();
     }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void showMySyncPopUpAlert() {
+        try
+        {
+            if (MySyncPopUpAlert != null && MySyncPopUpAlert.isShowing()) {
+
+                return;
+            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+
+            TextView txtTile, txtMessage;
+            ImageView ivCross, ivMessage;
+            Button btnAllow;
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_mysync_popup, null);
+
+            builder.setView(dialogView);
+            MySyncPopUpAlert = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = dialogView.findViewById(R.id.txtTile);
+            txtMessage = dialogView.findViewById(R.id.txtMessage);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+            ivMessage = (ImageView) dialogView.findViewById(R.id.ivMessage);
+            btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
+
+            String url = "http://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000);
+            ;
+            Glide.with(HomeActivity.this).load(url)
+                    //.placeholder(R.drawable.circle_placeholder)
+                    .into(ivMessage);
+
+            txtTile.setText("Update Sync Contacts!!");
+            // txtMessage.setText(getResources().getString(R.string.myaccount_update));
+
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MySyncPopUpAlert.dismiss();
+
+                }
+            });
+
+            btnAllow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MySyncPopUpAlert.dismiss();
+                    startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+
+                }
+            });
+
+            MySyncPopUpAlert.setCancelable(true);
+            MySyncPopUpAlert.setCanceledOnTouchOutside(true);
+            MySyncPopUpAlert.show();
+        }
         catch (Exception e) {
             e.printStackTrace();
         }

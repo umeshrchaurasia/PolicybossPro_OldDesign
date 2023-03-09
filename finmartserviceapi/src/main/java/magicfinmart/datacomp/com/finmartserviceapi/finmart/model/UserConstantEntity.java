@@ -208,6 +208,11 @@ public class UserConstantEntity extends RealmObject {
 
     private String notif_popupurl_elite;
 
+    private String  enablesyncprofileupdate;
+
+
+    private String myaccountupdateurl;
+
     public String getFinboxEnabled() {
         return FinboxEnabled;
     }
@@ -1161,6 +1166,15 @@ public class UserConstantEntity extends RealmObject {
         return enablemyaccountupdate;
     }
 
+    public String getMyaccountupdateurl() {
+        return myaccountupdateurl;
+    }
+
+    public void setMyaccountupdateurl(String myaccountupdateurl) {
+        this.myaccountupdateurl = myaccountupdateurl;
+    }
+
+
     public void setEnablemyaccountupdate(String enablemyaccountupdate) {
         this.enablemyaccountupdate = enablemyaccountupdate;
     }
@@ -1189,4 +1203,11 @@ public class UserConstantEntity extends RealmObject {
         this.androidproouathEnabled = androidproouathEnabled;
     }
 
+    public String getEnablesyncprofileupdate() {
+        return enablesyncprofileupdate;
+    }
+
+    public void setEnablesyncprofileupdate(String enablesyncprofileupdate) {
+        this.enablesyncprofileupdate = enablesyncprofileupdate;
+    }
 }

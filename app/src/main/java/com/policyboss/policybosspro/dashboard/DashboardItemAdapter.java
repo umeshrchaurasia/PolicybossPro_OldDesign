@@ -632,7 +632,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     invUrl = invUrl + append;
 
 //                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
-//                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
+//                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().
+//                            equalsIgnoreCase("1")) {
 //                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), invUrl);
 //                    } else
 

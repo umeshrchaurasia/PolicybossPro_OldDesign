@@ -27,7 +27,7 @@
     <string name="camera_access_required">Camera access is required to display the camera.</string>
 
     <string name="signup">Not a Member? <b><u>Sign up now!</u></b></string>
-
+    <string name="clickhere"><b><u>Click Here</u></b></string>
     <string name="threedots">&#8942;</string>
     <string name="disclosure"><b><u>DISCLOSURE</u></b></string>
 
@@ -288,8 +288,8 @@ The system is configured to monitor the number of leads generated, to the conver
     <string name="hello_first_fragment">Hello first fragment</string>
 
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="term">Terms &amp; Conditions.</string>
-    <string name="privacy">Privacy Policy.</string>
+    <string name="term">Terms &amp; Conditions  |  </string>
+    <string name="privacy">  Privacy Policy.</string>
     <string name="noInternet">No Internet Connection</string>
     <string-array name="ncb_percent">
         <item>0</item>

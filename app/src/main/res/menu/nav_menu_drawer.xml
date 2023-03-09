@@ -19,6 +19,14 @@
             android:title="Generate Login Token">
 
         </item>
+        <item
+            android:id="@+id/nav_QA"
+            android:icon="@drawable/ic_business_name"
+            android:orderInCategory="53"
+            android:visible="false"
+            android:title="QA PolicyBoss">
+
+        </item>
 
         <item
             android:id="@+id/nav_language"
