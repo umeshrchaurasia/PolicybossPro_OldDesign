@@ -331,7 +331,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                //   String mydata =  CoroutineHelper.getsyncDetailshorizon(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
 
                         //   if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
-                        showMySyncPopUpAlert();
+                       //05 temp commented
+                    // showMySyncPopUpAlert();
                         //   }
 
                 }
@@ -1499,7 +1500,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         if (userConstantEntity != null) {
                             if (userConstantEntity.getEnablemyaccountupdate() != null) {
 
-//                                if (userConstantEntity.getEnablemyaccountupdate().equals("1"))
+                               if (userConstantEntity.getEnablemyaccountupdate().equals("1"))
                                 {
 
                                     if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {

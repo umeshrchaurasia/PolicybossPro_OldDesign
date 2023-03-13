@@ -18,16 +18,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 import android.content.ContentResolver
-
-
-
+import com.policyboss.policybosspro.syncContact.Worker.ContactHelper
 
 
 /**
  * Created by Rahul on 10/06/2022.
  */
 class ContactLogWorkManager(
-    context: Context, workerParameters: WorkerParameters,
+   val context: Context, workerParameters: WorkerParameters,
 
     ) : CoroutineWorker(context, workerParameters) {
 
@@ -81,7 +79,7 @@ class ContactLogWorkManager(
 
         var tfbaid = ""
         var tsub_fba_id = ""
-        var getAllContactDetails : MutableList<Contact> = ArrayList()
+        var getAllContactDetails :  MutableList<ContactHelper.ModelContact> = mutableListOf()
 
         if (parentid.isNullOrEmpty() || parentid.equals("0")) {
 
@@ -110,7 +108,7 @@ class ContactLogWorkManager(
             if (contactlist != null && contactlist!!.size > 0) {
 
                 try{
-                    getAllContactDetails = getQuery().find()
+                    getAllContactDetails =  ContactHelper.getContact(context.applicationContext)
                 }catch (ex :Exception ){
 
                 }
