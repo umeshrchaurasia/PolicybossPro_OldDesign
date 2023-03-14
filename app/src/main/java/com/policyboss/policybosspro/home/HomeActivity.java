@@ -626,8 +626,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         case R.id.nav_QA:
                             // ConfirmMoreServiceAlert();
                         //    startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class))
-
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://qa-www.policyboss.com/" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+//https://qa-www.policyboss.com/car-insurance/document-upload
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://api.magicfinmart.com/images/android.html" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
                             //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/qrscan.html").putExtra("NAME", "Scanner").putExtra("TITLE", "Scanner"));
 

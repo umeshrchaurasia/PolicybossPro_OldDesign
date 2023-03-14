@@ -262,6 +262,11 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO hide your progress image
+                        String jsonResponse = "123456ume";
+               // webView.loadUrl("javascript:myJavaScriptFunc(' 123456ume ')");
+
+                webView.evaluateJavascript("javascript: " +
+                        "myJavaScriptFunc(\"" + jsonResponse + "\")", null);
                 cancelDialogMain();
                 super.onPageFinished(view, url);
             }
