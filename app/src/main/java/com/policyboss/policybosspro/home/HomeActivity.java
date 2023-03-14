@@ -319,6 +319,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
                    CoroutineHelper.saveDeviceDetails(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
+
+                  List<String>  data =   CoroutineHelper.getSynHorizonDetails(HomeActivity.this,loginResponseEntity.getPOSPNo());
                 }
 
 //            new MasterController(this).getInsuranceSubType(this);
