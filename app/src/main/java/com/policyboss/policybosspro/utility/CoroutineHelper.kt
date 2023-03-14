@@ -75,6 +75,14 @@ class CoroutineHelper {
             }
 
         }
+
+        @JvmStatic
+        fun getSynHorizonDetails(context: Context,   ss_id : String) : List<String>{
+
+            var myData = mutableListOf("CDDC","eedced","deded","dedede")
+
+            return myData
+        }
 /*
         @JvmStatic
         fun getsyncDetailshorizon(context: Context,   ss_id : String, action_type : String)  : String  {
