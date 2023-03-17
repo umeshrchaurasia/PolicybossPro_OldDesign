@@ -23,6 +23,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.Us
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CertificateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckAppAccessResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.GenerateLeadResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonsyncDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.NCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.SwipeDetailResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
@@ -788,5 +789,41 @@ public class DynamicController implements IDynamic {
             }
         });
 
+    }
+
+    @Override
+    public void getsyncDetailshorizon_java(String ss_id,final IResponseSubcriber iResponseSubcriber) {
+        // String url = "https://horizon.policyboss.com:5443/razorpay_payment/transaction_details/" + transaction_Id;
+
+        String url = "https://horizon.policyboss.com:5443/posps/dsas/view/" + ss_id;
+
+        genericUrlNetworkService.getsyncDetailshorizondetail(url).enqueue(new Callback<HorizonsyncDetailsResponse>() {
+            @Override
+            public void onResponse(Call<HorizonsyncDetailsResponse> call, Response<HorizonsyncDetailsResponse> response) {
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), "response.body().getMessage()");
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HorizonsyncDetailsResponse> call, Throwable t) {
+
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+
+            }
+        });
     }
 }

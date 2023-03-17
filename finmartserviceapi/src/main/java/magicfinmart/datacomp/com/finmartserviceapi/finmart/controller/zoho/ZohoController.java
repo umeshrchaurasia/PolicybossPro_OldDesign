@@ -325,16 +325,18 @@ public class ZohoController implements IZoho {
     @Override
     public void uploadCommonDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = BuildConfig.NODE_URL + "/pb_upload_doc";
+       // String url = BuildConfig.NODE_URL + "/policyboss_upload_doc";
+        String url = "http://qa-horizon.policyboss.com:3000/postservicecall/policyboss_upload_doc";
+
         zohoNetworkService.uploadCommonDocumentWeb(url , document, body).enqueue(new Callback<CommonWebDocResponse>() {
             @Override
             public void onResponse(Call<CommonWebDocResponse> call, Response<CommonWebDocResponse> response) {
                 if (response.body() != null) {
-                    if (response.body().getStatusNo() == 0) {
+                    if (response.body().getStatus().equals("Success")) {
                         //callback of data
-                        iResponseSubcriber.OnSuccess(response.body(), "");
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMsg());
                     } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
                     }
 
 

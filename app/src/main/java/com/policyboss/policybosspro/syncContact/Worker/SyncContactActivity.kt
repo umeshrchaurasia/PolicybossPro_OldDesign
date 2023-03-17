@@ -2,7 +2,6 @@ package com.policyboss.policybosspro.syncContact.Worker
 
 import android.Manifest
 import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.ColorDrawable
@@ -12,7 +11,6 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -28,7 +26,6 @@ import com.policyboss.policybosspro.utility.NetworkUtils
 import com.policyboss.policybosspro.utility.UTILITY
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import com.utility.finmartcontact.home.Worker.CallLogWorkManager
-import com.utility.finmartcontact.home.Worker.ContactLog1WorkManager
 import com.utility.finmartcontact.home.Worker.ContactLogWorkManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
@@ -200,7 +197,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         // Todo : For Chain (Parallel Chaining)
         val parallelWorks: MutableList<OneTimeWorkRequest> = mutableListOf<OneTimeWorkRequest>()
         parallelWorks.add(ContactWorkRequest)
-      //  parallelWorks.add(callLogWorkRequest)
+        parallelWorks.add(callLogWorkRequest)
         workManager.beginWith(parallelWorks)
             .enqueue()
 

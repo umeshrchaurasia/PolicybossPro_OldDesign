@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.response;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CommondocEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RaiseDocWebEntity;
 
 /**
@@ -8,40 +9,36 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RaiseDocWebEnti
  */
 public class CommonWebDocResponse extends APIResponse {
     /**
-     * MasterData : {"file_name":"image_ic","file_path":"/var/www/Production/HorizonAPI/SourceCode/tmp/ticketing/1583399294722.png"}
+     {
+     "Msg": "doc saved",
+     "Data": {
+     "crn": "1098058",
+     "document_id": "FAGPS8388E",
+     "document_type": "PAN",
+     "insurer_id": "10",
+     "file_path": "/tmp/kyc_documents/1098058_FAGPS8388E_10.JPG"
+     },
+     "Status": "Success"
+     }
      */
 
-    private RaiseDocWebEntity MasterData;
+    private String Msg;
 
-    public RaiseDocWebEntity getMasterData() {
-        return MasterData;
+
+
+    public String getMsg() { return Msg; }
+    public void setMsg(String value) { this.Msg = value; }
+
+
+
+    private CommondocEntity Data;
+
+    public CommondocEntity getMasterData() {
+        return Data;
     }
 
-    public void setMasterData(RaiseDocWebEntity MasterData) {
-        this.MasterData = MasterData;
+    public void setMasterData(CommondocEntity Data) {
+        this.Data = Data;
     }
-
-
-    /**
-     * MasterData : {"file_name":"image_ic","file_path":"/var/www/Production/HorizonAPI/SourceCode/tmp/ticketing/1583397445822.png"}
-     */
-
-//    private RaiseDocWebEntity MasterData;
-//
-//    public RaiseDocWebEntity getMasterData() {
-//        return MasterData;
-//    }
-//
-//    public void setMasterData(RaiseDocWebEntity MasterData) {
-//        this.MasterData = MasterData;
-//    }
-
-
-
-
-    /**
-     * MasterData : /var/www/Production/HorizonAPI/SourceCode/tmp/ticketing/1583391059828.png
-     */
-
 
 }

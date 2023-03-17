@@ -71,6 +71,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Locale;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -136,13 +137,14 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     MultipartBody.Part part;
     HashMap<String, String> body;
 
-    private String DocCommonID = "", DocCommonCrn = "", DocCommonType = "", DocCommonPath = "";
+    private String DocCommonID = "", DocCommonCrn = "", DocCommonType = "", Docinsurer_id = "";
 
 
     androidx.appcompat.app.AlertDialog alertDialog;
     //endregion
 
     Dialog showDialog ;
+    String jsonResponse_doc="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,6 +175,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         pdfFileLauncher();
+
 //        if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
 //                || name.equals("LOAN_AGREEMENT") || name.equals("LIC Business") || name.equals("OfflineQuotes")) {
 //            // fab.setVisibility(View.VISIBLE);
@@ -189,6 +192,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 //                downloadPdf(url, name);   //05 temp
 //            }
 //        });
+
+
+
         if (isNetworkConnected()) {
             settingWebview();
             startCountDownTimer();
@@ -262,14 +268,17 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO hide your progress image
-                        String jsonResponse = "123456ume";
-               // webView.loadUrl("javascript:myJavaScriptFunc(' 123456ume ')");
 
-                webView.evaluateJavascript("javascript: " +
-                        "myJavaScriptFunc(\"" + jsonResponse + "\")", null);
+               // webView.loadUrl("javascript:myJavaScriptFunc(' 123456ume ')");
+//                if(jsonResponse_doc!="") {
+//                    webView.evaluateJavascript("javascript: " +
+//                            "viewImageData(\"" + jsonResponse_doc + "\")", null);
+//                }
                 cancelDialogMain();
+
                 super.onPageFinished(view, url);
             }
+
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -318,6 +327,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         } else {
             webView.loadUrl(url);
         }
+
         //webView.loadUrl(url);
     }
 
@@ -413,9 +423,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
 
         @JavascriptInterface
-        public void Upload_document(String id, String crn, String FileType , String FilePath ) {
+        public void Upload_document(String crn, String document_id, String document_type , String insurer_id ) {
 
-            galleryCamPopUp_Common(id,crn,FileType,FilePath);
+            galleryCamPopUp_Common(crn,document_id,document_type,insurer_id);
 
         }
 
@@ -431,6 +441,14 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
 
         }
+        @JavascriptInterface
+        public void openbrowser(String url) {
+
+            Utility.loadWebViewUrlInBrowser(CommonWebViewActivity.this, url);
+
+        }
+
+
 
         @JavascriptInterface
         public void SendShareQuotePdf(String url, String shareHtml) {
@@ -606,16 +624,17 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     }
 
 
-    public void galleryCamPopUp_Common(String id, String crn, String FileType , String FilePath) {
+    public void galleryCamPopUp_Common(String crn, String document_id, String document_type , String insurer_id) {
 
         DOC_TYPE =  "COMMON";
-        DocCommonID = id;
         DocCommonCrn = crn;
-        DocCommonType = FileType;
-        DocCommonPath = FilePath;
+        DocCommonID = document_id;
 
-        PHOTO_File = "policyBoss_file" + "_" + id;
-        Log.i("RAISE_TICKET Uploding", PHOTO_File);
+        DocCommonType = document_type;
+        Docinsurer_id = insurer_id;
+
+        PHOTO_File = "policyBoss_file" + "_" + document_id;
+        Log.i("All Uploding", PHOTO_File);
 
         if (!checkPermission()) {
 
@@ -870,9 +889,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                                         case "COMMON": {
 
                                             // Change Here
-                                            body = Utility.getBody_Common(CommonWebViewActivity.this, DocCommonID, DocCommonCrn, DocCommonType, DocCommonPath);
+                                            body = Utility.getBody_Common(CommonWebViewActivity.this, DocCommonID, DocCommonCrn, DocCommonType, Docinsurer_id);
 
-                                            part = Utility.getMultipartImage(file, "doc_type");
+                                            part = Utility.getMultipartImage(file, "file_1");
 
 
                                             new ZohoController(CommonWebViewActivity.this).uploadCommonDocuments(part, body, CommonWebViewActivity.this);
@@ -892,6 +911,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                     }
                 });
     }
+
     private void launchCamera() {
 
 
@@ -1106,9 +1126,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                             file = saveImageToStorage(mphoto, PHOTO_File);
                             // setProfilePhoto(mphoto);
 
-                            body = Utility.getBody_Common(this, DocCommonID, DocCommonCrn,DocCommonType,DocCommonPath);
+                            body = Utility.getBody_Common(this, DocCommonID, DocCommonCrn,DocCommonType,Docinsurer_id);
 
-                            part = Utility.getMultipartImage(file, "doc_type");
+                            part = Utility.getMultipartImage(file, "file_1");
 
                             new ZohoController(CommonWebViewActivity.this).uploadCommonDocuments(part, body, CommonWebViewActivity.this);
 
@@ -1160,6 +1180,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 //////////// When Dialog Page Called via Base Activity below method raised
                 uploadWebViewRaiserPath(jsonResponse);
 
+
             } else {
                 Toast.makeText(CommonWebViewActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -1167,25 +1188,32 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
 
         else  if (response instanceof CommonWebDocResponse) {
-            if (response.getStatusNo() == 0) {
+            if (((CommonWebDocResponse) response).getStatus().equals("Success")) {
 
 
-                Toast.makeText(CommonWebViewActivity.this, response.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CommonWebViewActivity.this, ((CommonWebDocResponse) response).getMsg(), Toast.LENGTH_LONG).show();
 //                String jsonResponse =  new Gson().toJson(response).toString();
 //                jsonResponse = jsonResponse.replace("\"", "'");
 
-                String jsonResponse = ((RaiseTicketWebDocResponse) response).getMasterData().getFile_name() + "|" +
-                        ((RaiseTicketWebDocResponse) response).getMasterData().getFile_path();
-                Log.i("RAISE_TICKET RESPONSE", jsonResponse);
+       //         jsonResponse_doc = ((CommonWebDocResponse) response).getMasterData().getCrn() + "|" +
+      //                  ((CommonWebDocResponse) response).getMasterData().getDocumentID()+ "|" + ((CommonWebDocResponse) response).getMasterData().getDocumentType()+ "|"
+       //                 +((CommonWebDocResponse) response).getMasterData().getInsurerID();
+                Log.i("Common doc RESPONSE", jsonResponse_doc);
 
                 // Sending Data to Web Using evaluateJavascript
                 // When Activty Page Called than This One is rasied.
+            String   op_getCrn = ((CommonWebDocResponse) response).getMasterData().getCrn().replace("\"", "");
+            String getDocumentID= ((CommonWebDocResponse) response).getMasterData().getDocumentID().replace("\"", "");
+
+                jsonResponse_doc = op_getCrn+ "|" + getDocumentID;
+
+              //  jsonResponse_doc="12345678";
                 webView.evaluateJavascript("javascript: " +
-                        "uploadImagePath(\"" + jsonResponse + "\")", null);
+                        "viewImageData(\"" + jsonResponse_doc + "\")", null);
 
 
                 //////////// When Dialog Page Called via Base Activity below method raised
-                uploadWebViewRaiserPath(jsonResponse);
+         //       uploadWebViewdocPath(webView,jsonResponse_doc);
 
             } else {
                 Toast.makeText(CommonWebViewActivity.this, response.getMessage(), Toast.LENGTH_SHORT).show();

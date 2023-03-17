@@ -1469,6 +1469,15 @@ public class BaseActivity extends AppCompatActivity {
        }
     }
 
+
+    public void uploadWebViewdocPath(WebView webView1,String jsonResponse )
+    {
+        if(webView != null) {
+            webView.evaluateJavascript("javascript: " +
+                    "viewImageData(\"" + jsonResponse + "\")", null);
+        }
+    }
+
     public class MyJavaScriptInterface {
         Context mContext;
         String data;

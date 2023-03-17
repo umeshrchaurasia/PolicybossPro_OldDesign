@@ -171,14 +171,14 @@ public class Utility {
     }
 
 
-    public static HashMap<String, String> getBody_Common(Context context, String id, String  crn, String FileType, String FilePath) {
+    public static HashMap<String, String> getBody_Common(Context context, String id, String  crn, String FileType, String insurer_id) {
         HashMap<String, String> body = new HashMap<String, String>();
 
-
-        body.put("id", id);
         body.put("crn", crn);
-        body.put("filetype", FileType);
-        body.put("filepath", FilePath);
+        body.put("document_id", id);
+        body.put("insurer_id", insurer_id);
+        body.put("document_type", FileType);
+
 
 
         return body;

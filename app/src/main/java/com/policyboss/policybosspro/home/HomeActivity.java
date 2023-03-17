@@ -131,6 +131,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.synctransactionDetailEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.SyncContactEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonsyncDetailsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctransactionDetailReponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -193,6 +198,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     LinearLayout llSwitchUser;
     DashboardMultiLangEntity dashboardShareEntity;
+    SyncContactEntity syncContactEntity;
 
     ShortcutManager shortcutManager = null;
     String deeplink_value="";
@@ -238,7 +244,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         setContentView(R.layout.activity_home);
         registerPopUp(this);
@@ -320,26 +325,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                    CoroutineHelper.saveDeviceDetails(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
 
-                  List<String>  data =   CoroutineHelper.getSynHorizonDetails(HomeActivity.this,loginResponseEntity.getPOSPNo());
+                //  List<String>  data =   CoroutineHelper.getSynHorizonDetails(HomeActivity.this,loginResponseEntity.getPOSPNo());
                 }
 
 //            new MasterController(this).getInsuranceSubType(this);
 //            new MasterController(this).getInsurerList();
             }
+
+
             //getEnablesyncprofileupdate
             if (loginResponseEntity != null) {
                 if (loginResponseEntity.getPOSPNo() != null) {
 
-               //   String mydata =  CoroutineHelper.getsyncDetailshorizon(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
+                    showDialogMain();
 
-                        //   if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
-                       //05 temp commented
+                    new DynamicController(this).getsyncDetailshorizon_java(loginResponseEntity.getPOSPNo(),this);
+
+                    //   String mydata =  CoroutineHelper.getsyncDetailshorizon(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
+                    //   if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
+                    //05 temp commented
                     // showMySyncPopUpAlert();
-                        //   }
+                    //   }
 
                 }
             }
-
 
 
             checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
@@ -629,10 +638,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         case R.id.nav_QA:
                             // ConfirmMoreServiceAlert();
                         //    startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class))
-//https://qa-www.policyboss.com/car-insurance/document-upload
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://api.magicfinmart.com/images/android.html" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+//https://qa-www.policyboss.com/car-insurance/document-uploadhttps://qa-www.policyboss.com/car-insurance/document-upload
+                        //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://api.magicfinmart.com/images/android.html" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
-                            //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/qrscan.html").putExtra("NAME", "Scanner").putExtra("TITLE", "Scanner"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com/car-insurance/proposal-summary").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
 
                             break;
@@ -1624,7 +1633,24 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         }
                     }
                 }
+            }  else if (response instanceof HorizonsyncDetailsResponse) {
+
+                if (((HorizonsyncDetailsResponse) response).getStatus().equals("SUCCESS")) {
+
+                    syncContactEntity = ((HorizonsyncDetailsResponse) response).getResult();
+
+
+                    if (syncContactEntity != null) {
+                        if(!syncContactEntity.getActionNeeded().equals("NO_ACTION")) {
+                            showMySyncPopUpAlert(syncContactEntity);
+                        }
+                    }
+
+
+                }
             }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2333,7 +2359,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
 
-    public void showMySyncPopUpAlert() {
+    public void showMySyncPopUpAlert(SyncContactEntity syncContactEntity) {
         try
         {
             if (MySyncPopUpAlert != null && MySyncPopUpAlert.isShowing()) {
@@ -2347,6 +2373,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             Button btnAllow;
             LayoutInflater inflater = this.getLayoutInflater();
 
+            String ACTION_NEEDED= syncContactEntity.getActionNeeded();
+            String FIRST_SYNC_CAMPAIGN_CREATIVE= syncContactEntity.getFirstSyncCampaignCreative();
+            String RE_SYNC_CAMPAIGN_CREATIVE= syncContactEntity.getReSyncCampaignCreative();
+            String url ="";
+            String texttitledisplay="";
+
             final View dialogView = inflater.inflate(R.layout.layout_mysync_popup, null);
 
             builder.setView(dialogView);
@@ -2358,13 +2390,32 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             ivMessage = (ImageView) dialogView.findViewById(R.id.ivMessage);
             btnAllow = (Button) dialogView.findViewById(R.id.btnAllow);
 
-            String url = "http://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000);
-            ;
+//            if(ACTION_NEEDED)
+//            {}
+//            else {}
+
+            if(ACTION_NEEDED.equals("RE_SYNC")) {
+                texttitledisplay="Update Resync Contacts!!";
+                url = RE_SYNC_CAMPAIGN_CREATIVE +"?" + Math.round(Math.random() * 1000);
+                btnAllow.setText("Go To Resync Contacts");
+
+            }else
+            {
+                texttitledisplay="Update Sync Contacts!!";
+                url = FIRST_SYNC_CAMPAIGN_CREATIVE +"?" + Math.round(Math.random() * 1000);
+                btnAllow.setText("Go To Sync Contacts");
+            }
+
+
+           //  url = "http://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000);
+
+
+
             Glide.with(HomeActivity.this).load(url)
                     //.placeholder(R.drawable.circle_placeholder)
                     .into(ivMessage);
 
-            txtTile.setText("Update Sync Contacts!!");
+            txtTile.setText(texttitledisplay);
             // txtMessage.setText(getResources().getString(R.string.myaccount_update));
 
 
@@ -2380,7 +2431,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     MySyncPopUpAlert.dismiss();
-                    startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                    if(ACTION_NEEDED.equals("RE_SYNC")) {
+                        startActivity(new Intent(HomeActivity.this, SyncContactActivity.class));
+                    }else
+                    {
+                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                    }
 
                 }
             });
