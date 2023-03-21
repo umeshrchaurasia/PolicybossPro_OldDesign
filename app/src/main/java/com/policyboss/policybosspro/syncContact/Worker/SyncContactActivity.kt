@@ -11,6 +11,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -44,6 +45,10 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     var  maxProgressContact = 0
     var remainderProgressContact = 0
 
+    var progressBar: ProgressBar? = null
+    var progress_circular : ProgressBar? = null
+    lateinit var  txtPercent :TextView
+
     var perms = arrayOf(
         "android.permission.READ_CONTACTS",
         "android.permission.READ_CALL_LOG"
@@ -64,6 +69,9 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
             setDisplayHomeAsUpEnabled(true)
             setTitle("Sync Contact & Call Log")
         }
+        progressBar = findViewById(R.id.progressBar)
+        progress_circular = findViewById(R.id.progress_circular)
+        txtPercent = findViewById(R.id.txtPercent)
 
         dialogAnim = Dialog(this)
 
@@ -71,7 +79,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         userConstantEntity = DBPersistanceController(this).userConstantsData
 
 
-        binding.includedSyncContact.CvSync.setOnClickListener(this)
+      //  binding.includedSyncContact.CvSync.setOnClickListener(this)
 
       //  binding.includedSyncContact.CvLeaddashboard.setOnClickListener(this)
 
@@ -92,7 +100,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view!!.id){
 
-
+/*
         R.id.CvSync -> {
 
             //region commented
@@ -119,7 +127,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
 
 
-        }
+        }*/
 //        R.id.CvLeaddashboard -> {
 //            startActivity(Intent(this, CommonWebViewActivity::class.java) // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
 //                .putExtra("URL", "" + userConstantEntity.leadDashUrl)
@@ -134,13 +142,13 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
     fun initData(){
 
-//        currentProgress =0
-//        maxProgress = 0
-//        binding.includedSyncContact.progressBar!!.setProgress(currentProgress)
-//        binding.includedSyncContact.progressBarButton.visibility = View.VISIBLE
-//        binding.includedSyncContact.lySync.visibility = View.VISIBLE
-//        binding.includedSyncContact.CvSync.isEnabled = false
-//        binding.includedSyncContact.txtPercent.text = "0%"
+        currentProgress =0
+        maxProgress = 0
+        binding.includedSyncContact.progressBar!!.setProgress(currentProgress)
+        binding.includedSyncContact.progressBarButton.visibility = View.VISIBLE
+        binding.includedSyncContact.lySync.visibility = View.VISIBLE
+        binding.includedSyncContact.CvSync.isEnabled = false
+        binding.includedSyncContact.txtPercent.text = "0%"
 
         binding.includedSyncContact.txtMessage.text = ""
         binding.includedSyncContact.txtCount.text = ""
@@ -151,8 +159,6 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun setOneTimeRequestWithCoroutine() {
-
-
 
 
         binding.includedSyncContact.lySync.visibility = View.VISIBLE
@@ -214,7 +220,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                     val progress = workInfo.progress
                     val valueprogress = progress.getInt(Constant.CALL_LOG_Progress, 0)
                     val valueMaxProgress = progress.getInt(Constant.CALL_LOG_MAXProgress, 0)
-                   // updateProgrees(valueprogress, valueMaxProgress)  // Requirement :-->  no need to show prog
+                   updateProgrees(valueprogress, valueMaxProgress)  // Requirement :-->  no need to show prog
                     Log.d(
                         "CALL_LOG",
                         "MaxProgress Progress :--> ${valueMaxProgress} and currentProgress :  ${valueprogress}"
@@ -379,8 +385,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                         initData()
                         setOneTimeRequestWithCoroutine()
                     } else {
-                        Snackbar.make(binding.includedSyncContact.CvSync, "No Internet Connection", Snackbar.LENGTH_SHORT)
-                            .show()
+                      Snackbar.make(binding.includedSyncContact.CvSync, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
                     }
 
                 }else{
@@ -474,12 +479,13 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         successAlert()
         cancelAnimDialog()
 
-//        binding.includedSyncContact.CvSync.isEnabled = true
-//
-//        binding.includedSyncContact.txtPercent.text ="100%"
-//        binding.includedSyncContact.progressBar!!.max = 100
-//        binding.includedSyncContact.progressBar!!.setProgress(100)
-//        binding.includedSyncContact.progressBarButton.visibility = View.GONE
+       // binding.includedSyncContact.CvSync.isEnabled = true
+
+        binding.includedSyncContact.txtPercent.text ="100%"
+        binding.includedSyncContact.progressBar!!.max = 100
+        binding.includedSyncContact.progressBar!!.setProgress(100)
+        binding.includedSyncContact.progressBarButton.visibility = View.GONE
+        progress_circular!!.visibility = View.GONE
 
     }
 
@@ -490,7 +496,8 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         cancelAnimDialog()
 
      // binding.includedSyncContact.CvSync.isEnabled = true
-      //  binding.includedSyncContact.progressBarButton.visibility = View.GONE
+        binding.includedSyncContact.progressBarButton.visibility = View.GONE
+        progress_circular!!.visibility = View.GONE
     }
 
 

@@ -639,9 +639,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             // ConfirmMoreServiceAlert();
                         //    startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class))
 //https://qa-www.policyboss.com/car-insurance/document-uploadhttps://qa-www.policyboss.com/car-insurance/document-upload
-                        //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://api.magicfinmart.com/images/android.html" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://api.magicfinmart.com/images/android.html?123" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com/car-insurance/proposal-summary").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
 
                             break;

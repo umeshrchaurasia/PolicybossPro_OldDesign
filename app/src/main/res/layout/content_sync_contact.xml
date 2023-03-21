@@ -73,7 +73,7 @@
                         android:indeterminate="true"
                         android:indeterminateTint="@color/white"
                         android:indeterminateTintMode="src_atop"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         tools:targetApi="lollipop" />
                 </RelativeLayout>
 
@@ -89,6 +89,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="visible">
+
+                <ProgressBar
+                    android:id="@+id/progress_circular"
+                    android:layout_marginTop="@dimen/fab_margin"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:progressDrawable="@drawable/custom_progress_bg"
+                    android:layout_width="40dp"
+                    android:layout_gravity="center"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:visibility="visible" />
+
 
                 <View
                     android:layout_width="match_parent"
@@ -108,12 +121,12 @@
                     android:layout_marginRight="8dp"
 
 
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
 
                 <RelativeLayout
 
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
@@ -194,16 +207,6 @@
                 android:background="@color/gray_divider_color" />
 
 
-            <ProgressBar
-                android:id="@+id/progress_circular"
-                android:layout_marginTop="@dimen/fab_margin"
-                style="?android:attr/progressBarStyleLarge"
-                android:progressDrawable="@drawable/custom_progress_bg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:visibility="gone" />
 
 
         </LinearLayout>
