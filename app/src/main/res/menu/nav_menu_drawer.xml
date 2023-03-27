@@ -29,18 +29,22 @@
         </item>
 
         <item
+            android:id="@+id/nav_attendance"
+            android:icon="@drawable/ic_business_name"
+            android:orderInCategory="58"
+            android:visible="true"
+            android:title="PB Attendance">
+
+        </item>
+
+
+        <item
             android:id="@+id/nav_language"
             android:icon="@drawable/logout"
             android:orderInCategory="100"
             android:title="Switch Language"
             android:visible="false" />
 
-        <item
-            android:id="@+id/nav_attendance"
-            android:icon="@drawable/logout"
-            android:orderInCategory="100"
-            android:title="My Attendance"
-            android:visible="false" />
 
         <item
             android:id="@+id/nav_finbox"

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Attendance.PolicyBossAttendanceActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:id="@+id/lyParent"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="100"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Get My Current Location"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                style="@style/ButtonStyle.Colored"
+                android:padding="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+
+            android:background="@color/seperator" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/textLatitudedesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="top"
+                android:textStyle="bold"
+                android:text="Latitude :  "
+                android:textAppearance="@style/TextStyle.TextLarge"
+                android:textColor="@color/dashboard_title" />
+
+
+            <TextView
+                android:id="@+id/tv_latitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/textLatitudedesc"
+
+                android:gravity="top"
+                android:text=""
+                android:textColor="@color/header_light_text"
+                android:textStyle="bold"
+
+                android:textAppearance="@style/TextStyle.TextMedium" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/textLongitudedesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="top"
+                android:textStyle="bold"
+
+                android:text="Longitude :  "
+                android:textAppearance="@style/TextStyle.TextLarge"
+                android:textColor="@color/dashboard_title" />
+
+
+            <TextView
+                android:id="@+id/tv_longitude"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/textLongitudedesc"
+
+
+                android:text=""
+                android:textColor="@color/header_light_text"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextStyle.TextMedium"
+
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_weight="100"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_submit_attendance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Submit Attendance"
+                android:visibility="gone"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                style="@style/ButtonStyle.Colored"
+
+                android:padding="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="5dp"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/seperator"
+            android:visibility="visible" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_button"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:layout_marginTop="8dp"
+            android:text="Attendance History"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvOfflineItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:scrollbarStyle="insideOverlay" />
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>
