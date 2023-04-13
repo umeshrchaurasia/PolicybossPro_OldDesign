@@ -3,7 +3,10 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.Synco
 import com.utility.finmartcontact.core.requestentity.CallLogRequestEntity
 import com.utility.finmartcontact.core.requestentity.ContactLeadRequestEntity
 import com.utility.finmartcontact.core.response.ContactLogResponse
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckboxsaveResponse
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonEmpDetailResponse
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.Horizon_sync_contact_agree_Response
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncContact.SaveCheckboxRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse
@@ -25,8 +28,12 @@ interface SyncContactInterface {
     suspend fun saveCallLog(@Url url: String, @Body body : CallLogRequestEntity): Response<ContactLogResponse>
 
     @GET()
-    suspend fun getHorizonDetails(@Url url: String): Response<HorizonEmpDetailResponse>
+    suspend fun getHorizonDetails(@Url url: String): Response<Horizon_sync_contact_agree_Response>
 
+
+
+    @POST()
+    suspend fun savecheckboxdetails(@Url url: String, @Body body : SaveCheckboxRequestEntity): Response<CheckboxsaveResponse>
 
     @POST()
     suspend fun saveCallLogOld(@Url url: String, @Body body : CallLogRequestEntity): Call<ContactLogResponse>

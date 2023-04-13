@@ -21,7 +21,7 @@ import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
-import com.policyboss.policybosspro.health.HealthQuoteAppActivity;
+
 import com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpListActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity;
@@ -293,7 +293,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String motorUrl = dbPersistanceController.getUserConstantsData().getFourWheelerUrl();
 
                     try {
-                        ipaddress = Utility.getMacAddress(mContext.getActivity());
+                        ipaddress = "";
                     } catch (Exception io) {
                         ipaddress = "0.0.0.0";
                     }
@@ -325,7 +325,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                 try {
-                    ipaddress = Utility.getMacAddress(mContext.getActivity());
+                    ipaddress = "";
                 } catch (Exception io) {
                     ipaddress = "0.0.0.0";
                 }
@@ -374,7 +374,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                         try {
-                            ipaddress = Utility.getMacAddress(mContext.getActivity());
+                            ipaddress = "";
                         } catch (Exception io) {
                             ipaddress = "0.0.0.0";
                         }
@@ -512,7 +512,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                     try {
-                        ipaddress = Utility.getMacAddress(mContext.getActivity());
+                        ipaddress = "";
                     } catch (Exception io) {
                         ipaddress = "0.0.0.0";
                     }
@@ -552,7 +552,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                 try {
-                    ipaddress = Utility.getMacAddress(mContext.getActivity());
+                    ipaddress = "";
                 } catch (Exception io) {
                     ipaddress = "0.0.0.0";
                 }
@@ -620,7 +620,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     String invUrl = dbPersistanceController.getUserConstantsData().getInvestmentUrl();
 
                     try {
-                        ipaddress = Utility.getMacAddress(mContext.getActivity());
+                        ipaddress = "";
                     } catch (Exception io) {
                         ipaddress = "0.0.0.0";
                     }
@@ -678,7 +678,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     if (!dynamicUrl.isEmpty()) {
 
                         try {
-                            ipaddress = Utility.getMacAddress(mContext.getActivity());
+                            ipaddress = "";
                         } catch (Exception io) {
                             ipaddress = "0.0.0.0";
                         }

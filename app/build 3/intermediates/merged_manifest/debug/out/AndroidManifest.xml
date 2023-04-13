@@ -381,40 +381,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
         </activity>
-        <activity
-            android:name="com.policyboss.policybosspro.health.HealthQuoteAppActivity"
-            android:label="Health Insurance"
-            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.policyboss.policybosspro.home.HomeActivity" />
-        </activity>
-        <activity
-            android:name="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity"
-            android:label="Quotes"
-            android:parentActivityName="com.policyboss.policybosspro.health.HealthQuoteAppActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.policyboss.policybosspro.health.HealthQuoteAppActivity" />
-        </activity>
-        <activity
-            android:name="com.policyboss.policybosspro.health.fragment.HealthMemberDetailsDialogActivity"
-            android:label="@string/title_activity_health_member_details_dialog"
-            android:noHistory="true"
-            android:parentActivityName="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity" />
-        </activity>
+
+
         <activity
             android:name="com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpPlansActivity"
             android:label="@string/title_activity_health_check_up_plans"
@@ -667,28 +635,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
-        <activity
-            android:name="com.policyboss.policybosspro.health.compare.HealthCompareActivity"
-            android:label="@string/title_activity_health_compare"
-            android:noHistory="true"
-            android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity" />
-        </activity>
-        <activity
-            android:name="com.policyboss.policybosspro.health.fragment.HealthQuoteDetailsDialogActivity"
-            android:noHistory="true"
-            android:parentActivityName="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity" />
-        </activity>
+
         <activity
             android:name="com.policyboss.policybosspro.term.quoteapp.TermQuoteApplicationActivity"
             android:label="@string/title_activity_term_quote_application"

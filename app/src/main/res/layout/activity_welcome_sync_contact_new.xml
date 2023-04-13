@@ -185,7 +185,7 @@
     <CheckBox
         android:layout_marginTop="1dp"
         style="@style/TextViewStyle.Medium"
-        android:id="@+id/chkcommunication"
+        android:id="@+id/chkcommunication_sms"
         android:gravity="top"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="20dp"
@@ -196,7 +196,7 @@
     <CheckBox
         android:layout_marginTop="5dp"
         style="@style/TextViewStyle.Medium"
-        android:id="@+id/chktele"
+        android:id="@+id/chktele_call"
         android:gravity="top"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="20dp"

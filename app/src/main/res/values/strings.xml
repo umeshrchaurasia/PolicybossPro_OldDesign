@@ -280,7 +280,7 @@ The system is configured to monitor the number of leads generated, to the conver
     <string name="title_activity_switch_user">SwitchUserActivity</string>
 
     <string name="title_activity_festival_share">festivalShareActivity</string>
-    <string name="title_activity_razor_payment">Finmart Payment</string>
+    <string name="title_activity_razor_payment">PolicyBoss Payment</string>
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>

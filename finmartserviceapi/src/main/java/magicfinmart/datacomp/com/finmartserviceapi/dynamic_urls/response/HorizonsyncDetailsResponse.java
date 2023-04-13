@@ -1,5 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response;
 
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.POSPHorizonEnity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.SyncContactEntity;
 
 
@@ -12,7 +13,7 @@ public class  HorizonsyncDetailsResponse  extends APIResponse {
     private String channel;
 
     private SyncContactEntity SYNC_CONTACT;
-
+    private POSPHorizonEnity POSP;
 
     public String getUserType() { return user_type; }
     public void setUserType(String value) { this.user_type = value; }
@@ -36,6 +37,14 @@ public class  HorizonsyncDetailsResponse  extends APIResponse {
 
     public void setResult(SyncContactEntity syncContact_result) {
         this.SYNC_CONTACT = syncContact_result;
+    }
+
+    public POSPHorizonEnity getPOSP() {
+        return POSP;
+    }
+
+    public void setPOSP(POSPHorizonEnity POSP) {
+        this.POSP = POSP;
     }
 
 }

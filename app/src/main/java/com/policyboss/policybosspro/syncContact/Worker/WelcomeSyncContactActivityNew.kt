@@ -19,10 +19,16 @@ import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityWelcomeSyncContactNewBinding
 import com.policyboss.policybosspro.databinding.DialogLoadingBinding
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
+import com.utility.finmartcontact.core.requestentity.CallLogRequestEntity
 import kotlinx.coroutines.*
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckboxsaveResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncContact.SaveCheckboxRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
+import retrofit2.Call
+import retrofit2.http.Body
+import retrofit2.http.Url
 
 class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
@@ -42,16 +48,17 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
     lateinit var tvClickHere:TextView
     var current = 0
     lateinit var btnchkagree: CheckBox
-    lateinit var btnchkcommunication: CheckBox
-    lateinit var btnchktele: CheckBox
+    lateinit var btnchkcommunication_sms: CheckBox
+    lateinit var btnchktele_call: CheckBox
 
     lateinit  var ll_term: LinearLayout
-    var isContactSync = "0"
+    var isContactSync_msg = 0
     lateinit var userConstantEntity: UserConstantEntity
 
 
    lateinit var shareProdSyncDialog: AlertDialog
     var POSPNO = ""
+    var FBAID = ""
 
 /*
 //userConstantEntity!!.pospNo
@@ -102,11 +109,14 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
         POSPNO = userConstantEntity.pospNo
 
+        FBAID = userConstantEntity.fbaId
+
         init_widgets()
         setListener()
      //   showAnimDialog("")
         CoroutineScope(Dispatchers.IO).launch {
-            try { //showDialog()
+            try {
+                showDialog()
 
               getHorizonDetails()
 
@@ -138,8 +148,8 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
         btnNext = binding.btnNext
         btnchkagree = binding.chkagree
-        btnchkcommunication = binding.chkcommunication
-        btnchktele = binding.chktele
+        btnchkcommunication_sms = binding.chkcommunicationSms
+        btnchktele_call = binding.chkteleCall
 
 
         txtterm = binding.txtterm
@@ -150,8 +160,8 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
         ll_term = binding.llTerm
         btnchkagree!!.tag = 0
 
-        btnchkcommunication!!.tag = 0
-        btnchktele!!.tag = 0
+        btnchkcommunication_sms!!.tag = 0
+        btnchktele_call!!.tag = 0
 
         btnNext.isEnabled = false
         btnNext.alpha = 0.4f
@@ -166,8 +176,8 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
         btnNext.setOnClickListener(this)
         btnchkagree.setOnClickListener(this)
 
-        btnchkcommunication.setOnClickListener(this)
-        btnchktele.setOnClickListener(this)
+        btnchkcommunication_sms.setOnClickListener(this)
+        btnchktele_call.setOnClickListener(this)
 
         txtprivacy.setOnClickListener(this)
         txtterm.setOnClickListener(this)
@@ -177,8 +187,8 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
         ll_term.setOnClickListener(this)
       //  ll_term.visibility = View.GONE
         btnchkagree!!.isChecked = false
-        btnchkcommunication!!.isChecked = false
-        btnchktele!!.isChecked = false
+        btnchkcommunication_sms!!.isChecked = false
+        btnchktele_call!!.isChecked = false
     }
 /*
     private fun setSelectedDot(current: Int) {
@@ -213,30 +223,44 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
         withContext(Dispatchers.IO){
 
            // var url =  "https://horizon.policyboss.com:5443/sync_contacts" + "/contact_entry"
-            var url = "https://horizon.policyboss.com:5443/posps/dsas/view/" + POSPNO
+
+            var url = "https://horizon.policyboss.com:5443/sync_contact/get_sync_contact_agreements?ss_id=" + POSPNO
             val resultRespAsync = async { RetroHelper.api.getHorizonDetails(url) }
              val resultResp = resultRespAsync.await()
             if (resultResp.isSuccessful) {
                 cancelDialog()
                 Log.d(TAG, resultResp.toString())
-                if(resultResp.body()?.status.equals("SUCCESS")){
+                if(resultResp.body()?.Status.equals("Success")){
 
-                    var HorizonEmpDetailResponse = resultResp.body()
-                    isContactSync = HorizonEmpDetailResponse?.POSP?.Is_Contact_Sync.toString()
+                    var Horizon_sync_contact_agree_Response = resultResp.body()
+                    isContactSync_msg = Horizon_sync_contact_agree_Response?.Msg?.size?:0
+
+
+
 
                     withContext(Dispatchers.Main){
 
-                        if (isContactSync.equals("1")) {
-                        //    delay(200)
+                        var is_call = ""
+                        var is_sms  = ""
+                        is_call = Horizon_sync_contact_agree_Response?.Msg?.get(isContactSync_msg-1)?.is_call?:""
+                        is_sms = Horizon_sync_contact_agree_Response?.Msg?.get(isContactSync_msg-1)?.is_sms?:""
 
-                        //    viewPager!!.currentItem = 2
-                        //    viewPager.beginFakeDrag()
-                        //    viewPager.visibility = View.VISIBLE
-                        cancelAnimDialog()
-                        }else{
-                        //    viewPager.visibility = View.VISIBLE
-                          cancelAnimDialog()
+                        if(is_call.equals("yes")){
+                                btnchktele_call.isChecked = true
+
+                            }else
+                        {
+                                btnchktele_call.isChecked = false
                         }
+
+                        if(is_sms.equals("yes")){
+                                btnchkcommunication_sms.isChecked = true
+                            }else
+                        {
+                            btnchkcommunication_sms.isChecked = false
+                        }
+
+
 
                     }
                 }else{
@@ -266,6 +290,63 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
     }
 
+    private suspend fun savecheckboxdetails(){
+
+        withContext(Dispatchers.IO){
+
+            // var url =  "https://horizon.policyboss.com:5443/sync_contacts" + "/contact_entry"
+            var url = "https://horizon.policyboss.com:5443/postservicecall/sync_contacts/online_agreement"
+
+
+            var smschk ="no"
+
+            var telechk ="no"
+
+               if(btnchkcommunication_sms!!.isChecked){
+                   smschk="yes"
+               }else{
+                   smschk="no"
+               }
+
+               if(btnchktele_call!!.isChecked){
+                   telechk="yes"
+               }else{
+                   telechk="no"
+               }
+
+            val saveCheckboxRequestEntity = SaveCheckboxRequestEntity(
+
+                fba_id = Integer.parseInt(FBAID),
+                is_sms = smschk,
+                is_call = telechk,
+                online_agreement = "online_agreement",
+                ss_id = Integer.parseInt(POSPNO)
+
+            )
+
+          // val resultRespAsync1 =  RetroHelper.api.savecheckboxdetails(url,saveCheckboxRequestEntity)
+          //  val resultResp = resultRespAsync.await()
+
+            val resultRespAsync = async { RetroHelper.api.savecheckboxdetails(url,saveCheckboxRequestEntity) }
+            val resultResp = resultRespAsync.await()
+
+            if (resultResp.isSuccessful) {
+                cancelDialog()
+                Log.d(TAG, resultResp.toString())
+                           // delay(8000)
+            }else{
+
+                withContext(Dispatchers.Main) {
+                    Log.d(TAG, resultResp.toString())
+                    // viewPager.visibility = View.VISIBLE
+                    cancelAnimDialog()
+                }
+                cancelDialog()
+            }
+
+        }
+
+    }
 
         //  viewpager change listener
 
@@ -274,14 +355,29 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
         when (view!!.getId()) {
             btnNext.id -> {
-
-                if (btnchktele!!.isChecked && btnchkcommunication!!.isChecked && btnchkagree!!.isChecked ) {
+           //     btnchktele!!.isChecked && btnchkcommunication!!.isChecked &&
+                if ( btnchkagree!!.isChecked ) {
                     // current = current + 1
                     // if (current < layouts.size) {
                     // move to next screen
                     //     viewPager.currentItem = current
                     //  } else {
-                    startActivity(Intent(this, SyncContactActivity::class.java))
+
+
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try { //showDialog()
+
+                              savecheckboxdetails()
+
+                            }catch (e: Exception){
+
+                                withContext(Dispatchers.Main) {
+                                 //   viewPager.visibility = View.VISIBLE
+                                 //   cancelAnimDialog()
+                                }
+                            }
+                        }
+                           startActivity(Intent(this, SyncContactActivity::class.java))
                     //  }
                 }
             }
@@ -306,7 +402,7 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
             tvClickHere.id -> SyncTermPopUp()
 
             btnchkagree.id -> if (btnchkagree!!.tag != "1") {
-                if (btnchktele!!.isChecked && btnchkcommunication!!.isChecked && btnchkagree!!.isChecked ) {
+                if (btnchkagree!!.isChecked ) {
                     btnNext.isEnabled = true
                  //   btnNext.alpha = 1f
 
@@ -320,32 +416,32 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
                 }
             }
 
-            btnchktele.id -> if (btnchktele!!.tag != "1") {
-                if (btnchktele!!.isChecked && btnchkcommunication!!.isChecked && btnchkagree!!.isChecked ) {
-                    btnNext.isEnabled = true
-                //    btnNext.alpha = 1f
-                    //btnNext.setVisibility(View.VISIBLE);
-                    btnNext.tag = 1
-                    btnNext.alpha = 1f
-                  //  btnNext.text = "NEXT"
-                } else {
-                    btnNext.isEnabled = false
-                    btnNext.alpha = 0.4f
-                }
-            }
-            btnchkcommunication.id -> if (btnchkcommunication!!.tag != "1") {
-                if (btnchktele!!.isChecked && btnchkcommunication!!.isChecked && btnchkagree!!.isChecked ) {
-                    btnNext.isEnabled = true
-                //    btnNext.alpha = 1f
-                    //btnNext.setVisibility(View.VISIBLE);
-                    btnNext.tag = 1
-                    btnNext.alpha = 1f
-                //    btnNext.text = "NEXT"
-                } else {
-                    btnNext.isEnabled = false
-                    btnNext.alpha = 0.4f
-                }
-            }
+//            btnchktele.id -> if (btnchktele!!.tag != "1") {
+//                if (btnchktele!!.isChecked && btnchkcommunication!!.isChecked && btnchkagree!!.isChecked ) {
+//                    btnNext.isEnabled = true
+//                //    btnNext.alpha = 1f
+//                    //btnNext.setVisibility(View.VISIBLE);
+//                    btnNext.tag = 1
+//                    btnNext.alpha = 1f
+//                  //  btnNext.text = "NEXT"
+//                } else {
+//                    btnNext.isEnabled = false
+//                    btnNext.alpha = 0.4f
+//                }
+//            }
+//            btnchkcommunication.id -> if (btnchkcommunication!!.tag != "1") {
+//                if (btnchktele!!.isChecked && btnchkcommunication!!.isChecked && btnchkagree!!.isChecked ) {
+//                    btnNext.isEnabled = true
+//                //    btnNext.alpha = 1f
+//                    //btnNext.setVisibility(View.VISIBLE);
+//                    btnNext.tag = 1
+//                    btnNext.alpha = 1f
+//                //    btnNext.text = "NEXT"
+//                } else {
+//                    btnNext.isEnabled = false
+//                    btnNext.alpha = 0.4f
+//                }
+//            }
 
 
         }

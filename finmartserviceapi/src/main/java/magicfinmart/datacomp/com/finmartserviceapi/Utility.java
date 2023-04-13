@@ -58,16 +58,7 @@ import static android.content.Context.WIFI_SERVICE;
 
 public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-   /* public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
-    public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
-    public static final String SECRET_KEY = "SECRET-ODARQ6JP-9V2Q-7BIM-0NNM-DNRTXRWMRTAL";
-    public static final String CLIENT_KEY = "CLIENT-GLF2SRA5-CFIF-4X2T-HC1Z-CXV4ZWQTFQ3T";
-    public static final int CLIENT_ID = 4;*/
 
-    //public static final String HORIZON_URL = "http://horizon.policyboss.com:5000";
-    //public static final String QUOTE_BASE_URL = "http://www.policyboss.com/";
-    //public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
-    //public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
     public static final String SECRET_KEY = "SECRET-VG9N6EVV-MIK3-1GFC-ZRBV-PE7XIQ8DV4GY";
     public static final String CLIENT_KEY = "CLIENT-WF4GWODI-HMEB-Q7M6-CLES-DEJCRF7XLRVI";
     public static final int CLIENT_ID = 3;
@@ -264,131 +255,16 @@ public class Utility {
     public static String getLocalIpAddress(Context context) {
         String IPaddress;
 
-        boolean WIFI = false;
-
-        boolean MOBILE = false;
-
-        ConnectivityManager CM = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] networkInfo = CM.getAllNetworkInfo();
-
-        for (NetworkInfo netInfo : networkInfo) {
-            if (netInfo.getTypeName().equalsIgnoreCase("WIFI"))
-                if (netInfo.isConnected())
-                    WIFI = true;
-            if (netInfo.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (netInfo.isConnected())
-                    MOBILE = true;
-        }
-
-        if (WIFI == true) {
-            return GetDeviceipWiFiData(context);
-        }
-
-        if (MOBILE == true) {
-            return GetDeviceipMobileData();
-
-        }
-
-
-       /* WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
-        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());*//*
-        try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-                 en.hasMoreElements(); ) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress().toString();
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            Log.e("IP Address", ex.toString());
-        }*/
         return "";
     }
 
-    public static String GetDeviceipMobileData() {
-        try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
-                 en.hasMoreElements(); ) {
-                NetworkInterface networkinterface = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = networkinterface.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress()) {
-                        return Formatter.formatIpAddress(inetAddress.hashCode());
-                    }
-                }
-            }
-        } catch (Exception ex) {
-            Log.e("Current IP", ex.toString());
-        }
-        return "";
-    }
 
     public static String getMacAddress(Context context) throws IOException {
-//        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//        WifiInfo wInfo = wifiManager.getConnectionInfo();
-//        Toast.makeText(context, "" + wInfo.getMacAddress(), Toast.LENGTH_SHORT).show();
-//        return wInfo.getMacAddress();
+
         String address = "";
-        try {
-            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-
-            if (wifiManager.isWifiEnabled()) {
-                // WIFI ALREADY ENABLED. GRAB THE MAC ADDRESS HERE
-                WifiInfo info = wifiManager.getConnectionInfo();
-                address = info.getMacAddress();
-            } else {
-
-                try {
-                    // get all the interfaces
-                    List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
-
-                    //find network interface wlan0
-                    for (NetworkInterface networkInterface : all) {
-                        if (!networkInterface.getName().equalsIgnoreCase("wlan0")) continue;
-                        //get the hardware address (MAC) of the interface
-                        byte[] macBytes = networkInterface.getHardwareAddress();
-                        if (macBytes == null) {
-                            return "";
-                        }
-
-
-                        StringBuilder res1 = new StringBuilder();
-                        for (byte b : macBytes) {
-                            //gets the last byte of b
-                            res1.append(Integer.toHexString(b & 0xFF) + ":");
-                        }
-
-                        if (res1.length() > 0) {
-                            res1.deleteCharAt(res1.length() - 1);
-                        }
-                        address = res1.toString();
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         //Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
         return address;
-    }
-
-    public static String GetDeviceipWiFiData(Context context) {
-
-        WifiManager wm = (WifiManager) context.getSystemService(WIFI_SERVICE);
-
-        @SuppressWarnings("deprecation")
-
-        String ip = Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
-
-        return ip;
-
     }
 
 

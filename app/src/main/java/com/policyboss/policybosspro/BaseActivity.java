@@ -1575,7 +1575,7 @@ public class BaseActivity extends AppCompatActivity {
 
             String ipaddress = "0.0.0.0";
             try {
-                ipaddress = Utility.getMacAddress(BaseActivity.this);
+                ipaddress = "";
             } catch (Exception io) {
                 ipaddress = "0.0.0.0";
             }
@@ -1616,7 +1616,7 @@ public class BaseActivity extends AppCompatActivity {
 
             String ipaddress = "0.0.0.0";
             try {
-                ipaddress = Utility.getMacAddress(BaseActivity.this);
+                ipaddress = "";
             } catch (Exception io) {
                 ipaddress = "0.0.0.0";
             }
@@ -1657,7 +1657,7 @@ public class BaseActivity extends AppCompatActivity {
 
             String ipaddress = "0.0.0.0";
             try {
-                ipaddress = Utility.getMacAddress(BaseActivity.this);
+                ipaddress = "";
             } catch (Exception io) {
                 ipaddress = "0.0.0.0";
             }
@@ -1700,7 +1700,7 @@ public class BaseActivity extends AppCompatActivity {
 
             String ipaddress = "0.0.0.0";
             try {
-                ipaddress = Utility.getMacAddress(BaseActivity.this);
+                ipaddress = "";
             } catch (Exception io) {
                 ipaddress = "0.0.0.0";
             }

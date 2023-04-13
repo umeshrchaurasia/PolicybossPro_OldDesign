@@ -52,7 +52,7 @@ import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.file_chooser.utils.FileUtilNew;
-import com.policyboss.policybosspro.health.HealthQuoteAppActivity;
+
 import com.policyboss.policybosspro.home.HomeActivity;
 
 import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity;
@@ -77,6 +77,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.synctransactionDetailEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.POSPHorizonEnity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.SyncContactEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonsyncDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctransactionDetailReponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -109,6 +112,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     DBPersistanceController db;
     UserConstantEntity userConstantEntity;
 
+    SyncContactEntity syncContactEntity;
+
+    POSPHorizonEnity posphorizonEnity;
     // region Camera Permission
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
@@ -476,15 +482,6 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
 
         @JavascriptInterface
-        public void AddNewHealthQuote() {//Android.AddNewHealthQuote();
-            Intent intent;
-            intent = new Intent(CommonWebViewActivity.this, HealthQuoteAppActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
-
-        @JavascriptInterface
         public void AddNewTermQuote() {//Android.AddNewTermQuote();
             Intent intent;
             intent = new Intent(CommonWebViewActivity.this, TermSelectionActivity.class);
@@ -551,6 +548,14 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 //            intent.putExtra("transactionId", transactionId);
 //            startActivity(intent);
 //            finish();
+        }
+
+        @JavascriptInterface
+        public void razorpayment(String ssid) {
+
+            if (!ssid.equals("")) {
+                gethorizonpospdetails(ssid);
+            }
         }
 
 
@@ -623,6 +628,13 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         new DynamicController(this).getSync_trascat_detail(String.valueOf(transactionId), CommonWebViewActivity.this);
     }
 
+
+
+    private void gethorizonpospdetails(String ssid) {
+
+        showDialogMain();
+        new DynamicController(this).getsyncDetailshorizon_java(String.valueOf(ssid), CommonWebViewActivity.this);
+    }
 
     public void galleryCamPopUp_Common(String crn, String document_id, String document_type , String insurer_id) {
 
@@ -1204,8 +1216,9 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 // When Activty Page Called than This One is rasied.
             String   op_getCrn = ((CommonWebDocResponse) response).getMasterData().getCrn().replace("\"", "");
             String getDocumentID= ((CommonWebDocResponse) response).getMasterData().getDocumentID().replace("\"", "");
+                String getfile_path= ((CommonWebDocResponse) response).getMasterData().getFilePath().replace("\"", "");
 
-                jsonResponse_doc = op_getCrn+ "|" + getDocumentID;
+                jsonResponse_doc = op_getCrn+ "|" + getDocumentID+ "|" +getfile_path;
 
               //  jsonResponse_doc="12345678";
                 webView.evaluateJavascript("javascript: " +
@@ -1220,11 +1233,11 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             }
 
         }
-        else if (response instanceof synctransactionDetailReponse) {
 
+        else if (response instanceof synctransactionDetailReponse) {
+            cancelDialogMain();
             if (((synctransactionDetailReponse) response).getStatus().equals("success")) {
                 synctransactionDetailEntity synctransactionEntity = ((synctransactionDetailReponse) response).getMasterData();
-
 
                 if (synctransactionEntity != null) {
                     Intent intent = new Intent(CommonWebViewActivity.this, SyncRazorPaymentActivity.class);
@@ -1234,10 +1247,28 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                     finish();
                 }
 
+            }
+        }
+        else if (response instanceof HorizonsyncDetailsResponse)
+        {
+            cancelDialogMain();
+            if (((HorizonsyncDetailsResponse) response).getStatus().equals("SUCCESS")) {
+               // syncContactEntity = ((HorizonsyncDetailsResponse) response).getResult();
+                posphorizonEnity = ((HorizonsyncDetailsResponse) response).getPOSP();
+                if (posphorizonEnity != null) {
+
+                    Intent intent = new Intent(CommonWebViewActivity.this, SyncRazorPaymentActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.putExtra("posphorizon_TRANSACTION", posphorizonEnity);
+                    intent.putExtra("payment_type", "POSP");
+                    startActivity(intent);
+                    finish();
+                }
+
 
             }
-
         }
+
 
     }
 

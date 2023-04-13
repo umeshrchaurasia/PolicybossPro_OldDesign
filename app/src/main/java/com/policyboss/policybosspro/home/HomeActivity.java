@@ -47,7 +47,6 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.material.snackbar.Snackbar;
 
-import com.policyboss.policybosspro.Attendance.PolicyBossAttendanceActivity;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.BuildConfig;
@@ -63,7 +62,6 @@ import com.policyboss.policybosspro.databinding.DialogLoadingBinding;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.festivelink.festivelinkActivity;
 import com.policyboss.policybosspro.generatelead.GenerateLeadActivity;
-import com.policyboss.policybosspro.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpListActivity;
 import com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpPlansActivity;
 import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity;
@@ -136,6 +134,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.synctransactionDetailEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.POSPHorizonEnity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.SyncContactEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonsyncDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctransactionDetailReponse;
@@ -202,6 +201,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     LinearLayout llSwitchUser;
     DashboardMultiLangEntity dashboardShareEntity;
     SyncContactEntity syncContactEntity;
+
+    POSPHorizonEnity posphorizonEnity;
 
     ShortcutManager shortcutManager = null;
     String deeplink_value="";
@@ -283,12 +284,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 e.printStackTrace();
             }
 
-
-            try {
-                Utility.getMacAddress(this);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
             db = new DBPersistanceController(this);
             loginResponseEntity = db.getUserData();
@@ -410,11 +405,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     switch (menuItem.getItemId()) {
 
-                        case R.id.nav_attendance:
-                      //  fragment = new AttendanceFragment();
-//                        getSupportActionBar().setTitle("My Attendance");
-                           startActivity(new Intent(HomeActivity.this, PolicyBossAttendanceActivity.class));
-                            break;
+//                        case R.id.nav_attendance:
+//                      //  fragment = new AttendanceFragment();
+////                        getSupportActionBar().setTitle("My Attendance");
+//                           startActivity(new Intent(HomeActivity.this, PolicyBossAttendanceActivity.class));
+//                            break;
 
                         case R.id.nav_generateLead:
                             startActivity(new Intent(HomeActivity.this, GenerateLeadActivity.class));
@@ -643,11 +638,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         //    startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class))
 //https://qa-www.policyboss.com/car-insurance/document-uploadhttps://qa-www.policyboss.com/car-insurance/document-upload
                        //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://api.magicfinmart.com/images/android.html?123" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+//https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0
+                  //    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/razorpay/?ss_id=133366&source=POSP_ONBOARD").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                         //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/images/andr.html").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
-                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                       // startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0  ").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
+                                break;
 
-                            break;
                         case R.id.nav_MYUtilities:
                             ConfirmnMyUtilitiesAlert();
 
@@ -905,7 +903,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             String ipaddress = "0.0.0.0";
             try {
-                ipaddress = Utility.getMacAddress(this);
+                ipaddress = "";
             } catch (Exception io) {
                 ipaddress = "0.0.0.0";
             }
@@ -1121,7 +1119,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         Map<String, String> outputMap = loadMap();
         if (outputMap != null && outputMap.size() > 0) {
             lstswitchuser.setVisibility(View.GONE);
-            lstswitchChild_user.setVisibility(View.VISIBLE);
+            lstswitchChild_user.setVisibility(View.GONE);
 
             String mystring = new String("Parent :- " + outputMap.get("Parent_name"));
             SpannableString content = new SpannableString(mystring);
@@ -1178,13 +1176,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         } else {
-            if (loginResponseEntity.getIsUidLogin().equals("Y")) {
-                lstswitchuser.setVisibility(View.VISIBLE);
-                lstswitchChild_user.setVisibility(View.GONE);
-            } else {
-                lstswitchuser.setVisibility(View.GONE);
-                lstswitchChild_user.setVisibility(View.GONE);
-            }
+//            if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+//                lstswitchuser.setVisibility(View.VISIBLE);
+//                lstswitchChild_user.setVisibility(View.GONE);
+//            } else {
+//                lstswitchuser.setVisibility(View.GONE);
+//                lstswitchChild_user.setVisibility(View.GONE);
+//            }
+
+            lstswitchuser.setVisibility(View.GONE);
+            lstswitchChild_user.setVisibility(View.GONE);
 
         }
 
@@ -1641,7 +1642,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (((HorizonsyncDetailsResponse) response).getStatus().equals("SUCCESS")) {
 
                     syncContactEntity = ((HorizonsyncDetailsResponse) response).getResult();
-
+                   // posphorizonEnity = ((HorizonsyncDetailsResponse) response).getPOSP();
 
                     if (syncContactEntity != null) {
                         if(!syncContactEntity.getActionNeeded().equals("NO_ACTION")) {
@@ -1699,7 +1700,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         String ipaddress = "0.0.0.0";
                         try {
-                            ipaddress = Utility.getMacAddress(HomeActivity.this);
+                            ipaddress = "";
                         } catch (Exception io) {
                             ipaddress = "0.0.0.0";
                         }
@@ -1835,7 +1836,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     startActivity(new Intent(this, BikeAddQuoteActivity.class));
                     break;
                 case 3:
-                    startActivity(new Intent(this, HealthQuoteBottomTabsActivity.class));
+                  //  startActivity(new Intent(this, HealthQuoteBottomTabsActivity.class));
                     break;
                 case 4:
                     startActivity(new Intent(this, CompareTermActivity.class));
@@ -1977,7 +1978,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         String ipAddress = "0.0.0.0";
         try {
-            ipAddress = Utility.getMacAddress(this);
+            ipAddress = "";
         } catch (Exception io) {
             ipAddress = "0.0.0.0";
         }
@@ -3407,7 +3408,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
             String ipaddress = "0.0.0.0";
             try {
-                ipaddress = Utility.getMacAddress(HomeActivity.this);
+                ipaddress = "";
             } catch (Exception io) {
                 ipaddress = "0.0.0.0";
             }
@@ -3481,7 +3482,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         String ipaddress = "0.0.0.0";
                         try {
-                            ipaddress = Utility.getMacAddress(HomeActivity.this);
+                            ipaddress = "";
                         } catch (Exception io) {
                             ipaddress = "0.0.0.0";
                         }

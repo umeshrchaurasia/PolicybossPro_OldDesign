@@ -793,7 +793,6 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getsyncDetailshorizon_java(String ss_id,final IResponseSubcriber iResponseSubcriber) {
-        // String url = "https://horizon.policyboss.com:5443/razorpay_payment/transaction_details/" + transaction_Id;
 
         String url = "https://horizon.policyboss.com:5443/posps/dsas/view/" + ss_id;
 
