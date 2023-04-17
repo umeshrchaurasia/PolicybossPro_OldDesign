@@ -27,7 +27,7 @@ public class CreateQuoteResponse extends APIResponse {
          * Result : Success
          * Message : Saved successfully!
          * SavedStatus : 0
-         * docstatus : [{"Document_name":"Attach Last year policy copy","document_path":"http://qa.mgfm.in/OfflineDoc/83/1544612637986.jpg"},{"Document_name":"RC copy","document_path":"http://qa.mgfm.in/OfflineDoc/83/1544612660118.jpg"},{"Document_name":"Other 1","document_path":"http://qa.mgfm.in/OfflineDoc/83/1544612689058.jpg"},{"Document_name":"Other 2","document_path":"http://qa.mgfm.in/OfflineDoc/83/1544612711113.jpg"}]
+         * docstatus : [{"Document_name":"Attach Last year policy copy","document_path":"https://qa.mgfm.in/OfflineDoc/83/1544612637986.jpg"},{"Document_name":"RC copy","document_path":"https://qa.mgfm.in/OfflineDoc/83/1544612660118.jpg"},{"Document_name":"Other 1","document_path":"https://qa.mgfm.in/OfflineDoc/83/1544612689058.jpg"},{"Document_name":"Other 2","document_path":"https://qa.mgfm.in/OfflineDoc/83/1544612711113.jpg"}]
          */
 
         private int reqid;
@@ -36,7 +36,7 @@ public class CreateQuoteResponse extends APIResponse {
         private int SavedStatus;
         /**
          * Document_name : Attach Last year policy copy
-         * document_path : http://qa.mgfm.in/OfflineDoc/83/1544612637986.jpg
+         * document_path : https://qa.mgfm.in/OfflineDoc/83/1544612637986.jpg
          */
 
         private List<DocstatusBean> docstatus;

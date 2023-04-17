@@ -7,7 +7,7 @@ public class MenuItemEntity implements Parcelable {
     /**
      * menuid : 1
      * menuname : Reports
-     * link : http://bo.magicfinmart.com
+     * link : https://bo.magicfinmart.com
      * iconimage :https://horizon.policyboss.com:5443/InsurerImages/car_1.png
      * isActive : 1
      * description : null

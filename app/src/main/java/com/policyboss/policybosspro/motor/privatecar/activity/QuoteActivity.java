@@ -753,9 +753,9 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
 
     public void redirectToBuy(String Service_Log_Unique_Id) {
-        String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
-        String url = "http://qa.policyboss.com/";
-        //String url = "http://policyboss.com/";
+        String URL = "https://policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
+        String url = "https://policyboss.com/";
+        //String url = "https://policyboss.com/";
         String title = "";
         String name = "";
         url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";

@@ -5,7 +5,7 @@ import io.realm.RealmObject;
 public  class DashboardarrayEntity extends RealmObject {
         /**
          * ProdId : 25
-         * url : http://qa.policyboss.com/WealthPlus/wealthplus.html?ss_id=14265&fba_id=37292&v=20200104&sub_fba_id=0
+         * url : https://qa.policyboss.com/WealthPlus/wealthplus.html?ss_id=14265&fba_id=37292&v=20200104&sub_fba_id=0
          */
 
         private String ProdId;

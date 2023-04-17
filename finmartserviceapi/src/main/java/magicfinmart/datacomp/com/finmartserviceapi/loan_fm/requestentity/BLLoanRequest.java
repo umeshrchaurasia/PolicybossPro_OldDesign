@@ -33,7 +33,7 @@ public class BLLoanRequest implements Parcelable {
      * isActive : 1
      * StatusPercent :
      * bank_id : 33
-     * bank_image : http://erp.rupeeboss.com/Banklogo/kotak.png
+     * bank_image : https://erp.rupeeboss.com/Banklogo/kotak.png
      * progress_image :
      */
 

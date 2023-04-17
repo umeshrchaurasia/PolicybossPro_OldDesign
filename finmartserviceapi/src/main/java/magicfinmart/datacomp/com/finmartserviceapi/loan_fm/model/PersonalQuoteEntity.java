@@ -18,7 +18,7 @@ public class PersonalQuoteEntity implements Parcelable {
      * emi : 20142
      * LoanTenure : 5
      * LoanRequired : 500000
-     * Bank_Logo : http://erp.rupeeboss.com/Banklogo/hdfc.png
+     * Bank_Logo : https://erp.rupeeboss.com/Banklogo/hdfc.png
      * guarantor_required : No
      * Women_roi : null
      * Lock_In_Period : 12.00

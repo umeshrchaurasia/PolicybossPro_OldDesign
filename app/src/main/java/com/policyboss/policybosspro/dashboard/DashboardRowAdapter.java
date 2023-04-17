@@ -524,7 +524,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 13:
                 Utility.loadWebViewUrlInBrowser(mContext,
-                        "http://www.rupeeboss.com/equifax-finmart?fbaid="
+                        "https://www.rupeeboss.com/equifax-finmart?fbaid="
                                 + String.valueOf(mReal.getUserData().getFBAId()));
                 break;
 

@@ -9,7 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 public class CertificateResponse extends APIResponse {
 
     /**
-     * MasterData : http://posp.policyboss.com/Pos/AppointmentLetter/413
+     * MasterData : https://posp.policyboss.com/Pos/AppointmentLetter/413
      */
 
     private String MasterData;

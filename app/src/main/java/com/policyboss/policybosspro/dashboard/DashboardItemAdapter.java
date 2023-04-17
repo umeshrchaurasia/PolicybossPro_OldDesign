@@ -574,7 +574,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             case 13:
                 Utility.loadWebViewUrlInBrowser(mContext.getActivity(),
-                        "http://www.rupeeboss.com/equifax-finmart?fbaid="
+                        "https://www.rupeeboss.com/equifax-finmart?fbaid="
                                 + String.valueOf(dbPersistanceController.getUserData().getFBAId()));
                 break;
 

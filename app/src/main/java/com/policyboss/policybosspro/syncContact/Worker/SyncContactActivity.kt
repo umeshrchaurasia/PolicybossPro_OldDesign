@@ -129,7 +129,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
         }*/
 //        R.id.CvLeaddashboard -> {
-//            startActivity(Intent(this, CommonWebViewActivity::class.java) // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+//            startActivity(Intent(this, CommonWebViewActivity::class.java) // .putExtra("URL", "https://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
 //                .putExtra("URL", "" + userConstantEntity.leadDashUrl)
 //                .putExtra("NAME", "" + "Lead DashBoard")
 //                .putExtra("TITLE", "" + "Lead DashBoard"))
@@ -451,7 +451,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
         btnClose.setOnClickListener {
             alertDialog.dismiss()
-            startActivity(Intent(this, CommonWebViewActivity::class.java) // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+            startActivity(Intent(this, CommonWebViewActivity::class.java) // .putExtra("URL", "https://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
                 .putExtra("URL", "" + userConstantEntity.leadDashUrl)
                 .putExtra("NAME", "" + "Sync Contact DashBoard")
                 .putExtra("TITLE", "" + "Sync Contact DashBoard"))

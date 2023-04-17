@@ -12,7 +12,7 @@ public class BLEntity implements Parcelable {
      * roi : 11.49
      * pf : 2.00
      * pf_type : Percentage
-     * Bank_Logo : http://erp.rupeeboss.com/Banklogo/kotak.png
+     * Bank_Logo : https://erp.rupeeboss.com/Banklogo/kotak.png
      * processingfee : 10000
      * roi_type : Fixed
      */

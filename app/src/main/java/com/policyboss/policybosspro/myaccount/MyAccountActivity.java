@@ -1131,7 +1131,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                //loginResponseEntity.setFBAProfileUrl("http://qa.mgfm.in/" + fbaProfileUrl);
+                //loginResponseEntity.setFBAProfileUrl("https://mgfm.in/" + fbaProfileUrl);
                 loginResponseEntity.setFBAProfileUrl(fbaProfileUrl);
             }
         });

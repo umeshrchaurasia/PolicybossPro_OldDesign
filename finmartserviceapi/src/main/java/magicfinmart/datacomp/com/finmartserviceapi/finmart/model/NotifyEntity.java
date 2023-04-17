@@ -12,10 +12,10 @@ public class NotifyEntity implements Parcelable {
 
     /**
      * notifyFlag : L
-     * img_url : http://i.stack.imgur.com/CE5lz.png
+     * img_url : https://i.stack.imgur.com/CE5lz.png
      * body : this is Different Data Daniyal this is Different Data Rahul this is Different Data Umesh this is Different Data Vinit this is Different Data Nilesh this is Different Data DaRajeevniyal
      * title : PushNotification from Data120 Daniyal...
-     * web_url : http://i.stack.imgur.com/CE5lz.png
+     * web_url : https://i.stack.imgur.com/CE5lz.png
      * web_title : Demo
      * message_id : 1
      */

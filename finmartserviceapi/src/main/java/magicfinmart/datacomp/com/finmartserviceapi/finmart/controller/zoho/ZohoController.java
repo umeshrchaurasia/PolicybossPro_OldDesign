@@ -326,7 +326,7 @@ public class ZohoController implements IZoho {
     public void uploadCommonDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber) {
 
        // String url = BuildConfig.NODE_URL + "/policyboss_upload_doc";
-        String url = "http://qa-horizon.policyboss.com:3000/postservicecall/policyboss_upload_doc";
+        String url = "https://horizon.policyboss.com:5443/postservicecall/policyboss_upload_doc";
 
         zohoNetworkService.uploadCommonDocumentWeb(url , document, body).enqueue(new Callback<CommonWebDocResponse>() {
             @Override

@@ -18,7 +18,7 @@ public  class NewLoanApplicationEnity {
          * ApplDate : 18/03/2019
          * RBStatusDesc : null
          * StatusPercent : 0
-         * bank_image : http://erp.rupeeboss.com/Banklogo/hdfc.png
+         * bank_image : https://erp.rupeeboss.com/Banklogo/hdfc.png
          */
 
         private int Id;

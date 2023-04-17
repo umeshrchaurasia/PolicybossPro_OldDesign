@@ -26,7 +26,7 @@ public class TermCompareResponseEntity implements Parcelable {
      * PaymentModeFactor : 0
      * ApplicationNumber :
      * PdfUrl :
-     * ProposerPageUrl : http://qa.policyboss.com/TermInsuranceIndia/Intermediatepagelife?CustomerReferenceNumber=177519&SelectedQuoteId=1&SupportsAgentID=1682&CallingSource=POSPAPP&IsCustomer=0
+     * ProposerPageUrl : https://qa.policyboss.com/TermInsuranceIndia/Intermediatepagelife?CustomerReferenceNumber=177519&SelectedQuoteId=1&SupportsAgentID=1682&CallingSource=POSPAPP&IsCustomer=0
      * QuoteStatus : Success
      */
 

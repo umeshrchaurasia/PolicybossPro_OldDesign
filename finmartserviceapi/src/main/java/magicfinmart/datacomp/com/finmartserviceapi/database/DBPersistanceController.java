@@ -820,7 +820,7 @@ public class DBPersistanceController {
                 DashboardMultiLangEntity objDashboard = new DashboardMultiLangEntity("LOANS", 23, "Kotak Group health Care", "Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.", R.drawable.kotak_elite, "KOTAKTitle", "KOTAKdesc");
                 objDashboard.setIsExclusive("Y");
                 objDashboard.setIsSharable("Y");
-                objDashboard.setInfo("http://origin-cdnh.policyboss.com/fmweb/GroupHealthCare/update.html");
+                objDashboard.setInfo("https://origin-cdnh.policyboss.com/fmweb/GroupHealthCare/update.html");
                 objDashboard.setTitle("Kotak Group health Care");
                 objDashboard.setPopupmsg("Exclusive Health Insurance plan for Elite Members. Best in class features @ lower premium.");
                 dashboardEntities.add(objDashboard);
@@ -2194,7 +2194,7 @@ public class DBPersistanceController {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    //loginResponseEntity.setFBAProfileUrl("http://qa.mgfm.in/" + fbaProfileUrl);
+                    //loginResponseEntity.setFBAProfileUrl("https://qa.mgfm.in/" + fbaProfileUrl);
                     entity.setLoansendphoto(fbaProfileUrl);
                 }
             });

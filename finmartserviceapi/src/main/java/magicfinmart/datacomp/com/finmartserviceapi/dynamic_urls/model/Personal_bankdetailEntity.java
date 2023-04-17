@@ -12,7 +12,7 @@ public class Personal_bankdetailEntity  {
      * Age : 21 - 60 years
      * Bank_Id : 33
      * Bank_Name : KOTAK MAHINDRA BANK
-     * Bank_URL : http://erp.rupeeboss.com/Banklogo/kotak.png
+     * Bank_URL : https://erp.rupeeboss.com/Banklogo/kotak.png
      * Best_ROI : 13.50%
      * Foreclosure_charges : Lock in period is 12 months. Post 12 months, 5%+GST on Principal outstanding
      * Loan_Amt : Rs.50000 - 25 lakhs

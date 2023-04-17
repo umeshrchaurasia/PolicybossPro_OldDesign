@@ -23,9 +23,9 @@ public class UserConstantEntity extends RealmObject {
      * pospselfdesignation : LANDMARK POSP
      * pospparentdesignation : test
      * pospsenddesignation : LANDMARK POSP
-     * pospselfphoto : http://qa.mgfm.in/uploads/37292/POSPPhotograph.jpg
+     * pospselfphoto : https://qa.mgfm.in/uploads/37292/POSPPhotograph.jpg
      * pospparentphoto :
-     * pospsendphoto : http://qa.mgfm.in/uploads/37292/POSPPhotograph.jpg
+     * pospsendphoto : https://qa.mgfm.in/uploads/37292/POSPPhotograph.jpg
      * loanselfid : 38054
      * loanparentid : 333
      * loansendid : 38054
@@ -41,9 +41,9 @@ public class UserConstantEntity extends RealmObject {
      * loanselfdesignation : Finmart Business Associate
      * loanparentdesignation : FINMART BUSINESS ASSOCIATE
      * loansenddesignation : Finmart Business Associate
-     * loanselfphoto : http://qa.mgfm.in/uploads/37292/FBAPhotograph.jpg
+     * loanselfphoto : https://qa.mgfm.in/uploads/37292/FBAPhotograph.jpg
      * loanparentphoto :
-     * loansendphoto : http://qa.mgfm.in/uploads/37292/FBAPhotograph.jpg
+     * loansendphoto : https://qa.mgfm.in/uploads/37292/FBAPhotograph.jpg
      * FullName : TESTpl Test DATACOMP
      * FBAId : 37292
      * POSPNo : 3416
@@ -114,7 +114,7 @@ public class UserConstantEntity extends RealmObject {
      * plbanner :https://horizon.policyboss.com:5443/images/plbanner.gif
      * plactive : 1
      * addposplimit : 10
-     * serviceurl : http://bo.mgfm.in/get_service/1976
+     * serviceurl : https://bo.mgfm.in/get_service/1976
      */
 
     private String plbanner;
@@ -404,7 +404,7 @@ public class UserConstantEntity extends RealmObject {
      * <p>
      * Hello Magicfinmart Partner,
      * New version 2.1.1 of Magicfinmart is live on google play store with some new and exciting features and ease of use.
-     * http://bit.ly/2NT1gTH
+     * https://bit.ly/2NT1gTH
      * Pease Update your APPLICATION & Rate 5 Star.
      * <p>
      * In-case any of any query you may contact to your RM or you can also call to 9137850207 (Tech-Support)
@@ -562,7 +562,7 @@ public class UserConstantEntity extends RealmObject {
     }
 
     /**
-     * marketinghomeurl : http://magicfinmart.com
+     * marketinghomeurl : https://magicfinmart.com
      */
 
     private String marketinghomeurl;

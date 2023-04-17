@@ -217,7 +217,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         /*Glide.with(this)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
-                .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name())
+                .load("https://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name())
                 .into(ivCross);*/
         try {
 
@@ -445,9 +445,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     }
 
     /*public void redirectToBuy(String Service_Log_Unique_Id) {
-        String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
-        String url = "http://qa.policyboss.com/";
-        //String url = "http://policyboss.com/";
+        String URL = "https://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
+        String url = "https://qa.policyboss.com/";
+        //String url = "https://policyboss.com/";
         String title = "";
         String name = "";
         url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
@@ -469,7 +469,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     public void redirectToBuy(String Service_Log_Unique_Id) {
         if (Utility.checkShareStatus(this) == 1) {
-            String imgPath = "http://qa.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name();
+            String imgPath = "https://qa.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name();
             //convert quote to application server
             new QuoteApplicationController(this).convertQuoteToApp(
                     "" + vechileRequestId,

@@ -11,8 +11,8 @@ public class FestivalCompaignEntity implements Parcelable {
          * title : test
          * description : test desc
          * shorturl : mgfm.in/1i1yaw
-         * url : http://erp.rupeeboss.com?BrokerId=36886&FBAId=53686&client_source=Finmart&lead_id=
-         * baseurl : http://erp.rupeeboss.com
+         * url : https://erp.rupeeboss.com?BrokerId=36886&FBAId=53686&client_source=Finmart&lead_id=
+         * baseurl : https://erp.rupeeboss.com
          */
 
         private int campaignid;

@@ -9,7 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 public class mybusinessResponse extends APIResponse {
 
     /**
-     * Url : http://user.mgfm.in/FM/ID?ID=eyJpdiI6IlprVlpDU1FSYlhYSmpkMDI0clFOS1E9PSIsInZhbHVlIjoiMVBTV0s1NVBlcWg1K3A3NWkzVExaUT09IiwibWFjIjoiYmUxY2QwMmI4NTJjMTY1ZDBlYmQ4NmE2ZjZiMWJkMTMzYWU0NDQ3NTkxYjlhYjgyMjRjMmY5MDlkNjAzZjY4OSJ9
+     * Url : https://user.mgfm.in/FM/ID?ID=eyJpdiI6IlprVlpDU1FSYlhYSmpkMDI0clFOS1E9PSIsInZhbHVlIjoiMVBTV0s1NVBlcWg1K3A3NWkzVExaUT09IiwibWFjIjoiYmUxY2QwMmI4NTJjMTY1ZDBlYmQ4NmE2ZjZiMWJkMTMzYWU0NDQ3NTkxYjlhYjgyMjRjMmY5MDlkNjAzZjY4OSJ9
      */
 
     private String Url;

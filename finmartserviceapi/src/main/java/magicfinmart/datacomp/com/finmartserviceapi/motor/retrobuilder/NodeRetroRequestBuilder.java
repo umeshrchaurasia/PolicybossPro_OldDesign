@@ -13,18 +13,18 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class NodeRetroRequestBuilder {
 
-    //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
+    //protected String url = "https://services.rupeeboss.com/LoginDtls.svc/";
     static Retrofit restAdapter = null;
 
     // test url
-   /* public static String URL = "http://qa-horizon.policyboss.com:3000";
-    public static String PROPOSAL_BASE_URL = "http://qa.policyboss.com/";*/
+   /* public static String URL = "https://qa-horizon.policyboss.com:3000";
+    public static String PROPOSAL_BASE_URL = "https://qa.policyboss.com/";*/
 
 
     // live url
 
-    //public static String URL = "http://horizon.policyboss.com:5000";
-    //public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
+
+    //public static String PROPOSAL_BASE_URL = "https://www.policyboss.com/";
 
 
     protected Retrofit build() {

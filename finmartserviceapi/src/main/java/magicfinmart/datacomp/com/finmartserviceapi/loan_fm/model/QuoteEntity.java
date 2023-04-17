@@ -17,7 +17,7 @@ public class QuoteEntity implements Parcelable {
      * LoanTenure : 15
      * processingfee : 10500
      * LoanRequired : 2900000
-     * Bank_Logo : http://erp.rupeeboss.com/Banklogo/pnb-housing.png
+     * Bank_Logo : https://erp.rupeeboss.com/Banklogo/pnb-housing.png
      * guarantor_required : No
      * Women_roi : 9.0000
      * Lock_In_Period : 12.00

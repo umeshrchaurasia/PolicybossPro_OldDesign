@@ -9,7 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 public class HealthQuoteCompareResponse extends APIResponse {
 
     /**
-     * MasterData : {"NetPremium":7594.48,"ProposerPageUrl":"http://qa.policyboss.com/HealthInsuranceIndia/ContactDetails?CustomerReferenceNumber=172878&SelectedQuoteId=16&SupportsAgentID=2&CallingSource=POSPAPP&IsCustomer=0"}
+     * MasterData : {"NetPremium":7594.48,"ProposerPageUrl":"https://qa.policyboss.com/HealthInsuranceIndia/ContactDetails?CustomerReferenceNumber=172878&SelectedQuoteId=16&SupportsAgentID=2&CallingSource=POSPAPP&IsCustomer=0"}
      */
 
     private MasterDataCompare MasterData;
@@ -25,7 +25,7 @@ public class HealthQuoteCompareResponse extends APIResponse {
     public static class MasterDataCompare {
         /**
          * NetPremium : 7594.48
-         * ProposerPageUrl : http://qa.policyboss.com/HealthInsuranceIndia/ContactDetails?CustomerReferenceNumber=172878&SelectedQuoteId=16&SupportsAgentID=2&CallingSource=POSPAPP&IsCustomer=0
+         * ProposerPageUrl : https://qa.policyboss.com/HealthInsuranceIndia/ContactDetails?CustomerReferenceNumber=172878&SelectedQuoteId=16&SupportsAgentID=2&CallingSource=POSPAPP&IsCustomer=0
          */
 
         private double NetPremium;

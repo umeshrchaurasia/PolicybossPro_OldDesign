@@ -7,7 +7,7 @@ public  class DocumentNCDEntity implements Parcelable {
             /**
              * id : 2
              * ncdcampaignid : 2
-             * documentpath : http://bo.mgfm.in/ncd//2/ncdedelweissbrokragestructure.pdf
+             * documentpath : https://bo.mgfm.in/ncd//2/ncdedelweissbrokragestructure.pdf
              * documentname : Brokerage Structure
              * documenttype : pdf
              */

@@ -18,7 +18,7 @@ public class GetQuoteResponse extends APIResponse implements Parcelable {
     private List<QuoteEntity> data;
     /**
      * quote_id : 1806
-     * url : http://beta.erp.rupeeboss.com/homeloan/home_loan_application_form.aspx
+     * url : https://beta.erp.rupeeboss.com/homeloan/home_loan_application_form.aspx
      */
 
     private int quote_id;

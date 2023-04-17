@@ -15,7 +15,7 @@ public abstract class LoanRetroRequestBuilder {
 
     static Retrofit restAdapter = null;
     // production url
-    //public static String URL = "http://www.rupeeboss.com";
+    //public static String URL = "https://www.rupeeboss.com";
 
     public final static String SUB_URL = "/api";
 

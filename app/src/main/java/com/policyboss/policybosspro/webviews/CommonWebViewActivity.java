@@ -329,7 +329,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         if (url.endsWith(".pdf")) {
 
             webView.loadUrl("https://docs.google.com/viewer?url=" + url);
-            //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+            //webView.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         } else {
             webView.loadUrl(url);
         }
@@ -501,7 +501,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         @JavascriptInterface
         public void callPDFCREDIT(String u) {
 
-            webView.loadUrl("http://www.google.com");
+            webView.loadUrl("https://www.google.com");
 
 //            startActivity(new Intent(CommonWebViewActivity.this, CommonWebViewActivity.class)
 //                    .putExtra("URL", url)

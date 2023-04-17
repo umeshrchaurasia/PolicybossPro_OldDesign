@@ -12,10 +12,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GenericRetroRequestBuilder {
 
-    //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
+    //protected String url = "https://services.rupeeboss.com/LoginDtls.svc/";
     static Retrofit restAdapter = null;
     // production url
-    //public static String URL = "http://www.healthassure.in";
+    //public static String URL = "https://www.healthassure.in";
 
     public static final String token = "1234567890";
 

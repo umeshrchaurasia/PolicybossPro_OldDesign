@@ -507,11 +507,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         case R.id.nav_leaddetail:
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
 
-                                    // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+                                    // .putExtra("URL", "https://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
                                     .putExtra("URL", "" + userConstantEntity.getLeadDashUrl()).putExtra("NAME", "" + "Sync Contact DashBoard").putExtra("TITLE", "" + "Sync Contact DashBoard"));
                             break;
                         case R.id.nav_gift:
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "Gift Voucher").putExtra("TITLE", "" + "Gift Voucher"));
+                         //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "Gift Voucher").putExtra("TITLE", "" + "Gift Voucher"));
                             break;
 /*
                     case R.id.nav_offlineQuotes:
@@ -556,7 +556,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             // dialogCoBrowser();
                             break;
                         case R.id.nav_franchise:
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf").putExtra("NAME", "Referral AGREEMENT").putExtra("TITLE", "Referral AGREEMENT"));
+                          //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https//erp.rupeeboss.com/FM/Franchise_Agreement.pdf").putExtra("NAME", "Referral AGREEMENT").putExtra("TITLE", "Referral AGREEMENT"));
                             // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                             break;
@@ -627,9 +627,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         case R.id.nav_REQUEST:
                            // ConfirmMoreServiceAlert();
                            startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class));
-                         //9     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://inv.policyboss.com/qrscan.html" ).putExtra("NAME", "Scan").putExtra("TITLE", "Scan"));
+                         //9     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","https://inv.policyboss.com/qrscan.html" ).putExtra("NAME", "Scan").putExtra("TITLE", "Scan"));
 
-                          //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/qrscan.html").putExtra("NAME", "Scanner").putExtra("TITLE", "Scanner"));
+                          //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://api.magicfinmart.com/qrscan.html").putExtra("NAME", "Scanner").putExtra("TITLE", "Scanner"));
 
 
                             break;
@@ -637,10 +637,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             // ConfirmMoreServiceAlert();
                         //    startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class))
 //https://qa-www.policyboss.com/car-insurance/document-uploadhttps://qa-www.policyboss.com/car-insurance/document-upload
-                       //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","http://api.magicfinmart.com/images/android.html?123" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                       //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","https://api.magicfinmart.com/images/android.html?123" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 //https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0
                   //    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/razorpay/?ss_id=133366&source=POSP_ONBOARD").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
-                         //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/images/andr.html").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                         //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://api.magicfinmart.com/images/andr.html").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
                        // startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0  ").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
@@ -665,7 +665,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_FreeCreditReport:
-                            Utility.loadWebViewUrlInBrowser(HomeActivity.this, "http://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
+                           // Utility.loadWebViewUrlInBrowser(HomeActivity.this, "https://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
                             break;
 
                         case R.id.nav_mybusinessLoan:
@@ -1048,7 +1048,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onClick(View v) {
                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
-                // openWebViewPopUp(txtFbaID, "http://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
+                // openWebViewPopUp(txtFbaID, "https://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
 
@@ -2411,7 +2411,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
 
 
-           //  url = "http://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000);
+           //  url = "https://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000);
 
 
 
@@ -2883,7 +2883,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    Utility.loadWebViewUrlInBrowser(HomeActivity.this, "http://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
+                   // Utility.loadWebViewUrlInBrowser(HomeActivity.this, "https://www.rupeeboss.com/equifax-finmart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()));
                 }
             });
 
@@ -2891,7 +2891,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    Utility.loadWebViewUrlInBrowser(HomeActivity.this, "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
+                   // Utility.loadWebViewUrlInBrowser(HomeActivity.this, "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
 
                 }
             });
@@ -2910,7 +2910,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Cash Loan").putExtra("TITLE", "" + "Cash Loan"));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Cash Loan").putExtra("TITLE", "" + "Cash Loan"));
                 }
             });
 
@@ -2922,9 +2922,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
                     //       MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
 
-                    //http://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
+                    //https://www.rupeeboss.com/lendingkart?fbaid=37292&type=finmart&loan_id=38054
 //                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-//                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
+//                            .putExtra("URL", "https://www.rupeeboss.com/lendingkart?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId()))
 //                            .putExtra("NAME", "" + "Business Loan")
 //                            .putExtra("TITLE", "" + "Business Loan"));
                 }
@@ -2935,7 +2935,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    //    http://www.rupeeboss.com/rectifycredit?fbaid=37292&type=finmart&loan_id=38054
+                    //    https://www.rupeeboss.com/rectifycredit?fbaid=37292&type=finmart&loan_id=38054
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Rectify Credit").putExtra("TITLE", "" + "Rectify Credit"));
 
                 }

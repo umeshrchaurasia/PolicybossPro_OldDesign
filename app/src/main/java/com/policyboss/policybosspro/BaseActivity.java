@@ -1516,7 +1516,7 @@ public class BaseActivity extends AppCompatActivity {
             //shareQuote();
 
             UserConstantEntity userConstantEntity =    new DBPersistanceController(BaseActivity.this).getUserConstantsData();
-            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class) // .putExtra("URL", "http://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
+            startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class) // .putExtra("URL", "https://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
                     .putExtra("URL", "" + userConstantEntity.getLeadDashUrl())
                     .putExtra("NAME", "" + "Sync Contact DashBoard")
                     .putExtra("TITLE", "" + "Sync Contact DashBoard"));
@@ -1820,7 +1820,7 @@ public class BaseActivity extends AppCompatActivity {
         if (url.endsWith(".pdf")) {
 
             webView.loadUrl("https://docs.google.com/viewer?url=" + url);
-            //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+            //webView.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         } else {
             webView.loadUrl(url);
         }

@@ -356,8 +356,8 @@ public class InputQuoteBottmActivity extends BaseActivity {
     public void redirectToBuy(ResponseEntity entity) {
 
         int fbaID = new DBPersistanceController(this).getUserData().getFBAId();
-        String url = "http://qa.policyboss.com/";
-        //String url = "http://policyboss.com/";
+        String url = "https://policyboss.com/";
+        //String url = "https://policyboss.com/";
         String title = "";
         String name = "";
         url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;

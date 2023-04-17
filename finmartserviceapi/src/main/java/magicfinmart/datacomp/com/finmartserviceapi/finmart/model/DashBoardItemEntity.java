@@ -8,8 +8,8 @@ public class DashBoardItemEntity implements Parcelable {
     /**
      * menuid : 6
      * menuname : Dashboard 1
-     * link : http://bo.magicfinmart.com
-     * iconimage : http://bo.magicfinmart.com
+     * link : https://bo.magicfinmart.com
+     * iconimage : https://bo.magicfinmart.com
      * isActive : 1
      * description : Dashboard 1
      * type : 2

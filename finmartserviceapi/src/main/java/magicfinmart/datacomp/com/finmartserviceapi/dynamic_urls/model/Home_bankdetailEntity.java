@@ -6,7 +6,7 @@ public class Home_bankdetailEntity {
          * Age : 22-60 years
          * Bank_Id : 33
          * Bank_Name : KOTAK MAHINDRA BANK
-         * Bank_URL : http://erp.rupeeboss.com/Banklogo/kotak.png
+         * Bank_URL : https://erp.rupeeboss.com/Banklogo/kotak.png
          * Best_ROI : 8.95%
          * Foreclosure_charges : NIL
          * LTV : Below 50Lakhs-85%  Above 50Lakhs- 75%

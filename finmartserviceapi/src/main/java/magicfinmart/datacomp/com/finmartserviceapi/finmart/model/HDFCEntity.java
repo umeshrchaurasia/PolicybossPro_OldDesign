@@ -25,7 +25,7 @@ public class HDFCEntity {
              * ApplicationNumber : 1200020762771
              * HDFCQuotationNumber : 
              * PdfUrl : 
-             * ProposerPageUrl : http://qa.policyboss.com/TermInsuranceIndia/HDFCProposal?CustomerReferenceNumber=218392&SelectedQuoteId=1&SupportsAgentID=0&CallingSource=POSPAPP&IsCustomer=0
+             * ProposerPageUrl : https://qa.policyboss.com/TermInsuranceIndia/HDFCProposal?CustomerReferenceNumber=218392&SelectedQuoteId=1&SupportsAgentID=0&CallingSource=POSPAPP&IsCustomer=0
              * QuoteStatus : Success
              */
 
