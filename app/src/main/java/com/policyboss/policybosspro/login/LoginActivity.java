@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
+import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
@@ -255,6 +256,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.tvSignUp:
                 startActivity(new Intent(this, RegisterActivity.class));
+
+                MyApplication.getInstance().trackEvent(Constants.FBA_REGISTER, "Clicked", "FBA REGISTER From Dashboard");
                 break;
             case R.id.lyRaiseTicket:
                // String url = "https://qa.policyboss.com/Finmart/Ticketing/ticket_login.html?landing_page=login_page";
@@ -302,6 +305,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Log.d("TOKEN" , prefManager.getToken());
                 showDialog();
                 new LoginController(this).login(loginRequestEntity, this);
+
+                MyApplication.getInstance().trackEvent(Constants.FBA_LOGIN, "Clicked", "FBA LOGIN From Dashboard");
+
                 break;
         }
     }

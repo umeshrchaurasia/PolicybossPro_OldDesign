@@ -118,10 +118,17 @@ public class MyApplication extends Application {
 
 
         Bundle bundle = new Bundle();
-        bundle.putString("category", category);
-        bundle.putString("action", action);
-        bundle.putString("label", label);
-        bundle.putString("User", ""+FBA_ID);
+     //   bundle.putString("category", category);
+     //   bundle.putString("action", action);
+     //   bundle.putString("label", label);
+        //bundle.putString("User", ""+FBA_ID);
+
+       // bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, category);
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, action);
+        bundle.putString(FirebaseAnalytics.Param.CREATIVE_NAME, label);
+
+        bundle.putString(FirebaseAnalytics.Param.TRANSACTION_ID,""+FBA_ID);
 
         mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
 

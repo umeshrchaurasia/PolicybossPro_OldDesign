@@ -355,7 +355,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
                 //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
                // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
-                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
+
                 break;
 
 
@@ -412,7 +412,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
               //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
-                MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
+
                 break;
             case 7:
                 //home loan
@@ -485,7 +485,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
                 //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
               //  new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
-                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.TWOWHEELER_INSURANCE, "Clicked", "Two Wheeler tab on home page");
                 break;
 
 
@@ -519,7 +519,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .putExtra("TITLE", "Commercial Vehicle Insurance"));
 
 
-                MyApplication.getInstance().trackEvent(Constants.CV, "Clicked", "Health CheckUp tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.COMMERCIAL_VEHICLE, "Clicked", "Health CheckUp tab on home page");
                 break;
 
             case 13:
@@ -649,6 +649,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     .putExtra("NAME", "" + dashboardEntity.getProductName())
                     .putExtra("TITLE", "" + dashboardEntity.getProductName()));
         }
+
+
     }
 
     @Override

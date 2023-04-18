@@ -40,14 +40,34 @@ public class Constants {
 
     //region Tracking Types
     public static float SPINNER_FONT_SIZE = 14f;
+
+    public static String MOTOR_INSURANCE =   "MOTOR_INSURANCE";
+    public static String HEALTH_INSURANCE = "HEALTH_INSURANCE";
+    public static String TWOWHEELER_INSURANCE = "TWOWHEELER_INSURANCE";
+    public static String COMMERCIAL_VEHICLE = "COMMERCIAL_VEHICLE";
+
+    public static String PoSP_Corner = "PoSP_Corner";
+    public static String SME_INSURANCE = "SME_INSURANCE";
+    public static String TERM_INSURANCE = "TERM_INSURANCE";
+    public static String TRAVEL_INSURANCE = "TRAVEL_INSURANCE";
+
+
+    public static String Sync_Contacts = "Sync_Contacts";
+    public static String CUSTOMER_COMM = "CUSTOMER_COMM";
+    public static String KNOWLEDGE_GURU_ = "KNOWLEDGE_GURU";
+    public static String FBA_LOGIN = "FBA_LOGIN";
+
+    public static String FBA_REGISTER = "FBA_REGISTER";
+    public static String CYBER_INSURANCE = "CYBER_INSURANCE";
+    public static String HEALTH_ADVISORY = "HEALTH_ADVISORY";
+
+
+    //navigation
     public static String LOGIN = "FBA LOGIN";
     public static String REGISTER = "FBA REGISTER";
-
     public static String SALES_MATERIAL = "CUSTOMER COMM.";
     public static String PENDING_CASES = "PENDING CASES";
     public static String KNOWLEDGE_GURU = "KNOWLEDGE GURU";
-
-    //navigation
     public static String MY_ACCOUNT = "MY ACCOUNT";
     public static String POSP = "POSP ENROLLMENT";
     public static String OFFLINE_QUOTES = "OFFLINE QUOTES";

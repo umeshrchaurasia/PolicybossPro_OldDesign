@@ -312,11 +312,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             .putExtra("NAME", "Motor Insurance")
                             .putExtra("TITLE", "Motor Insurance"));
 
+
                 }
 
                 //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
               //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
-                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.MOTOR_INSURANCE, "Clicked", "Motor insurance tab on home page");
+
                 break;
             case 23:
 
@@ -408,7 +410,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                 //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
-                MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.HEALTH_INSURANCE, "Clicked", "Health insurance tab on home page");
                 break;
             case 7:
                 //home loan
@@ -534,7 +536,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
                 //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
-                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.TWOWHEELER_INSURANCE, "Clicked", "Two Wheeler tab on home page");
                 break;
 
 
@@ -569,7 +571,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("TITLE", "Commercial Vehicle Insurance"));
 
 
-                MyApplication.getInstance().trackEvent(Constants.CV, "Clicked", "Health CheckUp tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.COMMERCIAL_VEHICLE, "Clicked", "COMMERCIAL VEHICLE tab on home page");
                 break;
 
             case 13:
@@ -652,7 +654,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 //Synch Contact
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), WelcomeSyncContactActivityNew.class));
                 // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
-                MyApplication.getInstance().trackEvent(Constants.SyncContacts, "Clicked", "Sync Contact");
+                MyApplication.getInstance().trackEvent(Constants.Sync_Contacts, "Clicked", "Sync Contacts tab on home page");
                 break;
 
         }
@@ -696,6 +698,31 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 .putExtra("dashBoardtype", "INSURANCE")
                                 .putExtra("NAME", dashboardEntity.getProductName())
                                 .putExtra("TITLE", dashboardEntity.getProductName()));
+
+                        if(productID == 34)
+                        {
+                            MyApplication.getInstance().trackEvent(Constants.TRAVEL_INSURANCE, "Clicked", "TRAVEL insurance tab on home page");
+
+                        }else if(productID == 36)
+                        {
+                            MyApplication.getInstance().trackEvent(Constants.TERM_INSURANCE, "Clicked", "TERM insurance tab on home page");
+
+                        }else if(productID == 37)
+                        {
+                            MyApplication.getInstance().trackEvent(Constants.SME_INSURANCE, "Clicked", "SME insurance tab on home page");
+
+                        }else if(productID == 42)
+                        {
+                            MyApplication.getInstance().trackEvent(Constants.PoSP_Corner, "Clicked", "PoSP corner tab on home page");
+
+                        }else if(productID == 33)
+                        {
+                            MyApplication.getInstance().trackEvent(Constants.HEALTH_ADVISORY, "Clicked", "HEALTH insurance advisory tab on home page");
+                        }else if(productID== 31)
+                        {
+                            MyApplication.getInstance().trackEvent(Constants.CYBER_INSURANCE, "Clicked", "CYBER insurance  tab on home page");
+                        }
+
 
                     }
 
