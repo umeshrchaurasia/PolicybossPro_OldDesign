@@ -1,61 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Attendance."
+    tools:context="com.policyboss.policybosspro.attendance.PolicyBossAttendanceActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TextStyle.Toolbar"
+            app:titleTextColor="@color/white"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".attendance.PolicyBossAttendanceActivity"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
     android:orientation="vertical">
 
     <LinearLayout
 
+        android:id="@+id/lyParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         android:padding="5dp"
-        android:id="@+id/lyParent"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_weight="100"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_weight="100"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btn_location"
+                style="@style/ButtonStyle.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:padding="15dp"
                 android:text="Get My Current Location"
                 android:textAllCaps="false"
                 android:textSize="16sp"
-                style="@style/ButtonStyle.Colored"
-                android:padding="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" />
 
 
         </LinearLayout>
 
+        <ProgressBar
+            android:layout_gravity="center"
+            android:id="@+id/imgLoader"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/twelve"
+            />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.7dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
 
             android:background="@color/seperator" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"
+            android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/textLatitudedesc"
@@ -63,10 +99,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:gravity="top"
-                android:textStyle="bold"
                 android:text="Latitude :  "
                 android:textAppearance="@style/TextStyle.TextLarge"
-                android:textColor="@color/dashboard_title" />
+                android:textColor="@color/dashboard_title"
+                android:textStyle="bold" />
 
 
             <TextView
@@ -77,18 +113,18 @@
 
                 android:gravity="top"
                 android:text=""
+                android:textAppearance="@style/TextStyle.TextMedium"
                 android:textColor="@color/header_light_text"
-                android:textStyle="bold"
 
-                android:textAppearance="@style/TextStyle.TextMedium" />
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingTop="5dp">
+            android:paddingTop="5dp"
+            android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/textLongitudedesc"
@@ -96,11 +132,11 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:gravity="top"
-                android:textStyle="bold"
-
                 android:text="Longitude :  "
+
                 android:textAppearance="@style/TextStyle.TextLarge"
-                android:textColor="@color/dashboard_title" />
+                android:textColor="@color/dashboard_title"
+                android:textStyle="bold" />
 
 
             <TextView
@@ -111,39 +147,41 @@
 
 
                 android:text=""
+                android:textAppearance="@style/TextStyle.TextMedium"
                 android:textColor="@color/header_light_text"
                 android:textStyle="bold"
-                android:textAppearance="@style/TextStyle.TextMedium"
 
                 />
 
         </RelativeLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_weight="100"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_weight="100"
             android:gravity="center"
-            android:layout_height="wrap_content">
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btn_submit_attendance"
+                style="@style/ButtonStyle.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit Attendance"
-                android:visibility="gone"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                style="@style/ButtonStyle.Colored"
-
+                android:layout_marginBottom="5dp"
                 android:padding="15dp"
+                android:text="Submit Attendance"
+                android:textAllCaps="false"
+
+                android:textSize="16sp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="5dp"
                 app:layout_constraintStart_toStartOf="parent" />
 
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="0.7dp"
@@ -154,13 +192,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@color/gray_button"
             android:gravity="center_horizontal"
             android:padding="10dp"
-            android:layout_marginTop="8dp"
+
             android:text="Attendance History"
             android:textColor="@color/white"
             android:textStyle="bold" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvOfflineItem"
             android:layout_width="match_parent"
@@ -175,3 +215,5 @@
 
 
 </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

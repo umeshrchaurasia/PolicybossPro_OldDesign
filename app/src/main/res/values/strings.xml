@@ -14,6 +14,11 @@
 
     </array>
 
+    <string name="attendanceKey">K!R:|A*J$P*</string>
+
+    <string name="permission_required">Required Permssion to access it</string>
+    <string name="allow">ALLOW</string>
+    <string name="location_req">Required for PolicyBoss Pro to get Location </string>
     <string name="empty_directory">Empty Directory</string>
     <string name="storage_removed">Storage was removed or unmounted.</string>
     <string name="choose_file">Select a file</string>

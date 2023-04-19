@@ -6,9 +6,12 @@ import com.utility.finmartcontact.core.response.ContactLogResponse
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckboxsaveResponse
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonEmpDetailResponse
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.Horizon_sync_contact_agree_Response
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.pbAttendance.pbAttendRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncContact.SaveCheckboxRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.PbAttendanceResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.pbAttendResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder
 import retrofit2.Call
@@ -57,5 +60,11 @@ interface SyncContactInterface {
     @POST("/auth_tokens/generate_web_auth_token")
     suspend fun getOauthToken( @Body body : HashMap<String,String> ): Response<OauthTokenResponse>
 
+
+
+ // *****************PB Attendance*******************************
+
+  @POST
+  suspend fun getPBAttendance(@Url strUrl : String,@Body body : pbAttendRequestEntity ): Response<pbAttendResponse>
 
 }

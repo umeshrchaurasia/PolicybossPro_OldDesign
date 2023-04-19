@@ -32,7 +32,7 @@
             android:id="@+id/nav_attendance"
             android:icon="@drawable/ic_business_name"
             android:orderInCategory="58"
-            android:visible="false"
+            android:visible="true"
             android:title="PB Attendance">
 
         </item>

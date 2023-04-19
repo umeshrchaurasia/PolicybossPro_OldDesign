@@ -4,6 +4,85 @@
     package="com.policyboss.policybosspro"
     tools:ignore="LockedOrientationActivity">
 
+    <queries>
+
+        <!-- Browser -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="http" />
+        </intent>
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+        <!-- Gallery -->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+
+            <data android:mimeType="image/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+
+            <data android:mimeType="image/*" />
+        </intent>
+        <!-- Added -->
+        <intent>
+            <action android:name="android.intent.action.DIAL" />
+
+            <data android:scheme="tel" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+
+            <data android:mimeType="application/pdf" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <!-- If you don't know the MIME type in advance, set "mimeType" to "*/*". -->
+            <data android:mimeType="application/pdf" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.CHOOSER" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:scheme="google.navigation" />
+        </intent>
+    </queries>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
     <application
         android:name="com.policyboss.policybosspro.MyApplication"
         android:allowBackup="false"
@@ -14,8 +93,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-
+        <activity
+            android:name=".attendance.PolicyBossAttendanceActivity"
+            android:label="PB Attendance"
+            android:parentActivityName="com.policyboss.policybosspro.home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".oauthtoken.OauthTokenActivity"
             android:exported="false"
@@ -290,9 +378,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
         </activity>
-
-
-
         <activity
             android:name="com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpPopUpActivity"
             android:noHistory="true"
@@ -534,8 +619,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.home.HomeActivity" />
         </activity>
-
-
         <activity
             android:name="com.policyboss.policybosspro.term.quoteapp.TermQuoteApplicationActivity"
             android:label="@string/title_activity_term_quote_application"
@@ -1059,79 +1142,5 @@
             android:exported="false" />
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
     </application>
-
-    <queries>
-
-        <!-- Browser -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-
-            <data android:scheme="http" />
-        </intent>
-        <!-- Camera -->
-        <intent>
-            <action android:name="android.media.action.IMAGE_CAPTURE" />
-        </intent>
-        <!-- Gallery -->
-        <intent>
-            <action android:name="android.intent.action.GET_CONTENT" />
-
-            <data android:mimeType="image/*" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.PICK" />
-
-            <data android:mimeType="image/*" />
-        </intent>
-        <!-- Added -->
-        <intent>
-            <action android:name="android.intent.action.DIAL" />
-
-            <data android:scheme="tel" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.SEND" />
-
-            <data android:mimeType="*/*" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.SEND" />
-
-            <data android:mimeType="application/pdf" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <!-- If you don't know the MIME type in advance, set "mimeType" to "*/*". -->
-            <data android:mimeType="application/pdf" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.CHOOSER" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-
-            <category android:name="android.intent.category.BROWSABLE" />
-
-            <data android:scheme="https" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-
-            <data android:scheme="google.navigation" />
-        </intent>
-    </queries>
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"
-        tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-
 
 </manifest>
