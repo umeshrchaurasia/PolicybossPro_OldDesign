@@ -14,14 +14,17 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.policybosscaller.Utility.showSnackbar
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +33,7 @@ import com.policyboss.policybosspro.APIState
 import com.policyboss.policybosspro.attendance.viewmodel.pbAttendanceViewModel
 import com.policyboss.policybosspro.attendance.viewmodel.pbAttendanceViewModelFactory
 import com.policyboss.policybosspro.databinding.ActivityPolicyBossAttendanceBinding
+import com.policyboss.policybosspro.utility.Constant
 
 import com.policyboss.policybosspro.utility.LocationService
 import com.policyboss.policybosspro.utility.UTILITY
@@ -49,12 +53,10 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
     lateinit var viewModel: pbAttendanceViewModel
     lateinit var loginResponseEntity: LoginResponseEntity
 
+    lateinit var mAdapter: PolicyBossAttendanceAdapter
     lateinit var btn_submit_attendance: Button
     private val REQUEST_CODE_ASK_PERMISSIONS = 1111
 
-
-    private var isFineLocation = false
-    private var isCoarseLocation = false
     private lateinit  var locationService: LocationService
     var perms = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION
@@ -68,8 +70,12 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
 
         setSupportActionBar(mainBinding.toolbar)
-        // mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        supportActionBar?.apply {
 
+            setDisplayShowHomeEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            //setTitle("WebView Kotlin ")
+        }
 
         // Initialize Sevice
         locationService = LocationService(this@PolicyBossAttendanceActivity,this@PolicyBossAttendanceActivity)
@@ -99,9 +105,21 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
         viewModel = ViewModelProvider(this,viewModelFactory).get(pbAttendanceViewModel::class.java)
 
 
-
         loginResponseEntity = DBPersistanceController(this).getUserData()
 
+        bindRecyclerView()
+
+    }
+
+    private fun bindRecyclerView(){
+
+        mAdapter = PolicyBossAttendanceAdapter(ArrayList())
+        mainBinding.rvAttendace.apply {
+
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(this@PolicyBossAttendanceActivity)
+            adapter = mAdapter
+        }
     }
 
     fun setListener (){
@@ -109,28 +127,34 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
         btn_submit_attendance.setOnClickListener {
             // locationService.createLocationRequest()
 
-            val url = "https://pbtimes.policyboss.com/EIS/JSON_Test/app_data_push_test.php"
 
-           var key = "K!R:|A*J$(P*"
-
-
-            val attendRequestEntity =  pbAttendRequestEntity(
-
-                DeviceId = UTILITY.getDeviceID(this@PolicyBossAttendanceActivity),
-                UID = "107898",
-                key = key.replace("(",""),
-                lat = mainBinding.tvLatitude.text.toString(),
-                lng = mainBinding.tvLatitude.text.toString(),
-                name = "knkk"
-            )
-
-          viewModel.getAttendance(url, attendRequestEntity)
         }
 
 
         mainBinding.btnLocation.setOnClickListener {
 
-            requestFineLocationPermission()
+            if(mainBinding.tvLatitude.text.isEmpty()){
+                requestFineLocationPermission()
+            }else{
+
+                val url = "https://pbtimes.policyboss.com/EIS/JSON_Test/app_data_push_test.php"
+
+                var key = "K!R:|A*J$" + "P*"
+
+
+                val attendRequestEntity =  pbAttendRequestEntity(
+
+                    DeviceId = UTILITY.getDeviceID(this@PolicyBossAttendanceActivity),
+                    UID = "107898",
+                    key = key,
+                    lat = mainBinding.tvLatitude.text.toString(),
+                    lng = mainBinding.tvLatitude.text.toString(),
+                    name = "knkk"
+                )
+
+                viewModel.getAttendance(Constant.pbAttendanceURL, attendRequestEntity)
+            }
+
 
         }
 
@@ -160,9 +184,11 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
                             if(it != null){
                                 it.data?.let{
                                     layout.showSnackbar(
-                                         it.message ?: "",
+                                         it.message ?: "Attendance marked successfully..",
                                         Snackbar.LENGTH_SHORT,
                                     )
+
+                                    mAdapter.setData(it.Details)
 
                                 }
                             }
@@ -211,6 +237,14 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
             mainBinding.tvLatitude.text = location.latitude.toString()
             mainBinding.tvLongitude.text = location.longitude.toString()
 
+            mainBinding.btnLocation.text = "Submit Attendance"
+            mainBinding.btnLocation.setBackgroundColor(
+                ContextCompat.getColor(
+                this@PolicyBossAttendanceActivity,
+                R.color.system_accent1_1000
+            )
+            )
+
         }
     }
 
@@ -227,6 +261,8 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
             Log.i("DEBUG", "permission granted")
 
             locationService.createLocationRequest()
+
+
 
         } else {
             Log.i("DEBUG", "permission denied")
@@ -337,10 +373,6 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
     fun showAnimDialog(){
 
         mainBinding.imgLoader.visibility = View.VISIBLE
-//        Glide.with(this@OauthTokenActivity).load<Any>(R.drawable.loading_gif)
-//            .asGif()
-//            .crossFade()
-//            .into(binding.imgLoader)
 
     }
 

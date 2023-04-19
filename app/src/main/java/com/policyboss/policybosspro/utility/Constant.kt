@@ -2,7 +2,7 @@ package com.policyboss.policybosspro.utility
 
 object Constant {
 
-
+    const val pbAttendanceURL = "https://pbtimes.policyboss.com/EIS/JSON_Test/app_data_push_test.php"
 
     const val KEY_fbaid : String = "fbaid"
 

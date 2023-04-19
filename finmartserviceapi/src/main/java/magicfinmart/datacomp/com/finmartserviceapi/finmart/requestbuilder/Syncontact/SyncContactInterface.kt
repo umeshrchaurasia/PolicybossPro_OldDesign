@@ -10,7 +10,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.pbAtten
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncContact.SaveCheckboxRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.PbAttendanceResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.pbAttendResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder
