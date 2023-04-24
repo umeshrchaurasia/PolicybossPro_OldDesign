@@ -1,0 +1,11 @@
+<resources>
+    <!--<string name="app_name">FinmartServiceAPI</string>-->
+
+    <string name="net_connection">Check your internet connection</string>
+
+    <string name="dash_finmart_exclusive">FINMART EXCLUSIVES</string>
+    <string name="dash_private_car">PRIVATE CAR</string>
+    <string name="dash_two_wheeler">TWO WHEELER</string>
+
+
+</resources>

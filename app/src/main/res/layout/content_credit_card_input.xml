@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".creditcard.newcreditcard.CreditCardInputActivity"
+    tools:showIn="@layout/activity_credit_card_input">
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="88">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/TextViewStyle.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Basic Details" />
+
+            <EditText
+                android:id="@+id/etOccupation"
+                style="@style/Style.edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_rectangle_border"
+                android:hint="Occupation"
+                android:padding="@dimen/fab_margin" />
+
+            <EditText
+                android:id="@+id/etMobile"
+                style="@style/Style.edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_rectangle_border"
+                android:hint="Mobile No."
+                android:inputType="number"
+                android:maxLength="10"
+                android:padding="@dimen/fab_margin" />
+
+            <Spinner
+                android:layout_marginTop="8dp"
+                android:id="@+id/spCCHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_spinner"
+                android:entries="@array/CCHolder"
+                android:padding="@dimen/fab_margin" />
+
+            <Spinner
+                android:layout_marginTop="8dp"
+                android:id="@+id/spCCExistingLoan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_spinner"
+                android:entries="@array/CCExistingLoan"
+                android:padding="@dimen/fab_margin" />
+
+            <Spinner
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/gradient_spinner"
+                android:id="@+id/spCCLoanTaken"
+                android:entries="@array/CCTakenLoan"
+                android:padding="@dimen/fab_margin" />
+
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btnCCNext"
+        style="@style/ButtonStyle.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="12"
+        android:layout_marginTop="8dp"
+        android:text="NEXT" />
+</LinearLayout>

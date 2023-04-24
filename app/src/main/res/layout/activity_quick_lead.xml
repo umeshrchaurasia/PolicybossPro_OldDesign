@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.policyboss.policybosspro.quicklead.QuickLeadActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TextStyle.Toolbar"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                style="@style/CardStyle.Home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardElevation="2dp">
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="First Name">
+
+                            <EditText
+                                android:id="@+id/etFirstName"
+                                style="@style/Style.edittext"
+                                android:inputType="text"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Last Name">
+
+                            <EditText
+                                android:id="@+id/etLastName"
+                                style="@style/Style.edittext"
+                                android:inputType="text"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Mobile Number">
+
+                            <EditText
+                                android:id="@+id/etMobile"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Email ID">
+
+                            <EditText
+                                android:id="@+id/etEmail"
+                                style="@style/Style.edittext"
+                                android:inputType="textEmailAddress"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="DOB">
+
+                            <EditText
+                                android:id="@+id/etdob"
+                                style="@style/Style.edittext"
+                                android:focusable="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Status">
+
+                            <EditText
+                                style="@style/Style.edittext"
+                                android:enabled="false"
+                                android:inputType="text"
+                                android:maxLines="1"
+                                android:text="New" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Follow up Date">
+
+                            <EditText
+                                android:id="@+id/etFollowupDate"
+                                style="@style/Style.edittext"
+                                android:focusable="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="PAN">
+
+                            <EditText
+                                android:id="@+id/etPAN"
+                                style="@style/Style.edittext"
+
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                                android:inputType="textCapCharacters"
+                                android:maxLength="10"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+                        <Spinner
+                            android:id="@+id/spProduct"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:entries="@array/quicklead_product"
+                            android:gravity="center" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Loan Amount">
+
+                            <EditText
+                                android:id="@+id/etLoanAmount"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+                                android:maxLength="9"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        >
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Company Name">
+
+                            <EditText
+                                android:id="@+id/etCompanyName"
+                                style="@style/Style.edittext"
+                                android:inputType="text"
+                                android:maxLines="1" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                            <Spinner
+                                android:id="@+id/spCompanyType"
+                                style="@style/SpinnerStyle.Underlined"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:entries="@array/quicklead_Company_Type"
+                                android:gravity="center" />
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+
+                        <Spinner
+                            android:id="@+id/spprofile"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:entries="@array/quicklead_Profile"
+                            android:gravity="center"
+
+                            />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tbl_monthly"
+                        android:visibility="gone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Monthly Income as per ITR">
+
+                            <EditText
+                                android:id="@+id/etMonthlyIncomeITR"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+
+                                android:maxLength="9"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                     android:id="@+id/tbl_yearly"
+                        android:visibility="gone"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+
+
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Yealy Income as per ITR">
+
+                            <EditText
+
+                                android:id="@+id/etyealyIncomeITR"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+                                android:maxLength="9"
+                                android:maxLines="1" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </TableRow>
+                    <TableRow
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="PINCODE">
+
+                            <EditText
+                                android:id="@+id/etPincode"
+                                style="@style/Style.edittext"
+                                android:inputType="number"
+                                android:digits="0123456789"
+                                android:maxLength="6" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="CITY">
+
+                            <EditText
+                                android:id="@+id/etCity"
+                                style="@style/Style.edittext"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                    </TableRow>
+                    <TableRow
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="STATE">
+
+                            <EditText
+                                android:id="@+id/etState"
+                                style="@style/Style.edittext"
+                                android:enabled="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    </TableRow>
+                    <TableRow
+
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="4dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Remark">
+
+                            <EditText
+                                android:id="@+id/etRemark"
+                                style="@style/Style.edittext"
+                                android:gravity="top"
+                                android:inputType="textMultiLine"
+                                android:maxLines="3" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp">
+
+                        <Button
+                            android:id="@+id/btnSubmit"
+                            style="@style/ButtonStyle.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="SUBMIT" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp">
+
+                    </TableRow>
+
+                </TableLayout>
+            </androidx.cardview.widget.CardView>
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

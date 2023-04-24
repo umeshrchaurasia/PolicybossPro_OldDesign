@@ -1,0 +1,201 @@
+apply plugin: 'com.android.application'
+//apply plugin: 'io.fabric'   // temp  05 changes
+
+
+
+
+
+
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        // temp  05 changes
+      //  classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+android {
+    signingConfigs {
+        release {
+        }
+    }
+    compileSdkVersion 32
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+
+    }
+    defaultConfig {
+        multiDexEnabled true
+        applicationId "com.policyboss.policybosspro"
+        minSdkVersion 21
+        targetSdkVersion 32
+        versionCode 17
+
+        versionName "0.1.7"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            resValue "string", "app_name", "PolicybossPro"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "FIRSTHIVE", '"138"'
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+            //useProguard true
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+            //useProguard false
+            resValue "string", "app_name", "qaPolicybossPro"
+            buildConfigField "String", "FIRSTHIVE", '"138"'
+
+            buildConfigField("long", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+        }
+        //preprodapiqa.mgfm.in
+        uat {
+            debuggable true
+            //useProguard false
+            resValue "string", "app_name", "uatPolicybossPro"
+            buildConfigField "String", "FIRSTHIVE", '"138"'
+
+            signingConfig signingConfigs.debug
+
+        }
+    }
+    ext {
+        enableCrashlytics = true
+        // temp  05 below line added
+        if (!enableCrashlytics) {
+            ext.enableCrashlytics = false
+        }
+    }
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
+
+    // Added 05  {Not taking directly : No method error found }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.gms:play-services-vision:19.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx:21.1.0'
+
+
+//    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+//    implementation 'androidx.navigation:navigation-ui:2.0.0'
+//    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+//    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+//
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'org.adw.library:discrete-seekbar:1.0.1'
+    implementation 'me.relex:circleindicator:1.2.2@aar'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'com.google.firebase:firebase-core:17.2.2'
+    implementation 'com.google.firebase:firebase-dynamic-links:21.1.0'
+
+    implementation 'commons-io:commons-io:2.0.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation project(path: ':finmartserviceapi')
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+    implementation 'com.google.code.gson:gson:2.8.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+    implementation 'com.borjabravo:readmoretextview:2.1.0'
+
+
+
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
+
+    // ViewModel ktx [For Factory method its handle its self]
+    implementation "androidx.activity:activity-ktx:1.5.1"
+    implementation "androidx.fragment:fragment-ktx:1.5.5"
+
+
+    implementation 'com.razorpay:checkout:1.5.15' //razor Pay
+
+    implementation  'io.ak1:bubbletabbar:1.0.8'
+
+   // implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
+
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'  // shimmer effect
+
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0"
+
+    // val work_version = "2.7.1"
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+
+
+
+    implementation "androidx.activity:activity:1.5.1"
+    implementation "androidx.fragment:fragment:1.5.1"
+
+    // for contact and call log
+    implementation 'com.github.tamir7.contacts:contacts:1.1.7'
+
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+
+    implementation 'com.alex-zaitsev:meternumberpicker:1.0.5'
+
+    
+
+}
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+

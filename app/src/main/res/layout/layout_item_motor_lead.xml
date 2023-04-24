@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/llDetails"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="95"
+            android:orientation="horizontal"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="2dp"
+            android:weightSum="100">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="40"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtPersonName"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:gravity="left"
+                    android:maxLines="2"
+                    android:textAllCaps="true"
+                    android:textColor="@color/uvv_black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtVehicleName"
+                    style="@style/TextStyle.TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="left"
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_light_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextStyle.TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="CRN NO."
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_light_text" />
+
+                <TextView
+                    android:id="@+id/txtCrnNo"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="left"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="30"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextStyle.TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Expiry date"
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_light_text" />
+
+                <TextView
+                    android:id="@+id/txtQuoteDate"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="left"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="@color/seperator"
+       android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:paddingBottom="8dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+       >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/llNewLead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="2dp"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+
+                    android:src="@drawable/file_add" />
+
+                <TextView
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="New Lead"
+
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llViewLead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingRight="2dp"
+                android:layout_marginRight="5dp">
+
+
+                <ImageView
+                    android:id="@+id/imgView"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+
+                    android:src="@drawable/view" />
+
+                <TextView
+                    android:id="@+id/txtView"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="View Lead"
+
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llEditLead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="2dp"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/imgEdit"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+
+                    android:src="@drawable/agreemnet" />
+
+                <TextView
+                    android:id="@+id/txtEdit"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Edit Lead"
+
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtLost"
+            style="@style/TextViewStyle.VerySmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="5dp"
+
+            android:textColor="@color/white"
+            android:background="@drawable/blue_background"
+            android:text="Update Status" />
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+</LinearLayout>
+

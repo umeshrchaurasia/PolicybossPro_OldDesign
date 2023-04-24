@@ -1,0 +1,654 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/mainScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="90">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cvQuoteDetails"
+                    style="@style/CardViewStyle"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    app:cardElevation="2dp"></androidx.cardview.widget.CardView>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="First Name">
+
+                            <EditText
+                                android:id="@+id/etFirstName"
+                                style="@style/Style.edittext"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:drawableRight="@drawable/vector_person"
+                                android:imeOptions="actionNext"
+                                android:inputType="textCapWords"
+                                android:maxLength="25"
+
+                                android:nextFocusForward="@+id/etLasttName"
+                                android:singleLine="true" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Last Name">
+
+                            <EditText
+                                android:id="@+id/etLasttName"
+                                style="@style/Style.edittext"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:drawableRight="@drawable/vector_person"
+                                android:maxLength="25"
+                                android:inputType="textCapWords"
+                                android:singleLine="true" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:hint="Smoker"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="GENDER"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="100">
+
+                                <RadioGroup
+                                    android:id="@+id/rgGender"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="50"
+                                    android:orientation="horizontal">
+
+                                    <RadioButton
+                                        android:id="@+id/rbmale"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:checked="true"
+                                        android:text="MALE" />
+
+                                    <RadioButton
+                                        android:id="@+id/rbfemale"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="FEMALE" />
+                                </RadioGroup>
+                            </LinearLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:hint="Mobile">
+
+                            <EditText
+                                android:id="@+id/etMobile"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_mobile"
+                                android:inputType="number"
+                                android:maxLength="10" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:hint="Date Of Birth">
+
+                            <EditText
+                                android:id="@+id/et_DOB"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_date"
+                                android:focusable="false" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Smoker"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Smoker"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="100">
+
+                                <RadioGroup
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="50"
+                                    android:orientation="horizontal">
+
+                                    <RadioButton
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="50"
+                                        android:text="YES" />
+
+                                    <RadioButton
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="50"
+                                        android:checked="true"
+                                        android:text="NO" />
+                                </RadioGroup>
+                            </LinearLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llGender"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="bottom"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                style="@style/TextStyle.TextMedium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Gender"
+                                android:textColor="@color/colorAccent" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvMale"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/customeborder_blue"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:text="Male"
+                                    android:textStyle="bold"
+                                    android:textAppearance="@style/TextStyle.TextMedium"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/tvFemale"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/customeborder"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:text="Female"
+                                    android:textAppearance="@style/TextStyle.TextMedium"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llSmoker"
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:gravity="bottom"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                style="@style/TextStyle.TextMedium"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Smoker"
+                                android:textColor="@color/colorAccent" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/tvYes"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/customeborder"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:text="Yes"
+
+                                    android:textAppearance="@style/TextStyle.TextMedium"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:id="@+id/tvNo"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/customeborder_blue"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:text="No"
+                                    android:textStyle="bold"
+                                    android:textAppearance="@style/TextStyle.TextMedium"
+                                    android:textColor="@color/black" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <!--Compare ICICI-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="POLICY TERM">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="left"
+                            android:text="Policy Term"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14sp" />
+
+                        <Spinner
+                            android:id="@+id/spPolicyTerm"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:dropDownWidth="200dp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Premium Frequency">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="left"
+                            android:text="Premium Frequency"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="14sp" />
+
+                        <Spinner
+                            android:id="@+id/spICICIPremiumFrequency"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/lakshya_premium_frequency" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="3dp"
+                    android:gravity="center_horizontal"
+                    android:text="Lic Jeevan Lakshya Sum Assured "
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="12dp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="100">
+
+
+                    <TextView
+                        android:id="@+id/txt10lac"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="20"
+                        android:textStyle="bold"
+                        android:background="@drawable/customeborder_blue"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="10L" />
+
+                    <TextView
+                        android:id="@+id/txt25lac"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/customeborder"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="25L" />
+
+                    <TextView
+                        android:id="@+id/txt50lac"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/customeborder"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="50L" />
+
+                    <TextView
+                        android:id="@+id/txt1cr"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/customeborder"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="1 CR" />
+
+                    <TextView
+                        android:id="@+id/txtOther"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginRight="4dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/customeborder"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="OTHER" />
+
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/lySeekbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="100"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <EditText
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:padding="8dp"
+
+                        android:gravity="center"
+                        android:id="@+id/etSumICICIAssured"
+                        style="@style/Style.edittext"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="9" />
+
+                    <TextView
+                        android:id="@+id/txtDispalaylac"
+                        style="@style/TextViewStyle.Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:text="Sum ASSURED should be Multiply of Lacs" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnGetrecalculate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@drawable/orange_oval_shape"
+                        android:gravity="center"
+                        android:minHeight="30dp"
+                        android:text="CALCULATE PREMIUM"
+                        android:textColor="@color/white" />
+
+                    <LinearLayout
+                        android:id="@+id/lyAnnualPremium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/colorPrimary"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/txtAnnualPremiumDisplay"
+                                style="@style/TextStyle.TextLarge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="8dp"
+                                android:gravity="center_horizontal"
+                                android:lines="1"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="8dp"
+
+                                android:text=""
+                                android:textAllCaps="true"
+                                android:textColor="@color/white" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/llksa"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/rljk"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/blue_border_graybg"
+                                    android:padding="10dp"
+                                    android:text="LIC JEEVAN LAKSHYA"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/blue_border_graybg"
+                                    android:gravity="center"
+                                    android:padding="10dp"
+                                    android:text="ULTRA LAKSHYA"
+                                    android:textColor="@color/black"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:id="@+id/etCal_lic"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/blue_border"
+                                android:gravity="center_horizontal"
+                                android:padding="10dp"
+                                android:text=""
+                                android:textColor="@color/red_descent"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                style="@style/TextViewStyle.Large"
+                                android:id="@+id/etCal_ultra"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:background="@drawable/blue_border"
+                                android:gravity="center_horizontal"
+                                android:padding="10dp"
+                                android:text=""
+                                android:textColor="@color/colorPrimaryDark"
+                                android:textStyle="bold" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnGetQuote"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="VIEW ILLUSTRATION"
+        android:visibility="gone" />
+</LinearLayout>
