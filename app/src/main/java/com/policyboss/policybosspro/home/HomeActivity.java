@@ -731,6 +731,28 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             drawerLayout.setDrawerListener(actionBarDrawerToggle);
             //calling sync state is necessay or else your hamburger icon wont show up
             actionBarDrawerToggle.syncState();
+
+            //Marketing pop up
+            if (userConstantEntity != null) {
+                if (userConstantEntity.getAndroidpromarketEnable() != null) {
+
+                    if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+                        if (!userConstantEntity.getAndroidpromarketuidurl().equals("")) {
+
+
+                            openWebViewPopUp_marketing(txtFbaID, userConstantEntity.getAndroidpromarketuidurl(), true, "");
+
+                        }
+                    } else {
+                        if (!userConstantEntity.getAndroidpromarkefbaurl().equals("")) {
+
+                            openWebViewPopUp_marketing(txtFbaID, userConstantEntity.getAndroidpromarkefbaurl(), true, "");
+
+                        }
+                    }
+
+                }
+            }
         }
         catch (Exception e) {
                 e.printStackTrace();
@@ -1083,6 +1105,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
                 Glide.with(HomeActivity.this).load(userConstantEntity.getLoansendphoto()).placeholder(R.drawable.circle_placeholder).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(64, 64).transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                         .into(ivProfile);
+
+
+                //new
+
+
             } catch (Exception e) {
 
             }
@@ -1529,6 +1556,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         //Notification Url :-1 November
                         int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
 
+
+
+
                         if (userConstantEntity.getNotificationpopupurltype() != null) {
 
                             if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
@@ -1552,6 +1582,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             }
 
                         }
+
+
 //                    else if(1==1){
 //
 //                        showContactAlert("My Account Update", getString(R.string.buyHdfc));
@@ -2226,13 +2258,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         //Attendance
-//        if (loginResponseEntity.getIsUidLogin().equals("Y")) {
-//            //visible attendance
-//            nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
-//        } else {
-//            //hide attendance
-//            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
-//        }
+
+
+        if (userConstantEntity.getAndroidproattendanceEnable().equals("1")) {
+            if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+                //visible attendance
+                nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
+            } else {
+                //hide attendance
+                nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
+            }
+        }else
+        {
+            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
+        }
 
         //init_headers();
 
