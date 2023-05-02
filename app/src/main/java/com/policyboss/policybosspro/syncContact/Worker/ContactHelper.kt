@@ -1,19 +1,13 @@
 package com.policyboss.policybosspro.syncContact.Worker
 
-import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
-import android.text.TextUtils
-import android.util.Log
-import com.policyboss.policybosspro.utility.Constant
-import java.io.IOException
-import java.util.*
-import kotlin.collections.ArrayList
 
 object ContactHelper {
 
-
+         val maxSize = 150
+         val maxStandardSize = 100
         private val TAG = "CALL_LOG_CONTACT"
 
         @JvmStatic
@@ -229,25 +223,70 @@ object ContactHelper {
 
             }
 
-            val address = Address()
-            address.street =
-                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.STREET))
-            address.city =
-                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.CITY))
-            address.region =
-                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.REGION))
-            address.country =
-                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY))
-            val addressType =
-                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.TYPE))
-            if (addressType != null && (addressType == ContactsContract.CommonDataKinds.StructuredPostal.TYPE_CUSTOM.toString())) {
-                address.label =
-                    cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.LABEL))
+            val address = Address()     // For Address  05 Added Below for test large data
+
+
+            var street = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.STREET))
+
+            street ?.let {
+
+                if(it.count() > maxSize){
+
+                    street = it.take(maxSize)
+                }
+
+                address.street = street
             }
 
 
-            addressList.add( "${address.city?: ""}${address.region ?: ""}${address.street ?: ""}  ")
+             var city =
+                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.CITY))
 
+            city ?.let {
+
+                if(it.count() > maxStandardSize){
+
+                    city = it.take(maxStandardSize)
+                }
+
+                address.city = city
+            }
+
+
+            var region =
+                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.CITY))
+
+            region ?.let {
+
+                if(it.count() > maxStandardSize){
+
+                    region = it.take(maxStandardSize)
+                }
+
+                address.region = region
+            }
+
+            //region old Data 05 Commnted For Testing
+//            address.street =
+//                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.STREET))
+
+//            address.city =
+//                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.CITY))
+//            address.region =
+//                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.REGION))
+//            address.country =
+//                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY))
+//            val addressType =
+//                cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.TYPE))
+//            if (addressType != null && (addressType == ContactsContract.CommonDataKinds.StructuredPostal.TYPE_CUSTOM.toString())) {
+//                address.label =
+//                    cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.LABEL))
+//            }
+
+          //  addressList.add( "${address.city?: ""}${address.region ?: ""}${address.street ?: ""}  ")
+       //endregion
+
+            addressList.add( "${address.city ?: ""}${address.region ?: ""}${address.street ?: ""}  ")
 
             contatcAddressMapList.put(displayName,addressList)
 
@@ -284,7 +323,8 @@ object ContactHelper {
         //*********************************************************//
 
 
-        data class ModelContact(var displayName : String ? = "",
+        data class ModelContact(
+            var displayName: String? = "",
         ){
 
             var phoneNo: MutableList<String> = ArrayList()
@@ -299,6 +339,7 @@ object ContactHelper {
             var region : String ? = ""
             var country  : String ? = ""
             var label: String? = ""
+
         }
 
 

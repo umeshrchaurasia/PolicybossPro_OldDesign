@@ -203,7 +203,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         // Todo : For Chain (Parallel Chaining)
         val parallelWorks: MutableList<OneTimeWorkRequest> = mutableListOf<OneTimeWorkRequest>()
         parallelWorks.add(ContactWorkRequest)
-        parallelWorks.add(callLogWorkRequest)
+      //  parallelWorks.add(callLogWorkRequest)
         workManager.beginWith(parallelWorks)
             .enqueue()
 
