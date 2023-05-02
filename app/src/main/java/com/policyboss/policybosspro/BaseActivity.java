@@ -109,6 +109,7 @@ public class BaseActivity extends AppCompatActivity {
     final String mapKey = "map_switchuser";
     public static final String TERM_FOR_INPUT_FRAGMENT = "for_term_input";
     Dialog webviewDialog;
+    Dialog webviewDialog_mrk;
 
     public String getDateFromAge(int age) {
 
@@ -1451,6 +1452,61 @@ public class BaseActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     // Close dialog
                     webviewDialog.dismiss();
+//                    if (webViewPopUpListener != null)
+//                        webViewPopUpListener.onCancelClick(webviewDialog, view);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void openWebViewPopUp_marketing(final View view, String url, boolean isCancelable,String strHdr) {
+        try {
+            if (webviewDialog_mrk != null && webviewDialog_mrk.isShowing()) {
+
+                return;
+            }
+
+             webviewDialog_mrk = new Dialog(BaseActivity.this);
+            webviewDialog_mrk.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            webviewDialog_mrk.setContentView(R.layout.layout_common_webview_popup);
+
+            webviewDialog_mrk.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            webView = webviewDialog_mrk.findViewById(R.id.webView);
+            TextView txtTitle =  webviewDialog_mrk.findViewById(R.id.txtTitle);
+
+            if(strHdr.trim().equals("")){
+                txtTitle.setVisibility(View.GONE);
+            }else{
+
+                txtTitle.setText(""+ strHdr.toUpperCase());
+                txtTitle.setVisibility(View.VISIBLE);
+            }
+            settingWebview(webView, url);
+            ImageView ivCross = (ImageView) webviewDialog_mrk.findViewById(R.id.ivCross);
+
+            webviewDialog_mrk.setCancelable(isCancelable);
+            webviewDialog_mrk.setCanceledOnTouchOutside(isCancelable);
+            //  webviewDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+            Window dialogWindow = webviewDialog_mrk.getWindow();
+
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = lp.MATCH_PARENT;  // Width
+            lp.height = lp.WRAP_CONTENT; // Height
+            dialogWindow.setAttributes(lp);
+            dialogWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+
+            webviewDialog_mrk.show();
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    webviewDialog_mrk.dismiss();
 //                    if (webViewPopUpListener != null)
 //                        webViewPopUpListener.onCancelClick(webviewDialog, view);
                 }

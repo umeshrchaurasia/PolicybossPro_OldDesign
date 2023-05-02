@@ -110,6 +110,12 @@ public class UserConstantEntity extends RealmObject {
 
     private String androidproouathEnabled;
 
+    private String androidproattendanceEnable;
+
+    private String androidpromarketEnable;
+    private String androidpromarketuidurl;
+    private String androidpromarkefbaurl;
+
     /**
      * plbanner :https://horizon.policyboss.com:5443/images/plbanner.gif
      * plactive : 1
@@ -1210,4 +1216,37 @@ public class UserConstantEntity extends RealmObject {
     public void setEnablesyncprofileupdate(String enablesyncprofileupdate) {
         this.enablesyncprofileupdate = enablesyncprofileupdate;
     }
+
+    public String getAndroidproattendanceEnable() {
+        return androidproattendanceEnable;
+    }
+
+    public void setAndroidproattendanceEnable(String androidproattendanceEnable) {
+        this.androidproattendanceEnable = androidproattendanceEnable;
+    }
+
+    public String getAndroidpromarketEnable() {
+        return androidpromarketEnable;
+    }
+
+    public void setAndroidpromarketEnable(String androidpromarketEnable) {
+        this.androidpromarketEnable = androidpromarketEnable;
+    }
+
+    public String getAndroidpromarketuidurl() {
+        return androidpromarketuidurl;
+    }
+
+    public void setAndroidpromarketuidurl(String androidpromarketuidurl) {
+        this.androidpromarketuidurl = androidpromarketuidurl;
+    }
+
+    public String getAndroidpromarkefbaurl() {
+        return androidpromarkefbaurl;
+    }
+
+    public void setAndroidpromarkefbaurl(String androidpromarkefbaurl) {
+        this.androidpromarkefbaurl = androidpromarkefbaurl;
+    }
+
 }
