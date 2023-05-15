@@ -22,6 +22,7 @@ public class MenuItemEntity implements Parcelable {
     private String description;
     private int type;
     private String sequence;
+    //private int ProdId;
 
     public String getSequence() {
         return sequence;

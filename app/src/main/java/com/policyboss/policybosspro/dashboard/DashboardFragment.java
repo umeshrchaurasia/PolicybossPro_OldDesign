@@ -75,10 +75,10 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     String LangType = "";
 
 
-    WifiManager mainWifi;
-    WifiReceiver receiverWifi;
-    List<ScanResult> wifiList;
-    ArrayList<String> wifiArrayList;
+  //  WifiManager mainWifi;
+  //  WifiReceiver receiverWifi;
+  //  List<ScanResult> wifiList;
+  //  ArrayList<String> wifiArrayList;
     DBPersistanceController db;
     Dialog showDialog ;
 
@@ -90,7 +90,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     public void onPause() {
         super.onPause();
         try {
-            getActivity().unregisterReceiver(receiverWifi);
+          //  getActivity().unregisterReceiver(receiverWifi);
         } catch (Exception e) {
 
         }
@@ -109,11 +109,11 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         showDialog = new Dialog(getActivity(),R.style.Dialog);
 
         setListener();
-        receiverWifi = new WifiReceiver();
-        wifiArrayList = new ArrayList<>();
-        mainWifi = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-        mainWifi.startScan();
+       // receiverWifi = new WifiReceiver();
+       // wifiArrayList = new ArrayList<>();
+      //  mainWifi = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+       // getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+      //  mainWifi.startScan();
 
 
         registerPopUp(this);
@@ -150,19 +150,19 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         return view;
     }
 
-    class WifiReceiver extends BroadcastReceiver {
-        public void onReceive(Context c, Intent intent) {
-            try {
-                wifiList = mainWifi.getScanResults();
-                for (int i = 0; i < wifiList.size(); i++) {
-                    wifiArrayList.add((wifiList.get(i)).toString());
-                }
-                new UserBehaviourFacade(getActivity()).saveWifi(wifiArrayList.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    class WifiReceiver extends BroadcastReceiver {
+//        public void onReceive(Context c, Intent intent) {
+//            try {
+//                wifiList = mainWifi.getScanResults();
+//                for (int i = 0; i < wifiList.size(); i++) {
+//                    wifiArrayList.add((wifiList.get(i)).toString());
+//                }
+//                new UserBehaviourFacade(getActivity()).saveWifi(wifiArrayList.toString());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     private void setListener() {
         tvKnowledge.setOnClickListener(this);
