@@ -19,8 +19,8 @@ class LocationService(context: Activity, locationListner: ILocation?) {
     var mContext: Activity
     var locationListner: ILocation? = null
 
-   // lateinit var locationRequest: LocationRequest
-    var  locationRequest: LocationRequest
+    lateinit var locationRequest: LocationRequest
+    //var  locationRequest: LocationRequest
     //  private LocationCallback locationCallback ;
 
     //  private LocationCallback locationCallback ;
@@ -37,10 +37,10 @@ class LocationService(context: Activity, locationListner: ILocation?) {
 
         this.locationListner = locationListner
 
-        locationRequest = LocationRequest.create()
-        locationRequest.setInterval(10000)
-        locationRequest.setFastestInterval(5000)
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+//        locationRequest = LocationRequest.create()
+//        locationRequest.setInterval(10000)
+//        locationRequest.setFastestInterval(5000)
+//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
 
     }
 
@@ -65,13 +65,15 @@ class LocationService(context: Activity, locationListner: ILocation?) {
 
     fun createLocationRequest() {
 
-//        locationRequest = LocationRequest.create()
-//        locationRequest.setInterval(10000)
-//        locationRequest.setFastestInterval(5000)
-//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        locationRequest = LocationRequest.create()
+        locationRequest.setInterval(10000)
+        locationRequest.setFastestInterval(5000)
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
 
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
+
+        builder.setAlwaysShow(true)
         val client = LocationServices.getSettingsClient(mContext)
         val task = client.checkLocationSettings(builder.build())
         task.addOnSuccessListener(mContext!!) {
