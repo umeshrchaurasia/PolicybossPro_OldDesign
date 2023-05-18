@@ -186,16 +186,9 @@
                     android:layout_weight="100"
                     android:gravity="center"
                     android:visibility="visible"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-<!--                    <Button-->
-<!--                        android:id="@+id/btn_next"-->
-<!--                        android:layout_width="200dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:padding="@dimen/twelve"-->
-<!--                        android:background="@drawable/custome_curveborder_blue"-->
-<!--                        android:text="Next"-->
-<!--                        android:textColor="@color/button_color" />-->
+
                     <Button
                         android:id="@+id/btn_submit_attendance"
 
@@ -207,24 +200,24 @@
                         android:textAllCaps="false"
                         android:textSize="16sp"
                         android:visibility="visible"
-                      />
+                        tools:ignore="TextContrastCheck" />
 
 
+                    <TextView
+                        android:id="@+id/txtMessage"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="@dimen/eight"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/muli"
+                        android:text=""
+                        android:textColor="@color/header_dark_text"
+                        android:textStyle="normal" />
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtMessage"
-                    android:gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="@dimen/eight"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/muli"
-                    android:text=""
-                    android:textColor="@color/header_dark_text"
-                    android:textStyle="normal" />
 
                 <View
                     android:layout_width="match_parent"

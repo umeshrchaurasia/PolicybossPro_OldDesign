@@ -36,7 +36,6 @@ import com.policyboss.policybosspro.utility.Constant
 import com.policyboss.policybosspro.utility.LocationService
 import com.policyboss.policybosspro.utility.UTILITY
 import com.policyboss.policybosspro.utility.UtilityNew
-import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
@@ -45,6 +44,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.pbAtten
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding
+import kotlinx.coroutines.*
 
 class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocation {
 
@@ -65,6 +65,9 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
     var perms = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION
     )
+
+    private var Lat = ""
+    private var Lon = ""
 
     lateinit var locationRequest: LocationRequest
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,6 +139,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
         mainBinding.btnLocation.setOnClickListener {
 
+
             isCurrentLocationCliked = true
             clearlatlon()
             requestFineLocationPermission()
@@ -145,26 +149,11 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
         btn_submit_attendance.setOnClickListener {
 
-            if(mainBinding.tvLatitude.text.isEmpty()){
-                requestFineLocationPermission()
-            }else{
-
-
-                var key = "K!R:|A*J$" + "P*"
-
-
-                val attendRequestEntity =  pbAttendRequestEntity(
-
-                    DeviceId = UTILITY.getDeviceID(this@PolicyBossAttendanceActivity),
-                    UID = userConstantEntity.userid,
-                    key = key,
-                    lat = mainBinding.tvLatitude.text.toString(),
-                    lng = mainBinding.tvLatitude.text.toString(),
-                    name = loginResponseEntity.fullName
-                )
-
-                viewModel.getAttendance(Constant.pbAttendanceURL, attendRequestEntity)
+            handlingSaveLatLonButton(isblnEnable = false)
+           lifecycleScope.launch {
+               submitAttend()
             }
+
 
         }
 
@@ -177,8 +166,74 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
     fun clearlatlon(){
         mainBinding.tvLatitude.text = ""
         mainBinding.tvLongitude.text = ""
+        mainBinding.txtMessage.text = ""
+        Lat = ""
+        Lon = ""
     }
 
+    fun handlingSaveLatLonButton(isblnEnable: Boolean){
+
+        if(isblnEnable){
+
+            btn_submit_attendance.setBackgroundColor(ContextCompat.getColor(this@PolicyBossAttendanceActivity, R.color.green_descent))
+
+            btn_submit_attendance.isEnabled = true
+        }else{
+            btn_submit_attendance.background?.alpha = 80
+            btn_submit_attendance.isEnabled = false
+        }
+
+    }
+
+
+    private suspend fun submitAttend() {
+
+        mainBinding.lyheader.visibility = View.GONE
+
+        var getLocation = lifecycleScope.async {
+
+            clearlatlon()
+            requestFineLocationPermission()
+        }
+
+        getLocation.await()
+        delay(2000)
+
+       var saveLocation = lifecycleScope.async {
+            if (!Lat.isEmpty()) {
+
+                var key = "K!R:|A*J$" + "P*"
+
+
+                val attendRequestEntity = pbAttendRequestEntity(
+
+                    DeviceId = UTILITY.getDeviceID(this@PolicyBossAttendanceActivity),
+                    UID = userConstantEntity.userid,
+                    key = key,
+                    lat = Lat,
+                    lng = Lon,
+                    name = loginResponseEntity.fullName
+                )
+
+                viewModel.getAttendance(Constant.pbAttendanceURL, attendRequestEntity)
+
+            } else {
+
+                layout.showSnackbar(
+                    "Location are not found",
+                    Snackbar.LENGTH_SHORT
+                )
+
+            }
+        }
+
+        saveLocation.await()
+
+
+
+
+
+    }
     //endregion
 
 
@@ -201,6 +256,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
                         is APIState.Success ->{
 
                             cancelDialog()
+                            handlingSaveLatLonButton(isblnEnable = true)
                             if(it != null){
                                 it.data?.let{
 
@@ -222,7 +278,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
                             cancelDialog()
                             clearlatlon()
-
+                            handlingSaveLatLonButton(isblnEnable = true)
                          //   mainBinding.txtMessage.setTextColor()
                             mainBinding.txtMessage.setTextColor( ContextCompat.getColor(
                                 this@PolicyBossAttendanceActivity,
@@ -273,9 +329,13 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
             if(isCurrentLocationCliked){
 
+
+
+                Lat = location.latitude.toString()
+                Lon = location.longitude.toString()
+
                 mainBinding.tvLatitude.text = location.latitude.toString()
                 mainBinding.tvLongitude.text = location.longitude.toString()
-
                 mainBinding.lySubmit.visibility = View.VISIBLE
 
             }else{
@@ -416,12 +476,23 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
     override fun onBackPressed() {
         super.onBackPressed()
+        locationService.stopLocationUpdates()
         finish()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         locationService.stopLocationUpdates()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        clearlatlon()
+        mainBinding.lySubmit.visibility = View.GONE
+        mainBinding.lyheader.visibility = View.GONE
+       // locationService.stopLocationUpdates()
+
     }
 
    //endregion
