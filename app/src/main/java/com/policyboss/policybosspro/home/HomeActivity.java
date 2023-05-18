@@ -296,13 +296,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             toolbar.setTitle("PolicyBoss Pro");
 
 
-            getNotificationAction();
+
 
             init_headers();
 
 
+
+
             setNavigationMenu(prefManager.getLanguage());    // Set Navigation Drawer
 
+            getNotificationAction();
 
             if (savedInstanceState == null) {
                 selectHome();
@@ -397,7 +400,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             int sequence = Integer.parseInt(menuItemEntity.getSequence());
                             sequence = (sequence * 100) + 1;
                             if (menuItem.getItemId() == sequence) {
-                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", menuItemEntity.getLink()).putExtra("NAME", menuItemEntity.getMenuname()).putExtra("TITLE", menuItemEntity.getMenuname()));
+
+                                String menudetail="";
+                                String append_menu = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=ip_address=&mac_address=&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                                     + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&login_ssid=";
+
+
+
+                                menudetail = menuItemEntity.getLink() + append_menu;
+
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                        .putExtra("URL", menudetail)
+                                        .putExtra("NAME", menuItemEntity.getMenuname())
+                                        .putExtra("TITLE", menuItemEntity.getMenuname()));
                                 return true;
                             }
                         }
@@ -505,10 +520,24 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_leaddetail:
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
 
-                                    // .putExtra("URL", "https://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
-                                    .putExtra("URL", "" + userConstantEntity.getLeadDashUrl()).putExtra("NAME", "" + "Sync Contact DashBoard").putExtra("TITLE", "" + "Sync Contact DashBoard"));
+                            String leaddetail="";
+                            String append_lead = "&ip_address=&mac_address=&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&login_ssid=";
+                            leaddetail = userConstantEntity.getLeadDashUrl() + append_lead;
+
+                         //   &product_id=1
+
+                           // String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=&mac_address=&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                                    // + "&product_id=" + prdID
+                            //        + "&login_ssid=";
+                         //   deeplink_value = deeplink_value + append;
+
+
+
+  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", "" + leaddetail).putExtra("NAME", "" + "Sync Contact DashBoard").putExtra("TITLE", "" + "Sync Contact DashBoard"));
+
+
                             break;
                         case R.id.nav_gift:
                          //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://labs.firsthive.com/magicfinmart/#!/redeem?fbaid=" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "Gift Voucher").putExtra("TITLE", "" + "Gift Voucher"));
@@ -639,10 +668,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //https://qa-www.policyboss.com/car-insurance/document-uploadhttps://qa-www.policyboss.com/car-insurance/document-upload
                        //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","https://api.magicfinmart.com/images/android.html?123" ).putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 //https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0
-                  //    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/razorpay/?ss_id=133366&source=POSP_ONBOARD").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+               //      startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/razorpay/?ss_id=133366&source=POSP_ONBOARD").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
                          //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://api.magicfinmart.com/images/andr.html").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
-                       // startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com/car-insurance/proposal-summary?ClientID=2&ARN=ARN-VSJGKNYG-HKXF-R91U-WBOM-0MFCRP7JQULJ_4360148_281697&POSP=NonPOSP&SsID=0  ").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com").putExtra("NAME", "QAPolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
                                 break;
 
@@ -1833,6 +1862,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     @Override
     public void OnFailure(Throwable t) {
+
+
         cancelDialogMain();
         //openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
         Log.d(Constants.TAG, t.getMessage() );
@@ -2109,7 +2140,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             MenuItem menuItem = nav_Menu.findItem(R.id.nav_addposp);
             if (menuItem != null) {
                 if (visibility == 1) menuItem.setVisible(true);
-                else menuItem.setVisible(false);
+                else menuItem.setVisible(true);
             }
         }
 

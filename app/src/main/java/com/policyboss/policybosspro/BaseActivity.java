@@ -244,6 +244,7 @@ public class BaseActivity extends AppCompatActivity {
             Realm.init(BaseActivity.this);
             // Get a Realm instance for this thread
             realm = Realm.getDefaultInstance();
+            webviewDialog_mrk = new Dialog(BaseActivity.this);
 
         }catch ( Exception ex){
 
@@ -1463,12 +1464,12 @@ public class BaseActivity extends AppCompatActivity {
 
     public void openWebViewPopUp_marketing(final View view, String url, boolean isCancelable,String strHdr) {
         try {
-            if (webviewDialog_mrk != null && webviewDialog_mrk.isShowing()) {
+            if ( webviewDialog_mrk.isShowing()) {
 
                 return;
             }
 
-             webviewDialog_mrk = new Dialog(BaseActivity.this);
+
             webviewDialog_mrk.requestWindowFeature(Window.FEATURE_NO_TITLE);
             webviewDialog_mrk.setContentView(R.layout.layout_common_webview_popup);
 
