@@ -2,6 +2,7 @@ package com.policyboss.policybosspro.attendance
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Dialog
 
 import android.content.Context
@@ -9,6 +10,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -61,7 +63,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
     private lateinit  var locationService: LocationService
     lateinit var showDialog: Dialog
-    var isCurrentLocationCliked = false
+    var isSubmitLocationCliked = false
     var perms = arrayOf(
         Manifest.permission.ACCESS_FINE_LOCATION
     )
@@ -104,6 +106,15 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
         setListener ()
 
         observePunchAttendance()
+
+//        layout.showSnackbar(
+//            "Required Device Location",
+//            Snackbar.LENGTH_INDEFINITE,
+//            "ALLOW"){
+//
+//            UtilityNew.settingDialog(context = this, ::settingDialogAction)
+//
+//        }
     }
 
     private fun init(){
@@ -120,6 +131,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
         loginResponseEntity = db.getUserData()
         userConstantEntity = db.userConstantsData
         bindRecyclerView()
+        cancelAnimDialog()
 
     }
 
@@ -140,27 +152,93 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
         mainBinding.btnLocation.setOnClickListener {
 
 
-            isCurrentLocationCliked = true
+           // isCurrentLocationCliked = true
+           // showAnimDialog()
+            mainBinding.lyheader.visibility = View.GONE
             clearlatlon()
+            isSubmitLocationCliked = false
             requestFineLocationPermission()
 
+           // cancelAnimDialog()
 
         }
 
-        btn_submit_attendance.setOnClickListener {
+        mainBinding.btnSubmitAttendance.setOnClickListener {
 
-            handlingSaveLatLonButton(isblnEnable = false)
-           lifecycleScope.launch {
-               submitAttend()
+
+            submitAttend()
+
+        }
+
+
+
+
+
+    }
+
+    fun submitAttend() {
+
+
+        mainBinding.txtMessage.text =""
+        mainBinding.lyheader.visibility = View.GONE
+
+        if(checkPermission()){
+
+            if(isLocationEnabled(this@PolicyBossAttendanceActivity)){
+
+                showAnimDialog()
+
+                handlingSaveLatLonButton(isblnEnable = false)
+
+                locationService.createLocationRequest()
+
+                isSubmitLocationCliked = true
+            }else{
+
+               clearlatlon()
+                Snackbar.make(layout, "Please Enable Device Location..",
+                        Snackbar.LENGTH_LONG).show()
+
             }
 
 
+        }else{
+
+            requestFineLocationPermission()
         }
 
 
 
+    }
+
+    fun saveAttendData(){
+
+        if (!Lat.isEmpty()) {
+
+            var key = "K!R:|A*J$" + "P*"
+
+            val attendRequestEntity = pbAttendRequestEntity(
+
+                DeviceId = UTILITY.getDeviceID(this@PolicyBossAttendanceActivity),
+                UID = userConstantEntity.userid,
+                key = key,
+                lat = Lat,
+                lng = Lon,
+                name = loginResponseEntity.fullName
+            )
+
+            viewModel.getAttendance(Constant.pbAttendanceURL, attendRequestEntity)
+
+        } else {
+
+            handlingSaveLatLonButton(isblnEnable = true)
+            layout.showSnackbar(
+                "Location are not found",
+                Snackbar.LENGTH_SHORT
+            )
 
 
+        }
     }
 
     fun clearlatlon(){
@@ -175,65 +253,21 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
         if(isblnEnable){
 
-            btn_submit_attendance.setBackgroundColor(ContextCompat.getColor(this@PolicyBossAttendanceActivity, R.color.green_descent))
-
-            btn_submit_attendance.isEnabled = true
+           // btn_submit_attendance.setBackgroundColor(ContextCompat.getColor(this@PolicyBossAttendanceActivity, R.color.green_descent))
+           // btn_submit_attendance.setBackgroundResource(R.drawable.bg_primary_rect)
+          //  btn_submit_attendance.background?.alpha = 100
+            btn_submit_attendance.alpha = 1F
+           // btn_submit_attendance.isEnabled = true
         }else{
-            btn_submit_attendance.background?.alpha = 80
-            btn_submit_attendance.isEnabled = false
+          //  btn_submit_attendance.background?.alpha = 80
+            btn_submit_attendance.alpha = 0.6F
+           // btn_submit_attendance.isEnabled = false
         }
 
     }
 
 
-    private suspend fun submitAttend() {
 
-        mainBinding.lyheader.visibility = View.GONE
-
-        var getLocation = lifecycleScope.async {
-
-            clearlatlon()
-            requestFineLocationPermission()
-        }
-
-        getLocation.await()
-        delay(2000)
-
-       var saveLocation = lifecycleScope.async {
-            if (!Lat.isEmpty()) {
-
-                var key = "K!R:|A*J$" + "P*"
-
-
-                val attendRequestEntity = pbAttendRequestEntity(
-
-                    DeviceId = UTILITY.getDeviceID(this@PolicyBossAttendanceActivity),
-                    UID = userConstantEntity.userid,
-                    key = key,
-                    lat = Lat,
-                    lng = Lon,
-                    name = loginResponseEntity.fullName
-                )
-
-                viewModel.getAttendance(Constant.pbAttendanceURL, attendRequestEntity)
-
-            } else {
-
-                layout.showSnackbar(
-                    "Location are not found",
-                    Snackbar.LENGTH_SHORT
-                )
-
-            }
-        }
-
-        saveLocation.await()
-
-
-
-
-
-    }
     //endregion
 
 
@@ -256,6 +290,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
                         is APIState.Success ->{
 
                             cancelDialog()
+                            cancelAnimDialog()
                             handlingSaveLatLonButton(isblnEnable = true)
                             if(it != null){
                                 it.data?.let{
@@ -277,6 +312,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
                         is APIState.Failure -> {
 
                             cancelDialog()
+                            cancelAnimDialog()
                             clearlatlon()
                             handlingSaveLatLonButton(isblnEnable = true)
                          //   mainBinding.txtMessage.setTextColor()
@@ -294,8 +330,9 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
                         }
 
                         is APIState.Empty ->{
-                            //cancelAnimDialog()
+
                             cancelDialog()
+
                         }
                     }
 
@@ -327,25 +364,18 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
          //  cancelAnimDialog()
             locationService.stopLocationUpdates()
 
-            if(isCurrentLocationCliked){
+            Lat = location.latitude.toString()
+            Lon = location.longitude.toString()
+
+            mainBinding.tvLatitude.text = location.latitude.toString()
+            mainBinding.tvLongitude.text = location.longitude.toString()
+            mainBinding.lySubmit.visibility = View.VISIBLE
 
 
+            if(isSubmitLocationCliked ){
 
-                Lat = location.latitude.toString()
-                Lon = location.longitude.toString()
-
-                mainBinding.tvLatitude.text = location.latitude.toString()
-                mainBinding.tvLongitude.text = location.longitude.toString()
-                mainBinding.lySubmit.visibility = View.VISIBLE
-
-            }else{
-
-                clearlatlon()
-
-                mainBinding.lySubmit.visibility = View.GONE
-
+                saveAttendData()
             }
-
 
 
         }
@@ -371,6 +401,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
         } else {
             Log.i("DEBUG", "permission denied")
             //binding.tvCallLogInfo.setImageDrawable(ContextCompat.getDrawable(this@SettingActivity, R.drawable.circular_exclaimlayer))
+            handlingSaveLatLonButton(isblnEnable = true)
 
             layout.showSnackbar(
                 "Required for PolicyBoss Pro to get Location",
@@ -400,6 +431,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
             }
 
             "N" -> {
+
 
                 dialog.dismiss()
 
@@ -448,15 +480,21 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
     ///
 
     fun showAnimDialog(){
-
-        mainBinding.imgLoader.visibility = View.VISIBLE
+          mainBinding.txtLoader.visibility = View.VISIBLE
 
     }
 
     fun cancelAnimDialog(){
 
 
-        mainBinding.imgLoader.visibility = View.GONE
+       mainBinding.txtLoader.visibility = View.GONE
+    }
+
+    @SuppressLint("ServiceCast")
+    fun isLocationEnabled(context: Context): Boolean {
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
     }
 
     //endregion
@@ -476,7 +514,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
 
     override fun onBackPressed() {
         super.onBackPressed()
-        locationService.stopLocationUpdates()
+
         finish()
     }
 
@@ -485,15 +523,7 @@ class PolicyBossAttendanceActivity : AppCompatActivity(), LocationService.ILocat
         locationService.stopLocationUpdates()
     }
 
-    override fun onResume() {
-        super.onResume()
 
-        clearlatlon()
-        mainBinding.lySubmit.visibility = View.GONE
-        mainBinding.lyheader.visibility = View.GONE
-       // locationService.stopLocationUpdates()
-
-    }
 
    //endregion
 

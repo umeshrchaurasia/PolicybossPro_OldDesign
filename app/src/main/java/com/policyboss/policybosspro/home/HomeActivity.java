@@ -1982,21 +1982,25 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onResume() {
         super.onResume();
 
-        // will be upadte everytyime user comes on dashboard
-        toolbar.setTitle("PolicyBoss Pro");
+        try {
+            // will be upadte everytyime user comes on dashboard
+            toolbar.setTitle("PolicyBoss Pro");
 
-        if (NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
+            if (NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
 
-            if (loginResponseEntity != null) {
-               // new MasterController(this).getConstants(this);
-                new MasterController(this).geUserConstant(1, this);
+                if (loginResponseEntity != null) {
+                    // new MasterController(this).getConstants(this);
+                    new MasterController(this).geUserConstant(1, this);
+                }
             }
+
+            LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
+
+            LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
+        }catch (Exception ex){
+
+            Log.d(TAG,ex.getMessage());
         }
-
-        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
-
-        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
-
 
     }
 

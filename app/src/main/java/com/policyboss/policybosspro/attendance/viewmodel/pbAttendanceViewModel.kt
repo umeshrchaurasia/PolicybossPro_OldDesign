@@ -1,10 +1,12 @@
 package com.policyboss.policybosspro.attendance.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.policybosspro.APIState
 import com.policyboss.policybosspro.attendance.pbAttendanceRepository
+import com.policyboss.policybosspro.utility.Constant
 import com.policyboss.policybosspro.utility.UTILITY
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,7 +34,11 @@ class pbAttendanceViewModel (val pbRepository: pbAttendanceRepository) : ViewMod
         try {
 
             pbRepository.getAttendance(url,pbAttendRequestEntity)
-                .catch {
+                .catch { it ->
+
+                   // Log.d(Constant.TAG,"Error1"+it.message.toString())
+                    attendMutuableStateFlow.value = APIState.Failure(errorMessage = UTILITY.ErrorMessage)
+                    Log.d(Constant.TAG,"Error1"+it.message.toString())
 
                 }.collect{ data ->
 
@@ -54,7 +60,7 @@ class pbAttendanceViewModel (val pbRepository: pbAttendanceRepository) : ViewMod
         }catch (ex : Exception){
 
             attendMutuableStateFlow.value = APIState.Failure(errorMessage = UTILITY.ErrorMessage)
-
+            Log.d(Constant.TAG, "Error2"+ ex.message.toString())
         }
     }
 

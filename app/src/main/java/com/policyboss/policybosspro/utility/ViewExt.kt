@@ -39,8 +39,12 @@ fun View.showSnackbar(view: View,msg: String) {
 }
 
 
-fun View.showSnackbar(msg: String, length: Int) {
-    showSnackbar(msg, length, null, {})
+//fun View.showSnackbar(msg: String, length: Int) {
+//    showSnackbar(msg, length, null, {})
+//}
+
+fun View.showSnackbar(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
+    Snackbar.make(this, message, duration).show()
 }
 
 fun View.showSnackbar(

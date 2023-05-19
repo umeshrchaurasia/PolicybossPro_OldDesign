@@ -119,7 +119,7 @@ object ContactHelper {
                 var modeContact : ModelContact
 
 
-                  contatcPhoneMapList.forEach{
+                contatcPhoneMapList.forEach{
 
                       modeContact =  ModelContact(displayName = it.key.toString() )
 

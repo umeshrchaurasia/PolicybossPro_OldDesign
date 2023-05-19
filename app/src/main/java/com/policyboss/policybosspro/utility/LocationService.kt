@@ -73,7 +73,9 @@ class LocationService(context: Activity, locationListner: ILocation?) {
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(locationRequest)
 
+
         builder.setAlwaysShow(true)
+
         val client = LocationServices.getSettingsClient(mContext)
         val task = client.checkLocationSettings(builder.build())
         task.addOnSuccessListener(mContext!!) {

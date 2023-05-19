@@ -14,7 +14,7 @@ import java.io.FileOutputStream
 object UTILITY {
 
 
-      const val ErrorMessage : String = "Data Not Found.\nPlease try Again!!"
+      const val ErrorMessage : String = "Data Not Found.Please try Again!!"
 
         @JvmStatic
         fun getFilePath(context: Context, contentUri: Uri): String? {
