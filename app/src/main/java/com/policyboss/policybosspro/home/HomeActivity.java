@@ -1208,7 +1208,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         loginRequestEntity.setPassword(outputMap.get("Parent_PWD"));
                     }
 
-                    loginRequestEntity.setDeviceId("" + new ReadDeviceID(HomeActivity.this).getAndroidID());
+                    loginRequestEntity.setDeviceId("" +  Utility.getDeviceId(HomeActivity.this));
                     loginRequestEntity.setTokenId(prefManager.getToken());
                     loginRequestEntity.setIsChildLogin("Y");
 
