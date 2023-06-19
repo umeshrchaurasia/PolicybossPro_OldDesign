@@ -671,8 +671,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                //      startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/razorpay/?ss_id=133366&source=POSP_ONBOARD").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
                          //   startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://api.magicfinmart.com/images/andr.html").putExtra("NAME", "PolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
-                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com").putExtra("NAME", "QAPolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                  //      startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com").putExtra("NAME", "QAPolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
+                        //    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://inv.policyboss.com/andr.html").putExtra("NAME", "QAPolicyBoss").putExtra("TITLE", "PolicyBoss"));
                                 break;
 
                         case R.id.nav_MYUtilities:

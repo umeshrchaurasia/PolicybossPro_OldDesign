@@ -557,6 +557,30 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 gethorizonpospdetails(ssid);
             }
         }
+        @JavascriptInterface
+        public void copyToClipboard(String str) {
+
+            if (!str.equals("")) {
+                UTILITY.copyTextToClipboard(str,CommonWebViewActivity.this);
+            }
+        }
+
+        @JavascriptInterface
+        public void shareToText(String str)
+        {
+            if (!str.equals("")) {
+           // UTILITY.copyTextToClipboard(str,CommonWebViewActivity.this);
+
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, str);
+                sendIntent.setType("text/plain");
+
+                Intent shareIntent = Intent.createChooser(sendIntent, null);
+                startActivity(shareIntent);
+            }
+
+        }
 
 
     }

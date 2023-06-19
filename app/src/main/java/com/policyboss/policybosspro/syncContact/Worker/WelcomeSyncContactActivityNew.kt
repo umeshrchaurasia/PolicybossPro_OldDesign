@@ -1,6 +1,7 @@
 package com.policyboss.policybosspro.syncContact.Worker
 
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
@@ -290,6 +291,7 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private suspend fun savecheckboxdetails(){
 
         withContext(Dispatchers.IO){
