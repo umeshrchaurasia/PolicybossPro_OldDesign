@@ -557,8 +557,6 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 gethorizonpospdetails(ssid);
             }
         }
-
-
     }
 
     @Override
