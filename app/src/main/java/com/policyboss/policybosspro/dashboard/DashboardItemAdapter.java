@@ -29,6 +29,7 @@ import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteApp
 import com.policyboss.policybosspro.ncd.NCDActivity;
 import com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity;
 import com.policyboss.policybosspro.quicklead.QuickLeadActivity;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityKotlin;
 import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.ultralaksha.ultra_selection.UltraLakshaSelectionActivity;
@@ -650,7 +651,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             case 41:
                 //Synch Contact
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), WelcomeSyncContactActivityNew.class));
+                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), WelcomeSyncContactActivityKotlin.class));
                 // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
                 MyApplication.getInstance().trackEvent(Constants.SyncContacts, "Clicked", "Sync Contact");
                 break;

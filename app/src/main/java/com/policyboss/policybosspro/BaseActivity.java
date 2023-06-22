@@ -52,6 +52,7 @@ import android.widget.Toast;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.login.LoginActivity;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityKotlin;
 import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.hdfc.HdfcTermActivity;
 import com.policyboss.policybosspro.term.icici.IciciTermActivity;
@@ -1564,7 +1565,7 @@ public class BaseActivity extends AppCompatActivity {
         public void synccontacts() {
             //Get the string value to process
             //shareQuote();
-            startActivity(new Intent(BaseActivity.this, WelcomeSyncContactActivityNew.class));
+            startActivity(new Intent(BaseActivity.this, WelcomeSyncContactActivityKotlin.class));
         }
 
         @JavascriptInterface

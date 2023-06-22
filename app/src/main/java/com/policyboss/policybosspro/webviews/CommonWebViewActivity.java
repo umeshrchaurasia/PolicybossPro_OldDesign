@@ -61,6 +61,7 @@ import com.policyboss.policybosspro.paymentEliteplan.RazorPaymentEliteActivity;
 import com.policyboss.policybosspro.paymentEliteplan.SyncRazorPaymentActivity;
 
 import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivity;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityKotlin;
 import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
@@ -440,7 +441,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         @JavascriptInterface
         public void getsynccontact() {
 
-            Intent intent = new Intent(CommonWebViewActivity.this, WelcomeSyncContactActivityNew.class);
+            Intent intent = new Intent(CommonWebViewActivity.this, WelcomeSyncContactActivityKotlin.class);
          //   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
