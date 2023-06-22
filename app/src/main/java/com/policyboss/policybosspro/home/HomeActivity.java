@@ -54,7 +54,7 @@ import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
 
-import com.policyboss.policybosspro.attendance.PolicyBossAttendanceActivity;
+
 import com.policyboss.policybosspro.certificate.POSP_certicate_appointment;
 import com.policyboss.policybosspro.change_password.ChangePasswordFragment;
 import com.policyboss.policybosspro.contact_lead.ContactLeadActivity;
@@ -102,6 +102,7 @@ import com.policyboss.policybosspro.utility.CoroutineHelper;
 import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
+import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
 import com.policyboss.policybosspro.whatsnew.WhatsNewActivity;
 import com.google.android.material.navigation.NavigationView;
 
@@ -421,10 +422,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     switch (menuItem.getItemId()) {
 
-                        case R.id.nav_attendance:
-
-                           startActivity(new Intent(HomeActivity.this, PolicyBossAttendanceActivity.class));
-                            break;
 
                         case R.id.nav_generateLead:
                             startActivity(new Intent(HomeActivity.this, GenerateLeadActivity.class));
@@ -718,6 +715,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
                         case R.id.nav_policy:
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
+                            break;
+                        case R.id.nav_delete:
+//                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).
+//                                    putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
+
+                            startActivity(new Intent(HomeActivity.this, PrivacyWebViewActivity.class)
+                                    .putExtra(
+                                            "URL",
+                                            "https://www.policyboss.com/initiate-account-deletion-pro?ssid="+userConstantEntity.getPOSPNo()+
+                                                    "name="+userConstantEntity.getFullName()+"mobile="+userConstantEntity.getFullName()
+                                    )
+                                    .putExtra("NAME", "" + "Account-Delete")
+                                    .putExtra("TITLE", "" + "Account-Delete"));
+
                             break;
                         default:
                             break;
@@ -2296,18 +2307,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //Attendance
 
 
-        if (userConstantEntity.getAndroidproattendanceEnable().equals("1")) {
-            if (loginResponseEntity.getIsUidLogin().equals("Y")) {
-                //visible attendance
-                nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
-            } else {
-                //hide attendance
-                nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
-            }
-        }else
-        {
-            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
-        }
+//        if (userConstantEntity.getAndroidproattendanceEnable().equals("1")) {
+//            if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+//                //visible attendance
+//                nav_Menu.findItem(R.id.nav_attendance).setVisible(true);
+//            } else {
+//                //hide attendance
+//                nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
+//            }
+//        }else
+//        {
+//            nav_Menu.findItem(R.id.nav_attendance).setVisible(false);
+//        }
 
         //init_headers();
 

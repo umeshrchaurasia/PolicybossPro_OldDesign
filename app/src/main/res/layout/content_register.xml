@@ -479,6 +479,7 @@
 
 
         <LinearLayout
+
             android:id="@+id/rlProfessionalInfo"
             style="@style/HeaderLayout"
             android:layout_marginLeft="@dimen/view_spacing_small"
@@ -612,6 +613,56 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:padding="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="By continuing, you agree with our "
+                android:textColor="@color/gray_button"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtterm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:text="@string/tc"
+                android:textAppearance="@style/TextViewStyle.Large"
+                android:textColor="@color/blue" />
+
+            <TextView
+                android:id="@+id/txttermspace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+
+                android:text=","
+                android:textAppearance="@style/TextViewStyle.Large"
+                android:textColor="@color/blue" />
+            <TextView
+                android:padding="4dp"
+                android:id="@+id/txtprivacy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextViewStyle.Large"
+                android:textColor="@color/blue"
+                android:text="@string/privacy"
+                />
+
+
+        </LinearLayout>
 
         <Button
 

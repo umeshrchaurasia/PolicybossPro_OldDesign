@@ -15,6 +15,7 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
@@ -58,6 +60,7 @@ import com.policyboss.policybosspro.register.adapters.RegisterPospAmountAdapter;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
+import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -117,7 +120,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     RegisterRequestEntity registerRequestEntity;
     Boolean isValidPersonalInfo = false, isMobileValid = false;
-    TextView tvOk, txtMale, txtFemale;
+    TextView tvOk, txtMale, txtFemale ,txtterm,txtprivacy;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
     boolean isMale = false, isFemale = false;
@@ -345,7 +348,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         txtMale.setOnClickListener(this);
         txtFemale.setOnClickListener(this);
         etConfirmEmail.setOnFocusChangeListener(confirmEmailFocus);
-
+        txtterm.setOnClickListener(this);
+        txtprivacy.setOnClickListener(this);
 
     }
 
@@ -362,6 +366,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     };
 
     private void initWidgets() {
+
+        txtterm = findViewById(R.id.txtterm);
+        txtprivacy =  findViewById(R.id.txtprivacy);
+
         spLifeIns = (MultiSelectionSpinner) findViewById(R.id.spLifeIns);
         spGenIns = (MultiSelectionSpinner) findViewById(R.id.spGenIns);
         spHealthIns = (MultiSelectionSpinner) findViewById(R.id.spHealthIns);
@@ -418,6 +426,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         try {
             switch (view.getId()) {
+
+                case R.id.txtprivacy:
+
+                    startActivity(new Intent(this, PrivacyWebViewActivity.class)
+                            .putExtra(
+                                    "URL",
+                                    "https://www.policyboss.com/privacy-policy-policyboss-pro"
+                            )
+                            .putExtra("NAME", "" + "privacy-policy")
+                            .putExtra("TITLE", "" + "privacy-policy"));
+                    break;
+                case R.id.txtterm:
+                    startActivity(new Intent(this, PrivacyWebViewActivity.class)
+                            .putExtra("URL", "https://www.policyboss.com/terms-condition")
+                            .putExtra("NAME", "" + "Terms & Conditions")
+                            .putExtra("TITLE", "" + "Terms & Conditions"));
+                    break;
+
+
                 case R.id.txtMale:
                     isFemale = false;
                     isMale = true;

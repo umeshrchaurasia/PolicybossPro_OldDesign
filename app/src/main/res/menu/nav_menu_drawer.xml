@@ -28,14 +28,6 @@
 
         </item>
 
-        <item
-            android:id="@+id/nav_attendance"
-            android:icon="@drawable/attendanceicon"
-            android:orderInCategory="58"
-            android:visible="false"
-            android:title="PB Attendance">
-
-        </item>
 
 
         <item
@@ -338,6 +330,11 @@
                 android:orderInCategory="820"
                 android:title="Privacy Policy" />
 
+            <item
+                android:id="@+id/nav_delete"
+                android:icon="@drawable/delete"
+                android:orderInCategory="830"
+                android:title="Account-Delete" />
 
         </menu>
     </item>

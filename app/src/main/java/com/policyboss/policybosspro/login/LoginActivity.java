@@ -34,6 +34,8 @@ import com.policyboss.policybosspro.register.RegisterActivity;
 import com.policyboss.policybosspro.utility.Constants;		
 import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
+import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
+import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -57,7 +59,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     PrefManager prefManager;
     EditText etEmail, etPassword;
     LoginRequestEntity loginRequestEntity;
-    TextView tvSignUp, tvForgotPass;
+    TextView tvSignUp, tvForgotPass, txtterm,txtprivacy;
     Button btnSignIn;
     LinearLayout lyRaiseTicket;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
@@ -236,9 +238,16 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         btnSignIn.setOnClickListener(this);
         tvForgotPass.setOnClickListener(this);
         lyRaiseTicket.setOnClickListener(this);
+
+        txtterm.setOnClickListener(this);
+        txtprivacy.setOnClickListener(this);
+
     }
 
     private void initWidgets() {
+
+        txtterm = findViewById(R.id.txtterm);
+        txtprivacy =  findViewById(R.id.txtprivacy);
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
         tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
@@ -264,6 +273,23 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                 startActivity(new Intent(this, RaiseTicketDialogActivity.class)
                              .putExtra("URL", url));
+                break;
+
+            case R.id.txtprivacy:
+
+                startActivity(new Intent(this, PrivacyWebViewActivity.class)
+                        .putExtra(
+                                "URL",
+                                "https://www.policyboss.com/privacy-policy-policyboss-pro"
+                        )
+                        .putExtra("NAME", "" + "privacy-policy")
+                        .putExtra("TITLE", "" + "privacy-policy"));
+                break;
+            case R.id.txtterm:
+                startActivity(new Intent(this, PrivacyWebViewActivity.class)
+                        .putExtra("URL", "https://www.policyboss.com/terms-condition")
+                        .putExtra("NAME", "" + "Terms & Conditions")
+                        .putExtra("TITLE", "" + "Terms & Conditions"));
                 break;
             case R.id.btnSignIn:
                 if (!isEmpty(etEmail)) {

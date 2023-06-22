@@ -166,7 +166,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
                         if (!userConstantEntity.getSmsTemplatesEnabled().equals("0")) {
 
                             // menuChild.add(MenuChild("nav_sendSmsTemplate", "Sms Templates", R.drawable.sms_template))
-                            tempList.add(new SalesProductEntity(110, "Sms Templates", "http://api.magicfinmart.com/images/salesmaterial/sms_template.png?" + Math.round(Math.random() * 100), 0));
+                            tempList.add(new SalesProductEntity(110, "Sms Templates", "https://origin-cdnh.policyboss.com/website/Images/campaign/sms_template.png?" + Math.round(Math.random() * 100), 0));
 
                         }
                     }
