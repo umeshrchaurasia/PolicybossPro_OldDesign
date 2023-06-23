@@ -31,8 +31,7 @@ import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import java.io.File;
 import java.io.InputStream;
@@ -182,6 +181,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 if (grantResults.length > 0) {
@@ -193,7 +193,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
+                    if (camera && (writeExternal || minSdk29) && readExternal) {
 
                         showCamerGalleryPopUp();
 
@@ -374,10 +374,10 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
     }
 
     private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
-                .start(this);
+//        CropImage.activity(imageUri)
+//                .setGuidelines(CropImageView.Guidelines.ON)
+//                .setMultiTouchEnabled(true)
+//                .start(this);
     }
 
     @Override
@@ -397,38 +397,40 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
         }
 
         //region Below  handle result of CropImageActivity
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
-            if (resultCode == RESULT_OK) {
-                try {
-                    cropImageUri = result.getUri();
-                    Bitmap mphoto = null;
-                    try {
-                       // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
-                        mphoto = getBitmapFromContentResolver(cropImageUri);
-                      //  mphoto = getResizedBitmap(mphoto, 800);
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    showDialog();
-                    file = saveImageToStorage(mphoto, PHOTO_File);
-                    setProfilePhoto(mphoto);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), PROFILE, PHOTO_File);
-
-                    new ZohoController(this).uploadDocuments(part, body, this);
-
-                } catch (Exception e) {
-                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-                }
-
-            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
-            }
-        }
+        ///007
+//        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//
+//            if (resultCode == RESULT_OK) {
+//                try {
+//                    cropImageUri = result.getUri();
+//                    Bitmap mphoto = null;
+//                    try {
+//                       // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+//                        mphoto = getBitmapFromContentResolver(cropImageUri);
+//                      //  mphoto = getResizedBitmap(mphoto, 800);
+//
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    showDialog();
+//                    file = saveImageToStorage(mphoto, PHOTO_File);
+//                    setProfilePhoto(mphoto);
+//                    part = Utility.getMultipartImage(file);
+//                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), PROFILE, PHOTO_File);
+//
+//                    new ZohoController(this).uploadDocuments(part, body, this);
+//
+//                } catch (Exception e) {
+//                    Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
+//                }
+//
+//            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+//                Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
+//            }
+//        }
 
         //endregion
 

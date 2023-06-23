@@ -36,8 +36,7 @@ import com.policyboss.policybosspro.file_chooser.utils.FileUtilNew;
 
 import com.policyboss.policybosspro.utility.Constants;
 
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import java.io.File;
 
@@ -238,10 +237,10 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
     }
 
     private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
-                .start(this);
+//        CropImage.activity(imageUri)
+//                .setGuidelines(CropImageView.Guidelines.ON)
+//                .setMultiTouchEnabled(true)
+//                .start(this);
     }
 
     // region permission
@@ -286,6 +285,7 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 if (grantResults.length > 0) {
@@ -297,7 +297,7 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
+                    if (camera && (writeExternal || minSdk29) && readExternal) {
 
                         showCamerGalleryPopUp();
 
@@ -549,6 +549,8 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
             }
 
             //region Below  handle result of CropImageActivity
+            ///007
+            /*
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
@@ -582,6 +584,9 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
                     Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
                 }
             }
+
+             */
+            ///007
 
             //endregion
         }

@@ -57,8 +57,7 @@ import com.policyboss.policybosspro.salesmaterial.SalesDetailActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 import com.policyboss.policybosspro.webviews.MyWebViewClient;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -1978,10 +1977,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
      * Start crop image activity for the given image.
      */
     private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
-                .start(this);
+
+       // 0007
+//        CropImage.activity(imageUri)
+//                .setGuidelines(CropImageView.Guidelines.ON)
+//                .setMultiTouchEnabled(true)
+//                .start(this);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -2002,6 +2003,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             Uri selectedImageUri = data.getData();
             startCropImageActivity(selectedImageUri);
         }
+
+        ///007
+        /*
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
@@ -2080,6 +2084,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
         }
 
+
+         */
         //endregion
 
 

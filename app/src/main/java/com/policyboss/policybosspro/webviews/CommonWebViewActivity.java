@@ -67,8 +67,7 @@ import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.policyboss.policybosspro.utility.UTILITY;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+
 
 import java.io.File;
 import java.util.HashMap;
@@ -725,10 +724,12 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     }
 
     private void startCropImageActivity(Uri imageUri) {
-        CropImage.activity(imageUri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
-                .start(this);
+
+        ///007
+//        CropImage.activity(imageUri)
+//                .setGuidelines(CropImageView.Guidelines.ON)
+//                .setMultiTouchEnabled(true)
+//                .start(this);
     }
 
     // region permission
@@ -1128,6 +1129,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
 
         //region Below  handle result of CropImageActivity
+        ///007
+        /*
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
 
@@ -1184,6 +1187,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                 Toast.makeText(this, "Cropping failed: " + result.getError(), Toast.LENGTH_LONG).show();
             }
         }
+
+         */
 
         //endregion
 
