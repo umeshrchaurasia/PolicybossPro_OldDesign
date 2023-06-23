@@ -2197,10 +2197,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void showDialogMain(String strmsg){
-
         try {
             if(! MyAccountActivity.this.isFinishing()){
-
                 if(!showDialog.isShowing()) {
                     ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
                     showDialog.setContentView(dialogLoadingBinding.getRoot());
