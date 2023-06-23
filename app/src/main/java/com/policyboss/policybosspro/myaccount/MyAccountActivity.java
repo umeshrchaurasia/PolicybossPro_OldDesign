@@ -2216,7 +2216,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         }
 
-
     }
 
     private void cancelDialogMain() {
