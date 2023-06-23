@@ -88,7 +88,7 @@ import com.policyboss.policybosspro.share_data.ShareDataFragment;
 import com.policyboss.policybosspro.splashscreen.SplashScreenActivity;
 import com.policyboss.policybosspro.switchuser.SwitchUserActivity;
 import com.policyboss.policybosspro.syncContact.Worker.SyncContactActivity;
-import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
+import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityKotlin;
 import com.policyboss.policybosspro.term.compareterm.CompareTermActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.transactionhistory.nav_transactionhistoryActivity;
@@ -598,7 +598,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         case R.id.nav_contact:
                             // startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
-                            startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                            startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityKotlin.class));
                             break;
                         case R.id.nav_sendSmsTemplate:
                             startActivity(new Intent(HomeActivity.this, SendTemplateSmsActivity.class));
@@ -1375,7 +1375,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
                  else if (notificationEntity.getNotifyFlag().trim().equals("SY")) {
 
-                    startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                    startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityKotlin.class));
 
                 }
                 else if (notificationEntity.getNotifyFlag().trim().equals("SYC")) {
@@ -1813,8 +1813,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         Intent intentExpressUrl;
 
-                        //startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
-                        intentExpressUrl = new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class)
+
+                        intentExpressUrl = new Intent(HomeActivity.this, WelcomeSyncContactActivityKotlin.class)
                                // .putExtra("URL", expressUrl).putExtra("dashBoardtype", "INSURANCE")
                                // .putExtra("NAME", "Sync Contacts").putExtra("TITLE", "Sync Contacts")
                                // .putExtra("APPMENU", "Y")
@@ -2515,7 +2515,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, SyncContactActivity.class));
                     }else
                     {
-                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityKotlin.class));
                     }
 
                 }
@@ -3540,7 +3540,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     if (prdID.equals("41")) {
                         //sync native app activity
-                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityNew.class));
+                        startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityKotlin.class));
                     } else if (prdID.equals("501")) {
                         //my account activity
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
