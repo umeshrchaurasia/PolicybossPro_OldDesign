@@ -1,18 +1,17 @@
-package com.policyboss.policybosspro.oauthtoken.model.viewmodel
+package com.policyboss.policybosspro.appcode.model.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.policyboss.policybosspro.APIState
-import com.policyboss.policybosspro.oauthtoken.model.repository.OauthTokenRepository
+import com.policyboss.policybosspro.appcode.model.repository.AppCodeRepository
 import com.policyboss.policybosspro.utility.UTILITY
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 
-class OauthTokenViewModel(val oauthTokenRepository: OauthTokenRepository) : ViewModel(){
+class AppCodeViewModel(val oauthTokenRepository: AppCodeRepository) : ViewModel(){
 
 
     private var oauthMutuableStateFlow : MutableStateFlow<APIState<OauthTokenResponse>> = MutableStateFlow(APIState.Empty())

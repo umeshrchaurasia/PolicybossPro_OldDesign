@@ -112,7 +112,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
         <activity
-            android:name=".oauthtoken.OauthTokenActivity"
+            android:name=".appcode.AppCodeActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.TranslucentDark">
