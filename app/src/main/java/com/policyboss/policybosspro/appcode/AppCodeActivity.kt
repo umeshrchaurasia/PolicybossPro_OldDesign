@@ -1,4 +1,4 @@
-package com.policyboss.policybosspro.oauthtoken
+package com.policyboss.policybosspro.appcode
 
 import android.os.Bundle
 import android.view.View
@@ -8,20 +8,20 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.policyboss.policybosspro.APIState
-import com.policyboss.policybosspro.databinding.ActivityOauthTokenBinding
-import com.policyboss.policybosspro.oauthtoken.model.repository.OauthTokenRepository
-import com.policyboss.policybosspro.oauthtoken.model.viewmodel.OauthTokenViewModel
-import com.policyboss.policybosspro.oauthtoken.model.viewmodel.OauthTokenViewModelFactory
+import com.policyboss.policybosspro.appcode.model.repository.AppCodeRepository
+import com.policyboss.policybosspro.appcode.model.viewmodel.AppCodeViewModel
+import com.policyboss.policybosspro.appcode.model.viewmodel.AppCodeViewModelFactory
+import com.policyboss.policybosspro.databinding.ActivityAppCodeBinding
 import com.policyboss.policybosspro.utility.UTILITY
 import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
-class OauthTokenActivity : AppCompatActivity() {
+class AppCodeActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityOauthTokenBinding
-    lateinit var viewModel: OauthTokenViewModel
+    lateinit var binding : ActivityAppCodeBinding
+    lateinit var viewModel: AppCodeViewModel
 
     lateinit var loginResponseEntity: LoginResponseEntity
 
@@ -29,7 +29,7 @@ class OauthTokenActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityOauthTokenBinding.inflate(layoutInflater)
+        binding = ActivityAppCodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         init()
@@ -38,7 +38,7 @@ class OauthTokenActivity : AppCompatActivity() {
         if (loginResponseEntity != null) {
             if (loginResponseEntity.pospNo != null) {
                 // calling API
-                viewModel.getAuthToken(ss_id =loginResponseEntity.pospNo , deviceID = UTILITY.getDeviceID(this@OauthTokenActivity))
+                viewModel.getAuthToken(ss_id =loginResponseEntity.pospNo , deviceID = UTILITY.getDeviceID(this@AppCodeActivity))
             }
         }
 
@@ -57,9 +57,9 @@ class OauthTokenActivity : AppCompatActivity() {
     private fun init(){
 
 
-        var authRepository = OauthTokenRepository( RetroHelper.api)
-        var viewModelFactory = OauthTokenViewModelFactory(authRepository)
-        viewModel = ViewModelProvider(this,viewModelFactory).get(OauthTokenViewModel::class.java)
+        var authRepository = AppCodeRepository( RetroHelper.api)
+        var viewModelFactory = AppCodeViewModelFactory(authRepository)
+        viewModel = ViewModelProvider(this,viewModelFactory).get(AppCodeViewModel::class.java)
 
 
         binding.txtOauthData.text = ""
@@ -71,7 +71,7 @@ class OauthTokenActivity : AppCompatActivity() {
 
           binding.imgClose.setOnClickListener {
 
-              this@OauthTokenActivity.finish()
+              this@AppCodeActivity.finish()
 
           }
       }

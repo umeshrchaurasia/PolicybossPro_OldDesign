@@ -23,7 +23,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.provider.Settings;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -57,9 +56,7 @@ import com.policyboss.policybosspro.R;
 
 import com.policyboss.policybosspro.certificate.POSP_certicate_appointment;
 import com.policyboss.policybosspro.change_password.ChangePasswordFragment;
-import com.policyboss.policybosspro.contact_lead.ContactLeadActivity;
 import com.policyboss.policybosspro.dashboard.DashboardFragment;
-import com.policyboss.policybosspro.databinding.DialogLoadingBinding;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.festivelink.festivelinkActivity;
 import com.policyboss.policybosspro.generatelead.GenerateLeadActivity;
@@ -79,8 +76,7 @@ import com.policyboss.policybosspro.mps.MPSFragment;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.mybusiness.MyBusinessActivity;
 import com.policyboss.policybosspro.notification.NotificationActivity;
-import com.policyboss.policybosspro.notification.NotificationSmsActivity;
-import com.policyboss.policybosspro.oauthtoken.OauthTokenActivity;
+import com.policyboss.policybosspro.appcode.AppCodeActivity;
 import com.policyboss.policybosspro.pendingcases.PendingCasesActivity;
 import com.policyboss.policybosspro.posp.POSPListFragment;
 import com.policyboss.policybosspro.posp.PospEnrollment;
@@ -108,7 +104,6 @@ import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -121,7 +116,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -135,17 +129,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.model.synctransactionDetailEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.POSPHorizonEnity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.SyncContactEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonsyncDetailsResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctransactionDetailReponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashboardarrayEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -153,7 +144,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ProductURLShareEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
@@ -652,7 +642,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         case R.id.nav_REQUEST:
                            // ConfirmMoreServiceAlert();
-                           startActivity(new Intent(HomeActivity.this, OauthTokenActivity.class));
+                           startActivity(new Intent(HomeActivity.this, AppCodeActivity.class));
                          //9     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL","https://inv.policyboss.com/qrscan.html" ).putExtra("NAME", "Scan").putExtra("TITLE", "Scan"));
 
                           //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://api.magicfinmart.com/qrscan.html").putExtra("NAME", "Scanner").putExtra("TITLE", "Scanner"));
@@ -723,11 +713,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             startActivity(new Intent(HomeActivity.this, PrivacyWebViewActivity.class)
                                     .putExtra(
                                             "URL",
-                                            "https://www.policyboss.com/initiate-account-deletion-pro?ssid="+userConstantEntity.getPOSPNo()+
-                                                    "name="+userConstantEntity.getFullName()+"mobile="+userConstantEntity.getFullName()
+                                            "https://www.policyboss.com/initiate-account-deletion-elite?ss_id="+userConstantEntity.getPOSPNo()
                                     )
-                                    .putExtra("NAME", "" + "Account-Delete")
-                                    .putExtra("TITLE", "" + "Account-Delete"));
+                                    .putExtra("NAME", "" + "ACCOUNT-DELETE")
+                                    .putExtra("TITLE", "" + "ACCOUNT-DELETE")
+                            );
 
                             break;
                         default:
