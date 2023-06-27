@@ -115,7 +115,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     AppCompatImageView ivManagerMobile, ivManagerEmail, ivSupportMobile, ivSupportEmail;
     ScrollView mainScrollView;
-    Switch swNotify;
+    Switch swNotify,swPermission;
 
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
@@ -288,6 +288,34 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
+        swPermission.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    // prefManager.updateNotificationsetting("0");
+                    //  Toast.makeText(getApplicationContext(), "Switch is on", Toast.LENGTH_LONG).show();
+                    if(buttonView.isPressed()) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+                    }
+                } else {
+
+                    //  Toast.makeText(getApplicationContext(), "Switch is off", Toast.LENGTH_LONG).show();
+                    if(buttonView.isPressed()) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+                    }
+                }
+            }
+        });
+
+
     }
 
     private void initWidgets() {
@@ -386,6 +414,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         // regionNotify Setting
         ivNotify = (ImageView) findViewById(R.id.ivNotify);
         swNotify = (Switch) findViewById(R.id.swNotify);
+
+        swPermission = (Switch) findViewById(R.id.swPermission);
         // region About Me
 
         btnSave = (Button) findViewById(R.id.btnSave);
@@ -418,6 +448,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         ivPanView.setVisibility(View.GONE);
         ivPhotoView.setVisibility(View.GONE);
         ivCancelView.setVisibility(View.GONE);
+    }
+
+    private void verifyCallLogContactPermission(){
+
+        if(checkCallLogContactPermission()) {
+
+            swPermission.setChecked(true);
+        }else {
+
+            swPermission.setChecked(false);
+
+
+        }
     }
 
     private void handleCropImage( Uri crop_uri) {
@@ -1454,6 +1497,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        verifyCallLogContactPermission();
+    }
+
     private void galleryCamPopUp(String strHeader) {
 
         if (!checkPermission()) {
@@ -1997,6 +2046,22 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                       && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
 
           }
+
+
+
+    }
+
+    private boolean checkCallLogContactPermission() {
+
+        int contact = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CONTACTS);
+
+        int callLog = ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_CALL_LOG);
+
+
+        return contact == PackageManager.PERMISSION_GRANTED
+
+                && callLog == PackageManager.PERMISSION_GRANTED;
+
 
 
 
