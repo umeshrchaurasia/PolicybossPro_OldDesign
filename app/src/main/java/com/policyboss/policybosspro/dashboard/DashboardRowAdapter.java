@@ -361,13 +361,13 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             case 24:
                 //fin peace
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
-                                + mReal.getUserData().getFBAId())
-                        .putExtra("NAME", "FIN-PEACE")
-                        .putExtra("TITLE", "FIN-PEACE"));
-               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
-                MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
+//                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+//                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
+//                                + mReal.getUserData().getFBAId())
+//                        .putExtra("NAME", "FIN-PEACE")
+//                        .putExtra("TITLE", "FIN-PEACE"));
+//               // new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+       //         MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
             case 2:
                 //health
@@ -523,15 +523,15 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
 
             case 13:
-                Utility.loadWebViewUrlInBrowser(mContext,
-                        "https://www.rupeeboss.com/equifax-finmart?fbaid="
-                                + String.valueOf(mReal.getUserData().getFBAId()));
+//                Utility.loadWebViewUrlInBrowser(mContext,
+//                        "https://www.rupeeboss.com/equifax-finmart?fbaid="
+//                                + String.valueOf(mReal.getUserData().getFBAId()));
                 break;
 
 
             case 14:
-                Utility.loadWebViewUrlInBrowser(mContext,
-                        "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
+//                Utility.loadWebViewUrlInBrowser(mContext,
+//                        "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
                /* mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra(                break;
 "URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")

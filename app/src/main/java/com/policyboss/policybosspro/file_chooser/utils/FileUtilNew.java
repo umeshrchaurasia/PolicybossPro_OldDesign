@@ -39,7 +39,7 @@ import okhttp3.ResponseBody;
 public class FileUtilNew {
     public static final String DOCUMENTS_DIR = "documents";
     // configured android:authorities in AndroidManifest (https://developer.android.com/reference/android/support/v4/content/FileProvider)
-    public static final String AUTHORITY =  "com.datacomp.magicfinmart.fileprovider";
+    public static final String AUTHORITY =  "com.policyboss.policybosspro.fileprovider";
   //  public static final String AUTHORITY =  "account.rb.com.elite_agent.documents";
     public static final String HIDDEN_PREFIX = ".";
     /**
@@ -108,7 +108,7 @@ public class FileUtilNew {
      * @return Whether the URI is a local one.
      */
     public static boolean isLocal(String url) {
-        return url != null && !url.startsWith("http://") && !url.startsWith("https://");
+        return url != null  && !url.startsWith("https://");
     }
 
     /**

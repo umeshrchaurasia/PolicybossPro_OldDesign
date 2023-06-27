@@ -704,7 +704,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                             break;
                         case R.id.nav_policy:
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version=policyboss-1").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
                             break;
                         case R.id.nav_delete:
 //                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).
@@ -3151,9 +3151,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "My Training Calender").putExtra("TITLE", "" + "My Training Calender"));
+//                    MyUtilitiesDialog.dismiss();
+//
+//                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "My Training Calender").putExtra("TITLE", "" + "My Training Calender"));
 
                 }
             });

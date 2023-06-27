@@ -349,13 +349,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             case 24:
                 //fin peace
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
-                                + dbPersistanceController.getUserData().getFBAId())
-                        .putExtra("NAME", "FIN-PEACE")
-                        .putExtra("TITLE", "FIN-PEACE"));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
-                MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
+//                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
+//                                + dbPersistanceController.getUserData().getFBAId())
+//                        .putExtra("NAME", "FIN-PEACE")
+//                        .putExtra("TITLE", "FIN-PEACE"));
+//              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+             //   MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
             case 2:
                 //health
@@ -414,54 +414,54 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 7:
                 //home loan
                 //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewHomeApplicaionActivity.class));
-
-                loanurl = "https://www.rupeeboss.com/finmart-home-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
-
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", loanurl)
-                        .putExtra("NAME", "HOME LOAN")
-                        .putExtra("TITLE", "HOME LOAN"));
-
-                //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
-                MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
+//
+//                loanurl = "https://www.rupeeboss.com/finmart-home-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
+//
+//                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                        .putExtra("URL", loanurl)
+//                        .putExtra("NAME", "HOME LOAN")
+//                        .putExtra("TITLE", "HOME LOAN"));
+//
+//                //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
+//                MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;
             case 19:
                 //personal loan
-                // mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewPersonalApplicaionActivity.class));
-                loanurl = "https://www.rupeeboss.com/finmart-personal-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
-
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", loanurl)
-                        .putExtra("NAME", "PERSONAL LOAN")
-                        .putExtra("TITLE", "PERSONAL LOAN"));
-
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
-                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
+//                // mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewPersonalApplicaionActivity.class));
+//                loanurl = "https://www.rupeeboss.com/finmart-personal-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
+//
+//                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                        .putExtra("URL", loanurl)
+//                        .putExtra("NAME", "PERSONAL LOAN")
+//                        .putExtra("TITLE", "PERSONAL LOAN"));
+//
+//              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
+//                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
                 break;
             case 8:
                 //lap
                 //   mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewLAPApplicaionActivity.class));
-
-                loanurl = "https://www.rupeeboss.com/finmart-property-loan?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
-
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", loanurl)
-                        .putExtra("NAME", "LAP")
-                        .putExtra("TITLE", "LAP"));
-             //   new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
+//
+//                loanurl = "https://www.rupeeboss.com/finmart-property-loan?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
+//
+//                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                        .putExtra("URL", loanurl)
+//                        .putExtra("NAME", "LAP")
+//                        .putExtra("TITLE", "LAP"));
+//             //   new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+//                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
                 break;
             case 4:
                 //cc
                 // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
                 //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AppliedCreditListActivity.class));
-
-                loanurl = "https://www.rupeeboss.com/finmart-credit-card-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
-
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", loanurl)
-                        .putExtra("NAME", "CREDIT CARD")
-                        .putExtra("TITLE", "CREDIT CARD"));
+//
+//                loanurl = "https://www.rupeeboss.com/finmart-credit-card-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
+//
+//                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                        .putExtra("URL", loanurl)
+//                        .putExtra("NAME", "CREDIT CARD")
+//                        .putExtra("TITLE", "CREDIT CARD"));
               //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
                 MyApplication.getInstance().trackEvent(Constants.CREDIT_CARD, "Clicked", "Credit Card tab on home page");
                 break;
@@ -470,28 +470,28 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
                 //     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewbusinessApplicaionActivity.class));
 
-                loanurl = "https://www.rupeeboss.com/finmart-business-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
-
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", loanurl)
-                        .putExtra("NAME", "BUSINESS LOAN")
-                        .putExtra("TITLE", "BUSINESS LOAN"));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
-                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
+//                loanurl = "https://www.rupeeboss.com/finmart-business-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
+//
+//                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                        .putExtra("URL", loanurl)
+//                        .putExtra("NAME", "BUSINESS LOAN")
+//                        .putExtra("TITLE", "BUSINESS LOAN"));
+//               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
+//                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
 
 
 
             case 81:
 
-                loanurl = "https://www.rupeeboss.com/car-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
-
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", loanurl)
-                        .putExtra("NAME", "CAR LOAN TOP UP")
-                        .putExtra("TITLE", "CAR LOAN TOP UP"));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("CAR LOAN TOP UP"), Constants.CAR_TOP_LOAN), null);
-                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
+//                loanurl = "https://www.rupeeboss.com/car-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
+//
+//                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                        .putExtra("URL", loanurl)
+//                        .putExtra("NAME", "CAR LOAN TOP UP")
+//                        .putExtra("TITLE", "CAR LOAN TOP UP"));
+//              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("CAR LOAN TOP UP"), Constants.CAR_TOP_LOAN), null);
+//                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
 
 
@@ -574,15 +574,15 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 break;
 
             case 13:
-                Utility.loadWebViewUrlInBrowser(mContext.getActivity(),
-                        "https://www.rupeeboss.com/equifax-finmart?fbaid="
-                                + String.valueOf(dbPersistanceController.getUserData().getFBAId()));
+//                Utility.loadWebViewUrlInBrowser(mContext.getActivity(),
+//                        "https://www.rupeeboss.com/equifax-finmart?fbaid="
+//                                + String.valueOf(dbPersistanceController.getUserData().getFBAId()));
                 break;
 
 
             case 14:
-                Utility.loadWebViewUrlInBrowser(mContext.getActivity(),
-                        "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(dbPersistanceController.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
+//                Utility.loadWebViewUrlInBrowser(mContext.getActivity(),
+//                        "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(dbPersistanceController.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
                /* mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra(                break;
 "URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(dbPersistanceController.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")

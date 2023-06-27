@@ -77,28 +77,6 @@ object UTILITY {
         return finalFileSize >= maxFileSize
     }
 
-    @SuppressLint("HardwareIds")
-     fun getDeviceDetai(context: Context): String {
-        try {
-        return "Brand: ${Build.BRAND} \n" +
-                "DeviceName: ${Build.BRAND} - ${Build.MODEL} \n" +
-                "DeviceID: ${
-                    Settings.Secure.getString(
-                        context.contentResolver,
-                        Settings.Secure.ANDROID_ID
-                    )
-                } \n" +
-                "Model: ${Build.MODEL} \n" +
-                "ID: ${Build.ID} \n" +
-                "SDK: ${Build.VERSION.SDK_INT} \n" +
-                "Manufacture: ${Build.MANUFACTURER} \n" +
-                "Brand: ${Build.BRAND} \n" +
-
-                "Version Code: ${Build.VERSION.RELEASE}"
-        }catch (ex: Exception){
-            return ""
-        }
-    }
 
     fun getDeviceDetail(context: Context) : DeviceDetailEntity {
 

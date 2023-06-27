@@ -566,7 +566,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getMyBusiness(String id, final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://202.131.96.101:3333/LeadCollection.svc/GetEncryptedErpId";
+        String url = "";
 
         HashMap<String, String> body = new HashMap<>();
 
