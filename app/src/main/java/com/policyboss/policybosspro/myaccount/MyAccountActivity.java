@@ -56,6 +56,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.cropImage.UcropperActivity;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.posp.PospEnrollment;
 import com.policyboss.policybosspro.utility.CircleTransform;
@@ -153,8 +154,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     Dialog showDialog ;
 
-    private ActivityResultLauncher<String> galleryContracts;
-    private ActivityResultLauncher<Uri> cameraContracts;
+    ActivityResultLauncher<String> galleryLauncher;
+    ActivityResultLauncher<Uri> cameraLauncher;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,157 +188,33 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
 
 
-        galleryContracts = registerForActivityResult(new ActivityResultContracts.GetContent(),
-                new ActivityResultCallback<Uri>() {
-                    @Override
-                    public void onActivityResult(Uri result) {
-                        if (result != null) {
-                            // Handle the selected image URI
+        // region  Camera and Gallery Launcher
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(), result ->  {
+
+            Intent intent = new Intent(MyAccountActivity.this.getApplicationContext(), UcropperActivity.class);
+
+            intent.putExtra("SendImageData",result.toString());
+
+            startActivityForResult(intent, SELECT_PICTURE);
+        });
+
+        cameraLauncher = registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
+            if (result) {
+                // binding.imgProfile.setImageURI(imageUri);
+
+                Intent intent = new Intent(MyAccountActivity.this.getApplicationContext(),UcropperActivity.class);
+
+                intent.putExtra("SendImageData",imageUri.toString());
 
 
-                        Uri selectedImageUri = result;
-
-                        Bitmap mphoto = null;
-                        try {
-                            // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                            mphoto = getBitmapFromContentResolver(selectedImageUri);
-                            mphoto = getResizedBitmap(mphoto, 800);
-                          //  mphoto = rotateImageIfRequired(this, mphoto, Docfile);
-
-                        }catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        switch (type) {
-                                case 1:
-                                    showDialogMain("");
-                                    setProfilePhoto(mphoto);
-                                    file = saveImageToStorage(mphoto, PHOTO_File);
-                                    part = Utility.getMultipartImage(file);
-                                    body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
-                                    new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-
-                                    break;
-                                case 2:
-                                    showDialogMain("");
-                                    file = saveImageToStorage(mphoto, PHOTO_File);
-                                    part = Utility.getMultipartImage(file);
-                                    body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PHOTO, PHOTO_File);
-                                    new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                    break;
-                                case 3:
-
-                                    showDialogMain("");
-                                    file = saveImageToStorage(mphoto, PAN_File);
-                                    part = Utility.getMultipartImage(file);
-                                    body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PAN, PAN_File);
-                                    new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                    break;
-
-                                case 4:
-                                    showDialogMain("");
-                                    file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
-                                    part = Utility.getMultipartImage(file);
-                                    body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File);
-                                    new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                    break;
-                                case 5:
-                                    showDialogMain("");
-                                    file = saveImageToStorage(mphoto, AADHAR_File);
-                                    part = Utility.getMultipartImage(file);
-                                    body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), AADHAR, AADHAR_File);
-                                    new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                    break;
-                            }
+                startActivityForResult(intent, CAMERA_REQUEST);
+            } else {
+                // Handle failure or cancellation
+            }
+        });
 
 
-
-
-
-                            /////////
-                        }
-                    }
-                });
-
-
-        cameraContracts = registerForActivityResult(new ActivityResultContracts.TakePicture(),
-                new ActivityResultCallback<Boolean>() {
-                    @Override
-                    public void onActivityResult(Boolean success) {
-                        if (success) {
-                            // Handle the captured image URI
-
-
-
-                                try {
-                                    cropImageUri = imageUri;
-                                    Bitmap mphoto = null;
-                                    try {
-                                        //mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
-                                        mphoto = getBitmapFromContentResolver(cropImageUri);
-                                        mphoto = getResizedBitmap(mphoto, 800);
-
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-
-
-                                    switch (type) {
-                                        case 1:
-                                            showDialogMain("");
-                                            setProfilePhoto(mphoto);
-                                            file = saveImageToStorage(mphoto, PHOTO_File);
-                                            part = Utility.getMultipartImage(file);
-                                            body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
-                                            new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-
-                                            break;
-                                        case 2:
-                                            showDialogMain("");
-                                            file = saveImageToStorage(mphoto, PHOTO_File);
-                                            part = Utility.getMultipartImage(file);
-                                            body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PHOTO, PHOTO_File);
-                                            new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                            break;
-                                        case 3:
-
-                                            showDialogMain("");
-                                            file = saveImageToStorage(mphoto, PAN_File);
-                                            part = Utility.getMultipartImage(file);
-                                            body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PAN, PAN_File);
-                                            new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                            break;
-
-                                        case 4:
-                                            showDialogMain("");
-                                            file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
-                                            part = Utility.getMultipartImage(file);
-                                            body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File);
-                                            new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                            break;
-                                        case 5:
-                                            showDialogMain("");
-                                            file = saveImageToStorage(mphoto, AADHAR_File);
-                                            part = Utility.getMultipartImage(file);
-                                            body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), AADHAR, AADHAR_File);
-                                            new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
-                                            break;
-                                    }
-
-
-                                } catch (Exception e) {
-                                    Toast.makeText(MyAccountActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                                }
-
-
-
-
-                            ////
-                        }
-                    }
-                });
-
+        //endregion
     }
 
 
@@ -543,7 +420,66 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         ivCancelView.setVisibility(View.GONE);
     }
 
-    @Override
+    private void handleCropImage( Uri crop_uri) {
+
+
+        Bitmap mphoto = null;
+        try {
+            // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+            mphoto = getBitmapFromContentResolver(crop_uri);
+            mphoto = getResizedBitmap(mphoto, 800);
+            //  mphoto = rotateImageIfRequired(this, mphoto, Docfile);
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        switch (type) {
+            case 1:
+                showDialogMain("");
+                setProfilePhoto(mphoto);
+                file = saveImageToStorage(mphoto, PHOTO_File);
+                part = Utility.getMultipartImage(file);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
+                new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
+
+                break;
+            case 2:
+                showDialogMain("");
+                file = saveImageToStorage(mphoto, PHOTO_File);
+                part = Utility.getMultipartImage(file);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PHOTO, PHOTO_File);
+                new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
+                break;
+            case 3:
+
+                showDialogMain("");
+                file = saveImageToStorage(mphoto, PAN_File);
+                part = Utility.getMultipartImage(file);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PAN, PAN_File);
+                new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
+                break;
+
+            case 4:
+                showDialogMain("");
+                file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
+                part = Utility.getMultipartImage(file);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File);
+                new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
+                break;
+            case 5:
+                showDialogMain("");
+                file = saveImageToStorage(mphoto, AADHAR_File);
+                part = Utility.getMultipartImage(file);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), AADHAR, AADHAR_File);
+                new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
+                break;
+        }
+
+
+    }
+
+        @Override
     public void onClick(View view) {
         Constants.hideKeyBoard(view, this);
 
@@ -1618,15 +1554,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
 
 
-//        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-//                imageUri);
 
 
-
-      //  startActivityForResult(cameraIntent, CAMERA_REQUEST);
-
-        cameraContracts.launch(imageUri);
+        cameraLauncher.launch(imageUri);
     }
 
 
@@ -1667,7 +1597,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //            Toast.makeText(this, ex.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 //        }
 
-        galleryContracts.launch("image/*");
+        galleryLauncher.launch("image/*");
     }
 
     private void setProfilePhoto(Bitmap mphoto) {
@@ -1739,6 +1669,46 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //                .setGuidelines(CropImageView.Guidelines.ON)
 //                .setMultiTouchEnabled(true)
 //                .start(this);
+
+
+    }
+
+    @Override
+    @SuppressLint("NewApi")
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if(requestCode == CAMERA_REQUEST && resultCode ==101 ){
+
+            String result = data.getStringExtra("CROP");
+            Uri crop_uri = data.getData();
+
+            if(result!= null){
+                crop_uri = Uri.parse(result);
+
+            }
+
+
+            handleCropImage(crop_uri);
+
+
+
+        }
+        else if(requestCode== SELECT_PICTURE && resultCode ==101 ){
+
+            String result = data.getStringExtra("CROP");
+            Uri crop_uri = data.getData();
+
+            if(result!= null){
+                crop_uri = Uri.parse(result);
+            }
+
+            handleCropImage(crop_uri);
+
+
+        }
+
 
 
     }
@@ -2192,8 +2162,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        galleryContracts.unregister();
-        cameraContracts.unregister();
+        galleryLauncher.unregister();
+        cameraLauncher.unregister();
     }
 
     private void showDialogMain(String strmsg){

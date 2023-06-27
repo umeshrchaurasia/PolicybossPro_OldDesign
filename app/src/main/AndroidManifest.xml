@@ -94,10 +94,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
-        <activity
-            android:name="com.yalantis.ucrop.UCropActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity
             android:name=".syncContact.Worker.WelcomeSyncContactActivityKotlin"
             android:exported="false"
@@ -110,7 +107,7 @@
             android:name=".webviews.PrivacyWebViewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".appcode.AppCodeActivity"
             android:exported="false"
@@ -791,7 +788,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.offline_quotes.OfflineQuotesListActivity" />
         </activity>
-
         <activity
             android:name=".crnpolicy.crnpolicyActivity"
             android:label="REQUEST POLICY VIA CRN"
@@ -1146,6 +1142,15 @@
             android:enabled="true"
             android:exported="false" />
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity android:name=".cropImage.UcropperActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>
