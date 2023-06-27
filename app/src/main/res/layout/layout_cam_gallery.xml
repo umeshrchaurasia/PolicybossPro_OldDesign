@@ -23,6 +23,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/txtHeader"
                 style="@style/TextViewStyle.Large"
                 android:gravity="left"
                 android:padding="15dp"

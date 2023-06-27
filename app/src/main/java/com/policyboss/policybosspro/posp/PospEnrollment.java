@@ -1182,38 +1182,38 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             case R.id.ivPhotoCam:
                 type = 6;
                 // launchCamera();
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup1_PHOTO));
                 break;
 
 
             case R.id.ivPanCam:
                 type = 7;
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup1_PanCard));
                 break;
 
 
             case R.id.ivAadharCam:
                 type = 8;
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup1_AadharCardFont));
                 break;
 
 
 
             case R.id.ivAadharCamBack:
                 type = 9;
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup1_AadharCardBack));
                 break;
 
 
             case R.id.ivCancelCam:
                 type = 10;
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup1_CancelCHQ));
                 break;
 
 
             case R.id.ivEduCam:
                 type = 11;
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup1_HighestEdu));
                 break;
 
 
@@ -2848,7 +2848,38 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                     if (camera && (writeExternal || minSdk29) && readExternal) {
 
-                        showCamerGalleryPopUp();
+                        switch (type){
+
+                            case 1 :
+                                galleryCamPopUp(getString(R.string.popup_Profile));
+                                break;
+
+                            case 2:
+
+                                // launchCamera();
+                                galleryCamPopUp(getString(R.string.popup_Profile));
+                                break;
+
+
+                            case 3:
+
+                                galleryCamPopUp(getString(R.string.popup_PanCard));
+                                break;
+
+
+                            case 4:
+
+                                galleryCamPopUp(getString(R.string.popup_CancelCHQ));
+                                break;
+
+
+                            case 5:
+
+                                galleryCamPopUp(getString(R.string.popup_AadharCard));
+                                break;
+
+
+                        }
 
                     }
 
@@ -2864,7 +2895,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     //endregion
 
 
-    private void galleryCamPopUp() {
+    private void galleryCamPopUp(String strHeader) {
 
         if (!checkPermission()) {
 
@@ -2879,24 +2910,27 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         } else {
 
-            showCamerGalleryPopUp();
+            showCamerGalleryPopUp(strHeader);
         }
     }
 
 
-    private void showCamerGalleryPopUp() {
+    private void showCamerGalleryPopUp(String strHeader) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery;
+        TextView txtHeader;
         LayoutInflater inflater = this.getLayoutInflater();
 
         final View dialogView = inflater.inflate(R.layout.layout_cam_gallery, null);
 
         builder.setView(dialogView);
         final AlertDialog alertDialog = builder.create();
+        txtHeader = (TextView) dialogView.findViewById(R.id.txtHeader);
         // set the custom dialog components - text, image and button
         lyCamera = (LinearLayout) dialogView.findViewById(R.id.lyCamera);
         lyGallery = (LinearLayout) dialogView.findViewById(R.id.lyGallery);
+        txtHeader.setText("SELECT PHOTO FOR "+ strHeader);
 
         lyCamera.setOnClickListener(new View.OnClickListener() {
             @Override
