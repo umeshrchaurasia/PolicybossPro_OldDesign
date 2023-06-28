@@ -452,8 +452,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         else if(response instanceof UsersignupResponse){
             if (response.getStatusNo() == 0) {
                 if( ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
-                    String signupurl=  ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() + "&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
-                    enable_pro_signupurl = signupurl;
+
+                    enable_pro_signupurl =((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
 
                 }
 
@@ -464,7 +464,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
                 else
                 {
-                    Utility.loadWebViewUrlInBrowser(LoginActivity.this, enable_pro_signupurl);
+                    String signupurl=  ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() + "&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
+                    Utility.loadWebViewUrlInBrowser(LoginActivity.this, signupurl);
                 }
             }else
             {
