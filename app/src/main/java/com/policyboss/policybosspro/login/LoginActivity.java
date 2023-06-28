@@ -354,7 +354,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void dialogForgotPassword() {
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         // builder.setTitle("FORGOT PASSWORD");
         LayoutInflater inflater = this.getLayoutInflater();
