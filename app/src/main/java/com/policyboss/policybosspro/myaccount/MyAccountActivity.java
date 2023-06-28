@@ -154,6 +154,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     Dialog showDialog ;
 
+    String DeviceID = "";
+    String AppVersion = "";
+
     ActivityResultLauncher<String> galleryLauncher;
     ActivityResultLauncher<Uri> cameraLauncher;
     @Override
@@ -173,6 +176,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         prefManager = new PrefManager(this);
         showDialog = new Dialog(MyAccountActivity.this,R.style.Dialog);
 
+
+        DeviceID = prefManager.getDeviceID();
+        AppVersion = prefManager.getAppVersion();
         initWidgets();
         setListener();
         initLayouts();
@@ -483,7 +489,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 setProfilePhoto(mphoto);
                 file = saveImageToStorage(mphoto, PHOTO_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PROFILE, PHOTO_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
 
                 break;
@@ -491,7 +497,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, PHOTO_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PHOTO, PHOTO_File);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PHOTO, PHOTO_File ,loginEntity.getPOSPNo(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
             case 3:
@@ -499,7 +505,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, PAN_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PAN, PAN_File);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PAN, PAN_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
 
@@ -507,14 +513,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
             case 5:
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, AADHAR_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), AADHAR, AADHAR_File);
+                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), AADHAR, AADHAR_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
         }
