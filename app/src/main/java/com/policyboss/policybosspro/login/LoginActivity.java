@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
+import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
@@ -52,6 +53,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.Trackin
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserHideResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UsersignupResponse;
 
 import static android.os.Build.VERSION.SDK_INT;
 
@@ -67,6 +69,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private static int PERMISSION_DENIED = 0;
 
 
+    String enable_pro_signupurl = "";
 
     String[] perms = {
             "android.permission.CAMERA",
@@ -89,6 +92,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         dbPersistanceController = new DBPersistanceController(this);
         dbPersistanceController.clearUserData();
         registerPopUp(this);
+
+        prefManager.setDeviceID( Utility.getDeviceId(LoginActivity.this.getApplicationContext()));
+
+        prefManager.setAppVersion("policyboss-" + BuildConfig.VERSION_NAME);
+
         if (!checkPermission()) {
             requestPermission();
         }
@@ -263,11 +271,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 dialogForgotPassword();
                 break;
             case R.id.tvSignUp:
-                startActivity(new Intent(this, RegisterActivity.class));
+
+                if (!NetworkUtils.isNetworkAvailable(this)) {
+
+                    Snackbar.make( view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+                showDialog();
+                new LoginController(this).Getusersignup(LoginActivity.this);
+
+
                 break;
             case R.id.lyRaiseTicket:
-               // String url = "https://qa.policyboss.com/Finmart/Ticketing/ticket_login.html?landing_page=login_page";
-                String url = "https://origin-cdnh.policyboss.com/fmweb/Ticketing/ticket_login.html?landing_page=login_page";
+               // String url = "http://qa.policyboss.com/Finmart/Ticketing/ticket_login.html?landing_page=login_page";
+                String url = "https://origin-cdnh.policyboss.com/fmweb/Ticketing/ticket_login.html?landing_page=login_page&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
                 Log.d("URL", "Raise Ticket URL: " + url);
 
 
@@ -278,16 +295,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.txtprivacy:
 
                 startActivity(new Intent(this, PrivacyWebViewActivity.class)
-                        .putExtra(
-                                "URL",
-                                "https://www.policyboss.com/privacy-policy-policyboss-pro"
-                        )
+                        .putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=")
                         .putExtra("NAME", "" + "privacy-policy")
                         .putExtra("TITLE", "" + "privacy-policy"));
                 break;
             case R.id.txtterm:
                 startActivity(new Intent(this, PrivacyWebViewActivity.class)
-                        .putExtra("URL", "https://www.policyboss.com/terms-condition")
+                        .putExtra("URL", "https://www.policyboss.com/terms-condition?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=")
                         .putExtra("NAME", "" + "Terms & Conditions")
                         .putExtra("TITLE", "" + "Terms & Conditions"));
                 break;
@@ -434,7 +448,31 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        } else if (response instanceof ForgotResponse) {
+        }
+        else if(response instanceof UsersignupResponse){
+            if (response.getStatusNo() == 0) {
+                if( ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
+                    String signupurl=  ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() + "&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
+                    enable_pro_signupurl = signupurl;
+
+                }
+
+            }
+            if(enable_pro_signupurl  != null) {
+                if (enable_pro_signupurl.isEmpty()) {
+                    startActivity(new Intent(this, RegisterActivity.class));
+                }
+                else
+                {
+                    Utility.loadWebViewUrlInBrowser(LoginActivity.this, enable_pro_signupurl);
+                }
+            }else
+            {
+                startActivity(new Intent(this, RegisterActivity.class));
+            }
+        }
+
+        else if (response instanceof ForgotResponse) {
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }

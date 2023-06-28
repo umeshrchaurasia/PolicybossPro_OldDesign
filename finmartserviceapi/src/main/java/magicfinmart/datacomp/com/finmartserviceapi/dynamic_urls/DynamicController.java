@@ -541,11 +541,7 @@ public class DynamicController implements IDynamic {
         UserBehaviourRequestEntity entity = new UserBehaviourRequestEntity();
 
         try {
-            entity.setBluetooth(facade.getBluetooth());
-            entity.setDefaultlanguage(facade.getLocalLanguage());
-            entity.setInstallapps(facade.getPackages());
-            entity.setWifi(facade.getWifiList());
-            entity.setFba_id("" + new DBPersistanceController(mContext).getUserData().getFBAId());
+
         } catch (Exception w) {
 
         }
@@ -566,7 +562,7 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getMyBusiness(String id, final IResponseSubcriber iResponseSubcriber) {
-        String url = "http://202.131.96.101:3333/LeadCollection.svc/GetEncryptedErpId";
+        String url = "";
 
         HashMap<String, String> body = new HashMap<>();
 

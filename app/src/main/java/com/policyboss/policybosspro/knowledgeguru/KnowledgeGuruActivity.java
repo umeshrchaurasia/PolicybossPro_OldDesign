@@ -13,12 +13,13 @@ import android.view.View;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
 public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickListener {
 
     CardView loan, insurance, other;
-
+    PrefManager prefManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,7 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init_views();
         setListener();
+        prefManager = new PrefManager(this);
     }
 
     private void setListener() {
@@ -52,30 +54,34 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.loan:
-                startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
-                        .putExtra("URL", "http://erp.rupeeboss.com/loansrepository/Loans-repository.html")
-                        .putExtra("NAME", "LOAN REPOSITORY")
-                        .putExtra("TITLE", "LOAN REPOSITORY"));
+//                startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
+//                        .putExtra("URL", "http://erp.rupeeboss.com/loansrepository/Loans-repository.html")
+//                        .putExtra("NAME", "LOAN REPOSITORY")
+//                        .putExtra("TITLE", "LOAN REPOSITORY"));
                 break;
             case R.id.insurance:
-                if (new DBPersistanceController(this).getUserConstantsData().getInsurancerepositorylink() == null) {
-                    startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
-                            .putExtra("URL", "http://www.policyboss.com/repository/page.html")
-                            .putExtra("NAME", "INSURANCE REPOSITORY")
-                            .putExtra("TITLE", "INSURANCE REPOSITORY"));
-                } else {
+//                if (new DBPersistanceController(this).getUserConstantsData().getInsurancerepositorylink() == null) {
+//                    startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
+//                            .putExtra("URL", "https://www.policyboss.com/repository/page.html")
+//                            .putExtra("NAME", "INSURANCE REPOSITORY")
+//                            .putExtra("TITLE", "INSURANCE REPOSITORY"));
+//                } else {
+
+
+                String Knowledgeurl = new DBPersistanceController(this).getUserConstantsData().getInsurancerepositorylink();
+                String KnowledgeGuruurl  = Knowledgeurl + "?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
 
                     startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
-                            .putExtra("URL", new DBPersistanceController(this).getUserConstantsData().getInsurancerepositorylink())
+                            .putExtra("URL",KnowledgeGuruurl )
                             .putExtra("NAME", "INSURANCE REPOSITORY")
                             .putExtra("TITLE", "INSURANCE REPOSITORY"));
-                }
+              //  }
                 break;
             case R.id.other:
-                startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
-                        .putExtra("URL", "http://www.myfinpeace.com/hostedpages/finmart/KnowledgeGuru.html")
-                        .putExtra("NAME", "OTHER PRODUCTS")
-                        .putExtra("TITLE", "OTHER PRODUCTS"));
+//                startActivity(new Intent(this, KnowledgeGuruWebviewActivity.class)
+//                        .putExtra("URL", "https://www.myfinpeace.com/hostedpages/finmart/KnowledgeGuru.html")
+//                        .putExtra("NAME", "OTHER PRODUCTS")
+//                        .putExtra("TITLE", "OTHER PRODUCTS"));
                 break;
 
         }

@@ -131,7 +131,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
 
 
         webView = findViewById(R.id.webView);
-        url = "http://erp.rupeeboss.com/loansrepository/Loans-repository.html";
+        url = "";
         settingWebview();
 
 

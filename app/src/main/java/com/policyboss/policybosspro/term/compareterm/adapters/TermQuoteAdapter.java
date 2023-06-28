@@ -63,9 +63,9 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
         else if (responseEntity.getInsurerId() == 0)
             holder.imgInsurerLogo.setImageResource(R.drawable.icici_life_icon);
         else {
-            Glide.with(mContext)
-                    .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurerLogoName())
-                    .into(holder.imgInsurerLogo);
+//            Glide.with(mContext)
+//                    .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurerLogoName())
+//                    .into(holder.imgInsurerLogo);
         }
 
         holder.txtCustomise.setOnClickListener(new View.OnClickListener() {

@@ -149,7 +149,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
-                tvCount.setText("" + bikePremiumResponse.getSummary().getSuccess() + " results from qa.policyboss.com");
+                tvCount.setText("" + bikePremiumResponse.getSummary().getSuccess() + " results from policyboss.com");
             }
         }
     }

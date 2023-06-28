@@ -74,6 +74,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
@@ -123,6 +124,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     Button btnSubmit;
     EditText etComment;
     ImageView ivUser, ivCross, ivProfile;
+    PrefManager prefManager;
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -181,6 +183,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
+        prefManager = new PrefManager(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 

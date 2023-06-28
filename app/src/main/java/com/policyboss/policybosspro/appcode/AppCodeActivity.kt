@@ -14,6 +14,7 @@ import com.policyboss.policybosspro.appcode.model.viewmodel.AppCodeViewModelFact
 import com.policyboss.policybosspro.databinding.ActivityAppCodeBinding
 import com.policyboss.policybosspro.utility.UTILITY
 import kotlinx.coroutines.launch
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
@@ -24,6 +25,8 @@ class AppCodeActivity : AppCompatActivity() {
     lateinit var viewModel: AppCodeViewModel
 
     lateinit var loginResponseEntity: LoginResponseEntity
+
+    lateinit var prefManager: PrefManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +41,8 @@ class AppCodeActivity : AppCompatActivity() {
         if (loginResponseEntity != null) {
             if (loginResponseEntity.pospNo != null) {
                 // calling API
-                viewModel.getAuthToken(ss_id =loginResponseEntity.pospNo , deviceID = UTILITY.getDeviceID(this@AppCodeActivity))
+                viewModel.getAuthToken(ss_id =loginResponseEntity.pospNo , deviceID = UTILITY.getDeviceID(this@AppCodeActivity)
+                    ,app_version=prefManager.appVersion,fbaid=loginResponseEntity.fbaId.toString())
             }
         }
 

@@ -432,14 +432,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     startActivity(new Intent(this, PrivacyWebViewActivity.class)
                             .putExtra(
                                     "URL",
-                                    "https://www.policyboss.com/privacy-policy-policyboss-pro"
+                                    "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid="
                             )
                             .putExtra("NAME", "" + "privacy-policy")
                             .putExtra("TITLE", "" + "privacy-policy"));
                     break;
                 case R.id.txtterm:
                     startActivity(new Intent(this, PrivacyWebViewActivity.class)
-                            .putExtra("URL", "https://www.policyboss.com/terms-condition")
+                            .putExtra("URL", "https://www.policyboss.com/terms-condition?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=")
                             .putExtra("NAME", "" + "Terms & Conditions")
                             .putExtra("TITLE", "" + "Terms & Conditions"));
                     break;
@@ -671,6 +671,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
         registerRequestEntity.setReferedby_code(etRefererCode.getText().toString().trim());
         registerRequestEntity.setVersionCode(Utility.getVersionName(this));
+        registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
+        registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
+
+        registerRequestEntity.setSsid("");
     }
 
     private void setRegisterPersonalRequest() {

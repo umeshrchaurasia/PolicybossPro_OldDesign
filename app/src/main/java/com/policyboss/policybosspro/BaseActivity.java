@@ -935,7 +935,7 @@ public class BaseActivity extends AppCompatActivity {
 
                 //  File imagesDir  = getAppSpecificAlbumStorageDir(PermissionActivity.this, Environment.DIRECTORY_PICTURES,"DemoLatest1");
 
-                file = new File(imagesDir, "Finmart_product" + ".jpg");
+                file = new File(imagesDir, "PolicyBossPro_product" + ".jpg");
                 fos = new FileOutputStream(file);
 
                 screenshotUri = FileProvider.getUriForFile(BaseActivity.this,
@@ -982,7 +982,7 @@ public class BaseActivity extends AppCompatActivity {
 
         Deeplink = Bodymsg + "\n" + link;
         if(prdSubject.isEmpty()){
-            prdSubject = "Magic Finmart";
+            prdSubject = "PolicyBoss Pro";
         }
 
         String prdDetail = Deeplink;
