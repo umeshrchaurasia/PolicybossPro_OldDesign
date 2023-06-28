@@ -726,8 +726,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             startActivity(new Intent(HomeActivity.this, PrivacyWebViewActivity.class)
                                     .putExtra(
                                             "URL",
-                                            "https://www.policyboss.com/initiate-account-deletion-elite?ss_id="+userConstantEntity.getPOSPNo()
+                                            "https://www.policyboss.com/initiate-account-deletion-elite?ss_id="+userConstantEntity.getPOSPNo()+"&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&fbaid="+userConstantEntity.getFBAId()
                                     )
+
                                     .putExtra("NAME", "" + "ACCOUNT-DELETE")
                                     .putExtra("TITLE", "" + "ACCOUNT-DELETE")
                             );
