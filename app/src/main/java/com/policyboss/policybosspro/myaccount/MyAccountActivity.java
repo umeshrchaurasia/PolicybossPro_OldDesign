@@ -115,7 +115,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     AppCompatImageView ivManagerMobile, ivManagerEmail, ivSupportMobile, ivSupportEmail;
     ScrollView mainScrollView;
-    Switch swNotify;
+    Switch swNotify,swPermission;
 
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
@@ -292,6 +292,34 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
+        swPermission.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    // prefManager.updateNotificationsetting("0");
+                    //  Toast.makeText(getApplicationContext(), "Switch is on", Toast.LENGTH_LONG).show();
+                    if(buttonView.isPressed()) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+                    }
+                } else {
+
+                    //  Toast.makeText(getApplicationContext(), "Switch is off", Toast.LENGTH_LONG).show();
+                    if(buttonView.isPressed()) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+                    }
+                }
+            }
+        });
+
+
     }
 
     private void initWidgets() {
@@ -390,6 +418,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         // regionNotify Setting
         ivNotify = (ImageView) findViewById(R.id.ivNotify);
         swNotify = (Switch) findViewById(R.id.swNotify);
+
+        swPermission = (Switch) findViewById(R.id.swPermission);
         // region About Me
 
         btnSave = (Button) findViewById(R.id.btnSave);
@@ -422,6 +452,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         ivPanView.setVisibility(View.GONE);
         ivPhotoView.setVisibility(View.GONE);
         ivCancelView.setVisibility(View.GONE);
+    }
+
+    private void verifyCallLogContactPermission(){
+
+        if(checkCallLogContactPermission()) {
+
+            swPermission.setChecked(true);
+        }else {
+
+            swPermission.setChecked(false);
+
+
+        }
     }
 
     private void handleCropImage( Uri crop_uri) {
@@ -547,34 +590,34 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.ivProfile:
                 type = 1;
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup_Profile));
                 break;
 
             case R.id.ivPhotoCam:
                 type = 2;
                 // launchCamera();
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup_Profile));
                 break;
 
 
             case R.id.ivPanCam:
                 type = 3;
                 // launchCamera();
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup_PanCard));
                 break;
 
 
             case R.id.ivCancelCam:
                 type = 4;
                 //launchCamera();
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup_CancelCHQ));
                 break;
 
 
             case R.id.ivAadharCam:
                 type = 5;
 //                launchCamera();
-                galleryCamPopUp();
+                galleryCamPopUp(getString(R.string.popup_AadharCard));
                 break;
 
             case R.id.ivPhotoView:
@@ -1463,7 +1506,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    private void galleryCamPopUp() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        verifyCallLogContactPermission();
+    }
+
+    private void galleryCamPopUp(String strHeader) {
 
         if (!checkPermission()) {
 
@@ -1486,25 +1535,27 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         } else {
 
-            showCamerGalleryPopUp();
+            showCamerGalleryPopUp(strHeader);
         }
     }
 
 
-    private void showCamerGalleryPopUp() {
+    private void showCamerGalleryPopUp(String strHeader) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery;
         LayoutInflater inflater = this.getLayoutInflater();
-
+        TextView txtHeader;
         final View dialogView = inflater.inflate(R.layout.layout_cam_gallery, null);
 
         builder.setView(dialogView);
         final AlertDialog alertDialog = builder.create();
+        txtHeader = (TextView) dialogView.findViewById(R.id.txtHeader);
+
         // set the custom dialog components - text, image and button
         lyCamera = (LinearLayout) dialogView.findViewById(R.id.lyCamera);
         lyGallery = (LinearLayout) dialogView.findViewById(R.id.lyGallery);
-
+        txtHeader.setText("SELECT PHOTO FOR "+ strHeader);
         lyCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -2009,6 +2060,22 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private boolean checkCallLogContactPermission() {
+
+        int contact = ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_CONTACTS);
+
+        int callLog = ActivityCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.READ_CALL_LOG);
+
+
+        return contact == PackageManager.PERMISSION_GRANTED
+
+                && callLog == PackageManager.PERMISSION_GRANTED;
+
+
+
+
+    }
+
     private boolean checkRationalePermission() {
 
         boolean camera = ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, perms[0]);
@@ -2049,7 +2116,38 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                     if (camera && (writeExternal || minSdk29) && readExternal) {
 
-                        showCamerGalleryPopUp();
+                        switch (type){
+
+                            case 1 :
+                                galleryCamPopUp(getString(R.string.popup_Profile));
+                                break;
+
+                            case 2:
+
+                                // launchCamera();
+                                galleryCamPopUp(getString(R.string.popup_Profile));
+                                break;
+
+
+                            case 3:
+
+                                galleryCamPopUp(getString(R.string.popup_PanCard));
+                                break;
+
+
+                            case 4:
+
+                                galleryCamPopUp(getString(R.string.popup_CancelCHQ));
+                                break;
+
+
+                            case 5:
+
+                                galleryCamPopUp(getString(R.string.popup_AadharCard));
+                                break;
+
+
+                        }
 
                     }
 
