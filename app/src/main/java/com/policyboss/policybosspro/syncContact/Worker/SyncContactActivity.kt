@@ -19,6 +19,7 @@ import androidx.work.*
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.policyboss.policybosspro.BaseActivity
+import com.policyboss.policybosspro.BuildConfig
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivitySyncContactBinding
 import com.policyboss.policybosspro.databinding.DialogLoadingBinding
@@ -29,6 +30,7 @@ import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import com.utility.finmartcontact.home.Worker.CallLogWorkManager
 import com.utility.finmartcontact.home.Worker.ContactLogWorkManager
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
+import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
@@ -457,8 +459,13 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         btnClose.setOnClickListener {
             alertDialog.dismiss()
             this@SyncContactActivity.finish()
-            startActivity(Intent(this, CommonWebViewActivity::class.java) // .putExtra("URL", "https://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
-                .putExtra("URL", "" + userConstantEntity.leadDashUrl)
+            var leaddetail = ""
+            val append_lead =
+                "&ip_address=&mac_address=&app_version=" + prefManager.appVersion + "&device_id="+prefManager.deviceID+ "&login_ssid="
+            leaddetail = userConstantEntity.leadDashUrl + append_lead
+
+            startActivity(Intent(this, CommonWebViewActivity::class.java)
+                .putExtra("URL", "" + leaddetail)
                 .putExtra("NAME", "" + "Sync Contact DashBoard")
                 .putExtra("TITLE", "" + "Sync Contact DashBoard"))
 

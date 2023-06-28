@@ -118,6 +118,7 @@
             android:id="@+id/nav_Doc"
             android:icon="@drawable/my_account"
             android:orderInCategory="250"
+            android:visible="false"
             android:title="My DOCUMENTS">
             <menu>
                 <item
@@ -148,6 +149,7 @@
             android:id="@+id/nav_TRANSACTIONS"
             android:icon="@drawable/my_account"
             android:orderInCategory="300"
+            android:visible="false"
             android:title="MY TRANSACTIONS">
             <menu>
 

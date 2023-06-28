@@ -1113,7 +1113,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtknwyour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
+
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite()+ "&app_version=" + prefManager.getAppVersion()
+                        + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + userConstantEntity.getPOSPNo() + "&fbaid=" + userConstantEntity.getFBAId(), true, "");
                 // openWebViewPopUp(txtFbaID, "https://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
@@ -1444,7 +1446,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionViewnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
+                openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite()+ "&app_version=" + prefManager.getAppVersion()
+                        + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + userConstantEntity.getPOSPNo() + "&fbaid=" + userConstantEntity.getFBAId(), true, "");
             }
 
 
@@ -1619,7 +1622,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             // prefManager.updatePopUpId("" + serverId);
                             if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
                                 if (prefManager.getIsSeasonal()) {
-                                    openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite(), true, "");
+                                    openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite()+ "&app_version=" + prefManager.getAppVersion()
+                                            + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + userConstantEntity.getPOSPNo() + "&fbaid=" + userConstantEntity.getFBAId(), true, "");
                                     prefManager.setIsSeasonal(false);
 
                                 }
