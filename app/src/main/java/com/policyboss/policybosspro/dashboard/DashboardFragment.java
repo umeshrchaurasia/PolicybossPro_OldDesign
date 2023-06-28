@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseFragment;
+import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
@@ -110,16 +111,16 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         showDialog = new Dialog(getActivity(),R.style.Dialog);
 
         setListener();
-       // receiverWifi = new WifiReceiver();
-       // wifiArrayList = new ArrayList<>();
-      //  mainWifi = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-       // getActivity().registerReceiver(receiverWifi, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-      //  mainWifi.startScan();
+
 
 
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
         LangType = prefManager.getLanguage();
+
+        prefManager.setDeviceID( Utility.getDeviceId(this.getContext().getApplicationContext()));
+
+        prefManager.setAppVersion("policyboss-" + BuildConfig.VERSION_NAME);
 
      //   bindDashboardhAdapter();
         try {
