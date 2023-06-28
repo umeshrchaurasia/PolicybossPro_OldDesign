@@ -16,7 +16,7 @@
             android:icon="@drawable/ic_business_name"
             android:orderInCategory="51"
             android:visible="true"
-            android:title="Generate Login Token">
+            android:title="App Code">
 
         </item>
         <item

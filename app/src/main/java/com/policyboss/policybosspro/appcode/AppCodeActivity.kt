@@ -35,6 +35,7 @@ class AppCodeActivity : AppCompatActivity() {
         binding = ActivityAppCodeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        prefManager = PrefManager(this)
         init()
         setListner()
 
