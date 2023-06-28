@@ -76,6 +76,7 @@ class ContactLogWorkManager(
         val ssid = inputData.getString(Constant.KEY_ssid)
         val parentid = inputData.getString(Constant.KEY_parentid)
         val deviceID = inputData.getString(Constant.KEY_deviceid) ?: ""
+        val appversion = inputData.getString(Constant.KEY_appversion) ?: ""
 
         var tfbaid = ""
         var tsub_fba_id = ""
@@ -131,7 +132,8 @@ class ContactLogWorkManager(
                         sub_fba_id = tsub_fba_id,
                         contactlist = subcontactlist,
                         raw_data = Gson().toJson(getAllContactDetails),
-                        device_id = deviceID
+                        device_id = deviceID,
+                        app_version = appversion
                     )
 
 

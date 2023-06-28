@@ -66,6 +66,8 @@ public class PrefManager {
 
     private static final String CONTACT_COUNT = "contact_count";
 
+    private static final String device_ID = "policybossproDeviceID";
+    private static final String app_Version = "policybossproAppVersion";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -627,5 +629,25 @@ public class PrefManager {
         pref.edit().remove(DeepLink).commit();
     }
 
+    public void setDeviceID(String deviceID) {
 
+        editor.putString(device_ID, deviceID);
+        editor.commit();
+    }
+
+    public String getDeviceID() {
+        return pref.getString(device_ID, "");
+    }
+
+    // ****** version *************
+
+    public void setAppVersion(String appVersion) {
+
+        editor.putString(app_Version, appVersion);
+        editor.commit();
+    }
+
+    public String getAppVersion() {
+        return pref.getString(app_Version, "");
+    }
     }

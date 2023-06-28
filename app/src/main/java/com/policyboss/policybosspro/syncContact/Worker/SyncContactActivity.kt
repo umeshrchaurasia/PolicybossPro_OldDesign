@@ -28,6 +28,7 @@ import com.policyboss.policybosspro.utility.UTILITY
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import com.utility.finmartcontact.home.Worker.CallLogWorkManager
 import com.utility.finmartcontact.home.Worker.ContactLogWorkManager
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
@@ -56,6 +57,8 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var loginResponseEntity: LoginResponseEntity
     lateinit var userConstantEntity: UserConstantEntity
+
+    lateinit var prefManager:PrefManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //  setContentView(R.layout.activity_sync_contact)
@@ -78,7 +81,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         loginResponseEntity = DBPersistanceController(this).userData
         userConstantEntity = DBPersistanceController(this).userConstantsData
 
-
+        prefManager = PrefManager(this)
       //  binding.includedSyncContact.CvSync.setOnClickListener(this)
 
       //  binding.includedSyncContact.CvLeaddashboard.setOnClickListener(this)
@@ -172,6 +175,8 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
             .putString(Constant.KEY_parentid, userConstantEntity.parentid)
             .putString(Constant.KEY_ssid, userConstantEntity!!.pospNo)
             .putString(Constant.KEY_deviceid, UTILITY.getDeviceID(this@SyncContactActivity))
+            .putString(Constant.KEY_appversion, prefManager.appVersion)
+
             .build()
 
 

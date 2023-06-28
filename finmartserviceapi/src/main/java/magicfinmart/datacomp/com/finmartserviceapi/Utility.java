@@ -156,8 +156,6 @@ public class Utility {
         body.put("FBAID", String.valueOf(FbaID));
         body.put("DocType", String.valueOf(DocTyp));
         body.put("DocName", DocName);
-
-
         return body;
     }
 

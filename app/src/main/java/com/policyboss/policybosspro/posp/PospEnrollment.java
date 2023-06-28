@@ -158,6 +158,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     LinearLayout llMain;
     boolean IsAllImageUploaded = false, isPospNoAvailable = false, isPaymentLinkAvailable = true, isPaymentDone = false;
 
+    String DeviceID = "";
+    String AppVersion = "";
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -189,6 +191,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         prefManager = new PrefManager(this);
         showDialog = new Dialog(PospEnrollment.this,R.style.Dialog);
+	    DeviceID = prefManager.getDeviceID();
+        AppVersion = prefManager.getAppVersion();
         initWidgets();
         setListener();
         initLayouts();
@@ -665,6 +669,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         if (isPospInfo && isAddress && isBankDetails) {
             registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
+			registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
+            registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
+            registerRequestEntity.setSsid("" + dbPersistanceController.getUserData().getPOSPNo());
             showDialogMain("");
             new RegisterController(this).enrollPosp(registerRequestEntity, this);
         } else {

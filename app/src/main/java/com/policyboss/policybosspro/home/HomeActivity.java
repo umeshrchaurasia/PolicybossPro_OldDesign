@@ -287,6 +287,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             toolbar.setTitle("PolicyBoss Pro");
 
 
+            prefManager.setDeviceID( Utility.getDeviceId(HomeActivity.this.getApplicationContext()));
+
+            prefManager.setAppVersion("policyboss-" + BuildConfig.VERSION_NAME);
+
 
 
             init_headers();
@@ -578,11 +582,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
                         case R.id.nav_raiseTicket:
 
-                            if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
-                                startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
-                            } else {
+//                        if (userConstantEntity.getRaiseTickitEnabled().equals("0")) {
+//                            startActivity(new Intent(HomeActivity.this, RaiseTicketActivity.class));
+//                        } else
+                        {
 
-                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile() + "&UDID=" + userConstantEntity.getUserid()).putExtra("NAME", "RAISE_TICKET").putExtra("TITLE", "RAISE TICKET"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
+                                            + "&UDID=" + userConstantEntity.getUserid()+"&app_version="+prefManager.getAppVersion()
+                                            +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
+                                            +"&fbaid="+userConstantEntity.getFBAId())
+
+
+                                    .putExtra("NAME", "RAISE_TICKET")
+                                    .putExtra("TITLE", "RAISE TICKET"));
                             }
                             // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
 
@@ -704,7 +717,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                             break;
                         case R.id.nav_policy:
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version=policyboss-1").putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()+"&fbaid="+userConstantEntity.getFBAId()).putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
                             break;
                         case R.id.nav_delete:
 //                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).

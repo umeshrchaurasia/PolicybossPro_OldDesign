@@ -20,6 +20,7 @@
     <string name="allow">ALLOW</string>
     <string name="location_req">Required for PolicyBoss Pro to get Location </string>
     <string name="empty_directory">Empty Directory</string>
+    <string name="NoConnection">No Internet Connection</string>
     <string name="storage_removed">Storage was removed or unmounted.</string>
     <string name="choose_file">Select a file</string>
     <string name="error_selecting_file">Error selecting File</string>
@@ -33,6 +34,7 @@
 
     <string name="signup">Not a Member? <b><u>Sign up now!</u></b></string>
     <string name="clickhere"><b><u>Click Here</u></b></string>
+		       <string name="settings">please go to  <b><u>settings.</u></b></string>
     <string name="threedots">&#8942;</string>
     <string name="disclosure"><b><u>DISCLOSURE</u></b></string>
 

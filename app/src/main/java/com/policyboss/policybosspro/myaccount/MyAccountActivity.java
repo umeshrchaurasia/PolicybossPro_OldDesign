@@ -144,6 +144,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     Bitmap bitmapPhoto = null;
     LoginResponseEntity loginResponseEntity;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
+    String DeviceID = "";
+    String AppVersion = "";
 
     String[] perms = {
             "android.permission.CAMERA",
@@ -173,6 +175,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         prefManager = new PrefManager(this);
         showDialog = new Dialog(MyAccountActivity.this,R.style.Dialog);
 
+        DeviceID = prefManager.getDeviceID();
+        AppVersion = prefManager.getAppVersion();
         initWidgets();
         setListener();
         initLayouts();
@@ -821,6 +825,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         } else {
             registerRequestEntity.setLoan_Account_Type("CURRENT");
         }
+
+        registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
+        registerRequestEntity.setVersionCode("" + prefManager.getDeviceID());
+        registerRequestEntity.setSsid("" +  dbPersistanceController.getUserData().getPOSPNo());
+
         new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
 
     }

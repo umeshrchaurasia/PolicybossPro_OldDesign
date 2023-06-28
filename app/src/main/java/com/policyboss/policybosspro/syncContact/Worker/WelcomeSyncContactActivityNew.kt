@@ -22,6 +22,7 @@ import com.policyboss.policybosspro.databinding.DialogLoadingBinding
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import com.utility.finmartcontact.core.requestentity.CallLogRequestEntity
 import kotlinx.coroutines.*
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckboxsaveResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
@@ -53,6 +54,8 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
     lateinit var btnchktele_call: CheckBox
 
     lateinit  var ll_term: LinearLayout
+    lateinit var  txtsetting:TextView
+
     var isContactSync_msg = 0
     lateinit var userConstantEntity: UserConstantEntity
 
@@ -61,42 +64,7 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
     var POSPNO = ""
     var FBAID = ""
 
-/*
-//userConstantEntity!!.pospNo
-    var viewPagerPageChangeListener: OnPageChangeListener = object : OnPageChangeListener {
-        override fun onPageSelected(position: Int) {
-            //addBottomDots(position);
-            current = position
-            setSelectedDot(position + 1)
-            // changing the next button text 'NEXT' / 'GOT IT'
-            if (position == layouts.size - 1) {
-                // last page. make button text to GOT IT
-                btnNext.text = "GET STARTED"
-                //  btnNext.setVisibility(View.GONE);
-                btnNext.isEnabled = false
-                btnNext.alpha = 0.4f
-                btnNext.tag = 0
-                ll_term!!.visibility = View.VISIBLE
-
-
-                // btnSkip.setVisibility(View.VISIBLE);
-            } else {
-                // still pages are left
-                ll_term!!.visibility = View.GONE
-                //btnNext.setVisibility(View.VISIBLE);
-                btnNext.tag = 1
-                btnNext.alpha = 1f
-                btnNext.text = "NEXT"
-                btnchkagree!!.isChecked = false
-                btnNext.isEnabled = true
-                //  btnNext.setVisibility(View.GONE);
-                // btnSkip.setVisibility(View.VISIBLE);
-            }
-        }
-
-        override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {}
-        override fun onPageScrollStateChanged(arg0: Int) {}
-    }*/
+    lateinit var prefManager : PrefManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -322,8 +290,9 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
                 is_sms = smschk,
                 is_call = telechk,
                 online_agreement = "online_agreement",
-                ss_id = Integer.parseInt(POSPNO)
-
+                ss_id = Integer.parseInt(POSPNO) ,
+                app_version = prefManager.appVersion,
+                device_code = prefManager.deviceID
             )
 
           // val resultRespAsync1 =  RetroHelper.api.savecheckboxdetails(url,saveCheckboxRequestEntity)
@@ -390,14 +359,14 @@ class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
                 Intent(this, CommonWebViewActivity::class.java)
                     .putExtra(
                         "URL",
-                        "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version=policyboss-1"
+                        "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid="
                     )
                     .putExtra("NAME", "" + "privacy-policy")
                     .putExtra("TITLE", "" + "privacy-policy")
             )
             txtterm.id -> startActivity(
                 Intent(this, CommonWebViewActivity::class.java)
-                    .putExtra("URL", "https://www.policyboss.com/terms-condition?app_version=policyboss-1")
+                    .putExtra("URL", "https://www.policyboss.com/terms-condition?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=")
                     .putExtra("NAME", "" + "Terms & Conditions")
                     .putExtra("TITLE", "" + "Terms & Conditions")
             )

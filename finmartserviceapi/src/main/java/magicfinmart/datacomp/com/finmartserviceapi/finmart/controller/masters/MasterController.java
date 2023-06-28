@@ -38,10 +38,13 @@ public class MasterController implements IMasterFetch {
     Context mContext;
     DBPersistanceController dbPersistanceController;
 
+    PrefManager prefManager;
+
     public MasterController(Context context) {
         mContext = context;
         masterNetworkService = new MasterRequestBuilder().getService();
         dbPersistanceController = new DBPersistanceController(mContext);
+        prefManager = new PrefManager(mContext);
     }
 
     @Override
@@ -176,7 +179,13 @@ public class MasterController implements IMasterFetch {
 
     @Override
     public void getInsuranceMaster(final IResponseSubcriber iResponseSubcriber) {
-        masterNetworkService.getInsuranceMasters().enqueue(new Callback<InsuranceMasterResponse>() {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("app_version", "" + prefManager.getAppVersion());
+        body.put("device_code", "" +  prefManager.getDeviceID());
+        body.put("ssid", "" + "");
+        body.put("fbaid", "" + "");
+        masterNetworkService.getInsuranceMasters(body).enqueue(new Callback<InsuranceMasterResponse>() {
             @Override
             public void onResponse(Call<InsuranceMasterResponse> call, Response<InsuranceMasterResponse> response) {
 
@@ -294,6 +303,10 @@ public class MasterController implements IMasterFetch {
         HashMap<String, String> body = new HashMap<>();
         body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
         body.put("VersionCode", Utility.getVersionName(mContext));
+
+        body.put("device_code", "" +  prefManager.getDeviceID());
+        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+
         masterNetworkService.getConstantsData(body).enqueue(new Callback<ConstantsResponse>() {
             @Override
             public void onResponse(Call<ConstantsResponse> call, Response<ConstantsResponse> response) {
@@ -438,6 +451,9 @@ public class MasterController implements IMasterFetch {
     @Override
     public void geUserConstant(final int type, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
+        body.put("app_version", "" + prefManager.getAppVersion());
+        body.put("device_code", "" +  prefManager.getDeviceID());
+        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
         body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
         masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
             @Override
@@ -475,6 +491,10 @@ public class MasterController implements IMasterFetch {
     @Override
     public void geUserConstantSync(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
+
+        body.put("app_version", "" + prefManager.getAppVersion());
+        body.put("device_code", "" +  prefManager.getDeviceID());
+        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
         body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
         masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
             @Override
@@ -513,6 +533,10 @@ public class MasterController implements IMasterFetch {
     @Override
     public void getMenuMaster(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
+
+        body.put("app_version", "" + prefManager.getAppVersion());
+        body.put("device_code", "" +  prefManager.getDeviceID());
+        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
         body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
         masterNetworkService.getMenuMaster(body).enqueue(new Callback<MenuMasterResponse>() {
             @Override

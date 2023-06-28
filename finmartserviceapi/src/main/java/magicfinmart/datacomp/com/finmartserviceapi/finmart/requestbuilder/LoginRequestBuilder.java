@@ -9,6 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotRespon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UsersignupResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -52,6 +53,10 @@ public class LoginRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/quote/Postfm/GetChildUsersApi")
         Call<PospAgentResponse> getPospAgentData(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/quote/Postfm/Getusersignup")
+        Call<UsersignupResponse> getusersignup(@Body HashMap<String, String> body);
 
     }
 }

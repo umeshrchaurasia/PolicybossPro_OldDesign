@@ -19,6 +19,8 @@ import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+
 public class WelcomeSyncContactActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
@@ -32,13 +34,14 @@ public class WelcomeSyncContactActivity extends BaseActivity implements View.OnC
     CheckBox btnchkagree;
     LinearLayout ll_term;
     String isContactSync = "0";
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_sync_contact);
 
-
+        prefManager = new PrefManager(this);
         if(getIntent().getStringExtra("Is_Contact_Sync") != null){
             isContactSync = getIntent().getStringExtra("Is_Contact_Sync");
         }
@@ -117,7 +120,8 @@ public class WelcomeSyncContactActivity extends BaseActivity implements View.OnC
 
             case R.id.txtprivacy:
                 startActivity(new Intent(this, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version=policyboss-1")
+                        .putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=")
+
                         .putExtra("NAME", "" + "privacy-policy")
                         .putExtra("TITLE", "" + "privacy-policy"));
                 break;
@@ -125,7 +129,7 @@ public class WelcomeSyncContactActivity extends BaseActivity implements View.OnC
 
 
                 startActivity(new Intent(this, CommonWebViewActivity.class)
-                        .putExtra("URL", "https://www.policyboss.com/terms-condition?app_version=policyboss-1")
+                        .putExtra("URL", "https://www.policyboss.com/terms-condition?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=")
                         .putExtra("NAME", "" + "Terms & Conditions")
                         .putExtra("TITLE", "" + "Terms & Conditions"));
                 break;
