@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -19,6 +21,15 @@ public class AboutUsActivity extends BaseActivity implements IResponseSubcriber 
             tvManagerEmail, tvSupportNo, tvSupportEmail;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController dbPersistanceController;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("About Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

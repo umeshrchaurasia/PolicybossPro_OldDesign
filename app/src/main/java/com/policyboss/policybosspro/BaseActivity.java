@@ -119,7 +119,13 @@ public class BaseActivity extends AppCompatActivity {
         cal.add(Calendar.YEAR, -year);
         return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
     }
+    public String getDateFromweb(String birthdate) {
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date d = new Date(birthdate);
+        String dateString = inputDateFormat.format(d);
+        return dateString;
 
+    }
     public int getAgeFromDate(String birthdate) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");

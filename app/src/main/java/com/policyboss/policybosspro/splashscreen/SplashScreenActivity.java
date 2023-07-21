@@ -27,6 +27,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import java.util.List;
 
@@ -56,6 +58,14 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     LoginResponseEntity loginResponseEntity;
 
     String deeplinkurl="";
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("SplashScreen Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -17,6 +17,8 @@ import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.utility.CoroutineHelper;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
@@ -29,6 +31,13 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     TextView btnSkip;
     ImageView dot1, dot2, dot3, dot4, dot5;
     int current = 0;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("Welcome Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

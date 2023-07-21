@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,15 +19,18 @@ import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.R
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics
 import com.policyboss.policybosspro.databinding.ActivityWelcomeSyncContactKotlinBinding
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
+import com.webengage.sdk.android.WebEngage
 import kotlinx.coroutines.*
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncContact.SaveCheckboxRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
+
 
 class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
 
@@ -69,6 +71,11 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
 
     lateinit var prefManager : PrefManager
 
+    override fun onStart() {
+        super.onStart()
+        val weAnalytics = WebEngage.get().analytics()
+        weAnalytics.screenNavigated("Welcome Sync Contact Screen")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWelcomeSyncContactKotlinBinding.inflate(layoutInflater)
@@ -441,7 +448,7 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
 
                             savecheckboxdetails()
 
-                        }catch (e: Exception){
+                        } catch (e: Exception) {
 
                             withContext(Dispatchers.Main) {
                                 //   viewPager.visibility = View.VISIBLE
@@ -449,7 +456,7 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
                             }
                         }
                     }
-
+                    trackSyncContactEvent("Get Started on Sync Contacts");
                     startActivity(Intent(this, SyncContactActivity::class.java))
 
                 }
@@ -458,33 +465,44 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
 
             //   R.id.btn_skip -> startActivity(Intent(this, SyncContactActivity::class.java))
 
-            txtprivacy.id -> startActivity(
-                Intent(this, CommonWebViewActivity::class.java)
-                    .putExtra(
-                        "URL",
-                        "https://www.policyboss.com//privacy-policy-policyboss-pro?app_version=" + prefManager.appVersion + "&device_code=" + prefManager.deviceID + "&ssid=" +POSPNO + "&fbaid=" + FBAID
+            txtprivacy.id -> {
+            trackSyncContactEvent("Read Privacy Policy for Sync Contacts")
+
+                    startActivity (
+                    Intent(this, CommonWebViewActivity::class.java)
+                        .putExtra(
+                            "URL",
+                            "https://www.policyboss.com//privacy-policy-policyboss-pro?app_version=" + prefManager.appVersion + "&device_code=" + prefManager.deviceID + "&ssid=" + POSPNO + "&fbaid=" + FBAID
+                        )
+                        .putExtra("NAME", "" + "privacy-policy")
+                        .putExtra("TITLE", "" + "privacy-policy")
                     )
-                    .putExtra("NAME", "" + "privacy-policy")
-                    .putExtra("TITLE", "" + "privacy-policy")
-            )
-            txtterm.id -> startActivity(
-                Intent(this, CommonWebViewActivity::class.java)
-                    .putExtra(
-                        "URL",
-                        "https://www.policyboss.com/terms-condition?app_version=" + prefManager.appVersion + "&device_code=" + prefManager.deviceID + "&ssid=" +POSPNO + "&fbaid=" + FBAID
-                    )
-                    .putExtra("NAME", "" + "Terms & Conditions")
-                    .putExtra("TITLE", "" + "Terms & Conditions")
+           }
+            txtterm.id -> {
+                trackSyncContactEvent("T&C Viewed for Sync Contacts")
+
+                startActivity(
+                    Intent(this, CommonWebViewActivity::class.java)
+                        .putExtra(
+                            "URL",
+                            "https://www.policyboss.com/terms-condition?app_version=" + prefManager.appVersion + "&device_code=" + prefManager.deviceID + "&ssid=" + POSPNO + "&fbaid=" + FBAID
+                        )
+                        .putExtra("NAME", "" + "Terms & Conditions")
+                        .putExtra("TITLE", "" + "Terms & Conditions")
 
 
+                )
+            }
 
-            )
+            txtsetting.id -> {
+                trackSyncContactEvent("Sync Contacts Setting")
 
-            txtsetting.id -> startActivity(
+                startActivity(
 
-                      (Intent(this, MyAccountActivity::class.java))
+                    (Intent(this, MyAccountActivity::class.java))
 
-            )
+                )
+            }
 //            tvClickHere.id -> SyncTermPopUp()
 
             btnchkagree.id -> if (btnchkagree!!.tag != "1") {
@@ -566,4 +584,13 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
             container.removeView(view)
         }
     }
+
+    private fun trackSyncContactEvent(strEvent: String) {
+        // Create event attributes
+        val eventAttributes: Map<String, Any> = HashMap()
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent(strEvent, eventAttributes)
+    }
+
+
 }

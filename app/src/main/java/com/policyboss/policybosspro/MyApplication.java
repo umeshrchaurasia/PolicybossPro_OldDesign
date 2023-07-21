@@ -1,15 +1,34 @@
 package com.policyboss.policybosspro;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 //import com.crashlytics.android.Crashlytics;
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.policyboss.policybosspro.analytics.AnalyticsTrackers;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.webengage.sdk.android.WebEngage;
+import com.webengage.sdk.android.WebEngageActivityLifeCycleCallbacks;
+import com.webengage.sdk.android.WebEngageConfig;
+import com.webengage.sdk.android.actions.database.ReportingStrategy;
+import com.webengage.sdk.android.actions.render.InAppNotificationData;
+import com.webengage.sdk.android.actions.render.PushNotificationData;
+import com.webengage.sdk.android.callbacks.InAppNotificationCallbacks;
+import com.webengage.sdk.android.callbacks.LifeCycleCallbacks;
+import com.webengage.sdk.android.callbacks.PushNotificationCallbacks;
 
 
 //import io.fabric.sdk.android.Fabric;
@@ -56,7 +75,33 @@ public class MyApplication extends Application {
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //endregion
+        String webengage_key = "in~~991991c1";
+        WebEngageConfig webEngageConfig = new WebEngageConfig.Builder()
+                .setWebEngageKey(webengage_key)
+                .setDebugMode(true) // only in development mode
+                .setEventReportingStrategy(ReportingStrategy.FORCE_SYNC)
+                .build();
+        registerActivityLifecycleCallbacks(new WebEngageActivityLifeCycleCallbacks(this, webEngageConfig));
 
+
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                try {
+                    String token = task.getResult();
+                    WebEngage.get().setRegistrationID(token);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        WebEngage.registerPushNotificationCallback(new PushNotificationCallbacksImpl());
+
+        WebEngage.registerInAppNotificationCallback(new InAppNotificationCallbackImpl());
+
+        WebEngage.registerLifeCycleCallback(new LifeCycleCallbacksImpl());
 
     }
 
@@ -135,5 +180,86 @@ public class MyApplication extends Application {
 
     }
 
-    
+
+
+
+    private class PushNotificationCallbacksImpl implements PushNotificationCallbacks {
+
+        @Override
+        public PushNotificationData onPushNotificationReceived(Context context, PushNotificationData pushNotificationData) {
+
+
+
+            return pushNotificationData;
+        }
+
+        @Override
+        public void onPushNotificationShown(Context context, PushNotificationData pushNotificationData) {
+
+        }
+
+        @Override
+        public boolean onPushNotificationClicked(Context context, PushNotificationData pushNotificationData) {
+            return false;
+        }
+
+        @Override
+        public void onPushNotificationDismissed(Context context, PushNotificationData pushNotificationData) {
+
+        }
+
+        @Override
+        public boolean onPushNotificationActionClicked(Context context, PushNotificationData pushNotificationData, String s) {
+            return false;
+        }
+    }
+
+    private class InAppNotificationCallbackImpl implements InAppNotificationCallbacks {
+        @Override
+        public InAppNotificationData onInAppNotificationPrepared(Context context, InAppNotificationData inAppNotificationData) {
+            return null;
+        }
+
+        @Override
+        public void onInAppNotificationShown(Context context, InAppNotificationData inAppNotificationData) {
+
+        }
+
+        @Override
+        public boolean onInAppNotificationClicked(Context context, InAppNotificationData inAppNotificationData, String s) {
+            return false;
+        }
+
+        @Override
+        public void onInAppNotificationDismissed(Context context, InAppNotificationData inAppNotificationData) {
+
+        }
+    }
+
+    private class LifeCycleCallbacksImpl implements LifeCycleCallbacks {
+        @Override
+        public void onGCMRegistered(Context context, String s) {
+
+        }
+
+        @Override
+        public void onGCMMessageReceived(Context context, Intent intent) {
+
+        }
+
+        @Override
+        public void onAppInstalled(Context context, Intent intent) {
+
+        }
+
+        @Override
+        public void onAppUpgraded(Context context, int i, int i1) {
+
+        }
+
+        @Override
+        public void onNewSessionStarted() {
+
+        }
+    }
 }

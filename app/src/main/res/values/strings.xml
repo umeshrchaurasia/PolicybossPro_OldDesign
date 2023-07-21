@@ -49,7 +49,7 @@
     <string name="popup1_AadharCardFont"> RECENT AADHAR CARD FRONT</string>
     <string name="popup1_AadharCardBack"> RECENT AADHAR CARD BACK</string>
     <string name="popup1_CancelCHQ"> RECENT CANCELLED CHQ</string>
-    <string name="popup1_HighestEdu"> RECENT HIGHEST EDU.  PROOF </string>
+    <string name="popup1_HighestEdu"> RECENT HIGHEST EDU. PROOF </string>
 
 
     <string name="file_provider_authority" translatable="false">com.policyboss.policybosspro.fileprovider</string>

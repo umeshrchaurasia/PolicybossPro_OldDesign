@@ -13,6 +13,7 @@ import com.policyboss.policybosspro.appcode.model.viewmodel.AppCodeViewModel
 import com.policyboss.policybosspro.appcode.model.viewmodel.AppCodeViewModelFactory
 import com.policyboss.policybosspro.databinding.ActivityAppCodeBinding
 import com.policyboss.policybosspro.utility.UTILITY
+import com.webengage.sdk.android.WebEngage
 import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
@@ -28,7 +29,11 @@ class AppCodeActivity : AppCompatActivity() {
 
     lateinit var prefManager: PrefManager
 
-
+    override fun onStart() {
+        super.onStart()
+        val weAnalytics = WebEngage.get().analytics()
+        weAnalytics.screenNavigated("AppCode Screen")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

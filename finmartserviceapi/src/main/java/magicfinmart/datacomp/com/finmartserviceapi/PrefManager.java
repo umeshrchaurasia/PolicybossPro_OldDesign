@@ -49,6 +49,9 @@ public class PrefManager {
     private static final String FOS_USER_AUTHENTICATIONN = "fos_user_authenticationn";
     public static String PUSH_VERIFY_LOGIN = "push_verify_login";
     public static String NOTIFICATION_COUNTER = "Notification_Counter";
+
+    public static String IS_ENABLE_PRO_SIGNUPURL = "IS_enable_pro_signupurl";
+
     public static String SHARED_KEY_PUSH_NOTIFY = "shared_notifyFlag";
     public static String SHARED_KEY_PUSH_WEB_URL = "shared_notify_webUrl";
     public static String SHARED_KEY_PUSH_WEB_TITLE = "shared_notify_webTitle";
@@ -262,6 +265,16 @@ public class PrefManager {
 
     public boolean getIsUserLogin() {
         return pref.getBoolean(PUSH_VERIFY_LOGIN, false);
+    }
+
+
+    public void setEnableProSignupurl(String ProSignupurl) {
+        editor.putString(IS_ENABLE_PRO_SIGNUPURL, ProSignupurl);
+        editor.commit();
+    }
+
+    public String getEnableProSignupurl() {
+        return pref.getString(IS_ENABLE_PRO_SIGNUPURL, "");
     }
 
     //region Notification

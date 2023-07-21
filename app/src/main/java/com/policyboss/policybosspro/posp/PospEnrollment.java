@@ -52,6 +52,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.cropImage.UcropperActivity;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
@@ -61,6 +62,8 @@ import com.policyboss.policybosspro.salesmaterial.SalesDetailActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 import com.policyboss.policybosspro.webviews.MyWebViewClient;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 
 import java.io.File;
@@ -72,6 +75,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -171,6 +175,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     ActivityResultLauncher<String> galleryLauncher;
     ActivityResultLauncher<Uri> cameraLauncher;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("Posp Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -672,8 +684,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 			registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
             registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
             registerRequestEntity.setSsid("" + dbPersistanceController.getUserData().getPOSPNo());
+
+            trackPospSubmitEvent();
             showDialogMain("");
             new RegisterController(this).enrollPosp(registerRequestEntity, this);
+
+
         } else {
             Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
         }
@@ -1189,18 +1205,21 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             case R.id.ivPhotoCam:
                 type = 6;
                 // launchCamera();
+                trackDocUploadEvent(getString(R.string.popup1_PHOTO));
                 galleryCamPopUp(getString(R.string.popup1_PHOTO));
                 break;
 
 
             case R.id.ivPanCam:
                 type = 7;
+                trackDocUploadEvent(getString(R.string.popup1_PanCard));
                 galleryCamPopUp(getString(R.string.popup1_PanCard));
                 break;
 
 
             case R.id.ivAadharCam:
                 type = 8;
+                trackDocUploadEvent(getString(R.string.popup1_AadharCardFont));
                 galleryCamPopUp(getString(R.string.popup1_AadharCardFont));
                 break;
 
@@ -1208,18 +1227,21 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
             case R.id.ivAadharCamBack:
                 type = 9;
+                trackDocUploadEvent(getString(R.string.popup1_AadharCardBack));
                 galleryCamPopUp(getString(R.string.popup1_AadharCardBack));
                 break;
 
 
             case R.id.ivCancelCam:
                 type = 10;
+                trackDocUploadEvent(getString(R.string.popup1_CancelCHQ));
                 galleryCamPopUp(getString(R.string.popup1_CancelCHQ));
                 break;
 
 
             case R.id.ivEduCam:
                 type = 11;
+                trackDocUploadEvent(getString(R.string.popup1_HighestEdu));
                 galleryCamPopUp(getString(R.string.popup1_HighestEdu));
                 break;
 
@@ -1538,6 +1560,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     if (((EnrollPospResponse) response).getMasterData().getPOSPNo() != null &&
                             !((EnrollPospResponse) response).getMasterData().getPOSPNo().equals(""))
                     {
+
+
+                        trackPOSPSuccessEvent();
+
                         isPospNoAvailable = true;
 
                         isPaymentLinkAvailable = true;
@@ -2349,28 +2375,37 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     private void setDocumentUpload(String FileName) {
         if (type == 6) {
+
+            trackDocUploadSuccessEvent(getString(R.string.popup1_PHOTO));
+
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
 
             ivPhotoView.setTag(FileName);
             ivPhotoView.setVisibility(View.VISIBLE);
         } else if (type == 7) {
+            trackDocUploadSuccessEvent(getString(R.string.popup1_PanCard));
             ivPan.setImageResource(R.drawable.doc_uploaded);
 
             ivPanView.setTag(FileName);
             ivPanView.setVisibility(View.VISIBLE);
         } else if (type == 8) {
+
+            trackDocUploadSuccessEvent(getString(R.string.popup1_AadharCardFont));
             ivAadhar.setImageResource(R.drawable.doc_uploaded);
 
             ivAadharView.setTag(FileName);
             ivAadharView.setVisibility(View.VISIBLE);
 
         } else if (type == 9) {
+            trackDocUploadSuccessEvent(getString(R.string.popup1_AadharCardBack));
             ivAadharBack.setImageResource(R.drawable.doc_uploaded);
 
             ivAadharBackView.setTag(FileName);
             ivAadharBackView.setVisibility(View.VISIBLE);
 
         } else if (type == 10) {
+
+            trackDocUploadSuccessEvent(getString(R.string.popup1_CancelCHQ));
             ivCancel.setImageResource(R.drawable.doc_uploaded);
 
             ivCancelView.setTag(FileName);
@@ -3035,4 +3070,40 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         galleryLauncher.unregister();
         cameraLauncher.unregister();
     }
+
+    private void trackPospSubmitEvent() {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Section","Enroll for IRDA POSP ");
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Bank Details Submitted", eventAttributes);
+    }
+    private void trackPOSPSuccessEvent() {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("POSP Enrollment Initiated", eventAttributes);
+    }
+
+    private void trackDocUploadEvent(  String strDocType) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Section",  "Enroll for IRDA POSP");
+        eventAttributes.put("Document Type", strDocType);
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Document Upload Initiated", eventAttributes);
+    }
+    private void trackDocUploadSuccessEvent(  String strDocType) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Section", "Enroll for IRDA POSP");
+        eventAttributes.put("Document Type", strDocType);
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Document Uploaded Successfully", eventAttributes);
+    }
+
+
 }

@@ -50,6 +50,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter;
@@ -61,14 +62,20 @@ import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.User;
+import com.webengage.sdk.android.WebEngage;
+import com.webengage.sdk.android.utils.Gender;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -141,6 +148,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     ArrayList<String> tempSaleList;
     AlertDialog pincodeDialog , pospAmountDialog;
 
+    User weUser;
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("Register Screen");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,7 +171,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         sourceList = new ArrayList<>();
         saleList = new ArrayList<>();
         tempSaleList = new ArrayList<>();
-
+        weUser = WebEngage.get().user();
         initWidgets();
         bindSource();
         setListener();
@@ -494,9 +510,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
                             setProfessionInfo();
                             showDialog();
+
+
                             new RegisterController(this).registerFba(registerRequestEntity, this);
 
                         }
+
                     }
                     break;
             }
@@ -717,6 +736,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         registerRequestEntity.setPosp_amount(POSP_AMOUNT);
 
+
+
 //        if(rdNineHundredNinetyNine.isChecked()){
 //
 //            registerRequestEntity.setPosp_amount("999");
@@ -746,6 +767,42 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             linearLayout.setVisibility(View.GONE);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         }
+    }
+
+    private void setUserInfoToWebEngAnalytic(){
+
+        weUser.setFirstName("" + etFirstName.getText().toString());
+        weUser.setLastName("" + etLastName.getText().toString());
+        weUser.login("" + etEmail.getText().toString());
+        if (isMale) {
+            weUser.setGender(Gender.MALE);
+        } else {
+            weUser.setGender(Gender.FEMALE);
+        }
+        weUser.setEmail("" + etEmail.getText().toString());
+
+
+        weUser.setPhoneNumber("" + etMobile1.getText().toString());
+
+        weUser.setBirthDate("" + getDateFromweb(etDob.getText().toString()));
+
+        if(spSource.getSelectedItem() != null){
+            weUser.setAttribute("Source",spSource.getSelectedItem().toString());
+        }else{
+            weUser.setAttribute("Source","0");
+        }
+
+        if(spsales.getSelectedItem() != null){
+
+            weUser.setAttribute("Field Sale",spsales.getSelectedItem().toString());
+
+        }else{
+            weUser.setAttribute("Field Sale","0");
+        }
+
+        weUser.setAttribute("Referrer Code",etRefererCode.getText().toString());
+
+
     }
 
 
@@ -794,11 +851,25 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         } else if (response instanceof RegisterFbaResponse) {
             cancelDialog();
+
+           // new TrackingController(this).sendData(trackingRequestEntity, null);
+            trackSignUpEvent(chbxLife.isChecked(),dbPersistanceController.getlifeListIdbyname(spLifeIns.getSelectedStrings()),
+
+                    chbxGen.isChecked(),
+                    dbPersistanceController.getGeneralListbyname(spGenIns.getSelectedStrings()),
+
+                    chbxHealth.isChecked(),
+                    dbPersistanceController.getHealthListByName(spHealthIns.getSelectedStrings()),
+
+                    chbxMutual.isChecked(), chbxPostal.isChecked(),
+                    chbxStocks.isChecked(), chbxBonds.isChecked() );
+
             trackingRequestEntity.setType("Register");
             trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
-           // new TrackingController(this).sendData(trackingRequestEntity, null);
 
             if (response.getStatusNo() == 0) {
+
+
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             } else {
@@ -1002,6 +1073,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         new RegisterController(RegisterActivity.this).validateOtp(etMobile1.getText().toString(), etOtp.getText().toString(), RegisterActivity.this);
                     }
 
+                    trackEvent("");
                 }
             });
 
@@ -1301,10 +1373,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     public void PospAmountAlert(String Title,String subTitle,  List<String>  strDetailList) {
 
+
+
         if (pospAmountDialog != null && pospAmountDialog.isShowing()) {
 
             return;
         } else {
+
+            setUserInfoToWebEngAnalytic();
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
 
@@ -1339,6 +1415,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    trackEventturbo("");
                     pospAmountDialog.dismiss();
 
                 }
@@ -1349,5 +1426,50 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             pospAmountDialog.show();
         }
 
+    }
+
+    private void trackEvent(String status) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("OTPVerified",status); // Add any relevant attributes
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("OTP Verified", eventAttributes);
+    }
+    private void trackSignUpEvent( Boolean blnLISelected , String  strLIComp , Boolean blnGISelected ,
+                                   String  strGIComp,Boolean  blnHISelected , String  strHIComp,
+                                   Boolean  blnMISelected ,Boolean  blnPSSelected ,Boolean  blnStockSelected ,
+                                   Boolean  blnBondSelected
+                                   )
+    {
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Life Insurance Selected",blnLISelected);
+        eventAttributes.put("Life Insurance Companies",strLIComp);
+        eventAttributes.put("General Insurance Selected",blnGISelected);
+
+        eventAttributes.put("General Insurance Companies",strGIComp);
+        eventAttributes.put("Health Insurance Selected",blnHISelected);
+        eventAttributes.put("Health Insurance Companies",strHIComp);
+
+
+        eventAttributes.put("Mutual Funds Selected",blnMISelected);
+        eventAttributes.put("Postal Savings Selected",blnPSSelected);
+        eventAttributes.put("Stocks Selected",blnStockSelected);
+        eventAttributes.put("Bonds/CFD's Selected",blnBondSelected);
+
+
+
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Professional Information Submitted", eventAttributes);
+    }
+
+    private void trackEventturbo(String status) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("TurboMembership",status); // Add any relevant attributes
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Turbo Membership Acknowledged", eventAttributes);
     }
 }

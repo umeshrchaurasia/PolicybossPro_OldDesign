@@ -9,15 +9,30 @@ import android.view.View;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.helpfeedback.aboutus.AboutUsActivity;
 import com.policyboss.policybosspro.helpfeedback.contactus.ContactUsActivity;
 import com.policyboss.policybosspro.helpfeedback.raiseticket.RaiseTicketActivity;
 
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HelpFeedBackActivity extends BaseActivity implements View.OnClickListener {
 
     CardView cvContactUs, cvRaiseTicket, cvAboutUs, cvDisclosure ,cvChat;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("HelpFeedBack Screen");
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,7 @@ public class HelpFeedBackActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.cvContactUs:
                 startActivity(new Intent(this, ContactUsActivity.class));
+                tracktContactFeedbackEvent();
                 break;
             case R.id.cvRaiseTicket:
                 startActivity(new Intent(this, RaiseTicketActivity.class));
@@ -88,5 +104,13 @@ public class HelpFeedBackActivity extends BaseActivity implements View.OnClickLi
         supportFinishAfterTransition();
         super.onBackPressed();
     }
+
+    private void tracktContactFeedbackEvent( ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Clicked on Contact Us in Help & Feedback" , eventAttributes);
+    }
+
 
 }

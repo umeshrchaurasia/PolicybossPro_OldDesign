@@ -20,6 +20,8 @@ import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.TouchImageView;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -54,6 +56,15 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
     boolean isSecondImageToShow = false;
 
     Dialog showDialog ;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("SalesShare Screen");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.utility.Constants;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,14 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     UserConstantEntity userConstantEntity;
     LoginResponseEntity loginEntity;
     PrefManager prefManager;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("Notification Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

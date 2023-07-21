@@ -29,13 +29,17 @@ import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.utility.Constants;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -72,6 +76,28 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
     byte[] bytePOSPArray = null;
     byte[] byteFBAArray = null;
     Dialog showDialog ;
+    Analytics weAnalytics;
+    Map<String, Object> screenData;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+
+
+            screenData.put("SS ID", userConstantEntity.getPOSPNo());
+            screenData.put("FBA ID", userConstantEntity.getFBAId());
+            screenData.put("Name", userConstantEntity.getFullName());
+
+            screenData.put("Product ID",salesProductEntity.getProduct_Id());
+            screenData.put("Product Name",salesProductEntity.getProduct_Name());
+
+            weAnalytics.screenNavigated("SalesDetail Screen", screenData);
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +108,9 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(SalesDetailActivity.this);
         userConstantEntity = dbPersistanceController.getUserConstantsData();
+
+        weAnalytics  = WebEngage.get().analytics();
+        screenData = new HashMap<String, Object>();
         companyID = "0";
         Bundle extras = getIntent().getExtras();
         if (extras != null) {

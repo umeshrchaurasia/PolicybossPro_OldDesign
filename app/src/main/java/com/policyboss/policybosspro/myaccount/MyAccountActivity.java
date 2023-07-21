@@ -56,11 +56,16 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.cropImage.UcropperActivity;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.posp.PospEnrollment;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.User;
+import com.webengage.sdk.android.WebEngage;
+import com.webengage.sdk.android.utils.Gender;
 
 
 import java.io.ByteArrayOutputStream;
@@ -68,6 +73,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -159,6 +165,16 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     ActivityResultLauncher<String> galleryLauncher;
     ActivityResultLauncher<Uri> cameraLauncher;
+
+    User weUser;
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("MyAccount Screen");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +185,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         loginEntity = dbPersistanceController.getUserData();
+        weUser = WebEngage.get().user();
 
         registerPopUp(this);
         registerRequestEntity = new RegisterRequestEntity();
@@ -592,12 +609,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.ivProfile:
                 type = 1;
+                trackDocUploadEvent(getString(R.string.popup_Profile));
                 galleryCamPopUp(getString(R.string.popup_Profile));
                 break;
 
             case R.id.ivPhotoCam:
                 type = 2;
                 // launchCamera();
+                trackDocUploadEvent(getString(R.string.popup_Profile));
                 galleryCamPopUp(getString(R.string.popup_Profile));
                 break;
 
@@ -605,6 +624,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             case R.id.ivPanCam:
                 type = 3;
                 // launchCamera();
+                trackDocUploadEvent(getString(R.string.popup_PanCard));
                 galleryCamPopUp(getString(R.string.popup_PanCard));
                 break;
 
@@ -612,6 +632,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             case R.id.ivCancelCam:
                 type = 4;
                 //launchCamera();
+                trackDocUploadEvent(getString(R.string.popup_CancelCHQ));
                 galleryCamPopUp(getString(R.string.popup_CancelCHQ));
                 break;
 
@@ -619,6 +640,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             case R.id.ivAadharCam:
                 type = 5;
 //                launchCamera();
+                trackDocUploadEvent(getString(R.string.popup_AadharCard));
                 galleryCamPopUp(getString(R.string.popup_AadharCard));
                 break;
 
@@ -877,7 +899,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
 
+        trackMyAccountSubmitEvent();
+
     }
+
+
 
 
     private void setSavingAcc() {
@@ -1334,6 +1360,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
 
 
+        setUserInfoToWebEngAnalytic(accountDtlEntity);
+    }
+
+    private void setUserInfoToWebEngAnalytic(AccountDtlEntity accountDtlEntity){
+
+        weUser.setPhoneNumber(accountDtlEntity.getEditMobiNumb());
+        weUser.setEmail(accountDtlEntity.getEditEmailId());
+
     }
 
     private void saveAcctDtlToDB(int type) {
@@ -1448,6 +1482,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     // Reflect particular File After File was Uploadwd .
     private void setDocumentUpload(String URL) {
         if (type == 1) {
+            trackDocUploadSuccessEvent(getString(R.string.popup_Profile));
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
             ivPhotoView.setTag(URL);
             ivPhotoView.setVisibility(View.VISIBLE);
@@ -1460,6 +1495,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     .transform(new CircleTransform(MyAccountActivity.this)) // applying the image transformer
                     .into(ivUser);
         } else if (type == 2) {
+
+            trackDocUploadSuccessEvent(getString(R.string.popup_Profile));
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
             ivPhotoView.setTag(URL);
             ivPhotoView.setVisibility(View.VISIBLE);
@@ -1473,15 +1510,22 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     .into(ivUser);
 
         } else if (type == 3) {
+
+            trackDocUploadSuccessEvent(getString(R.string.popup_PanCard));
+
             ivPanView.setTag(URL);
             ivPanView.setVisibility(View.VISIBLE);
 
             ivPan.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 4) {
+
+            trackDocUploadSuccessEvent(getString(R.string.popup_CancelCHQ));
             ivCancelView.setTag(URL);
             ivCancelView.setVisibility(View.VISIBLE);
             ivCancel.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 5) {
+
+            trackDocUploadSuccessEvent(getString(R.string.popup_AadharCard));
             ivAadharView.setTag(URL);
             ivAadharView.setVisibility(View.VISIBLE);
             ivAadhar.setImageResource(R.drawable.doc_uploaded);
@@ -2310,7 +2354,29 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    private void trackMyAccountSubmitEvent() {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Section","My Account");
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Bank Details Submitted", eventAttributes);
+    }
+    private void trackDocUploadEvent(  String strDocType) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Section",  "My Account");
+        eventAttributes.put("Document Type", strDocType);
 
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Document Upload Initiated", eventAttributes);
+    }
+    private void trackDocUploadSuccessEvent(  String strDocType) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Section", "My Account");
+        eventAttributes.put("Document Type", strDocType);
 
-
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Document Uploaded Successfully", eventAttributes);
+    }
 }

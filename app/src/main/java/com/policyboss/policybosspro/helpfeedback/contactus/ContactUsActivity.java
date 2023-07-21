@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,14 @@ public class ContactUsActivity extends BaseActivity implements IResponseSubcribe
     RecyclerView rvContactUs;
     ContactUsAdapter mAdapter;
     List<ContactUsEntity> contactUsEntityList;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("ContactUs Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

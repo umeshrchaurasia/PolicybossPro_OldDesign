@@ -10,8 +10,14 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.login.LoginActivity;
 import com.policyboss.policybosspro.webviews.MyWebViewClient;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -28,6 +34,13 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
     Button btnAgree, btnDisAgree;
     PrefManager prefManager;
     WebView webView;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("Eula Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +75,12 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
 
                 prefManager.setFirstTimeLaunch(false);
                 startActivity(new Intent(this, LoginActivity.class));
-
+                trackEvent("I Agree");
                 break;
             case R.id.btnDisAgree:
+                trackEvent("I Disagree");
                 finish();
+
                 break;
         }
     }
@@ -127,4 +142,14 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
         webView.loadUrl(url);*/
         webView.loadUrl("file:///android_asset/eula.html");
     }
+
+    private void trackEvent(String status) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Status",status); // Add any relevant attributes
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Agreement Acknowledgement", eventAttributes);
+    }
+
 }

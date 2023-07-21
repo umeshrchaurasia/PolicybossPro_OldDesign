@@ -12,6 +12,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.policyboss.policybosspro.R
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics
 import com.policyboss.policybosspro.register.RegisterActivity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RegisterPospAmountModel
 
@@ -143,6 +144,7 @@ class RegisterPospAmountAdapter (
 
 
         btnClose.setOnClickListener {
+
                 builder.dismiss()
         }
         builder.setCanceledOnTouchOutside(true)
@@ -150,4 +152,5 @@ class RegisterPospAmountAdapter (
 
         //layout_posp_amount_detail_item
     }
+
 }

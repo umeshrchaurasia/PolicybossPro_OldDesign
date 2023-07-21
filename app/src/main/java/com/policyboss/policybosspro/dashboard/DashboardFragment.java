@@ -31,6 +31,7 @@ import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity;
@@ -39,9 +40,13 @@ import com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.policyboss.policybosspro.utility.NetworkUtils;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -194,8 +199,10 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
             switch (item.getItemId()) {
                 case R.id.nav_sales:
                     //redirect to sales
+                    trackTopMenuEvent("CUSTOMER COMM");
                     startActivity(new Intent(getContext(), SalesMaterialActivity.class));
                   //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
+
                     return true;
                 case R.id.nav_pending:
                     //redirect to pending status
@@ -204,8 +211,10 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                     return true;
                 case R.id.nav_knowledge:
                     //redirect to knowledge guru
+                    trackTopMenuEvent("KNOWLEDGE GURU");
                     startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
                   //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
+
                     return true;
             }
             return false;
@@ -290,6 +299,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 }
                 //redirect to knowledge guru
                 startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
+                trackTopMenuEvent("KNOWLEDGE GURU");
                // new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
                 MyApplication.getInstance().trackEvent(Constants.KNOWLEDGE_GURU, "Clicked", "Knowledge Guru From Dashboard");
                 break;
@@ -313,6 +323,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 //redirect to sales
                 startActivity(new Intent(getContext(), SalesMaterialActivity.class));
               //  new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
+                trackTopMenuEvent("CUSTOMER COMM");
+
                 MyApplication.getInstance().trackEvent(Constants.SALES_MATERIAL, "Clicked", "CUSTOMER COMM. From Dashboard");
                 break;
         }
@@ -349,6 +361,9 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         LocalBroadcastManager.getInstance(getActivity())
                 .registerReceiver(mHandleMessageReceiver,
                         new IntentFilter(Utility.USER_DASHBOARD));
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("DashBoard Screen");
     }
 
     @Override
@@ -413,6 +428,14 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     }
 
 
+    private void trackTopMenuEvent(String strMenu) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Menu Clicked", strMenu );
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Top Menu Viewed", eventAttributes);
+    }
 
 
 }

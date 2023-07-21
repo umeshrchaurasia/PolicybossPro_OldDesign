@@ -54,6 +54,7 @@ import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
 
 
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.certificate.POSP_certicate_appointment;
 import com.policyboss.policybosspro.change_password.ChangePasswordFragment;
 import com.policyboss.policybosspro.dashboard.DashboardFragment;
@@ -101,6 +102,9 @@ import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
 import com.policyboss.policybosspro.whatsnew.WhatsNewActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.User;
+import com.webengage.sdk.android.WebEngage;
 
 import org.json.JSONObject;
 
@@ -154,6 +158,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UsersignupResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity;
 
 public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener, BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
@@ -196,10 +201,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     POSPHorizonEnity posphorizonEnity;
 
+    User weUser;
     ShortcutManager shortcutManager = null;
     String deeplink_value="";
     String Title = "";
     Dialog showDialog ;
+        Analytics weAnalytics;
+        Map<String, Object> screenData;
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -237,6 +245,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.dialogExit();
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        screenData();
+
+    }
+
+    private void screenData()
+    {
+        try {
+
+
+            screenData.put("SS ID", userConstantEntity.getPOSPNo());
+            screenData.put("FBA ID", userConstantEntity.getFBAId());
+            screenData.put("Name", userConstantEntity.getFullName());
+
+            weAnalytics.screenNavigated("Home Screen", screenData);
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -245,17 +277,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         registerPopUp(this);
         registerPermission(this);
 
+        weUser = WebEngage.get().user();
         showDialog = new Dialog(HomeActivity.this,R.style.Dialog);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        screenData = new HashMap<String, Object>();
         llSwitchUser = findViewById(R.id.llSwitchUser);
 
         //Initializing NavigationView
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         // Initializing Drawer Layout and ActionBarToggle
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
-
+        weAnalytics  = WebEngage.get().analytics();
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
@@ -294,9 +327,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
             init_headers();
-
-
-
 
             setNavigationMenu(prefManager.getLanguage());    // Set Navigation Drawer
 
@@ -488,7 +518,31 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_pospenrollment:
-                            startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                            if(prefManager.getEnableProSignupurl()  != null) {
+                                if(prefManager.getEnableProSignupurl().isEmpty()) {
+                                    startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                                }
+                                else
+                                {
+                                   // String signupurl=  ((prefManager.getEnableProSignupurl() + "&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
+
+                                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                            .putExtra("URL", prefManager.getEnableProSignupurl()
+                                                    +"&app_version="+prefManager.getAppVersion()
+                                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
+                                                    +"&fbaid="+userConstantEntity.getFBAId())
+
+
+                                            .putExtra("NAME", "PospEnrollment")
+                                            .putExtra("TITLE", "Posp Enrollment"));
+
+
+                                }
+                            }
+                            else
+                            {
+                                startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                            }
                             // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                             break;
                         case R.id.nav_addposp:
@@ -525,7 +579,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
 
-  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                     .putExtra("URL", "" + leaddetail).putExtra("NAME", "" + "Sync Contact DashBoard").putExtra("TITLE", "" + "Sync Contact DashBoard"));
 
 
@@ -597,6 +651,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                     .putExtra("NAME", "RAISE_TICKET")
                                     .putExtra("TITLE", "RAISE TICKET"));
                             }
+                        tracktRaiseEvent();
                             // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Raise Ticket : Raise Ticket button in menu "), Constants.WHATSNEW), null);
 
                             break;
@@ -611,6 +666,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         case R.id.nav_contact:
                             // startActivity(new Intent(HomeActivity.this, ContactLeadActivity.class));
+
+                            trackSyncContactEvent("Sync Contacts on Side Menu");
                             startActivity(new Intent(HomeActivity.this, WelcomeSyncContactActivityKotlin.class));
                             break;
                         case R.id.nav_sendSmsTemplate:
@@ -626,6 +683,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                 removeShorcuts();
                             }
+                            weUser.logout();
                             dialogLogout(HomeActivity.this);
                             break;
 
@@ -678,7 +736,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         case R.id.nav_MYUtilities:
                             ConfirmnMyUtilitiesAlert();
-
+                            trackutilityContactEvent();
                             break;
 
                         case R.id.nav_finbox:
@@ -798,6 +856,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 }
             }
+
+//
         }
         catch (Exception e) {
                 e.printStackTrace();
@@ -1138,6 +1198,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
             txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
+            weUser.login(loginResponseEntity.getEmailID());
+
+
+           if(loginResponseEntity.getIsUidLogin().equals("N"))
+           {
+               weUser.setAttribute("Is Agent", true );
+           }
+           else
+           {
+               weUser.setAttribute("Is Agent", false);
+           }
+
             switchUserBinding();
 
         } else {
@@ -1150,6 +1222,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             try {
                 txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
                 txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
+
+                String str = userConstantEntity.getFullName();
+                String[] fullname = str.split("\\s+");
+
+                weUser.setFirstName(fullname[0] );
+                weUser.setLastName(fullname[1] );
+                weUser.setAttribute("POSP No.",userConstantEntity.getPOSPNo());
+
                 Glide.with(HomeActivity.this).load(userConstantEntity.getLoansendphoto()).placeholder(R.drawable.circle_placeholder).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(64, 64).transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                         .into(ivProfile);
 
@@ -3163,12 +3243,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     MyUtilitiesDialog.dismiss();
                     //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
                     startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
+
+                    trackutilityIncomeEvent();
                 }
             });
 
             cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    tracktCalendarEvent();
+
 //                    MyUtilitiesDialog.dismiss();
 //
 //                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginResponseEntity.getFBAId())).putExtra("NAME", "" + "My Training Calender").putExtra("TITLE", "" + "My Training Calender"));
@@ -3182,7 +3266,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     MyUtilitiesDialog.dismiss();
                     startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
                     //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
-
+                    tracktFeedbackEvent();
                 }
             });
 //pending
@@ -3663,6 +3747,50 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     }
 
+    private void trackSyncContactEvent( String strEvent ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent(strEvent , eventAttributes);
+    }
+
+    private void trackutilityContactEvent( ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Clicked My Utilities on Options Menu" , eventAttributes);
+    }
+    private void trackutilityIncomeEvent( ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Clicked on Income Calculator in My Utilities" , eventAttributes);
+    }
+    private void tracktrainingEvent( ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Clicked on Income Calculator in My Utilities" , eventAttributes);
+    }
+
+    private void tracktCalendarEvent( ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Clicked on My Training Calendar in My Utilities" , eventAttributes);
+    }
+    private void tracktFeedbackEvent( ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Clicked on Help & Feedback in My Utilities" , eventAttributes);
+    }
+    private void tracktRaiseEvent( ) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Clicked Raise a Ticket on Options Menu" , eventAttributes);
+    }
 
 
 }

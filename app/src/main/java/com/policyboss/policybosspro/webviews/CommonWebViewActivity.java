@@ -68,11 +68,14 @@ import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.policyboss.policybosspro.utility.UTILITY;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -91,7 +94,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEnt
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CommonWebDocResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketWebDocResponse;
 import okhttp3.MultipartBody;
-
+import com.webengage.sdk.android.bridge.WebEngageMobileBridge;
 
 import static com.policyboss.policybosspro.file_chooser.utils.FileUtilNew.generateFileName;
 
@@ -157,12 +160,39 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     ActivityResultLauncher<String> galleryLauncher;
     ActivityResultLauncher<Uri> cameraLauncher;
+    Analytics weAnalytics;
+    Map<String, Object> screenData;
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try {
+
+      Analytics weAnalytics = WebEngage.get().analytics();
+
+        screenData.put("SS ID", userConstantEntity.getPOSPNo());
+        screenData.put("FBA ID", userConstantEntity.getFBAId());
+        screenData.put("Name", userConstantEntity.getFullName());
+
+        screenData.put("url", url);
+        screenData.put("title", title);
+
+
+        weAnalytics.screenNavigated("Common WebView Screen", screenData);
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common_web_view);
         webView = (WebView) findViewById(R.id.webView);
+
+        screenData = new HashMap<String, Object>();
+        weAnalytics  = WebEngage.get().analytics();
 
         url = getIntent().getStringExtra("URL");
         name = getIntent().getStringExtra("NAME");
@@ -353,6 +383,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         webView.getSettings().setBuiltInZoomControls(true);
         webView.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
         webView.addJavascriptInterface(new PaymentInterface(), "PaymentInterface");
+        webView.addJavascriptInterface(new WebEngageMobileBridge(this), WebEngageMobileBridge.BRIDGE_NAME);
+
         // webView.setWebChromeClient(new WebChromeClient();
         webView.setWebChromeClient(new WebChromeClient() {
             @Override

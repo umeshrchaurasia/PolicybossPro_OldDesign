@@ -28,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
@@ -37,6 +38,9 @@ import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.User;
+import com.webengage.sdk.android.WebEngage;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -57,6 +61,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UsersignupRe
 
 import static android.os.Build.VERSION.SDK_INT;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LoginActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener, IResponseSubcriber {
     PrefManager prefManager;
     EditText etEmail, etPassword;
@@ -67,7 +74,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
     DBPersistanceController dbPersistanceController;
     private static int PERMISSION_DENIED = 0;
-
+ //   User weUser;
 
     String enable_pro_signupurl = "";
 
@@ -79,6 +86,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             "android.permission.READ_CALL_LOG"
     };
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("Login Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +106,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         dbPersistanceController = new DBPersistanceController(this);
         dbPersistanceController.clearUserData();
         registerPopUp(this);
+      //   weUser = WebEngage.get().user();
 
         prefManager.setDeviceID( Utility.getDeviceId(LoginActivity.this.getApplicationContext()));
 
@@ -269,6 +284,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (view.getId()) {
             case R.id.tvForgotPass:
                 dialogForgotPassword();
+                //trackLoginEvent();
                 break;
             case R.id.tvSignUp:
 
@@ -280,7 +296,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 showDialog();
                 new LoginController(this).Getusersignup(LoginActivity.this);
 
-
+                trackEvent("");
                 break;
             case R.id.lyRaiseTicket:
                // String url = "http://qa.policyboss.com/Finmart/Ticketing/ticket_login.html?landing_page=login_page";
@@ -434,7 +450,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if (((LoginResponse) response).getMasterData().getPOSPNo() != null) {
                     if (  !((LoginResponse) response).getMasterData().getPOSPNo().trim().isEmpty()) {
                         String PospID = ((LoginResponse) response).getMasterData().getPOSPNo();
+
+
                         new RegisterController(this).hideFOSUser(PospID, LoginActivity.this);
+                        //weUser.login(PospID);
+                        trackPospNoEvent();
+
 
                     }else{
                         showPospAlert("Your Posp Number is not generated.!!\nNot Eligible For Login.Please Contact Admin");
@@ -454,7 +475,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if( ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
 
                     enable_pro_signupurl =((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
-
+                    String getEnable_pro_pospurl=((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
+                    prefManager.setEnableProSignupurl(getEnable_pro_pospurl);
                 }
 
             }
@@ -532,4 +554,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         intent.setData(uri);
         startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
     }
+
+    private void trackEvent(String status) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Sign",status); // Add any relevant attributes
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Sign Up Initiated", eventAttributes);
+    }
+    private void trackPospNoEvent() {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("POSP No Generated", eventAttributes);
+    }
+
 }

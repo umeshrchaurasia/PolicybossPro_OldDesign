@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.policyboss.policybosspro.BaseFragment;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.login.LoginActivity;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -34,6 +36,13 @@ public class ChangePasswordFragment extends BaseFragment implements View.OnClick
         // Required empty public constructor
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("ChangePassword Screen");
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

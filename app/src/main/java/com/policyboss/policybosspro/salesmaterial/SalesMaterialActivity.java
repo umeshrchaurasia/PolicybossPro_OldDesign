@@ -26,17 +26,22 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.festivelink.festivelinkActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.utility.Constants;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -64,7 +69,16 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
     UserConstantEntity userConstantEntity;
     URL pospPhotoUrl = null, fbaPhotoUrl = null;
     SharePospDetailsEntity sharePospDetailsEntity;
-    Dialog showDialog ;
+    Dialog showDialog;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("SalesMaterial Screen");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +90,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
         //loginResponseEntity = dbPersistanceController.getUserData();
         //accountDtlEntity = dbPersistanceController.getAccountData();
         userConstantEntity = dbPersistanceController.getUserConstantsData();
-        showDialog = new Dialog(SalesMaterialActivity.this,R.style.Dialog);
+        showDialog = new Dialog(SalesMaterialActivity.this, R.style.Dialog);
         init();
         fetchProducts();
 
@@ -189,8 +203,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
                 }
             }
 
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -309,6 +322,8 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
         btnLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                trackSalesMaterialEvent("Later", salesProductEntity.getProduct_Name());
+
                 alertDialog.dismiss();
 
             }
@@ -320,10 +335,12 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
             public void onClick(View v) {
                 alertDialog.dismiss();
                 mAdapter.updateList(salesProductEntity, position);
+                trackSalesMaterialEvent("Download", salesProductEntity.getProduct_Name());
 
                 Intent intent = new Intent(SalesMaterialActivity.this, SalesDetailActivity.class);
                 intent.putExtra(Constants.PRODUCT_ID, salesProductEntity);
                 startActivity(intent);
+
 
             }
         });
@@ -430,16 +447,16 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
         }
     }
 
-    private void showDialogMain( String strmsg){
+    private void showDialogMain(String strmsg) {
 
         try {
-            if(! SalesMaterialActivity.this.isFinishing()){
+            if (!SalesMaterialActivity.this.isFinishing()) {
 
-                if(!showDialog.isShowing()) {
+                if (!showDialog.isShowing()) {
                     ProgressdialogLoadingBinding dialogLoadingBinding = ProgressdialogLoadingBinding.inflate(getLayoutInflater());
                     showDialog.setContentView(dialogLoadingBinding.getRoot());
 
-                    if(!strmsg.isEmpty()){
+                    if (!strmsg.isEmpty()) {
                         dialogLoadingBinding.txtMessage.setText(strmsg);
                     }
 
@@ -447,7 +464,7 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
                     showDialog.show();
                 }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
 
         }
@@ -456,13 +473,12 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
     }
 
     private void cancelDialogMain() {
-        try{
+        try {
             if (showDialog != null) {
                 showDialog.dismiss();
 
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             showDialog.dismiss();
         }
@@ -571,4 +587,15 @@ public class  SalesMaterialActivity extends BaseActivity implements IResponseSub
     }
 
     //endregion
+
+
+    private void trackSalesMaterialEvent(String strOption, String strInsType) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Option Clicked", strOption);
+        eventAttributes.put("Insurance Type", strInsType);
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Sales Material Viewed", eventAttributes);
+    }
 }

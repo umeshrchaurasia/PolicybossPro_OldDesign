@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -23,6 +24,8 @@ import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.webengage.sdk.android.WebEngage;
+import com.webengage.sdk.android.actions.render.PushNotificationData;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -64,6 +67,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         sendNotification(remoteMessage, remoteMessage.getData());
+        Map<String, String> data = remoteMessage.getData();
+        if(data != null) {
+            if(data.containsKey("source") && "webengage".equals(data.get("source"))) {
+                WebEngage.get().receive(data);
+            }
+        }
     }
 
     private void sendNotification(RemoteMessage remoteMessage, Map<String, String> data) {
@@ -127,7 +136,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         }
 
-
+       // PushNotificationData onPushNotificationReceived(Context context, PushNotificationData pushNotificationData);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent;
 
@@ -138,7 +147,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }else {
 
             pendingIntent = PendingIntent.getActivity(this, (int) Math.round(Math.random() * 1000), intent,
-                    PendingIntent.FLAG_CANCEL_CURRENT );
+                    PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
 
         }
@@ -235,6 +244,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             // Sets whether notifications posted to this channel appear on the lockscreen or not
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);    // Notification.VISIBILITY_PRIVATE
             getManager().createNotificationChannel(channel);
+
         }
     }
 
@@ -244,6 +254,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return mManager;
+    }
+
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+        WebEngage.get().setRegistrationID(s);
     }
 
     public Bitmap getBitmapfromUrl(String imageUrl) {

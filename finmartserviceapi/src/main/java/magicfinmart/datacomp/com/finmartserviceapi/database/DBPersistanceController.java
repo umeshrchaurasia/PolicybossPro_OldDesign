@@ -537,6 +537,19 @@ public class DBPersistanceController {
         return text;
     }
 
+    public String getHealthListByName(List<String> strings) {
+        String text = "";
+        for (String s : strings) {
+            HealthinsuranceEntity entity = realm.where(HealthinsuranceEntity.class).equalTo("InsuShorName", s.trim()).findFirst();
+            if (text.isEmpty()) {
+                text = text + entity.getInsuName();
+            } else {
+                text = text + "," + entity.getInsuName();
+            }
+        }
+        return text;
+    }
+
 
     public ArrayList<String> getGeneralListNames() {
         List<GeneralinsuranceEntity> list_Make = realm.where(GeneralinsuranceEntity.class).findAll();
@@ -564,6 +577,18 @@ public class DBPersistanceController {
         return text;
     }
 
+    public String getGeneralListbyname(List<String> strings) {
+        String text = "";
+        for (String s : strings) {
+            GeneralinsuranceEntity entity = realm.where(GeneralinsuranceEntity.class).equalTo("InsuShorName", s.trim()).findFirst();
+            if (text.isEmpty()) {
+                text = text + entity.getInsuName();
+            } else {
+                text = text + "," + entity.getInsuName();
+            }
+        }
+        return text;
+    }
 
     public ArrayList<String> getLifeListNames() {
         List<LifeinsuranceEntity> list_Make = realm.where(LifeinsuranceEntity.class).findAll();
@@ -582,6 +607,19 @@ public class DBPersistanceController {
                 text = text + entity.getInsuID();
             } else {
                 text = text + "," + entity.getInsuID();
+            }
+        }
+        return text;
+    }
+
+    public String getlifeListIdbyname(List<String> strings) {
+        String text = "";
+        for (String s : strings) {
+            LifeinsuranceEntity entity = realm.where(LifeinsuranceEntity.class).equalTo("InsuShorName", s.trim()).findFirst();
+            if (text.isEmpty()) {
+                text = text + entity.getInsuName();
+            } else {
+                text = text + "," + entity.getInsuName();
             }
         }
         return text;

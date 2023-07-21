@@ -22,6 +22,7 @@ import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.MyApplication;
 import com.policyboss.policybosspro.R;
 
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpListActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity;
@@ -37,6 +38,7 @@ import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -317,6 +319,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
               //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
+                trackMainMenuEvent("Motor Insurance");
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
             case 23:
@@ -409,6 +412,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                 //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
+                trackMainMenuEvent("Health Insurance");
                 MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
                 break;
             case 7:
@@ -535,6 +539,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
                 //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
+                trackMainMenuEvent("Two Wheeler Insurance");
                 MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;
 
@@ -543,6 +548,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 //health check up
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), HealthCheckUpListActivity.class));
                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                trackMainMenuEvent("Health CheckUp ");
                 MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
                 break;
 
@@ -569,7 +575,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("NAME", "Commercial Vehicle Insurance")
                         .putExtra("TITLE", "Commercial Vehicle Insurance"));
 
-
+                trackMainMenuEvent("Commercial Vehicle Insurance");
                 MyApplication.getInstance().trackEvent(Constants.CV, "Clicked", "Health CheckUp tab on home page");
                 break;
 
@@ -612,6 +618,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 //Life Insurance
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), TermSelectionActivity.class));
                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
+                trackMainMenuEvent("Term Insurance");
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
                 break;
 
@@ -653,6 +660,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 //Synch Contact
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), WelcomeSyncContactActivityKotlin.class));
                 // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                trackMainMenuEvent("Sync Contact");
                 MyApplication.getInstance().trackEvent(Constants.SyncContacts, "Clicked", "Sync Contact");
                 break;
 
@@ -684,7 +692,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             ipaddress = "0.0.0.0";
                         }
 
-
+                        trackMainMenuEvent( dashboardEntity.getProductName());
                         //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
                         String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                                 + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
@@ -698,16 +706,31 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 .putExtra("NAME", dashboardEntity.getProductName())
                                 .putExtra("TITLE", dashboardEntity.getProductName()));
 
+
+
                     }
 
                     //endregion
                 }
             }
         } else if (productID >= 100) {
+            trackMainMenuEvent( dashboardEntity.getProductName());
+
             mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                     .putExtra("URL", "" + dashboardEntity.getLink())
                     .putExtra("NAME", "" + dashboardEntity.getProductName())
                     .putExtra("TITLE", "" + dashboardEntity.getProductName()));
         }
     }
+
+
+    private void trackMainMenuEvent(String strOption) {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Option Clicked", strOption);
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Main Menu Clicked", eventAttributes);
+    }
+
 }

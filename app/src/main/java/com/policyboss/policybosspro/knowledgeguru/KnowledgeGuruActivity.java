@@ -12,6 +12,12 @@ import android.view.View;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -20,6 +26,15 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
 
     CardView loan, insurance, other;
     PrefManager prefManager;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("KnowledgeGuru Screen");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +82,7 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
 //                            .putExtra("TITLE", "INSURANCE REPOSITORY"));
 //                } else {
 
-
+                trackMainMenuEvent();
                 String Knowledgeurl = new DBPersistanceController(this).getUserConstantsData().getInsurancerepositorylink();
                 String KnowledgeGuruurl  = Knowledgeurl + "?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
 
@@ -117,5 +132,13 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
 //        super.onBackPressed();
 //    }
 
+    private void trackMainMenuEvent() {
+        // Create event attributes
+        Map<String, Object> eventAttributes = new HashMap<>();
+        eventAttributes.put("Page Viewed", "Personal Accident FAQ's");
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Insurance Repository Viewed", eventAttributes);
+    }
 
 }

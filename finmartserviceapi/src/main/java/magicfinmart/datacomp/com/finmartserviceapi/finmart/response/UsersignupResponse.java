@@ -24,12 +24,24 @@ public class UsersignupResponse extends APIResponse {
 		private String enable_pro_signupurl;
 		private String enable_elite_signupurl;
 
+
+
+		private String enable_pro_pospurl;
+
 		public String getEnableEliteSignupurl(){
 			return enable_elite_signupurl;
 		}
 
 		public String getEnableProSignupurl(){
 			return enable_pro_signupurl;
+		}
+
+		public String getEnable_pro_pospurl() {
+			return enable_pro_pospurl;
+		}
+
+		public void setEnable_pro_pospurl(String enable_pro_pospurl) {
+			this.enable_pro_pospurl = enable_pro_pospurl;
 		}
 	}
 }

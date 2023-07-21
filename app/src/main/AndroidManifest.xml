@@ -81,6 +81,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name=".MyApplication"
@@ -1077,6 +1078,7 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="5798feb479107f972a6f8241c4f861c7340d95e9" />
+        <meta-data android:name="com.webengage.sdk.android.environment" android:value="in" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

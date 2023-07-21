@@ -29,12 +29,13 @@ import com.policyboss.policybosspro.utility.UTILITY
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import com.utility.finmartcontact.home.Worker.CallLogWorkManager
 import com.utility.finmartcontact.home.Worker.ContactLogWorkManager
+import com.webengage.sdk.android.WebEngage
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
-
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics
 class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
     lateinit var binding: ActivitySyncContactBinding
@@ -61,6 +62,12 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     lateinit var userConstantEntity: UserConstantEntity
 
     lateinit var prefManager:PrefManager
+
+    override fun onStart() {
+        super.onStart()
+        val weAnalytics = WebEngage.get().analytics()
+        weAnalytics.screenNavigated("Sync Contact Screen")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //  setContentView(R.layout.activity_sync_contact)
@@ -488,7 +495,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     private fun saveMessage(opMessage : String = "Data Save Successfully..."){
 
       //binding.includedSyncContact.txtMessage.text = opMessage
-
+        trackSyncContactEvent();
         successAlert()
         cancelAnimDialog()
 
@@ -514,6 +521,12 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     }
 
 
+    private fun trackSyncContactEvent() {
+        // Create event attributes
+        val eventAttributes: Map<String, Any> = HashMap()
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Sync Contacts completed", eventAttributes)
+    }
 
 
 }

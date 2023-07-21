@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -40,6 +42,14 @@ public class PrivacyWebViewActivity  extends BaseActivity {
 
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("Privacy Screen");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

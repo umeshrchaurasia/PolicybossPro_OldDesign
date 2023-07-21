@@ -12,6 +12,12 @@ import android.widget.TextView;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
+import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.WebEngage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class IncomePotentialActivity extends BaseActivity implements View.OnClickListener {
 
@@ -36,6 +42,14 @@ public class IncomePotentialActivity extends BaseActivity implements View.OnClic
     double EstIncomeMore3 = 5000000;
     double EstIncomeAbove10 = 10000000;
     int scenario = 0;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Analytics weAnalytics = WebEngage.get().analytics();
+        weAnalytics.screenNavigated("IncomePotential Screen");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -381,6 +395,17 @@ public class IncomePotentialActivity extends BaseActivity implements View.OnClic
                         .putExtra("upto10lac", upto10lac)
                         .putExtra("above10lac", above10lac));
 
+                if(scenario==1) {
+                    trackcalcEvent("Pessimistic");
+                }else if(scenario==2)
+                {
+                    trackcalcEvent("Moderate");
+                }
+                else {
+                    trackcalcEvent("Optimistic");
+                }
+
+
                 break;
 
         }
@@ -389,6 +414,7 @@ public class IncomePotentialActivity extends BaseActivity implements View.OnClic
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 111) {
             if (resultCode == RESULT_OK) {
                 String rawText = (String) data.getExtras().getString("RAWRESULT");
@@ -412,4 +438,14 @@ public class IncomePotentialActivity extends BaseActivity implements View.OnClic
         }
 
     }
+
+
+   private void trackcalcEvent(String status) {
+            // Create event attributes
+            Map<String, Object> eventAttributes = new HashMap<>();
+            eventAttributes.put("Status",status); // Add any relevant attributes
+
+            // Track the login event using WebEngageHelper
+            WebEngageAnalytics.getInstance().trackEvent("Scenario", eventAttributes);
+        }
 }
