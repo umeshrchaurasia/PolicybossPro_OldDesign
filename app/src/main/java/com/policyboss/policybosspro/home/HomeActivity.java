@@ -103,6 +103,7 @@ import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
 import com.policyboss.policybosspro.whatsnew.WhatsNewActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.Channel;
 import com.webengage.sdk.android.User;
 import com.webengage.sdk.android.WebEngage;
 
@@ -1199,7 +1200,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
             weUser.login(loginResponseEntity.getEmailID());
-
+            weUser.setOptIn(Channel.WHATSAPP, true);
 
            if(loginResponseEntity.getIsUidLogin().equals("N"))
            {

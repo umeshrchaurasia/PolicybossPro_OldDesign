@@ -63,6 +63,7 @@ import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.DateTimePicker;
 import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity;
 import com.webengage.sdk.android.Analytics;
+import com.webengage.sdk.android.Channel;
 import com.webengage.sdk.android.User;
 import com.webengage.sdk.android.WebEngage;
 import com.webengage.sdk.android.utils.Gender;
@@ -802,7 +803,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         weUser.setAttribute("Referrer Code",etRefererCode.getText().toString());
 
-
+        weUser.setOptIn(Channel.WHATSAPP, true);
     }
 
 
@@ -847,6 +848,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
                 btnSubmit.setVisibility(View.VISIBLE);
                 isMobileValid = true;
+                trackEvent_otp("");
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         } else if (response instanceof RegisterFbaResponse) {
@@ -1063,6 +1065,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 public void onClick(View v) {
                     // Close dialog
                     if (etOtp.getText().toString().equals("0000")) {
+                        trackEvent_otp("");
                         Toast.makeText(RegisterActivity.this, "Otp Verified Success", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
@@ -1073,7 +1076,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         new RegisterController(RegisterActivity.this).validateOtp(etMobile1.getText().toString(), etOtp.getText().toString(), RegisterActivity.this);
                     }
 
-                    trackEvent("");
+
                 }
             });
 
@@ -1428,7 +1431,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private void trackEvent(String status) {
+    private void trackEvent_otp(String status) {
         // Create event attributes
         Map<String, Object> eventAttributes = new HashMap<>();
         eventAttributes.put("OTPVerified",status); // Add any relevant attributes
