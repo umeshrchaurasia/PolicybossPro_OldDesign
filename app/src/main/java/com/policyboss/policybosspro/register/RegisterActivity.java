@@ -774,7 +774,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         weUser.setFirstName("" + etFirstName.getText().toString());
         weUser.setLastName("" + etLastName.getText().toString());
-        weUser.login("" + etEmail.getText().toString());
+
         if (isMale) {
             weUser.setGender(Gender.MALE);
         } else {
@@ -806,7 +806,42 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         weUser.setOptIn(Channel.WHATSAPP, true);
     }
 
+    private void setUserInfoToWebEngAnalytic2(){
 
+        weUser.setFirstName("" + etFirstName.getText().toString());
+        weUser.setLastName("" + etLastName.getText().toString());
+        weUser.login("" + etEmail.getText().toString());
+
+        if (isMale) {
+            weUser.setGender(Gender.MALE);
+        } else {
+            weUser.setGender(Gender.FEMALE);
+        }
+        weUser.setEmail("" + etEmail.getText().toString());
+
+
+        weUser.setPhoneNumber("" + etMobile1.getText().toString());
+
+        weUser.setBirthDate("" + getDateFromweb(etDob.getText().toString()));
+
+        if(spSource.getSelectedItem() != null){
+            weUser.setAttribute("Source",spSource.getSelectedItem().toString());
+        }else{
+            weUser.setAttribute("Source","0");
+        }
+
+        if(spsales.getSelectedItem() != null){
+
+            weUser.setAttribute("Field Sale",spsales.getSelectedItem().toString());
+
+        }else{
+            weUser.setAttribute("Field Sale","0");
+        }
+
+        weUser.setAttribute("Referrer Code",etRefererCode.getText().toString());
+
+        weUser.setOptIn(Channel.WHATSAPP, true);
+    }
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
@@ -848,6 +883,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
                 btnSubmit.setVisibility(View.VISIBLE);
                 isMobileValid = true;
+                setUserInfoToWebEngAnalytic2();
                 trackEvent_otp("");
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
@@ -855,21 +891,23 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             cancelDialog();
 
            // new TrackingController(this).sendData(trackingRequestEntity, null);
-            trackSignUpEvent(chbxLife.isChecked(),dbPersistanceController.getlifeListIdbyname(spLifeIns.getSelectedStrings()),
-
-                    chbxGen.isChecked(),
-                    dbPersistanceController.getGeneralListbyname(spGenIns.getSelectedStrings()),
-
-                    chbxHealth.isChecked(),
-                    dbPersistanceController.getHealthListByName(spHealthIns.getSelectedStrings()),
-
-                    chbxMutual.isChecked(), chbxPostal.isChecked(),
-                    chbxStocks.isChecked(), chbxBonds.isChecked() );
-
-            trackingRequestEntity.setType("Register");
-            trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
 
             if (response.getStatusNo() == 0) {
+
+                setUserInfoToWebEngAnalytic2();
+                trackSignUpEvent(chbxLife.isChecked(),dbPersistanceController.getlifeListIdbyname(spLifeIns.getSelectedStrings()),
+
+                        chbxGen.isChecked(),
+                        dbPersistanceController.getGeneralListbyname(spGenIns.getSelectedStrings()),
+
+                        chbxHealth.isChecked(),
+                        dbPersistanceController.getHealthListByName(spHealthIns.getSelectedStrings()),
+
+                        chbxMutual.isChecked(), chbxPostal.isChecked(),
+                        chbxStocks.isChecked(), chbxBonds.isChecked() );
+
+                trackingRequestEntity.setType("Register");
+                trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
 
 
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1383,7 +1421,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             return;
         } else {
 
-            setUserInfoToWebEngAnalytic();
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
 
@@ -1418,6 +1456,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    setUserInfoToWebEngAnalytic();
                     trackEventturbo("");
                     pospAmountDialog.dismiss();
 
@@ -1445,20 +1485,47 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                                    Boolean  blnBondSelected
                                    )
     {
+
+        String li="";   String gi="";   String hi="";
+
+        if(blnLISelected)
+        {
+            li =strLIComp;
+        }else
+        {
+            li ="";
+        }
+
+        if(blnGISelected)
+        {
+            gi =strGIComp;
+        }else
+        {
+            gi ="";
+        }
+
+        if(blnHISelected)
+        {
+            hi =strHIComp;
+        }else
+        {
+            hi ="";
+        }
         Map<String, Object> eventAttributes = new HashMap<>();
         eventAttributes.put("Life Insurance Selected",blnLISelected);
-        eventAttributes.put("Life Insurance Companies",strLIComp);
-        eventAttributes.put("General Insurance Selected",blnGISelected);
+        eventAttributes.put("Life Insurance Companies",li);
 
-        eventAttributes.put("General Insurance Companies",strGIComp);
+        eventAttributes.put("General Insurance Selected",blnGISelected);
+        eventAttributes.put("General Insurance Companies",gi);
+
         eventAttributes.put("Health Insurance Selected",blnHISelected);
-        eventAttributes.put("Health Insurance Companies",strHIComp);
+        eventAttributes.put("Health Insurance Companies",hi);
 
 
         eventAttributes.put("Mutual Funds Selected",blnMISelected);
         eventAttributes.put("Postal Savings Selected",blnPSSelected);
         eventAttributes.put("Stocks Selected",blnStockSelected);
-        eventAttributes.put("Bonds/CFD's Selected",blnBondSelected);
+        eventAttributes.put("Bonds/CFD Selected",blnBondSelected);
 
 
 

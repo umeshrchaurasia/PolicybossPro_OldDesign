@@ -1364,9 +1364,18 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void setUserInfoToWebEngAnalytic(AccountDtlEntity accountDtlEntity){
-
+      //  boolean isMale = false, isFemale = false;
         weUser.setPhoneNumber(accountDtlEntity.getEditMobiNumb());
         weUser.setEmail(accountDtlEntity.getEditEmailId());
+
+        if (accountDtlEntity.getGender().equals("M")) {
+            weUser.setGender(Gender.MALE);
+        } else {
+            weUser.setGender(Gender.FEMALE);
+        }
+
+
+        weUser.setBirthDate("" + getDateFromweb(accountDtlEntity.getDOB()));
 
     }
 
