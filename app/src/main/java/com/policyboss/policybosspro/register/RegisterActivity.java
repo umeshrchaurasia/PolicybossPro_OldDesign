@@ -883,7 +883,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
                 btnSubmit.setVisibility(View.VISIBLE);
                 isMobileValid = true;
-                setUserInfoToWebEngAnalytic2();
+                setUserInfoToWebEngAnalytic();
+
                 trackEvent_otp("");
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
@@ -1103,6 +1104,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 public void onClick(View v) {
                     // Close dialog
                     if (etOtp.getText().toString().equals("0000")) {
+                        setUserInfoToWebEngAnalytic();
                         trackEvent_otp("");
                         Toast.makeText(RegisterActivity.this, "Otp Verified Success", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
