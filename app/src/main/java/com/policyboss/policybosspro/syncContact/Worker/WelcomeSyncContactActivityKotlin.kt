@@ -456,7 +456,7 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
                             }
                         }
                     }
-                    trackSyncContactEvent("Get Started on Sync Contacts");
+                    trackSyncContactEvent("Get Started on Sync Contacts")
                     startActivity(Intent(this, SyncContactActivity::class.java))
 
                 }
