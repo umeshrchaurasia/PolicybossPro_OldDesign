@@ -276,7 +276,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
             // Note : Bind Footer ie Agent detail  to combine Image
             if (isSecondImageToShow) {
                 try {
-                    if (salesProductEntity.getProduct_Id() == 1 || salesProductEntity.getProduct_Id() == 2)
+                    if (salesProductEntity.getProduct_Id() == 1 || salesProductEntity.getProduct_Id() == 2 || salesProductEntity.getProduct_Id() == 6 || salesProductEntity.getProduct_Id() == 8)
                         // combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
                         combinedImage = POSPBitmap;
 
@@ -304,6 +304,8 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
             switch (salesProductEntity.getProduct_Id()) {
                 case 1:
                 case 2:
+                case 6:
+                case 8:
                     //setPospDetails();
                     mergeProductToFooter();
                     break;
