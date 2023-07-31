@@ -3074,7 +3074,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private void trackPospSubmitEvent() {
         // Create event attributes
         Map<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Section","Enroll for IRDA POSP ");
+        eventAttributes.put("Section","Enroll for IRDA POSP");
         // Track the login event using WebEngageHelper
         WebEngageAnalytics.getInstance().trackEvent("Bank Details Submitted", eventAttributes);
     }
