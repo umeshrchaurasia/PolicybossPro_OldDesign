@@ -454,7 +454,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                         new RegisterController(this).hideFOSUser(PospID, LoginActivity.this);
                         //weUser.login(PospID);
-                        trackPospNoEvent();
+                      //  trackPospNoEvent();
 
 
                     }else{

@@ -161,7 +161,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard", AADHAR_BACK_File = "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
     LinearLayout llMain;
     boolean IsAllImageUploaded = false, isPospNoAvailable = false, isPaymentLinkAvailable = true, isPaymentDone = false;
-
+    boolean bankeventcheck = false;
     String DeviceID = "";
     String AppVersion = "";
     String[] perms = {
@@ -486,7 +486,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         // set bank details
         if (registerRequestEntity.getPosp_BankAcNo() != null && !registerRequestEntity.getPosp_BankAcNo().equals("")) {
             etBankAcNo.setText("" + registerRequestEntity.getPosp_BankAcNo());
+             bankeventcheck = true;
+        }else
+        {
+             bankeventcheck = false;
         }
+
         if (registerRequestEntity.getPosp_Account_Type() != null) {
             if (registerRequestEntity.getPosp_Account_Type().equals("CURRENT")) {
                 setSavingAcc();
@@ -685,7 +690,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
             registerRequestEntity.setSsid("" + dbPersistanceController.getUserData().getPOSPNo());
 
-            trackPospSubmitEvent();
+            if(!bankeventcheck) {
+                trackPospSubmitEvent();
+            }
             showDialogMain("");
             new RegisterController(this).enrollPosp(registerRequestEntity, this);
 
@@ -3074,7 +3081,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private void trackPospSubmitEvent() {
         // Create event attributes
         Map<String, Object> eventAttributes = new HashMap<>();
-        eventAttributes.put("Section","Enroll for IRDA POSP");
+        eventAttributes.put("Section","EnrollBank Details Submitted for IRDA POSP");
         // Track the login event using WebEngageHelper
         WebEngageAnalytics.getInstance().trackEvent("Bank Details Submitted", eventAttributes);
     }
@@ -3083,7 +3090,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         Map<String, Object> eventAttributes = new HashMap<>();
 
         // Track the login event using WebEngageHelper
-        WebEngageAnalytics.getInstance().trackEvent("POSP Enrollment Initiated", eventAttributes);
+        WebEngageAnalytics.getInstance().trackEvent("POSP Enrollment Submitted", eventAttributes);
     }
 
     private void trackDocUploadEvent(  String strDocType) {

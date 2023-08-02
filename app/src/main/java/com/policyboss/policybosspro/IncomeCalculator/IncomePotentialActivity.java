@@ -442,10 +442,10 @@ public class IncomePotentialActivity extends BaseActivity implements View.OnClic
 
    private void trackcalcEvent(String status) {
             // Create event attributes
-            Map<String, Object> eventAttributes = new HashMap<>();
-            eventAttributes.put("Status",status); // Add any relevant attributes
+          //  Map<String, Object> eventAttributes = new HashMap<>();
+          //  eventAttributes.put("Status",status); // Add any relevant attributes
 
             // Track the login event using WebEngageHelper
-            WebEngageAnalytics.getInstance().trackEvent("Scenario", eventAttributes);
+         //   WebEngageAnalytics.getInstance().trackEvent("Scenario", eventAttributes);
         }
 }

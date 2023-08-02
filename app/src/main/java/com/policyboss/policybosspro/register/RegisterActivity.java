@@ -1527,7 +1527,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         eventAttributes.put("Mutual Funds Selected",blnMISelected);
         eventAttributes.put("Postal Savings Selected",blnPSSelected);
         eventAttributes.put("Stocks Selected",blnStockSelected);
-        eventAttributes.put("Bonds/CFD Selected",blnBondSelected);
+        eventAttributes.put("Bonds CFD Selected",blnBondSelected);
 
 
 
