@@ -1943,7 +1943,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     }
 
     public void openWebView(String url) {
-       // startActivity(new Intent(this, RazorPaymentActivity.class));
+       // startActivity(new Intent(this,  orPaymentActivity.class));
         PospEnrollment.this.finish();
 
 

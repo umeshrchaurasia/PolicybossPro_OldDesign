@@ -475,8 +475,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 if( ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
 
                     enable_pro_signupurl =((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
-                    String getEnable_pro_pospurl=((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
-                    prefManager.setEnableProSignupurl(getEnable_pro_pospurl);
+
+                    //pospurl
+                    String getEnable_pro_pospurl=((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_pospurl();
+                    prefManager.setEnableProPOSPurl(getEnable_pro_pospurl);
+
+                    //add sub user
+                    String getenable_pro_Addsubuser_url=((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_Addsubuser_url();
+                    prefManager.setEnablePro_ADDSUBUSERurl(getenable_pro_Addsubuser_url);
+
+
+
+
                 }
 
             }

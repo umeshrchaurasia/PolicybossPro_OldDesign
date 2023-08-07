@@ -50,7 +50,9 @@ public class PrefManager {
     public static String PUSH_VERIFY_LOGIN = "push_verify_login";
     public static String NOTIFICATION_COUNTER = "Notification_Counter";
 
-    public static String IS_ENABLE_PRO_SIGNUPURL = "IS_enable_pro_signupurl";
+    public static String IS_ENABLE_PRO_POSPURL = "IS_enable_pro_POSPurl";
+
+    public static String IS_ENABLE_PRO_ADDSUBUSER_URL = "IS_enable_pro_Addsubuser_url";
 
     public static String SHARED_KEY_PUSH_NOTIFY = "shared_notifyFlag";
     public static String SHARED_KEY_PUSH_WEB_URL = "shared_notify_webUrl";
@@ -268,13 +270,25 @@ public class PrefManager {
     }
 
 
-    public void setEnableProSignupurl(String ProSignupurl) {
-        editor.putString(IS_ENABLE_PRO_SIGNUPURL, ProSignupurl);
+    public void setEnableProPOSPurl(String ProSignupurl) {
+        editor.putString(IS_ENABLE_PRO_POSPURL, ProSignupurl);
         editor.commit();
     }
 
-    public String getEnableProSignupurl() {
-        return pref.getString(IS_ENABLE_PRO_SIGNUPURL, "");
+    public String getEnableProPOSPurl() {
+        return pref.getString(IS_ENABLE_PRO_POSPURL, "");
+    }
+
+
+
+    //add sub user
+    public void setEnablePro_ADDSUBUSERurl(String ProSignupurl) {
+        editor.putString(IS_ENABLE_PRO_ADDSUBUSER_URL, ProSignupurl);
+        editor.commit();
+    }
+
+    public String getEnablePro_ADDSUBUSERurl() {
+        return pref.getString(IS_ENABLE_PRO_ADDSUBUSER_URL, "");
     }
 
     //region Notification
