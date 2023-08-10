@@ -82,6 +82,7 @@ import com.policyboss.policybosspro.pendingcases.PendingCasesActivity;
 import com.policyboss.policybosspro.posp.POSPListFragment;
 import com.policyboss.policybosspro.posp.PospEnrollment;
 import com.policyboss.policybosspro.quicklead.QuickLeadActivity;
+
 import com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity;
 import com.policyboss.policybosspro.scan_vehicle.VehicleScanActivity;
 import com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity;
@@ -519,8 +520,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_pospenrollment:
-                            if(prefManager.getEnableProSignupurl()  != null) {
-                                if(prefManager.getEnableProSignupurl().isEmpty()) {
+                            if(prefManager.getEnableProPOSPurl()  != null) {
+                                if(prefManager.getEnableProPOSPurl().isEmpty()) {
                                     startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
                                 }
                                 else
@@ -528,7 +529,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                    // String signupurl=  ((prefManager.getEnableProSignupurl() + "&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
 
                                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                            .putExtra("URL", prefManager.getEnableProSignupurl()
+                                            .putExtra("URL", prefManager.getEnableProPOSPurl()
                                                     +"&app_version="+prefManager.getAppVersion()
                                                     +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
                                                     +"&fbaid="+userConstantEntity.getFBAId())
@@ -547,8 +548,27 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                             break;
                         case R.id.nav_addposp:
-                            fragment = new POSPListFragment();
-                            getSupportActionBar().setTitle("Sub User List");
+                            if(prefManager.getEnablePro_ADDSUBUSERurl()  != null) {
+                                if(prefManager.getEnablePro_ADDSUBUSERurl().isEmpty()) {
+                                    fragment = new POSPListFragment();
+                                    getSupportActionBar().setTitle("Sub User List");
+                                }
+                                else {
+                                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                            .putExtra("URL", prefManager.getEnablePro_ADDSUBUSERurl()
+                                                    +"&app_version="+prefManager.getAppVersion()
+                                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
+                                                    +"&fbaid="+userConstantEntity.getFBAId())
+
+
+                                            .putExtra("NAME", "Sub User List")
+                                            .putExtra("TITLE", "Posp Sub User List"));
+                                }
+                            }else
+                            {
+                                fragment = new POSPListFragment();
+                                getSupportActionBar().setTitle("Sub User List");
+                            }
                             break;
 //                    case R.id.nav_homeloanApplication:
 //                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
@@ -856,6 +876,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
                 }
+                if (userConstantEntity.getAndroid_Posp_web_Enable() != null) {
+                    if (userConstantEntity.getAndroid_Posp_web_Enable().equals("1")) {
+                        showDialogMain();
+                        new LoginController(this).Getusersignup(HomeActivity.this);
+
+                    }
+                }
+
+
             }
 
 //
@@ -1230,6 +1259,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 weUser.setFirstName(fullname[0] );
                 weUser.setLastName(fullname[1] );
                 weUser.setAttribute("POSP No.",userConstantEntity.getPOSPNo());
+
+                weUser.setPhoneNumber(loginResponseEntity.getMobiNumb1());
+                weUser.setEmail(loginResponseEntity.getEmailID());
+
+              //  "EmailID":"live12@gmail.com","MobiNumb1":"9000111288","LiveURL":"1"
 
                 Glide.with(HomeActivity.this).load(userConstantEntity.getLoansendphoto()).placeholder(R.drawable.circle_placeholder).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(64, 64).transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                         .into(ivProfile);
@@ -1814,6 +1848,27 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                 }
+            }
+            else if (response instanceof  UsersignupResponse){
+
+                if (response.getStatusNo() == 0) {
+                    if( ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
+
+                       // enable_pro_signupurl =((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
+
+                        //pospurl
+                        String getEnable_pro_pospurl=((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_pospurl();
+                        prefManager.setEnableProPOSPurl(getEnable_pro_pospurl);
+
+                        //add sub user
+                        String getenable_pro_Addsubuser_url=((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_Addsubuser_url();
+                        prefManager.setEnablePro_ADDSUBUSERurl(getenable_pro_Addsubuser_url);
+
+
+                    }
+
+                }
+
             }
 
 

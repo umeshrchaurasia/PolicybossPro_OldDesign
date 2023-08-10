@@ -78,6 +78,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     String enable_pro_signupurl = "";
 
+
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -115,6 +116,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (!checkPermission()) {
             requestPermission();
         }
+
+        showDialog();
+        new LoginController(this).Getusersignup(LoginActivity.this);
+
     }
 
     @Override
@@ -293,8 +298,19 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     Snackbar.make( view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
                     return;
                 }
-                showDialog();
-                new LoginController(this).Getusersignup(LoginActivity.this);
+
+                if (enable_pro_signupurl != null) {
+                    if (enable_pro_signupurl.isEmpty()) {
+                        startActivity(new Intent(this, RegisterActivity.class));
+                    } else {
+                        String signupurl = enable_pro_signupurl + "&app_version=" + prefManager.getAppVersion() + "&device_code=" + prefManager.getDeviceID() + "&ssid=&fbaid=";
+
+                        Utility.loadWebViewUrlInBrowser(LoginActivity.this, signupurl);
+                    }
+                } else {
+                    startActivity(new Intent(this, RegisterActivity.class));
+                }
+
 
                 trackEvent("");
                 break;
@@ -470,29 +486,26 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
-        else if(response instanceof UsersignupResponse){
+
+        else if(response instanceof UsersignupResponse) {
             if (response.getStatusNo() == 0) {
-                if( ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
+                if (((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
 
-                    enable_pro_signupurl =((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
-                    String getEnable_pro_pospurl=((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
-                    prefManager.setEnableProSignupurl(getEnable_pro_pospurl);
+                    enable_pro_signupurl = ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
+
+
+                    //pospurl
+                    String getEnable_pro_pospurl = ((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_pospurl();
+                    prefManager.setEnableProPOSPurl(getEnable_pro_pospurl);
+
+                    //add sub user
+                    String getenable_pro_Addsubuser_url = ((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_Addsubuser_url();
+                    prefManager.setEnablePro_ADDSUBUSERurl(getenable_pro_Addsubuser_url);
+
                 }
 
             }
-            if(enable_pro_signupurl  != null) {
-                if (enable_pro_signupurl.isEmpty()) {
-                    startActivity(new Intent(this, RegisterActivity.class));
-                }
-                else
-                {
-                    String signupurl=  ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() + "&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
-                    Utility.loadWebViewUrlInBrowser(LoginActivity.this, signupurl);
-                }
-            }else
-            {
-                startActivity(new Intent(this, RegisterActivity.class));
-            }
+
         }
 
         else if (response instanceof ForgotResponse) {
