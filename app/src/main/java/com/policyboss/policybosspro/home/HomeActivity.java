@@ -82,6 +82,7 @@ import com.policyboss.policybosspro.pendingcases.PendingCasesActivity;
 import com.policyboss.policybosspro.posp.POSPListFragment;
 import com.policyboss.policybosspro.posp.PospEnrollment;
 import com.policyboss.policybosspro.quicklead.QuickLeadActivity;
+
 import com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity;
 import com.policyboss.policybosspro.scan_vehicle.VehicleScanActivity;
 import com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity;
@@ -875,6 +876,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
                 }
+                if (userConstantEntity.getAndroid_Posp_web_Enable() != null) {
+                    if (userConstantEntity.getAndroid_Posp_web_Enable().equals("1")) {
+                        showDialogMain();
+                        new LoginController(this).Getusersignup(HomeActivity.this);
+
+                    }
+                }
+
+
             }
 
 //
@@ -1249,6 +1259,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 weUser.setFirstName(fullname[0] );
                 weUser.setLastName(fullname[1] );
                 weUser.setAttribute("POSP No.",userConstantEntity.getPOSPNo());
+
+                weUser.setPhoneNumber(loginResponseEntity.getMobiNumb1());
+                weUser.setEmail(loginResponseEntity.getEmailID());
+
+              //  "EmailID":"live12@gmail.com","MobiNumb1":"9000111288","LiveURL":"1"
 
                 Glide.with(HomeActivity.this).load(userConstantEntity.getLoansendphoto()).placeholder(R.drawable.circle_placeholder).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(64, 64).transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                         .into(ivProfile);
@@ -1833,6 +1848,27 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                 }
+            }
+            else if (response instanceof  UsersignupResponse){
+
+                if (response.getStatusNo() == 0) {
+                    if( ((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl() != null) {
+
+                       // enable_pro_signupurl =((UsersignupResponse) response).getMasterData().get(0).getEnableProSignupurl();
+
+                        //pospurl
+                        String getEnable_pro_pospurl=((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_pospurl();
+                        prefManager.setEnableProPOSPurl(getEnable_pro_pospurl);
+
+                        //add sub user
+                        String getenable_pro_Addsubuser_url=((UsersignupResponse) response).getMasterData().get(0).getEnable_pro_Addsubuser_url();
+                        prefManager.setEnablePro_ADDSUBUSERurl(getenable_pro_Addsubuser_url);
+
+
+                    }
+
+                }
+
             }
 
 

@@ -219,6 +219,8 @@ public class UserConstantEntity extends RealmObject {
 
     private String myaccountupdateurl;
 
+    private String android_Posp_web_Enable;
+
     public String getFinboxEnabled() {
         return FinboxEnabled;
     }
@@ -1247,6 +1249,14 @@ public class UserConstantEntity extends RealmObject {
 
     public void setAndroidpromarkefbaurl(String androidpromarkefbaurl) {
         this.androidpromarkefbaurl = androidpromarkefbaurl;
+    }
+
+    public String getAndroid_Posp_web_Enable() {
+        return android_Posp_web_Enable;
+    }
+
+    public void setAndroid_Posp_web_Enable(String android_Posp_web_Enable) {
+        this.android_Posp_web_Enable = android_Posp_web_Enable;
     }
 
 }
