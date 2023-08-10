@@ -110,13 +110,17 @@ class ContactLogWorkManager(
 
                 try{
                     getAllContactDetails =  ContactHelper.getContact(context.applicationContext)
-                }catch (ex :Exception ){
 
+                    var data = Gson().toJson(getAllContactDetails)
+                    Log.d(Constant.TAG_SAVING_CONTACT_LOG,data )
+                }catch (ex :Exception ){
+                    Log.d(Constant.TAG_SAVING_CONTACT_LOG,ex.toString() )
                 }
 
 
 
-                for (i in 0..contactlist!!.size - 1 step 1000) {
+
+                   for (i in 0..contactlist!!.size - 1 step 1000) {
 
                     Log.d(TAG, "CallLog Number of data jumped ${i}")
 
@@ -160,6 +164,7 @@ class ContactLogWorkManager(
 
 
                 }
+
 
             }
 
