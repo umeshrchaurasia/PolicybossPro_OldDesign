@@ -109,17 +109,25 @@ class ContactLogWorkManager(
             if (contactlist != null && contactlist!!.size > 0) {
 
                 try{
-                    getAllContactDetails =  ContactHelper.getContact(context.applicationContext)
+                    val result = ContactHelper.getContact(context.applicationContext)
+                   // getAllContactDetails =  ContactHelper.getContact(context.applicationContext)
 
+                    getAllContactDetails = result.first
                     var data = Gson().toJson(getAllContactDetails)
                     Log.d(Constant.TAG_SAVING_CONTACT_LOG,data )
+
+                    val photoUriData = result.second
+
+                    Log.d(Constant.TAG_SAVING_CONTACT_LOG,photoUriData.toString() )
+
+
                 }catch (ex :Exception ){
                     Log.d(Constant.TAG_SAVING_CONTACT_LOG,ex.toString() )
                 }
 
 
-
-
+                  // tem added 05
+                  /*
                    for (i in 0..contactlist!!.size - 1 step 1000) {
 
                     Log.d(TAG, "CallLog Number of data jumped ${i}")
@@ -164,6 +172,8 @@ class ContactLogWorkManager(
 
 
                 }
+
+                   */
 
 
             }

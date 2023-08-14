@@ -2,7 +2,18 @@ package com.policyboss.policybosspro.syncContact.Worker
 
 import android.content.Context
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Environment
+import android.os.ParcelFileDescriptor
 import android.provider.ContactsContract
+import android.util.Log
+import com.policyboss.policybosspro.utility.Constant
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.lang.Exception
 
 
 /*
@@ -72,9 +83,9 @@ object ContactHelper {
         private val TAG = "CALL_LOG_CONTACT"
 
         @JvmStatic
-        fun getContact(context: Context)  : MutableList<ModelContact> {
+        fun getContact(context: Context)  :  Pair<  MutableList<ModelContact>, MutableList<PhotoUriData> > {
 
-            var myData : MutableList<ModelContact> = mutableListOf()
+            var deviceData : MutableList<ModelContact> = mutableListOf()
 
             val regex = Regex("[^.0-9]")
 
@@ -97,6 +108,8 @@ object ContactHelper {
             val contactNickNameMapList : MutableMap<String, String> = mutableMapOf()
 
             val contactNoteMapList : MutableMap<String, String> = mutableMapOf()
+
+            val contactPhotoUriMapList : MutableList< PhotoUriData > = mutableListOf()
 
             // val DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME
 
@@ -180,7 +193,7 @@ object ContactHelper {
                     // Get Phone and Name Details
                    else if ((mimeType == ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
                         //arrayPhoneList.clear()
-                        setPhoneList(cursor = cursor, displayName = displayName , contactPhoneMapList = contactPhoneMapList)
+                        setPhoneList(mcontext = context, cursor = cursor, displayName = displayName , contactPhoneMapList = contactPhoneMapList , contactPhotoUriList = contactPhotoUriMapList)
                     }
                     else if (mimeType == ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE) {
                        setEmailList(cursor = cursor, displayName = displayName , contatcEmailMapList = contactEmailMapList)
@@ -242,7 +255,7 @@ object ContactHelper {
                     modeContact.middleName = it.value[0].middleName
                     modeContact.familyName = it.value[0].familyName
 
-                    myData.add(modeContact)
+                    deviceData.add(modeContact)
                 }
 
 //                contactPhoneMapList.forEach{
@@ -254,7 +267,7 @@ object ContactHelper {
 //                      myData.add(modeContact)
 //                }
 
-                myData.forEach{ myData ->
+                deviceData.forEach{ myData ->
 
 
                     // add PhoneNumber
@@ -368,7 +381,7 @@ object ContactHelper {
                 //endregion
             }
 
-          return  myData
+          return  Pair(deviceData,contactPhotoUriMapList)
         }
 
 
@@ -401,7 +414,7 @@ object ContactHelper {
     }
 
 
-    private fun setPhoneList(cursor: Cursor, displayName : String, contactPhoneMapList: MutableMap<String, MutableList<PhoneData>> ) {
+    private fun setPhoneList(mcontext : Context, cursor: Cursor, displayName : String, contactPhoneMapList: MutableMap<String, MutableList<PhoneData>> ,contactPhotoUriList  : MutableList< PhotoUriData>) {
 
 
         /********************** displayName work as KEY ************/
@@ -417,6 +430,46 @@ object ContactHelper {
         val phoneNo =
             cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER)) ?: ""
 
+        val photoUri =  cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)) ?: ""
+
+        // region handling PhotoUri
+
+        if(!photoUri.isNullOrEmpty()){
+
+            try {
+                //  val bitmap =    getBitmapFromContentResolver(mcontext,photoUri.toUri())
+
+                // PhotoUriData
+                // var file =  uriToFileFromMediaStore(mcontext,photoUri.toUri())
+
+                //  Log.d(Constant.TAG_SAVING_CONTACT_LOG, "Count${file?.path?.toString() ?: ""} " )
+
+
+
+//           val photoUtiObj =   PhotoUriData(displayName = displayName,
+//                    photoUri = photoUri,
+//                    normalizedNumber = phoneNo.replace("\\s".toRegex(), "").takeLast(10),
+//                    number = phoneNo
+//
+//                )
+
+                contactPhotoUriList.add(
+                    PhotoUriData(displayName = displayName,
+                        photoUri = photoUri,
+                        normalizedNumber = phoneNo.replace("\\s".toRegex(), "").takeLast(10),
+                        number = phoneNo)
+                    )
+
+            }
+            catch (ex : Exception){
+
+                Log.d(Constant.TAG_SAVING_CONTACT_LOG, "Done" )
+            }
+
+        }
+
+        //endregion
+
         val phoneType =
             cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.TYPE))
 
@@ -429,12 +482,17 @@ object ContactHelper {
         }
 
 
+
+
+
         mutableList.add(
             PhoneData(
                 normalizedNumber = phoneNo.replace("\\s".toRegex(), "").takeLast(10),
                 number = phoneNo ,
-                type = phoneLabel  )
+                type = phoneLabel,
+                photouri = photoUri)
         )
+
 
         contactPhoneMapList.put(displayName,mutableList.toSet().toMutableList())
 
@@ -500,7 +558,7 @@ object ContactHelper {
 
             var street = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.STREET)) ?: ""
 
-            street ?.let {
+            street.let {
 
                 if(it.count() > maxSize){
 
@@ -514,7 +572,7 @@ object ContactHelper {
              var city =
                 cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.CITY)) ?:""
 
-            city ?.let {
+            city.let {
 
                 if(it.count() > maxStandardSize){
 
@@ -528,7 +586,7 @@ object ContactHelper {
             var region =
                 cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.StructuredPostal.CITY)) ?:""
 
-            region ?.let {
+            region.let {
 
                 if(it.count() > maxStandardSize){
 
@@ -853,7 +911,8 @@ object ContactHelper {
 
         var normalizedNumber : String  = "",
         var number : String  = "",
-        var type : String = ""
+        var type : String = "",
+        var photouri : String  = "",
     )
     data class EmailData(
 
@@ -892,7 +951,58 @@ object ContactHelper {
         var startDate : String  = ""
     )
 
+
+    data class  PhotoUriData(
+
+        var  displayName:  String  = "",
+        var photoUri : String  = "",
+        var normalizedNumber : String  = "",
+       var number : String = ""
+
+    )
     //endregion
+
+
+    fun getBitmapFromContentResolver(context: Context, selectedFileUri: Uri): Bitmap? {
+        return try {
+            val parcelFileDescriptor: ParcelFileDescriptor? =
+                context.contentResolver.openFileDescriptor(selectedFileUri, "r")
+            val fileDescriptor = parcelFileDescriptor?.fileDescriptor
+            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+            parcelFileDescriptor?.close()
+            image
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
+    fun uriToFileFromMediaStore(context: Context, uri: Uri): File? {
+        val inputStream = context.contentResolver.openInputStream(uri) ?: return null
+        val fileName = "${System.currentTimeMillis()}.jpg"
+
+        val outputDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        val outputFile = File(outputDir, fileName)
+//        val cacheDir = context.cacheDir // Use the app's internal cache directory
+//        val outputFile = File(cacheDir, fileName)
+
+
+        try {
+            FileOutputStream(outputFile).use { outputStream ->
+                inputStream.copyTo(outputStream)
+            }
+            return outputFile
+        } catch (e: IOException) {
+            e.printStackTrace()
+            return null
+        } finally {
+            inputStream.close()
+        }
+    }
+
+
+
 
 
 }
