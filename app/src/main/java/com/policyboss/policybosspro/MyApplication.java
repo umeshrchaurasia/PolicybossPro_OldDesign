@@ -29,6 +29,9 @@ import com.webengage.sdk.android.actions.render.PushNotificationData;
 import com.webengage.sdk.android.callbacks.InAppNotificationCallbacks;
 import com.webengage.sdk.android.callbacks.LifeCycleCallbacks;
 import com.webengage.sdk.android.callbacks.PushNotificationCallbacks;
+import com.xiaomi.channel.commonutils.android.Region;
+import com.xiaomi.mipush.sdk.Constants;
+import com.xiaomi.mipush.sdk.MiPushClient;
 
 
 //import io.fabric.sdk.android.Fabric;
@@ -103,6 +106,11 @@ public class MyApplication extends Application {
 
         WebEngage.registerLifeCycleCallback(new LifeCycleCallbacksImpl());
 
+        MiPushClient.setRegion(Region.India); //Set default region to Global or India
+
+//Register for MI Push
+      //  MiPushClient.registerPush(this, Constants.MI_APP_ID, Constants.MI_APP_KEY);
+        MiPushClient.registerPush(this,"2882303761521918691","5682191839691");
     }
 
 

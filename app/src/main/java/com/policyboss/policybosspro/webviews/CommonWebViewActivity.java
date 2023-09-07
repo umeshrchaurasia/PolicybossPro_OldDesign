@@ -67,6 +67,7 @@ import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivit
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.policyboss.policybosspro.utility.FileDownloader;
 import com.policyboss.policybosspro.utility.UTILITY;
 import com.webengage.sdk.android.Analytics;
 import com.webengage.sdk.android.WebEngage;
@@ -503,6 +504,27 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
             galleryCamPopUp_Common(crn,document_id,document_type,insurer_id);
 
+        }
+
+        //download
+        @JavascriptInterface
+        public void document_download(String url) {
+
+
+            FileDownloader.downloadFile(CommonWebViewActivity.this, url);
+
+
+        }
+
+        //open in drive
+        @JavascriptInterface
+        public void document_drive(String url) {
+            openInGoogleDrive(url);
+        }
+        private void openInGoogleDrive(String url) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
         }
 
         // endregion
