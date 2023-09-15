@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -34,6 +35,7 @@ import com.webengage.sdk.android.callbacks.PushNotificationCallbacks;
 //import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
@@ -47,8 +49,11 @@ public class MyApplication extends Application {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
+    //PrefManager prefManager;
     @Override
     public void onCreate() {
+
+        FirebaseApp.initializeApp(this);
         super.onCreate();
      //   Fabric.with(this, new Crashlytics());       // temp 05 commented
 
@@ -71,6 +76,7 @@ public class MyApplication extends Application {
        // AnalyticsTrackers.initialize(this);
        // AnalyticsTrackers.getInstance().get(AnalyticsTrackers.Target.APP);
 
+       // prefManager = PrefManager.getInstance(this);
 
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
@@ -91,6 +97,7 @@ public class MyApplication extends Application {
                 try {
                     String token = task.getResult();
                     WebEngage.get().setRegistrationID(token);
+                   // prefManager.setToken(token);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

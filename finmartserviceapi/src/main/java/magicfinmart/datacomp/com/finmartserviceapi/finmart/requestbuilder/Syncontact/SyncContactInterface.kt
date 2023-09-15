@@ -4,15 +4,16 @@ import com.utility.finmartcontact.core.requestentity.CallLogRequestEntity
 import com.utility.finmartcontact.core.requestentity.ContactLeadRequestEntity
 import com.utility.finmartcontact.core.response.ContactLogResponse
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.CheckboxsaveResponse
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.HorizonEmpDetailResponse
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.Horizon_sync_contact_agree_Response
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.pbAttendance.pbAttendRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncContact.SaveCheckboxRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.pbAttendResponse
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SyncContact.ContactPhotoDocResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -60,6 +61,17 @@ interface SyncContactInterface {
     suspend fun getOauthToken( @Body body : HashMap<String,String> ): Response<OauthTokenResponse>
 
 
+    //For Multipart Sending Photos from Contact List
+   @Headers("token:" + FinmartRetroRequestBuilder.token)
+   @Multipart
+   //@POST()
+   @POST("/quote/Postfm_fileupload/upload-doc")
+   fun uploadContactsPhotoDoc(
+
+        //@Url url: String,
+        @Part doc: MultipartBody.Part,
+        @PartMap partMap: Map<String, String>
+   ): Response<DocumentResponse>
 
  // *****************PB Attendance*******************************
 

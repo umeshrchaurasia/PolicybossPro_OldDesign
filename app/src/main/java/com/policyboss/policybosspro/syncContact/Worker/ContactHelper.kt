@@ -83,7 +83,7 @@ object ContactHelper {
         private val TAG = "CALL_LOG_CONTACT"
 
         @JvmStatic
-        fun getContact(context: Context)  :  Pair<  MutableList<ModelContact>, MutableList<PhotoUriData> > {
+        fun getContact(context: Context)  :   MutableList<ModelContact>   {
 
             var deviceData : MutableList<ModelContact> = mutableListOf()
 
@@ -108,8 +108,6 @@ object ContactHelper {
             val contactNickNameMapList : MutableMap<String, String> = mutableMapOf()
 
             val contactNoteMapList : MutableMap<String, String> = mutableMapOf()
-
-            val contactPhotoUriMapList : MutableList< PhotoUriData > = mutableListOf()
 
             // val DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME
 
@@ -156,6 +154,7 @@ object ContactHelper {
                          + ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE + "' OR "
                         + ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Nickname.CONTENT_ITEM_TYPE + "' OR "
                         + ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE + "' OR "
+                        + ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE + "' OR "
                         + ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE + "' OR "
 
                         + ContactsContract.Data.MIMETYPE + "='" + ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE + "')"),
@@ -171,6 +170,7 @@ object ContactHelper {
                 while (cursor.moveToNext()) {
                     val displayName =
                         cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Data.DISPLAY_NAME))
+
 
 
                     val mimeType =
@@ -190,11 +190,13 @@ object ContactHelper {
 
                    }
 
+
                     // Get Phone and Name Details
-                   else if ((mimeType == ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
+                    else if ((mimeType == ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
                         //arrayPhoneList.clear()
-                        setPhoneList(mcontext = context, cursor = cursor, displayName = displayName , contactPhoneMapList = contactPhoneMapList , contactPhotoUriList = contactPhotoUriMapList)
+                        setPhoneList(mcontext = context, cursor = cursor, displayName = displayName , contactPhoneMapList = contactPhoneMapList )
                     }
+
                     else if (mimeType == ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE) {
                        setEmailList(cursor = cursor, displayName = displayName , contatcEmailMapList = contactEmailMapList)
                     }else if(mimeType == ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE){
@@ -221,13 +223,11 @@ object ContactHelper {
 
                     }
 
-                    else if ((mimeType == ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)) {
+                   else if ((mimeType == ContactsContract.CommonDataKinds.Note.CONTENT_ITEM_TYPE)) {
 
                         setNote(cursor = cursor, displayName = displayName , contactNoteMapList = contactNoteMapList)
                     }
 
-
-                    //contatcOrganizationMapList
 
                 }
  //               var count = 0
@@ -258,14 +258,6 @@ object ContactHelper {
                     deviceData.add(modeContact)
                 }
 
-//                contactPhoneMapList.forEach{
-//
-//                      modeContact =  ModelContact(displayName = it.key)  // Get Display name as key From Phone Number
-//
-//                      modeContact.phoneNo = it.value
-//
-//                      myData.add(modeContact)
-//                }
 
                 deviceData.forEach{ myData ->
 
@@ -381,7 +373,7 @@ object ContactHelper {
                 //endregion
             }
 
-          return  Pair(deviceData,contactPhotoUriMapList)
+          return  deviceData
         }
 
 
@@ -414,61 +406,25 @@ object ContactHelper {
     }
 
 
-    private fun setPhoneList(mcontext : Context, cursor: Cursor, displayName : String, contactPhoneMapList: MutableMap<String, MutableList<PhoneData>> ,contactPhotoUriList  : MutableList< PhotoUriData>) {
+    private fun setPhoneList(mcontext : Context, cursor: Cursor, displayName : String, contactPhoneMapList: MutableMap<String, MutableList<PhoneData>> ) {
 
 
         /********************** displayName work as KEY ************/
         var mutableList  = contactPhoneMapList.get(displayName) // using the key ie Display Name and get All Element of Phone
+        //var photoUriList =  contactPhotoUriMapList.get(displayName)
 
         if(mutableList == null){
 
 
             mutableList = ArrayList<PhoneData>()
 
+
         }
+
 
         val phoneNo =
             cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER)) ?: ""
 
-        val photoUri =  cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.PHOTO_URI)) ?: ""
-
-        // region handling PhotoUri
-
-        if(!photoUri.isNullOrEmpty()){
-
-            try {
-                //  val bitmap =    getBitmapFromContentResolver(mcontext,photoUri.toUri())
-
-                // PhotoUriData
-                // var file =  uriToFileFromMediaStore(mcontext,photoUri.toUri())
-
-                //  Log.d(Constant.TAG_SAVING_CONTACT_LOG, "Count${file?.path?.toString() ?: ""} " )
-
-
-
-//           val photoUtiObj =   PhotoUriData(displayName = displayName,
-//                    photoUri = photoUri,
-//                    normalizedNumber = phoneNo.replace("\\s".toRegex(), "").takeLast(10),
-//                    number = phoneNo
-//
-//                )
-
-                contactPhotoUriList.add(
-                    PhotoUriData(displayName = displayName,
-                        photoUri = photoUri,
-                        normalizedNumber = phoneNo.replace("\\s".toRegex(), "").takeLast(10),
-                        number = phoneNo)
-                    )
-
-            }
-            catch (ex : Exception){
-
-                Log.d(Constant.TAG_SAVING_CONTACT_LOG, "Done" )
-            }
-
-        }
-
-        //endregion
 
         val phoneType =
             cursor.getInt(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.TYPE))
@@ -489,8 +445,8 @@ object ContactHelper {
             PhoneData(
                 normalizedNumber = phoneNo.replace("\\s".toRegex(), "").takeLast(10),
                 number = phoneNo ,
-                type = phoneLabel,
-                photouri = photoUri)
+                type = phoneLabel
+               )
         )
 
 
@@ -498,6 +454,7 @@ object ContactHelper {
 
 
     }
+
 
 
 
@@ -760,6 +717,39 @@ object ContactHelper {
     }
 
 
+    //region Comment
+//    private fun setPhotoURI(cursor: Cursor, displayName : String,contactPhotoUriList : MutableList<PhotoUriData> ) {
+//
+//        val photoUri =  cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.Contacts.Photo.PHOTO_URI)) ?: ""
+//
+//
+//        // region handling PhotoUri
+//
+//        if(!photoUri.isNullOrEmpty()){
+//
+//            try {
+//
+//                contactPhotoUriList.add(
+//
+//                    PhotoUriData(displayName = displayName ,
+//                        photoUri =photoUri ,
+//                        number = ""
+//                    )
+//                )
+//
+//
+//            }
+//            catch (ex : Exception){
+//
+//                Log.d(Constant.TAG_SAVING_CONTACT_LOG, "Done" )
+//            }
+//
+//        }
+//
+//        //endregion
+//    }
+    //endregion
+
     private fun setNote(cursor: Cursor, displayName : String, contactNoteMapList: MutableMap<String, String> ) {
 
         /********************** displayName work as KEY ************/
@@ -911,8 +901,8 @@ object ContactHelper {
 
         var normalizedNumber : String  = "",
         var number : String  = "",
-        var type : String = "",
-        var photouri : String  = "",
+        var type : String = ""
+       // var photouri : String  = "",
     )
     data class EmailData(
 
@@ -956,50 +946,16 @@ object ContactHelper {
 
         var  displayName:  String  = "",
         var photoUri : String  = "",
-        var normalizedNumber : String  = "",
        var number : String = ""
 
     )
     //endregion
 
 
-    fun getBitmapFromContentResolver(context: Context, selectedFileUri: Uri): Bitmap? {
-        return try {
-            val parcelFileDescriptor: ParcelFileDescriptor? =
-                context.contentResolver.openFileDescriptor(selectedFileUri, "r")
-            val fileDescriptor = parcelFileDescriptor?.fileDescriptor
-            val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
-            parcelFileDescriptor?.close()
-            image
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
-    }
 
 
-    fun uriToFileFromMediaStore(context: Context, uri: Uri): File? {
-        val inputStream = context.contentResolver.openInputStream(uri) ?: return null
-        val fileName = "${System.currentTimeMillis()}.jpg"
-
-        val outputDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
-        val outputFile = File(outputDir, fileName)
-//        val cacheDir = context.cacheDir // Use the app's internal cache directory
-//        val outputFile = File(cacheDir, fileName)
 
 
-        try {
-            FileOutputStream(outputFile).use { outputStream ->
-                inputStream.copyTo(outputStream)
-            }
-            return outputFile
-        } catch (e: IOException) {
-            e.printStackTrace()
-            return null
-        } finally {
-            inputStream.close()
-        }
-    }
 
 
 

@@ -84,7 +84,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.READ_CONTACTS",
-            "android.permission.READ_CALL_LOG"
+            "android.permission.READ_CALL_LOG",
+            "android.permission.POST_NOTIFICATIONS"
     };
 
     @Override
@@ -138,10 +139,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
         int READ_CONTACTS = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
         int READ_CALL_LOG = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[4]);
+        int POST_NOTIFICATION = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[5]);
+
         if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             return camera == PackageManager.PERMISSION_GRANTED
 
-                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && POST_NOTIFICATION == PackageManager.PERMISSION_GRANTED;
         }else{
             return camera == PackageManager.PERMISSION_GRANTED
                     &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED

@@ -66,11 +66,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        sendNotification(remoteMessage, remoteMessage.getData());
+
         Map<String, String> data = remoteMessage.getData();
         if(data != null) {
             if(data.containsKey("source") && "webengage".equals(data.get("source"))) {
+
+                Log.d("webengage_data",data.toString());
                 WebEngage.get().receive(data);
+            }
+            else{
+                sendNotification(remoteMessage, remoteMessage.getData());
             }
         }
     }
@@ -260,6 +265,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onNewToken(@NonNull String s) {
         super.onNewToken(s);
         WebEngage.get().setRegistrationID(s);
+
     }
 
     public Bitmap getBitmapfromUrl(String imageUrl) {

@@ -259,12 +259,15 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             if (result) {
                 // binding.imgProfile.setImageURI(imageUri);
 
-                Intent intent = new Intent(CommonWebViewActivity.this.getApplicationContext(),UcropperActivity.class);
+                if(imageUri != null){
+                    Intent intent = new Intent(CommonWebViewActivity.this.getApplicationContext(),UcropperActivity.class);
 
-                intent.putExtra("SendImageData",imageUri.toString());
+                    intent.putExtra("SendImageData",imageUri.toString());
 
 
-                startActivityForResult(intent, CAMERA_REQUEST);
+                    startActivityForResult(intent, CAMERA_REQUEST);
+                }
+
             } else {
                 // Handle failure or cancellation
             }

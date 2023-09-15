@@ -1,25 +1,43 @@
 package com.utility.finmartcontact.home.Worker
 
 import android.app.NotificationManager
+import android.content.ContentUris
 import android.content.Context
+import android.content.res.AssetFileDescriptor
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import android.os.Environment
+import android.os.ParcelFileDescriptor
 import android.provider.ContactsContract
 import android.util.Log
+import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
-import com.github.tamir7.contacts.Contact
-import com.github.tamir7.contacts.Contacts.getQuery
 import com.google.gson.Gson
+import com.policyboss.policybosspro.syncContact.Worker.ContactHelper
+import com.policyboss.policybosspro.syncContact.Worker.model.sendPhotoUriData
 import com.policyboss.policybosspro.utility.Constant
 import com.utility.finmartcontact.core.model.ContactlistEntity
 import com.utility.finmartcontact.core.requestentity.ContactLeadRequestEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
-import android.content.ContentResolver
-import com.policyboss.policybosspro.syncContact.Worker.ContactHelper
 
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+
+
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import retrofit2.await
+import java.io.InputStream
 
 /**
  * Created by Rahul on 10/06/2022.
@@ -109,25 +127,21 @@ class ContactLogWorkManager(
             if (contactlist != null && contactlist!!.size > 0) {
 
                 try{
-                    val result = ContactHelper.getContact(context.applicationContext)
-                   // getAllContactDetails =  ContactHelper.getContact(context.applicationContext)
 
-                    getAllContactDetails = result.first
-                    var data = Gson().toJson(getAllContactDetails)
-                    Log.d(Constant.TAG_SAVING_CONTACT_LOG,data )
+                    getAllContactDetails =  ContactHelper.getContact(context.applicationContext)
 
-                    val photoUriData = result.second
 
-                    Log.d(Constant.TAG_SAVING_CONTACT_LOG,photoUriData.toString() )
-
+//                    var data = Gson().toJson(getAllContactDetails)
+//                    Log.d(Constant.TAG_SAVING_CONTACT_LOG,data )
+//
 
                 }catch (ex :Exception ){
                     Log.d(Constant.TAG_SAVING_CONTACT_LOG,ex.toString() )
                 }
 
 
-                  // tem added 05
-                  /*
+                  // 005 temp commented
+
                    for (i in 0..contactlist!!.size - 1 step 1000) {
 
                     Log.d(TAG, "CallLog Number of data jumped ${i}")
@@ -173,7 +187,7 @@ class ContactLogWorkManager(
 
                 }
 
-                   */
+
 
 
             }
@@ -276,6 +290,8 @@ class ContactLogWorkManager(
 
 
     }
+
+
 
 
 

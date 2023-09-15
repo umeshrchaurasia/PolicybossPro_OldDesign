@@ -6,8 +6,10 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.os.Build
+import android.os.Environment
 import android.provider.CallLog
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -23,6 +25,9 @@ import com.utility.finmartcontact.core.requestentity.CallLogRequestEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.lang.Long
 import java.text.SimpleDateFormat
 import java.util.*
@@ -51,11 +56,16 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
     override suspend fun doWork(): Result {
 
 
+
         return try {
                 Log.d("CallLogWorker", "Run work manager")
                 //Do Your task here
 
-                callLogTask()
+            //005 temp commented
+
+             //   callLogTask()
+
+            //end
 
                 // Log.d("CallLogWorker", callLogList.toString())
                 val outPutData: Data = Data.Builder()
@@ -72,6 +82,8 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
                 Result.failure(errorData)
 
             }
+
+
 
     }
 
@@ -242,6 +254,24 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
 
     }
 
+
+    fun bitmapToFile(context: Context, bitmap: Bitmap,): File? {
+        val cacheDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+
+        val fileName = System.currentTimeMillis().toString()
+        val imageFile = File(cacheDir, fileName)
+
+        return try {
+            val fileOutputStream = FileOutputStream(imageFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream)
+            fileOutputStream.flush()
+            fileOutputStream.close()
+            imageFile
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
+    }
 
     //region Creates notifications for service
     private fun createForegroundInfo(

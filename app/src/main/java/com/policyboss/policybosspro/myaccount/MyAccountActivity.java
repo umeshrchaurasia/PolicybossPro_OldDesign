@@ -225,12 +225,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (result) {
                 // binding.imgProfile.setImageURI(imageUri);
 
-                Intent intent = new Intent(MyAccountActivity.this.getApplicationContext(),UcropperActivity.class);
+                if(imageUri != null){
 
-                intent.putExtra("SendImageData",imageUri.toString());
+                    Intent intent = new Intent(MyAccountActivity.this.getApplicationContext(),UcropperActivity.class);
+
+                    intent.putExtra("SendImageData",imageUri.toString());
 
 
-                startActivityForResult(intent, CAMERA_REQUEST);
+                    startActivityForResult(intent, CAMERA_REQUEST);
+                }
+
+
+
+
             } else {
                 // Handle failure or cancellation
             }
