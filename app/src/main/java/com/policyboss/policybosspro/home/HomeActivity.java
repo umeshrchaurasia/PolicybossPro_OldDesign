@@ -520,6 +520,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_pospenrollment:
+/*
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", "http://bo.magicfinmart.com/Sync-Contact/index.html")
+                                    .putExtra("NAME", "PospEnrollment")
+                                    .putExtra("TITLE", "Posp Enrollment"));
+*/
+//testing
+
                             if(prefManager.getEnableProPOSPurl()  != null) {
                                 if(prefManager.getEnableProPOSPurl().isEmpty()) {
                                     startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
@@ -545,7 +553,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             {
                                 startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
                             }
-                            // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
+
+
                             break;
                         case R.id.nav_addposp:
                             if(prefManager.getEnablePro_ADDSUBUSERurl()  != null) {
