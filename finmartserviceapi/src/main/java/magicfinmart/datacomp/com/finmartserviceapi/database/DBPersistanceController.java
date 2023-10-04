@@ -237,25 +237,25 @@ public class DBPersistanceController {
     public List<String> getCarMakeModel() {
         List<String> listCarModel = new ArrayList<>();
         // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
-        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).distinct("Model_ID");
-
-        for (int i = 0; i < list.size(); i++) {
-            CarMasterEntity entity = list.get(i);
-            String carModel = entity.getMake_Name() + " , " + entity.getModel_Name();
-            listCarModel.add(carModel);
-        }
+//        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).distinct("Model_ID");
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            CarMasterEntity entity = list.get(i);
+//            String carModel = entity.getMake_Name() + " , " + entity.getModel_Name();
+//            listCarModel.add(carModel);
+//        }
 
         return listCarModel;
     }
 
     public List<String> getMake() {
         List<String> listCarMake = new ArrayList<>();
-        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).distinct("Make_Name");
-        for (int i = 0; i < list.size(); i++) {
-            CarMasterEntity entity = list.get(i);
-            String carModel = entity.getMake_Name();
-            listCarMake.add(carModel);
-        }
+//        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).distinct("Make_Name");
+//        for (int i = 0; i < list.size(); i++) {
+//            CarMasterEntity entity = list.get(i);
+//            String carModel = entity.getMake_Name();
+//            listCarMake.add(carModel);
+//        }
 
         return listCarMake;
     }
@@ -263,14 +263,14 @@ public class DBPersistanceController {
     public List<String> getModel(String makeName) {
 
         List<String> listCarModel = new ArrayList<>();
-        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).equalTo("Make_Name", makeName.trim())
-                .distinctValues("Model_Name")
-                .findAll();
-        for (int i = 0; i < list.size(); i++) {
-            CarMasterEntity entity = list.get(i);
-            String carModel = entity.getModel_Name();
-            listCarModel.add(carModel);
-        }
+//        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).equalTo("Make_Name", makeName.trim())
+//                .distinctValues("Model_Name")
+//                .findAll();
+//        for (int i = 0; i < list.size(); i++) {
+//            CarMasterEntity entity = list.get(i);
+//            String carModel = entity.getModel_Name();
+//            listCarModel.add(carModel);
+//        }
         return listCarModel;
     }
 
@@ -288,30 +288,30 @@ public class DBPersistanceController {
     public List<String> getVariant(String make, String model, String fuelname) {
 
         List<String> listCarVariant = new ArrayList<>();
-        List<CarMasterEntity> list = new ArrayList<>();
-        listCarVariant.add("Variant");
-        String Fuel_ID = "";
-        if (fuelname.equals(EXTERNAL_LPG) || fuelname.equals(EXTERNAL_CNG)) {
-            CarMasterEntity carMasterEntity = realm.where(CarMasterEntity.class)
-                    .equalTo("Make_Name", make.trim())
-                    .equalTo("Model_Name", model.trim())
-                    .equalTo("Fuel_Name", "Petrol", Case.INSENSITIVE).findFirst();
-            if (carMasterEntity != null)
-                Fuel_ID = carMasterEntity.getFuel_ID();
-        } else {
-            CarMasterEntity carMasterEntity = realm.where(CarMasterEntity.class)
-                    .equalTo("Make_Name", make.trim())
-                    .equalTo("Model_Name", model.trim())
-                    .equalTo("Fuel_Name", fuelname.trim()).findFirst();
-            if (carMasterEntity != null)
-                Fuel_ID = carMasterEntity.getFuel_ID();
-        }
+//        List<CarMasterEntity> list = new ArrayList<>();
+//        listCarVariant.add("Variant");
+//        String Fuel_ID = "";
+//        if (fuelname.equals(EXTERNAL_LPG) || fuelname.equals(EXTERNAL_CNG)) {
+//            CarMasterEntity carMasterEntity = realm.where(CarMasterEntity.class)
+//                    .equalTo("Make_Name", make.trim())
+//                    .equalTo("Model_Name", model.trim())
+//                    .equalTo("Fuel_Name", "Petrol", Case.INSENSITIVE).findFirst();
+//            if (carMasterEntity != null)
+//                Fuel_ID = carMasterEntity.getFuel_ID();
+//        } else {
+//            CarMasterEntity carMasterEntity = realm.where(CarMasterEntity.class)
+//                    .equalTo("Make_Name", make.trim())
+//                    .equalTo("Model_Name", model.trim())
+//                    .equalTo("Fuel_Name", fuelname.trim()).findFirst();
+//            if (carMasterEntity != null)
+//                Fuel_ID = carMasterEntity.getFuel_ID();
+ //       }
 
-        list = realm.where(CarMasterEntity.class)
-                .equalTo("Make_Name", make.trim())
-                .equalTo("Model_Name", model.trim())
-                .equalTo("Fuel_ID", Fuel_ID.trim())
-                .distinct("Variant_ID");
+//        list = realm.where(CarMasterEntity.class)
+//                .equalTo("Make_Name", make.trim())
+//                .equalTo("Model_Name", model.trim())
+//                .equalTo("Fuel_ID", Fuel_ID.trim())
+//                .distinct("Variant_ID");
 
         /*if (fuelname.toLowerCase().equals("petrol") || fuelname.toLowerCase().equals("diesel") || fuelname.toLowerCase().equals("cng") || fuelname.toLowerCase().equals("lpg")) {
 
@@ -329,11 +329,11 @@ public class DBPersistanceController {
                     .distinct("Variant_ID");
         }*/
 
-        for (int i = 0; i < list.size(); i++) {
-            CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
-            listCarVariant.add(variant);
-        }
+//        for (int i = 0; i < list.size(); i++) {
+//            CarMasterEntity entity = list.get(i);
+//            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
+//            listCarVariant.add(variant);
+//        }
         return listCarVariant;
 
     }
@@ -341,16 +341,16 @@ public class DBPersistanceController {
     public List<String> getVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Variant");
-        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
-                .equalTo("Model_ID", modelID)
-                .distinct("Variant_ID");
-
-        for (int i = 0; i < list.size(); i++) {
-            CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
-            listCarVariant.add(variant);
-        }
+//        listCarVariant.add("Variant");
+//        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
+//                .equalTo("Model_ID", modelID)
+//                .distinct("Variant_ID");
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            CarMasterEntity entity = list.get(i);
+//            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
+//            listCarVariant.add(variant);
+//        }
 
         return listCarVariant;
 
@@ -399,29 +399,29 @@ public class DBPersistanceController {
 
     public List<String> getFuelTypeByModelId(String modelID) {
         List<String> fuelType = new ArrayList<>();
-        fuelType.add("Fuel Type");
-        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
-                .equalTo("Model_ID", modelID)
-                .distinct("Fuel_Name");
-
-        for (int i = 0; i < list.size(); i++) {
-            CarMasterEntity entity = list.get(i);
-            String fuelName = "" + entity.getFuel_Name();
-            fuelType.add(fuelName);
-        }
-
-        boolean isAddExternal = false;
-        for (int i = 0; i < fuelType.size(); i++) {
-            if (fuelType.get(i).toLowerCase().equals("petrol")) {
-                isAddExternal = true;
-                break;
-            }
-        }
-
-        if (isAddExternal) {
-            fuelType.add(EXTERNAL_LPG);
-            fuelType.add(EXTERNAL_CNG);
-        }
+//        fuelType.add("Fuel Type");
+//        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
+//                .equalTo("Model_ID", modelID)
+//                .distinct("Fuel_Name");
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            CarMasterEntity entity = list.get(i);
+//            String fuelName = "" + entity.getFuel_Name();
+//            fuelType.add(fuelName);
+//        }
+//
+//        boolean isAddExternal = false;
+//        for (int i = 0; i < fuelType.size(); i++) {
+//            if (fuelType.get(i).toLowerCase().equals("petrol")) {
+//                isAddExternal = true;
+//                break;
+//            }
+//        }
+//
+//        if (isAddExternal) {
+//            fuelType.add(EXTERNAL_LPG);
+//            fuelType.add(EXTERNAL_CNG);
+//        }
 
         return fuelType;
     }
@@ -433,14 +433,14 @@ public class DBPersistanceController {
 
     public List<String> getBikeMakeModel() {
         List<String> listCarModel = new ArrayList<>();
-        // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
-        List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class).distinct("Model_ID");
-
-        for (int i = 0; i < list.size(); i++) {
-            BikeMasterEntity entity = list.get(i);
-            String carModel = entity.getMake_Name() + " , " + entity.getModel_Name();
-            listCarModel.add(carModel);
-        }
+//        // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
+//        List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class).distinct("Model_ID");
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            BikeMasterEntity entity = list.get(i);
+//            String carModel = entity.getMake_Name() + " , " + entity.getModel_Name();
+//            listCarModel.add(carModel);
+//        }
 
         return listCarModel;
     }
@@ -491,17 +491,17 @@ public class DBPersistanceController {
     public List<String> getBikeVariantbyModelID(String modelID, String Make_Name) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Variant");
-        List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
-                .equalTo("Model_ID", modelID)
-                .equalTo("Make_Name", Make_Name.trim())
-                .distinct("Variant_ID");
-
-        for (int i = 0; i < list.size(); i++) {
-            BikeMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
-            listCarVariant.add(variant);
-        }
+//        listCarVariant.add("Variant");
+//        List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
+//                .equalTo("Model_ID", modelID)
+//                .equalTo("Make_Name", Make_Name.trim())
+//                .distinct("Variant_ID");
+//
+//        for (int i = 0; i < list.size(); i++) {
+//            BikeMasterEntity entity = list.get(i);
+//            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
+//            listCarVariant.add(variant);
+//        }
 
         return listCarVariant;
 
@@ -2470,10 +2470,10 @@ public class DBPersistanceController {
     public List<InsuranceSubtypeEntity> getInsuranceSubTypeList(int vehicle_id, String neworrenew) {
 
         List<InsuranceSubtypeEntity> list = new ArrayList<>();
-        list = realm.where(InsuranceSubtypeEntity.class)
-                .equalTo("vehicle_id", vehicle_id)
-                .equalTo("neworrenew", neworrenew)
-                .distinct("vehicleinsubtypeid");
+//        list = realm.where(InsuranceSubtypeEntity.class)
+//                .equalTo("vehicle_id", vehicle_id)
+//                .equalTo("neworrenew", neworrenew)
+//                .distinct("vehicleinsubtypeid");
 
         return list;
     }

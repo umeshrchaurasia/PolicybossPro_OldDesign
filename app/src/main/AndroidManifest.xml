@@ -131,6 +131,7 @@
             android:enabled="true"
             android:exported="false"
             android:label="@string/choose_file"
+
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />

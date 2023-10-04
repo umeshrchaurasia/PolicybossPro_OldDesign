@@ -215,16 +215,16 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                 .build()
 
 
-        val contactPhotRequest: OneTimeWorkRequest =
-            OneTimeWorkRequest.Builder(ContactPhotoWorkManager::class.java)
-                .addTag(Constant.TAG_SAVING_CONTACT_PHOTO_LOG)
-                .setInputData(data)
-                .build()
+//        val contactPhotRequest: OneTimeWorkRequest =
+//            OneTimeWorkRequest.Builder(ContactPhotoWorkManager::class.java)
+//                .addTag(Constant.TAG_SAVING_CONTACT_PHOTO_LOG)
+//                .setInputData(data)
+//                .build()
         // Todo : For Chain (Parallel Chaining)
         val parallelWorks: MutableList<OneTimeWorkRequest> = mutableListOf<OneTimeWorkRequest>()
         parallelWorks.add(ContactWorkRequest)
         parallelWorks.add(callLogWorkRequest)
-        parallelWorks.add(contactPhotRequest)
+//        parallelWorks.add(contactPhotRequest)
         workManager.beginWith(parallelWorks)
             .enqueue()
 

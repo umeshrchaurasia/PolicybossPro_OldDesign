@@ -32,6 +32,9 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Url
 
+/**********************************
+//NOT IN USED
+**********************************/
 class WelcomeSyncContactActivityNew : BaseActivity() , OnClickListener {
 
     lateinit var binding: ActivityWelcomeSyncContactNewBinding

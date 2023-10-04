@@ -61,11 +61,7 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
                 Log.d("CallLogWorker", "Run work manager")
                 //Do Your task here
 
-            //005 temp commented
-
-             //   callLogTask()
-
-            //end
+                callLogTask()
 
                 // Log.d("CallLogWorker", callLogList.toString())
                 val outPutData: Data = Data.Builder()
