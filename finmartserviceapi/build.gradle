@@ -9,8 +9,6 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 55
-        versionName "2.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
@@ -29,20 +27,18 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            debuggable true
 
-               buildConfigField "String", "FINMART_URL", '"https://horizon.policyboss.com:5443"'
-              buildConfigField "String", "HEALTH_CHECKUP_URL", '"https://www.healthassure.in"'
-              buildConfigField "String", "INSPECTION_URL", '"https://inspection.policyboss.com"'
-              buildConfigField "String", "ERP_URL", '"https://services.rupeeboss.com/LoginDtls.svc/"'
-              buildConfigField "String", "LOAN_URL", '"https://www.rupeeboss.com"'
-              buildConfigField "String", "NODE_URL", '"https://horizon.policyboss.com:5443"'
-              buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
-              buildConfigField "String", "POSP_URL", '"https://edu.policyboss.com"'
+            buildConfigField "String", "FINMART_URL", '"https://horizon.policyboss.com:5443"'
+            buildConfigField "String", "HEALTH_CHECKUP_URL", '"https://www.healthassure.in"'
+            buildConfigField "String", "INSPECTION_URL", '"https://inspection.policyboss.com"'
+            buildConfigField "String", "ERP_URL", '"https://services.rupeeboss.com/LoginDtls.svc/"'
+            buildConfigField "String", "LOAN_URL", '"https://www.rupeeboss.com"'
+            buildConfigField "String", "NODE_URL", '"https://horizon.policyboss.com:5443"'
+            buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
+            buildConfigField "String", "POSP_URL", '"https://edu.policyboss.com"'
 
         }
         uat {
-            debuggable true
 
             buildConfigField "String", "FINMART_URL", '"https://horizon.policyboss.com:5443"'
             buildConfigField "String", "HEALTH_CHECKUP_URL", '"https://www.healthassure.in"'
@@ -56,6 +52,7 @@ android {
 
         }
     }
+    namespace 'magicfinmart.datacomp.com.finmartserviceapi'
 
 }
 
