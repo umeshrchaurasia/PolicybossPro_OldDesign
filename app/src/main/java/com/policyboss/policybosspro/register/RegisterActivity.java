@@ -1103,7 +1103,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onClick(View v) {
                     // Close dialog
-                    if (etOtp.getText().toString().equals("0000")) {
+                    if (etOtp.getText().toString().equals("7799")) {
                         setUserInfoToWebEngAnalytic();
                         trackEvent_otp("");
                         Toast.makeText(RegisterActivity.this, "Otp Verified Success", Toast.LENGTH_SHORT).show();
