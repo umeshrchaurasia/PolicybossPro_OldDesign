@@ -12,7 +12,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.app.AlertDialog
 
 import com.bumptech.glide.Glide
 import com.policyboss.policybosspro.BaseActivity

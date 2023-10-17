@@ -182,7 +182,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     int forceUpdate, checkfirstmsg_call, isContactFirstCall;
     //ConstantEntity constantEntity;
     AlertDialog mpsDialog;
-    androidx.appcompat.app.AlertDialog shareProdDialog;
+    AlertDialog shareProdDialog;
     CallingDetailAdapter callingDetailAdapter;
 
     UserConstantEntity userConstantEntity;
@@ -3365,7 +3365,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     public void dialogCoBrowser() {
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Share Screen..!");
         builder.setMessage("Do you want to share your screen?");
         builder.setCancelable(false);
@@ -3383,7 +3383,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 dialog.cancel();
             }
         });
-        androidx.appcompat.app.AlertDialog exitdialog = builder.create();
+        AlertDialog exitdialog = builder.create();
         exitdialog.show();
 
         Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);
@@ -3481,7 +3481,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             return;
         }
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
         TextView txtTitle, txtMessage;
         Button btnShare;
         ImageView ivCross;
@@ -3532,7 +3532,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             return;
         }
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
         TextView txtTitle, txtMessage;
         Button btnShare;
         ImageView ivCross;
@@ -3580,7 +3580,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public void verifyPospNo() {
 
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this, R.style.CustomDialog);
         TextView txtTitle, txtMessage;
         Button btnClose;
         ImageView ivCross;
@@ -3589,7 +3589,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         final View dialogView = inflater.inflate(R.layout.layout_failure_popup, null);
 
         builder.setView(dialogView);
-        androidx.appcompat.app.AlertDialog verifyDialog = builder.create();
+        AlertDialog verifyDialog = builder.create();
         // set the custom dialog components - text, image and button
         txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
         txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);

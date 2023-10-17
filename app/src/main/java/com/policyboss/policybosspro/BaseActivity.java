@@ -27,7 +27,7 @@ import android.os.Environment;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AlertDialog;
+import android.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.ParcelFileDescriptor;
@@ -120,10 +120,29 @@ public class BaseActivity extends AppCompatActivity {
         return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
     }
     public String getDateFromweb(String birthdate) {
-        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date d = new Date(birthdate);
-        String dateString = inputDateFormat.format(d);
-        return dateString;
+//        SimpleDateFormat inputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        Date d = new Date(birthdate);
+//        String dateString = inputDateFormat.format(d);
+//        return dateString;
+        SimpleDateFormat  outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
+        try {
+            // Parse the input date string to a Date object
+            Date date = inputDateFormat.parse(birthdate);
+
+            // Format the Date object to the desired output format
+            String formattedDate = outputDateFormat.format(date);
+
+            // 'formattedDate' now contains the date in the "dd-MM-yyyy" format
+            return formattedDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            // Handle the parse exception if the input date format is incorrect
+            return "";
+        }
+
+
 
     }
     public int getAgeFromDate(String birthdate) {
@@ -1308,7 +1327,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showAlert(String strBody) {
         try {
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(BaseActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
             builder.setTitle("PolicyBossPro");
 
             builder.setMessage(strBody);
@@ -1321,7 +1340,7 @@ public class BaseActivity extends AppCompatActivity {
 
                         }
                     });
-            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -1380,7 +1399,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void permissionAlert(final View view, String Title, String strBody) {
         try {
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(BaseActivity.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
             builder.setTitle(Title);
 
             builder.setMessage(strBody);
@@ -1407,7 +1426,7 @@ public class BaseActivity extends AppCompatActivity {
                             dialog.dismiss();
                         }
                     });
-            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();

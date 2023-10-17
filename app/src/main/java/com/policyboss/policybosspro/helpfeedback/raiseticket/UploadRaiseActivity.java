@@ -1,6 +1,7 @@
 package com.policyboss.policybosspro.helpfeedback.raiseticket;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -57,7 +58,8 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.READ_MEDIA_IMAGES"
 
     };
     File Docfile;
@@ -147,8 +149,15 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        int READ_MEDIA_IMAGE = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
 
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_MEDIA_IMAGE == PackageManager.PERMISSION_GRANTED;
+
+        }
+        else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             return camera == PackageManager.PERMISSION_GRANTED
 
                     && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
@@ -209,7 +218,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
 
 
     private void showCamerGalleryPopUp() {
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomDialog);
+         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery;
         LayoutInflater inflater = this.getLayoutInflater();
@@ -217,7 +226,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
         final View dialogView = inflater.inflate(R.layout.layout_cam_gallery, null);
 
         builder.setView(dialogView);
-        final androidx.appcompat.app.AlertDialog alertDialog = builder.create();
+        final AlertDialog alertDialog = builder.create();
         // set the custom dialog components - text, image and button
         lyCamera = (LinearLayout) dialogView.findViewById(R.id.lyCamera);
         lyGallery = (LinearLayout) dialogView.findViewById(R.id.lyGallery);

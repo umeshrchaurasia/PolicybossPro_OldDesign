@@ -5,6 +5,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -288,7 +289,7 @@ public class RazorPaymentEliteActivity extends BaseActivity implements PaymentRe
     public void useretailPopUp(PaymentEliteEntity paymentDetailEntity) {
 
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(RazorPaymentEliteActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RazorPaymentEliteActivity.this);
         TextView txtTitle, txtMessage;
         Button btnShare;
         ImageView ivCross;
@@ -297,7 +298,7 @@ public class RazorPaymentEliteActivity extends BaseActivity implements PaymentRe
         final View dialogView = inflater.inflate(R.layout.layout_share_popup, null);
 
         builder.setView(dialogView);
-        androidx.appcompat.app.AlertDialog shareProdDialog = builder.create();
+        AlertDialog shareProdDialog = builder.create();
         // set the custom dialog components - text, image and button
         txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
         txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);

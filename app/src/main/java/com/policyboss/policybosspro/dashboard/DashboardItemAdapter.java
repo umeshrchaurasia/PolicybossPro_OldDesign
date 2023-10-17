@@ -272,8 +272,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
-
-        if(dashboardEntity != null) {
+        try{
+         if(dashboardEntity != null) {
 
             int productID = dashboardEntity.getProductId();
 
@@ -720,6 +720,10 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("NAME", "" + dashboardEntity.getProductName())
                         .putExtra("TITLE", "" + dashboardEntity.getProductName()));
             }
+        }
+        }
+        catch(Exception  ex){
+            ex.printStackTrace();
         }
     }
 

@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
@@ -66,7 +67,8 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.READ_MEDIA_IMAGES"
 
     };
     //endregion
@@ -85,7 +87,7 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
     //HashMap<String, String> body;
 
 
-    androidx.appcompat.app.AlertDialog alertDialog;
+    android.app.AlertDialog alertDialog;
     //endregion
 
     ActivityResultLauncher<String> galleryLauncher;
@@ -292,8 +294,15 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        int READ_MEDIA_IMAGE = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
 
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_MEDIA_IMAGE == PackageManager.PERMISSION_GRANTED;
+
+        }
+        else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             return camera == PackageManager.PERMISSION_GRANTED
 
                     && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
@@ -360,7 +369,7 @@ public class RaiseTicketDialogActivity extends BaseActivity implements BaseActiv
 
             return;
         }
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery, lyPdf;
         LayoutInflater inflater = this.getLayoutInflater();

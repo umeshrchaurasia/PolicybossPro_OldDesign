@@ -17,7 +17,7 @@ import android.telephony.SmsManager
 import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
-import androidx.appcompat.app.AlertDialog
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
