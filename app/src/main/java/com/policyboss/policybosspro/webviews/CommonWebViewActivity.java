@@ -212,7 +212,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         showDialog = new Dialog(CommonWebViewActivity.this,R.style.Dialog);
 
         db = new DBPersistanceController(this);
-        loginResponseEntity = db.getUserData();
+    //    loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
 

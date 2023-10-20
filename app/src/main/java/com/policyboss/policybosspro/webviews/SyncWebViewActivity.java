@@ -62,7 +62,7 @@ public class SyncWebViewActivity extends BaseActivity {
         getSupportActionBar().setTitle(title);
 
         db = new DBPersistanceController(this);
-        loginResponseEntity = db.getUserData();
+       // loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
 
         if (isNetworkConnected()) {

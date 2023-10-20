@@ -76,6 +76,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -86,7 +87,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.R
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocAvailableEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
@@ -107,6 +108,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
     PrefManager prefManager;
+    LoginPrefManager loginPrefManager;
     int type;
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
@@ -126,7 +128,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
     DBPersistanceController dbPersistanceController;
-    LoginResponseEntity loginEntity;
+ //   LoginResponseEntity loginEntity;
     AccountDtlEntity accountDtlEntity;
     public String ACCOUNT_TYPE = "SAVING";
 
@@ -148,7 +150,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     Boolean isDataUploaded = true;
     Bitmap bitmapPhoto = null;
-    LoginResponseEntity loginResponseEntity;
+//    LoginResponseEntity loginResponseEntity;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
 
     String[] perms = {
@@ -183,14 +185,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
-        loginResponseEntity = dbPersistanceController.getUserData();
-        loginEntity = dbPersistanceController.getUserData();
+      //  loginResponseEntity = dbPersistanceController.getUserData();
+       // loginEntity = dbPersistanceController.getUserData();
         weUser = WebEngage.get().user();
+
+        prefManager = new PrefManager(this);
+        loginPrefManager = new LoginPrefManager(this);
 
         registerPopUp(this);
         registerRequestEntity = new RegisterRequestEntity();
-        registerRequestEntity.setFBAID(loginEntity.getFBAId());
-        prefManager = new PrefManager(this);
+        registerRequestEntity.setFBAID(Integer.parseInt(loginPrefManager.getFBAID()));
+
+
+
         showDialog = new Dialog(MyAccountActivity.this,R.style.Dialog);
 
 
@@ -208,7 +215,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
 
         showDialogMain("Fetching Detail...");
-        new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
+        new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginPrefManager.getFBAID()), MyAccountActivity.this);
 
 
         // region  Camera and Gallery Launcher
@@ -449,7 +456,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private void bindAboutMe() {
         UserConstantEntity userConstantEntity = dbPersistanceController.getUserConstantsData();
 
-        tvName.setText(loginResponseEntity.getFullName());
+        tvName.setText(loginPrefManager.getEmpData().getEmp_Name());
         tvFbaCode.setText("" + userConstantEntity.getFBAId());
         if (userConstantEntity.getPOSPNo() != null) {
             tvPospNo.setText("" + userConstantEntity.getPOSPNo());
@@ -506,7 +513,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 setProfilePhoto(mphoto);
                 file = saveImageToStorage(mphoto, PHOTO_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PROFILE, PHOTO_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
+                body = Utility.getBody(MyAccountActivity.this, Integer.parseInt(loginPrefManager.getFBAID()), PROFILE, PHOTO_File,loginPrefManager.getSSID(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
 
                 break;
@@ -514,7 +521,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, PHOTO_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PHOTO, PHOTO_File ,loginEntity.getPOSPNo(),AppVersion,DeviceID );
+                body = Utility.getBody(MyAccountActivity.this, Integer.parseInt(loginPrefManager.getFBAID()), PHOTO, PHOTO_File ,loginPrefManager.getSSID(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
             case 3:
@@ -522,7 +529,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, PAN_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), PAN, PAN_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
+                body = Utility.getBody(MyAccountActivity.this, Integer.parseInt(loginPrefManager.getFBAID()), PAN, PAN_File,loginPrefManager.getSSID(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
 
@@ -530,14 +537,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
+                body = Utility.getBody(MyAccountActivity.this, Integer.parseInt(loginPrefManager.getFBAID()), CANCEL_CHQ, CANCEL_CHQ_File,loginPrefManager.getSSID(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
             case 5:
                 showDialogMain("");
                 file = saveImageToStorage(mphoto, AADHAR_File);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(MyAccountActivity.this, loginEntity.getFBAId(), AADHAR, AADHAR_File,loginEntity.getPOSPNo(),AppVersion,DeviceID );
+                body = Utility.getBody(MyAccountActivity.this, Integer.parseInt(loginPrefManager.getFBAID()), AADHAR, AADHAR_File,loginPrefManager.getSSID(),AppVersion,DeviceID );
                 new RegisterController(MyAccountActivity.this).uploadDocuments(part, body, MyAccountActivity.this);
                 break;
         }
@@ -1257,7 +1264,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                      setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
                      if (type == 1 || type == 2) {
                          try {
-                             updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+                         //    updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
 
                              dbPersistanceController.updateUserConstatntProfile(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
 
@@ -1303,15 +1310,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
          }
     }
 
-    public void updateLoginResponse(final String fbaProfileUrl) {
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                //loginResponseEntity.setFBAProfileUrl("https://mgfm.in/" + fbaProfileUrl);
-                loginResponseEntity.setFBAProfileUrl(fbaProfileUrl);
-            }
-        });
-    }
+//    public void updateLoginResponse(final String fbaProfileUrl) {
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                //loginResponseEntity.setFBAProfileUrl("https://mgfm.in/" + fbaProfileUrl);
+//                loginResponseEntity.setFBAProfileUrl(fbaProfileUrl);
+//            }
+//        });
+//    }
 
     private void setAcctDtlInfo(AccountDtlEntity accountDtlEntity) {
 

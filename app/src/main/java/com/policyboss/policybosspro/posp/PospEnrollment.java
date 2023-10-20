@@ -194,7 +194,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         registerPopUp(this);
 
         dbPersistanceController = new DBPersistanceController(this);
-        loginResponseEntity = dbPersistanceController.getUserData();
+      //  loginResponseEntity = dbPersistanceController.getUserData();
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginResponseEntity.getFBAId());
         if (loginResponseEntity.getCustID() != null && !loginResponseEntity.getCustID().equals("")) {
@@ -685,10 +685,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         ivDocumentUpload.performClick();
 
         if (isPospInfo && isAddress && isBankDetails) {
-            registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
+            registerRequestEntity.setFBAID(Integer.parseInt(dbPersistanceController.getUserData_fbaid()));
 			registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
             registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
-            registerRequestEntity.setSsid("" + dbPersistanceController.getUserData().getPOSPNo());
+            registerRequestEntity.setSsid("" + dbPersistanceController.getUserData_ssid());
 
             if(!bankeventcheck) {
                 trackPospSubmitEvent();

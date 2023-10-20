@@ -126,11 +126,11 @@ public class AddPOSPUserActivity extends BaseActivity implements IResponseSubcri
             pass = passdateFormat.format(date.getTime());
             registerRequestEntity.setPassword(pass);
         }
-        registerRequestEntity.setParentId("" + dbPersistanceController.getUserData().getFBAId());
+        registerRequestEntity.setParentId("" + dbPersistanceController.getUserData_fbaid());
 
         registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
 
-        registerRequestEntity.setSsid("" + dbPersistanceController.getUserData().getPOSPNo());
+        registerRequestEntity.setSsid("" + dbPersistanceController.getUserData_ssid());
         registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
         //registerRequestEntity.setAppSource(String.valueOf(spSource.getSelectedItemPosition() + 1));
     }

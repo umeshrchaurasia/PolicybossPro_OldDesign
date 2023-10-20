@@ -5,48 +5,44 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
+
 
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
+
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.introslider.WelcomeActivity;
-import com.policyboss.policybosspro.login.LoginActivity;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.policyboss.policybosspro.login.LoginNewActivity;
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import com.policyboss.policybosspro.utility.NetworkUtils;
-import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
+
 import com.webengage.sdk.android.Analytics;
 import com.webengage.sdk.android.WebEngage;
 
-import java.util.List;
-
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.database.LoanCityFacade;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+
+
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
+
 
 public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber,
         magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber {
@@ -54,8 +50,9 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     private static final String TAG = "TOKEN";
     private final int SPLASH_DISPLAY_LENGTH = 1000;
     PrefManager prefManager;
+    LoginPrefManager loginPrefManager;
     DBPersistanceController dbPersistanceController;
-    LoginResponseEntity loginResponseEntity;
+  //  LoginResponseEntity loginResponseEntity;
 
     String deeplinkurl="";
 
@@ -73,7 +70,8 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         setContentView(R.layout.activity_splash_screen);
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
-        loginResponseEntity = dbPersistanceController.getUserData();
+       // loginResponseEntity = dbPersistanceController.getUserData();
+        loginPrefManager = new LoginPrefManager(this);
 
 
         FirebaseInstanceId.getInstance().getInstanceId()
@@ -101,7 +99,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
         if (NetworkUtils.isNetworkAvailable(SplashScreenActivity.this)) {
 
-            if (loginResponseEntity != null) {
+            if (loginPrefManager.getEmpData() != null) {
                 //reset user behaviour flag to send data on every app launch
                 //prefManager.saveUserbehaviourState(false);
                 new MasterController(this).geUserConstant(0, this);
@@ -133,11 +131,11 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 @Override
                 public void run() {
 
-                        if (loginResponseEntity != null) {
+                        if (loginPrefManager.getEmpData() != null) {
                             startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class)
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         } else {
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class)
+                            startActivity(new Intent(SplashScreenActivity.this, LoginNewActivity.class)
                                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK  | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                         }
 

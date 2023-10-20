@@ -10,6 +10,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.pbAtten
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncContact.SaveCheckboxRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.pbAttendResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospAgentResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder
@@ -65,5 +66,10 @@ interface SyncContactInterface {
 
   @POST
   suspend fun getPBAttendance(@Url strUrl : String,@Body body : pbAttendRequestEntity ): Response<pbAttendResponse>
+
+ @GET("posps/dsas/view/{userId}")
+ suspend fun getLoginDsasHorizonDetails( @Path("userId") userId: String): Response<LoginNewResponse_DSAS_Horizon>
+
+
 
 }

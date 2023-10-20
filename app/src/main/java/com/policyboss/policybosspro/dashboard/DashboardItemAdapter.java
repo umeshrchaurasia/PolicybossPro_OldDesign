@@ -65,8 +65,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         LangType = langType;
         dbPersistanceController = new DBPersistanceController(mContext.getActivity());
 
-        if (dbPersistanceController.getUserData().getFBAId() != 0) {
-            fbaId = dbPersistanceController.getUserData().getFBAId();
+        if (Integer.parseInt(dbPersistanceController.getUserData_fbaid()) != 0) {
+            fbaId = Integer.parseInt(dbPersistanceController.getUserData_fbaid());
         }
     }
 

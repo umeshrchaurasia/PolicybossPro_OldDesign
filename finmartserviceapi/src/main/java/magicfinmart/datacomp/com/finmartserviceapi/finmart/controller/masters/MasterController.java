@@ -7,6 +7,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -39,12 +40,17 @@ public class MasterController implements IMasterFetch {
     DBPersistanceController dbPersistanceController;
 
     PrefManager prefManager;
+    LoginPrefManager loginPrefManager;
 
     public MasterController(Context context) {
         mContext = context;
         masterNetworkService = new MasterRequestBuilder().getService();
         dbPersistanceController = new DBPersistanceController(mContext);
         prefManager = new PrefManager(mContext);
+        loginPrefManager = new LoginPrefManager(mContext);
+
+        // loginPrefManager = LoginPrefManager.getInstance(context);
+
     }
 
     @Override
@@ -306,11 +312,11 @@ public class MasterController implements IMasterFetch {
     @Override
     public void getConstants(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("FBAID", "" + loginPrefManager.getFBAID());
         body.put("VersionCode", Utility.getVersionName(mContext));
 
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + loginPrefManager.getSSID());
 
         masterNetworkService.getConstantsData(body).enqueue(new Callback<ConstantsResponse>() {
             @Override
@@ -379,7 +385,7 @@ public class MasterController implements IMasterFetch {
     @Override
     public void applyMPSPromoCode(String promoCode, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("FBAID", "" + loginPrefManager.getFBAID());
         body.put("PromoCode", "" + promoCode);
 
         masterNetworkService.applyPromoCode(body).enqueue(new Callback<MpsResponse>() {
@@ -418,7 +424,7 @@ public class MasterController implements IMasterFetch {
     @Override
     public void getMpsData(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("FBAID", "" + loginPrefManager.getFBAID());
         masterNetworkService.getMpsData(body).enqueue(new Callback<MpsResponse>() {
             @Override
             public void onResponse(Call<MpsResponse> call, Response<MpsResponse> response) {
@@ -458,8 +464,8 @@ public class MasterController implements IMasterFetch {
         HashMap<String, String> body = new HashMap<>();
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("ssid", "" + loginPrefManager.getSSID());
+        body.put("fbaid", "" + loginPrefManager.getFBAID());
         masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
             @Override
             public void onResponse(Call<UserConstatntResponse> call, Response<UserConstatntResponse> response) {
@@ -499,8 +505,8 @@ public class MasterController implements IMasterFetch {
 
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("ssid", "" + loginPrefManager.getSSID() );
+        body.put("fbaid", "" + loginPrefManager.getFBAID());
         masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
             @Override
             public void onResponse(Call<UserConstatntResponse> call, Response<UserConstatntResponse> response) {
@@ -541,8 +547,8 @@ public class MasterController implements IMasterFetch {
 
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("ssid", "" + loginPrefManager.getSSID());
+        body.put("fbaid", "" + loginPrefManager.getFBAID());
         masterNetworkService.getMenuMaster(body).enqueue(new Callback<MenuMasterResponse>() {
             @Override
             public void onResponse(Call<MenuMasterResponse> call, Response<MenuMasterResponse> response) {

@@ -68,7 +68,9 @@ import com.policyboss.policybosspro.helpfeedback.raiseticket.RaiseTicketActivity
 import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter;
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity;
 
-import com.policyboss.policybosspro.login.LoginActivity;
+
+import com.policyboss.policybosspro.login.LoginNewActivity;
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import com.policyboss.policybosspro.messagecenter.messagecenteractivity;
 import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.policyboss.policybosspro.motor.twowheeler.activity.BikeAddQuoteActivity;
@@ -145,7 +147,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.Ma
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashboardarrayEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
@@ -174,11 +176,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     ImageView ivProfile, ivCancel;
     LinearLayout lySwitchUser;
 
-    LoginResponseEntity loginResponseEntity;
+  //  LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     String versionNAme;
     PackageInfo pinfo;
     PrefManager prefManager;
+    LoginPrefManager loginPrefManager;
     int forceUpdate, checkfirstmsg_call, isContactFirstCall;
     //ConstantEntity constantEntity;
     AlertDialog mpsDialog;
@@ -313,9 +316,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
             db = new DBPersistanceController(this);
-            loginResponseEntity = db.getUserData();
+           // loginResponseEntity = db.getUserData();
             userConstantEntity = db.getUserConstantsData();
             prefManager = new PrefManager(this);
+
+            loginPrefManager = new LoginPrefManager(this);
 
             textViewList = new ArrayList<>();
 
@@ -345,30 +350,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //            new MasterController(this).getRTOMaster(this);
 //        }
 
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getPOSPNo() != null) {
-                    if (loginResponseEntity.getPOSPNo().equals("5")) {
+
+                if (Integer.parseInt(loginPrefManager.getSSID())!= 0) {
+                    if (Integer.parseInt(loginPrefManager.getSSID())==5) {
                         verifyPospNo();
                         return;
                     }
 
-                   CoroutineHelper.saveDeviceDetails(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
+                   CoroutineHelper.saveDeviceDetails(HomeActivity.this,loginPrefManager.getSSID(),"Active");
 
                 //  List<String>  data =   CoroutineHelper.getSynHorizonDetails(HomeActivity.this,loginResponseEntity.getPOSPNo());
                 }
 
 //            new MasterController(this).getInsuranceSubType(this);
 //            new MasterController(this).getInsurerList();
-            }
+
 
 
             //getEnablesyncprofileupdate
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getPOSPNo() != null) {
+
+                if (Integer.parseInt(loginPrefManager.getSSID())!= 0) {
 
                     showDialogMain();
 
-                    new DynamicController(this).getsyncDetailshorizon_java(loginResponseEntity.getPOSPNo(),this);
+                    new DynamicController(this).getsyncDetailshorizon_java(loginPrefManager.getSSID(),this);
 
                     //   String mydata =  CoroutineHelper.getsyncDetailshorizon(HomeActivity.this,loginResponseEntity.getPOSPNo(),"Active");
                     //   if ((userConstantEntity.getLoanselfphoto() == null) || (userConstantEntity.getLoanselfphoto().trim().equals(""))) {
@@ -377,7 +382,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //   }
 
                 }
-            }
+
 
 
             checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
@@ -761,7 +766,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                   //      startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://qa-www.policyboss.com").putExtra("NAME", "QAPolicyBoss").putExtra("TITLE", "PolicyBoss"));
 
-                        //    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://inv.policyboss.com/andr.html").putExtra("NAME", "QAPolicyBoss").putExtra("TITLE", "PolicyBoss"));
+                          startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "http://api.magicfinmart.com/TravelContest/lifeblazeblitz2.html?ss_id=13600&fba_id=56130&sub_fba_id=0&currentdate=20200325&ip_address=&app_version=policyboss-1.3.9.3&device_id=e73cb6c8dd4be83c&login_ssid=").putExtra("NAME", "QAPolicyBoss").putExtra("TITLE", "PolicyBoss"));
                                 break;
 
                         case R.id.nav_MYUtilities:
@@ -869,17 +874,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (userConstantEntity != null) {
                 if (userConstantEntity.getAndroidpromarketEnable() != null) {
 
-                    if (loginResponseEntity.getIsUidLogin().equals("Y")) {
+                    if (loginPrefManager.getEmpData().getUID().equals("0")) {
+                        if (!userConstantEntity.getAndroidpromarkefbaurl().equals("")) {
+
+                            openWebViewPopUp_marketing(txtFbaID, userConstantEntity.getAndroidpromarkefbaurl(), true, "");
+
+                        }
+
+                    } else {
+
                         if (!userConstantEntity.getAndroidpromarketuidurl().equals("")) {
 
 
                             openWebViewPopUp_marketing(txtFbaID, userConstantEntity.getAndroidpromarketuidurl(), true, "");
-
-                        }
-                    } else {
-                        if (!userConstantEntity.getAndroidpromarkefbaurl().equals("")) {
-
-                            openWebViewPopUp_marketing(txtFbaID, userConstantEntity.getAndroidpromarkefbaurl(), true, "");
 
                         }
                     }
@@ -1231,16 +1238,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         txtEntityName.setText("Ver." + versionNAme);
 
-        if (loginResponseEntity != null) {
+        if (loginPrefManager.getEmpData() != null) {
 
-            txtDetails.setText("" + loginResponseEntity.getFullName());
-            txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
-            txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
+            txtDetails.setText("" + loginPrefManager.getEmpData().getEmp_Name());
+            txtFbaID.setText("Fba Id - " + loginPrefManager.getFBAID());
+            txtReferalCode.setText("Referral Code - " + "getReferer_code()");
 
-            weUser.login(loginResponseEntity.getEmailID());
+            weUser.login(loginPrefManager.getEmpData().getEmail_Id());
             weUser.setOptIn(Channel.WHATSAPP, true);
 
-           if(loginResponseEntity.getIsUidLogin().equals("N"))
+           if(loginPrefManager.getEmpData().getUID().equals("0"))
            {
                weUser.setAttribute("Is Agent", true );
            }
@@ -1269,8 +1276,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 weUser.setLastName(fullname[1] );
                 weUser.setAttribute("POSP No.",userConstantEntity.getPOSPNo());
 
-                weUser.setPhoneNumber(loginResponseEntity.getMobiNumb1());
-                weUser.setEmail(loginResponseEntity.getEmailID());
+                weUser.setPhoneNumber(loginPrefManager.getEmpData().getMobile_Number());
+                weUser.setEmail(loginPrefManager.getEmpData().getEmail_Id());
 
               //  "EmailID":"live12@gmail.com","MobiNumb1":"9000111288","LiveURL":"1"
 
@@ -1426,7 +1433,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
             // step1: boolean verifyLogin = prefManager.getIsUserLogin();
             // region verifyUser : when user logout and when Apps in background
-            if (loginResponseEntity == null) {
+            if (loginPrefManager  == null) {
 
                 NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
                 if (notifyEntity == null) {
@@ -1619,7 +1626,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 return false;
                             } else {
                                 showDialogMain();
-                                new RegisterController(this).getUserCallingDetail(String.valueOf(loginResponseEntity.getFBAId()), this);
+                                new RegisterController(this).getUserCallingDetail(loginPrefManager.getFBAID(), this);
                             }
                         }
 
@@ -1669,11 +1676,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     prefManager.removeMps();
                     prefManager.setMPS(((MpsResponse) response).getMasterData());
-                    if (loginResponseEntity.getIsFirstLogin() == 1) {
                         DialogMPS();
-                    } else {
-                        DialogMPS();
-                    }
 
                 }
             }
@@ -1891,7 +1894,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private void shortcutAppMenu() {
 
         try {
-            if (loginResponseEntity != null && userConstantEntity != null) {
+            if (loginPrefManager.getEmpData() != null && userConstantEntity != null) {
 
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
 
@@ -2153,7 +2156,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             if (NetworkUtils.isNetworkAvailable(HomeActivity.this)) {
 
-                if (loginResponseEntity != null) {
+                if (loginPrefManager.getFBAID() != null) {
                     // new MasterController(this).getConstants(this);
                     new MasterController(this).geUserConstant(1, this);
                 }
@@ -2192,8 +2195,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } else if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
             if (data != null) {
                 //switchUserBinding();
-                db = new DBPersistanceController(this);
-                loginResponseEntity = db.getUserData();
+               // db = new DBPersistanceController(this);
+               // loginResponseEntity = db.getUserData();
                 // init_headers();
             }
 
@@ -3139,7 +3142,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
+                  //  startActivity(new Intent(HomeActivity.this, QuickLeadActivity.class));
                     // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                     MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 }
@@ -3149,7 +3152,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 @Override
                 public void onClick(View v) {
                     LoanDialog.dismiss();
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Cash Loan").putExtra("TITLE", "" + "Cash Loan"));
+                   // startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.rupeeboss.com/gopaysense?fbaid=" + String.valueOf(loginPrefManager.getFBAID()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Cash Loan").putExtra("TITLE", "" + "Cash Loan"));
                 }
             });
 
@@ -3175,7 +3178,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     LoanDialog.dismiss();
                     //    https://www.rupeeboss.com/rectifycredit?fbaid=37292&type=finmart&loan_id=38054
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Rectify Credit").putExtra("TITLE", "" + "Rectify Credit"));
+                  //  startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.rupeeboss.com/rectifycredit?fbaid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&type=finmart&loan_id=" + String.valueOf(loginResponseEntity.getLoanId())).putExtra("NAME", "" + "Rectify Credit").putExtra("TITLE", "" + "Rectify Credit"));
 
                 }
             });
@@ -3227,7 +3230,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MoreServiceDialog.dismiss();
 
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/" + new DBPersistanceController(HomeActivity.this).getUserData().getFBAId()).putExtra("NAME", "FIN-PEACE").putExtra("TITLE", "FIN-PEACE"));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/" + new DBPersistanceController(HomeActivity.this).getUserData_fbaid()).putExtra("NAME", "FIN-PEACE").putExtra("TITLE", "FIN-PEACE"));
                     //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                     MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
 
@@ -3471,7 +3474,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         dashboardShareEntity = dashboardMultiLangEntity;
         showDialogMain();
         //loginResponseEntity.getFBAId()
-        new RegisterController(this).getProductShareUrl(loginResponseEntity.getFBAId(), Integer.valueOf(loginResponseEntity.getPOSPNo()), dashboardMultiLangEntity.getProductId(), 0, this);
+        new RegisterController(this).getProductShareUrl(Integer.parseInt(loginPrefManager.getFBAID()), Integer.parseInt(loginPrefManager.getSSID()), dashboardMultiLangEntity.getProductId(), 0, this);
     }
 
     public void shareProductPopUp(DashboardMultiLangEntity shareEntity) {
@@ -3603,7 +3606,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             public void onClick(View v) {
 
                 verifyDialog.dismiss();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                Intent intent = new Intent(HomeActivity.this, LoginNewActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
@@ -3616,7 +3619,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             public void onClick(View v) {
 
                 verifyDialog.dismiss();
-                Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                Intent intent = new Intent(HomeActivity.this, LoginNewActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();

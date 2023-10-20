@@ -62,7 +62,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         dbPersistanceController = new DBPersistanceController(this);
-        loginEntity = dbPersistanceController.getUserData();
+      //  loginEntity = dbPersistanceController.getUserData();
 
         userConstantEntity = dbPersistanceController.getUserConstantsData();
 
@@ -70,7 +70,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
        // getNotificationData
         showDialog("Fetching Data...");
-        new RegisterController(NotificationActivity.this).getNotificationData(String.valueOf(loginEntity.getFBAId()), NotificationActivity.this);
+        new RegisterController(NotificationActivity.this).getNotificationData(dbPersistanceController.getUserData_fbaid(), NotificationActivity.this);
 
 
     }

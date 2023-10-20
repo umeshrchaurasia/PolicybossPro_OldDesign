@@ -300,10 +300,10 @@ public class RegisterController implements IRegister {
     @Override
     public void getPospDetails(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("FBAID", "" + dbPersistanceController.getUserData_fbaid());
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
 
         registerQuotesNetworkService.getPospDetails(body).enqueue(new Callback<PospDetailsResponse>() {
             @Override
@@ -377,8 +377,8 @@ public class RegisterController implements IRegister {
         body.put("IFSCCode", IfscCode);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
+        body.put("fbaid", "" + dbPersistanceController.getUserData_fbaid());
 
         registerQuotesNetworkService.getIfscCode(body).enqueue(new Callback<IfscCodeResponse>() {
             @Override
@@ -533,7 +533,7 @@ public class RegisterController implements IRegister {
         body.put("FBAID", FBAID);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
         registerQuotesNetworkService.getMyAcctDtl(body).enqueue(new Callback<MyAcctDtlResponse>() {
             @Override
             public void onResponse(Call<MyAcctDtlResponse> call, Response<MyAcctDtlResponse> response) {
@@ -572,7 +572,7 @@ public class RegisterController implements IRegister {
         body.put("FBAID", FBAID);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
 
 
 
@@ -615,8 +615,8 @@ public class RegisterController implements IRegister {
         body.put("UserNotificationRequestId", NotifyReqID);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
+        body.put("fbaid", "" + dbPersistanceController.getUserData_fbaid());
         registerQuotesNetworkService.recieveNotificationData(body).enqueue(new Callback<NotificationUpdateResponse>() {
             @Override
             public void onResponse(Call<NotificationUpdateResponse> call, Response<NotificationUpdateResponse> response) {
@@ -655,8 +655,8 @@ public class RegisterController implements IRegister {
         body.put("UserNotificationRequestId", NotifyReqID);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
+        body.put("fbaid", "" + dbPersistanceController.getUserData_fbaid());
         registerQuotesNetworkService.userClickActionOnNotification(body).enqueue(new Callback<NotificationUpdateResponse>() {
             @Override
             public void onResponse(Call<NotificationUpdateResponse> call, Response<NotificationUpdateResponse> response) {
@@ -726,10 +726,10 @@ public class RegisterController implements IRegister {
     public void getChildPosp(final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("FBAID", "" + dbPersistanceController.getUserData_fbaid());
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
 
         registerQuotesNetworkService.getChildPosp(body).enqueue(new Callback<ChildPospResponse>() {
             @Override
@@ -869,12 +869,12 @@ public class RegisterController implements IRegister {
 
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("FBAID", "" + dbPersistanceController.getUserData_fbaid());
         body.put("url", "" + URL);
         body.put("type", "" + Type);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
 
         registerQuotesNetworkService.getEmailTemplate(body).enqueue(new Callback<PospAppointEmailResponse>() {
             @Override
@@ -951,10 +951,10 @@ public class RegisterController implements IRegister {
     @Override
     public void sendSyncSms(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("fbaid", "" + dbPersistanceController.getUserData_fbaid());
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
 
         registerQuotesNetworkService.sendSyncSms(body).enqueue(new Callback<SendSyncSmsResponse>() {
             @Override
@@ -991,10 +991,10 @@ public class RegisterController implements IRegister {
     public void getUserCallingDetail(String fbaid, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("fbaid", "" + dbPersistanceController.getUserData_fbaid());
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
 
            registerQuotesNetworkService.getUserCallingDetail(body).enqueue(new Callback<UserCallingResponse>() {
             @Override
@@ -1152,7 +1152,7 @@ public class RegisterController implements IRegister {
         body.put("PospId", PospId);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("fbaid", "" + dbPersistanceController.getUserData_fbaid());
 
         registerQuotesNetworkService.hideFOSUser(body).enqueue(new Callback<UserHideResponse>() {
             @Override
@@ -1198,7 +1198,7 @@ public class RegisterController implements IRegister {
         body.put("PayId", PayId);
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
+        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
 
         registerQuotesNetworkService.addToRazorPay(body).enqueue(new Callback<RazorPayResponse>() {
             @Override

@@ -44,7 +44,7 @@ public class POSP_certicate_appointment extends BaseActivity implements View.OnC
         btnview = (Button) findViewById(R.id.btnview);
 
         dbPersistanceController = new DBPersistanceController(this);
-        loginEntity = dbPersistanceController.getUserData();
+   //     loginEntity = dbPersistanceController.getUserData();
 
 
         btnsendemail.setOnClickListener(this);

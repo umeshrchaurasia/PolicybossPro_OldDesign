@@ -23,7 +23,7 @@
             android:id="@+id/nav_QA"
             android:icon="@drawable/ic_business_name"
             android:orderInCategory="53"
-            android:visible="false"
+            android:visible="true"
             android:title="QA razorpay">
 
         </item>

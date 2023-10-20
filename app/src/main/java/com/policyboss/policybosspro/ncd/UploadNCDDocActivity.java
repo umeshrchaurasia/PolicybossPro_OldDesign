@@ -52,7 +52,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     private static final int SELECT_PICTURE = 1800;
     PrefManager prefManager;
     DBPersistanceController dbPersistanceController;
-    LoginResponseEntity loginEntity;
+  //  LoginResponseEntity loginEntity;
     NDCMasterEntity mNCDEntity;
     EditText etRefNum, etCustomerName;
     int type;
@@ -94,7 +94,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
-        loginEntity = dbPersistanceController.getUserData();
+     //   loginEntity = dbPersistanceController.getUserData();
         prefManager = new PrefManager(this);
 
         initWidgets();
@@ -195,7 +195,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                 requestEntity.setCampaignid("" + mNCDEntity.getId());
                 requestEntity.setGuid(mNCDEntity.getGuid());
 
-                requestEntity.setFbaid("" + loginEntity.getFBAId());
+                requestEntity.setFbaid("" + dbPersistanceController.getUserData_fbaid());
 
                 showDialog();
                 new DynamicController(this).uploadNCDDetails(requestEntity, this);
@@ -415,6 +415,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
                 if (grantResults.length > 0) {
@@ -426,7 +427,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                     boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
 
-                    if (camera && (writeExternal || minSdk29 ) && readExternal) {
+                    if (camera && (writeExternal || minSdk29) && readExternal) {
 
                         showCamerGalleryPopUp();
 

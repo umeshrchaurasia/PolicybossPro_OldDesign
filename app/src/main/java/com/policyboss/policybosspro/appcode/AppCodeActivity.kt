@@ -12,12 +12,12 @@ import com.policyboss.policybosspro.appcode.model.repository.AppCodeRepository
 import com.policyboss.policybosspro.appcode.model.viewmodel.AppCodeViewModel
 import com.policyboss.policybosspro.appcode.model.viewmodel.AppCodeViewModelFactory
 import com.policyboss.policybosspro.databinding.ActivityAppCodeBinding
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
 import com.policyboss.policybosspro.utility.UTILITY
 import com.webengage.sdk.android.WebEngage
 import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
 class AppCodeActivity : AppCompatActivity() {
@@ -25,9 +25,11 @@ class AppCodeActivity : AppCompatActivity() {
     lateinit var binding : ActivityAppCodeBinding
     lateinit var viewModel: AppCodeViewModel
 
-    lateinit var loginResponseEntity: LoginResponseEntity
+  //  lateinit var loginResponseEntity: LoginResponseEntity
 
     lateinit var prefManager: PrefManager
+ //   var loginPrefManager: LoginPrefManager? = null
+    lateinit var loginPrefManager: LoginPrefManager
 
     override fun onStart() {
         super.onStart()
@@ -44,11 +46,11 @@ class AppCodeActivity : AppCompatActivity() {
         init()
         setListner()
 
-        if (loginResponseEntity != null) {
-            if (loginResponseEntity.pospNo != null) {
+        if (loginPrefManager.getEmpData() != null) {
+            if (loginPrefManager.getSSID() != null) {
                 // calling API
-                viewModel.getAuthToken(ss_id =loginResponseEntity.pospNo , deviceID = UTILITY.getDeviceID(this@AppCodeActivity)
-                    ,app_version=prefManager.appVersion,fbaid=loginResponseEntity.fbaId.toString())
+                viewModel.getAuthToken(ss_id =loginPrefManager.getSSID() , deviceID = UTILITY.getDeviceID(this@AppCodeActivity)
+                    ,app_version=prefManager.appVersion,fbaid=loginPrefManager.getFBAID())
             }
         }
 
@@ -73,7 +75,7 @@ class AppCodeActivity : AppCompatActivity() {
 
 
         binding.txtOauthData.text = ""
-        loginResponseEntity = DBPersistanceController(this).getUserData()
+       //  loginResponseEntity = DBPersistanceController(this).getUserData()
 
     }
 
@@ -101,6 +103,7 @@ class AppCodeActivity : AppCompatActivity() {
                     when(it){
 
                         is APIState.Loading ->{
+
 
                             showAnimDialog()
                         }

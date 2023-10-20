@@ -166,7 +166,7 @@ public class MyApplication extends Application {
         DBPersistanceController dbPersistanceController = new DBPersistanceController(this);
 
         if (dbPersistanceController.getUserData() != null) {
-            FBA_ID = dbPersistanceController.getUserData().getFBAId();
+            FBA_ID =  Integer.parseInt(dbPersistanceController.getUserData_fbaid());
         }
 
 
