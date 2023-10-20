@@ -78,6 +78,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -140,6 +141,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
    String URL = "";
     int count = 0;
     PrefManager prefManager;
+    LoginPrefManager loginPrefManager;
     PospDetailsEntity pospDetailsEntity;
     DBPersistanceController dbPersistanceController;
     PospEnrollEntity pospEnrollEntity;
@@ -198,11 +200,13 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
       //  loginResponseEntity = dbPersistanceController.getUserData();
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginResponseEntity.getFBAId());
-        if (loginResponseEntity.getCustID() != null && !loginResponseEntity.getCustID().equals("")) {
-            registerRequestEntity.setCustID(Integer.parseInt(loginResponseEntity.getCustID()));
-        }
+      //  if (loginResponseEntity.getCustID() != null && !loginResponseEntity.getCustID().equals("")) {
+            registerRequestEntity.setCustID(0);  // customer ID by default SEt Zero 0.
+      //  }
 
         prefManager = new PrefManager(this);
+        loginPrefManager = new LoginPrefManager(this);
+
         showDialog = new Dialog(PospEnrollment.this,R.style.Dialog);
 	    DeviceID = prefManager.getDeviceID();
         AppVersion = prefManager.getAppVersion();
@@ -686,10 +690,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         ivDocumentUpload.performClick();
 
         if (isPospInfo && isAddress && isBankDetails) {
-            registerRequestEntity.setFBAID(Integer.parseInt(dbPersistanceController.getUserData_fbaid()));
+            registerRequestEntity.setFBAID(Integer.parseInt(loginPrefManager.getFBAID()));
 			registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
             registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
-            registerRequestEntity.setSsid("" + dbPersistanceController.getUserData_ssid());
+            registerRequestEntity.setSsid("" + loginPrefManager.getSSID());
 
             if(!bankeventcheck) {
                 trackPospSubmitEvent();

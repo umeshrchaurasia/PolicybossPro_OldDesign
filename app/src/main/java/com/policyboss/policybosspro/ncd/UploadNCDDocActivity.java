@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -51,6 +52,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
     PrefManager prefManager;
+    LoginPrefManager loginPrefManager;
     DBPersistanceController dbPersistanceController;
   //  LoginResponseEntity loginEntity;
     NDCMasterEntity mNCDEntity;
@@ -97,6 +99,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
         loginResponseEntity = dbPersistanceController.getUserData();
      //   loginEntity = dbPersistanceController.getUserData();
         prefManager = new PrefManager(this);
+        loginPrefManager = new LoginPrefManager(this);
 
         initWidgets();
         setListener();
@@ -196,7 +199,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
                 requestEntity.setCampaignid("" + mNCDEntity.getId());
                 requestEntity.setGuid(mNCDEntity.getGuid());
 
-                requestEntity.setFbaid("" + dbPersistanceController.getUserData_fbaid());
+                requestEntity.setFbaid("" + loginPrefManager.getFBAID());
 
                 showDialog();
                 new DynamicController(this).uploadNCDDetails(requestEntity, this);

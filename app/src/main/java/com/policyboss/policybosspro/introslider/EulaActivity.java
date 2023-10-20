@@ -12,6 +12,7 @@ import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.analytics.WebEngageAnalytics;
 import com.policyboss.policybosspro.login.LoginActivity;
+import com.policyboss.policybosspro.login.LoginNewActivity;
 import com.policyboss.policybosspro.webviews.MyWebViewClient;
 import com.webengage.sdk.android.Analytics;
 import com.webengage.sdk.android.WebEngage;
@@ -74,7 +75,7 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
 
 
                 prefManager.setFirstTimeLaunch(false);
-                startActivity(new Intent(this, LoginActivity.class));
+                startActivity(new Intent(this, LoginNewActivity.class));
                 trackEvent("I Agree");
                 break;
             case R.id.btnDisAgree:

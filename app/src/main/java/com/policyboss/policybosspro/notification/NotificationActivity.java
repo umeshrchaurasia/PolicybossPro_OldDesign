@@ -22,6 +22,7 @@ import com.webengage.sdk.android.WebEngage;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -42,6 +43,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     UserConstantEntity userConstantEntity;
     LoginResponseEntity loginEntity;
     PrefManager prefManager;
+    LoginPrefManager loginPrefManager;
 
     @Override
     protected void onStart() {
@@ -70,7 +72,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
        // getNotificationData
         showDialog("Fetching Data...");
-        new RegisterController(NotificationActivity.this).getNotificationData(dbPersistanceController.getUserData_fbaid(), NotificationActivity.this);
+        new RegisterController(NotificationActivity.this).getNotificationData(loginPrefManager.getFBAID(), NotificationActivity.this);
 
 
     }
@@ -78,6 +80,8 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     private void initialize() {
 
         prefManager = new PrefManager(NotificationActivity.this);
+        loginPrefManager = new LoginPrefManager(NotificationActivity.this);
+
         NotificationLst = new ArrayList<NotificationEntity>();
 
         prefManager.setNotificationCounter(0);

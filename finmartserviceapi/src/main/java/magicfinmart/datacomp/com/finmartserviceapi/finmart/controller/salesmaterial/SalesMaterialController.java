@@ -7,6 +7,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -29,11 +30,13 @@ public class SalesMaterialController implements ISalesMaterial {
     DBPersistanceController dbPersistanceController;
     PrefManager prefManager;
 
+    LoginPrefManager loginPrefManager;
     public SalesMaterialController(Context context) {
         salesMaterialNetworkService = new SalesMaterialRequestBuilder().getService();
         mContext = context;
         dbPersistanceController = new DBPersistanceController(mContext);
         prefManager = new PrefManager(mContext);
+        loginPrefManager  = new LoginPrefManager(mContext);
     }
 
 
@@ -42,8 +45,8 @@ public class SalesMaterialController implements ISalesMaterial {
         HashMap<String, String> body = new HashMap<>();
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData_ssid());
-        body.put("fbaid", "" + dbPersistanceController.getUserData_fbaid());
+        body.put("ssid", "" +  loginPrefManager.getSSID());
+        body.put("fbaid", "" +  loginPrefManager.getFBAID());
         salesMaterialNetworkService.getSalesProducts(body).enqueue(new Callback<SalesMaterialProductResponse>() {
             @Override
             public void onResponse(Call<SalesMaterialProductResponse> call, Response<SalesMaterialProductResponse> response) {

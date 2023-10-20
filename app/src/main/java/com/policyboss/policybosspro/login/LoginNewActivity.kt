@@ -42,7 +42,7 @@ class LoginNewActivity : AppCompatActivity() {
 
         binding.includeLogin.btnSignIn.setOnClickListener {
 
-            loginViewModel.getLoginDetailHorizon(ss_id="124970")
+            loginViewModel.getLoginDetailHorizon("124970") //ss_id="124970"
         }
     }
 

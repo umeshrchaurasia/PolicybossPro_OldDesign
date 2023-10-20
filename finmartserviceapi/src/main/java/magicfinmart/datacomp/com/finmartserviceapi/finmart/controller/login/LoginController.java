@@ -160,7 +160,7 @@ public class LoginController implements ILogin {
     @Override
     public void changePassword(String oldPass, String newPass, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
-        body.put("FBAID", String.valueOf(new DBPersistanceController(mContext).getUserData_fbaid()));
+        body.put("FBAID",  "");// String.valueOf(new DBPersistanceController(mContext).getUserData_fbaid()));
         body.put("Old_Password", oldPass);
         body.put("New_Password", newPass);
         body.put("app_version", prefManager.getAppVersion());

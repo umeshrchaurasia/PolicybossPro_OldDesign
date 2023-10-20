@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -53,8 +54,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntit
 public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     Fragment mContext;
     List<DashboardMultiLangEntity> listInsur;
-    DBPersistanceController dbPersistanceController;
-
+   DBPersistanceController dbPersistanceController;
+    LoginPrefManager loginPrefManager;
     int fbaId = 0;
     String LangType;
     String loanurl = "";
@@ -64,9 +65,11 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
         listInsur = list;
         LangType = langType;
         dbPersistanceController = new DBPersistanceController(mContext.getActivity());
+        loginPrefManager = new LoginPrefManager(mContext.getActivity());
 
-        if (Integer.parseInt(dbPersistanceController.getUserData_fbaid()) != 0) {
-            fbaId = Integer.parseInt(dbPersistanceController.getUserData_fbaid());
+
+        if (Integer.parseInt(loginPrefManager.getFBAID()) != 0) {
+            fbaId = Integer.parseInt(loginPrefManager.getFBAID());
         }
     }
 

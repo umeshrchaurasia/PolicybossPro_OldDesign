@@ -3230,7 +3230,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 public void onClick(View v) {
                     MoreServiceDialog.dismiss();
 
-                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/" + new DBPersistanceController(HomeActivity.this).getUserData_fbaid()).putExtra("NAME", "FIN-PEACE").putExtra("TITLE", "FIN-PEACE"));
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/" + loginPrefManager.getFBAID() ).putExtra("NAME", "FIN-PEACE").putExtra("TITLE", "FIN-PEACE"));
                     //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                     MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
 
