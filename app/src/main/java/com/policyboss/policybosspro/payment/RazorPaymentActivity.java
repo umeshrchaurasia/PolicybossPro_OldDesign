@@ -9,7 +9,7 @@ import com.policyboss.policybosspro.posp.PospEnrollment;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -278,7 +278,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
     public void useretailPopUp(PaymentDetailEntity paymentDetailEntity) {
 
 
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(RazorPaymentActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(RazorPaymentActivity.this);
         TextView txtTitle, txtMessage;
         Button btnShare;
         ImageView ivCross;
@@ -287,7 +287,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
         final View dialogView = inflater.inflate(R.layout.layout_share_popup, null);
 
         builder.setView(dialogView);
-        androidx.appcompat.app.AlertDialog shareProdDialog = builder.create();
+        AlertDialog shareProdDialog = builder.create();
         // set the custom dialog components - text, image and button
         txtTitle = (TextView) dialogView.findViewById(R.id.txtTitle);
         txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);

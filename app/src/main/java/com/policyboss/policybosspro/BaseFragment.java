@@ -1,5 +1,6 @@
 package com.policyboss.policybosspro;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -527,7 +528,7 @@ public class BaseFragment extends Fragment {
     }
     public void showAlert(String strBody) {
         try {
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Finmart");
 
             builder.setMessage(strBody);
@@ -540,7 +541,7 @@ public class BaseFragment extends Fragment {
 
                         }
                     });
-            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();

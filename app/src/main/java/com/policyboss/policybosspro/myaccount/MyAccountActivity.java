@@ -31,7 +31,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.AlertDialog;
+import android.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
@@ -156,7 +156,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.READ_MEDIA_IMAGES"
 
     };
 
@@ -232,12 +233,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (result) {
                 // binding.imgProfile.setImageURI(imageUri);
 
-                Intent intent = new Intent(MyAccountActivity.this.getApplicationContext(),UcropperActivity.class);
+                if(imageUri != null){
 
-                intent.putExtra("SendImageData",imageUri.toString());
+                    Intent intent = new Intent(MyAccountActivity.this.getApplicationContext(),UcropperActivity.class);
+
+                    intent.putExtra("SendImageData",imageUri.toString());
 
 
-                startActivityForResult(intent, CAMERA_REQUEST);
+                    startActivityForResult(intent, CAMERA_REQUEST);
+                }
+
+
+
+
             } else {
                 // Handle failure or cancellation
             }
@@ -2107,7 +2115,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
-          if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        int READ_MEDIA_IMAGE = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_MEDIA_IMAGE == PackageManager.PERMISSION_GRANTED;
+
+        }
+          else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
               return camera == PackageManager.PERMISSION_GRANTED
 
                       && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;

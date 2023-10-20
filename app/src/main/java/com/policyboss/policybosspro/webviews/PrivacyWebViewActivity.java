@@ -1,6 +1,6 @@
 package com.policyboss.policybosspro.webviews;
 
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.ActivityNotFoundException;

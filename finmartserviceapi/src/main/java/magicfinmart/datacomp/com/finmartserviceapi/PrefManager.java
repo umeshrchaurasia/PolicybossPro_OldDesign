@@ -14,6 +14,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 
 public class PrefManager {
+
+
+    private static PrefManager instance;
     public SharedPreferences pref;
     public SharedPreferences.Editor editor;
     Context _context;
@@ -80,6 +83,13 @@ public class PrefManager {
         editor = pref.edit();
     }
 
+
+    public static synchronized PrefManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new PrefManager(context.getApplicationContext());
+        }
+        return instance;
+    }
     public void setLanguage(String language) {
 
         editor.putString(IS_LANGUAGE, language);

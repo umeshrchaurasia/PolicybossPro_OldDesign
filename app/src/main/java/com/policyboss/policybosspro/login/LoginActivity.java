@@ -20,7 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+import android.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -84,7 +84,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.READ_CONTACTS",
-            "android.permission.READ_CALL_LOG"
+            "android.permission.READ_CALL_LOG",
+            "android.permission.POST_NOTIFICATIONS",
+            "android.permission.READ_MEDIA_IMAGES"
     };
 
     @Override
@@ -138,10 +140,22 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
         int READ_CONTACTS = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
         int READ_CALL_LOG = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[4]);
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        int POST_NOTIFICATION = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[5]);
+        int READ_MEDIA_IMAGE = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[6]);
+
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             return camera == PackageManager.PERMISSION_GRANTED
 
-                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+                    && READ_MEDIA_IMAGE == PackageManager.PERMISSION_GRANTED
+                    && POST_NOTIFICATION == PackageManager.PERMISSION_GRANTED;
+
+        }
+
+       else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                    && POST_NOTIFICATION == PackageManager.PERMISSION_GRANTED;
         }else{
             return camera == PackageManager.PERMISSION_GRANTED
                     &&  WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
@@ -149,6 +163,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     && READ_CONTACTS == PackageManager.PERMISSION_GRANTED
                     && READ_CALL_LOG == PackageManager.PERMISSION_GRANTED;
         }
+
 
 
     }
@@ -177,11 +192,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[2]);
         boolean read_contacts = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[3]);
         boolean read_call_log = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[4]);
+        boolean read_media_image = ActivityCompat.shouldShowRequestPermissionRationale(LoginActivity.this, perms[6]);
 
         // boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            return  camera ||  read_media_image || read_contacts || read_call_log ;
+        }
 
-
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             return  camera ||  read_external || read_contacts || read_call_log ;
         }else{
             return  camera ||write_external   || read_external  || read_contacts || read_call_log;
@@ -432,7 +450,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     public void showPospAlert(String strBody) {
         try {
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(LoginActivity.this,R.style.AlertDialog_Theme);
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this,R.style.AlertDialog_Theme);
             builder.setTitle("PolicyBossPro");
 
             builder.setMessage(strBody);
@@ -445,7 +463,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                         }
                     });
-            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();

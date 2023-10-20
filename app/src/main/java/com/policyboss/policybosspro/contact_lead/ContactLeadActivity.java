@@ -1,5 +1,6 @@
 package com.policyboss.policybosspro.contact_lead;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
@@ -96,7 +97,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
         try {
 
             String[] parts = strBody.split(":-");
-            androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("PolicyBossPro");
 
             builder.setMessage(strBody);
@@ -117,7 +118,7 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
                             Toast.makeText(getApplicationContext(),"URL is Copied to Clipboard", Toast.LENGTH_SHORT).show();
                         }
                     });
-            final androidx.appcompat.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -299,9 +300,9 @@ public class ContactLeadActivity extends BaseActivity implements View.OnClickLis
                 try {
                     int i = 1;
                     while (phones.moveToNext()) {
-                        name = "" + phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        mobileNumber = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        uri = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                    //    name = "" + phones.getString(phones.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                     //   mobileNumber = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    //    uri = "" + phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
                         ContactlistEntity contactEntity = new ContactlistEntity();
                         contactEntity.setName(name);
                         contactEntity.setMobileno(mobileNumber);

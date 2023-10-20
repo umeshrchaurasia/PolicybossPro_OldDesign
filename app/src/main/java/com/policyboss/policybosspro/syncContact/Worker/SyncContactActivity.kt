@@ -13,7 +13,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
+import android.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.work.*
 import com.bumptech.glide.Glide
@@ -210,14 +210,21 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
         val ContactWorkRequest: OneTimeWorkRequest =
             OneTimeWorkRequest.Builder(ContactLogWorkManager::class.java)
-                .addTag(Constant.TAG_SAVING_CALL_LOG)
+                .addTag(Constant.TAG_SAVING_CONTACT_LOG)
                 .setInputData(data)
                 .build()
 
+
+//        val contactPhotRequest: OneTimeWorkRequest =
+//            OneTimeWorkRequest.Builder(ContactPhotoWorkManager::class.java)
+//                .addTag(Constant.TAG_SAVING_CONTACT_PHOTO_LOG)
+//                .setInputData(data)
+//                .build()
         // Todo : For Chain (Parallel Chaining)
         val parallelWorks: MutableList<OneTimeWorkRequest> = mutableListOf<OneTimeWorkRequest>()
         parallelWorks.add(ContactWorkRequest)
         parallelWorks.add(callLogWorkRequest)
+//        parallelWorks.add(contactPhotRequest)
         workManager.beginWith(parallelWorks)
             .enqueue()
 

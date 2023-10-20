@@ -1,11 +1,13 @@
 package com.policyboss.policybosspro.webviews;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -132,7 +134,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.READ_MEDIA_IMAGES"
 
     };
     //endregion
@@ -153,7 +156,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     private String DocCommonID = "", DocCommonCrn = "", DocCommonType = "", Docinsurer_id = "";
 
 
-    androidx.appcompat.app.AlertDialog alertDialog;
+    AlertDialog alertDialog;
     //endregion
 
     Dialog showDialog ;
@@ -260,12 +263,15 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             if (result) {
                 // binding.imgProfile.setImageURI(imageUri);
 
-                Intent intent = new Intent(CommonWebViewActivity.this.getApplicationContext(),UcropperActivity.class);
+                if(imageUri != null){
+                    Intent intent = new Intent(CommonWebViewActivity.this.getApplicationContext(),UcropperActivity.class);
 
-                intent.putExtra("SendImageData",imageUri.toString());
+                    intent.putExtra("SendImageData",imageUri.toString());
 
 
-                startActivityForResult(intent, CAMERA_REQUEST);
+                    startActivityForResult(intent, CAMERA_REQUEST);
+                }
+
             } else {
                 // Handle failure or cancellation
             }
@@ -502,8 +508,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         @JavascriptInterface
         public void Upload_document(String crn, String document_id, String document_type , String insurer_id ) {
 
-            galleryCamPopUp_Common(crn,document_id,document_type,insurer_id);
-
+           galleryCamPopUp_Common(crn,document_id,document_type,insurer_id);
+         //   showAlertDialog();
         }
 
         //download
@@ -831,8 +837,15 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        int READ_MEDIA_IMAGE = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
 
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_MEDIA_IMAGE == PackageManager.PERMISSION_GRANTED;
+
+        }
+        else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             return camera == PackageManager.PERMISSION_GRANTED
 
                     && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
@@ -900,7 +913,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
             return;
         }
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomDialog);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery, lyPdf;
         LayoutInflater inflater = this.getLayoutInflater();

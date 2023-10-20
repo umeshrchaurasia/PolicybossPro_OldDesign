@@ -1173,7 +1173,7 @@ public class DBPersistanceController {
 
     public void clearSwitchUser() {
         realm.beginTransaction();
-     //   realm.delete(LoginResponseEntity.class);
+        realm.delete(LoginResponseEntity.class);
         realm.delete(AccountDtlEntity.class);
         realm.delete(DocsEntity.class);
         realm.delete(UserConstantEntity.class);
@@ -1182,8 +1182,6 @@ public class DBPersistanceController {
 
 
     public LoginResponseEntity getUserData() {
-
-          loginPrefManager.getSSID();
         LoginResponseEntity entity = realm.where(LoginResponseEntity.class).findFirst();
 
         if (entity != null) {
@@ -1192,16 +1190,8 @@ public class DBPersistanceController {
         } else
             return null;
     }
-    public String getUserData_ssid() {
 
-        return loginPrefManager.getSSID();
 
-    }
-    public String getUserData_fbaid() {
-
-        return loginPrefManager.getFBAID();
-
-    }
     //endregion
 
     //region myAccount data

@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import android.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 
 import android.text.Editable;

@@ -785,8 +785,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         weUser.setPhoneNumber("" + etMobile1.getText().toString());
 
-        weUser.setBirthDate("" + getDateFromweb(etDob.getText().toString()));
-
+        if(etDob.getText().toString().isEmpty())
+        {
+            weUser.setBirthDate("");
+        }else {
+            weUser.setBirthDate("" + getDateFromweb(etDob.getText().toString()));
+        }
         if(spSource.getSelectedItem() != null){
             weUser.setAttribute("Source",spSource.getSelectedItem().toString());
         }else{
@@ -822,8 +826,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         weUser.setPhoneNumber("" + etMobile1.getText().toString());
 
-        weUser.setBirthDate("" + getDateFromweb(etDob.getText().toString()));
-
+        if(etDob.getText().toString().isEmpty())
+        {
+            weUser.setBirthDate("");
+        }else {
+            weUser.setBirthDate("" + getDateFromweb(etDob.getText().toString()));
+        }
         if(spSource.getSelectedItem() != null){
             weUser.setAttribute("Source",spSource.getSelectedItem().toString());
         }else{
@@ -1103,7 +1111,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onClick(View v) {
                     // Close dialog
-                    if (etOtp.getText().toString().equals("0000")) {
+                    if (etOtp.getText().toString().equals("7799")) {
                         setUserInfoToWebEngAnalytic();
                         trackEvent_otp("");
                         Toast.makeText(RegisterActivity.this, "Otp Verified Success", Toast.LENGTH_SHORT).show();

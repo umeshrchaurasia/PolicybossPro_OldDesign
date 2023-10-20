@@ -22,6 +22,7 @@ object Constant {
 
     const val   TAG_SAVING_CALL_LOG = "SAVING_CALL_LOG"
     const val   TAG_SAVING_CONTACT_LOG = "SAVING_CONTACT_LOG"
+    const val   TAG_SAVING_CONTACT_PHOTO_LOG = "SAVING_CONTACT_PHOTO_LOG"
 
     const val CALL_LOG_Progress = "CALL_LOGProgress"
     const val CALL_LOG_MAXProgress = "CALL_LOGMAXProgress"

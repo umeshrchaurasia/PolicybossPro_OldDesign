@@ -14,7 +14,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AlertDialog;
+import android.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,7 +80,8 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
-            "android.permission.READ_EXTERNAL_STORAGE"
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.READ_MEDIA_IMAGES"
 
     };
 
@@ -378,8 +379,15 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
         int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+        int READ_MEDIA_IMAGE = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[3]);
 
-        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+        if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            return camera == PackageManager.PERMISSION_GRANTED
+
+                    && READ_MEDIA_IMAGE == PackageManager.PERMISSION_GRANTED;
+
+        }
+        else if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             return camera == PackageManager.PERMISSION_GRANTED
 
                     && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;

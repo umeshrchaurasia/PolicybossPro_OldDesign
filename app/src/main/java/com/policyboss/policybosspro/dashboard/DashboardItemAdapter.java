@@ -272,28 +272,64 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
     private void switchMenus(DashboardMultiLangEntity dashboardEntity) {
-        int productID = dashboardEntity.getProductId();
+        try{
+         if(dashboardEntity != null) {
 
-        //Toast.makeText(mContext.getActivity(),"Produvt ID" + productID,Toast.LENGTH_LONG).show();
-        //fetching parent ss_id in case of switch user
-        Map<String, String> map = ((HomeActivity) mContext.getActivity()).loadMap();
-        String parent_ssid = "";
+            int productID = dashboardEntity.getProductId();
 
-        if (map.size() > 0) {
-            parent_ssid = map.get("Parent_POSPNo");
-        }
+            //Toast.makeText(mContext.getActivity(),"Produvt ID" + productID,Toast.LENGTH_LONG).show();
+            //fetching parent ss_id in case of switch user
+            Map<String, String> map = ((HomeActivity) mContext.getActivity()).loadMap();
+            String parent_ssid = "";
 
-        String ipaddress = "0.0.0.0";
-        switch (productID) {
+            if (map.size() > 0) {
+                parent_ssid = map.get("Parent_POSPNo");
+            }
 
-            case 1:
+            String ipaddress = "0.0.0.0";
+            switch (productID) {
 
-                //car
-                if (dbPersistanceController.getUserConstantsData().getFourWheelerEnabled().equalsIgnoreCase("1")) {
-                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
-                } else {
+                case 1:
 
-                    String motorUrl = dbPersistanceController.getUserConstantsData().getFourWheelerUrl();
+                    //car
+                    if (dbPersistanceController.getUserConstantsData().getFourWheelerEnabled().equalsIgnoreCase("1")) {
+                        mContext.getActivity().startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
+                    } else {
+
+                        String motorUrl = dbPersistanceController.getUserConstantsData().getFourWheelerUrl();
+
+                        try {
+                            ipaddress = "";
+                        } catch (Exception io) {
+                            ipaddress = "0.0.0.0";
+                        }
+
+
+                        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                        String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
+                                + "&product_id=1&login_ssid=" + parent_ssid;
+                        motorUrl = motorUrl + append;
+
+                        mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                .putExtra("URL", motorUrl)
+                                .putExtra("dashBoardtype", "INSURANCE")
+                                .putExtra("NAME", "Motor Insurance")
+                                .putExtra("TITLE", "Motor Insurance"));
+
+                    }
+
+                    //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
+                    //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
+                    trackMainMenuEvent("Motor Insurance");
+                    MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
+                    break;
+                case 23:
+
+                    // KOTAK
+                    String kotakUrl = dbPersistanceController.getUserConstantsData().getEliteKotakUrl();
+
 
                     try {
                         ipaddress = "";
@@ -303,121 +339,86 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
 
                     //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                    String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    String appendInKotak = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
                             + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                            + "&product_id=1&login_ssid=" + parent_ssid;
-                    motorUrl = motorUrl + append;
+                            + "&product_id=23&login_ssid=" + parent_ssid;
+                    kotakUrl = kotakUrl + appendInKotak;
 
                     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                            .putExtra("URL", motorUrl)
+                            .putExtra("URL", kotakUrl)
                             .putExtra("dashBoardtype", "INSURANCE")
-                            .putExtra("NAME", "Motor Insurance")
-                            .putExtra("TITLE", "Motor Insurance"));
+                            .putExtra("NAME", "Kotak Group health Care")
+                            .putExtra("TITLE", "Kotak Group health Care"));
 
-                }
+                    break;
 
-                //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
-                trackMainMenuEvent("Motor Insurance");
-                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
-                break;
-            case 23:
-
-                // KOTAK
-                String kotakUrl =  dbPersistanceController.getUserConstantsData().getEliteKotakUrl();
-
-
-                try {
-                    ipaddress = "";
-                } catch (Exception io) {
-                    ipaddress = "0.0.0.0";
-                }
-
-
-                //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                String appendInKotak = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                        + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                        + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                        + "&product_id=23&login_ssid=" + parent_ssid;
-                kotakUrl = kotakUrl + appendInKotak ;
-
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", kotakUrl)
-                        .putExtra("dashBoardtype", "INSURANCE")
-                        .putExtra("NAME", "Kotak Group health Care" )
-                        .putExtra("TITLE", "Kotak Group health Care" ));
-
-                break;
-
-            case 24:
-                //fin peace
+                case 24:
+                    //fin peace
 //                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
 //                        .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/"
 //                                + dbPersistanceController.getUserData().getFBAId())
 //                        .putExtra("NAME", "FIN-PEACE")
 //                        .putExtra("TITLE", "FIN-PEACE"));
 //              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
-             //   MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
-                break;
-            case 2:
-                //health
-                try {
+                    //   MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
+                    break;
+                case 2:
+                    //health
+                    try {
 
-                    // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+                        // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
 
 
 //                if (dbPersistanceController.getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
 //                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), HealthQuoteAppActivity.class));
 //                }
 //                else
-                    {
+                        {
 
-                        String healthUrl = dbPersistanceController.getUserConstantsData().getHealthurl();
-                        //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+                            String healthUrl = dbPersistanceController.getUserConstantsData().getHealthurl();
+                            //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
 
 
-                        try {
-                            ipaddress = "";
-                        } catch (Exception io) {
-                            ipaddress = "0.0.0.0";
-                        }
+                            try {
+                                ipaddress = "";
+                            } catch (Exception io) {
+                                ipaddress = "0.0.0.0";
+                            }
 
-                        String append = "&ip_address=" + ipaddress
-                                + "&app_version=policyboss-" + Utility.getVersionName(mContext.getActivity())
-                                + "&device_id=" + Utility.getDeviceId(mContext.getActivity()) + "&login_ssid=" + parent_ssid;
-                        ;
-                        healthUrl = healthUrl + append;
+                            String append = "&ip_address=" + ipaddress
+                                    + "&app_version=policyboss-" + Utility.getVersionName(mContext.getActivity())
+                                    + "&device_id=" + Utility.getDeviceId(mContext.getActivity()) + "&login_ssid=" + parent_ssid;
+                            ;
+                            healthUrl = healthUrl + append;
 
 //                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
 //                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().equalsIgnoreCase("1")) {
 //                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), healthUrl);
 //                    } else
 
-                        {
+                            {
 
 
-                            mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                                    .putExtra("URL", healthUrl)
-                                    .putExtra("dashBoardtype", "INSURANCE")
-                                    .putExtra("NAME", "Health Insurance")
-                                    .putExtra("TITLE", "Health Insurance"));
+                                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                        .putExtra("URL", healthUrl)
+                                        .putExtra("dashBoardtype", "INSURANCE")
+                                        .putExtra("NAME", "Health Insurance")
+                                        .putExtra("TITLE", "Health Insurance"));
+                            }
                         }
+                    } catch (Exception ex) {
+
                     }
-                }
-                catch (Exception ex)
-                {
-
-                }
 
 
-                //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
-                trackMainMenuEvent("Health Insurance");
-                MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
-                break;
-            case 7:
-                //home loan
-                //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewHomeApplicaionActivity.class));
+                    //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
+                    trackMainMenuEvent("Health Insurance");
+                    MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
+                    break;
+                case 7:
+                    //home loan
+                    //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewHomeApplicaionActivity.class));
 //
 //                loanurl = "https://www.rupeeboss.com/finmart-home-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 //
@@ -428,9 +429,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //
 //                //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
 //                MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
-                break;
-            case 19:
-                //personal loan
+                    break;
+                case 19:
+                    //personal loan
 //                // mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewPersonalApplicaionActivity.class));
 //                loanurl = "https://www.rupeeboss.com/finmart-personal-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 //
@@ -441,10 +442,10 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //
 //              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
 //                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
-                break;
-            case 8:
-                //lap
-                //   mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewLAPApplicaionActivity.class));
+                    break;
+                case 8:
+                    //lap
+                    //   mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewLAPApplicaionActivity.class));
 //
 //                loanurl = "https://www.rupeeboss.com/finmart-property-loan?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 //
@@ -454,11 +455,11 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                        .putExtra("TITLE", "LAP"));
 //             //   new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
 //                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
-                break;
-            case 4:
-                //cc
-                // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
-                //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AppliedCreditListActivity.class));
+                    break;
+                case 4:
+                    //cc
+                    // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
+                    //  mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AppliedCreditListActivity.class));
 //
 //                loanurl = "https://www.rupeeboss.com/finmart-credit-card-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 //
@@ -466,13 +467,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                        .putExtra("URL", loanurl)
 //                        .putExtra("NAME", "CREDIT CARD")
 //                        .putExtra("TITLE", "CREDIT CARD"));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
-                MyApplication.getInstance().trackEvent(Constants.CREDIT_CARD, "Clicked", "Credit Card tab on home page");
-                break;
-            case 6:
-                //BT
-                //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
-                //     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewbusinessApplicaionActivity.class));
+                    //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
+                    MyApplication.getInstance().trackEvent(Constants.CREDIT_CARD, "Clicked", "Credit Card tab on home page");
+                    break;
+                case 6:
+                    //BT
+                    //  mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
+                    //     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NewbusinessApplicaionActivity.class));
 
 //                loanurl = "https://www.rupeeboss.com/finmart-business-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 //
@@ -482,11 +483,10 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                        .putExtra("TITLE", "BUSINESS LOAN"));
 //               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
 //                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
-                break;
+                    break;
 
 
-
-            case 81:
+                case 81:
 
 //                loanurl = "https://www.rupeeboss.com/car-loan-new?BrokerId=" + dbPersistanceController.getUserData().getLoanId() + "&client_source=finmart";
 //
@@ -496,24 +496,66 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                        .putExtra("TITLE", "CAR LOAN TOP UP"));
 //              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("CAR LOAN TOP UP"), Constants.CAR_TOP_LOAN), null);
 //                MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
-                break;
+                    break;
 
 
-            case 9:
+                case 9:
 
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), QuickLeadActivity.class));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
-                MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
-                break;
+                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), QuickLeadActivity.class));
+                    //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                    MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
+                    break;
 
-            case 10:
-                //bike
+                case 10:
+                    //bike
 
-                if (dbPersistanceController.getUserConstantsData().getTwoWheelerEnabled().equalsIgnoreCase("1")) {
-                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), TwoWheelerQuoteAppActivity.class));
-                } else {
+                    if (dbPersistanceController.getUserConstantsData().getTwoWheelerEnabled().equalsIgnoreCase("1")) {
+                        mContext.getActivity().startActivity(new Intent(mContext.getActivity(), TwoWheelerQuoteAppActivity.class));
+                    } else {
 
-                    String motorUrl = dbPersistanceController.getUserConstantsData().getTwoWheelerUrl();
+                        String motorUrl = dbPersistanceController.getUserConstantsData().getTwoWheelerUrl();
+
+
+                        try {
+                            ipaddress = "";
+                        } catch (Exception io) {
+                            ipaddress = "0.0.0.0";
+                        }
+
+                        String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
+                                + "&product_id=10&login_ssid=" + parent_ssid;
+                        motorUrl = motorUrl + append;
+                        mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                .putExtra("URL", motorUrl)
+                                .putExtra("dashBoardtype", "INSURANCE")
+                                .putExtra("NAME", "Two Wheeler Insurance")
+                                .putExtra("TITLE", "Two Wheeler Insurance"));
+
+                    }
+
+
+                    //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
+                    //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
+                    // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
+                    trackMainMenuEvent("Two Wheeler Insurance");
+                    MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
+                    break;
+
+
+                case 11:
+                    //health check up
+                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), HealthCheckUpListActivity.class));
+                    // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                    trackMainMenuEvent("Health CheckUp ");
+                    MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
+                    break;
+
+                case 12:
+                    //Commercial vehicle
+
+                    String cvUrl = dbPersistanceController.getUserConstantsData().getCVUrl();
 
 
                     try {
@@ -522,71 +564,29 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         ipaddress = "0.0.0.0";
                     }
 
-                    String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    String append = "&ip_address=" + ipaddress + "&mac_address="
                             + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
                             + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                            + "&product_id=10&login_ssid=" + parent_ssid;
-                    motorUrl = motorUrl + append;
+                            + "&product_id=12&login_ssid=" + parent_ssid;
+                    cvUrl = cvUrl + append;
                     mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                            .putExtra("URL", motorUrl)
+                            .putExtra("URL", cvUrl)
                             .putExtra("dashBoardtype", "INSURANCE")
-                            .putExtra("NAME", "Two Wheeler Insurance")
-                            .putExtra("TITLE", "Two Wheeler Insurance"));
+                            .putExtra("NAME", "Commercial Vehicle Insurance")
+                            .putExtra("TITLE", "Commercial Vehicle Insurance"));
 
-                }
+                    trackMainMenuEvent("Commercial Vehicle Insurance");
+                    MyApplication.getInstance().trackEvent(Constants.CV, "Clicked", "Health CheckUp tab on home page");
+                    break;
 
-
-                //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
-                //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
-                trackMainMenuEvent("Two Wheeler Insurance");
-                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
-                break;
-
-
-            case 11:
-                //health check up
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), HealthCheckUpListActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
-                trackMainMenuEvent("Health CheckUp ");
-                MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
-                break;
-
-            case 12:
-                //Commercial vehicle
-
-                String cvUrl = dbPersistanceController.getUserConstantsData().getCVUrl();
-
-
-                try {
-                    ipaddress = "";
-                } catch (Exception io) {
-                    ipaddress = "0.0.0.0";
-                }
-
-                String append = "&ip_address=" + ipaddress + "&mac_address="
-                        + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                        + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                        + "&product_id=12&login_ssid=" + parent_ssid;
-                cvUrl = cvUrl + append;
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", cvUrl)
-                        .putExtra("dashBoardtype", "INSURANCE")
-                        .putExtra("NAME", "Commercial Vehicle Insurance")
-                        .putExtra("TITLE", "Commercial Vehicle Insurance"));
-
-                trackMainMenuEvent("Commercial Vehicle Insurance");
-                MyApplication.getInstance().trackEvent(Constants.CV, "Clicked", "Health CheckUp tab on home page");
-                break;
-
-            case 13:
+                case 13:
 //                Utility.loadWebViewUrlInBrowser(mContext.getActivity(),
 //                        "https://www.rupeeboss.com/equifax-finmart?fbaid="
 //                                + String.valueOf(dbPersistanceController.getUserData().getFBAId()));
-                break;
+                    break;
 
 
-            case 14:
+                case 14:
 //                Utility.loadWebViewUrlInBrowser(mContext.getActivity(),
 //                        "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(dbPersistanceController.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
                /* mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
@@ -595,96 +595,37 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("NAME", "" + "Loan On Messenger")
                         .putExtra("TITLE", "" + "Loan On Messenger"));*/
 
-            case 15: //ncd
-                //car
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NCDActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
-                MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
+                case 15: //ncd
+                    //car
+                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NCDActivity.class));
+                    // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
+                    MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
 
-                break;
-            case 16:
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AddNewOfflineQuotesActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
-                MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
-                break;
+                    break;
+                case 16:
+                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AddNewOfflineQuotesActivity.class));
+                    // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
+                    MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
+                    break;
 
-            case 49: // added by Nilesh 13.02.2019 -- Ultra laksh
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), UltraLakshaSelectionActivity.class));
-                //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Ultra lakshya"), Constants.CAMPAIGN), null);
-                MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHYA");
-                break;
+                case 49: // added by Nilesh 13.02.2019 -- Ultra laksh
+                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), UltraLakshaSelectionActivity.class));
+                    //new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Ultra lakshya"), Constants.CAMPAIGN), null);
+                    MyApplication.getInstance().trackEvent(Constants.ULTRA_LAKSHA, "Clicked", "ULTRA_LAKSHYA");
+                    break;
 
-            case 18:
-                //Life Insurance
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), TermSelectionActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
-                trackMainMenuEvent("Term Insurance");
-                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
-                break;
+                case 18:
+                    //Life Insurance
+                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), TermSelectionActivity.class));
+                    // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
+                    trackMainMenuEvent("Term Insurance");
+                    MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
+                    break;
 
-            case 5: //investment
+                case 5: //investment
 
-                if (dbPersistanceController.getUserConstantsData().getInvestmentEnabled().equals("1")) {
-                    String invUrl = dbPersistanceController.getUserConstantsData().getInvestmentUrl();
-
-                    try {
-                        ipaddress = "";
-                    } catch (Exception io) {
-                        ipaddress = "0.0.0.0";
-                    }
-
-                    append = "&ip_address=" + ipaddress
-                            + "&app_version=policyboss-" + Utility.getVersionName(mContext.getActivity())
-                            + "&device_id=" + Utility.getDeviceId(mContext.getActivity()) + "&login_ssid=" + parent_ssid;
-
-                    invUrl = invUrl + append;
-
-//                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
-//                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().
-//                            equalsIgnoreCase("1")) {
-//                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), invUrl);
-//                    } else
-
-                    {
-                        mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                                .putExtra("URL", invUrl)
-                                .putExtra("NAME", "INVESTMENT PLANS")
-                                .putExtra("TITLE", "INVESTMENT PLANS"));
-                    }
-                } else {
-                    Toast.makeText(mContext.getActivity(), "You'r not authorize to sell Investment.", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case 41:
-                //Synch Contact
-                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), WelcomeSyncContactActivityKotlin.class));
-                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
-                trackMainMenuEvent("Sync Contact");
-                MyApplication.getInstance().trackEvent(Constants.SyncContacts, "Clicked", "Sync Contact");
-                break;
-
-        }
-
-        if (productID < 100 && productID != 41) {
-            if (dashboardEntity.getIsNewprdClickable() != null) {
-                if (dashboardEntity.getIsNewprdClickable().equals("Y")) {
-                    //   region Getting Dynamic Product and Clickable action Using UserConstatnt Data
-
-                    String dynamicUrl = "";
-                    for (DashboardarrayEntity entity : dbPersistanceController.getUserConstantsData().getDashboardarray()) {
-
-                        if (Integer.valueOf(entity.getProdId()) == productID) {
-
-                            dynamicUrl = entity.getUrl();
-                            break;
-
-                        }
-
-                    }
-
-
-                    if (!dynamicUrl.isEmpty()) {
+                    if (dbPersistanceController.getUserConstantsData().getInvestmentEnabled().equals("1")) {
+                        String invUrl = dbPersistanceController.getUserConstantsData().getInvestmentUrl();
 
                         try {
                             ipaddress = "";
@@ -692,34 +633,97 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             ipaddress = "0.0.0.0";
                         }
 
-                        trackMainMenuEvent( dashboardEntity.getProductName());
-                        //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                        String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                                + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
-                                + "&product_id=" + productID + "&login_ssid=" + parent_ssid;
-                        dynamicUrl = dynamicUrl + append;
+                        append = "&ip_address=" + ipaddress
+                                + "&app_version=policyboss-" + Utility.getVersionName(mContext.getActivity())
+                                + "&device_id=" + Utility.getDeviceId(mContext.getActivity()) + "&login_ssid=" + parent_ssid;
 
-                        mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                                .putExtra("URL", dynamicUrl)
-                                .putExtra("dashBoardtype", "INSURANCE")
-                                .putExtra("NAME", dashboardEntity.getProductName())
-                                .putExtra("TITLE", dashboardEntity.getProductName()));
+                        invUrl = invUrl + append;
 
+//                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
+//                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().
+//                            equalsIgnoreCase("1")) {
+//                        Utility.loadWebViewUrlInBrowser(mContext.getActivity(), invUrl);
+//                    } else
 
-
+                        {
+                            mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                    .putExtra("URL", invUrl)
+                                    .putExtra("NAME", "INVESTMENT PLANS")
+                                    .putExtra("TITLE", "INVESTMENT PLANS"));
+                        }
+                    } else {
+                        Toast.makeText(mContext.getActivity(), "You'r not authorize to sell Investment.", Toast.LENGTH_SHORT).show();
                     }
+                    break;
 
-                    //endregion
-                }
+                case 41:
+                    //Synch Contact
+                    mContext.getActivity().startActivity(new Intent(mContext.getActivity(), WelcomeSyncContactActivityKotlin.class));
+                    // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                    trackMainMenuEvent("Sync Contact");
+                    MyApplication.getInstance().trackEvent(Constants.SyncContacts, "Clicked", "Sync Contact");
+                    break;
+
             }
-        } else if (productID >= 100) {
-            trackMainMenuEvent( dashboardEntity.getProductName());
 
-            mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                    .putExtra("URL", "" + dashboardEntity.getLink())
-                    .putExtra("NAME", "" + dashboardEntity.getProductName())
-                    .putExtra("TITLE", "" + dashboardEntity.getProductName()));
+            if (productID < 100 && productID != 41) {
+                if (dashboardEntity.getIsNewprdClickable() != null) {
+                    if (dashboardEntity.getIsNewprdClickable().equals("Y")) {
+                        //   region Getting Dynamic Product and Clickable action Using UserConstatnt Data
+
+                        String dynamicUrl = "";
+                        for (DashboardarrayEntity entity : dbPersistanceController.getUserConstantsData().getDashboardarray()) {
+
+                            if (Integer.valueOf(entity.getProdId()) == productID) {
+
+                                dynamicUrl = entity.getUrl();
+                                break;
+
+                            }
+
+                        }
+
+
+                        if (!dynamicUrl.isEmpty()) {
+
+                            try {
+                                ipaddress = "";
+                            } catch (Exception io) {
+                                ipaddress = "0.0.0.0";
+                            }
+
+                            trackMainMenuEvent(dashboardEntity.getProductName());
+                            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                            String append = "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                                    + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                    + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
+                                    + "&product_id=" + productID + "&login_ssid=" + parent_ssid;
+                            dynamicUrl = dynamicUrl + append;
+
+                            mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                    .putExtra("URL", dynamicUrl)
+                                    .putExtra("dashBoardtype", "INSURANCE")
+                                    .putExtra("NAME", dashboardEntity.getProductName())
+                                    .putExtra("TITLE", dashboardEntity.getProductName()));
+
+
+                        }
+
+                        //endregion
+                    }
+                }
+            } else if (productID >= 100) {
+                trackMainMenuEvent(dashboardEntity.getProductName());
+
+                mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                        .putExtra("URL", "" + dashboardEntity.getLink())
+                        .putExtra("NAME", "" + dashboardEntity.getProductName())
+                        .putExtra("TITLE", "" + dashboardEntity.getProductName()));
+            }
+        }
+        }
+        catch(Exception  ex){
+            ex.printStackTrace();
         }
     }
 
