@@ -10,9 +10,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.syncCon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AuthToken.OauthTokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.AuthLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpVerifyResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.pbAttendResponse
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SyncContact.ContactPhotoDocResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder
 import okhttp3.MultipartBody
 import retrofit2.Call
@@ -79,9 +81,26 @@ interface SyncContactInterface {
   @POST
   suspend fun getPBAttendance(@Url strUrl : String,@Body body : pbAttendRequestEntity ): Response<pbAttendResponse>
 
+
+    /****************************************************************************************
+     *    Login Horizon API
+     *************************************************************************************/
+
+
  @GET("posps/dsas/view/{userId}")
  suspend fun getLoginDsasHorizonDetails( @Path("userId") userId: String): Response<LoginNewResponse_DSAS_Horizon>
 
+    @POST("postservicecall/otp_login")
+    suspend fun otpLoginHorizon(  @Body body : HashMap<String,String>): Response<OtpLoginResponse>
 
 
+    @POST("auth_tokens/auth_login")
+    suspend fun authLoginHorizon(  @Body body : HashMap<String,String>): Response<AuthLoginResponse>
+
+    @GET("verifyOTP_New/{userId}")
+    suspend fun otpVerifyHorizon( @Path("userId") userId: String): Response<OtpVerifyResponse>
+
+   // we can take any param in path eg "verifyOTP_New/{pathDaa}
+    @GET("generateOTP_New/{mobNo}/ONBOARDING")
+    suspend fun otpResendHorizon( @Path("mobNo") userId: String): Response<OtpVerifyResponse>
 }

@@ -57,6 +57,7 @@
 
     </style>
 
+
     <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:minWidth">0dip</item>
         <item name="android:paddingStart">8dip</item>
@@ -109,6 +110,11 @@
 
     </style>
 
+    <style name="PBarTheme">
+
+        <item name="colorSecondary">@color/blue</item>
+
+    </style>
     <!--Edit text style-->
     <style name="Style.edittext" parent="@android:style/Widget.EditText">
         <!--<item name="android:background">@null</item>-->
@@ -292,6 +298,24 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowTranslucentStatus">true</item>
 <!--        <item name="android:windowAnimationStyle">@android:style/Animation</item>-->
+
+
+    </style>
+
+    <style name="CustomDialogWithoutAnim" parent="Theme.AppCompat.Light.Dialog">
+
+        <item name="android:windowIsTranslucent">true</item>
+
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--        <item name="android:windowAnimationStyle">@android:style/Animation</item>-->
 
 
     </style>

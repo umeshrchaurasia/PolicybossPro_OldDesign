@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/transparent"
     android:layout_gravity="center">
 
     <androidx.cardview.widget.CardView
@@ -17,39 +17,26 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="25dp"
-
+            android:layout_centerInParent="true"
             android:orientation="horizontal"
             >
 
             <ProgressBar
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:visibility="visible"
-                android:indeterminate="true"
-                style="?android:attr/progressBarStyle"
-               />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
 
-<!--            <ImageView-->
-<!--                android:id="@+id/imgLoader"-->
-<!--                android:layout_width="120dp"-->
-<!--                android:layout_height="120dp"-->
-<!--                android:scaleType="centerInside"-->
-<!--                android:src="@drawable/loading_spinner"-->
-<!--                />-->
+                style="@style/PBarTheme"
+                android:layout_marginEnd="25dp"
+                android:layout_marginRight="25dp"/>
 
             <TextView
                 android:id="@+id/txtMessage"
-                android:layout_weight="1"
+                android:text="Please Wait..."
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/twelve"
-                android:gravity="left"
-                android:text=" Loading...."
                 android:textColor="@color/black"
-                android:textSize="16sp"
-              style="@style/TextViewStyle.Large"
-                android:visibility="visible"
-
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"
                 />
 
 

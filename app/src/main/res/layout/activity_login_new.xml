@@ -6,8 +6,8 @@ android:layout_height="match_parent"
 tools:context="com.policyboss.policybosspro.login.LoginNewActivity">
 
 
-<include layout="@layout/content_login"
-    android:id="@+id/include_login"
+<include layout="@layout/content_login_new"
+    android:id="@+id/include_login_new"
     />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -52,12 +52,15 @@
                 style="@style/Style.edittext"
                 android:drawableRight="@drawable/vector_email_white"
                 android:inputType="textEmailAddress"
+
                 android:textColor="@color/white" />
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             android:hint="Password"
             android:textColorHint="@color/white"
             app:hintTextAppearance="@style/TextLabel"
@@ -126,7 +129,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             android:background="@color/button_color"
-            android:minHeight="42dp"
+            android:minHeight="48dp"
             android:text="SIGN IN" />
 
         <LinearLayout

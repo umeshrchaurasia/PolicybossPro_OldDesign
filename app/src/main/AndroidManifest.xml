@@ -101,14 +101,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".BaseKotlinActivity"
+            android:exported="false" />
+<!--        android:theme="@style/Theme.Login"-->
         <activity
             android:name=".login.LoginNewActivity"
             android:label="@string/title_activity_login"
             android:launchMode="singleTask"
             android:parentActivityName=".splashscreen.SplashScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.Login"
+
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

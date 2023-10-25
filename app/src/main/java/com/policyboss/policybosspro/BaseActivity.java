@@ -52,6 +52,7 @@ import android.widget.Toast;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.login.LoginActivity;
+import com.policyboss.policybosspro.login.LoginNewActivity;
 import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityKotlin;
 import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivityNew;
 import com.policyboss.policybosspro.term.hdfc.HdfcTermActivity;
@@ -209,7 +210,7 @@ public class BaseActivity extends AppCompatActivity {
                         new DBPersistanceController(context).logout();
 
 
-                        Intent intent = new Intent(context, LoginActivity.class);
+                        Intent intent = new Intent(context, LoginNewActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();

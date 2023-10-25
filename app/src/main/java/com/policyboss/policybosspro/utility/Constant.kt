@@ -37,5 +37,6 @@ object Constant {
     const val   NOTIFICATION_MESSAGE = "NOTIFICATION_MESSAGE"
 
 
-
+    const val   NOData = "No Data Found"
+    const val   InValidUser = "Invalid User"
 }

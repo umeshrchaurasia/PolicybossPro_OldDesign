@@ -715,6 +715,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             editor.clear();
                             editor.commit();
 
+                            loginPrefManager.clear();
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
                                 removeShorcuts();
                             }

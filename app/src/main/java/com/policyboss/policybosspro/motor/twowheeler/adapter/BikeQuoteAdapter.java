@@ -94,7 +94,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
 
             Glide.with(mContext).load(logo)
                     .into(holder.imgInsurerLogo);*/
-            Glide.with(mContext).load(Utility.getInsurerImage(responseEntity.getInsurer_Id()))
+            Glide.with(mContext.getActivity()).load(Utility.getInsurerImage(responseEntity.getInsurer_Id()))
                     .into(holder.imgInsurerLogo);
         } catch (Exception e) {
             e.printStackTrace();

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import com.google.gson.Gson
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.EMP
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginMsg
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.POSP
 
 class LoginPrefManager (private val context: Context){
@@ -12,6 +13,7 @@ class LoginPrefManager (private val context: Context){
     private val PREF_NAME  = "loginPrefManager_policyBossPro"
 
     private val LoginHorizonKey = "LOGIN_DSAS_Horizon"
+    private val LoginOTPDataKey = "Login_OTP_Data_Key"
     private  val gson = Gson()
 
     private  val  sharedPreferences:SharedPreferences by lazy{
@@ -80,4 +82,37 @@ class LoginPrefManager (private val context: Context){
 
         return response?.POSP?.Fba_Id?:"0"
     }
+
+    fun clear() {
+
+        sharedPreferences.edit().clear().apply()
+    }
+
+    fun saveLoginOTPResponse(  loginOTP : OtpLoginMsg?){
+
+        loginOTP?.let { response ->
+
+            val json = gson.toJson(response)
+            sharedPreferences.edit().putString(LoginOTPDataKey, json).apply()
+
+        }
+
+
+    }
+
+    fun getLoginOTPResponse() : OtpLoginMsg?  {
+
+        val loginOTP = sharedPreferences.getString(LoginOTPDataKey,null)
+
+        return gson.fromJson(loginOTP,OtpLoginMsg::class.java )
+    }
+
+    fun getSSIDByOTP() : String {
+
+        val response = getLoginOTPResponse()
+
+        return response?.Ss_Id?.toString() ?:"0"
+    }
+
+
 }
