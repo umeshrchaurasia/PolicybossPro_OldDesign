@@ -43,7 +43,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.requestentity.Up
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.UploadNCDResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import okhttp3.MultipartBody;
 
@@ -75,7 +75,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
     private String file1 = "APPLICATION_FORM", file2 = "OTHER1", file3 = "OTHER2", file4 = "OTHER3";
 
-    LoginResponseEntity loginResponseEntity;
+  //  LoginResponseEntity loginResponseEntity;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
 
     boolean isUploaded = false;
@@ -96,7 +96,7 @@ public class UploadNCDDocActivity extends BaseActivity implements View.OnClickLi
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
-        loginResponseEntity = dbPersistanceController.getUserData();
+    //    loginResponseEntity = dbPersistanceController.getUserData();
      //   loginEntity = dbPersistanceController.getUserData();
         prefManager = new PrefManager(this);
         loginPrefManager = new LoginPrefManager(this);

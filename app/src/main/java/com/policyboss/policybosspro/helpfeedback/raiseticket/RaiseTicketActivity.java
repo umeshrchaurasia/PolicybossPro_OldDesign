@@ -1,5 +1,6 @@
 package com.policyboss.policybosspro.helpfeedback.raiseticket;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -31,11 +32,13 @@ import com.policyboss.policybosspro.helpfeedback.raiseticket.adapter.RaiseTicket
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.zoho.ZohoController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RaiseTickeViewEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TicketEntity;
@@ -55,10 +58,12 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
     EditText etSearch;
     List<TicketEntity> ticketEntities;
     DBPersistanceController dbPersistanceController;
-    LoginResponseEntity loginResponseEntity;
+ //   LoginResponseEntity loginResponseEntity;
     AlertDialog alertDialog, finmartContacttDialog;
     BottomSheetDialog mBottomSheetDialog;
     RaiseTicketViewAdapter raiseTicketViewAdapter;
+
+    LoginPrefManager loginPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,9 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dbPersistanceController = new DBPersistanceController(this);
-        loginResponseEntity = dbPersistanceController.getUserData();
+     //   loginResponseEntity = dbPersistanceController.getUserData();
+
+        loginPrefManager = new LoginPrefManager(this);
 
         initView();
         setListener();
@@ -102,7 +109,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
 
     private void fatchingData() {
         showDialog("Fetching Tickets..");
-        new ZohoController(this).getListOfTickets("" + loginResponseEntity.getFBAId(), this);
+        new ZohoController(this).getListOfTickets("" + loginPrefManager.getFBAID(), this);
 
     }
 
@@ -211,6 +218,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
     }
 
 
+    @SuppressLint("MissingInflatedId")
     public void PopUp_addcomment() {
 
 //

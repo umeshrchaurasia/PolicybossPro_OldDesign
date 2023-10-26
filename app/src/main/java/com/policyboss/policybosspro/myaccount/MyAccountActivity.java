@@ -910,7 +910,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         registerRequestEntity.setApp_version("" + prefManager.getAppVersion());
         registerRequestEntity.setDevice_code("" + prefManager.getDeviceID());
-        registerRequestEntity.setSsid("" +  dbPersistanceController.getUserData().getPOSPNo());
+        registerRequestEntity.setSsid("" +  loginPrefManager.getSSID());
+
 
         new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
 

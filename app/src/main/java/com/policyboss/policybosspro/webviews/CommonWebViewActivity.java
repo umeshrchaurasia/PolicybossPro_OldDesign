@@ -92,7 +92,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctra
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.zoho.ZohoController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CommonWebDocResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketWebDocResponse;
@@ -116,7 +116,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     public static boolean isActive = false;
     Toolbar toolbar;
 
-    LoginResponseEntity loginResponseEntity;
+   // LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     UserConstantEntity userConstantEntity;
 

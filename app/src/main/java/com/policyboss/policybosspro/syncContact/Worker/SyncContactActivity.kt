@@ -33,7 +33,7 @@ import com.webengage.sdk.android.WebEngage
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
 import com.policyboss.policybosspro.analytics.WebEngageAnalytics
 class SyncContactActivity : BaseActivity(), View.OnClickListener {
@@ -58,7 +58,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         "android.permission.READ_CALL_LOG"
     )
 
-    lateinit var loginResponseEntity: LoginResponseEntity
+  //  lateinit var loginResponseEntity: LoginResponseEntity
     lateinit var userConstantEntity: UserConstantEntity
 
     lateinit var prefManager:PrefManager
@@ -87,7 +87,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
         dialogAnim = Dialog(this)
 
-        loginResponseEntity = DBPersistanceController(this).userData
+     //   loginResponseEntity = DBPersistanceController(this).userData
         userConstantEntity = DBPersistanceController(this).userConstantsData
 
         prefManager = PrefManager(this)
@@ -180,7 +180,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         //callLogList: MutableList<CallLogEntity>
 
         val data: Data = Data.Builder()
-            .putInt(Constant.KEY_fbaid, loginResponseEntity.fbaId)
+            .putInt(Constant.KEY_fbaid, Integer.parseInt(userConstantEntity.fbaId))
             .putString(Constant.KEY_parentid, userConstantEntity.parentid)
             .putString(Constant.KEY_ssid, userConstantEntity!!.pospNo)
             .putString(Constant.KEY_deviceid, UTILITY.getDeviceID(this@SyncContactActivity))

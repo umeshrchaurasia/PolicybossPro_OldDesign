@@ -292,7 +292,7 @@ public class DynamicController implements IDynamic {
         String url = BuildConfig.FINMART_URL + "/quote/Postfm/get-ncd-product";
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("fbaid", "" + new DBPersistanceController(mContext).getUserData().getFBAId());
+        body.put("fbaid", ""); //+ new DBPersistanceController(mContext).getUserData().getFBAId());
 
         genericUrlNetworkService.getNCD(url, body).enqueue(new Callback<NCDResponse>() {
             @Override

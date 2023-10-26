@@ -91,8 +91,8 @@ public class SalesMaterialController implements ISalesMaterial {
         body.put("product_id", String.valueOf(productID));
         body.put("app_version", "" + prefManager.getAppVersion());
         body.put("device_code", "" +  prefManager.getDeviceID());
-        body.put("ssid", "" + dbPersistanceController.getUserData().getPOSPNo());
-        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("ssid", "" + loginPrefManager.getSSID());
+        body.put("fbaid", "" + loginPrefManager.getFBAID());
 
         salesMaterialNetworkService.getProductPromotions(body).enqueue(new Callback<SalesPromotionResponse>() {
             @Override

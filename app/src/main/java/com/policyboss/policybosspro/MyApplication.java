@@ -172,9 +172,9 @@ public class MyApplication extends Application {
         int FBA_ID = 0;
         DBPersistanceController dbPersistanceController = new DBPersistanceController(this);
 
-        if (dbPersistanceController.getUserData() != null) {
-            FBA_ID = 0;// Integer.parseInt(dbPersistanceController.getUserData_fbaid());
-        }
+//        if (dbPersistanceController.getUserData() != null) {
+//            FBA_ID = 0;// Integer.parseInt(dbPersistanceController.getUserData_fbaid());
+//        }
 
 
         Bundle bundle = new Bundle();

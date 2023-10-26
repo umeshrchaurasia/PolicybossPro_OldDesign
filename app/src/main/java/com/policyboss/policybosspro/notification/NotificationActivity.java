@@ -29,7 +29,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
@@ -41,7 +41,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     NotificationAdapter mAdapter;
     DBPersistanceController dbPersistanceController;
     UserConstantEntity userConstantEntity;
-    LoginResponseEntity loginEntity;
+    //LoginResponseEntity loginEntity;
     PrefManager prefManager;
     LoginPrefManager loginPrefManager;
 
