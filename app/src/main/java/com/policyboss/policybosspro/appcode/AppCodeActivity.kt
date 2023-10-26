@@ -43,6 +43,8 @@ class AppCodeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         prefManager = PrefManager(this)
+        loginPrefManager = LoginPrefManager(this)
+
         init()
         setListner()
 

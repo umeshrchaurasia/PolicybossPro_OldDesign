@@ -43,7 +43,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.zoho.ZohoController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RaiseTicketCommentResponse;
 import okhttp3.MultipartBody;
@@ -74,7 +74,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
     HashMap<String, String> body;
     private int PROFILE = 1;
     DBPersistanceController dbPersistanceController;
-    LoginResponseEntity loginResponseEntity;
+   // LoginResponseEntity loginResponseEntity;
     int RequestID = 0;
     int STATUS_ID = 0;
     String DOC_PATH = "";
@@ -90,7 +90,7 @@ public class UploadRaiseActivity extends BaseActivity implements BaseActivity.Po
 
 
         dbPersistanceController = new DBPersistanceController(this);
-        loginResponseEntity = dbPersistanceController.getUserData();
+     //   loginResponseEntity = dbPersistanceController.getUserData();
         registerPopUp(this);
 
         initView();

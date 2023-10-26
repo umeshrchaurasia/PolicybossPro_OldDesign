@@ -59,10 +59,10 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
         insurance = (CardView) findViewById(R.id.insurance);
         other = (CardView) findViewById(R.id.other);
 
-        if (new DBPersistanceController(this).isHideLoan()) {
+       // if (new DBPersistanceController(this).isHideLoan()) {
             loan.setVisibility(View.GONE);
             other.setVisibility(View.GONE);
-        }
+       // }
     }
 
     @Override

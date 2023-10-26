@@ -63,7 +63,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
     BottomSheetDialog mBottomSheetDialog;
     RaiseTicketViewAdapter raiseTicketViewAdapter;
 
-    LoginPrefManager loginPrefManager;
+//    LoginPrefManager loginPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +76,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
         dbPersistanceController = new DBPersistanceController(this);
      //   loginResponseEntity = dbPersistanceController.getUserData();
 
-        loginPrefManager = new LoginPrefManager(this);
+      //  loginPrefManager = new LoginPrefManager(this);
 
         initView();
         setListener();
@@ -109,7 +109,7 @@ public class RaiseTicketActivity extends BaseActivity implements IResponseSubcri
 
     private void fatchingData() {
         showDialog("Fetching Tickets..");
-        new ZohoController(this).getListOfTickets("" + loginPrefManager.getFBAID(), this);
+        new ZohoController(this).getListOfTickets("" + LoginPrefManager.getInstance(RaiseTicketActivity.this).getFBAID(), this);
 
     }
 

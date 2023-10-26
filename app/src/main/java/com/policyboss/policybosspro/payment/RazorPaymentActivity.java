@@ -25,11 +25,12 @@ import com.razorpay.PaymentResultListener;
 
 import org.json.JSONObject;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+//import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PaymentDetailEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PaymentDetailResponse;
@@ -43,10 +44,12 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
     TextView txtCustomerName, txtProdName, txtDisplayAmount, txtSuccessMessage, txtSuccessTitle, txtFailureMessage,
             txtpaymentstatus,txtfailcustid;
 
-    LoginResponseEntity loginResponseEntity;
+    //LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     UserConstantEntity userConstantEntity;
     PaymentDetailEntity paymentDetailEntity;
+
+    LoginPrefManager loginPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +60,9 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        loginPrefManager = new LoginPrefManager(this);
         db = new DBPersistanceController(this);
-        loginResponseEntity = db.getUserData();
+      //  loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
 
         initialize();
@@ -72,7 +75,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
 
 
         showDialog();
-        new RegisterController(this).getDataForPayment(String.valueOf(loginResponseEntity.getFBAId()), RazorPaymentActivity.this);
+        new RegisterController(this).getDataForPayment((loginPrefManager.getFBAID()), RazorPaymentActivity.this);
 
 
     }
@@ -184,7 +187,7 @@ public class RazorPaymentActivity extends BaseActivity implements PaymentResultL
         Log.d(TAG, "Payment Success with RazorPaymentID  " + razorpayPaymentID);
 
         showDialog();
-        new RegisterController(this).addToRazorPay(String.valueOf(loginResponseEntity.getFBAId()), paymentDetailEntity.getCustID(), razorpayPaymentID, RazorPaymentActivity.this);
+        new RegisterController(this).addToRazorPay((loginPrefManager.getFBAID()), paymentDetailEntity.getCustID(), razorpayPaymentID, RazorPaymentActivity.this);
 
 
     }
