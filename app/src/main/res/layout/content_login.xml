@@ -50,6 +50,7 @@
             <EditText
                 android:id="@+id/etEmail"
                 style="@style/Style.edittext"
+                android:padding="@dimen/_8dp"
                 android:drawableRight="@drawable/vector_email_white"
                 android:inputType="textEmailAddress"
 
