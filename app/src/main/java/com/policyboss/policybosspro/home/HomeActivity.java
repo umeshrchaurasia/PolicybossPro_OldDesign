@@ -1243,7 +1243,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             txtDetails.setText("" + loginPrefManager.getEmpData().getEmp_Name());
             txtFbaID.setText("Fba Id - " + loginPrefManager.getFBAID());
-            txtReferalCode.setText("Referral Code - " + "getReferer_code()");
+          //  txtReferalCode.setText("Referral Code - " + "getReferer_code()");
+            txtReferalCode.setText("Referral Code -");
 
             weUser.login(loginPrefManager.getEmpData().getEmail_Id());
             weUser.setOptIn(Channel.WHATSAPP, true);
