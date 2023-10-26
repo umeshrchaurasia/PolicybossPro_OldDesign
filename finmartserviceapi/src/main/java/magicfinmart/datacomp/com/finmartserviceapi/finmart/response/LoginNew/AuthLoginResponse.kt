@@ -1,7 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew
 
 data class AuthLoginResponse(
-    val Msg: AuthLoginMsg,
+    //val Msg: AuthLoginMsg,
     val SS_ID: String,
     val Status: String
 )
