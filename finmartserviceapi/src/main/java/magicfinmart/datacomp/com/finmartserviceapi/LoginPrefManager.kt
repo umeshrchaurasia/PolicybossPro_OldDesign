@@ -21,18 +21,18 @@ class LoginPrefManager (private val context: Context){
     }
 
 
-//    companion object {
-//        // Singleton instance
-//        @Volatile
-//        private var instance: LoginPrefManager? = null
-//
-//        @JvmStatic
-//        fun getInstance(context: Context): LoginPrefManager {
-//            return instance ?: synchronized(this) {
-//                instance ?: LoginPrefManager(context).also { instance = it }
-//            }
-//        }
-//    }
+    companion object {
+        // Singleton instance
+        @Volatile
+        private var instance: LoginPrefManager? = null
+
+        @JvmStatic
+        fun getInstance(context: Context): LoginPrefManager {
+            return instance ?: synchronized(this) {
+                instance ?: LoginPrefManager(context).also { instance = it }
+            }
+        }
+    }
 
     fun saveLoginHorizonResponse(  loginHorizon : LoginNewResponse_DSAS_Horizon?){
 
