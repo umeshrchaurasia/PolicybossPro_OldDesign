@@ -7,6 +7,7 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
@@ -30,6 +31,7 @@ import com.policyboss.policybosspro.login.model.viewmodel.LoginViewModel
 import com.policyboss.policybosspro.showAlert
 import com.policyboss.policybosspro.showKeyboard
 import com.policyboss.policybosspro.utility.showToast
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
@@ -77,7 +79,8 @@ class LoginNewActivity : BaseKotlinActivity() {
         binding = ActivityLoginNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        this.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        //Default KeyBoard PopUp when EditText
+       // this.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         init()
 
@@ -95,10 +98,20 @@ class LoginNewActivity : BaseKotlinActivity() {
             hideKeyboard(binding.root)
             if(etLoginID.text.isNotBlank() && selectedLogin == LoginOption.OTP){
 
-
+                 //05temp
                 loginViewModel.getotpLoginHorizon(etLoginID.text.toString())
 
-               // showOTPDialog(mobNo = "909099")
+//                if (!this::alertDialogOTP.isInitialized) {
+//
+//                    showOTPDialog(mobNo = "909099")
+//
+//                }else{
+//
+//                    if(!alertDialogOTP.isShowing){
+//                        showOTPDialog(mobNo = "909099")
+//                    }
+//                }
+
 
 
             }else if(etLoginID.text.isNotBlank() && selectedLogin == LoginOption.Password){
@@ -180,67 +193,7 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     private fun observe() {
 
-        // region commented DSAS Horizon. No need to observe It
-
-        lifecycleScope.launch{
-
-            repeatOnLifecycle(Lifecycle.State.CREATED){
-
-                loginViewModel.LoginStateFlow.collect{
-
-                    when(it){
-                        is  APIState.Loading -> {
-                            displayLoadingWithText()
-
-                        }
-
-                        is APIState.Success -> {
-
-
-                            hideLoading()
-                            if(it != null){
-
-
-                                showAlert("Login is Successfully...")
-
-                                this@LoginNewActivity.finish()
-                                startActivity(Intent(this@LoginNewActivity,HomeActivity::class.java))
-
-
-                            }
-                        }
-
-                        is APIState.Failure -> {
-                            hideLoading()
-                            Log.d("LoginResp erro",it.errorMessage.toString())
-
-                           // Log.d("Error",it.errorMessage.toString())
-
-                            if (this@LoginNewActivity::alertDialogOTP.isInitialized){
-                                alertDialogOTP.dismiss()
-                            }
-
-                            showOTPDialog(mobNo = "aa", errorMsg = "InValid OTP")
-
-                        }
-
-                        is APIState.Empty ->{
-                            hideLoading()
-                        }
-                    }
-                }
-
-
-
-
-            }
-
-
-        }
-
-        //endregion
-
-        //region Default Login Using OTP
+        //region  Login Using OTP Alert
         lifecycleScope.launch {
 
             repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -287,68 +240,72 @@ class LoginNewActivity : BaseKotlinActivity() {
 
 
         }
+        //endregion
 
-        //  otp Verification Horizon
-//        lifecycleScope.launch{
-//
-//            repeatOnLifecycle(Lifecycle.State.CREATED){
-//
-//                loginViewModel.otpVerificationStateFlow.collect{
-//
-//                    when(it){
-//                        is  APIState.Loading -> {
-//                            // showAnimDialog()
-//                            displayLoadingWithText()
-//
-//                        }
-//
-//                        is APIState.Success -> {
-//
-//
-//                            hideLoading()
-//                            if (it != null) {
-//
-//
-//
-//                            }else{
-//                                showToast(it.errorMessage.toString())
-//                            }
-//                        }
-//
-//                        is APIState.Failure -> {
-//                            hideLoading()
-//                            Log.d("Error",it.errorMessage.toString())
-//
-//                            if (this@LoginNewActivity::alertDialogOTP.isInitialized){
-//                                alertDialogOTP.dismiss()
-//                            }
-//
-//                            showOTPDialog(mobNo = "aa", errorMsg = "InValid OTP")
-//                          //  showToast(it.errorMessage.toString())
-//
-//
-//                        }
-//
-//                        is APIState.Empty ->{
-//                            hideLoading()
-//                        }
-//                    }
-//                }
-//
-//
-//
-//
-//            }
-//
-//
-//        }
-
-
-
-        //region Login Using Id and Password
+        // region otp Verification Horizon
         lifecycleScope.launch{
 
-            repeatOnLifecycle(Lifecycle.State.STARTED){
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+
+                loginViewModel.otpVerificationStateFlow.collect{
+
+                    when(it){
+                        is  APIState.Loading -> {
+                            // showAnimDialog()
+                            displayLoadingWithText()
+
+                        }
+
+                        is APIState.Success -> {
+
+
+                            hideLoading()
+                            if (it != null) {
+
+
+
+                            }else{
+                                showToast(it.errorMessage.toString())
+                            }
+                        }
+
+                        is APIState.Failure -> {
+                            hideLoading()
+                            Log.d("Error",it.errorMessage.toString())
+
+                            if (this@LoginNewActivity::alertDialogOTP.isInitialized){
+                                if(alertDialogOTP.isShowing){
+                                    alertDialogOTP.dismiss()
+                                }
+
+                            }
+
+                            showOTPDialog(mobNo = loginViewModel.getOtpMobileNo(), errorMsg = "InValid OTP")
+                          //  showToast(it.errorMessage.toString())
+
+
+                        }
+
+                        is APIState.Empty ->{
+
+
+                        }
+                    }
+                }
+
+
+
+
+            }
+
+
+        }
+        //endregion
+
+        //region Login Using Id and Password Alert
+        lifecycleScope.launch{
+
+            repeatOnLifecycle(Lifecycle.State.CREATED){
 
                if(!isPasswordObserving) {
                    isPasswordObserving = true
@@ -364,18 +321,8 @@ class LoginNewActivity : BaseKotlinActivity() {
 
                            is APIState.Success -> {
 
+                             // Call Horizon DSSS API
 
-                               hideLoading()
-                               if (it != null) {
-
-
-                                   showAlert("Login is Successfully...")
-
-                                   this@LoginNewActivity.finish()
-                                   startActivity(Intent(this@LoginNewActivity,HomeActivity::class.java))
-                               }else{
-                                   showToast(it.errorMessage.toString())
-                               }
                            }
 
                            is APIState.Failure -> {
@@ -402,202 +349,497 @@ class LoginNewActivity : BaseKotlinActivity() {
 
         }
 
+        //endregion
+
+        // region DSAS Horizon Last Api. IF we got success than go toHome Page
+
+        lifecycleScope.launch{
+
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+
+                loginViewModel.LoginStateFlow.collect{
+
+                    when(it){
+                        is  APIState.Loading -> {
+
+                            //displayLoadingWithText()
+
+                        }
+
+                        is APIState.Success -> {
+
+
+                            hideLoading()
+                            if(it != null){
+
+
+                                showAlert("Login is Successfully...")
+
+                                this@LoginNewActivity.finish()
+                                startActivity(Intent(this@LoginNewActivity,HomeActivity::class.java))
+
+
+                            }
+                        }
+
+                        is APIState.Failure -> {
+                            hideLoading()
+                            Log.d("LoginResp erro",it.errorMessage.toString())
+
+
+                            showAlert(it.errorMessage.toString())
+                        }
+
+                        is APIState.Empty ->{
+
+                        }
+                    }
+                }
+
+
+
+
+            }
+
+
+        }
+
+        //endregion
 
 
     }
 
+
+
     //region Alert Dialog
+
+    private fun showOTPDialogODL_LOGIC(mobNo : String) {
+
+//        isResendOTPUpdate = false
+//        var binding = LayoutLoginViaotpBinding.inflate(layoutInflater)
+//
+//        if (!this::alertDialogOTP.isInitialized) {
+//
+//
+//            alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
+//                .setView(binding.root)
+//                .create()
+//
+//        }
+//
+//        if(!alertDialogOTP.isShowing){
+//
+//            alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
+//                .setView(binding.root)
+//                .create()
+//
+//            binding.txtResend.apply {
+//                isEnabled = false
+//                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+//            }
+//            binding.txtError.visibility = View.GONE
+//            binding.txtTextDtl.text = "We have sent you One-Time Password on ${mobNo}"
+//
+//            //region Commented
+////                binding.etOTP.addTextChangedListener(object : TextWatcher {
+////                    override fun beforeTextChanged(
+////                        s: CharSequence?,
+////                        start: Int,
+////                        count: Int,
+////                        after: Int
+////                    ) {
+////
+////                    }
+////
+////                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+////
+////                        // val otpText = s.toString()
+////                        binding.txtError.visibility = View.GONE
+////                    }
+////
+////                    override fun afterTextChanged(s: Editable?) {
+////                        // This method is called after the text is changed.
+////                    }
+////                })
+//            //endregion
+//
+//            val edittextTextWatcher = object : TextWatcher {
+//                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//
+//                }
+//
+//                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//
+//                }
+//
+//                override fun afterTextChanged(s: Editable?) {
+//
+//                    if (s?.length ?: 0 > 0) {
+//
+//                        when (selectedETPosition) {
+//                            0 -> {
+//                                //select next edittext
+//                                selectedETPosition = 1
+//                                showKeyboard(binding.etOtp2)
+//                                binding.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
+//                            }
+//                            1 -> {
+//                                //select next edittext
+//                                selectedETPosition = 2
+//                                showKeyboard(binding.etOtp3)
+//                                binding.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
+//                            }
+//                            2 -> {
+//                                //select next edittext
+//                                selectedETPosition = 3
+//                                showKeyboard(binding.etOtp4)
+//                                binding.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
+//
+//                            }
+//                            3 -> {
+//                                binding.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
+//                                hideKeyboard(binding.etOtp4)
+//                            }
+//                        }
+//
+//                    } else {
+//                        when (selectedETPosition) {
+//                            3 -> {
+//                                selectedETPosition = 2
+//                                showKeyboard(binding.etOtp3)
+//                                binding.etOtp4.setBackgroundResource(R.drawable.text_handle)
+//                            }
+//                            2 -> {
+//                                selectedETPosition = 1
+//                                showKeyboard(binding.etOtp2)
+//                                binding.etOtp3.setBackgroundResource(R.drawable.text_handle)
+//
+//                            }
+//                            1 -> {
+//                                selectedETPosition = 0
+//                                showKeyboard(binding.etOtp1)
+//                                binding.etOtp2.setBackgroundResource(R.drawable.text_handle)
+//
+//                            }
+//                            0 -> {
+//                                binding.etOtp1.setBackgroundResource(R.drawable.text_handle)
+//
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//
+//            binding.etOtp1.addTextChangedListener(edittextTextWatcher)
+//            binding.etOtp2.addTextChangedListener(edittextTextWatcher)
+//            binding.etOtp3.addTextChangedListener(edittextTextWatcher)
+//            binding.etOtp4.addTextChangedListener(edittextTextWatcher)
+//
+//            binding.btnSubmit.setOnClickListener {
+//
+//                var inputOtp = binding.etOtp1.text.toString() + binding.etOtp2.text.toString() +
+//                        binding.etOtp3.text.toString() + binding.etOtp4.text.toString()
+//
+//
+//                if (inputOtp.length == 4) {
+//
+//                    // Called Api
+//                    cancelTimer()
+//                    hideKeyboard(binding.btnSubmit)
+//                    loginViewModel.otpVerifyHorizon(inputOtp)
+//
+//                }
+//                else if(inputOtp.length == 0){
+//                    binding.txtError.visibility = View.VISIBLE
+//                    binding.txtError.text = "Please Enter OTP"
+//                }
+//
+//                else {
+//
+//                    //region EditText error display
+//                    binding.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
+//                    binding.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
+//                    binding.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
+//                    binding.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
+//
+//                    binding.txtError.visibility = View.VISIBLE
+//                    binding.txtError.text = "Invalid OTP Entered."
+//
+//                    //endregion
+//
+//                }
+//
+//
+//
+//
+//            }
+//            binding.imgClose.setOnClickListener {
+//                alertDialogOTP.dismiss()
+//                // Cancel the existing timer if it's running
+//                cancelTimer()
+//
+//                binding.etOtp1.removeTextChangedListener(edittextTextWatcher)
+//                binding.etOtp2.removeTextChangedListener(edittextTextWatcher)
+//                binding.etOtp3.removeTextChangedListener(edittextTextWatcher)
+//                binding.etOtp4.removeTextChangedListener(edittextTextWatcher)
+//
+//            }
+//
+//
+//
+//            binding.txtResend.setOnClickListener{
+//
+//
+//                loginViewModel.otpResendHorizon(etLoginID.text.toString())
+//
+//                binding.progessBar.visibility = View.VISIBLE
+//                binding.txtResend.apply {
+//                    isEnabled = false
+//                    alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+//                }
+//                binding.btnSubmit.apply{
+//                    isEnabled = false
+//                    alpha = 0.4f
+//                }
+//                lifecycleScope.launch {
+//
+//                    //region delay for showng Loader
+//                    delay(3000) // 3 seconds delay
+//                    // Hide the progressBar
+//                    binding.progessBar.visibility = View.GONE
+//                    binding.txtResend.apply {
+//                        isEnabled = true
+//                        alpha = 1f   // Set alpha back to 1 (100% opacity)
+//                    }
+//                    binding.btnSubmit.apply{
+//                        isEnabled = true
+//                        alpha = 1f
+//                    }
+//
+//                    //endregion
+//
+//                }
+//
+//                cancelTimer()
+//
+//
+//                startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
+//
+//
+//            }
+//
+//            startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
+//            alertDialogOTP.show()
+//            alertDialogOTP.setCancelable(false)
+//
+//
+//        }
+//
+
+
+
+    }
+
     private fun showOTPDialog(mobNo : String) {
 
-         isResendOTPUpdate = false
-         var binding = LayoutLoginViaotpBinding.inflate(layoutInflater)
+        isResendOTPUpdate = false
+        var binding = LayoutLoginViaotpBinding.inflate(layoutInflater)
 
-         if (!this::alertDialogOTP.isInitialized) {
+        alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
+            .setView(binding.root)
+            .create()
+
+        binding.txtResend.apply {
+            isEnabled = false
+            alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+        }
+        binding.txtError.visibility = View.GONE
+        binding.txtTextDtl.text = "We have sent you One-Time Password on ${mobNo}"
+        binding.etOtp1.requestFocus()
 
 
-            alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
-                .setView(binding.root)
-                .create()
 
-          }
+        val edittextTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
-        if(!alertDialogOTP.isShowing){
+            }
 
-            alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
-                .setView(binding.root)
-                .create()
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                binding.txtResend.apply {
-                    isEnabled = false
-                    alpha = 0.4f   // Set alpha back to 1 (100% opacity)
-                }
                 binding.txtError.visibility = View.GONE
-                binding.txtTextDtl.text = "We have sent you One-Time Password on ${mobNo}"
+            }
 
-//                binding.etOTP.addTextChangedListener(object : TextWatcher {
-//                    override fun beforeTextChanged(
-//                        s: CharSequence?,
-//                        start: Int,
-//                        count: Int,
-//                        after: Int
-//                    ) {
-//
-//                    }
-//
-//                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//                        // val otpText = s.toString()
-//                        binding.txtError.visibility = View.GONE
-//                    }
-//
-//                    override fun afterTextChanged(s: Editable?) {
-//                        // This method is called after the text is changed.
-//                    }
-//                })
+            override fun afterTextChanged(s: Editable?) {
 
-            val edittextTextWatcher = object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if (s?.length ?: 0 > 0) {
 
-                }
-
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-
-                    if (s?.length ?: 0 > 0) {
-
-                        when (selectedETPosition) {
-                            0 -> {
-                                //select next edittext
-                                selectedETPosition = 1
-                                showKeyboard(binding.etOtp2)
-                                binding.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
-                            }
-                            1 -> {
-                                //select next edittext
-                                selectedETPosition = 2
-                                showKeyboard(binding.etOtp3)
-                                binding.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
-                            }
-                            2 -> {
-                                //select next edittext
-                                selectedETPosition = 3
-                                showKeyboard(binding.etOtp4)
-                                binding.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
-
-                            }
-                            3 -> {
-                                binding.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
-                                hideKeyboard(binding.etOtp4)
-                            }
+                    when (selectedETPosition) {
+                        0 -> {
+                            //select next edittext
+                            selectedETPosition = 1
+                            showKeyboard(binding.etOtp2)
+                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
                         }
 
-                    } else {
-                        when (selectedETPosition) {
-                            3 -> {
-                                selectedETPosition = 2
-                                showKeyboard(binding.etOtp3)
-                                binding.etOtp4.setBackgroundResource(R.drawable.text_handle)
-                            }
-                            2 -> {
-                                selectedETPosition = 1
-                                showKeyboard(binding.etOtp2)
-                                binding.etOtp3.setBackgroundResource(R.drawable.text_handle)
+                        1 -> {
+                            //select next edittext
+                            selectedETPosition = 2
+                            showKeyboard(binding.etOtp3)
+                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
+                        }
 
-                            }
-                            1 -> {
-                                selectedETPosition = 0
-                                showKeyboard(binding.etOtp1)
-                                binding.etOtp2.setBackgroundResource(R.drawable.text_handle)
+                        2 -> {
+                            //select next edittext
+                            selectedETPosition = 3
+                            showKeyboard(binding.etOtp4)
+                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
 
-                            }
-                            0 -> {
-                                binding.etOtp1.setBackgroundResource(R.drawable.text_handle)
+                        }
 
-                            }
+                        3 -> {
+                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
+                            hideKeyboard(binding.etOtp4)
+                        }
+                    }
+
+                } else {
+                    when (selectedETPosition) {
+                        3 -> {
+                            selectedETPosition = 2
+                            showKeyboard(binding.etOtp3)
+                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle)
+                        }
+
+                        2 -> {
+                            selectedETPosition = 1
+                            showKeyboard(binding.etOtp2)
+                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle)
+
+                        }
+
+                        1 -> {
+                            selectedETPosition = 0
+                            showKeyboard(binding.etOtp1)
+                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle)
+
+                        }
+
+                        0 -> {
+                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle)
+
                         }
                     }
                 }
             }
+        }
 
 
-            binding.etOtp1.addTextChangedListener(edittextTextWatcher)
-            binding.etOtp2.addTextChangedListener(edittextTextWatcher)
-            binding.etOtp3.addTextChangedListener(edittextTextWatcher)
-            binding.etOtp4.addTextChangedListener(edittextTextWatcher)
+        binding.etOtp1.addTextChangedListener(edittextTextWatcher)
+        binding.etOtp2.addTextChangedListener(edittextTextWatcher)
+        binding.etOtp3.addTextChangedListener(edittextTextWatcher)
+        binding.etOtp4.addTextChangedListener(edittextTextWatcher)
 
-            binding.btnSubmit.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
 
-                        var inputOtp = binding.etOtp1.text.toString() + binding.etOtp2.text.toString() +
-                                binding.etOtp3.text.toString() + binding.etOtp4.text.toString()
-
-
-                        if (inputOtp.length == 4) {
-
-                            // Called Api
-                            cancelTimer()
-                            hideKeyboard(binding.btnSubmit)
-                            loginViewModel.otpVerifyHorizon(inputOtp)
-
-                        }
-                        else if(inputOtp.length == 0){
-                            binding.txtError.visibility = View.VISIBLE
-                            binding.txtError.text = "Please Enter OTP"
-                        }
-
-                        else {
-
-                            //region EditText error display
-                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
-                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
-                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
-                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
-
-                            binding.txtError.visibility = View.VISIBLE
-                            binding.txtError.text = "Invalid OTP Entered."
-
-                            //endregion
-
-                        }
+            var inputOtp = binding.etOtp1.text.toString() + binding.etOtp2.text.toString() +
+                    binding.etOtp3.text.toString() + binding.etOtp4.text.toString()
 
 
+            if (inputOtp.length == 4) {
+
+                // Called Api
+                cancelTimer()
+                hideKeyboard(binding.btnSubmit)
+                loginViewModel.otpVerifyHorizon(inputOtp)
+
+            } else if (inputOtp.length == 0) {
+                binding.txtError.visibility = View.VISIBLE
+                binding.txtError.text = "Please Enter OTP"
+            } else {
+
+                //region EditText error display
+                binding.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
+                binding.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
+                binding.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
+                binding.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
+
+                binding.txtError.visibility = View.VISIBLE
+                binding.txtError.text = "Invalid OTP Entered."
+
+                //endregion
+
+            }
 
 
-                }
-                binding.imgClose.setOnClickListener {
-                    alertDialogOTP.dismiss()
-                    // Cancel the existing timer if it's running
-                    cancelTimer()
+        }
+        binding.imgClose.setOnClickListener {
+            alertDialogOTP.dismiss()
+            // Cancel the existing timer if it's running
+            cancelTimer()
 
-                }
-
-
-
-               binding.txtResend.setOnClickListener{
-
-
-                  loginViewModel.otpResendHorizon(etLoginID.text.toString())
-
-                   cancelTimer()
-                   startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
-
-               }
-
-                startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
-                alertDialogOTP.show()
-                alertDialogOTP.setCancelable(false)
-
+            binding.etOtp1.removeTextChangedListener(edittextTextWatcher)
+            binding.etOtp2.removeTextChangedListener(edittextTextWatcher)
+            binding.etOtp3.removeTextChangedListener(edittextTextWatcher)
+            binding.etOtp4.removeTextChangedListener(edittextTextWatcher)
 
         }
 
 
 
+        binding.txtResend.setOnClickListener {
+
+
+            loginViewModel.otpResendHorizon(etLoginID.text.toString())
+
+            binding.progessBar.visibility = View.VISIBLE
+            binding.txtResend.apply {
+                isEnabled = false
+                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+            }
+            binding.btnSubmit.apply {
+                isEnabled = false
+                alpha = 0.4f
+            }
+            cancelTimer()
+
+            lifecycleScope.launch {
+
+                //region delay for showng Loader
+                delay(3000) // 3 seconds delay
+                // Hide the progressBar
+                binding.progessBar.visibility = View.GONE
+                binding.txtResend.apply {
+                    isEnabled = true
+                    alpha = 1f   // Set alpha back to 1 (100% opacity)
+                }
+                binding.btnSubmit.apply {
+                    isEnabled = true
+                    alpha = 1f
+                }
+
+                //endregion
+
+
+            }
+            startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
+
+
+
+
+
+
+
+        }
+
+        startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
+        alertDialogOTP.show()
+        alertDialogOTP.setCancelable(false)
+
 
     }
 
-    //Alert when Error Message is Come ...Only for Error Handling
+    //region Alert when Error Message is Come ...Only for Error Handling
     private fun showOTPDialog(mobNo : String,errorMsg : String = "") {
 
         isResendOTPUpdate = false
@@ -619,27 +861,87 @@ class LoginNewActivity : BaseKotlinActivity() {
                 binding.txtError.visibility = View.VISIBLE
                 binding.txtError.text = errorMsg
             }
-            binding.etOTP.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
 
+        val edittextTextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+                binding.txtError.visibility = View.GONE
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
+                if (s?.length ?: 0 > 0) {
+
+                    when (selectedETPosition) {
+                        0 -> {
+                            //select next edittext
+                            selectedETPosition = 1
+                            showKeyboard(binding.etOtp2)
+                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
+                        }
+
+                        1 -> {
+                            //select next edittext
+                            selectedETPosition = 2
+                            showKeyboard(binding.etOtp3)
+                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
+                        }
+
+                        2 -> {
+                            //select next edittext
+                            selectedETPosition = 3
+                            showKeyboard(binding.etOtp4)
+                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
+
+                        }
+
+                        3 -> {
+                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
+                            hideKeyboard(binding.etOtp4)
+                        }
+                    }
+
+                } else {
+                    when (selectedETPosition) {
+                        3 -> {
+                            selectedETPosition = 2
+                            showKeyboard(binding.etOtp3)
+                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle)
+                        }
+
+                        2 -> {
+                            selectedETPosition = 1
+                            showKeyboard(binding.etOtp2)
+                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle)
+
+                        }
+
+                        1 -> {
+                            selectedETPosition = 0
+                            showKeyboard(binding.etOtp1)
+                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle)
+
+                        }
+
+                        0 -> {
+                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle)
+
+                        }
+                    }
                 }
+            }
+        }
 
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        binding.etOtp1.addTextChangedListener(edittextTextWatcher)
+            binding.etOtp2.addTextChangedListener(edittextTextWatcher)
+            binding.etOtp3.addTextChangedListener(edittextTextWatcher)
+            binding.etOtp4.addTextChangedListener(edittextTextWatcher)
 
-                    // val otpText = s.toString()
-                    binding.txtError.visibility = View.GONE
-                }
-
-                override fun afterTextChanged(s: Editable?) {
-                    // This method is called after the text is changed.
-                }
-            })
-            binding.btnSubmit.setOnClickListener {
+        binding.btnSubmit.setOnClickListener {
 
                 if (binding.etOTP.text.isNotBlank()) {
                     cancelTimer()
@@ -657,6 +959,12 @@ class LoginNewActivity : BaseKotlinActivity() {
                 // Cancel the existing timer if it's running
                 cancelTimer()
 
+                binding.etOtp1.removeTextChangedListener(edittextTextWatcher)
+                binding.etOtp2.removeTextChangedListener(edittextTextWatcher)
+                binding.etOtp3.removeTextChangedListener(edittextTextWatcher)
+                binding.etOtp4.removeTextChangedListener(edittextTextWatcher)
+
+
             }
 
 
@@ -666,7 +974,36 @@ class LoginNewActivity : BaseKotlinActivity() {
 
                 loginViewModel.otpResendHorizon(etLoginID.text.toString())
 
+                binding.progessBar.visibility = View.VISIBLE
+                binding.txtResend.apply {
+                    isEnabled = false
+                    alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+                }
+                binding.btnSubmit.apply {
+                    isEnabled = false
+                    alpha = 0.4f
+                }
                 cancelTimer()
+
+                lifecycleScope.launch {
+
+                    //region delay for showng Loader
+                    delay(3000) // 3 seconds delay
+                    // Hide the progressBar
+                    binding.progessBar.visibility = View.GONE
+                    binding.txtResend.apply {
+                        isEnabled = true
+                        alpha = 1f   // Set alpha back to 1 (100% opacity)
+                    }
+                    binding.btnSubmit.apply {
+                        isEnabled = true
+                        alpha = 1f
+                    }
+
+                    //endregion
+
+
+                }
                 startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
 
             }
@@ -681,7 +1018,7 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     }
 
-
+     //endregion
 
 
     private fun showPasswordDialog(strUserID : String) {
@@ -701,16 +1038,30 @@ class LoginNewActivity : BaseKotlinActivity() {
 
         if(!alertDialogPassword.isShowing) {
             this.showKeyboard(binding.etPassword)
+            binding.etPassword.setText("")
             binding.imgClose.setOnClickListener {
                 alertDialogPassword.dismiss()
             }
+            binding.txtError.visibility = View.GONE
+            binding.txtError.text = ""
+
             binding.btnSubmit.setOnClickListener {
-                alertDialogPassword.dismiss()
-                isPasswordObserving = false
-                loginViewModel.getAuthLoginHorizon(
-                    strUserID.trim(),
-                    binding.etPassword.text.toString()
-                )
+
+                if(binding.etPassword.text.isNullOrBlank()){
+
+                    binding.txtError.visibility = View.VISIBLE
+                    binding.txtError.text = "Enter Password"
+                }else {
+
+                    alertDialogPassword.dismiss()
+                    isPasswordObserving = false
+                    loginViewModel.getAuthLoginHorizon(
+                        strUserID.trim(),
+                        binding.etPassword.text.toString()
+                    )
+
+                }
+
 
             }
 
@@ -838,6 +1189,14 @@ class LoginNewActivity : BaseKotlinActivity() {
         binding.includeLoginNew.radioGroup.setOnCheckedChangeListener(null)
     }
 
+    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+
+        if (keyCode == KeyEvent.ACTION_DOWN) {
+            return true
+        } else {
+            return super.onKeyUp(keyCode, event)
+        }
+    }
 
 
     enum class LoginOption {

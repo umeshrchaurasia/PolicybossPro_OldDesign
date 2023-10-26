@@ -39,4 +39,6 @@ object Constant {
 
     const val   NOData = "No Data Found"
     const val   InValidUser = "Invalid User"
+    const val   InValidPass = "Invalid UserId and Password"
+    const val   InValidOTP = "Invalid OTP"
 }

@@ -2,6 +2,7 @@ package com.policyboss.policybosspro.login.model.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.CreationExtras
 import com.policyboss.policybosspro.APIState
 import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
 import com.policyboss.policybosspro.login.model.Repository.LoginNewRepository
@@ -22,15 +23,23 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
 
     var remaingTime: Long = 0L
-    private var ssid: String = ""
 
-    fun setSsid(newSsid: String) {
+    //region Handele SSID
+    private var ssid: String = ""
+    private var OTP_mobNo: String = ""
+
+    private fun setSsid(newSsid: String) {
         ssid = newSsid
     }
 
     fun getSsid(): String {
         return ssid
     }
+
+    fun getOtpMobileNo(): String {
+        return OTP_mobNo
+    }
+    //endregion
 
     //region DSAS Login
     private  var loginMutuableStateFlow : MutableStateFlow<APIState<LoginNewResponse_DSAS_Horizon>> = MutableStateFlow(APIState.Empty())
@@ -59,7 +68,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
     //endregion
 
 
-    //region OTP Verification via Login
+    //region OTP  Resend
     private  var otpResendMutuableStateFlow : MutableStateFlow<APIState<OtpVerifyResponse>> = MutableStateFlow(APIState.Empty())
 
     val otpResendStateFlow : StateFlow<APIState<OtpVerifyResponse>>
@@ -120,10 +129,11 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
         body.put("login_id", login_id)
 
         otpLoginMutuableStateFlow.value = APIState.Loading()
-        ssid = ""
+
+        setSsid("")
         loginNewRepository.otpLoginHorizon(body)
             .catch {
-                otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+                otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
             }
             .collect{ data ->
                 if (data.isSuccessful){
@@ -134,6 +144,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
                         //Set SSID and After Verify mob no. Call dsasLogin Horizon Details using SsID
                         setSsid(data.body()?.Msg?.Ss_Id?.toString() ?:"")
+                        OTP_mobNo = data.body()?.Msg?.Mobile_No?.toString() ?:""
                     }
                     else{
 
@@ -142,7 +153,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                 }
                 else
                 {
-                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
                 }
 
             }
@@ -156,30 +167,39 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
     fun  otpVerifyHorizon(otp : String) = viewModelScope.launch {
 
 
-       // otpVerificationMutuableStateFlow.value = APIState.Loading()
-        loginMutuableStateFlow.value = APIState.Loading()
+        // Loading is start from Verify
+        otpVerificationMutuableStateFlow.value = APIState.Loading()
+        //loginMutuableStateFlow.value = APIState.Loading()
 
         try {
 
             loginNewRepository.otpVerifyHorizon(otp)
                 .catch {
-                    loginMutuableStateFlow.value = APIState.Failure(errorMessage = it.message.toString())
+                    otpVerificationMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidOTP)
                 }.collect{  data ->
                     if (data.isSuccessful){
                         if(data.body()?.Msg?.uppercase().equals("SUCCESS"))
                         {
 
+                            // Success is trigger after DSS Horizon Api if successfully called
                             // otpVerificationMutuableStateFlow.value = APIState.Success(data = data.body())
 
-                            getLoginDetailHorizon(getSsid())
+                            if(getSsid().isNotEmpty()){
+                                getLoginDetailHorizon(getSsid())
+                            }else{
+
+                                otpVerificationMutuableStateFlow.value = APIState.Failure(errorMessage = "SSID not generated.Please contact admin")
+
+                            }
+
                         }
                         else{
-                            loginMutuableStateFlow.value = APIState.Failure(errorMessage ="No Data Found")
+                            otpVerificationMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidOTP)
                         }
                     }
                     else
                     {
-                        loginMutuableStateFlow.value = APIState.Failure(errorMessage ="No Data Found")
+                        otpVerificationMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidOTP)
                     }
                 }
 
@@ -194,27 +214,27 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
     fun  otpResendHorizon(mobNo : String) = viewModelScope.launch {
 
 
-        otpResendMutuableStateFlow.value = APIState.Loading()
+      // otpResendMutuableStateFlow.value = APIState.Loading()
 
         try {
 
             loginNewRepository.otpResendHorizon(mobNo)
                 .catch {
-                    otpResendMutuableStateFlow.value = APIState.Failure(errorMessage = it.message.toString())
+                   // otpResendMutuableStateFlow.value = APIState.Failure(errorMessage = it.message.toString())
                 }.collect{  data ->
                     if (data.isSuccessful){
                         if(data.body()?.Msg?.uppercase().equals("SUCCESS"))
                         {
 
-                            otpResendMutuableStateFlow.value = APIState.Success(data = data.body())
+                          //  otpResendMutuableStateFlow.value = APIState.Success(data = data.body())
                         }
                         else{
-                            otpResendMutuableStateFlow.value = APIState.Failure(errorMessage ="No Data Found")
+                           // otpResendMutuableStateFlow.value = APIState.Failure(errorMessage ="No Data Found")
                         }
                     }
                     else
                     {
-                        otpResendMutuableStateFlow.value = APIState.Failure(errorMessage ="No Data Found")
+                       // otpResendMutuableStateFlow.value = APIState.Failure(errorMessage ="No Data Found")
                     }
                 }
 
@@ -315,13 +335,13 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
         body.put("username", username)
         body.put("password", password)
 
-        ssid = ""
-       // authLoginMutuableStateFlow.value = APIState.Loading()
-        loginMutuableStateFlow.value = APIState.Loading()
+        setSsid("")
+
+        authLoginMutuableStateFlow.value = APIState.Loading()
 
         loginNewRepository.authLoginHorizon(body)
             .catch {
-                loginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+                authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidPass)
             }
             .collect{ data ->
                 if (data.isSuccessful){
@@ -330,10 +350,13 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
                        // authLoginMutuableStateFlow.value = APIState.Success(data = data.body())
 
-                       // Call dsasLogin Horizon Details using SsID
+                        // Success is trigger after DSS Horizon Api if successfully called
+
                         data.body()?.SS_ID?.let {
 
                             getLoginDetailHorizon(it)
+                        }?: also {
+                            loginMutuableStateFlow.value = APIState.Failure(errorMessage = "SSID not generated.Please contact admin")
                         }
 
 
@@ -341,12 +364,12 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                     }
                     else{
 
-                        loginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
+                        authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidPass)
                     }
                 }
                 else
                 {
-                    loginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+                    authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidPass)
                 }
 
             }
