@@ -700,12 +700,15 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             .create()
 
         this.showKeyboard(bindingPassword.etPassword)
+
         bindingPassword.etPassword.setText("")
         bindingPassword.imgClose.setOnClickListener {
             alertDialogPassword.dismiss()
         }
         bindingPassword.txtError.visibility = View.GONE
         bindingPassword.txtError.text = ""
+
+        bindingPassword.tilPwd.hint = ""
 
         bindingPassword.etPassword.doOnTextChanged { text, start, before, count ->
 
@@ -881,7 +884,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
                                 //pospurl
 
-                                enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_signupurl?: ""
+                                enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_pospurl?: ""
                                 prefManager.enableProPOSPurl = enable_pro_signupurl
 
                                 //add sub user
