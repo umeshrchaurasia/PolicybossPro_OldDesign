@@ -338,7 +338,7 @@
                 <RelativeLayout
                     android:id="@+id/rlBankDetail"
                     style="@style/HeaderLayout"
-                    android:padding="8dp">
+                    android:padding="8dp" android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/ivBankDetail"
@@ -367,7 +367,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/white" />
+                    android:background="@color/white" android:visibility="gone"/>
 
 
                 <LinearLayout
@@ -592,7 +592,7 @@
                 <RelativeLayout
                     android:id="@+id/rlDocumentUpload"
                     style="@style/HeaderLayout"
-                    android:padding="8dp">
+                    android:padding="8dp" android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/ivDocumentUpload"
@@ -621,7 +621,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/white" />
+                    android:background="@color/white" android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/llDocumentUpload"
