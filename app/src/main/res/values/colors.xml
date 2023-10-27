@@ -19,6 +19,8 @@
     <color name="header_text_color">#696969</color>
     <color name="header_text_color1">#3c4651</color>
     <color name="secondary_text_color">#9ba0a6</color>
+    <color name="color_close">#757575</color>
+
     <color name="tab_color">#00476e</color>
 
 

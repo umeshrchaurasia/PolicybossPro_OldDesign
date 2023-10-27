@@ -9,10 +9,9 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.WindowManager
-import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -48,7 +47,7 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     lateinit var prefManager : LoginPrefManager
 
-    lateinit var etLoginID : EditText
+
 
     var selectedLogin: LoginOption = LoginOption.NoData // Default value
 
@@ -66,7 +65,7 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     private var timer: CountDownTimer? = null
 
-    private var resendTime = 20      // 20 sec after resend is Launched...
+    private var resendTime = 60      // 60 sec after resend is Launched...
 
     private var isResendOTPUpdate = false
 
@@ -96,26 +95,26 @@ class LoginNewActivity : BaseKotlinActivity() {
 
 
             hideKeyboard(binding.root)
-            if(etLoginID.text.isNotBlank() && selectedLogin == LoginOption.OTP){
+            if(binding.includeLoginNew.etEmail.text.isNotBlank() && selectedLogin == LoginOption.OTP){
 
                  //05temp
-               // loginViewModel.getotpLoginHorizon(etLoginID.text.toString())
+                loginViewModel.getotpLoginHorizon(binding.includeLoginNew.etEmail.text.trim().toString())
 
-                if (!this::alertDialogOTP.isInitialized) {
+//                if (!this::alertDialogOTP.isInitialized) {
+//
+//                    showOTPDialog(mobNo = "909099")
+//
+//                }else{
+//
+//                    if(!alertDialogOTP.isShowing){
+//                        showOTPDialog(mobNo = "909099")
+//                    }
+//                }
 
-                    showOTPDialog(mobNo = "909099")
-
-                }else{
-
-                    if(!alertDialogOTP.isShowing){
-                        showOTPDialog(mobNo = "909099")
-                    }
-                }
 
 
-
-            }else if(etLoginID.text.isNotBlank() && selectedLogin == LoginOption.Password){
-                showPasswordDialog(strUserID = etLoginID.text.toString().trim())
+            }else if(binding.includeLoginNew.etEmail.text.isNotBlank() && selectedLogin == LoginOption.Password){
+                showPasswordDialog(strUserID = binding.includeLoginNew.etEmail.text.toString().trim())
             }
             else{
                 showAlert("Please Enter User ID")
@@ -135,7 +134,7 @@ class LoginNewActivity : BaseKotlinActivity() {
         setEnableNextButton(false)
 
 
-        etLoginID = binding.includeLoginNew.etEmail
+
         prefManager = LoginPrefManager(this@LoginNewActivity)
         var loginRepository = LoginNewRepository(RetroHelper.api)
 
@@ -259,14 +258,7 @@ class LoginNewActivity : BaseKotlinActivity() {
                         is APIState.Success -> {
 
 
-                            hideLoading()
-                            if (it != null) {
 
-
-
-                            }else{
-                                showToast(it.errorMessage.toString())
-                            }
                         }
 
                         is APIState.Failure -> {
@@ -277,11 +269,9 @@ class LoginNewActivity : BaseKotlinActivity() {
                                 if(alertDialogOTP.isShowing){
                                     alertDialogOTP.dismiss()
                                 }
-
                             }
 
                             showOTPDialog(mobNo = loginViewModel.getOtpMobileNo(), errorMsg = "InValid OTP")
-                          //  showToast(it.errorMessage.toString())
 
 
                         }
@@ -409,255 +399,43 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     }
 
+    fun maskPhoneNumber(phoneNumber: String): String {
+        if (phoneNumber.length < 10) {
+            // Handle cases where the phone number is not long enough to mask
+            return phoneNumber
+        }
 
+        val maskedDigits = "******"
+        val lastDigits = phoneNumber.takeLast(4)
+        val maskedPortion = maskedDigits + lastDigits
+
+        return maskedPortion
+    }
 
     //region Alert Dialog
 
-    private fun showOTPDialogODL_LOGIC(mobNo : String) {
-
-//        isResendOTPUpdate = false
-//        var binding = LayoutLoginViaotpBinding.inflate(layoutInflater)
-//
-//        if (!this::alertDialogOTP.isInitialized) {
-//
-//
-//            alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
-//                .setView(binding.root)
-//                .create()
-//
-//        }
-//
-//        if(!alertDialogOTP.isShowing){
-//
-//            alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
-//                .setView(binding.root)
-//                .create()
-//
-//            binding.txtResend.apply {
-//                isEnabled = false
-//                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
-//            }
-//            binding.txtError.visibility = View.GONE
-//            binding.txtTextDtl.text = "We have sent you One-Time Password on ${mobNo}"
-//
-//            //region Commented
-////                binding.etOTP.addTextChangedListener(object : TextWatcher {
-////                    override fun beforeTextChanged(
-////                        s: CharSequence?,
-////                        start: Int,
-////                        count: Int,
-////                        after: Int
-////                    ) {
-////
-////                    }
-////
-////                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-////
-////                        // val otpText = s.toString()
-////                        binding.txtError.visibility = View.GONE
-////                    }
-////
-////                    override fun afterTextChanged(s: Editable?) {
-////                        // This method is called after the text is changed.
-////                    }
-////                })
-//            //endregion
-//
-//            val edittextTextWatcher = object : TextWatcher {
-//                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//
-//                }
-//
-//                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//
-//                }
-//
-//                override fun afterTextChanged(s: Editable?) {
-//
-//                    if (s?.length ?: 0 > 0) {
-//
-//                        when (selectedETPosition) {
-//                            0 -> {
-//                                //select next edittext
-//                                selectedETPosition = 1
-//                                showKeyboard(binding.etOtp2)
-//                                binding.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
-//                            }
-//                            1 -> {
-//                                //select next edittext
-//                                selectedETPosition = 2
-//                                showKeyboard(binding.etOtp3)
-//                                binding.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
-//                            }
-//                            2 -> {
-//                                //select next edittext
-//                                selectedETPosition = 3
-//                                showKeyboard(binding.etOtp4)
-//                                binding.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
-//
-//                            }
-//                            3 -> {
-//                                binding.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
-//                                hideKeyboard(binding.etOtp4)
-//                            }
-//                        }
-//
-//                    } else {
-//                        when (selectedETPosition) {
-//                            3 -> {
-//                                selectedETPosition = 2
-//                                showKeyboard(binding.etOtp3)
-//                                binding.etOtp4.setBackgroundResource(R.drawable.text_handle)
-//                            }
-//                            2 -> {
-//                                selectedETPosition = 1
-//                                showKeyboard(binding.etOtp2)
-//                                binding.etOtp3.setBackgroundResource(R.drawable.text_handle)
-//
-//                            }
-//                            1 -> {
-//                                selectedETPosition = 0
-//                                showKeyboard(binding.etOtp1)
-//                                binding.etOtp2.setBackgroundResource(R.drawable.text_handle)
-//
-//                            }
-//                            0 -> {
-//                                binding.etOtp1.setBackgroundResource(R.drawable.text_handle)
-//
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//
-//            binding.etOtp1.addTextChangedListener(edittextTextWatcher)
-//            binding.etOtp2.addTextChangedListener(edittextTextWatcher)
-//            binding.etOtp3.addTextChangedListener(edittextTextWatcher)
-//            binding.etOtp4.addTextChangedListener(edittextTextWatcher)
-//
-//            binding.btnSubmit.setOnClickListener {
-//
-//                var inputOtp = binding.etOtp1.text.toString() + binding.etOtp2.text.toString() +
-//                        binding.etOtp3.text.toString() + binding.etOtp4.text.toString()
-//
-//
-//                if (inputOtp.length == 4) {
-//
-//                    // Called Api
-//                    cancelTimer()
-//                    hideKeyboard(binding.btnSubmit)
-//                    loginViewModel.otpVerifyHorizon(inputOtp)
-//
-//                }
-//                else if(inputOtp.length == 0){
-//                    binding.txtError.visibility = View.VISIBLE
-//                    binding.txtError.text = "Please Enter OTP"
-//                }
-//
-//                else {
-//
-//                    //region EditText error display
-//                    binding.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
-//                    binding.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
-//                    binding.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
-//                    binding.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
-//
-//                    binding.txtError.visibility = View.VISIBLE
-//                    binding.txtError.text = "Invalid OTP Entered."
-//
-//                    //endregion
-//
-//                }
-//
-//
-//
-//
-//            }
-//            binding.imgClose.setOnClickListener {
-//                alertDialogOTP.dismiss()
-//                // Cancel the existing timer if it's running
-//                cancelTimer()
-//
-//                binding.etOtp1.removeTextChangedListener(edittextTextWatcher)
-//                binding.etOtp2.removeTextChangedListener(edittextTextWatcher)
-//                binding.etOtp3.removeTextChangedListener(edittextTextWatcher)
-//                binding.etOtp4.removeTextChangedListener(edittextTextWatcher)
-//
-//            }
-//
-//
-//
-//            binding.txtResend.setOnClickListener{
-//
-//
-//                loginViewModel.otpResendHorizon(etLoginID.text.toString())
-//
-//                binding.progessBar.visibility = View.VISIBLE
-//                binding.txtResend.apply {
-//                    isEnabled = false
-//                    alpha = 0.4f   // Set alpha back to 1 (100% opacity)
-//                }
-//                binding.btnSubmit.apply{
-//                    isEnabled = false
-//                    alpha = 0.4f
-//                }
-//                lifecycleScope.launch {
-//
-//                    //region delay for showng Loader
-//                    delay(3000) // 3 seconds delay
-//                    // Hide the progressBar
-//                    binding.progessBar.visibility = View.GONE
-//                    binding.txtResend.apply {
-//                        isEnabled = true
-//                        alpha = 1f   // Set alpha back to 1 (100% opacity)
-//                    }
-//                    binding.btnSubmit.apply{
-//                        isEnabled = true
-//                        alpha = 1f
-//                    }
-//
-//                    //endregion
-//
-//                }
-//
-//                cancelTimer()
-//
-//
-//                startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
-//
-//
-//            }
-//
-//            startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
-//            alertDialogOTP.show()
-//            alertDialogOTP.setCancelable(false)
-//
-//
-//        }
-//
 
 
-
-    }
-
-    private fun showOTPDialog(mobNo : String) {
+    private fun showOTPDialog(  mobNo : String) {
 
         selectedETPosition = 0
         isResendOTPUpdate = false
-        var binding = LayoutLoginViaotpBinding.inflate(layoutInflater)
+        var bindingOTP = LayoutLoginViaotpBinding.inflate(layoutInflater)
 
         alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
-            .setView(binding.root)
+            .setView(bindingOTP.root)
             .create()
 
-        binding.txtResend.apply {
-            isEnabled = false
-            alpha = 0.4f   // Set alpha back to 1 (100% opacity)
-        }
-        binding.txtError.visibility = View.GONE
-        binding.txtTextDtl.text = "We have sent you One-Time Password on ${mobNo}"
-        binding.etOtp1.requestFocus()
+//        binding.txtResend.apply {
+//            isEnabled = false
+//            alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+//        }
+        bindingOTP.txtResend.visibility = View.GONE
+
+        bindingOTP.txtError.visibility = View.GONE
+        bindingOTP.txtTextDtl.text = "We have sent you One-Time Password on ${maskPhoneNumber(mobNo)}"
+        bindingOTP.etOtp1.requestFocus()
+
        // showKeyboard( binding.etOtp1)
 
 
@@ -669,7 +447,7 @@ class LoginNewActivity : BaseKotlinActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                binding.txtError.visibility = View.GONE
+                bindingOTP.txtError.visibility = View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -680,28 +458,28 @@ class LoginNewActivity : BaseKotlinActivity() {
                         0 -> {
                             //select next edittext
                             selectedETPosition = 1
-                            showKeyboard(binding.etOtp2)
-                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
+                            showKeyboard(bindingOTP.etOtp2)
+                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
                         }
 
                         1 -> {
                             //select next edittext
                             selectedETPosition = 2
-                            showKeyboard(binding.etOtp3)
-                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
+                            showKeyboard(bindingOTP.etOtp3)
+                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
                         }
 
                         2 -> {
                             //select next edittext
                             selectedETPosition = 3
-                            showKeyboard(binding.etOtp4)
-                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
+                            showKeyboard(bindingOTP.etOtp4)
+                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
 
                         }
 
                         3 -> {
-                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
-                            hideKeyboard(binding.etOtp4)
+                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
+                            hideKeyboard(bindingOTP.etOtp4)
                         }
                     }
 
@@ -709,26 +487,26 @@ class LoginNewActivity : BaseKotlinActivity() {
                     when (selectedETPosition) {
                         3 -> {
                             selectedETPosition = 2
-                            showKeyboard(binding.etOtp3)
-                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle)
+                            showKeyboard(bindingOTP.etOtp3)
+                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle)
                         }
 
                         2 -> {
                             selectedETPosition = 1
-                            showKeyboard(binding.etOtp2)
-                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle)
+                            showKeyboard(bindingOTP.etOtp2)
+                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle)
 
                         }
 
                         1 -> {
                             selectedETPosition = 0
-                            showKeyboard(binding.etOtp1)
-                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle)
+                            showKeyboard(bindingOTP.etOtp1)
+                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle)
 
                         }
 
                         0 -> {
-                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle)
+                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle)
 
                         }
                     }
@@ -737,38 +515,38 @@ class LoginNewActivity : BaseKotlinActivity() {
         }
         //endregion
 
-        binding.etOtp1.addTextChangedListener(edittextTextWatcher)
-        binding.etOtp2.addTextChangedListener(edittextTextWatcher)
-        binding.etOtp3.addTextChangedListener(edittextTextWatcher)
-        binding.etOtp4.addTextChangedListener(edittextTextWatcher)
+        bindingOTP.etOtp1.addTextChangedListener(edittextTextWatcher)
+        bindingOTP.etOtp2.addTextChangedListener(edittextTextWatcher)
+        bindingOTP.etOtp3.addTextChangedListener(edittextTextWatcher)
+        bindingOTP.etOtp4.addTextChangedListener(edittextTextWatcher)
 
-        binding.btnSubmit.setOnClickListener {
+        bindingOTP.btnSubmit.setOnClickListener {
 
             //region OTP Verification Handling
-            var inputOtp = binding.etOtp1.text.toString() + binding.etOtp2.text.toString() +
-                    binding.etOtp3.text.toString() + binding.etOtp4.text.toString()
+            var inputOtp = bindingOTP.etOtp1.text.toString() + bindingOTP.etOtp2.text.toString() +
+                    bindingOTP.etOtp3.text.toString() + bindingOTP.etOtp4.text.toString()
 
 
             if (inputOtp.length == 4) {
 
                 // Called Api
                 cancelTimer()
-                hideKeyboard(binding.btnSubmit)
+                hideKeyboard(bindingOTP.btnSubmit)
                 loginViewModel.otpVerifyHorizon(inputOtp)
 
             } else if (inputOtp.length == 0) {
-                binding.txtError.visibility = View.VISIBLE
-                binding.txtError.text = "Please Enter OTP"
+                bindingOTP.txtError.visibility = View.VISIBLE
+                bindingOTP.txtError.text = "Please Enter OTP"
             } else {
 
                 //region EditText error display
-                binding.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
-                binding.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
-                binding.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
-                binding.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
 
-                binding.txtError.visibility = View.VISIBLE
-                binding.txtError.text = "Invalid OTP Entered."
+                bindingOTP.txtError.visibility = View.VISIBLE
+                bindingOTP.txtError.text = "Invalid OTP Entered."
 
                 //endregion
 
@@ -779,31 +557,32 @@ class LoginNewActivity : BaseKotlinActivity() {
 
         }
 
-        binding.imgClose.setOnClickListener {
+        bindingOTP.imgClose.setOnClickListener {
             alertDialogOTP.dismiss()
             // Cancel the existing timer if it's running
             cancelTimer()
 
-            binding.etOtp1.removeTextChangedListener(edittextTextWatcher)
-            binding.etOtp2.removeTextChangedListener(edittextTextWatcher)
-            binding.etOtp3.removeTextChangedListener(edittextTextWatcher)
-            binding.etOtp4.removeTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp1.removeTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp2.removeTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp3.removeTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp4.removeTextChangedListener(edittextTextWatcher)
 
         }
 
 
 
-        binding.txtResend.setOnClickListener {
+        bindingOTP.txtResend.setOnClickListener {
 
             //region Resend OTP
-            loginViewModel.otpResendHorizon(etLoginID.text.toString())
+            loginViewModel.otpResendHorizon(binding.includeLoginNew.etEmail.text.trim().toString())
 
-            binding.progessBar.visibility = View.VISIBLE
-            binding.txtResend.apply {
-                isEnabled = false
-                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
-            }
-            binding.btnSubmit.apply {
+            bindingOTP.progessBar.visibility = View.VISIBLE
+//            binding.txtResend.apply {
+//                isEnabled = false
+//                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+//            }
+            bindingOTP.txtResend.visibility = View.GONE
+            bindingOTP.btnSubmit.apply {
                 isEnabled = false
                 alpha = 0.4f
             }
@@ -814,12 +593,13 @@ class LoginNewActivity : BaseKotlinActivity() {
                 //region delay for showng Loader
                 delay(3000) // 3 seconds delay
                 // Hide the progressBar
-                binding.progessBar.visibility = View.GONE
-                binding.txtResend.apply {
-                    isEnabled = true
-                    alpha = 1f   // Set alpha back to 1 (100% opacity)
-                }
-                binding.btnSubmit.apply {
+                bindingOTP.progessBar.visibility = View.GONE
+//                binding.txtResend.apply {
+//                    isEnabled = true
+//                    alpha = 1f   // Set alpha back to 1 (100% opacity)
+//                }
+                bindingOTP.txtResend.visibility = View.VISIBLE
+                bindingOTP.btnSubmit.apply {
                     isEnabled = true
                     alpha = 1f
                 }
@@ -828,14 +608,14 @@ class LoginNewActivity : BaseKotlinActivity() {
 
 
             }
-            startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
+            startTimerCountdown(bindingOTP.txtcountdownTimer, bindingOTP.txtResend)
 
             //endregion
 
 
         }
 
-        startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
+        startTimerCountdown(bindingOTP.txtcountdownTimer, bindingOTP.txtResend)
         alertDialogOTP.show()
         alertDialogOTP.setCancelable(false)
 
@@ -847,23 +627,24 @@ class LoginNewActivity : BaseKotlinActivity() {
 
         selectedETPosition = 0
         isResendOTPUpdate = false
-        var binding = LayoutLoginViaotpBinding.inflate(layoutInflater)
+        var bindingOTP = LayoutLoginViaotpBinding.inflate(layoutInflater)
 
             alertDialogOTP = AlertDialog.Builder(this@LoginNewActivity, R.style.CustomDialogWithoutAnim)
-                .setView(binding.root)
+                .setView(bindingOTP.root)
                 .create()
 
-            binding.txtResend.apply {
-                isEnabled = false
-                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
-            }
-
-            binding.txtError.visibility = View.GONE
-            binding.txtTextDtl.text = "We have sent you One-Time Password on ${mobNo}"
+//            binding.txtResend.apply {
+//                isEnabled = false
+//                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+//            }
+            bindingOTP.txtResend.visibility = View.GONE
+            bindingOTP.txtError.visibility = View.GONE
+            bindingOTP.txtTextDtl.text = "We have sent you One-Time Password on ${maskPhoneNumber(mobNo)}"
+             bindingOTP.etOtp1.requestFocus()
 
             if(errorMsg.isNotEmpty()){
-                binding.txtError.visibility = View.VISIBLE
-                binding.txtError.text = errorMsg
+                bindingOTP.txtError.visibility = View.VISIBLE
+                bindingOTP.txtError.text = errorMsg
             }
 
         //region EditText TextWatcher
@@ -874,7 +655,7 @@ class LoginNewActivity : BaseKotlinActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                binding.txtError.visibility = View.GONE
+                bindingOTP.txtError.visibility = View.GONE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -885,28 +666,28 @@ class LoginNewActivity : BaseKotlinActivity() {
                         0 -> {
                             //select next edittext
                             selectedETPosition = 1
-                            showKeyboard(binding.etOtp2)
-                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
+                            showKeyboard(bindingOTP.etOtp2)
+                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
                         }
 
                         1 -> {
                             //select next edittext
                             selectedETPosition = 2
-                            showKeyboard(binding.etOtp3)
-                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
+                            showKeyboard(bindingOTP.etOtp3)
+                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
                         }
 
                         2 -> {
                             //select next edittext
                             selectedETPosition = 3
-                            showKeyboard(binding.etOtp4)
-                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
+                            showKeyboard(bindingOTP.etOtp4)
+                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
 
                         }
 
                         3 -> {
-                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
-                            hideKeyboard(binding.etOtp4)
+                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
+                            hideKeyboard(bindingOTP.etOtp4)
                         }
                     }
 
@@ -914,26 +695,26 @@ class LoginNewActivity : BaseKotlinActivity() {
                     when (selectedETPosition) {
                         3 -> {
                             selectedETPosition = 2
-                            showKeyboard(binding.etOtp3)
-                            binding.etOtp4.setBackgroundResource(R.drawable.text_handle)
+                            showKeyboard(bindingOTP.etOtp3)
+                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle)
                         }
 
                         2 -> {
                             selectedETPosition = 1
-                            showKeyboard(binding.etOtp2)
-                            binding.etOtp3.setBackgroundResource(R.drawable.text_handle)
+                            showKeyboard(bindingOTP.etOtp2)
+                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle)
 
                         }
 
                         1 -> {
                             selectedETPosition = 0
-                            showKeyboard(binding.etOtp1)
-                            binding.etOtp2.setBackgroundResource(R.drawable.text_handle)
+                            showKeyboard(bindingOTP.etOtp1)
+                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle)
 
                         }
 
                         0 -> {
-                            binding.etOtp1.setBackgroundResource(R.drawable.text_handle)
+                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle)
 
                         }
                     }
@@ -942,38 +723,38 @@ class LoginNewActivity : BaseKotlinActivity() {
         }
         //endregion
 
-            binding.etOtp1.addTextChangedListener(edittextTextWatcher)
-            binding.etOtp2.addTextChangedListener(edittextTextWatcher)
-            binding.etOtp3.addTextChangedListener(edittextTextWatcher)
-            binding.etOtp4.addTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp1.addTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp2.addTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp3.addTextChangedListener(edittextTextWatcher)
+            bindingOTP.etOtp4.addTextChangedListener(edittextTextWatcher)
 
-        binding.btnSubmit.setOnClickListener {
+        bindingOTP.btnSubmit.setOnClickListener {
 
                //region OTP Verification Handling
-            var inputOtp = binding.etOtp1.text.toString() + binding.etOtp2.text.toString() +
-                    binding.etOtp3.text.toString() + binding.etOtp4.text.toString()
+            var inputOtp = bindingOTP.etOtp1.text.toString() + bindingOTP.etOtp2.text.toString() +
+                    bindingOTP.etOtp3.text.toString() + bindingOTP.etOtp4.text.toString()
 
 
             if (inputOtp.length == 4) {
 
                 // Called Api
                 cancelTimer()
-                hideKeyboard(binding.btnSubmit)
+                hideKeyboard(bindingOTP.btnSubmit)
                 loginViewModel.otpVerifyHorizon(inputOtp)
 
             } else if (inputOtp.length == 0) {
-                binding.txtError.visibility = View.VISIBLE
-                binding.txtError.text = "Please Enter OTP"
+                bindingOTP.txtError.visibility = View.VISIBLE
+                bindingOTP.txtError.text = "Please Enter OTP"
             } else {
 
                 //region EditText error display
-                binding.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
-                binding.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
-                binding.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
-                binding.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
 
-                binding.txtError.visibility = View.VISIBLE
-                binding.txtError.text = "Invalid OTP Entered."
+                bindingOTP.txtError.visibility = View.VISIBLE
+                bindingOTP.txtError.text = "Invalid OTP Entered."
 
                 //endregion
 
@@ -982,32 +763,32 @@ class LoginNewActivity : BaseKotlinActivity() {
             //endregion
 
             }
-            binding.imgClose.setOnClickListener {
+            bindingOTP.imgClose.setOnClickListener {
                 alertDialogOTP.dismiss()
                 // Cancel the existing timer if it's running
                 cancelTimer()
 
-                binding.etOtp1.removeTextChangedListener(edittextTextWatcher)
-                binding.etOtp2.removeTextChangedListener(edittextTextWatcher)
-                binding.etOtp3.removeTextChangedListener(edittextTextWatcher)
-                binding.etOtp4.removeTextChangedListener(edittextTextWatcher)
+                bindingOTP.etOtp1.removeTextChangedListener(edittextTextWatcher)
+                bindingOTP.etOtp2.removeTextChangedListener(edittextTextWatcher)
+                bindingOTP.etOtp3.removeTextChangedListener(edittextTextWatcher)
+                bindingOTP.etOtp4.removeTextChangedListener(edittextTextWatcher)
 
 
             }
 
 
 
-            binding.txtResend.setOnClickListener{
+            bindingOTP.txtResend.setOnClickListener{
 
+                loginViewModel.otpResendHorizon(binding.includeLoginNew.etEmail.text.trim().toString())
 
-                loginViewModel.otpResendHorizon(etLoginID.text.toString())
-
-                binding.progessBar.visibility = View.VISIBLE
-                binding.txtResend.apply {
-                    isEnabled = false
-                    alpha = 0.4f   // Set alpha back to 1 (100% opacity)
-                }
-                binding.btnSubmit.apply {
+                bindingOTP.progessBar.visibility = View.VISIBLE
+//                binding.txtResend.apply {
+//                    isEnabled = false
+//                    alpha = 0.4f   // Set alpha back to 1 (100% opacity)
+//                }
+                bindingOTP.txtResend.visibility = View.GONE
+                bindingOTP.btnSubmit.apply {
                     isEnabled = false
                     alpha = 0.4f
                 }
@@ -1018,12 +799,13 @@ class LoginNewActivity : BaseKotlinActivity() {
                     //region delay for showng Loader
                     delay(3000) // 3 seconds delay
                     // Hide the progressBar
-                    binding.progessBar.visibility = View.GONE
-                    binding.txtResend.apply {
-                        isEnabled = true
-                        alpha = 1f   // Set alpha back to 1 (100% opacity)
-                    }
-                    binding.btnSubmit.apply {
+                    bindingOTP.progessBar.visibility = View.GONE
+//                    binding.txtResend.apply {
+//                        isEnabled = true
+//                        alpha = 1f   // Set alpha back to 1 (100% opacity)
+//                    }
+                    bindingOTP.txtResend.visibility = View.VISIBLE
+                    bindingOTP.btnSubmit.apply {
                         isEnabled = true
                         alpha = 1f
                     }
@@ -1032,11 +814,11 @@ class LoginNewActivity : BaseKotlinActivity() {
 
 
                 }
-                startTimerCountdown(binding.txtcountdownTimer, binding.txtResend)
+                startTimerCountdown(bindingOTP.txtcountdownTimer, bindingOTP.txtResend)
 
             }
 
-            startTimerCountdown(binding.txtcountdownTimer, binding.txtResend, remainingTime = loginViewModel.remaingTime)
+            startTimerCountdown(bindingOTP.txtcountdownTimer, bindingOTP.txtResend, remainingTime = loginViewModel.remaingTime)
             alertDialogOTP.show()
             alertDialogOTP.setCancelable(false)
 
@@ -1053,52 +835,52 @@ class LoginNewActivity : BaseKotlinActivity() {
 
         //var binding: LayoutLoginViapasswordBinding? = null
 
-        var binding = LayoutLoginViapasswordBinding.inflate(layoutInflater)
-         if (!this::alertDialogPassword.isInitialized) {
+        var bindingPassword = LayoutLoginViapasswordBinding.inflate(layoutInflater)
 
-                alertDialogPassword = AlertDialog.Builder(this, R.style.CustomDialog)
-                    .setView(binding.root)
-                    .setCancelable(false)
-                    .create()
+        alertDialogPassword = AlertDialog.Builder(this, R.style.CustomDialog)
+            .setView(bindingPassword.root)
+            .setCancelable(false)
+            .create()
 
+        this.showKeyboard(bindingPassword.etPassword)
+        bindingPassword.etPassword.setText("")
+        bindingPassword.imgClose.setOnClickListener {
+            alertDialogPassword.dismiss()
+        }
+        bindingPassword.txtError.visibility = View.GONE
+        bindingPassword.txtError.text = ""
+
+        bindingPassword.etPassword.doOnTextChanged { text, start, before, count ->
+
+            if(text!!.length >0){
+                bindingPassword.txtError.visibility = View.GONE
+                bindingPassword.txtError.text = ""
             }
+        }
+        bindingPassword.btnSubmit.setOnClickListener {
 
+            if (bindingPassword.etPassword.text.isNullOrBlank()) {
 
-        if(!alertDialogPassword.isShowing) {
-            this.showKeyboard(binding.etPassword)
-            binding.etPassword.setText("")
-            binding.imgClose.setOnClickListener {
+                bindingPassword.txtError.visibility = View.VISIBLE
+                bindingPassword.txtError.text = "Enter Password"
+            } else {
+
                 alertDialogPassword.dismiss()
-            }
-            binding.txtError.visibility = View.GONE
-            binding.txtError.text = ""
-
-            binding.btnSubmit.setOnClickListener {
-
-                if(binding.etPassword.text.isNullOrBlank()){
-
-                    binding.txtError.visibility = View.VISIBLE
-                    binding.txtError.text = "Enter Password"
-                }else {
-
-                    alertDialogPassword.dismiss()
-                    isPasswordObserving = false
-                    loginViewModel.getAuthLoginHorizon(
-                        strUserID.trim(),
-                        binding.etPassword.text.toString()
-                    )
-
-                }
-
+                isPasswordObserving = false
+                loginViewModel.getAuthLoginHorizon(
+                    binding.includeLoginNew.etEmail.text.trim().toString(),
+                    bindingPassword.etPassword.text.toString()
+                )
 
             }
 
 
-
-            alertDialogPassword.show()
-            alertDialogPassword.setCancelable(false)
         }
 
+
+
+        alertDialogPassword.show()
+        alertDialogPassword.setCancelable(false)
 
 
     }
@@ -1177,10 +959,13 @@ class LoginNewActivity : BaseKotlinActivity() {
                     if (!blnResendOTP) {
               // we req elapse time form Original Start Time ie 2 min hence we store in totalMainTimeInMillis and totalMainTimeInMillis
                         if (elapsedMainTime >= totalResendTimes) {
-                            txtResend.apply {
-                                isEnabled = true
-                                alpha = 1f   // Set alpha back to 1 (100% opacity)
-                            }
+//                            txtResend.apply {
+//                                isEnabled = true
+//                                alpha = 1f   // Set alpha back to 1 (100% opacity)
+//                            }
+                            txtResend.visibility = View.VISIBLE
+
+
                             blnResendOTP = true
 
                         }

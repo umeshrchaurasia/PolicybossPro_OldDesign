@@ -44,16 +44,28 @@
     </style>
 
     <style name="Theme.Login" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <!--actionbar color-->
+
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <!--status bar color-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/white</item>
         <!--<item name="android:windowBackground">@color/window_background</item>-->
         <item name="android:windowBackground">@color/background</item>
-        <!--<item name="android:textColorPrimary">@color/header_text_color</item>-->
-        <!--<item name="android:textColorHint">@color/secondary_text_color</item>-->
+
+
+
+
+    </style>
+
+    <style name="TextInputMaterialStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <item name="hintTextColor">@color/header_text_color</item>
+        <item name="startIconTint">@color/color_close</item>
+        <item name="endIconTint">@color/color_close</item>
+        <item name="boxStrokeColor">@color/black</item>
+
+        <item name="endIconMode">clear_text</item>
 
     </style>
 
@@ -125,6 +137,18 @@
         <item name="android:textSize">14sp</item>
         <item name="android:inputType">textCapWords</item>
         <item name="android:layout_marginTop">8dp</item>
+
+    </style>
+
+    <style name="Style.edittext1" parent="@android:style/Widget.EditText">
+        <!--<item name="android:background">@null</item>-->
+        <item name="android:textColor">@color/uvv_black</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">0dp</item>-->
+        <item name="android:textSize">15sp</item>
+
+
 
     </style>
 
