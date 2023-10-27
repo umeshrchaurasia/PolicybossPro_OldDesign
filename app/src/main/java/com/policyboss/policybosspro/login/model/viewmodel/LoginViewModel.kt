@@ -2,9 +2,7 @@ package com.policyboss.policybosspro.login.model.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
 import com.policyboss.policybosspro.APIState
-import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
 import com.policyboss.policybosspro.login.model.Repository.LoginNewRepository
 import com.policyboss.policybosspro.utility.Constant
 import com.policyboss.policybosspro.utility.UTILITY
@@ -12,16 +10,21 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.AuthLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpVerifyResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.UserNewSignUpResponse
 
 class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                       private val loginPrefManager: LoginPrefManager
 ): ViewModel() {
 
 
+
+    // region Declaration of Variable
     var remaingTime: Long = 0L
 
     //region Handele SSID
@@ -41,6 +44,16 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
     }
     //endregion
 
+
+    //region get isUserSignUp or Not ?
+    private  var getsignUpMutuableStateFlow : MutableStateFlow<APIState<UserNewSignUpResponse>> = MutableStateFlow(APIState.Empty())
+
+    val getsignUpStateFlow : StateFlow<APIState<UserNewSignUpResponse>>
+        get() = getsignUpMutuableStateFlow
+
+    //endregion
+
+    //.........
     //region DSAS Login
     private  var loginMutuableStateFlow : MutableStateFlow<APIState<LoginNewResponse_DSAS_Horizon>> = MutableStateFlow(APIState.Empty())
 
@@ -83,6 +96,56 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
         get() = authLoginMutuableStateFlow
 
     //endregion
+
+    //region forgotPassword ?
+    private  var forgotPasswordMutuableStateFlow : MutableStateFlow<APIState<ForgotResponse>> = MutableStateFlow(APIState.Empty())
+
+    val forgotPasswordStateFlow : StateFlow<APIState<ForgotResponse>>
+        get() = forgotPasswordMutuableStateFlow
+
+    //endregion
+
+    //endregion
+
+
+    fun getusersignup(appVersion: String, deviceCode : String) = viewModelScope.launch {
+
+        var body = HashMap<String, String>()
+        body.put("app_version", appVersion)
+        body.put("ssid", "")
+        body.put("fbaid", "")
+        body.put("device_code", deviceCode)
+
+
+        getsignUpMutuableStateFlow.value = APIState.Loading()
+
+        setSsid("")
+        loginNewRepository.getusersignup(body)
+            .catch {
+                getsignUpMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+            }
+            .collect{ data ->
+                if (data?.isSuccessful == true){
+                    if(data.body()?.StatusNo?:1 == 0)
+                    {
+
+                            getsignUpMutuableStateFlow.value = APIState.Success(data = data.body())
+
+                    }
+                    else{
+
+                        otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+                    }
+                }
+                else
+                {
+                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+                }
+
+            }
+
+
+    }
 
 
 
@@ -160,8 +223,6 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
 
     }
-
-
 
 
     fun  otpVerifyHorizon(otp : String) = viewModelScope.launch {
@@ -370,6 +431,47 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                 else
                 {
                     authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidPass)
+                }
+
+            }
+
+
+    }
+
+
+    fun forgotPassword(emailID: String ,appVersion: String, deviceCode : String) = viewModelScope.launch {
+
+        var body = HashMap<String, String>()
+        body.put("EmailID", emailID)
+        body.put("app_version", appVersion)
+        body.put("ssid", "")
+        body.put("fbaid", "")
+        body.put("device_code", deviceCode)
+
+
+        getsignUpMutuableStateFlow.value = APIState.Loading()
+
+        setSsid("")
+        loginNewRepository.forgotPassword(body)
+            .catch {
+                forgotPasswordMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+            }
+            .collect{ data ->
+                if (data?.isSuccessful == true){
+                    if(data.body()?.statusNo?:1 == 0)
+                    {
+
+                        forgotPasswordMutuableStateFlow.value = APIState.Success(data = data.body())
+
+                    }
+                    else{
+
+                        forgotPasswordMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+                    }
+                }
+                else
+                {
+                    forgotPasswordMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
                 }
 
             }

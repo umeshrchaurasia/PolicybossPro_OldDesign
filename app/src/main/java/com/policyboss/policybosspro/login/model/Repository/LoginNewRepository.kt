@@ -7,7 +7,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.Syncon
 
 class LoginNewRepository(private  val apiService : SyncContactInterface) {
 
- suspend fun getLoginHorizonDetails(userId : String ) = flow {
+
+    suspend fun getusersignup(body : HashMap<String,String> ) = flow {
+
+
+        val response = apiService.getusersignup(body = body)
+
+        emit(response)
+    }.flowOn(Dispatchers.IO)
+
+    suspend fun getLoginHorizonDetails(userId : String ) = flow {
 
 
      val response = apiService.getLoginDsasHorizonDetails(userId = userId)
@@ -49,6 +58,14 @@ class LoginNewRepository(private  val apiService : SyncContactInterface) {
     }.flowOn(Dispatchers.IO)
 
     //otpVerifyHorizon
+
+    suspend fun forgotPassword(body : HashMap<String,String> ) = flow {
+
+
+        val response = apiService.forgotPassword(body = body)
+
+        emit(response)
+    }.flowOn(Dispatchers.IO)
 
 
 }
