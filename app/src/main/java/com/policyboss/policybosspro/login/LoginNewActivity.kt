@@ -1,52 +1,68 @@
 package com.policyboss.policybosspro.login
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Build.VERSION
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
+import android.view.View.OnClickListener
+import android.widget.Button
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import com.policyboss.policybosspro.APIState
 import com.policyboss.policybosspro.BaseKotlinActivity
+import com.policyboss.policybosspro.BuildConfig
 import com.policyboss.policybosspro.R
+import com.policyboss.policybosspro.analytics.WebEngageAnalytics
 import com.policyboss.policybosspro.databinding.ActivityLoginNewBinding
 import com.policyboss.policybosspro.databinding.LayoutLoginViaotpBinding
 import com.policyboss.policybosspro.databinding.LayoutLoginViapasswordBinding
+import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity
 import com.policyboss.policybosspro.hideKeyboard
 import com.policyboss.policybosspro.home.HomeActivity
 import com.policyboss.policybosspro.login.model.Repository.LoginNewRepository
 import com.policyboss.policybosspro.login.model.Repository.LoginNewViewModelFactory
 import com.policyboss.policybosspro.login.model.viewmodel.LoginViewModel
+import com.policyboss.policybosspro.register.RegisterActivity
 import com.policyboss.policybosspro.showAlert
 import com.policyboss.policybosspro.showKeyboard
+import com.policyboss.policybosspro.utility.Constants
+import com.policyboss.policybosspro.utility.NetworkUtils.Companion.isNetworkAvailable
+import com.policyboss.policybosspro.utility.ValidationUtil
 import com.policyboss.policybosspro.utility.showToast
+import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
+import magicfinmart.datacomp.com.finmartserviceapi.Utility
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
-class LoginNewActivity : BaseKotlinActivity() {
+class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     lateinit var binding:ActivityLoginNewBinding
 
-    lateinit var bindingOTP :LayoutLoginViaotpBinding
-  // private val loginViewModel by viewModels<LoginViewModel>()
-  //  lateinit var loginViewModel: LoginViewModel
-
+    //region Declaration
     lateinit var  loginViewModel: LoginViewModel
 
-    lateinit var prefManager : LoginPrefManager
-
+    lateinit var loginPrefManager : LoginPrefManager
+    lateinit var prefManager: PrefManager
 
 
     var selectedLogin: LoginOption = LoginOption.NoData // Default value
@@ -72,62 +88,62 @@ class LoginNewActivity : BaseKotlinActivity() {
     //selected edittext position
     var selectedETPosition = 0    // For OTP EditText Dialog
 
+    //   User weUser;
+    var enable_pro_signupurl = ""
+
+    var perms = arrayOf(
+        "android.permission.CAMERA",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.READ_CONTACTS",
+        "android.permission.READ_CALL_LOG",
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.READ_MEDIA_IMAGES"
+    )
+
+    //endregion
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityLoginNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        //region OnCreate Content
         //Default KeyBoard PopUp when EditText
        // this.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         init()
+
+        setListener()
 
         radioButtonListner()
 
         // displaying the response which we get from above API
          observe()
 
-        binding.includeLoginNew.btnNext.setOnClickListener {
-
-           // loginViewModel.getLoginDetailHorizon("124970") //ss_id="124970"
-            //validateNextButton()
-
-
-            hideKeyboard(binding.root)
-            if(binding.includeLoginNew.etEmail.text.isNotBlank() && selectedLogin == LoginOption.OTP){
-
-                 //05temp
-                loginViewModel.getotpLoginHorizon(binding.includeLoginNew.etEmail.text.trim().toString())
-
-//                if (!this::alertDialogOTP.isInitialized) {
-//
-//                    showOTPDialog(mobNo = "909099")
-//
-//                }else{
-//
-//                    if(!alertDialogOTP.isShowing){
-//                        showOTPDialog(mobNo = "909099")
-//                    }
-//                }
-
-
-
-            }else if(binding.includeLoginNew.etEmail.text.isNotBlank() && selectedLogin == LoginOption.Password){
-                showPasswordDialog(strUserID = binding.includeLoginNew.etEmail.text.toString().trim())
-            }
-            else{
-                showAlert("Please Enter User ID")
-            }
-
+        if (!checkPermission()) {
+            requestPermission()
         }
 
+        if (!isNetworkAvailable(this)) {
+            Snackbar.make(binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
+            return
+        }else{
+        // Verify SignUp User
+        loginViewModel.getusersignup(appVersion = prefManager.appVersion,
+            deviceCode = prefManager.deviceID
+            )
+        }
 
+        //endregion
 
     }
 
+    // region method
 
-    //region method
+    //region initialization
     private fun init(){
 
 
@@ -135,18 +151,40 @@ class LoginNewActivity : BaseKotlinActivity() {
 
 
 
-        prefManager = LoginPrefManager(this@LoginNewActivity)
+        loginPrefManager = LoginPrefManager(this@LoginNewActivity)
+        prefManager = PrefManager(this@LoginNewActivity)
+
+        //region set Repository and VieModel
         var loginRepository = LoginNewRepository(RetroHelper.api)
 
-        var  viewModelFactory = LoginNewViewModelFactory(loginRepository, prefManager)
+        var  viewModelFactory = LoginNewViewModelFactory(loginRepository, loginPrefManager)
 
          loginViewModel = ViewModelProvider(this,viewModelFactory).get(LoginViewModel ::class.java)
 
+        //endregion
 
+        //   weUser = WebEngage.get().user();
+
+       // clear UserConstant Entity....
+        DBPersistanceController(this).clearUserData()
+        prefManager.deviceID = Utility.getDeviceId(this@LoginNewActivity.getApplicationContext())
+
+        prefManager.appVersion = "policyboss-" + BuildConfig.VERSION_NAME
 
     }
 
+    private fun setListener() {
 
+        binding.includeLoginNew.btnNext.setOnClickListener(this)
+        binding.includeLoginNew.tvSignUp.setOnClickListener(this)
+        binding.includeLoginNew.btnSignIn.setOnClickListener(this)
+        binding.includeLoginNew.tvForgotPass.setOnClickListener(this)
+        binding.includeLoginNew.lyRaiseTicket.setOnClickListener(this)
+        binding.includeLoginNew.txtterm.setOnClickListener(this)
+        binding.includeLoginNew.txtprivacy.setOnClickListener(this)
+    }
+
+    //endregion
 
     //region Radio Button for Login Type
     fun setEnableNextButton(bln : Boolean){
@@ -190,215 +228,6 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     //endregion
 
-    private fun observe() {
-
-        //region  Login Using OTP Alert
-        lifecycleScope.launch {
-
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
-
-                loginViewModel.otpLoginStateFlow.collect {
-
-                        when (it) {
-                            is APIState.Loading -> {
-                                // showAnimDialog()
-                                displayLoadingWithText()
-
-                            }
-
-                            is APIState.Success -> {
-
-
-                                hideLoading()
-                                if (it != null) {
-
-                                    var mobileNo = it.data?.Msg?.Mobile_No?:0
-                                    // showAlert(prefManager.getSSIDByOTP())
-
-                                    showOTPDialog(mobNo = mobileNo.toString())
-                                }
-                            }
-
-                            is APIState.Failure -> {
-                                hideLoading()
-                                Log.d("Error", it.errorMessage.toString())
-                                showToast(it.errorMessage.toString())
-
-
-                            }
-
-                            is APIState.Empty -> {
-                                hideLoading()
-                            }
-                        }
-
-                }
-
-
-            }
-
-
-        }
-        //endregion
-
-        // region otp Verification Horizon
-        lifecycleScope.launch{
-
-            repeatOnLifecycle(Lifecycle.State.CREATED){
-
-                loginViewModel.otpVerificationStateFlow.collect{
-
-                    when(it){
-                        is  APIState.Loading -> {
-                            // showAnimDialog()
-                            displayLoadingWithText()
-
-                        }
-
-                        is APIState.Success -> {
-
-
-
-                        }
-
-                        is APIState.Failure -> {
-                            hideLoading()
-                            Log.d("Error",it.errorMessage.toString())
-
-                            if (this@LoginNewActivity::alertDialogOTP.isInitialized){
-                                if(alertDialogOTP.isShowing){
-                                    alertDialogOTP.dismiss()
-                                }
-                            }
-
-                            showOTPDialog(mobNo = loginViewModel.getOtpMobileNo(), errorMsg = "InValid OTP")
-
-
-                        }
-
-                        is APIState.Empty ->{
-
-
-                        }
-                    }
-                }
-
-
-
-
-            }
-
-
-        }
-        //endregion
-
-        //region Login Using Id and Password Alert
-        lifecycleScope.launch{
-
-            repeatOnLifecycle(Lifecycle.State.CREATED){
-
-               if(!isPasswordObserving) {
-                   isPasswordObserving = true
-
-                   loginViewModel.authLoginStateFlow.collect{
-
-                       when(it){
-                           is  APIState.Loading -> {
-                               // showAnimDialog()
-                               displayLoadingWithText()
-
-                           }
-
-                           is APIState.Success -> {
-
-                             // Call Horizon DSSS API
-
-                           }
-
-                           is APIState.Failure -> {
-                               hideLoading()
-                               Log.d("Error",it.errorMessage.toString())
-                               showToast(it.errorMessage.toString())
-
-
-                           }
-
-                           is APIState.Empty ->{
-                               hideLoading()
-                           }
-                       }
-                   }
-               }
-
-
-
-
-
-            }
-
-
-        }
-
-        //endregion
-
-        // region DSAS Horizon Last Api. IF we got success than go toHome Page
-
-        lifecycleScope.launch{
-
-            repeatOnLifecycle(Lifecycle.State.CREATED){
-
-                loginViewModel.LoginStateFlow.collect{
-
-                    when(it){
-                        is  APIState.Loading -> {
-
-                            //displayLoadingWithText()
-
-                        }
-
-                        is APIState.Success -> {
-
-
-                            hideLoading()
-                            if(it != null){
-
-
-                                showAlert("Login is Successfully...")
-
-                                this@LoginNewActivity.finish()
-                                startActivity(Intent(this@LoginNewActivity,HomeActivity::class.java))
-
-
-                            }
-                        }
-
-                        is APIState.Failure -> {
-                            hideLoading()
-                            Log.d("LoginResp erro",it.errorMessage.toString())
-
-
-                            showAlert(it.errorMessage.toString())
-                        }
-
-                        is APIState.Empty ->{
-
-                        }
-                    }
-                }
-
-
-
-
-            }
-
-
-        }
-
-        //endregion
-
-
-    }
-
     fun maskPhoneNumber(phoneNumber: String): String {
         if (phoneNumber.length < 10) {
             // Handle cases where the phone number is not long enough to mask
@@ -413,8 +242,6 @@ class LoginNewActivity : BaseKotlinActivity() {
     }
 
     //region Alert Dialog
-
-
 
     private fun showOTPDialog(  mobNo : String) {
 
@@ -622,7 +449,7 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     }
 
-    //region Alert when Error Message is Come ...Only for Error Handling
+    //region Alert when Error Message is Come ...Only for Wrong OTP handling. ie when Otp Open again
     private fun showOTPDialog(mobNo : String,errorMsg : String = "") {
 
         selectedETPosition = 0
@@ -828,8 +655,38 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     }
 
-     //endregion
 
+    private fun dialogForgotPassword() {
+        val builder = AlertDialog.Builder(this@LoginNewActivity)
+        builder.setCancelable(true)
+        // builder.setTitle("FORGOT PASSWORD");
+
+        val view = this.layoutInflater.inflate(R.layout.layout_forgot_password, null)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        val etEmail = view.findViewById<View>(R.id.etEmail) as EditText
+        val btnReset = view.findViewById<View>(R.id.btnReset) as Button
+
+        btnReset.setOnClickListener {
+            if (!ValidationUtil.isValidEmailID(etEmail)) {
+                etEmail.error = "Invalid Email ID"
+                etEmail.isFocusable = true
+                //return;
+            } else {
+                dialog.dismiss()
+
+                //05 temp pending
+                displayLoadingWithText(text = "Retrieving password...")
+               // LoginController(this@LoginActivity)
+                //    .forgotPassword(etEmail.text.toString(), this@LoginActivity)
+               loginViewModel.forgotPassword(emailID = etEmail.text.toString(),
+                                             appVersion = prefManager.appVersion,
+                                              deviceCode = prefManager.deviceID )
+            }
+        }
+    }
+     //endregion
 
     private fun showPasswordDialog(strUserID : String) {
 
@@ -855,6 +712,7 @@ class LoginNewActivity : BaseKotlinActivity() {
             if(text!!.length >0){
                 bindingPassword.txtError.visibility = View.GONE
                 bindingPassword.txtError.text = ""
+                bindingPassword.etPassword.setBackgroundResource(R.drawable.rect_lightgray_shape)
             }
         }
         bindingPassword.btnSubmit.setOnClickListener {
@@ -863,6 +721,8 @@ class LoginNewActivity : BaseKotlinActivity() {
 
                 bindingPassword.txtError.visibility = View.VISIBLE
                 bindingPassword.txtError.text = "Enter Password"
+
+                bindingPassword.etPassword.setBackgroundResource(R.drawable.rect_error_shape)
             } else {
 
                 alertDialogPassword.dismiss()
@@ -883,6 +743,84 @@ class LoginNewActivity : BaseKotlinActivity() {
         alertDialogPassword.setCancelable(false)
 
 
+    }
+
+    //endregion
+
+    // region CountDown Timmer
+    private fun startTimerCountdown(txtTimer : TextView,txtResend : TextView,  remainingTime: Long= 0L ) {
+
+        var totalTimeInMillis : Long = 0L
+        var totalMainTimeInMillis : Long =  2 * 60 * 1000L
+        if(remainingTime == 0L){
+            totalTimeInMillis =  2 * 60 * 1000
+        }else{
+            totalTimeInMillis =  remainingTime
+        }
+        // 2 minutes in milliseconds
+
+        val totalResendTimes = resendTime.times(1000)  // same as  30 * 1000
+
+        // Variable to keep track of elapsed time
+        var elapsedTime = 0L
+        var elapsedMainTime = 0L
+        timer = object : CountDownTimer(totalTimeInMillis, 1000) {
+
+            var blnResendOTP = false
+            override fun onTick(millisUntilFinished: Long) {
+
+                runOnUiThread {
+                    val seconds = (millisUntilFinished / 1000) % 60
+                    val minutes = (millisUntilFinished / (1000 * 60)) % 60
+                    val formattedTime = String.format("%02d:%02d", minutes, seconds)
+
+                    txtTimer.text = "" + formattedTime
+
+                    // Calculate elapsed tim
+                    elapsedTime = totalTimeInMillis - millisUntilFinished
+                    // Update the ViewModel
+                    loginViewModel.remaingTime = totalTimeInMillis - elapsedTime
+
+                    elapsedMainTime = totalMainTimeInMillis - millisUntilFinished
+
+                    if (!blnResendOTP) {
+                        // we req elapse time form Original Start Time ie 2 min hence we store in totalMainTimeInMillis and totalMainTimeInMillis
+                        if (elapsedMainTime >= totalResendTimes) {
+//                            txtResend.apply {
+//                                isEnabled = true
+//                                alpha = 1f   // Set alpha back to 1 (100% opacity)
+//                            }
+                            txtResend.visibility = View.VISIBLE
+
+
+                            blnResendOTP = true
+
+                        }
+                    }
+
+
+                }
+
+            }
+
+            override fun onFinish() {
+
+                txtTimer.text = "00:00"
+                if(alertDialogOTP.isShowing){
+                    alertDialogOTP.dismiss()
+                }
+
+
+            }
+
+        }
+        timer?.start()
+    }
+
+    private fun cancelTimer() {
+        timer?.cancel()
+
+        timer = null // Set the timer to null to indicate that it's no longer active
     }
 
     //endregion
@@ -918,105 +856,544 @@ class LoginNewActivity : BaseKotlinActivity() {
 
     //endregion
 
+    //region Observation OF Api using Flow
+    private fun observe() {
+
+        //region  is UserSignUp
+        lifecycleScope.launch {
+
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+
+                loginViewModel.getsignUpStateFlow.collect {
+
+                    when (it) {
+                        is APIState.Loading -> {
+                            // showAnimDialog()
+                            displayLoadingWithText()
+
+                        }
+
+                        is APIState.Success -> {
 
 
-    // region CountDown Timmer
-    private fun startTimerCountdown(txtTimer : TextView,txtResend : TextView,  remainingTime: Long= 0L ) {
+                            hideLoading()
+                            if (it != null) {
 
-        var totalTimeInMillis : Long = 0L
-        var totalMainTimeInMillis : Long =  2 * 60 * 1000L
-        if(remainingTime == 0L){
-             totalTimeInMillis =  2 * 60 * 1000
-        }else{
-             totalTimeInMillis =  remainingTime
-        }
-          // 2 minutes in milliseconds
+                                //pospurl
 
-        val totalResendTimes = resendTime.times(1000)  // same as  30 * 1000
+                                enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_signupurl?: ""
+                                prefManager.enableProPOSPurl = enable_pro_signupurl
 
-        // Variable to keep track of elapsed time
-        var elapsedTime = 0L
-        var elapsedMainTime = 0L
-        timer = object : CountDownTimer(totalTimeInMillis, 1000) {
+                                //add sub user
 
-            var blnResendOTP = false
-            override fun onTick(millisUntilFinished: Long) {
+                                //add sub user
+                                val getenable_pro_Addsubuser_url = it.data?.MasterData?.get(0)?.enable_pro_Addsubuser_url?: ""
+                                prefManager.enablePro_ADDSUBUSERurl = getenable_pro_Addsubuser_url
 
-                runOnUiThread {
-                    val seconds = (millisUntilFinished / 1000) % 60
-                    val minutes = (millisUntilFinished / (1000 * 60)) % 60
-                    val formattedTime = String.format("%02d:%02d", minutes, seconds)
+                            }
+                        }
 
-                    txtTimer.text = "" + formattedTime
-
-                    // Calculate elapsed tim
-                    elapsedTime = totalTimeInMillis - millisUntilFinished
-                    // Update the ViewModel
-                    loginViewModel.remaingTime = totalTimeInMillis - elapsedTime
-
-                    elapsedMainTime = totalMainTimeInMillis - millisUntilFinished
-
-                    if (!blnResendOTP) {
-              // we req elapse time form Original Start Time ie 2 min hence we store in totalMainTimeInMillis and totalMainTimeInMillis
-                        if (elapsedMainTime >= totalResendTimes) {
-//                            txtResend.apply {
-//                                isEnabled = true
-//                                alpha = 1f   // Set alpha back to 1 (100% opacity)
-//                            }
-                            txtResend.visibility = View.VISIBLE
+                        is APIState.Failure -> {
+                            hideLoading()
 
 
-                            blnResendOTP = true
+                        }
 
+                        is APIState.Empty -> {
+                            hideLoading()
                         }
                     }
 
-
-                }
-
-            }
-
-            override fun onFinish() {
-
-                txtTimer.text = "00:00"
-                if(alertDialogOTP.isShowing){
-                    alertDialogOTP.dismiss()
                 }
 
 
             }
+
 
         }
-         timer?.start()
-    }
+        //endregion
 
-    private fun cancelTimer() {
-        timer?.cancel()
+        //region  Login Using OTP Alert
+        lifecycleScope.launch {
 
-        timer = null // Set the timer to null to indicate that it's no longer active
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+
+                loginViewModel.otpLoginStateFlow.collect {
+
+                    when (it) {
+                        is APIState.Loading -> {
+                            // showAnimDialog()
+                            displayLoadingWithText()
+
+                        }
+
+                        is APIState.Success -> {
+
+
+                            hideLoading()
+                            if (it != null) {
+
+                                var mobileNo = it.data?.Msg?.Mobile_No?:0
+                                // showAlert(prefManager.getSSIDByOTP())
+
+                                showOTPDialog(mobNo = mobileNo.toString())
+                            }
+                        }
+
+                        is APIState.Failure -> {
+                            hideLoading()
+                            Log.d("Error", it.errorMessage.toString())
+                            showToast(it.errorMessage.toString())
+
+
+                        }
+
+                        is APIState.Empty -> {
+                            hideLoading()
+                        }
+                    }
+
+                }
+
+
+            }
+
+
+        }
+        //endregion
+
+        // region otp Verification Horizon
+        lifecycleScope.launch{
+
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+
+                loginViewModel.otpVerificationStateFlow.collect{
+
+                    when(it){
+                        is  APIState.Loading -> {
+                            // showAnimDialog()
+                            displayLoadingWithText()
+
+                        }
+
+                        is APIState.Success -> {
+
+
+
+                        }
+
+                        is APIState.Failure -> {
+                            hideLoading()
+                            Log.d("Error",it.errorMessage.toString())
+
+                            if (this@LoginNewActivity::alertDialogOTP.isInitialized){
+                                if(alertDialogOTP.isShowing){
+                                    alertDialogOTP.dismiss()
+                                }
+                            }
+
+                            showOTPDialog(mobNo = loginViewModel.getOtpMobileNo(), errorMsg = "InValid OTP")
+
+
+                        }
+
+                        is APIState.Empty ->{
+
+
+                        }
+                    }
+                }
+
+
+
+
+            }
+
+
+        }
+        //endregion
+
+        //region Login Using Id and Password Alert
+        lifecycleScope.launch{
+
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+
+                if(!isPasswordObserving) {
+                    isPasswordObserving = true
+
+                    loginViewModel.authLoginStateFlow.collect{
+
+                        when(it){
+                            is  APIState.Loading -> {
+                                // showAnimDialog()
+                                displayLoadingWithText()
+
+                            }
+
+                            is APIState.Success -> {
+
+                                // Call Horizon DSSS API
+
+                            }
+
+                            is APIState.Failure -> {
+                                hideLoading()
+                                Log.d("Error",it.errorMessage.toString())
+                                showToast(it.errorMessage.toString())
+
+
+                            }
+
+                            is APIState.Empty ->{
+                                hideLoading()
+                            }
+                        }
+                    }
+                }
+
+
+
+
+
+            }
+
+
+        }
+
+        //endregion
+
+        // region DSAS Horizon Last Api. IF we got success than go toHome Page
+
+        lifecycleScope.launch{
+
+            repeatOnLifecycle(Lifecycle.State.CREATED){
+
+                loginViewModel.LoginStateFlow.collect{
+
+                    when(it){
+                        is  APIState.Loading -> {
+
+                            //displayLoadingWithText()
+
+                        }
+
+                        is APIState.Success -> {
+
+
+                            hideLoading()
+                            if(it != null){
+
+
+                                showAlert("Login is Successfully...")
+
+                                this@LoginNewActivity.finish()
+                                startActivity(Intent(this@LoginNewActivity,HomeActivity::class.java))
+
+
+                            }
+                        }
+
+                        is APIState.Failure -> {
+                            hideLoading()
+                            Log.d("LoginResp erro",it.errorMessage.toString())
+
+
+                            showAlert(it.errorMessage.toString())
+                        }
+
+                        is APIState.Empty ->{
+
+                        }
+                    }
+                }
+
+
+
+
+            }
+
+
+        }
+
+        //endregion
+
+        //region  Forgot Password
+        lifecycleScope.launch {
+
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+
+                loginViewModel.forgotPasswordStateFlow.collect {
+
+                    when (it) {
+                        is APIState.Loading -> {
+                            // showAnimDialog()
+                            displayLoadingWithText()
+
+                        }
+
+                        is APIState.Success -> {
+
+
+                            hideLoading()
+                            showAlert(it.data?.message?:"Email has been sent on your registered Email address")
+                        }
+
+                        is APIState.Failure -> {
+                            hideLoading()
+
+
+                        }
+
+                        is APIState.Empty -> {
+                            hideLoading()
+                        }
+                    }
+
+                }
+
+
+            }
+
+
+        }
+        //endregion
     }
 
     //endregion
+
+    //region permission
+    private fun checkPermission(): Boolean {
+        val camera = ActivityCompat.checkSelfPermission(applicationContext, perms[0])
+        val WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(applicationContext, perms[1])
+        val READ_EXTERNAL = ActivityCompat.checkSelfPermission(applicationContext, perms[2])
+        val READ_CONTACTS = ActivityCompat.checkSelfPermission(applicationContext, perms[3])
+        val READ_CALL_LOG = ActivityCompat.checkSelfPermission(applicationContext, perms[4])
+        val POST_NOTIFICATION = ActivityCompat.checkSelfPermission(applicationContext, perms[5])
+        val READ_MEDIA_IMAGE = ActivityCompat.checkSelfPermission(applicationContext, perms[6])
+        return if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            camera == PackageManager.PERMISSION_GRANTED && READ_MEDIA_IMAGE == PackageManager.PERMISSION_GRANTED && POST_NOTIFICATION == PackageManager.PERMISSION_GRANTED
+        } else if (VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            camera == PackageManager.PERMISSION_GRANTED && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED && POST_NOTIFICATION == PackageManager.PERMISSION_GRANTED
+        } else {
+            camera == PackageManager.PERMISSION_GRANTED && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED && READ_CONTACTS == PackageManager.PERMISSION_GRANTED && READ_CALL_LOG == PackageManager.PERMISSION_GRANTED
+        }
+    }
+
+    private fun checkRationale() {
+        if (checkRationalePermission()) {
+            //Show Information about why you need the permission
+            requestPermission()
+        } else {
+
+        }
+    }
+
+    private fun checkRationalePermission(): Boolean {
+        val camera =
+            ActivityCompat.shouldShowRequestPermissionRationale(this@LoginNewActivity, perms[0])
+        val write_external = ActivityCompat.shouldShowRequestPermissionRationale(
+            this@LoginNewActivity,
+            perms[1]
+        )
+        val read_external = ActivityCompat.shouldShowRequestPermissionRationale(
+            this@LoginNewActivity,
+            perms[2]
+        )
+        val read_contacts = ActivityCompat.shouldShowRequestPermissionRationale(
+            this@LoginNewActivity,
+            perms[3]
+        )
+        val read_call_log = ActivityCompat.shouldShowRequestPermissionRationale(
+            this@LoginNewActivity,
+            perms[4]
+        )
+        val read_media_image = ActivityCompat.shouldShowRequestPermissionRationale(
+            this@LoginNewActivity,
+            perms[6]
+        )
+
+        // boolean minSdk29 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q;
+        return if (VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            camera || read_media_image || read_contacts || read_call_log
+        } else if (VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            camera || read_external || read_contacts || read_call_log
+        } else {
+            camera || write_external || read_external || read_contacts || read_call_log
+        }
+    }
+
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            perms,
+            Constants.PERMISSION_CAMERA_STORACGE_CONSTANT
+        )
+    }
+
+
+
+
+    private fun showMessageOKCancel(message: String, okListener: DialogInterface.OnClickListener) {
+        AlertDialog.Builder(this@LoginNewActivity, R.style.AlertDialog_Theme)
+            .setCancelable(false)
+            .setTitle("Retry")
+            .setMessage(message)
+            .setPositiveButton("OK", okListener) //.setNegativeButton("Cancel", null)
+            .create()
+            .show()
+    }
+
+    //endregion
+
+    //region Event
+    override fun onClick(view: View?) {
+
+
+        when(view?.id){
+
+            binding.includeLoginNew.tvForgotPass.id ->{
+                dialogForgotPassword()
+            }
+
+            binding.includeLoginNew.btnNext.id ->{
+                hideKeyboard(binding.root)
+
+                if (!isNetworkAvailable(this)) {
+                    Snackbar.make(view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
+                    return
+                }else{
+
+                    if(binding.includeLoginNew.etEmail.text.isNotBlank() && selectedLogin == LoginOption.OTP){
+                        loginViewModel.getotpLoginHorizon(binding.includeLoginNew.etEmail.text.trim().toString())
+
+                    }
+                    else if(binding.includeLoginNew.etEmail.text.isNotBlank() && selectedLogin == LoginOption.Password){
+                        showPasswordDialog(strUserID = binding.includeLoginNew.etEmail.text.toString().trim())
+                    }
+                    else{
+                        showAlert("Please Enter User ID")
+                    }
+
+                    //region Comented for testing purpose
+    //                if (!this::alertDialogOTP.isInitialized) {
+    //
+    //                    showOTPDialog(mobNo = "909099")
+    //
+    //                }else{
+    //
+    //                    if(!alertDialogOTP.isShowing){
+    //                        showOTPDialog(mobNo = "909099")
+    //                    }
+    //                }
+                    //endregion
+                }
+
+            }
+
+            binding.includeLoginNew.tvSignUp.id ->{
+
+                if (!isNetworkAvailable(this)) {
+                    Snackbar.make(view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT)
+                        .show()
+                    return
+                }
+
+                if (enable_pro_signupurl != null) {
+                    if (enable_pro_signupurl.isEmpty()) {
+                        startActivity(Intent(this, RegisterActivity::class.java))
+                    } else {
+                        val signupurl: String =
+                            enable_pro_signupurl + "&app_version=" + prefManager.getAppVersion() + "&device_code=" + prefManager.getDeviceID() + "&ssid=&fbaid="
+                        Utility.loadWebViewUrlInBrowser(this@LoginNewActivity, signupurl)
+                    }
+                } else {
+                    startActivity(Intent(this, RegisterActivity::class.java))
+                }
+
+
+                trackEvent("")
+            }
+
+            binding.includeLoginNew.lyRaiseTicket.id ->{
+
+           val url =
+                    "https://origin-cdnh.policyboss.com/fmweb/Ticketing/ticket_login.html?landing_page=login_page&app_version=" + prefManager.appVersion + "&device_code=" + prefManager.deviceID + "&ssid=&fbaid="
+                Log.d("URL", "Raise Ticket URL: $url")
+
+
+                startActivity(
+                    Intent(this, RaiseTicketDialogActivity::class.java)
+                        .putExtra("URL", url)
+                )
+            }
+
+            binding.includeLoginNew.txtprivacy.id ->{
+
+                startActivity(
+                    Intent(this, PrivacyWebViewActivity::class.java)
+                        .putExtra(
+                            "URL",
+                            "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version=" + prefManager.appVersion + "&device_code=" + prefManager.deviceID + "&ssid=&fbaid="
+                        )
+                        .putExtra("NAME", "" + "privacy-policy")
+                        .putExtra("TITLE", "" + "privacy-policy")
+                )
+
+            }
+
+            binding.includeLoginNew.txtterm.id ->{
+
+                startActivity(
+                    Intent(this, PrivacyWebViewActivity::class.java)
+                        .putExtra(
+                            "URL",
+                            "https://www.policyboss.com/terms-condition?app_version=" + prefManager.appVersion + "&device_code=" + prefManager.deviceID + "&ssid=&fbaid="
+                        )
+                        .putExtra("NAME", "" + "Terms & Conditions")
+                        .putExtra("TITLE", "" + "Terms & Conditions")
+                )
+
+            }
+
+
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         binding.includeLoginNew.radioGroup.setOnCheckedChangeListener(null)
     }
 
-    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+    //endregion
 
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            return true
-        } else {
-            return super.onKeyUp(keyCode, event)
-        }
+    //region Other
+    private fun trackEvent(status: String) {
+        // Create event attributes
+        val eventAttributes: MutableMap<String, Any> = HashMap()
+        eventAttributes["Sign"] = status // Add any relevant attributes
+
+        // Track the login event using WebEngageHelper
+        WebEngageAnalytics.getInstance().trackEvent("Sign Up Initiated", eventAttributes)
     }
 
+    //region comment
+//    override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean {
+//
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            return true
+//        } else {
+//            return super.onKeyUp(keyCode, event)
+//        }
+//    }
 
+    //endregion
     enum class LoginOption {
         OTP,
         Password,
         NoData
     }
+
+    //endregion
 
 
 
