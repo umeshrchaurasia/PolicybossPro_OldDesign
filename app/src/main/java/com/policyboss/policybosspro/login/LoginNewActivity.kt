@@ -700,12 +700,15 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             .create()
 
         this.showKeyboard(bindingPassword.etPassword)
+
         bindingPassword.etPassword.setText("")
         bindingPassword.imgClose.setOnClickListener {
             alertDialogPassword.dismiss()
         }
         bindingPassword.txtError.visibility = View.GONE
         bindingPassword.txtError.text = ""
+
+        bindingPassword.tilPwd.hint = ""
 
         bindingPassword.etPassword.doOnTextChanged { text, start, before, count ->
 
