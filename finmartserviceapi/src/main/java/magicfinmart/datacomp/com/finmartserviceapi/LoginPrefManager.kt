@@ -61,26 +61,20 @@ class LoginPrefManager (private val context: Context){
         return response?.EMP
     }
 
-    fun getPospData() : POSP? {
-
-        val response = getLoginHorizonResponse()
-
-        return response?.POSP
-    }
 
 
     fun getSSID() : String {
 
         val response = getLoginHorizonResponse()
 
-        return response?.POSP?.Ss_Id?:"0"
+        return response?.EMP?.Emp_Id?:"0"
     }
 
     fun getFBAID() : String {
 
         val response = getLoginHorizonResponse()
 
-        return response?.POSP?.Fba_Id?:"0"
+        return response?.EMP?.FBA_ID?:"0"
     }
 
     fun clear() {
