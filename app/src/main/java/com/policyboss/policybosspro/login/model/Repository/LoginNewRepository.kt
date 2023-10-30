@@ -4,6 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.Syncontact.SyncContactInterface
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.POSP
 
 class LoginNewRepository(private  val apiService : SyncContactInterface) {
 
@@ -21,7 +22,7 @@ class LoginNewRepository(private  val apiService : SyncContactInterface) {
 
      val response = apiService.getLoginDsasHorizonDetails(userId = userId)
 
-     emit(response)
+        emit(response)
    }.flowOn(Dispatchers.IO)
 
 

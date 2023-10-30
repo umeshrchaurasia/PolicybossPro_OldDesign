@@ -2,7 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew
 
 data class LoginNewResponse_DSAS_Horizon(
     val EMP: EMP ?,
-    val POSP: POSP ?,
+    //val POSP: POSP ?,
     val channel: String ?,
     val product: String ?,
     val status: String ?,
