@@ -884,7 +884,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
                                 //pospurl
 
-                                enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_pospurl?: ""
+                                enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_signupurl?: ""
                                 prefManager.enableProPOSPurl = enable_pro_signupurl
 
                                 //add sub user

@@ -875,14 +875,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         }
                     }
-
                 }
 
-                showDialogMain();
-                new LoginController(this).Getusersignup(HomeActivity.this);
-
-
             }
+
+            showDialogMain();
+            new LoginController(this).Getusersignup(HomeActivity.this);
+
 
 //
         }
