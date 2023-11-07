@@ -104,8 +104,8 @@ interface SyncContactInterface {
     @POST("auth_tokens/auth_login")
     suspend fun authLoginHorizon(  @Body body : HashMap<String,String>): Response<AuthLoginResponse>
 
-    @GET("verifyOTP_New/{userId}")
-    suspend fun otpVerifyHorizon( @Path("userId") userId: String): Response<OtpVerifyResponse>
+    @GET("verifyOTP_New/{userId}/{mobileno}")
+    suspend fun otpVerifyHorizon( @Path("userId") userId: String, @Path("mobileno") mobileno: String): Response<OtpVerifyResponse>
 
    // we can take any param in path eg "verifyOTP_New/{pathDaa}
     @GET("generateOTP_New/{mobNo}/ONBOARDING")

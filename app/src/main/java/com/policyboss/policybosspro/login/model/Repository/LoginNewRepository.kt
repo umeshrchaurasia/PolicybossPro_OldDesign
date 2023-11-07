@@ -34,10 +34,10 @@ class LoginNewRepository(private  val apiService : SyncContactInterface) {
         emit(response)
     }.flowOn(Dispatchers.IO)
 
-    suspend fun otpVerifyHorizon(userId : String ) = flow {
+    suspend fun otpVerifyHorizon(userId : String, mobileno : String ) = flow {
 
 
-        val response = apiService.otpVerifyHorizon(userId = userId)
+        val response = apiService.otpVerifyHorizon(userId = userId, mobileno =  mobileno)
 
         emit(response)
     }.flowOn(Dispatchers.IO)
