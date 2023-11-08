@@ -525,41 +525,25 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             break;
 
                         case R.id.nav_pospenrollment:
-/*
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                    .putExtra("URL", "http://bo.magicfinmart.com/Sync-Contact/index.html")
-                                    .putExtra("NAME", "PospEnrollment")
-                                    .putExtra("TITLE", "Posp Enrollment"));
-*/
-//testing
 
+//testing
                             if(prefManager.getEnableProPOSPurl()  != null) {
-                                if(prefManager.getEnableProPOSPurl().isEmpty()) {
-                                    startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
-                                }
-                                else
-                                {
+
                                    // String signupurl=  ((prefManager.getEnableProSignupurl() + "&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid=&fbaid=";
 
-                                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                            .putExtra("URL", prefManager.getEnableProPOSPurl()
-                                                    +"&app_version="+prefManager.getAppVersion()
-                                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
-                                                    +"&fbaid="+userConstantEntity.getFBAId())
+                                startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", prefManager.getEnableProPOSPurl()
+                                    +"&app_version="+prefManager.getAppVersion()
+                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
+                                    +"&fbaid="+userConstantEntity.getFBAId())
 
-
-                                            .putExtra("NAME", "PospEnrollment")
-                                            .putExtra("TITLE", "Posp Enrollment"));
-
-
-                                }
+                                .putExtra("NAME", "PospEnrollment")
+                                .putExtra("TITLE", "Posp Enrollment"));
                             }
                             else
                             {
-                                startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+
                             }
-
-
                             break;
                         case R.id.nav_addposp:
                             if(prefManager.getEnablePro_ADDSUBUSERurl()  != null) {
@@ -891,18 +875,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         }
                     }
-
                 }
-                if (userConstantEntity.getAndroid_Posp_web_Enable() != null) {
-                    if (userConstantEntity.getAndroid_Posp_web_Enable().equals("1")) {
-                        showDialogMain();
-                        new LoginController(this).Getusersignup(HomeActivity.this);
-
-                    }
-                }
-
 
             }
+
+            showDialogMain();
+            new LoginController(this).Getusersignup(HomeActivity.this);
+
 
 //
         }

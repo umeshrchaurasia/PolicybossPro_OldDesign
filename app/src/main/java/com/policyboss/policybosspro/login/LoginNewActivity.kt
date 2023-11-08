@@ -65,8 +65,9 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
     lateinit var prefManager: PrefManager
 
 
-    var selectedLogin: LoginOption = LoginOption.NoData // Default value
+//    var selectedLogin: LoginOption = LoginOption.NoData // Default value
 
+    var  selectedLogin: LoginOption = LoginOption.OTP
 
     private var isPasswordObserving = false
     private var isDSASObserving = false
@@ -147,8 +148,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
     private fun init(){
 
 
-        setEnableNextButton(false)
-
+      //  setEnableNextButton(false)
+        setEnableNextButton(bln = true)
 
 
         loginPrefManager = LoginPrefManager(this@LoginNewActivity)
@@ -359,7 +360,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                 // Called Api
                 cancelTimer()
                 hideKeyboard(bindingOTP.btnSubmit)
-                loginViewModel.otpVerifyHorizon(inputOtp)
+                loginViewModel.otpVerifyHorizon(inputOtp,mobNo)
 
             } else if (inputOtp.length == 0) {
                 bindingOTP.txtError.visibility = View.VISIBLE
@@ -567,7 +568,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                 // Called Api
                 cancelTimer()
                 hideKeyboard(bindingOTP.btnSubmit)
-                loginViewModel.otpVerifyHorizon(inputOtp)
+                loginViewModel.otpVerifyHorizon(inputOtp,mobNo)
 
             } else if (inputOtp.length == 0) {
                 bindingOTP.txtError.visibility = View.VISIBLE
@@ -884,7 +885,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
                                 //pospurl
 
-                                enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_pospurl?: ""
+                                enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_signupurl?: ""
                                 prefManager.enableProPOSPurl = enable_pro_signupurl
 
                                 //add sub user

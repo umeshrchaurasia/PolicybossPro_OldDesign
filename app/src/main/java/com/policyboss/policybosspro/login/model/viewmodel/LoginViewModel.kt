@@ -225,7 +225,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
     }
 
 
-    fun  otpVerifyHorizon(otp : String) = viewModelScope.launch {
+    fun  otpVerifyHorizon(otp : String, mobileno : String) = viewModelScope.launch {
 
 
         // Loading is start from Verify
@@ -234,7 +234,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
         try {
 
-            loginNewRepository.otpVerifyHorizon(otp)
+            loginNewRepository.otpVerifyHorizon(otp, mobileno)
                 .catch {
                     otpVerificationMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidOTP)
                 }.collect{  data ->
@@ -359,7 +359,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
         try {
 
-            loginNewRepository.otpVerifyHorizon(otp)
+            loginNewRepository.otpVerifyHorizon(otp,"")
                 .catch {
                     otpVerificationMutuableStateFlow.value = APIState.Failure(errorMessage = it.message.toString())
                 }.collect{  data ->
