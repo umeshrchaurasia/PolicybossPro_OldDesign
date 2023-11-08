@@ -31,6 +31,9 @@ object Constant {
     const val CONTACT_LOG_Progress = "CONTACT_LOGGProgress"
     const val CONTACT_LOG_MAXProgress = "CONTACT_LOGMAXProgress"
 
+    const val CONTACT_LOG_DataFetching = "Data is Fetching Please Wait..."
+    const val CONTACT_LOG_DataSending = "Sending Data to Server..."
+
     const val   NOTIFICATION_EXTRA = "NOTIFICATION_EXTRA"
     const val   NOTIFICATION_PROGRESS = "NOTIFICATION_PROGRESS"
     const val   NOTIFICATION_MAX = "NOTIFICATION_MAX"

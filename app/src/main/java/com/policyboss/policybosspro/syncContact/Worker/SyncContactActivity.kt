@@ -15,6 +15,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.app.AlertDialog
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.work.*
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
@@ -49,9 +50,16 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     var  maxProgressContact = 0
     var remainderProgressContact = 0
 
-    var progressBar: ProgressBar? = null
+    lateinit var progressBar: ProgressBar
+    lateinit var progressBarServer: ProgressBar
     var progress_circular : ProgressBar? = null
     lateinit var  txtPercent :TextView
+    lateinit var  txtPercentServer :TextView
+
+    private val TAG = "CALL_LOG"
+
+    var isContactWorkFinished = false
+    var isCallLogWorkFinished = false
 
     var perms = arrayOf(
         "android.permission.READ_CONTACTS",
@@ -81,9 +89,11 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
             setDisplayHomeAsUpEnabled(true)
             setTitle("Sync Contact & Call Log")
         }
-        progressBar = findViewById(R.id.progressBar)
+        progressBar = binding.includedSyncContact.progressBar
+        progressBarServer = binding.includedSyncContact.progressBarServer
         progress_circular = findViewById(R.id.progress_circular)
-        txtPercent = findViewById(R.id.txtPercent)
+        txtPercent =  binding.includedSyncContact.txtPercent
+        txtPercentServer =  binding.includedSyncContact.txtPercentServer
 
         dialogAnim = Dialog(this)
 
@@ -91,9 +101,9 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         userConstantEntity = DBPersistanceController(this).userConstantsData
 
         prefManager = PrefManager(this)
-      //  binding.includedSyncContact.CvSync.setOnClickListener(this)
 
-      //  binding.includedSyncContact.CvLeaddashboard.setOnClickListener(this)
+         isContactWorkFinished = false
+          isCallLogWorkFinished = false
 
         if (!checkPermission()) {
             requestPermission()
@@ -102,7 +112,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                 initData()
                 setOneTimeRequestWithCoroutine()
             } else {
-                Snackbar.make( binding.includedSyncContact.CvSync, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
+                Snackbar.make( binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
             }
 
         }
@@ -112,64 +122,51 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         when(view!!.id){
 
-/*
-        R.id.CvSync -> {
-
-            //region commented
-            if (!checkPermission()) {
-                requestPermission()
-            }
-            else {
-
-                // syncContactNumber()
-                // API For Contact
-
-                if (NetworkUtils.isNetworkAvailable(this@SyncContactActivity)) {
-                    initData()
-                    setOneTimeRequestWithCoroutine()
-                } else {
-                    Snackbar.make( binding.includedSyncContact.CvSync, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
-                }
-
-
-            }
-
-
-            //endregion
-
-
-
-        }*/
-//        R.id.CvLeaddashboard -> {
-//            startActivity(Intent(this, CommonWebViewActivity::class.java) // .putExtra("URL", "https://bo.magicfinmart.com/motor-lead-details/" + String.valueOf(loginResponseEntity.getFBAId()))
-//                .putExtra("URL", "" + userConstantEntity.leadDashUrl)
-//                .putExtra("NAME", "" + "Lead DashBoard")
-//                .putExtra("TITLE", "" + "Lead DashBoard"))
-//        }
 
 
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 
     fun initData(){
 
         currentProgress =0
         maxProgress = 0
         binding.includedSyncContact.progressBar!!.setProgress(currentProgress)
-        binding.includedSyncContact.progressBarButton.visibility = View.VISIBLE
+        binding.includedSyncContact.progressBarServer!!.setProgress(currentProgress)
         binding.includedSyncContact.lySync.visibility = View.VISIBLE
-        binding.includedSyncContact.CvSync.isEnabled = false
+
         binding.includedSyncContact.txtPercent.text = "0%"
 
         binding.includedSyncContact.txtMessage.text = ""
         binding.includedSyncContact.txtCount.text = ""
+
+        binding.includedSyncContact.txtProgressMessage.visibility = View.VISIBLE
+        binding.includedSyncContact.txtProgressMessage.text = Constant.CONTACT_LOG_DataFetching
+
 
         //05
        // showAnimDialog("")
 
     }
 
+    fun successOfContact(msg : String?){
+
+        binding.includedSyncContact.txtCount.text = msg ?: ""
+        binding.includedSyncContact.imgFetchData.setImageResource(R.drawable.circular_checklayer)
+
+        // val errormsg: String? = opData.getString(Constant.KEY_error_result)
+        binding.includedSyncContact.txtProgressMessage.visibility = View.VISIBLE
+        binding.includedSyncContact.txtProgressMessage.text = Constant.CONTACT_LOG_DataSending
+
+
+        binding.includedSyncContact.txtPercent.text ="100%"
+        binding.includedSyncContact.progressBar!!.max = 100
+        binding.includedSyncContact.progressBar!!.setProgress(100)
+    }
     private fun setOneTimeRequestWithCoroutine() {
 
 
@@ -215,21 +212,99 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                 .build()
 
 
+        //region Photo commented
 //        val contactPhotRequest: OneTimeWorkRequest =
 //            OneTimeWorkRequest.Builder(ContactPhotoWorkManager::class.java)
 //                .addTag(Constant.TAG_SAVING_CONTACT_PHOTO_LOG)
 //                .setInputData(data)
 //                .build()
+
+        //endregion
         // Todo : For Chain (Parallel Chaining)
-        val parallelWorks: MutableList<OneTimeWorkRequest> = mutableListOf<OneTimeWorkRequest>()
-        parallelWorks.add(ContactWorkRequest)
-        parallelWorks.add(callLogWorkRequest)
-//        parallelWorks.add(contactPhotRequest)
-        workManager.beginWith(parallelWorks)
+
+        // region parallel chain commented
+//        val parallelWorks: MutableList<OneTimeWorkRequest> = mutableListOf<OneTimeWorkRequest>()
+//        parallelWorks.add(ContactWorkRequest)
+//        parallelWorks.add(callLogWorkRequest)
+//      //  parallelWorks.add(contactPhotRequest)
+//        workManager.beginWith(parallelWorks)
+//            .enqueue()
+
+        //endregion
+
+        workManager.beginWith(ContactWorkRequest)
+           .then(callLogWorkRequest)
             .enqueue()
 
 
 
+
+        //region  First Call -> ContactLog : Fetching the data
+
+        workManager.getWorkInfoByIdLiveData(ContactWorkRequest.id)
+            .observe(this,{workInfo: WorkInfo? ->
+
+
+                // txtMessage.text = workInfo.state.name
+
+
+                if(workInfo != null ) {
+
+
+                    //region progress
+                    val progress = workInfo.progress
+                    val valueprogress = progress.getInt(Constant.CONTACT_LOG_Progress, 0)
+                    val valueMaxProgress = progress.getInt(Constant.CONTACT_LOG_MAXProgress, 0)
+                    updateProgrees(valueprogress, valueMaxProgress)
+                    Log.d(
+                        TAG,
+                        "MaxProgress Progress :--> ${valueMaxProgress} and currentProgress :  ${valueprogress}"
+                    )
+                    //  endregion
+
+
+                    if (workInfo.state.isFinished) {
+
+                        if (workInfo.state == WorkInfo.State.SUCCEEDED){
+
+                            // region After Success of Contact
+                            val opData: Data = workInfo.outputData
+                            val msg: String? = opData.getString(Constant.KEY_result)
+
+                            successOfContact(msg)
+                            isContactWorkFinished = true
+                            checkContactAndCallLogTasksFinished()
+
+                            //endregion
+
+                        }else if (workInfo.state == WorkInfo.State.FAILED){
+
+                            // region Extract the error message from workInfo.outputData
+                            val errorData = workInfo.outputData
+                            val errorMessage = errorData.getString(Constant.KEY_error_result)
+
+                            errorMessage(opMessage = errorMessage.toString())
+                            // Handle failure here
+                            workManager.cancelWorkById(ContactWorkRequest.id)
+                            //endregion
+                        }
+
+
+
+                    }
+
+
+                }
+
+
+
+            })
+
+
+        // endregion
+
+
+        //region Second Call -> CallLog : sending to Server
         workManager.getWorkInfoByIdLiveData(callLogWorkRequest.id)
             .observe(this, { workInfo: WorkInfo? ->
 
@@ -241,28 +316,45 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                     val progress = workInfo.progress
                     val valueprogress = progress.getInt(Constant.CALL_LOG_Progress, 0)
                     val valueMaxProgress = progress.getInt(Constant.CALL_LOG_MAXProgress, 0)
-                   updateProgrees(valueprogress, valueMaxProgress)  // Requirement :-->  no need to show prog
+                     updateServerProgrees(valueprogress, valueMaxProgress)  // Requirement :-->  no need to show prog
                     Log.d(
-                        "CALL_LOG",
+                        TAG,
                         "MaxProgress Progress :--> ${valueMaxProgress} and currentProgress :  ${valueprogress}"
                     )
                     if (workInfo.state.isFinished) {
-                        val opData: Data = workInfo.outputData
-                        val msg: String? = opData.getString(Constant.KEY_result)
-                        val errormsg: String? = opData.getString(Constant.KEY_error_result)
-                        Log.d("CALL_LOG", workInfo.state.name + "\n\n" + msg)
 
+                        if (workInfo.state == WorkInfo.State.SUCCEEDED) {
 
-                        if (!errormsg.isNullOrEmpty()) {
-                            //  errormsg?.let { saveMessage(it) }
-                            errorMessage(errormsg)
-                        } else {
+                            // region After Success of CallLog
+                            val opData: Data = workInfo.outputData
+                            val msg: String? = opData.getString(Constant.KEY_result)
+
+                            Log.d(TAG, workInfo.state.name + "\n\n" + msg)
+
+                            binding.includedSyncContact.txtProgressMessage.visibility = View.GONE
+                            binding.includedSyncContact.imgSendToServer.setImageResource(R.drawable.circular_checklayer)
+
 
                             if (msg.isNullOrEmpty()) {
                                 saveMessage()
                             } else {
                                 saveMessage(msg)
                             }
+
+                            isCallLogWorkFinished = true
+                            checkContactAndCallLogTasksFinished()
+                            //endregion
+
+                        } else if (workInfo.state == WorkInfo.State.FAILED) {
+
+                            // region Extract the error message from workInfo.outputData
+                            val errorData = workInfo.outputData
+                            val errorMessage = errorData.getString(Constant.KEY_error_result)
+
+                            errorMessage(opMessage = errorMessage.toString())
+                            // Handle failure here
+                            workManager.cancelWorkById(ContactWorkRequest.id)
+                            //endregion
                         }
 
 
@@ -274,60 +366,12 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
             })
 
-
-        //region Commented :-- contact Progress Not Showing
-
-
-        workManager.getWorkInfoByIdLiveData(ContactWorkRequest.id)
-            .observe(this,{workInfo: WorkInfo? ->
-
-
-                // txtMessage.text = workInfo.state.name
-
-                if(workInfo != null ){
-
-                    //region commented
-                    //          val progress = workInfo.progress
-                    //                   val valueprogress = progress.getInt(Constant.CONTACT_LOG_Progress, 0)
-//                    val valueMaxProgress = progress.getInt(Constant.CONTACT_LOG_MAXProgress, 0)
-//                    updateProgrees(valueprogress,valueMaxProgress)
-                    //  Log.d("CALL_LOG", "MaxProgress Progress :--> ${valueMaxProgress} and currentProgress :  ${valueprogress}")
-                    //endregion
-
-                    if( workInfo.state.isFinished){
-                        val opData : Data = workInfo.outputData
-                        val msg : String? = opData.getString(Constant.KEY_result)
-
-                        binding.includedSyncContact.txtCount.text = msg?: ""
-
-                        //region commented
-//                        if(!errormsg.isNullOrEmpty()){
-//                            //  errormsg?.let { saveMessage(it) }
-//                            errorMessage(errormsg)
-//                        }else{
-//                            if(msg.isNullOrEmpty()){
-//                                saveMessage()
-//                            }else{
-//                                saveMessage(msg)
-//                            }
-//                        }
-                        //endregion
+        //endregion
 
 
 
 
-                    }
 
-
-                }
-
-
-
-            })
-
-
-
-        // endregion
 
 
 
@@ -406,7 +450,7 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                         initData()
                         setOneTimeRequestWithCoroutine()
                     } else {
-                      Snackbar.make(binding.includedSyncContact.CvSync, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
+                      Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
                     }
 
                 }else{
@@ -499,32 +543,52 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
 
     }
 
+    private fun updateServerProgrees(currentProg : Int , maxProg : Int){
+
+        binding.includedSyncContact.progressBarServer!!.max = maxProg
+        binding.includedSyncContact.progressBarServer!!.setProgress(currentProg)
+
+        if(maxProg >0){
+            binding.includedSyncContact.txtPercentServer.text = "${(currentProg*100)/maxProg} %"
+        }
+
+    }
+
     private fun saveMessage(opMessage : String = "Data Save Successfully..."){
 
-      //binding.includedSyncContact.txtMessage.text = opMessage
-        trackSyncContactEvent();
-        successAlert()
-        cancelAnimDialog()
 
-       // binding.includedSyncContact.CvSync.isEnabled = true
+//        trackSyncContactEvent();
+//        successAlert()
 
-        binding.includedSyncContact.txtPercent.text ="100%"
-        binding.includedSyncContact.progressBar!!.max = 100
-        binding.includedSyncContact.progressBar!!.setProgress(100)
-        binding.includedSyncContact.progressBarButton.visibility = View.GONE
-        progress_circular!!.visibility = View.GONE
+        binding.includedSyncContact.txtPercentServer.text ="100%"
+        binding.includedSyncContact.progressBarServer!!.max = 100
+        binding.includedSyncContact.progressBarServer!!.setProgress(100)
 
+        progress_circular!!.visibility = View.INVISIBLE
+
+    }
+    fun checkContactAndCallLogTasksFinished() {
+        if (isContactWorkFinished && isCallLogWorkFinished) {
+            // Both tasks are finished, show the success alert
+               trackSyncContactEvent();
+                successAlert()
+
+        }
     }
 
     private fun errorMessage(opMessage : String = "Data not Uploade. Please Try Again..."){
 
 
-        binding.includedSyncContact.txtMessage.text = opMessage
-        cancelAnimDialog()
+        binding.includedSyncContact.txtProgressMessage.text = opMessage
 
-     // binding.includedSyncContact.CvSync.isEnabled = true
-        binding.includedSyncContact.progressBarButton.visibility = View.GONE
-        progress_circular!!.visibility = View.GONE
+        binding.includedSyncContact.txtProgressMessage.setTextColor(ContextCompat.getColor(this, R.color.red_button))
+        //cancelAnimDialog()
+        binding.includedSyncContact.lyTotal.visibility = View.GONE
+        binding.includedSyncContact.txtPercent.text = "0%"
+        binding.includedSyncContact.txtPercentServer.text = "0%"
+
+        progress_circular!!.visibility = View.INVISIBLE
+
     }
 
 

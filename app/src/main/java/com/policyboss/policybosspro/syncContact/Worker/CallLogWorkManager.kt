@@ -45,7 +45,9 @@ import kotlin.toString
 class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
     CoroutineWorker(context, workerParameters) {
 
-    private val TAG = "CALL_LOG"
+    private val TAG = "CALL_LOG_CONTACT"
+
+    private val ProgressStep = 1000
 
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -85,8 +87,8 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
 
     private suspend fun callLogTask() {
 
-        var strbody = "Contact is Uploading Please wait.."
-        var strResultbody = "Successfully Uploaded.."
+        var strbody = Constant.CONTACT_LOG_DataSending
+        var strResultbody = "Successfully Sending to Server.."
         setForeground(createForegroundInfo(0, 0, strbody))
 
         // region getting Input Data
@@ -120,6 +122,8 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
 
             var callLogList = getCallDetails()
 
+            Log.d(TAG, "Total Call Log  Size for last month:  ${callLogList.size}")
+
             //temp 05 added : have to remove below one line
            // callLogList = callLogList.take(41) as MutableList<CallLogEntity>
 
@@ -127,15 +131,15 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
             var maxProgress = 0
             var currentProgress = 0
             var defaultProgress = 1
-            maxProgress = callLogList!!.size / 1000
+            maxProgress = callLogList!!.size / ProgressStep
 
-            remainderProgress = callLogList!!.size % 1000
+            remainderProgress = callLogList!!.size % ProgressStep
             maxProgress = maxProgress + defaultProgress
             currentProgress = defaultProgress
             if (remainderProgress > 0) {
                 maxProgress = maxProgress + 1
             }
-            //  maxProgress = maxProgress + maxProgressContact
+
            // Log.d(TAG, "maxProgress ${maxProgress}")
             setForeground(createForegroundInfo(maxProgress, currentProgress, strbody))
             val workProgessDefault = workDataOf(
@@ -147,11 +151,11 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
             var subLoglist: List<CallLogEntity>
             if (callLogList != null && callLogList!!.size > 0) {
 
-                for (i in 0..callLogList!!.size - 1 step 1000) {
+                for (i in 0..callLogList!!.size - 1 step ProgressStep) {
 
-                    Log.d(TAG, "CallLog Number of data jumped ${i}")
+                    Log.d(TAG, "CallLog for 2 call Number of data jumped ${i}")
 
-                    subLoglist = callLogList!!.filter { it.id > i && it.id <= (1000 + i) }
+                    subLoglist = callLogList!!.filter { it.id > i && it.id <= (ProgressStep + i) }
 
 
 
@@ -176,6 +180,8 @@ class CallLogWorkManager(context: Context, workerParameters: WorkerParameters) :
 
                         //region send Notification Progress
                        // Log.d(TAG, resultResp.Message ?: "Save")
+
+                        Log.d(TAG, "Response Done CallLog : ${i}")
 
                         currentProgress = currentProgress + 1
                         val workProgess = workDataOf(Constant.CALL_LOG_Progress to currentProgress,

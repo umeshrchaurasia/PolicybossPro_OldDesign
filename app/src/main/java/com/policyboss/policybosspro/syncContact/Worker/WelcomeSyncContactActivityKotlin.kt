@@ -14,14 +14,18 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
 import android.app.AlertDialog
+import android.content.pm.PackageManager
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.google.android.material.snackbar.Snackbar
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.analytics.WebEngageAnalytics
 import com.policyboss.policybosspro.databinding.ActivityWelcomeSyncContactKotlinBinding
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
+import com.policyboss.policybosspro.utility.NetworkUtils
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import com.webengage.sdk.android.WebEngage
 import kotlinx.coroutines.*
@@ -70,6 +74,12 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
     var FBAID = ""
 
     lateinit var prefManager : PrefManager
+
+    var perms = arrayOf(
+        "android.permission.READ_CONTACTS",
+        "android.permission.READ_CALL_LOG"
+    )
+    val READ_CONTACTS_CODE = 101
 
     override fun onStart() {
         super.onStart()
@@ -295,6 +305,9 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
                             btnchkcommunication_sms.isChecked = false
                         }
 
+                        if (!checkPermission()) {
+                            requestPermission()
+                        }
 
 
                     }
@@ -325,6 +338,20 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
 
     }
 
+    //region permission
+    private fun checkPermission(): Boolean {
+        val read_contact = ActivityCompat.checkSelfPermission(this@WelcomeSyncContactActivityKotlin, perms[0])
+        val read_call_log = ActivityCompat.checkSelfPermission(this@WelcomeSyncContactActivityKotlin, perms[1])
+
+        return (read_contact == PackageManager.PERMISSION_GRANTED) && (read_call_log == PackageManager.PERMISSION_GRANTED)
+    }
+
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(this@WelcomeSyncContactActivityKotlin, perms, READ_CONTACTS_CODE)
+
+    }
+    //endregion
     fun showAnimDialog(msg: String? = ""){
 
 
@@ -434,32 +461,40 @@ class WelcomeSyncContactActivityKotlin: BaseActivity() , View.OnClickListener {
 
         when (view!!.getId()) {
             btnNext.id -> {
-                //     btnchktele!!.isChecked && btnchkcommunication!!.isChecked &&
-                // if ( btnchkagree!!.isChecked ) {
-                current = current + 1
-                if (current < layouts.size) {
-                    //move to next screen
-                    viewPager.currentItem = current
-                } else {
 
-                    // For Submit : Get Started
-                    CoroutineScope(Dispatchers.IO).launch {
-                        try { //showDialog()
+                if (NetworkUtils.isNetworkAvailable(this@WelcomeSyncContactActivityKotlin)) {
 
-                            savecheckboxdetails()
+                    //     btnchktele!!.isChecked && btnchkcommunication!!.isChecked &&
+                    // if ( btnchkagree!!.isChecked ) {
+                    current = current + 1
+                    if (current < layouts.size) {
+                        //move to next screen
+                        viewPager.currentItem = current
+                    } else {
 
-                        } catch (e: Exception) {
+                        // For Submit : Get Started
+                        CoroutineScope(Dispatchers.IO).launch {
+                            try { //showDialog()
 
-                            withContext(Dispatchers.Main) {
-                                //   viewPager.visibility = View.VISIBLE
-                                //   cancelAnimDialog()
+                                savecheckboxdetails()
+
+                            } catch (e: Exception) {
+
+                                withContext(Dispatchers.Main) {
+                                    //   viewPager.visibility = View.VISIBLE
+                                    //   cancelAnimDialog()
+                                }
                             }
                         }
-                    }
-                    trackSyncContactEvent("Get Started on Sync Contacts")
-                    startActivity(Intent(this, SyncContactActivity::class.java))
+                        trackSyncContactEvent("Get Started on Sync Contacts")
+                        startActivity(Intent(this, SyncContactActivity::class.java))
 
+                    }
+                } else {
+                    Snackbar.make(binding.root, "No Internet Connection", Snackbar.LENGTH_SHORT).show()
                 }
+
+
                 //  }
             }
 

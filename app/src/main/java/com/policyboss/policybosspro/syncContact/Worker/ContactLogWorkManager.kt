@@ -1,24 +1,34 @@
 package com.utility.finmartcontact.home.Worker
 
+import android.app.Notification
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.ContentUris
 import android.content.Context
+import android.content.Intent
 import android.content.res.AssetFileDescriptor
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.provider.ContactsContract
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import androidx.work.CoroutineWorker
 import androidx.work.Data
+import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.google.gson.Gson
 import com.policyboss.policybosspro.syncContact.Worker.ContactHelper
+import com.policyboss.policybosspro.syncContact.Worker.SyncContactActivity
 import com.policyboss.policybosspro.syncContact.Worker.model.sendPhotoUriData
 import com.policyboss.policybosspro.utility.Constant
 import com.utility.finmartcontact.core.model.ContactlistEntity
@@ -48,6 +58,7 @@ class ContactLogWorkManager(
     ) : CoroutineWorker(context, workerParameters) {
 
     private val TAG = "CALL_LOG_CONTACT"
+    private val ProgressStep = 1000
     private val notificationManager =
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -81,10 +92,12 @@ class ContactLogWorkManager(
 
         var ContactCount = 0
 
+
+
         //region Comment : Not In Used
-     //   var strbody = "Contact is Uploading Please wait.."
-     //   var strResultbody = "Successfully Uploaded.."
-      //  setForeground(createForegroundInfo(0, 0, strbody))
+        var strbody = Constant.CONTACT_LOG_DataFetching
+        var strResultbody = "Successfully fetch the data.."
+        setForeground(createForegroundInfo(0, 0, strbody))
 
         //endregion
 
@@ -117,10 +130,49 @@ class ContactLogWorkManager(
 
             var url =  "https://horizon.policyboss.com:5443/sync_contacts" + "/contact_entry"
 
-            var contactlist = getContactList()
+
+          // var contactlist = getContactList()
+
+            // region  05 temp commented for Testing for Increase the Contact List
+            val contactlist: MutableList<ContactlistEntity> = mutableListOf()
+
+            for (i in 1..8) {
+
+             //Assuming getContactList() returns a ContactlistEntity
+                contactlist.addAll(getContactList())
+            }
+            //endregion
 
             ContactCount = contactlist.size
+            Log.d(TAG, "Total Contact Size ${contactlist.size}")
 
+
+            //region ForegroundService and Background
+
+            var remainderProgress = 0
+            var maxProgress = 0
+            var currentProgress = 0
+            var defaultProgress = 1
+            maxProgress = contactlist!!.size / ProgressStep
+
+            remainderProgress = contactlist!!.size % ProgressStep
+            maxProgress = maxProgress + defaultProgress
+            currentProgress = defaultProgress
+            if (remainderProgress > 0) {
+                maxProgress = maxProgress + 1
+            }
+
+            // Log.d(TAG, "maxProgress ${maxProgress}")
+            setForeground(createForegroundInfo(maxProgress, currentProgress, strbody))
+            val workProgessDefault = workDataOf(
+                Constant.CONTACT_LOG_Progress to currentProgress,
+                Constant.CONTACT_LOG_MAXProgress to maxProgress,
+               // Constant.CONTACT_LOG_Data_SIZE to contactlist.size
+            )
+            setProgress(workProgessDefault)
+
+
+            //endregion
 
             var subcontactlist: List<ContactlistEntity>
 
@@ -142,11 +194,11 @@ class ContactLogWorkManager(
 
                   // 005 temp commented
 
-                   for (i in 0..contactlist!!.size - 1 step 1000) {
+                   for (i in 0..contactlist!!.size - 1 step ProgressStep) {
 
-                    Log.d(TAG, "CallLog Number of data jumped ${i}")
+                    Log.d(TAG, "CallLog for 1 Contact Number of data jumped ${i}")
 
-                    subcontactlist = contactlist!!.filter { it.id > i && it.id <= (1000 + i) }
+                    subcontactlist = contactlist!!.filter { it.id > i && it.id <= (ProgressStep + i) }
 
 
                       // region calling to server
@@ -171,7 +223,35 @@ class ContactLogWorkManager(
                         if (resultResp.isSuccessful) {
 
 
+                            Log.d(TAG, "Response Done Contact : ${i}")
 
+                            //region send Notification Progress
+
+
+                            currentProgress = currentProgress + 1
+                            val workProgess = workDataOf(Constant.CONTACT_LOG_Progress to currentProgress,
+                                Constant.CONTACT_LOG_MAXProgress to maxProgress)
+                            setProgress(workProgess)
+                            if (currentProgress < maxProgress) {
+                                setForeground(
+                                    createForegroundInfo(
+                                        maxProgress = maxProgress,
+                                        progress = currentProgress,
+                                        strbody = strbody
+                                    )
+                                )
+
+                            } else {
+                                setForeground(
+                                    createForegroundInfo(
+                                        maxProgress = maxProgress,
+                                        progress = currentProgress,
+                                        strbody = strResultbody
+                                    )
+                                )
+
+                            }
+                            //endregion
                            // delay(8000)
 
                         }else{
@@ -290,6 +370,132 @@ class ContactLogWorkManager(
 
 
     }
+
+
+    //region Creates notifications for service
+    private fun createForegroundInfo(
+        maxProgress: Int,
+        progress: Int,
+        strbody: String
+    ): ForegroundInfo {
+
+
+        val id = "com.utility.PolicyBossPro.notifications556"
+        val channelName = "SynContact channel"
+        val title = "Sync Contact"
+        val cancel = "Cancel"
+
+        val body = strbody
+//            .setProgress(0, 0, true)    // for indeterminate progress
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createChannel(id, channelName)
+        }
+
+
+        // region Commented :--> For Handling  cancel
+//        val intent = WorkManager.getInstance(applicationContext)
+//            .createCancelPendingIntent(getId())
+
+        // .setSummaryText(NotifyData.get("body"));
+
+        //  new createBitmapFromURL(NotifyData.get("img_url")).execute();
+
+        //endregion
+        /////////////////////////////////////
+
+        val notifyIntent = Intent(applicationContext, SyncContactActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+        notifyIntent.putExtra(Constant.NOTIFICATION_EXTRA, true)
+        notifyIntent.putExtra(Constant.NOTIFICATION_PROGRESS, progress)
+        notifyIntent.putExtra(Constant.NOTIFICATION_MAX, maxProgress)
+        notifyIntent.putExtra(Constant.NOTIFICATION_MESSAGE, strbody)
+
+        //region Commented : Adding Pending Intent For Handling Notification Click Action
+//        val notifyPendingIntent = PendingIntent.getActivities(
+//            applicationContext, 0, arrayOf(notifyIntent), PendingIntent.FLAG_UPDATE_CURRENT
+//        )
+
+        //or
+
+//        val notifyPendingIntent: PendingIntent
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            notifyPendingIntent = PendingIntent.getActivity(
+//                applicationContext,
+//                0, notifyIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+//            )
+//        } else {
+//            notifyPendingIntent = PendingIntent.getActivity(
+//                applicationContext,
+//                0, notifyIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT
+//            )
+//        }
+//
+        //endregion
+
+
+        /////////////////////////
+
+        val notificationBuilder: NotificationCompat.Builder
+
+        notificationBuilder = NotificationCompat.Builder(applicationContext, id)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            notificationBuilder.setSmallIcon(com.policyboss.policybosspro.R.drawable.pb_pro_logo)
+            notificationBuilder.color = applicationContext.getColor(com.policyboss.policybosspro.R.color.colorPrimary)
+        } else {
+            notificationBuilder.setSmallIcon(com.policyboss.policybosspro.R.drawable.pb_pro_logo)
+        }
+
+        // .addAction(android.R.drawable.ic_delete, cancel, intent)
+
+        notificationBuilder
+            .setContentTitle(title)
+            .setTicker(title)
+            .setContentText(body)
+            .setOngoing(false)
+            .setProgress(maxProgress, progress, false)
+
+            // .setContentIntent(notifyPendingIntent)
+            .setAutoCancel(true)
+
+            .build()
+
+
+        return ForegroundInfo(1, notificationBuilder.build())
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun createChannel1(id: String, channelName: String) {
+        notificationManager.createNotificationChannel(
+            NotificationChannel(id, channelName, NotificationManager.IMPORTANCE_DEFAULT)
+
+        )
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun createChannel(id: String, channelName: String) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            val channel = NotificationChannel(
+                id,
+                channelName,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.enableLights(true)
+            channel.enableVibration(true)
+            channel.lightColor = Color.BLUE
+            channel.description = "PoliyBoss Pro"
+            // Sets whether notifications posted to this channel appear on the lockscreen or not
+            channel.lockscreenVisibility =
+                Notification.VISIBILITY_PUBLIC // Notification.VISIBILITY_PRIVATE
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    //endregion
 
 
 
