@@ -272,8 +272,8 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                             val msg: String? = opData.getString(Constant.KEY_result)
 
                             successOfContact(msg)
-                            isContactWorkFinished = true
-                            checkContactAndCallLogTasksFinished()
+                           // isContactWorkFinished = true
+                            //checkContactAndCallLogTasksFinished()  //for parallel call
 
                             //endregion
 
@@ -341,8 +341,8 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
                                 saveMessage(msg)
                             }
 
-                            isCallLogWorkFinished = true
-                            checkContactAndCallLogTasksFinished()
+                            //isCallLogWorkFinished = true
+                            //checkContactAndCallLogTasksFinished()  //for parallel call
                             //endregion
 
                         } else if (workInfo.state == WorkInfo.State.FAILED) {
@@ -557,8 +557,8 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
     private fun saveMessage(opMessage : String = "Data Save Successfully..."){
 
 
-//        trackSyncContactEvent();
-//        successAlert()
+        trackSyncContactEvent();
+        successAlert()
 
         binding.includedSyncContact.txtPercentServer.text ="100%"
         binding.includedSyncContact.progressBarServer!!.max = 100

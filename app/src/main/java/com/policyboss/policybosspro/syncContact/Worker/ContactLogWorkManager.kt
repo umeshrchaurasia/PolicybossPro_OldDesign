@@ -131,16 +131,16 @@ class ContactLogWorkManager(
             var url =  "https://horizon.policyboss.com:5443/sync_contacts" + "/contact_entry"
 
 
-          // var contactlist = getContactList()
+           var contactlist = getContactList()
 
             // region  05 temp commented for Testing for Increase the Contact List
-            val contactlist: MutableList<ContactlistEntity> = mutableListOf()
-
-            for (i in 1..8) {
-
-             //Assuming getContactList() returns a ContactlistEntity
-                contactlist.addAll(getContactList())
-            }
+//            val contactlist: MutableList<ContactlistEntity> = mutableListOf()
+//
+//            for (i in 1..8) {
+//
+//             //Assuming getContactList() returns a ContactlistEntity
+//                contactlist.addAll(getContactList())
+//            }
             //endregion
 
             ContactCount = contactlist.size
