@@ -254,7 +254,8 @@ class ContactLogWorkManager(
                             //endregion
                            // delay(8000)
 
-                        }else{
+                        }
+                        else{
 
                             Log.d(TAG, resultResp.toString())
                         }

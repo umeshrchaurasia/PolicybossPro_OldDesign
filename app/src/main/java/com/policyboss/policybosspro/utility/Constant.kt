@@ -43,5 +43,6 @@ object Constant {
     const val   NOData = "No Data Found"
     const val   InValidUser = "User Not Found"
     const val   InValidPass = "Invalid UserId and Password"
+    const val   ServerError = "Service Unavailable : The server is currently unavailable"
     const val   InValidOTP = "Invalid OTP"
 }

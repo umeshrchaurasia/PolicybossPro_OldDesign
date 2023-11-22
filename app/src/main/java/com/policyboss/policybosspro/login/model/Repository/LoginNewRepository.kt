@@ -17,13 +17,12 @@ class LoginNewRepository(private  val apiService : SyncContactInterface) {
         emit(response)
     }.flowOn(Dispatchers.IO)
 
-    suspend fun getLoginHorizonDetails(userId : String ) = flow {
 
 
-     val response = apiService.getLoginDsasHorizonDetails(userId = userId)
-
+    suspend fun getLoginHorizonDetails(userId: String) = flow {
+        val response = apiService.getLoginDsasHorizonDetails(userId = userId)
         emit(response)
-   }.flowOn(Dispatchers.IO)
+    }.flowOn(Dispatchers.IO)
 
 
     suspend fun otpLoginHorizon(body : HashMap<String,String> ) = flow {

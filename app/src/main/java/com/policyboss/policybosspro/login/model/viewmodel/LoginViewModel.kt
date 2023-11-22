@@ -196,7 +196,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
         setSsid("")
         loginNewRepository.otpLoginHorizon(body)
             .catch {
-                otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
+                otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
             }
             .collect{ data ->
                 if (data.isSuccessful){
@@ -216,7 +216,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                 }
                 else
                 {
-                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
+                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
                 }
 
             }
@@ -402,7 +402,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
         loginNewRepository.authLoginHorizon(body)
             .catch {
-                authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidPass)
+                authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
             }
             .collect{ data ->
                 if (data.isSuccessful){
@@ -425,12 +425,15 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                     }
                     else{
 
+//                        authLoginMutuableStateFlow.value =
+//                            APIState.Failure(errorMessage = data.body()?.Msg?.ExceptionMessage ?: Constant.InValidPass)
+
                         authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidPass)
                     }
                 }
                 else
                 {
-                    authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidPass)
+                    authLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
                 }
 
             }
