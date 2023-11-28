@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
@@ -74,19 +75,35 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         loginPrefManager = new LoginPrefManager(this);
 
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-
+                    public void onComplete(@NonNull Task<String> task)
+                    {
                         if (task.isSuccessful()) {
-                            prefManager.setToken(task.getResult().getToken());
-                            Log.d(TAG, "Refreshed token: " + task.getResult().getToken());
+                            String token = task.getResult();
+                            Log.d(TAG, "Refreshed token: " + token);
+                            prefManager.setToken(token);
+                        } else {
+                            Log.w(TAG, "Failed to get Firebase token", task.getException());
                         }
                     }
-
-
                 });
+
+
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//
+//                        if (task.isSuccessful()) {
+//                            prefManager.setToken(task.getResult().getToken());
+//                            Log.d(TAG, "Refreshed token: " + task.getResult().getToken());
+//                        }
+//                    }
+//
+//
+//                });
 
 
 //        new MasterController(this).getInsurerList();
