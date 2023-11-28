@@ -13,6 +13,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.AuthLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginOTPResult
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpVerifyResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.UserNewSignUpResponse
@@ -98,7 +99,9 @@ interface SyncContactInterface {
     suspend fun getLoginDsasHorizonDetails( @Path("userId") userId: String): Response<LoginNewResponse_DSAS_Horizon>
 
     @POST("postservicecall/otp_login")
+    //005 temp
     suspend fun otpLoginHorizon(  @Body body : HashMap<String,String>): Response<OtpLoginResponse>
+   // suspend fun otpLoginHorizon(  @Body body : HashMap<String,String>): Response<LoginOTPResult>
 
 
     @POST("auth_tokens/auth_login")

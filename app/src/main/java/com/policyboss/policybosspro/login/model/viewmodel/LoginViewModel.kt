@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.AuthLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginOTPResult
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpVerifyResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.UserNewSignUpResponse
@@ -63,12 +64,16 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
   //endregion
 
     //region OTP via Login
+
+    //region otp  Initialization
     private  var otpLoginMutuableStateFlow : MutableStateFlow<APIState<OtpLoginResponse>> = MutableStateFlow(APIState.Empty())
 
     val otpLoginStateFlow : StateFlow<APIState<OtpLoginResponse>>
         get() = otpLoginMutuableStateFlow
+    //endregion
 
-     //endregion
+
+    //endregion
 
 
 
@@ -185,7 +190,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
     }
 
 
-
+     // temp005
     fun getotpLoginHorizon(login_id: String) = viewModelScope.launch {
 
         var body = HashMap<String, String>()
@@ -216,13 +221,15 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                 }
                 else
                 {
-                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
+                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
                 }
 
             }
 
 
     }
+
+
 
 
     fun  otpVerifyHorizon(otp : String, mobileno : String) = viewModelScope.launch {

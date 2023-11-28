@@ -11,6 +11,17 @@ data class OtpLoginMsg(
     val OTP_Status: String,
     val Ss_Id: Int
 )
+data class OtpLoginErrorRespnse(
+    val Msg: String,
+    val Status: String
+)
+
+sealed class LoginOTPResult {
+
+    data class Success(val data: OtpLoginResponse) : LoginOTPResult()
+    data class Error(val error: OtpLoginErrorRespnse) : LoginOTPResult()
+}
+
 
 //data class test1(
 //    val Msg: Msg,
