@@ -1,6 +1,8 @@
 package com.policyboss.policybosspro.login
 
 import android.app.AlertDialog
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,10 +13,12 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -258,6 +262,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 //            isEnabled = false
 //            alpha = 0.4f   // Set alpha back to 1 (100% opacity)
 //        }
+
+        bindingOTP.lyPaste.visibility = View.INVISIBLE
         bindingOTP.txtResend.visibility = View.GONE
 
         bindingOTP.txtError.visibility = View.GONE
@@ -273,9 +279,17 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
 
                 bindingOTP.txtError.visibility = View.GONE
+//                text?.let{
+//
+//                    if(it.length == 4){
+//
+//                        showAlert(text.toString())
+//                    }
+//                }
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -465,6 +479,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 //                isEnabled = false
 //                alpha = 0.4f   // Set alpha back to 1 (100% opacity)
 //            }
+
+            bindingOTP.lyPaste.visibility = View.INVISIBLE
             bindingOTP.txtResend.visibility = View.GONE
             bindingOTP.txtError.visibility = View.GONE
             bindingOTP.txtTextDtl.text = "We have sent you One-Time Password on ${maskPhoneNumber(mobNo)}"
@@ -748,6 +764,51 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
 
     }
+
+    private fun pasteFromClipboard() {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = clipboard.primaryClip
+        if (clipData != null && clipData.itemCount > 0) {
+            val textToPaste = clipData.getItemAt(0).text.toString()
+
+            if(textToPaste.length == 4){
+
+                if (alertDialogOTP != null ) {
+
+                    if (this@LoginNewActivity::alertDialogOTP.isInitialized && alertDialogOTP!!.isShowing) {
+
+                        val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
+
+                        lyPaste.visibility = View.VISIBLE
+
+                        val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
+                        val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
+                        val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
+                        val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
+                        lyPaste.setOnClickListener {
+
+
+                            et1.setText(textToPaste[0].toString())
+                            et2.setText(textToPaste[1].toString())
+                            et3.setText(textToPaste[2].toString())
+                            et4.setText(textToPaste[3].toString())
+
+                        }
+
+
+                    }
+                    //showAlert(textToPaste)
+
+
+                }
+            }
+
+
+
+
+        }
+    }
+
 
     //endregion
 
@@ -1366,6 +1427,12 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         binding.includeLoginNew.radioGroup.setOnCheckedChangeListener(null)
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+        pasteFromClipboard()
     }
 
     //endregion
