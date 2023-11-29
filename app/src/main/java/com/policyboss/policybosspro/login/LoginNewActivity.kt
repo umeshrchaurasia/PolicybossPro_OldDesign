@@ -13,7 +13,6 @@ import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
 import android.view.View.OnClickListener
 import android.widget.Button
@@ -175,6 +174,14 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         prefManager.deviceID = Utility.getDeviceId(this@LoginNewActivity.getApplicationContext())
 
         prefManager.appVersion = "policyboss-" + BuildConfig.VERSION_NAME
+
+        loginPrefManager.setDEVICE_ID(Utility.getDeviceId(this@LoginNewActivity.getApplicationContext()))
+
+     //   val deviceId: String =
+       //     Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+        val deviceName = Build.MODEL
+
+        loginPrefManager.setDEVICE_NAME(Build.MODEL)
 
     }
 
@@ -766,45 +773,57 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
     }
 
     private fun pasteFromClipboard() {
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clipData = clipboard.primaryClip
-        if (clipData != null && clipData.itemCount > 0) {
-            val textToPaste = clipData.getItemAt(0).text.toString()
 
-            if(textToPaste.length == 4){
+        if (this@LoginNewActivity::alertDialogOTP.isInitialized ) {
 
-                if (alertDialogOTP != null ) {
-
-                    if (this@LoginNewActivity::alertDialogOTP.isInitialized && alertDialogOTP!!.isShowing) {
-
-                        val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
-
-                        lyPaste.visibility = View.VISIBLE
-
-                        val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
-                        val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
-                        val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
-                        val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
-                        lyPaste.setOnClickListener {
+            alertDialogOTP?.let {
+                if (alertDialogOTP!!.isShowing) {
+                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipData = clipboard.primaryClip
 
 
-                            et1.setText(textToPaste[0].toString())
-                            et2.setText(textToPaste[1].toString())
-                            et3.setText(textToPaste[2].toString())
-                            et4.setText(textToPaste[3].toString())
+                    if (clipData != null) {
+                        if (clipData.itemCount > 0) {
+
+                            val textToPaste = clipData.getItemAt(0).text.toString()
+
+                            if (textToPaste.length == 4) {
+
+
+                                val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
+                                val btnSubmit = alertDialogOTP.findViewById<Button>(R.id.btnSubmit)
+
+                                lyPaste.visibility = View.VISIBLE
+
+                                val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
+                                val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
+                                val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
+                                val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
+
+                                lyPaste.setOnClickListener {
+
+
+                                    et1.setText(textToPaste[0].toString())
+                                    et2.setText(textToPaste[1].toString())
+                                    et3.setText(textToPaste[2].toString())
+                                    et4.setText(textToPaste[3].toString())
+
+                                    btnSubmit.performClick()
+
+                                }
+
+
+                                //showAlert(textToPaste)
+
+
+                            }
+
 
                         }
-
-
                     }
-                    //showAlert(textToPaste)
-
 
                 }
             }
-
-
-
 
         }
     }

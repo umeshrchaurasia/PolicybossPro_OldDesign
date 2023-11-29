@@ -1,7 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew
 
 data class OtpLoginResponse(
-    val Msg: OtpLoginMsg?,
+    val Msg: OtpLoginMsg? = null,
     val Status: String?
 )
 

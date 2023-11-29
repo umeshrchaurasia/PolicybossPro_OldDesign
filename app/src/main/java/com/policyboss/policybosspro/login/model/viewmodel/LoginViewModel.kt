@@ -11,8 +11,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.AuthLoginResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.DevicetokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginOTPResult
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginResponse
@@ -20,7 +22,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.Otp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.UserNewSignUpResponse
 
 class LoginViewModel( private val loginNewRepository: LoginNewRepository,
-                      private val loginPrefManager: LoginPrefManager
+                      private val loginPrefManager: LoginPrefManager,
+
 ): ViewModel() {
 
 
@@ -53,6 +56,11 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
         get() = getsignUpMutuableStateFlow
 
     //endregion
+
+    private var insertTokenMutuableStateFlow : MutableStateFlow<APIState<DevicetokenResponse>> = MutableStateFlow(APIState.Empty())
+
+    val insertTokenStateFlow : StateFlow<APIState<DevicetokenResponse>>
+        get() = insertTokenMutuableStateFlow
 
     //.........
     //region DSAS Login
@@ -151,9 +159,37 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
 
     }
+    fun insert_notification_token(Ss_Id: String) = viewModelScope.launch {
+        var body = HashMap<String,String>()
+        body.put("Ss_Id",Ss_Id)
+        body.put("Device_Id",loginPrefManager.getDEVICE_ID())
+        body.put("Device_Name",loginPrefManager.getDEVICE_NAME())
+        body.put("Token",loginPrefManager.getToken())
 
+        insertTokenMutuableStateFlow.value = APIState.Loading()
 
+        loginNewRepository.insert_notification_token(body)
+            .catch {
+                insertTokenMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.NOData)
+            }
+            .collect{data ->
+                if(data?.isSuccessful == true) {
+                    if (data.body()?.Status == "SUCCESS") {
 
+                        insertTokenMutuableStateFlow.value = APIState.Success(data= data.body())
+
+                    } else
+                    {
+                        insertTokenMutuableStateFlow.value   = APIState.Failure(errorMessage = Constant.NOData)
+                    }
+                }
+                else
+                {
+                    insertTokenMutuableStateFlow.value  = APIState.Failure(errorMessage = Constant.NOData)
+                }
+
+            }
+    }
 
     fun  getLoginDetailHorizon(ss_id : String) = viewModelScope.launch {
 
@@ -170,6 +206,8 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                         {
                             loginPrefManager.saveLoginHorizonResponse(data.body())
                             loginMutuableStateFlow.value = APIState.Success(data = data.body())
+
+                            insert_notification_token(ss_id)
                         }
                         else{
                             loginMutuableStateFlow.value = APIState.Failure(errorMessage ="No Data Found")
@@ -254,6 +292,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
                             if(getSsid().isNotEmpty()){
                                 getLoginDetailHorizon(getSsid())
+
                             }else{
 
                                 otpVerificationMutuableStateFlow.value = APIState.Failure(errorMessage = "SSID not generated.Please contact admin")

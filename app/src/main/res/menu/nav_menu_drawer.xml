@@ -109,6 +109,11 @@
                     android:orderInCategory="245"
                     android:title="Change Password" />
 
+                <item
+                    android:id="@+id/nav_rate"
+                    android:icon="@drawable/ic_rate"
+                    android:orderInCategory="248"
+                    android:title="Rate our App" />
 
 
             </menu>

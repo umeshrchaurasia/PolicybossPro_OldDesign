@@ -6,7 +6,6 @@ import com.google.gson.Gson
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.EMP
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginMsg
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.POSP
 
 class LoginPrefManager (private val context: Context){
 
@@ -14,6 +13,12 @@ class LoginPrefManager (private val context: Context){
 
     private val LoginHorizonKey = "LOGIN_DSAS_Horizon"
     private val LoginOTPDataKey = "Login_OTP_Data_Key"
+
+    private val IS_DEVICE_TOKEN_Login = "devicetokenLogin"
+
+    private val IS_DEVICE_ID = "deviceid"
+    private val IS_DEVICE_Name = "devicename"
+
     private  val gson = Gson()
 
     private  val  sharedPreferences:SharedPreferences by lazy{
@@ -78,8 +83,9 @@ class LoginPrefManager (private val context: Context){
     }
 
     fun clear() {
-
+        val strToken = getToken()
         sharedPreferences.edit().clear().apply()
+        setToken(strToken)
     }
 
     fun saveLoginOTPResponse(  loginOTP : OtpLoginMsg?){
@@ -108,5 +114,33 @@ class LoginPrefManager (private val context: Context){
         return response?.Ss_Id?.toString() ?:"0"
     }
 
+    fun setToken(token: String) {
+        sharedPreferences.edit()
+            .putString(IS_DEVICE_TOKEN_Login, token)
+            .apply()
+    }
 
+    fun getToken(): String {
+        return sharedPreferences.getString(IS_DEVICE_TOKEN_Login, "") ?: ""
+    }
+
+    fun setDEVICE_ID(token: String) {
+        sharedPreferences.edit()
+            .putString(IS_DEVICE_ID, token)
+            .apply()
+    }
+
+    fun getDEVICE_ID(): String {
+        return sharedPreferences.getString(IS_DEVICE_ID, "") ?: ""
+    }
+
+    fun setDEVICE_NAME(token: String) {
+        sharedPreferences.edit()
+            .putString(IS_DEVICE_Name, token)
+            .apply()
+    }
+
+    fun getDEVICE_NAME(): String {
+        return sharedPreferences.getString(IS_DEVICE_Name, "") ?: ""
+    }
 }

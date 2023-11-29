@@ -510,6 +510,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             fragment = new ChangePasswordFragment();
                             getSupportActionBar().setTitle("Change Password");
                             break;
+
+                        case R.id.nav_rate:
+                            String packageName = getApplicationContext().getPackageName();
+                            String appUrl = "market://details?id=" + packageName;
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appUrl));
+                            startActivity(intent);
+
+                            break;
                         // For rest of the options we just show a toast on click .
                         case R.id.nav_myaccount:
                             // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
@@ -895,7 +903,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         getSupportActionBar().setTitle(db.getLangData(language, "Title"));   // setTitle
 
-        MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink, nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment, nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,
+        MenuItem nav_home, nav_language, nav_finbox, nav_finperk, nav_festivelink, nav_insert_contact, nav_myaccount_pro, nav_myaccount, nav_pospenrollment, nav_addposp, nav_raiseTicket, nav_changepassword, nav_Doc, nav_franchise,nav_rate,
 
                 nav_AppointmentLetter, nav_Certificate, nav_TRANSACTIONS, nav_mybusiness_insurance, nav_transactionhistory, nav_MessageCentre, nav_crnpolicy, nav_LEADS, nav_contact, nav_generateLead, nav_scan_vehicle, nav_sharedata, nav_leaddetail, nav_sendSmsTemplate, nav_OtherLoan, nav_REQUEST, nav_MYUtilities, nav_whatsnew, nav_cobrowser, nav_logout, nav_FreeCreditReport, nav_mybusinessLoan, nav_emicalLoan, nav_LeadSubmission,nav_QA;
 
@@ -917,6 +925,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         nav_addposp = menu.findItem(R.id.nav_addposp);
         nav_raiseTicket = menu.findItem(R.id.nav_raiseTicket);
         nav_changepassword = menu.findItem(R.id.nav_changepassword);
+        nav_rate = menu.findItem(R.id.nav_rate);
         nav_Doc = menu.findItem(R.id.nav_Doc);
 
         nav_franchise = menu.findItem(R.id.nav_franchise);
@@ -966,6 +975,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             menuItems.put("", nav_addposp);
             menuItems.put("MenuRaiseTicket", nav_raiseTicket);
             menuItems.put("MenuChangePwd", nav_changepassword);
+            menuItems.put("Menurate", nav_rate);
+
             menuItems.put("MenuMyDocs", nav_Doc);
 
             menuItems.put("MenuLoanAgr", nav_franchise);
@@ -1339,7 +1350,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
                     loginRequestEntity.setDeviceId("" +  Utility.getDeviceId(HomeActivity.this));
-                    loginRequestEntity.setTokenId(prefManager.getToken());
+                    loginRequestEntity.setTokenId(loginPrefManager.getToken());
                     loginRequestEntity.setIsChildLogin("Y");
 
                     SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);

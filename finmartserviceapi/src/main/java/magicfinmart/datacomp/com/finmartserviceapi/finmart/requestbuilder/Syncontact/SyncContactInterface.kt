@@ -13,10 +13,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.AuthLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginOTPResult
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpVerifyResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.UserNewSignUpResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.DevicetokenResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PbAttendance.pbAttendResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder
 import okhttp3.MultipartBody
@@ -117,5 +117,9 @@ interface SyncContactInterface {
     @Headers("token:" + FinmartRetroRequestBuilder.token)
     @POST("/quote/Postfm/forgotPassword")
     suspend fun forgotPassword(@Body body: HashMap<String,String>): Response<ForgotResponse>
+
+
+    @POST("/quote/Postfm/notification-auth-token")
+    suspend fun insert_notification_token(@Body body: HashMap<String,String>): Response<DevicetokenResponse?>
 
 }

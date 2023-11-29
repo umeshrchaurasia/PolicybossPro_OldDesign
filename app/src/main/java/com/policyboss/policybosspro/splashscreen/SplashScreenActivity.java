@@ -83,7 +83,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                         if (task.isSuccessful()) {
                             String token = task.getResult();
                             Log.d(TAG, "Refreshed token: " + token);
-                            prefManager.setToken(token);
+                            loginPrefManager.setToken(token);
                         } else {
                             Log.w(TAG, "Failed to get Firebase token", task.getException());
                         }
