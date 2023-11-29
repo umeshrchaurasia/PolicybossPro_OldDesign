@@ -44,5 +44,6 @@ object Constant {
     const val   InValidUser = "User Not Found"
     const val   InValidPass = "Invalid UserId and Password"
     const val   ServerError = "Service Unavailable : The server is currently unavailable"
+    const val   ServerNotFound = "Service Not Found "
     const val   InValidOTP = "Invalid OTP"
 }

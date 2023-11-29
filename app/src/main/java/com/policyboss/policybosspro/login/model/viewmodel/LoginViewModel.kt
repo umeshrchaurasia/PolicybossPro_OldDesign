@@ -6,6 +6,7 @@ import com.policyboss.policybosspro.APIState
 import com.policyboss.policybosspro.login.model.Repository.LoginNewRepository
 import com.policyboss.policybosspro.utility.Constant
 import com.policyboss.policybosspro.utility.UTILITY
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -20,6 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.Log
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpVerifyResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.UserNewSignUpResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
 
 class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                       private val loginPrefManager: LoginPrefManager,
@@ -267,6 +269,60 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
 
     }
 
+
+    fun getotpLoginHorizon1(login_id: String) = viewModelScope.launch {
+
+        var body = HashMap<String, String>()
+        body.put("login_id", login_id)
+
+        otpLoginMutuableStateFlow.value = APIState.Loading()
+
+        setSsid("")
+
+        try {
+            val resultRespAsync = async { RetroHelper.api.otpLoginHorizon(body) }
+            val resultResp = resultRespAsync.await()
+
+            when(resultResp.code()){
+
+                200 ->{
+                    if (resultResp.isSuccessful) {
+
+
+                        if(resultResp.body()?.Status?.uppercase().equals("SUCCESS"))
+                        {
+                            //loginPrefManager.saveLoginOTPResponse(data.body()?.Msg)
+                            otpLoginMutuableStateFlow.value = APIState.Success(data = resultResp.body())
+
+                            //Set SSID and After Verify mob no. Call dsasLogin Horizon Details using SsID
+                            setSsid(resultResp.body()?.Msg?.Ss_Id?.toString() ?:"")
+                            OTP_mobNo = resultResp.body()?.Msg?.Mobile_No?.toString() ?:""
+                        }
+                        else{
+
+                            otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
+                        }
+                    }
+                }
+                503 ->{
+                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
+
+                }
+                404 ->{
+                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerNotFound)
+
+                }else ->{
+                    otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.InValidUser)
+                }
+
+            }
+
+        }catch (ex : Exception){
+
+            otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
+        }
+
+    }
 
 
 
