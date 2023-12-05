@@ -6,10 +6,10 @@ data class OtpLoginResponse(
 )
 
 data class OtpLoginMsg(
-    val Mobile_No: Long,
-    val Name: String,
-    val OTP_Status: String,
-    val Ss_Id: Int
+    val Mobile_No: Long ?= 0L ,
+    val Name: String ? = "",
+    val OTP_Status: String ? ="",
+    val Ss_Id: Int ? = 0
 )
 data class OtpLoginErrorRespnse(
     val Msg: String,
