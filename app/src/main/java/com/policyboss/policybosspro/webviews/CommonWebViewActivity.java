@@ -69,6 +69,7 @@ import com.policyboss.policybosspro.syncContact.Worker.WelcomeSyncContactActivit
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.policyboss.policybosspro.utility.FeedbackHelper;
 import com.policyboss.policybosspro.utility.FileDownloader;
 import com.policyboss.policybosspro.utility.UTILITY;
 import com.webengage.sdk.android.Analytics;
@@ -494,6 +495,14 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         public void Upload_doc(String randomID) {
 
             galleryCamPopUp(randomID);
+
+
+        }
+
+        @JavascriptInterface
+        public void rating() {
+
+            FeedbackHelper.showFeedbackDialog(CommonWebViewActivity.this);
 
 
         }

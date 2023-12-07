@@ -114,7 +114,11 @@
                     android:icon="@drawable/ic_rate"
                     android:orderInCategory="248"
                     android:title="Rate our App" />
-
+                <item
+                    android:id="@+id/nav_rateweb"
+                    android:icon="@drawable/ic_rate"
+                    android:orderInCategory="248"
+                    android:title="Web Rating" />
 
             </menu>
         </item>
