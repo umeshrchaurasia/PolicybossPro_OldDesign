@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Build.VERSION
@@ -26,6 +27,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.material.snackbar.Snackbar
 import com.policyboss.policybosspro.APIState
 import com.policyboss.policybosspro.BaseKotlinActivity
@@ -44,8 +46,10 @@ import com.policyboss.policybosspro.login.model.viewmodel.LoginViewModel
 import com.policyboss.policybosspro.register.RegisterActivity
 import com.policyboss.policybosspro.showAlert
 import com.policyboss.policybosspro.showKeyboard
+import com.policyboss.policybosspro.utility.AppSignatureHashHelper
 import com.policyboss.policybosspro.utility.Constants
 import com.policyboss.policybosspro.utility.NetworkUtils.Companion.isNetworkAvailable
+import com.policyboss.policybosspro.broadcast.SMSReaderBroadCastReceiver
 import com.policyboss.policybosspro.utility.ValidationUtil
 import com.policyboss.policybosspro.utility.showToast
 import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity
@@ -60,6 +64,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHel
 class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     lateinit var binding:ActivityLoginNewBinding
+
 
     //region Declaration
     lateinit var  loginViewModel: LoginViewModel
@@ -105,6 +110,10 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         "android.permission.READ_MEDIA_IMAGES"
     )
 
+    private var intentFilter: IntentFilter? = null
+    private var smsReceiver: SMSReaderBroadCastReceiver? = null
+
+
     //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,6 +122,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         binding = ActivityLoginNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val appSignatureHashHelper = AppSignatureHashHelper(this)
+        Log.d(Constants.TAG, "HashKey: " + appSignatureHashHelper.appSignatures[0])
 
         //region OnCreate Content
         //Default KeyBoard PopUp when EditText
@@ -142,6 +153,10 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         }
 
         //endregion
+
+        // Init Sms Retriever >>>>
+        initSmsListener()
+        initBroadCast()
 
     }
 
@@ -236,6 +251,47 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                 }
             }
         }
+    }
+
+    //endregion
+
+    //region auto read sms
+    private fun initBroadCast() {
+        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
+        smsReceiver = SMSReaderBroadCastReceiver()
+        smsReceiver?.setOTPListener(object : SMSReaderBroadCastReceiver.OTPReceiveListener {
+            override fun onOTPReceived(otp: String?) {
+                Log.d(Constants.TAG, "OTP Received: $otp")
+                //showAlert("OTP Received: $otp")
+                otp?.let {
+                    pasteOTP(otp)
+
+                }
+
+            }
+        })
+    }
+
+    private fun initSmsListener() {
+        val client = SmsRetriever.getClient(this)
+        client.startSmsRetriever()
+//        client.startSmsRetriever().addOnSuccessListener {
+//            registerReceiver(smsReceiver, intentFilter)
+//        }.addOnFailureListener {
+//
+//            showAlert("Failed to start SMS Retriever")
+//        }
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        registerReceiver(smsReceiver, intentFilter)
+    }
+
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        unregisterReceiver(smsReceiver)
+        smsReceiver = null
     }
 
     //endregion
@@ -776,56 +832,100 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
         if (this@LoginNewActivity::alertDialogOTP.isInitialized ) {
 
-            alertDialogOTP?.let {
-                if (alertDialogOTP!!.isShowing) {
-                    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                    val clipData = clipboard.primaryClip
+            if (alertDialogOTP!!.isShowing) {
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clipData = clipboard.primaryClip
 
 
-                    if (clipData != null) {
-                        if (clipData.itemCount > 0) {
+                if (clipData != null) {
+                    if (clipData.itemCount > 0) {
 
-                            val textToPaste = clipData.getItemAt(0).text.toString()
+                        val textToPaste = clipData.getItemAt(0).text.toString()
 
-                            if (textToPaste.length == 4) {
-
-
-                                val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
-                                val btnSubmit = alertDialogOTP.findViewById<Button>(R.id.btnSubmit)
-
-                                lyPaste.visibility = View.VISIBLE
-
-                                val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
-                                val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
-                                val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
-                                val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
-
-                                lyPaste.setOnClickListener {
+                        if (textToPaste.length == 4) {
 
 
-                                    et1.setText(textToPaste[0].toString())
-                                    et2.setText(textToPaste[1].toString())
-                                    et3.setText(textToPaste[2].toString())
-                                    et4.setText(textToPaste[3].toString())
+                            val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
+                            val btnSubmit = alertDialogOTP.findViewById<Button>(R.id.btnSubmit)
 
-                                    btnSubmit.performClick()
+                            lyPaste.visibility = View.VISIBLE
 
-                                }
+                            val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
+                            val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
+                            val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
+                            val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
+
+                            lyPaste.setOnClickListener {
 
 
-                                //showAlert(textToPaste)
+                                et1.setText(textToPaste[0].toString())
+                                et2.setText(textToPaste[1].toString())
+                                et3.setText(textToPaste[2].toString())
+                                et4.setText(textToPaste[3].toString())
 
+                                btnSubmit.performClick()
 
                             }
 
 
-                        }
-                    }
+                            //showAlert(textToPaste)
 
+
+                        }
+
+
+                    }
                 }
+
             }
 
+
         }
+    }
+
+    private fun pasteOTP( strOTP : String) {
+
+        if (this@LoginNewActivity::alertDialogOTP.isInitialized ) {
+
+
+            if (alertDialogOTP!!.isShowing) {
+
+
+                if (strOTP.length > 0) {
+
+
+                    if (strOTP.length == 4) {
+
+
+                        val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
+                        val btnSubmit = alertDialogOTP.findViewById<Button>(R.id.btnSubmit)
+
+                        // lyPaste.visibility = View.VISIBLE
+
+                        val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
+                        val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
+                        val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
+                        val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
+
+                        et1.setText(strOTP[0].toString())
+                        et2.setText(strOTP[1].toString())
+                        et3.setText(strOTP[2].toString())
+                        et4.setText(strOTP[3].toString())
+
+                        et4.setSelection(et4.text.length)
+                        //btnSubmit.performClick()
+
+
+                    }
+
+
+                }
+
+
+            }
+        }
+
+
     }
 
 
@@ -1451,7 +1551,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        pasteFromClipboard()
+       // pasteFromClipboard()
     }
 
     //endregion

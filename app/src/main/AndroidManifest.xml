@@ -1119,6 +1119,11 @@
         </provider>
 
         <receiver
+            android:name=".broadcast.SMSReaderBroadCastReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
+        <receiver
             android:name=".broadcast.SMSBroadCastReceiver"
             android:exported="true">
             <intent-filter android:priority="5822">
