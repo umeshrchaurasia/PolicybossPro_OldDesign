@@ -265,7 +265,6 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                 //showAlert("OTP Received: $otp")
                 otp?.let {
                     pasteOTP(otp)
-
                 }
 
             }
@@ -914,7 +913,6 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
                         et4.setSelection(et4.text.length)
                         //btnSubmit.performClick()
-
 
                     }
 
