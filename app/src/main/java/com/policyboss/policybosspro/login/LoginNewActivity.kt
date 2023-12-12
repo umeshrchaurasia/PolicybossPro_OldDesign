@@ -265,6 +265,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                 //showAlert("OTP Received: $otp")
                 otp?.let {
                     pasteOTP(otp)
+                    // Re-initialize the SMS Retriever for subsequent attempts
+                    initSmsListener()
                 }
 
             }
@@ -273,13 +275,13 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     private fun initSmsListener() {
         val client = SmsRetriever.getClient(this)
-        client.startSmsRetriever()
-//        client.startSmsRetriever().addOnSuccessListener {
-//            registerReceiver(smsReceiver, intentFilter)
-//        }.addOnFailureListener {
-//
-//            showAlert("Failed to start SMS Retriever")
-//        }
+       // client.startSmsRetriever()   //  temp
+        client.startSmsRetriever().addOnSuccessListener {
+            registerReceiver(smsReceiver, intentFilter)
+        }.addOnFailureListener {
+
+            showAlert("Failed to start SMS Retriever")
+        }
     }
 
     override fun onAttachedToWindow() {
@@ -911,6 +913,9 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                         et3.setText(strOTP[2].toString())
                         et4.setText(strOTP[3].toString())
 
+                        et1.setSelection(et4.text.length)
+                        et2.setSelection(et4.text.length)
+                        et3.setSelection(et4.text.length)
                         et4.setSelection(et4.text.length)
                         //btnSubmit.performClick()
 
