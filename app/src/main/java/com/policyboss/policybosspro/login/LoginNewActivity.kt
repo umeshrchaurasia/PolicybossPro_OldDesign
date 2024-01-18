@@ -22,6 +22,7 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
@@ -34,6 +35,7 @@ import com.policyboss.policybosspro.BaseKotlinActivity
 import com.policyboss.policybosspro.BuildConfig
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.analytics.WebEngageAnalytics
+import com.policyboss.policybosspro.broadcast.SMSReaderBroadCastReceiver
 import com.policyboss.policybosspro.databinding.ActivityLoginNewBinding
 import com.policyboss.policybosspro.databinding.LayoutLoginViaotpBinding
 import com.policyboss.policybosspro.databinding.LayoutLoginViapasswordBinding
@@ -49,7 +51,6 @@ import com.policyboss.policybosspro.showKeyboard
 import com.policyboss.policybosspro.utility.AppSignatureHashHelper
 import com.policyboss.policybosspro.utility.Constants
 import com.policyboss.policybosspro.utility.NetworkUtils.Companion.isNetworkAvailable
-import com.policyboss.policybosspro.broadcast.SMSReaderBroadCastReceiver
 import com.policyboss.policybosspro.utility.ValidationUtil
 import com.policyboss.policybosspro.utility.showToast
 import com.policyboss.policybosspro.webviews.PrivacyWebViewActivity
@@ -334,104 +335,69 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         bindingOTP.txtTextDtl.text = "We have sent you One-Time Password on ${maskPhoneNumber(mobNo)}"
         bindingOTP.etOtp1.requestFocus()
 
-       // showKeyboard( binding.etOtp1)
+        showKeyboard( bindingOTP.btnSubmit)
 
 
         //region EditText TextWatcher
-        val edittextTextWatcher = object : TextWatcher {
+
+        val pinnedViewTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
 
-            override fun onTextChanged(text: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
                 bindingOTP.txtError.visibility = View.GONE
-//                text?.let{
-//
-//                    if(it.length == 4){
-//
-//                        showAlert(text.toString())
-//                    }
-//                }
+
 
             }
 
             override fun afterTextChanged(s: Editable?) {
 
-                if (s?.length ?: 0 > 0) {
+                if (s?.length ?: 0 == 4) {
 
-                    when (selectedETPosition) {
-                        0 -> {
-                            //select next edittext
-                            selectedETPosition = 1
-                            showKeyboard(bindingOTP.etOtp2)
-                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
-                        }
+                    //region OTP Verification Handling
 
-                        1 -> {
-                            //select next edittext
-                            selectedETPosition = 2
-                            showKeyboard(bindingOTP.etOtp3)
-                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
-                        }
 
-                        2 -> {
-                            //select next edittext
-                            selectedETPosition = 3
-                            showKeyboard(bindingOTP.etOtp4)
-                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
+                    var inputOtp  = bindingOTP.pinview.getText().toString()
 
-                        }
+                    if (inputOtp.length == 4) {
 
-                        3 -> {
-                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
-                            hideKeyboard(bindingOTP.etOtp4)
-                        }
+                        // Called Api
+                        cancelTimer()
+                        hideKeyboard(bindingOTP.btnSubmit)
+                        loginViewModel.otpVerifyHorizon(inputOtp,mobNo)
+
+                    } else if (inputOtp.length == 0) {
+                        bindingOTP.txtError.visibility = View.VISIBLE
+                        bindingOTP.txtError.text = "Please Enter OTP"
+
+                    } else {
+
+
+                        bindingOTP.pinview.setLineColor( ContextCompat.getColor(this@LoginNewActivity,R.color.red))
+                        bindingOTP.txtError.visibility = View.VISIBLE
+                        bindingOTP.txtError.text = "Invalid OTP Entered."
+
+                        //endregion
+
                     }
 
-                } else {
-                    when (selectedETPosition) {
-                        3 -> {
-                            selectedETPosition = 2
-                            showKeyboard(bindingOTP.etOtp3)
-                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle)
-                        }
+                    //endregion
 
-                        2 -> {
-                            selectedETPosition = 1
-                            showKeyboard(bindingOTP.etOtp2)
-                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle)
-
-                        }
-
-                        1 -> {
-                            selectedETPosition = 0
-                            showKeyboard(bindingOTP.etOtp1)
-                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle)
-
-                        }
-
-                        0 -> {
-                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle)
-
-                        }
-                    }
                 }
             }
         }
         //endregion
 
-        bindingOTP.etOtp1.addTextChangedListener(edittextTextWatcher)
-        bindingOTP.etOtp2.addTextChangedListener(edittextTextWatcher)
-        bindingOTP.etOtp3.addTextChangedListener(edittextTextWatcher)
-        bindingOTP.etOtp4.addTextChangedListener(edittextTextWatcher)
 
+        bindingOTP.pinview.addTextChangedListener(pinnedViewTextWatcher)
         bindingOTP.btnSubmit.setOnClickListener {
 
             //region OTP Verification Handling
-            var inputOtp = bindingOTP.etOtp1.text.toString() + bindingOTP.etOtp2.text.toString() +
-                    bindingOTP.etOtp3.text.toString() + bindingOTP.etOtp4.text.toString()
 
+
+            var inputOtp  = bindingOTP.pinview.getText().toString()
 
             if (inputOtp.length == 4) {
 
@@ -443,14 +409,11 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             } else if (inputOtp.length == 0) {
                 bindingOTP.txtError.visibility = View.VISIBLE
                 bindingOTP.txtError.text = "Please Enter OTP"
+
             } else {
 
-                //region EditText error display
-                bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
-                bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
-                bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
-                bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
 
+                bindingOTP.pinview.setLineColor( ContextCompat.getColor(this@LoginNewActivity,R.color.red))
                 bindingOTP.txtError.visibility = View.VISIBLE
                 bindingOTP.txtError.text = "Invalid OTP Entered."
 
@@ -468,10 +431,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             // Cancel the existing timer if it's running
             cancelTimer()
 
-            bindingOTP.etOtp1.removeTextChangedListener(edittextTextWatcher)
-            bindingOTP.etOtp2.removeTextChangedListener(edittextTextWatcher)
-            bindingOTP.etOtp3.removeTextChangedListener(edittextTextWatcher)
-            bindingOTP.etOtp4.removeTextChangedListener(edittextTextWatcher)
+            bindingOTP.pinview.removeTextChangedListener(pinnedViewTextWatcher)
+
 
         }
 
@@ -556,7 +517,9 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             }
 
         //region EditText TextWatcher
-        val edittextTextWatcher = object : TextWatcher {
+
+
+        val pinnedViewTextWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
             }
@@ -568,80 +531,52 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
             override fun afterTextChanged(s: Editable?) {
 
-                if (s?.length ?: 0 > 0) {
+                if (s?.length ?: 0 == 4) {
 
-                    when (selectedETPosition) {
-                        0 -> {
-                            //select next edittext
-                            selectedETPosition = 1
-                            showKeyboard(bindingOTP.etOtp2)
-                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_done)
-                        }
+                    //region OTP Verification Handling
 
-                        1 -> {
-                            //select next edittext
-                            selectedETPosition = 2
-                            showKeyboard(bindingOTP.etOtp3)
-                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_done)
-                        }
+                    var inputOtp  = bindingOTP.pinview.getText().toString()
 
-                        2 -> {
-                            //select next edittext
-                            selectedETPosition = 3
-                            showKeyboard(bindingOTP.etOtp4)
-                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_done)
+                    if (inputOtp.length == 4) {
 
-                        }
+                        // Called Api
+                        cancelTimer()
+                        hideKeyboard(bindingOTP.btnSubmit)
+                        loginViewModel.otpVerifyHorizon(inputOtp,mobNo)
 
-                        3 -> {
-                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_done)
-                            hideKeyboard(bindingOTP.etOtp4)
-                        }
+                    } else if (inputOtp.length == 0) {
+                        bindingOTP.txtError.visibility = View.VISIBLE
+                        bindingOTP.txtError.text = "Please Enter OTP"
+                    } else {
+
+                        //region EditText error display
+                        bindingOTP.pinview.setLineColor( ContextCompat.getColor(this@LoginNewActivity,R.color.red))
+
+                        bindingOTP.txtError.visibility = View.VISIBLE
+                        bindingOTP.txtError.text = "Invalid OTP Entered."
+
+                        //endregion
+
                     }
 
-                } else {
-                    when (selectedETPosition) {
-                        3 -> {
-                            selectedETPosition = 2
-                            showKeyboard(bindingOTP.etOtp3)
-                            bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle)
-                        }
+                    //endregion
 
-                        2 -> {
-                            selectedETPosition = 1
-                            showKeyboard(bindingOTP.etOtp2)
-                            bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle)
-
-                        }
-
-                        1 -> {
-                            selectedETPosition = 0
-                            showKeyboard(bindingOTP.etOtp1)
-                            bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle)
-
-                        }
-
-                        0 -> {
-                            bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle)
-
-                        }
-                    }
                 }
             }
         }
         //endregion
 
-            bindingOTP.etOtp1.addTextChangedListener(edittextTextWatcher)
-            bindingOTP.etOtp2.addTextChangedListener(edittextTextWatcher)
-            bindingOTP.etOtp3.addTextChangedListener(edittextTextWatcher)
-            bindingOTP.etOtp4.addTextChangedListener(edittextTextWatcher)
+
+
+        bindingOTP.pinview.addTextChangedListener(pinnedViewTextWatcher)
+
+
 
         bindingOTP.btnSubmit.setOnClickListener {
 
                //region OTP Verification Handling
-            var inputOtp = bindingOTP.etOtp1.text.toString() + bindingOTP.etOtp2.text.toString() +
-                    bindingOTP.etOtp3.text.toString() + bindingOTP.etOtp4.text.toString()
 
+            var inputOtp  = bindingOTP.pinview.getText().toString()
 
             if (inputOtp.length == 4) {
 
@@ -656,10 +591,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             } else {
 
                 //region EditText error display
-                bindingOTP.etOtp1.setBackgroundResource(R.drawable.text_handle_error)
-                bindingOTP.etOtp2.setBackgroundResource(R.drawable.text_handle_error)
-                bindingOTP.etOtp3.setBackgroundResource(R.drawable.text_handle_error)
-                bindingOTP.etOtp4.setBackgroundResource(R.drawable.text_handle_error)
+                bindingOTP.pinview.setLineColor( ContextCompat.getColor(this@LoginNewActivity,R.color.red))
 
                 bindingOTP.txtError.visibility = View.VISIBLE
                 bindingOTP.txtError.text = "Invalid OTP Entered."
@@ -670,18 +602,18 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
             //endregion
 
-            }
+        }
             bindingOTP.imgClose.setOnClickListener {
                 alertDialogOTP.dismiss()
                 // Cancel the existing timer if it's running
                 cancelTimer()
 
-                bindingOTP.etOtp1.removeTextChangedListener(edittextTextWatcher)
-                bindingOTP.etOtp2.removeTextChangedListener(edittextTextWatcher)
-                bindingOTP.etOtp3.removeTextChangedListener(edittextTextWatcher)
-                bindingOTP.etOtp4.removeTextChangedListener(edittextTextWatcher)
+//                bindingOTP.etOtp1.removeTextChangedListener(edittextTextWatcher)
+//                bindingOTP.etOtp2.removeTextChangedListener(edittextTextWatcher)
+//                bindingOTP.etOtp3.removeTextChangedListener(edittextTextWatcher)
+//                bindingOTP.etOtp4.removeTextChangedListener(edittextTextWatcher)
 
-
+                bindingOTP.pinview.removeTextChangedListener(pinnedViewTextWatcher)
             }
 
 
