@@ -114,92 +114,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 ></com.chaos.view.PinView>
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:weightSum="4"
 
-                app:layout_constraintHorizontal_bias="0.526"
-                app:layout_constraintTop_toBottomOf="@+id/txtTextMesaage"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-               >
-
-                <EditText
-                    android:id="@+id/etOtp1"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/text_handle"
-                    android:fontFamily="@font/poppinsbold"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    android:textCursorDrawable="@null"
-                    android:text=""
-                    android:contentDescription="Otp1"
-                    android:textColor="@color/primary_text_color"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/etOtp2"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/text_handle"
-                    android:fontFamily="@font/poppinsbold"
-                    android:textCursorDrawable="@null"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    android:textColor="@color/primary_text_color"
-                    android:contentDescription="Otp2"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/etOtp3"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:textCursorDrawable="@null"
-                    android:background="@drawable/text_handle"
-                    android:fontFamily="@font/poppinsbold"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    android:contentDescription="Otp3"
-                    android:textColor="@color/primary_text_color"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/etOtp4"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="1"
-                    android:textCursorDrawable="@null"
-                    android:background="@drawable/text_handle"
-                    android:fontFamily="@font/poppinsbold"
-                    android:gravity="center"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:maxLines="1"
-                    android:contentDescription="Otp4"
-                    android:textColor="@color/primary_text_color"
-                    android:textSize="18sp" />
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/txtError"
@@ -253,6 +168,7 @@
                 android:gravity="left"
                 android:paddingLeft="@dimen/_16dp"
                 android:paddingRight="@dimen/_16dp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/txtcountdown_timer"
                 android:orientation="horizontal">
 

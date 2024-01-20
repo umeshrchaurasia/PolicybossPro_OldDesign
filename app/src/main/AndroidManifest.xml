@@ -117,7 +117,7 @@
             android:launchMode="singleTask"
             android:parentActivityName=".splashscreen.SplashScreenActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.policyboss.policybosspro.splashscreen.SplashScreenActivity" />

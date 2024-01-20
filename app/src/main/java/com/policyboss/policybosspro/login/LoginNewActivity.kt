@@ -1,6 +1,7 @@
 package com.policyboss.policybosspro.login
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
@@ -16,6 +17,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -61,6 +63,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.RetroHelper
+
 
 class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
@@ -263,10 +266,15 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         smsReceiver?.setOTPListener(object : SMSReaderBroadCastReceiver.OTPReceiveListener {
             override fun onOTPReceived(otp: String?) {
                 Log.d(Constants.TAG, "OTP Received: $otp")
-                //showAlert("OTP Received: $otp")
+               // showAlert("OTP Received: $otp")
+
                 otp?.let {
-                    pasteOTP(otp)
-                    // Re-initialize the SMS Retriever for subsequent attempts
+                    pasteOTP(strOTP =  it)
+                }
+
+                otp?.let {
+                   // pasteOTP(otp)
+                    // Re-initialize the SMS Retriever for subsequent attempts {ie for Next time handling of data}
                     initSmsListener()
                 }
 
@@ -319,7 +327,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         isResendOTPUpdate = false
         var bindingOTP = LayoutLoginViaotpBinding.inflate(layoutInflater)
 
-        alertDialogOTP = AlertDialog.Builder(this, R.style.CustomDialog)
+        alertDialogOTP = AlertDialog.Builder(this,R.style.CustomDialog)
             .setView(bindingOTP.root)
             .create()
 
@@ -333,9 +341,9 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
         bindingOTP.txtError.visibility = View.GONE
         bindingOTP.txtTextDtl.text = "We have sent you One-Time Password on ${maskPhoneNumber(mobNo)}"
-        bindingOTP.etOtp1.requestFocus()
+        //bindingOTP.pinview.requestFocus()
 
-        showKeyboard( bindingOTP.btnSubmit)
+       // showKeyboard( bindingOTP.btnSubmit)
 
 
         //region EditText TextWatcher
@@ -393,6 +401,9 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
         bindingOTP.pinview.addTextChangedListener(pinnedViewTextWatcher)
         bindingOTP.btnSubmit.setOnClickListener {
+
+
+
 
             //region OTP Verification Handling
 
@@ -483,10 +494,18 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         }
 
         startTimerCountdown(bindingOTP.txtcountdownTimer, bindingOTP.txtResend)
-        alertDialogOTP.show()
+
         alertDialogOTP.setCancelable(false)
 
 
+
+        alertDialogOTP.getWindow()
+            ?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)
+        alertDialogOTP.getWindow()?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        showKeyboard(bindingOTP.btnSubmit)
+
+
+        alertDialogOTP.show()
     }
 
     //region Alert when Error Message is Come ...Only for Wrong OTP handling. ie when Otp Open again
@@ -509,7 +528,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             bindingOTP.txtResend.visibility = View.GONE
             bindingOTP.txtError.visibility = View.GONE
             bindingOTP.txtTextDtl.text = "We have sent you One-Time Password on ${maskPhoneNumber(mobNo)}"
-             bindingOTP.etOtp1.requestFocus()
+            bindingOTP.pinview.requestFocus()
 
             if(errorMsg.isNotEmpty()){
                 bindingOTP.txtError.visibility = View.VISIBLE
@@ -574,6 +593,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
         bindingOTP.btnSubmit.setOnClickListener {
 
+
+
                //region OTP Verification Handling
 
             var inputOtp  = bindingOTP.pinview.getText().toString()
@@ -602,17 +623,13 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
             //endregion
 
+
+
         }
             bindingOTP.imgClose.setOnClickListener {
                 alertDialogOTP.dismiss()
                 // Cancel the existing timer if it's running
                 cancelTimer()
-
-//                bindingOTP.etOtp1.removeTextChangedListener(edittextTextWatcher)
-//                bindingOTP.etOtp2.removeTextChangedListener(edittextTextWatcher)
-//                bindingOTP.etOtp3.removeTextChangedListener(edittextTextWatcher)
-//                bindingOTP.etOtp4.removeTextChangedListener(edittextTextWatcher)
-
                 bindingOTP.pinview.removeTextChangedListener(pinnedViewTextWatcher)
             }
 
@@ -761,60 +778,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     }
 
-    private fun pasteFromClipboard() {
 
-        if (this@LoginNewActivity::alertDialogOTP.isInitialized ) {
-
-            if (alertDialogOTP!!.isShowing) {
-                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = clipboard.primaryClip
-
-
-                if (clipData != null) {
-                    if (clipData.itemCount > 0) {
-
-                        val textToPaste = clipData.getItemAt(0).text.toString()
-
-                        if (textToPaste.length == 4) {
-
-
-                            val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
-                            val btnSubmit = alertDialogOTP.findViewById<Button>(R.id.btnSubmit)
-
-                            lyPaste.visibility = View.VISIBLE
-
-                            val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
-                            val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
-                            val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
-                            val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
-
-                            lyPaste.setOnClickListener {
-
-
-                                et1.setText(textToPaste[0].toString())
-                                et2.setText(textToPaste[1].toString())
-                                et3.setText(textToPaste[2].toString())
-                                et4.setText(textToPaste[3].toString())
-
-                                btnSubmit.performClick()
-
-                            }
-
-
-                            //showAlert(textToPaste)
-
-
-                        }
-
-
-                    }
-                }
-
-            }
-
-
-        }
-    }
 
     private fun pasteOTP( strOTP : String) {
 
@@ -830,26 +794,18 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                     if (strOTP.length == 4) {
 
 
-                        val lyPaste = alertDialogOTP.findViewById<LinearLayout>(R.id.lyPaste)
-                        val btnSubmit = alertDialogOTP.findViewById<Button>(R.id.btnSubmit)
 
-                        // lyPaste.visibility = View.VISIBLE
+                       // val btnSubmit = alertDialogOTP.findViewById<Button>(R.id.btnSubmit)
 
-                        val et1 = alertDialogOTP.findViewById<EditText>(R.id.etOtp1)
-                        val et2 = alertDialogOTP.findViewById<EditText>(R.id.etOtp2)
-                        val et3 = alertDialogOTP.findViewById<EditText>(R.id.etOtp3)
-                        val et4 = alertDialogOTP.findViewById<EditText>(R.id.etOtp4)
 
-                        et1.setText(strOTP[0].toString())
-                        et2.setText(strOTP[1].toString())
-                        et3.setText(strOTP[2].toString())
-                        et4.setText(strOTP[3].toString())
+                        var pinview = alertDialogOTP.findViewById<com.chaos.view.PinView>(R.id.pinview)
 
-                        et1.setSelection(et4.text.length)
-                        et2.setSelection(et4.text.length)
-                        et3.setSelection(et4.text.length)
-                        et4.setSelection(et4.text.length)
-                        //btnSubmit.performClick()
+                        pinview.setText(strOTP)
+                        //********************************************************************************
+                        //Note : Since we have written pinview textChange Listener : trigger will done at 4 th position
+
+                       // btnSubmit.performClick()  no need again call btnSubmit
+                       //********************************************************************************/
 
                     }
 
@@ -925,10 +881,11 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             override fun onFinish() {
 
                 txtTimer.text = "00:00"
-                if(alertDialogOTP.isShowing){
-                    alertDialogOTP.dismiss()
+                if (this@LoginNewActivity::alertDialogOTP.isInitialized){
+                    if(alertDialogOTP.isShowing){
+                        alertDialogOTP.dismiss()
+                    }
                 }
-
 
             }
 
@@ -1111,7 +1068,9 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                                 }
                             }
 
+                            showKeyboard(binding.root)
                             showOTPDialog(mobNo = loginViewModel.getOtpMobileNo(), errorMsg = "InValid OTP")
+
 
 
                         }
@@ -1486,7 +1445,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     override fun onResume() {
         super.onResume()
-       // pasteFromClipboard()
+
     }
 
     //endregion
