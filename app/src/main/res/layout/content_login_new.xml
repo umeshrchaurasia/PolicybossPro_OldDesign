@@ -61,6 +61,7 @@
                     android:drawableRight="@drawable/vector_email_white"
                     android:inputType="textEmailAddress"
                     android:padding="8dp"
+                    android:text=""
                     android:textColor="@color/white" />
             </com.google.android.material.textfield.TextInputLayout>
 
