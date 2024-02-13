@@ -465,8 +465,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         UserConstantEntity userConstantEntity = dbPersistanceController.getUserConstantsData();
 
         tvName.setText(loginPrefManager.getEmpData().getEmp_Name());
-        tvFbaCode.setText("" + userConstantEntity.getFBAId());
-        if (userConstantEntity.getPOSPNo() != null) {
+        tvFbaCode.setText("" +
+loginPrefManager.getFBAID()
+);
+        if (loginPrefManager.getSSID()!= null) {
             tvPospNo.setText("" + userConstantEntity.getPOSPNo());
         }
         tvLoginId.setText("" + userConstantEntity.getLoginID());

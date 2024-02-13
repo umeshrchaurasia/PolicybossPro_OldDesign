@@ -41,6 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -78,16 +79,16 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
     Dialog showDialog ;
     Analytics weAnalytics;
     Map<String, Object> screenData;
-
+    LoginPrefManager loginPrefManager;
     @Override
     protected void onStart() {
         super.onStart();
         try {
 
 
-            screenData.put("SS ID", userConstantEntity.getPOSPNo());
-            screenData.put("FBA ID", userConstantEntity.getFBAId());
-            screenData.put("Name", userConstantEntity.getFullName());
+            screenData.put("SS ID", loginPrefManager.getSSID());
+            screenData.put("FBA ID", loginPrefManager.getFBAID());
+            screenData.put("Name", loginPrefManager.getName());
 
             screenData.put("Product ID",salesProductEntity.getProduct_Id());
             screenData.put("Product Name",salesProductEntity.getProduct_Name());
@@ -108,6 +109,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(SalesDetailActivity.this);
         userConstantEntity = dbPersistanceController.getUserConstantsData();
+        loginPrefManager = new LoginPrefManager(this);
 
         weAnalytics  = WebEngage.get().analytics();
         screenData = new HashMap<String, Object>();
@@ -225,19 +227,19 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
 
 
         pospNAme = "POSP Name";
-        pospEmail = "XXXXXX@finmart.com";
+        pospEmail = "XXXXXX@policyboss.com";
         pospDesg = "LandMark POSP";
         PospMobNo = "98XXXXXXXX";
         pospPhotoUrl = new URL("https://origin-cdnh.policyboss.com/website/Images/campaign/profile_pic.png");
         if (userConstantEntity != null) {
-            if (userConstantEntity.getPospsendname() != null && !userConstantEntity.getPospsendname().equals("")) {
-                pospNAme = userConstantEntity.getPospsendname();
+            if (loginPrefManager.getName() != null && !loginPrefManager.getName().equals("")) {
+                pospNAme = loginPrefManager.getName();
             }
-            if (userConstantEntity.getPospsendemail() != null && !userConstantEntity.getPospsendemail().equals("")) {
-                pospEmail = userConstantEntity.getPospsendemail();
+            if (loginPrefManager.getEmailId() != null && !loginPrefManager.getEmailId().equals("")) {
+                pospEmail = loginPrefManager.getEmailId();
             }
-            if (userConstantEntity.getPospsendmobile() != null && !userConstantEntity.getPospsendmobile().equals("")) {
-                PospMobNo = userConstantEntity.getPospsendmobile();
+            if (loginPrefManager.getMobileNo() != null && !loginPrefManager.getMobileNo().equals("")) {
+                PospMobNo = loginPrefManager.getMobileNo();
             }
             if (userConstantEntity.getPospsenddesignation() != null && !userConstantEntity.getPospsenddesignation().equals("")) {
                 pospDesg = userConstantEntity.getPospsenddesignation();
@@ -252,7 +254,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
 
 
         fbaNAme = "FBA Name";
-        fbaEmail = "XXXXXX@finmart.com";
+        fbaEmail = "XXXXXX@policyboss.com";
         fbaDesg = "FBA SUPPORT ASSISTANT";
         fbaMobNo = "98XXXXXXXX";
         fbaPhotoUrl = new URL("https://origin-cdnh.policyboss.com/website/Images/campaign/profile_pic.png");

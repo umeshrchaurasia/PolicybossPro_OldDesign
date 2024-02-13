@@ -2,11 +2,14 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew
 
 data class LoginNewResponse_DSAS_Horizon(
     val EMP: EMP ?,
-    //val POSP: POSP ?,
+    val POSP: POSP ?,
+    val POSP_USER: POSP_USER ?,
+    val DEVICE : DEVICE ?,
     val channel: String ?,
     val product: String ?,
     val status: String ?,
-    val user_type: String ?
+    val user_type: String ?,
+    val Ss_Id: String ?
 )
 
 data class EMP(
@@ -74,4 +77,21 @@ data class POSP(
     var Ss_Id:  String="",
     var Telephone_No: String="",
     var _id: String
+)
+
+data class POSP_USER(
+    var Name_On_PAN : String = "",
+
+    var User_Id : String = "",
+
+    var  Mobile_No: String = "",
+)
+
+data class DEVICE(
+    var OS_Detail: String = "",
+    var App_Version: String = "",
+    var Device_Name: String = "",
+    var Device_Identifier: String = "",
+    var Created_On: String = "",
+    var Activated_On:  String="",
 )

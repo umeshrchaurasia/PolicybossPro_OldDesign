@@ -11,5 +11,6 @@ data class SignUpMasterData(
     val enable_elite_signupurl: String,
     val enable_pro_Addsubuser_url: String,
     val enable_pro_pospurl: String,
-    val enable_pro_signupurl: String
+    val enable_pro_signupurl: String,
+    val enable_otp_only:String
 )

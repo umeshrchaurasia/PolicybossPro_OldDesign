@@ -1,9 +1,7 @@
 package com.policyboss.policybosspro.login
 
 import android.app.AlertDialog
-import android.app.Dialog
-import android.content.ClipboardManager
-import android.content.Context
+
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
@@ -20,7 +18,7 @@ import android.view.View.OnClickListener
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
@@ -103,6 +101,8 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     //   User weUser;
     var enable_pro_signupurl = ""
+
+    var enable_otp_only = "N"
 
     var perms = arrayOf(
         "android.permission.CAMERA",
@@ -960,6 +960,37 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
                                 enable_pro_signupurl = it.data?.MasterData?.get(0)?.enable_pro_signupurl?: ""
                                 prefManager.enableProPOSPurl = enable_pro_signupurl
 
+                                enable_otp_only = it.data?.MasterData?.get(0)?.enable_otp_only?:""
+
+                                if(enable_otp_only !=null)
+                                {
+                                        if (enable_otp_only.isEmpty())
+                                        {
+                                            binding.includeLoginNew.lyloginvia.visibility = View.VISIBLE
+                                            binding.includeLoginNew.lblloginvia.visibility = View.VISIBLE
+                                        }
+                                    else
+                                        {
+
+                                            if(enable_otp_only.equals("Y"))
+                                            {
+                                                binding.includeLoginNew.lyloginvia.visibility  = View.GONE
+                                                binding.includeLoginNew.lblloginvia.visibility = View.GONE
+
+                                                binding.includeLoginNew.etEmail.requestFocus()
+                                            }else
+                                            {
+                                                binding.includeLoginNew.lyloginvia.visibility = View.VISIBLE
+                                                binding.includeLoginNew.lblloginvia.visibility = View.VISIBLE
+                                            }
+
+                                        }
+                                }
+                                else
+                                {
+                                    binding.includeLoginNew.lyloginvia.visibility = View.VISIBLE
+                                    binding.includeLoginNew.lblloginvia.visibility = View.VISIBLE
+                                }
                                 //add sub user
 
                                 //add sub user

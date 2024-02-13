@@ -38,7 +38,7 @@ class LoginPrefManager (private val context: Context){
             }
         }
     }
-
+//Important all API data
     fun saveLoginHorizonResponse(  loginHorizon : LoginNewResponse_DSAS_Horizon?){
 
         loginHorizon?.let { response ->
@@ -72,14 +72,170 @@ class LoginPrefManager (private val context: Context){
 
         val response = getLoginHorizonResponse()
 
-        return response?.EMP?.Emp_Id?:"0"
+        return response?.Ss_Id?:"0"
     }
 
     fun getFBAID() : String {
 
         val response = getLoginHorizonResponse()
 
-        return response?.EMP?.FBA_ID?:"0"
+        val usertype= response?.user_type?:""
+
+        when(usertype){
+
+
+            "POSP" ->{
+                return response?.POSP?.Fba_Id?:"0"
+            }
+            "FOS" ->{
+                return response?.POSP?.Fba_Id?:"0"
+            }
+
+            "EMP" ->{
+                return response?.EMP?.FBA_ID?:"0"
+            }
+            "MISP" ->{
+                return response?.EMP?.FBA_ID?:"0"
+            }
+
+        }
+
+        return "0"
+    }
+
+    fun  getERPID() : String {
+
+        val response = getLoginHorizonResponse()
+
+        return response?.POSP?.Erp_Id?:""
+    }
+
+
+    fun getName() : String {
+
+        val response = getLoginHorizonResponse()
+
+        val usertype= response?.user_type?:""
+
+        when(usertype){
+
+
+            "POSP" ->{
+                return response?.POSP_USER?.Name_On_PAN?:""
+            }
+            "FOS" ->{
+                return response?.POSP_USER?.Name_On_PAN?:""
+            }
+
+            "EMP" ->{
+                return response?.EMP?.Emp_Name?:""
+            }
+            "MISP" ->{
+                return response?.EMP?.Emp_Name?:""
+            }
+
+        }
+
+        return ""
+    }
+
+
+    fun getMobileNo() : String {
+
+        val response = getLoginHorizonResponse()
+
+        val usertype= response?.user_type?:""
+
+        when(usertype){
+
+
+            "POSP" ->{
+                return response?.POSP_USER?.Mobile_No?:"0"
+            }
+            "FOS" ->{
+                return response?.POSP_USER?.Mobile_No?:"0"
+            }
+
+            "EMP" ->{
+                return response?.EMP?.Mobile_Number?:"0"
+            }
+            "MISP" ->{
+                return response?.EMP?.Mobile_Number?:"0"
+            }
+
+        }
+
+        return "0"
+    }
+
+    fun getEmailId() : String {
+
+        val response = getLoginHorizonResponse()
+
+        val usertype= response?.user_type?:""
+
+        when(usertype){
+
+
+            "POSP" ->{
+                return response?.POSP?.Email_Id?:"0"
+            }
+            "FOS" ->{
+                return response?.POSP?.Email_Id?:"0"
+            }
+
+            "EMP" ->{
+                return response?.EMP?.Email_Id?:"0"
+            }
+            "MISP" ->{
+                return response?.EMP?.Email_Id?:"0"
+            }
+
+        }
+
+        return ""
+    }
+
+
+    fun getUserId() : String {
+
+        val response = getLoginHorizonResponse()
+
+        val usertype= response?.user_type?:""
+
+        when(usertype){
+
+
+            "POSP" ->{
+                return response?.POSP_USER?.User_Id?:"0"
+            }
+            "FOS" ->{
+                return response?.POSP_USER?.User_Id?:"0"
+            }
+
+            "EMP" ->{
+                return response?.EMP?.UID?:"0"
+            }
+            "MISP" ->{
+                return response?.EMP?.UID?:"0"
+            }
+
+        }
+
+        return "0"
+    }
+    fun getappVersion() : String {
+
+        val response = getLoginHorizonResponse()
+
+        return response?.DEVICE?.App_Version?:""
+    }
+
+    fun getdeviceID() : String {
+
+        val response = getLoginHorizonResponse()
+
+        return response?.DEVICE?.Device_Identifier?:""
     }
 
     fun clear() {

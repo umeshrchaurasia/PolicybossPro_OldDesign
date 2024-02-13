@@ -144,6 +144,13 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         binding.includedSyncContact.txtMessage.text = ""
         binding.includedSyncContact.txtCount.text = ""
 
+        binding.includedSyncContact.txtMessageSsid.text=""
+
+
+        var msg1 : String = "FBA ID :- "+ userConstantEntity.fbaId + " , SS ID :- "+ userConstantEntity!!.pospNo
+        binding.includedSyncContact.txtMessageSsid.text = msg1
+
+
         binding.includedSyncContact.txtProgressMessage.visibility = View.VISIBLE
         binding.includedSyncContact.txtProgressMessage.text = Constant.CONTACT_LOG_DataFetching
 

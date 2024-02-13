@@ -266,9 +266,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         try {
 
 
-            screenData.put("SS ID", userConstantEntity.getPOSPNo());
-            screenData.put("FBA ID", userConstantEntity.getFBAId());
-            screenData.put("Name", userConstantEntity.getFullName());
+            screenData.put("SS ID", loginPrefManager.getSSID());
+            screenData.put("FBA ID", loginPrefManager.getFBAID());
+            screenData.put("Name", loginPrefManager.getName());
 
             weAnalytics.screenNavigated("Home Screen", screenData);
         }catch (Exception ex)
@@ -436,7 +436,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             if (menuItem.getItemId() == sequence) {
 
                                 String menudetail="";
-                                String append_menu = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=ip_address=&mac_address=&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                                String append_menu = "&ss_id=" +  loginPrefManager.getSSID() + "&fba_id=" + loginPrefManager.getFBAID() + "&sub_fba_id=ip_address=&mac_address=&app_version=policyboss-" + BuildConfig.VERSION_NAME
                                                      + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&login_ssid=";
 
 
@@ -552,8 +552,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                 .putExtra("URL", prefManager.getEnableProPOSPurl()
                                     +"&app_version="+prefManager.getAppVersion()
-                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
-                                    +"&fbaid="+userConstantEntity.getFBAId())
+                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+ loginPrefManager.getSSID()
+                                    +"&fbaid="+loginPrefManager.getFBAID())
 
                                 .putExtra("NAME", "PospEnrollment")
                                 .putExtra("TITLE", "Posp Enrollment"));
@@ -573,8 +573,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                             .putExtra("URL", prefManager.getEnablePro_ADDSUBUSERurl()
                                                     +"&app_version="+prefManager.getAppVersion()
-                                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
-                                                    +"&fbaid="+userConstantEntity.getFBAId())
+                                                    +"&device_code="+prefManager.getDeviceID()+"&ssid="+ loginPrefManager.getSSID()
+                                                    +"&fbaid="+loginPrefManager.getFBAID()
+                                            )
 
 
                                             .putExtra("NAME", "Sub User List")
@@ -609,7 +610,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                          //   &product_id=1
 
-                           // String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=&mac_address=&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                           // String append = "&ss_id=" + loginPrefManager.getSSID()+ "&fba_id=" + loginPrefManager.getFBAID()  + "&sub_fba_id=" + "&ip_address=&mac_address=&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
                                     // + "&product_id=" + prdID
                             //        + "&login_ssid=";
                          //   deeplink_value = deeplink_value + append;
@@ -679,10 +680,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         {
 
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                    .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + userConstantEntity.getMangMobile()
-                                            + "&UDID=" + userConstantEntity.getUserid()+"&app_version="+prefManager.getAppVersion()
-                                            +"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()
-                                            +"&fbaid="+userConstantEntity.getFBAId())
+                                    .putExtra("URL", userConstantEntity.getRaiseTickitUrl() + "&mobile_no=" + loginPrefManager.getMobileNo()
+                                            + "&UDID=" + loginPrefManager.getUserId()+"&app_version="+prefManager.getAppVersion()
+                                            +"&device_code="+prefManager.getDeviceID()+"&ssid="+ loginPrefManager.getSSID()
+                                            +"&fbaid="+loginPrefManager.getFBAID())
 
 
                                     .putExtra("NAME", "RAISE_TICKET")
@@ -813,7 +814,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                             break;
                         case R.id.nav_policy:
-                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid="+userConstantEntity.getPOSPNo()+"&fbaid="+userConstantEntity.getFBAId()).putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", "https://www.policyboss.com/privacy-policy-policyboss-pro?app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&ssid="+ loginPrefManager.getSSID()+"&fbaid="+loginPrefManager.getFBAID()).putExtra("NAME", "PRIVACY POLICY").putExtra("TITLE", "PRIVACY POLICY"));
                             break;
                         case R.id.nav_delete:
 //                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).
@@ -822,7 +823,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             startActivity(new Intent(HomeActivity.this, PrivacyWebViewActivity.class)
                                     .putExtra(
                                             "URL",
-                                            "https://www.policyboss.com/initiate-account-deletion-elite?ss_id="+userConstantEntity.getPOSPNo()+"&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&fbaid="+userConstantEntity.getFBAId()
+                                            "https://www.policyboss.com/initiate-account-deletion-elite?ss_id="+ loginPrefManager.getSSID()+"&app_version="+prefManager.getAppVersion()+"&device_code="+prefManager.getDeviceID()+"&fbaid="+loginPrefManager.getFBAID()
                                     )
 
                                     .putExtra("NAME", "" + "ACCOUNT-DELETE")
@@ -877,7 +878,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (userConstantEntity != null) {
                 if (userConstantEntity.getAndroidpromarketEnable() != null) {
 
-                    if (loginPrefManager.getEmpData().getUID().equals("0")) {
+                    if (loginPrefManager.getUserId().equals("0")) {
                         if (!userConstantEntity.getAndroidpromarkefbaurl().equals("")) {
 
                             openWebViewPopUp_marketing(txtFbaID, userConstantEntity.getAndroidpromarkefbaurl(), true, "");
@@ -1226,7 +1227,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             public void onClick(View v) {
 
                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite()+ "&app_version=" + prefManager.getAppVersion()
-                        + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + userConstantEntity.getPOSPNo() + "&fbaid=" + userConstantEntity.getFBAId(), true, "");
+                        + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + loginPrefManager.getSSID()+ "&fbaid=" +
+loginPrefManager.getFBAID()
+, true, "");
                 // openWebViewPopUp(txtFbaID, "https://qa.mgfm.in/images/rbasalesmaterial/new.html", true, HomeActivity.this);//For QA only
             }
         });
@@ -1271,15 +1274,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (userConstantEntity != null) {
 
             try {
-                txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
-                txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
+                txtPospNo.setText("Posp No - " +  loginPrefManager.getSSID());
+                txtErpID.setText("Erp Id - " + loginPrefManager.getERPID());
 
-                String str = userConstantEntity.getFullName();
+                String str = loginPrefManager.getName();
                 String[] fullname = str.split("\\s+");
 
                 weUser.setFirstName(fullname[0] );
                 weUser.setLastName(fullname[1] );
-                weUser.setAttribute("POSP No.",userConstantEntity.getPOSPNo());
+                weUser.setAttribute("POSP No.",loginPrefManager.getSSID());
 
                 weUser.setPhoneNumber(loginPrefManager.getEmpData().getMobile_Number());
                 weUser.setEmail(loginPrefManager.getEmpData().getEmail_Id());
@@ -1584,7 +1587,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onClick(View v) {
                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite()+ "&app_version=" + prefManager.getAppVersion()
-                        + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + userConstantEntity.getPOSPNo() + "&fbaid=" + userConstantEntity.getFBAId(), true, "");
+                        + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + loginPrefManager.getSSID()+ "&fbaid=" +
+loginPrefManager.getFBAID()
+, true, "");
             }
 
 
@@ -1756,7 +1761,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             if (!userConstantEntity.getNotif_popupurl_elite().equals("")) {
                                 if (prefManager.getIsSeasonal()) {
                                     openWebViewPopUp(txtFbaID, userConstantEntity.getNotif_popupurl_elite()+ "&app_version=" + prefManager.getAppVersion()
-                                            + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + userConstantEntity.getPOSPNo() + "&fbaid=" + userConstantEntity.getFBAId(), true, "");
+                                            + "&device_code=" + prefManager.getDeviceID() + "&ssid=" + loginPrefManager.getSSID()+ "&fbaid=" +
+loginPrefManager.getFBAID()
+, true, "");
                                     prefManager.setIsSeasonal(false);
 
                                 }
@@ -3666,7 +3673,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
             //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-            String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&product_id=" + prdID + "&login_ssid=";
+            String append = "&ss_id=" + loginPrefManager.getSSID()+ "&fba_id=" + loginPrefManager.getFBAID()
+ + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this) + "&product_id=" + prdID + "&login_ssid=";
             WebURL = WebURL + append;
 
             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class).putExtra("URL", WebURL).putExtra("NAME", Title).putExtra("TITLE", Title));
@@ -3744,7 +3752,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                         //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                        String append = "&ss_id=" + userConstantEntity.getPOSPNo() + "&fba_id=" + userConstantEntity.getFBAId() + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
+                        String append = "&ss_id=" + loginPrefManager.getSSID()+ "&fba_id=" +loginPrefManager.getFBAID()
+ + "&sub_fba_id=" + "&ip_address=" + ipaddress + "&mac_address=" + ipaddress + "&app_version=policyboss-" + BuildConfig.VERSION_NAME + "&device_id=" + Utility.getDeviceId(HomeActivity.this)
                                 // + "&product_id=" + prdID
                                 + "&login_ssid=";
                         deeplink_value = deeplink_value + append;

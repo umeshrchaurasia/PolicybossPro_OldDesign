@@ -244,7 +244,7 @@ class LoginViewModel( private val loginNewRepository: LoginNewRepository,
                 otpLoginMutuableStateFlow.value = APIState.Failure(errorMessage = Constant.ServerError)
             }
             .collect{ data ->
-                if (data.isSuccessful){
+g                if (data.isSuccessful){
                     if(data.body()?.Status?.uppercase().equals("SUCCESS"))
                     {
                         //loginPrefManager.saveLoginOTPResponse(data.body()?.Msg)

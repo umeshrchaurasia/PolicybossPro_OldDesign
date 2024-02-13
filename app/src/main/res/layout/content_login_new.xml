@@ -94,7 +94,11 @@
                 android:layout_marginTop="@dimen/_8dp"
                 android:text="Login Via: "
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:id="@+id/lblloginvia"
+                android:visibility="gone"
+
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,7 +107,8 @@
                 android:layout_marginRight="5dp"
                 android:background="@drawable/rect_transparent_shape"
                 android:clickable="true"
-
+                android:id="@+id/lyloginvia"
+                android:visibility="gone"
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="horizontal">
