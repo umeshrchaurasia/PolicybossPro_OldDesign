@@ -80,10 +80,20 @@
                    android:scaleType="centerInside"
 
                    android:src="@drawable/checky" />
-
-
            </LinearLayout>
 
+
+            <TextView
+                android:id="@+id/txtMessage_ssid"
+                android:fontFamily="@font/muli"
+                android:padding="@dimen/eight"
+                android:layout_marginTop="4dp"
+                style="@style/TextViewStyle.Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="ssid"
+                />
 
             <Button
                 android:id="@+id/btnClose"

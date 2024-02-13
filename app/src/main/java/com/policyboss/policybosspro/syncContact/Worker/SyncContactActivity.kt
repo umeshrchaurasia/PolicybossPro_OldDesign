@@ -144,11 +144,11 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         binding.includedSyncContact.txtMessage.text = ""
         binding.includedSyncContact.txtCount.text = ""
 
-        binding.includedSyncContact.txtMessageSsid.text=""
+      //ding.includedSyncContact.txtMessageSsid.text=""
 
 
-        var msg1 : String = "FBA ID :- "+ userConstantEntity.fbaId + " , SS ID :- "+ userConstantEntity!!.pospNo
-        binding.includedSyncContact.txtMessageSsid.text = msg1
+     //   var msg1 : String = "FBA ID :- "+ userConstantEntity.fbaId + " , SS ID :- "+ userConstantEntity!!.pospNo
+     //   binding.includedSyncContact.txtMessageSsid.text = msg1
 
 
         binding.includedSyncContact.txtProgressMessage.visibility = View.VISIBLE
@@ -509,17 +509,20 @@ class SyncContactActivity : BaseActivity(), View.OnClickListener {
         val builder = AlertDialog.Builder(this@SyncContactActivity, R.style.CustomDialog);
         val btnClose: Button
         val txtHdr: TextView
-        val txtMessage: TextView
+        val txtMessage_ssid: TextView
         val inflater = this.layoutInflater
         val dialogView = inflater.inflate(R.layout.layout_success_message, null)
         builder.setView(dialogView)
         val alertDialog = builder.create()
 
         btnClose = dialogView.findViewById(R.id.btnClose)
-        txtMessage = dialogView.findViewById(R.id.txtMessage)
+        txtMessage_ssid = dialogView.findViewById(R.id.txtMessage_ssid)
         txtHdr = dialogView.findViewById(R.id.txtHdr)
        // txtHdr.text = "" + strhdr
       //  txtMessage.text = "" + strBody
+
+        var msg1 : String = "SS ID :- "+ userConstantEntity!!.pospNo
+        txtMessage_ssid.setText(msg1)
 
         btnClose.setOnClickListener {
             alertDialog.dismiss()
