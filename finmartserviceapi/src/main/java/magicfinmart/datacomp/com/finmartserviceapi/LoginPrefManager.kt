@@ -207,10 +207,10 @@ class LoginPrefManager (private val context: Context){
 
 
             "POSP" ->{
-                return response?.POSP_USER?.User_Id?:"0"
+                return response?.EMP?.UID?:"0"
             }
             "FOS" ->{
-                return response?.POSP_USER?.User_Id?:"0"
+                return response?.EMP?.UID?:"0"
             }
 
             "EMP" ->{

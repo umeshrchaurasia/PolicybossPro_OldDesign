@@ -1,26 +1,33 @@
 package com.policyboss.policybosspro.login
 
 import android.app.AlertDialog
+import android.app.Dialog
 
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Build.VERSION
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.View.OnClickListener
+import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.doOnTextChanged
@@ -73,7 +80,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     lateinit var loginPrefManager : LoginPrefManager
     lateinit var prefManager: PrefManager
-
+    var isClickable = true
 
 //    var selectedLogin: LoginOption = LoginOption.NoData // Default value
 
@@ -126,6 +133,13 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         binding = ActivityLoginNewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        if (!isNetworkAvailable(this)) {
+          shownointernetdialog()
+        }
+
+        else{
+
+
         val appSignatureHashHelper = AppSignatureHashHelper(this)
         Log.d(Constants.TAG, "HashKey: " + appSignatureHashHelper.appSignatures[0])
 
@@ -140,7 +154,7 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         radioButtonListner()
 
         // displaying the response which we get from above API
-         observe()
+
 
         if (!checkPermission()) {
             requestPermission()
@@ -150,18 +164,35 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             Snackbar.make(binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
             return
         }else{
+
         // Verify SignUp User
-        loginViewModel.getusersignup(appVersion = prefManager.appVersion,
-            deviceCode = prefManager.deviceID
-            )
+              observe()
+             loginViewModel.getusersignup(appVersion = prefManager.appVersion,
+            deviceCode = prefManager.deviceID)
+
+
+            // Init Sms Retriever >>>>
+            initSmsListener()
+            initBroadCast()
+
         }
 
         //endregion
+        }
 
-        // Init Sms Retriever >>>>
-        initSmsListener()
-        initBroadCast()
+    }
 
+    private fun shownointernetdialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.no_internet_layout)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val btnretry : Button =dialog.findViewById(R.id.retry_button)
+
+
+        dialog.show()
     }
 
     // region method
@@ -1367,6 +1398,15 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
             binding.includeLoginNew.btnNext.id ->{
                 hideKeyboard(binding.root)
+                if (!isClickable) return
+
+                isClickable = false
+                // Perform your action here
+
+                // Enable button after delay
+                Handler(Looper.getMainLooper()).postDelayed({
+                    isClickable = true
+                }, 2000)
 
                 if (!isNetworkAvailable(this)) {
                     Snackbar.make(view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()

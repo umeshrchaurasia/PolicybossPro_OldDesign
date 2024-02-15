@@ -8,7 +8,8 @@
     <color name="colorAccent">#009ee3</color>
     <color name="bg_transparent">#4Dffffff</color>
     <color name="transparent_color">#A6000000</color>
-
+    <color name="colorText">#212121</color>
+    <color name="darkGray">#757575</color>
     <color name="divider">#F1F1F1</color>
     <color name="bg">#c9c5c5</color>
     <color name="dashboard_bg">#e3e3e3</color>
