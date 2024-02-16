@@ -190,7 +190,12 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val btnretry : Button =dialog.findViewById(R.id.retry_button)
-
+        btnretry.setOnClickListener {
+            // Handle positive button click
+          //      val inputText = userInput.text.toString()
+            // Do something with the input, dismiss the dialog if needed
+            dialog.dismiss();
+        }
 
         dialog.show()
     }
@@ -326,7 +331,13 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        registerReceiver(smsReceiver, intentFilter)
+        if (!isNetworkAvailable(this)) {
+            shownointernetdialog()
+        }
+
+        else {
+            registerReceiver(smsReceiver, intentFilter)
+        }
     }
 
     override fun onDetachedFromWindow() {
