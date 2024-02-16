@@ -24,6 +24,7 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 
 import android.widget.RadioButton
 import android.widget.TextView
@@ -137,7 +138,6 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
           shownointernetdialog()
         }
 
-        else{
 
 
         val appSignatureHashHelper = AppSignatureHashHelper(this)
@@ -160,27 +160,35 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
             requestPermission()
         }
 
+        //region declaration
+        observe()
+        // Check For LoginVia
+        loginViewModel.getusersignup(appVersion = prefManager.appVersion,
+            deviceCode = prefManager.deviceID)
+
+        // Init Sms Retriever >>>>
+        initSmsListener()
+        initBroadCast()
+
+        //endregion
+
         if (!isNetworkAvailable(this)) {
             Snackbar.make(binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
             return
         }else{
 
         // Verify SignUp User
-              observe()
-             loginViewModel.getusersignup(appVersion = prefManager.appVersion,
-            deviceCode = prefManager.deviceID)
 
 
-            // Init Sms Retriever >>>>
-            initSmsListener()
-            initBroadCast()
 
         }
 
         //endregion
-        }
+
 
     }
+
+
 
     private fun shownointernetdialog() {
         val dialog = Dialog(this)
@@ -190,11 +198,31 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val btnretry : Button =dialog.findViewById(R.id.retry_button)
+        val progessBar : ProgressBar = dialog.findViewById(R.id.progessBar)
         btnretry.setOnClickListener {
-            // Handle positive button click
-          //      val inputText = userInput.text.toString()
-            // Do something with the input, dismiss the dialog if needed
-            dialog.dismiss();
+
+
+            if (isNetworkAvailable(this)) {
+                progessBar.visibility = View.INVISIBLE
+                dialog.dismiss()
+
+                // Check For LoginVia
+                loginViewModel.getusersignup(appVersion = prefManager.appVersion,
+                    deviceCode = prefManager.deviceID)
+            }else{
+                progessBar.visibility = View.VISIBLE
+                lifecycleScope.launch {
+
+                    delay(1500) // 1 seconds delay
+
+                    progessBar.visibility = View.INVISIBLE
+
+                    //endregion
+
+
+                }
+            }
+
         }
 
         dialog.show()
@@ -331,13 +359,13 @@ class LoginNewActivity : BaseKotlinActivity(), OnClickListener {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        if (!isNetworkAvailable(this)) {
-            shownointernetdialog()
-        }
 
-        else {
+        if(smsReceiver != null){
+
             registerReceiver(smsReceiver, intentFilter)
         }
+
+
     }
 
     override fun onDetachedFromWindow() {
