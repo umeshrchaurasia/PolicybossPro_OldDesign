@@ -85,6 +85,7 @@ data class POSP_USER(
     var User_Id : String = "",
 
     var  Mobile_No: String = "",
+    var Erp_Id: String="",
 )
 
 data class DEVICE(

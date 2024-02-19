@@ -147,28 +147,19 @@ class LoginPrefManager (private val context: Context){
 
         val response = getLoginHorizonResponse()
 
-     //   return response?.POSP?.Erp_Id?:""
-
-        var Erp_Id = "0"
-        response?.POSP?.let { obj ->
-
-
-            val erpID: String? = when (val obj = response?.POSP_USER) {
-                is Map<*, *> -> {
-                    // Assume it's a Map, you can adjust this based on your actual JSON structure
-                    (obj["Erp_Id"] as? String)?:"0"
-                }
-                else -> {
-
-                    ""
-                }
+        val erpIDID: String? = when (val obj = response?.POSP_USER) {
+            is Map<*, *> -> {
+                // Assume it's a Map, you can adjust this based on your actual JSON structure
+                (obj["Erp_Id"] as? String) ?:"0"
             }
+            else -> {
 
-            Log.d("Erp_Id.",Erp_Id)
-            return  Erp_Id
-
+                ""
+            }
         }
-        return Erp_Id
+
+        Log.d("User Email ID.",erpIDID?:"0")
+        return  erpIDID?:"0"
 
     }
 
