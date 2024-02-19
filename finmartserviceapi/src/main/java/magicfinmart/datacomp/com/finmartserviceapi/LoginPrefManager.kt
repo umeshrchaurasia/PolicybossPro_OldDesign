@@ -2,6 +2,8 @@ package magicfinmart.datacomp.com.finmartserviceapi
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.provider.SyncStateContract.Constants
+import android.util.Log
 import com.google.gson.Gson
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.EMP
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
@@ -148,17 +150,23 @@ class LoginPrefManager (private val context: Context){
      //   return response?.POSP?.Erp_Id?:""
 
         var Erp_Id = "0"
-        response?.POSP?.let { posp ->
-            when (posp) {
+        response?.POSP?.let { obj ->
 
-                is POSP -> {
-                    Erp_Id = posp.Erp_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+
+            val erpID: String? = when (val obj = response?.POSP_USER) {
+                is Map<*, *> -> {
+                    // Assume it's a Map, you can adjust this based on your actual JSON structure
+                    (obj["Erp_Id"] as? String)?:"0"
                 }
                 else -> {
-                    // Handle unexpected type (log, throw exception, etc.)
-                    println("Unexpected POSP type: ${posp?.javaClass}")
+
+                    ""
                 }
             }
+
+            Log.d("Erp_Id.",Erp_Id)
+            return  Erp_Id
+
         }
         return Erp_Id
 
@@ -174,42 +182,24 @@ class LoginPrefManager (private val context: Context){
         when(usertype){
 
 
-            "POSP" ->{
-              //  return response?.POSP_USER?.Name_On_PAN?:""
-                var Name_On_PAN = ""
-                response?.POSP_USER?.let { obj ->
-                    when (obj) {
+            "POSP" , "FOS" ->{
 
-                        is POSP_USER -> {
-                            (obj.Name_On_PAN?.takeIf { it.isNotEmpty() } ?: response?.EMP?.Emp_Name?:"").toString()
-                        }
-                        else -> {
+                val username: String? = when (val obj = response?.POSP_USER) {
+                    is Map<*, *> -> {
+                        // Assume it's a Map, you can adjust this based on your actual JSON structure
+                        (obj["Name_On_PAN"] as? String)?.takeIf { it.isNotEmpty() } ?:
+                        response?.EMP?.Emp_Name?:""
+                    }
+                    else -> {
 
-                        }
+                        ""
                     }
                 }
-                return Name_On_PAN
-
-
+                Log.d("User Name.",username?:"")
+                return  username?:""
 
             }
-            "FOS" ->{
-                var Name_On_PAN = ""
-                response?.POSP_USER?.let { obj ->
-                    when (obj) {
 
-                        is POSP_USER -> {
-                            Name_On_PAN =
-                                (obj.Name_On_PAN?.takeIf { it.isNotEmpty() } ?: response?.EMP?.Emp_Name?:"").toString() // Retrieve and handle Fba_Id
-
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-                return Name_On_PAN
-            }
 
             "EMP" ->{
                 return response?.EMP?.Emp_Name?:""
@@ -224,6 +214,8 @@ class LoginPrefManager (private val context: Context){
     }
 
 
+
+
     fun getMobileNo() : String {
 
         val response = getLoginHorizonResponse()
@@ -233,38 +225,25 @@ class LoginPrefManager (private val context: Context){
         when(usertype){
 
 
-            "POSP" ->{
-              //  return response?.POSP_USER?.Mobile_No?:"0"
-                var Mobile_No = "0"
-                response?.POSP_USER?.let { obj ->
-                    when (obj) {
+            "POSP" , "FOS" ->{
 
-                        is POSP_USER -> {
-                            Mobile_No = obj.Mobile_No?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
-                        }
-                        else -> {
 
-                        }
+                val mobileNo: String? = when (val obj = response?.POSP_USER) {
+                    is Map<*, *> -> {
+                        // Assume it's a Map, you can adjust this based on your actual JSON structure
+                        (obj["Mobile_No"] as? String)?.takeIf { it.isNotEmpty() } ?:""
+                    }
+                    else -> {
+
+                        ""
                     }
                 }
-                return Mobile_No
-            }
-            "FOS" ->{
-             //   return response?.POSP_USER?.Mobile_No?:"0"
-                var Mobile_No = "0"
-                response?.POSP_USER?.let { obj ->
-                    when (obj) {
 
-                        is POSP_USER -> {
-                            Mobile_No = obj.Mobile_No?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
-                        }
-                        else -> {
+                Log.d("MOBILE NO.",mobileNo?:"")
+                return  mobileNo?:""
 
-                        }
-                    }
-                }
-                return Mobile_No
             }
+
 
             "EMP" ->{
                 return response?.EMP?.Mobile_Number?:"0"
@@ -287,39 +266,24 @@ class LoginPrefManager (private val context: Context){
         when(usertype){
 
 
-            "POSP" ->{
-           //     return response?.POSP?.Email_Id?:"0"
-                var Email_Id = "0"
-                response?.POSP?.let { obj ->
-                    when (obj) {
+            "POSP" , "FOS" ->{
 
-                        is POSP -> {
-                            Email_Id = obj.Email_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
-                        }
-                        else -> {
+                val emailID: String? = when (val obj = response?.POSP_USER) {
+                    is Map<*, *> -> {
+                        // Assume it's a Map, you can adjust this based on your actual JSON structure
+                        (obj["Email_Id"] as? String)?.takeIf { it.isNotEmpty() } ?:""
+                    }
+                    else -> {
 
-                        }
+                        ""
                     }
                 }
-                return Email_Id
+
+                Log.d("User Email ID.",emailID?:"")
+                return  emailID?:""
+
             }
-            "FOS" ->{
-            //    return response?.POSP?.Email_Id?:"0"
 
-                var Email_Id = "0"
-                response?.POSP?.let { obj ->
-                    when (obj) {
-
-                        is POSP -> {
-                            Email_Id = obj.Email_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
-                        }
-                        else -> {
-
-                        }
-                    }
-                }
-                return Email_Id
-            }
 
             "EMP" ->{
                 return response?.EMP?.Email_Id?:"0"
