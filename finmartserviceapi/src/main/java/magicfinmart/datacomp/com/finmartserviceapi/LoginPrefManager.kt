@@ -6,6 +6,8 @@ import com.google.gson.Gson
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.EMP
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.LoginNewResponse_DSAS_Horizon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.OtpLoginMsg
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.POSP
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginNew.POSP_USER
 
 class LoginPrefManager (private val context: Context){
 
@@ -79,35 +81,87 @@ class LoginPrefManager (private val context: Context){
 
         val response = getLoginHorizonResponse()
 
+        return response?.EMP?.FBA_ID?:"0"
+
+        /*
+
         val usertype= response?.user_type?:""
 
         when(usertype){
 
 
             "POSP" ->{
-                return response?.POSP?.Fba_Id?:"0"
+               // return response?.POSP ?.Fba_Id?:"0"
+
+               var Fba_Id = "0"
+                response?.POSP?.let { posp ->
+                    when (posp) {
+
+                        is POSP -> {
+                            Fba_Id = posp.Fba_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+                        }
+                        else -> {
+                            // Handle unexpected type (log, throw exception, etc.)
+                            println("Unexpected POSP type: ${posp?.javaClass}")
+                        }
+                    }
+                }
+                return Fba_Id
             }
             "FOS" ->{
-                return response?.POSP?.Fba_Id?:"0"
+                var Fba_Id = "0"
+                response?.POSP?.let { posp ->
+                    when (posp) {
+
+                        is POSP -> {
+                            Fba_Id = posp.Fba_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+                        }
+                        else -> {
+                            // Handle unexpected type (log, throw exception, etc.)
+                            println("Unexpected POSP type: ${posp?.javaClass}")
+                        }
+                    }
+                }
+                return Fba_Id
+
             }
 
             "EMP" ->{
                 return response?.EMP?.FBA_ID?:"0"
+
             }
             "MISP" ->{
                 return response?.EMP?.FBA_ID?:"0"
+
+
             }
 
         }
 
-        return "0"
+        return "0"*/
     }
 
     fun  getERPID() : String {
 
         val response = getLoginHorizonResponse()
 
-        return response?.POSP?.Erp_Id?:""
+     //   return response?.POSP?.Erp_Id?:""
+
+        var Erp_Id = "0"
+        response?.POSP?.let { posp ->
+            when (posp) {
+
+                is POSP -> {
+                    Erp_Id = posp.Erp_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+                }
+                else -> {
+                    // Handle unexpected type (log, throw exception, etc.)
+                    println("Unexpected POSP type: ${posp?.javaClass}")
+                }
+            }
+        }
+        return Erp_Id
+
     }
 
 
@@ -121,10 +175,40 @@ class LoginPrefManager (private val context: Context){
 
 
             "POSP" ->{
-                return response?.POSP_USER?.Name_On_PAN?:""
+              //  return response?.POSP_USER?.Name_On_PAN?:""
+                var Name_On_PAN = ""
+                response?.POSP_USER?.let { obj ->
+                    when (obj) {
+
+                        is POSP_USER -> {
+                            (obj.Name_On_PAN?.takeIf { it.isNotEmpty() } ?: response?.EMP?.Emp_Name?:"").toString()
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+                return Name_On_PAN
+
+
+
             }
             "FOS" ->{
-                return response?.POSP_USER?.Name_On_PAN?:""
+                var Name_On_PAN = ""
+                response?.POSP_USER?.let { obj ->
+                    when (obj) {
+
+                        is POSP_USER -> {
+                            Name_On_PAN =
+                                (obj.Name_On_PAN?.takeIf { it.isNotEmpty() } ?: response?.EMP?.Emp_Name?:"").toString() // Retrieve and handle Fba_Id
+
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+                return Name_On_PAN
             }
 
             "EMP" ->{
@@ -150,10 +234,36 @@ class LoginPrefManager (private val context: Context){
 
 
             "POSP" ->{
-                return response?.POSP_USER?.Mobile_No?:"0"
+              //  return response?.POSP_USER?.Mobile_No?:"0"
+                var Mobile_No = "0"
+                response?.POSP_USER?.let { obj ->
+                    when (obj) {
+
+                        is POSP_USER -> {
+                            Mobile_No = obj.Mobile_No?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+                return Mobile_No
             }
             "FOS" ->{
-                return response?.POSP_USER?.Mobile_No?:"0"
+             //   return response?.POSP_USER?.Mobile_No?:"0"
+                var Mobile_No = "0"
+                response?.POSP_USER?.let { obj ->
+                    when (obj) {
+
+                        is POSP_USER -> {
+                            Mobile_No = obj.Mobile_No?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+                return Mobile_No
             }
 
             "EMP" ->{
@@ -178,10 +288,37 @@ class LoginPrefManager (private val context: Context){
 
 
             "POSP" ->{
-                return response?.POSP?.Email_Id?:"0"
+           //     return response?.POSP?.Email_Id?:"0"
+                var Email_Id = "0"
+                response?.POSP?.let { obj ->
+                    when (obj) {
+
+                        is POSP -> {
+                            Email_Id = obj.Email_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+                return Email_Id
             }
             "FOS" ->{
-                return response?.POSP?.Email_Id?:"0"
+            //    return response?.POSP?.Email_Id?:"0"
+
+                var Email_Id = "0"
+                response?.POSP?.let { obj ->
+                    when (obj) {
+
+                        is POSP -> {
+                            Email_Id = obj.Email_Id?.takeIf { it.isNotEmpty() } ?: "0" // Retrieve and handle Fba_Id
+                        }
+                        else -> {
+
+                        }
+                    }
+                }
+                return Email_Id
             }
 
             "EMP" ->{
