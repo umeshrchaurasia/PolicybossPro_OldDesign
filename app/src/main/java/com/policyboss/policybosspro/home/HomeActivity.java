@@ -1282,7 +1282,7 @@ loginPrefManager.getFBAID()
 
                 weUser.setFirstName(fullname[0] );
                 weUser.setLastName(fullname[1] );
-                weUser.setAttribute("POSP No.",loginPrefManager.getSSID());
+                weUser.setAttribute("POSP No.",Integer.parseInt(loginPrefManager.getSSID()));
 
                 weUser.setPhoneNumber(loginPrefManager.getEmpData().getMobile_Number());
                 weUser.setEmail(loginPrefManager.getEmpData().getEmail_Id());
