@@ -1255,10 +1255,14 @@ loginPrefManager.getFBAID()
             weUser.login(loginPrefManager.getEmpData().getEmail_Id());
             weUser.setOptIn(Channel.WHATSAPP, true);
 
-           if(loginPrefManager.getEmpData().getUID().equals("0"))
+           if(loginPrefManager.getUserType().equals("POSP") )
            {
                weUser.setAttribute("Is Agent", true );
            }
+           else if(loginPrefManager.getUserType().equals("FOS") )
+            {
+                weUser.setAttribute("Is Agent", true );
+            }
            else
            {
                weUser.setAttribute("Is Agent", false);

@@ -288,7 +288,15 @@ class LoginPrefManager (private val context: Context){
         return ""
     }
 
+ fun getUserType():String{
 
+
+         val response = getLoginHorizonResponse()
+       //  val usertype= response?.user_type?:""
+
+         return response?.user_type?:""
+
+ }
     fun getUserId() : String {
 
         val response = getLoginHorizonResponse()
