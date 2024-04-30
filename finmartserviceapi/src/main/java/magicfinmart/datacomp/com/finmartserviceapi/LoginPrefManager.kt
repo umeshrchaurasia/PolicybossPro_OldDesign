@@ -83,9 +83,9 @@ class LoginPrefManager (private val context: Context){
 
         val response = getLoginHorizonResponse()
 
-        return response?.EMP?.FBA_ID?:"0"
+      //  return response?.EMP?.FBA_ID?:"0"
 
-        /*
+
 
         val usertype= response?.user_type?:""
 
@@ -140,7 +140,7 @@ class LoginPrefManager (private val context: Context){
 
         }
 
-        return "0"*/
+        return "0"
     }
 
     fun  getERPID() : String {

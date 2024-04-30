@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,8 +27,12 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.certificate.POSP_certicate_appointment;
 import com.policyboss.policybosspro.databinding.ProgressdialogLoadingBinding;
 import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.login.model.Repository.LoginNewRepository;
+import com.policyboss.policybosspro.login.model.Repository.LoginNewViewModelFactory;
+import com.policyboss.policybosspro.login.model.viewmodel.LoginViewModel;
 import com.policyboss.policybosspro.utility.Constants;
 import com.webengage.sdk.android.Analytics;
 import com.webengage.sdk.android.WebEngage;
@@ -42,7 +47,9 @@ import java.util.List;
 import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.LoginPrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
@@ -80,6 +87,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
     Analytics weAnalytics;
     Map<String, Object> screenData;
     LoginPrefManager loginPrefManager;
+    PrefManager prefManager;
     @Override
     protected void onStart() {
         super.onStart();
@@ -110,6 +118,8 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
         dbPersistanceController = new DBPersistanceController(SalesDetailActivity.this);
         userConstantEntity = dbPersistanceController.getUserConstantsData();
         loginPrefManager = new LoginPrefManager(this);
+        prefManager = new PrefManager(this);
+
 
         weAnalytics  = WebEngage.get().analytics();
         screenData = new HashMap<String, Object>();
@@ -314,14 +324,49 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
 
     public void redirectToApplyMain(DocsEntity docsEntity) {
 
+// Call the getusersignup method on the view model
+                String app_version= prefManager.getAppVersion();
+                String product_id= String.valueOf(salesProductEntity.getProduct_Id());
+                String product_name= String.valueOf(salesProductEntity.getProduct_Name());
+
+                String device_code=prefManager.getDeviceID();
+                String fbaid= loginPrefManager.getFBAID();
+                String ssid=loginPrefManager.getSSID();
+                String type_of_content="CUSTOMER COMM.";
+                String content_url=docsEntity.getImage_path();
+                String language=docsEntity.getLanguage();
+                String imageUrl = docsEntity.getImage_path();
+
+                String content_source=extractImageName(imageUrl);
+
+        new DynamicController(this).getsalesmaterial_contentclick(app_version, product_id,
+                                                        product_name,  device_code,
+                                                        fbaid,  ssid,  type_of_content,
+                                                        content_url,  language,  content_source,
+                                            SalesDetailActivity.this);
+
+
         Intent intent = new Intent(this, SalesShareActivity.class);
         intent.putExtra(Constants.DOC_DATA, docsEntity);
         intent.putExtra(Constants.PRODUCT_ID, salesProductEntity);
         intent.putExtra("POSP_IMAGE", bytePOSPArray);
         intent.putExtra("FBA_IMAGE", byteFBAArray);
+        intent.putExtra("Language",langType);
         startActivity(intent);
     }
 
+    public static String extractImageName(String imageUrl) {
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            return ""; // Handle empty or null URL
+        }
+
+        int lastSlashIndex = imageUrl.lastIndexOf('/');
+        if (lastSlashIndex == -1) {
+            return ""; // No slash found, potentially invalid URL
+        }
+
+        return imageUrl.substring(lastSlashIndex + 1);
+    }
 
     private List<CompanyEntity> getComLst() {
         List<CompanyEntity> companyLst = new ArrayList<>();

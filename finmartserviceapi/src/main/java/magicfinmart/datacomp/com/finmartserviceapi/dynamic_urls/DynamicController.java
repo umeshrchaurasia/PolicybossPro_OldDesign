@@ -34,6 +34,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctra
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesclickResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -820,5 +822,56 @@ public class DynamicController implements IDynamic {
 
             }
         });
+    }
+
+    @Override
+    public void getsalesmaterial_contentclick(String app_version, String product_id,
+                                              String product_name, String device_code,
+                                              String fbaid, String ssid, String type_of_content,
+                                              String content_url, String language, String content_source,
+                                              final IResponseSubcriber iResponseSubcriber) {
+
+           String url = "https://horizon.policyboss.com:5443/postservicecall/content_usage";
+
+            HashMap<String, String> body = new HashMap<>();
+            body.put("app_version", app_version);
+            body.put("product_id", product_id);
+            body.put("product_name", product_name);
+            body.put("device_code", device_code);
+            body.put("fbaid", fbaid);
+            body.put("ssid", ssid);
+            body.put("type_of_content", type_of_content);
+            body.put("content_url", content_url);
+            body.put("language", language);
+            body.put("content_source", content_source);
+
+        genericUrlNetworkService.save_sales_contentclick(url, body).enqueue(new Callback<SalesclickResponse>() {
+            @Override
+            public void onResponse(Call<SalesclickResponse> call, Response<SalesclickResponse> response) {
+
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMsg());
+
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No data found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SalesclickResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
     }
 }

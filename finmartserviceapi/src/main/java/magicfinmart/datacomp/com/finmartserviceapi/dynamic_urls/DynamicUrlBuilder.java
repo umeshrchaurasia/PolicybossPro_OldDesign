@@ -24,6 +24,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.mybusin
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.syncrazorsucessReponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.response.synctransactionDetailReponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesclickResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -118,5 +120,8 @@ public class DynamicUrlBuilder extends GenericRetroRequestBuilder {
 
         @GET
         Call<HorizonsyncDetailsResponse> getsyncDetailshorizondetail(@Url String strUrl);
+
+        @POST
+        Call<SalesclickResponse> save_sales_contentclick(@Url String url, @Body HashMap<String, String> body);
     }
 }

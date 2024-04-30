@@ -65,4 +65,11 @@ public interface IDynamic {
 
     void getsyncDetailshorizon_java(String ss_id,final IResponseSubcriber iResponseSubcriber);
 
-}
+
+    void getsalesmaterial_contentclick(String app_version, String product_id,String product_name ,String device_code,
+                                              String fbaid, String ssid, String type_of_content,
+                                              String content_url, String language, String content_source,
+                                              final IResponseSubcriber iResponseSubcriber);
+
+
+    }
